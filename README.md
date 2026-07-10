@@ -33,9 +33,21 @@ The Astro source lives under `src/`. The main routes are:
 
 - `/` overview
 - `/terms/` ontology index
+- `/ontology-tree/` interactive ontology tree
+- `/search/` federated search UI (backend-powered)
 - `/terms/[curie]/` term detail
 - `/projects/` project index
 - `/projects/[pxd]/` PXD detail
 - `/about/` data model and release notes
+
+## Federated Search UI Configuration
+
+The `/search/` route is a browser client for a separate backend service. Set the API base URL at build time:
+
+```bash
+PUBLIC_FEDERATED_SEARCH_API_URL=https://your-api-host.example.com npm run build
+```
+
+If `PUBLIC_FEDERATED_SEARCH_API_URL` is unset, the search page stays visible but disables API calls.
 
 The older single-file shell remains in the repository as a legacy reference, but the Astro app is now the source of truth for the public site.

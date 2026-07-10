@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
 import { getRelease, getTermIndex, normalizeLabel } from '../../lib/site-data';
 
 const [release, termIndex] = await Promise.all([getRelease(), getTermIndex()]);
@@ -24,6 +23,10 @@ const base = import.meta.env.BASE_URL;
       <span>Search terms</span>
       <input id="term-search" type="search" placeholder="Search label, synonym, or CURIE" />
     </label>
+    <p id="term-search-status" class="search-status" aria-live="polite"></p>
+    <noscript>
+      <p class="empty-state">Term filtering requires JavaScript. You can still browse all terms below.</p>
+    </noscript>
     <div id="term-results" class="table-list">
       {termIndex.map((term) => (
         <a class="table-row row-clickable term-row" href={`${base}terms/${encodeURIComponent(term.curie)}/`} data-search={`${term.preferred_label} ${term.curie} ${(term.synonyms || []).join(' ')}`.toLowerCase()}>
@@ -39,14 +42,13 @@ const base = import.meta.env.BASE_URL;
   </section>
 
   <script>
-    const input = document.getElementById('term-search');
-    const rows = Array.from(document.querySelectorAll('.term-row'));
+    import { initListSearch } from '../../scripts/list-search';
 
-    input?.addEventListener('input', () => {
-      const needle = input.value.trim().toLowerCase();
-      rows.forEach((row) => {
-        row.hidden = needle ? !row.dataset.search.includes(needle) : false;
-      });
+    initListSearch({
+      inputId: 'term-search',
+      rowSelector: '.term-row',
+      statusId: 'term-search-status',
+      entityPlural: 'terms',
     });
   </script>
 </BaseLayout>

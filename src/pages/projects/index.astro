@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
-import { getProjectIndex, getRelease, stringifyList } from '../../lib/site-data';
+import { getProjectIndex, getRelease } from '../../lib/site-data';
 
 const [release, projectIndex] = await Promise.all([getRelease(), getProjectIndex()]);
 const projects = projectIndex.projects || [];
@@ -25,6 +24,10 @@ const base = import.meta.env.BASE_URL;
       <span>Search projects</span>
       <input id="project-search" type="search" placeholder="Search PXD, label, scope, or instrument" />
     </label>
+    <p id="project-search-status" class="search-status" aria-live="polite"></p>
+    <noscript>
+      <p class="empty-state">Project filtering requires JavaScript. You can still browse all projects below.</p>
+    </noscript>
     <div id="project-results" class="table-list">
       {projects.map((project) => {
         const summary = project.summary || {};
@@ -44,14 +47,13 @@ const base = import.meta.env.BASE_URL;
   </section>
 
   <script>
-    const input = document.getElementById('project-search');
-    const rows = Array.from(document.querySelectorAll('.project-row'));
+    import { initListSearch } from '../../scripts/list-search';
 
-    input?.addEventListener('input', () => {
-      const needle = input.value.trim().toLowerCase();
-      rows.forEach((row) => {
-        row.hidden = needle ? !row.dataset.search.includes(needle) : false;
-      });
+    initListSearch({
+      inputId: 'project-search',
+      rowSelector: '.project-row',
+      statusId: 'project-search-status',
+      entityPlural: 'projects',
     });
   </script>
 </BaseLayout>

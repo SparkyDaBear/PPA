@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getRelease } from '../../lib/site-data';
+
+const release = await getRelease();
+const apiBase = import.meta.env.PUBLIC_FEDERATED_SEARCH_API_URL || '';
+---
+
+<BaseLayout title="Federated Search · PPA Curator Workbench">
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Federated search</p>
+      <h2>Search PPA, PRIDE, and ProteomeXchange through a backend API with source-aware ranking.</h2>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">Release {release.export_version}</span>
+      <span class="badge">Read-only v1</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <label class="search-field">
+      <span>Search studies, terms, and metadata entities</span>
+      <input id="federated-search-input" type="search" placeholder="Try: pxd000005, tmt, whole cell, phosphorylation" />
+    </label>
+    <p class="search-status" id="federated-search-status" aria-live="polite">Enter a query to start.</p>
+    <div class="federated-search-actions">
+      <button class="nav-link" id="federated-search-btn" type="button">Run search</button>
+    </div>
+    <div id="federated-search-results" class="table-list"></div>
+  </section>
+
+  <section class="panel" style="margin-top: 18px;">
+    <p class="detail-kicker">MCP chat</p>
+    <h3 style="margin-top: 8px;">Ask the retrieval agent</h3>
+    <p class="row-meta">Chat calls the backend <span class="row-code">/v1/chat</span> endpoint so credentials stay server-side.</p>
+    <div id="mcp-chat-thread" class="chat-thread"></div>
+    <label class="search-field">
+      <span>Message</span>
+      <textarea id="mcp-chat-input" rows="3" placeholder="Ask: find TMT projects in whole cell scope"></textarea>
+    </label>
+    <div class="federated-search-actions">
+      <button class="nav-link" id="mcp-chat-send-btn" type="button">Send</button>
+    </div>
+  </section>
+
+  <script id="federated-search-config" type="application/json" set:html={JSON.stringify({ apiBase })}></script>
+  <script>
+    import { initFederatedSearch } from '../../scripts/federated-search-client';
+
+    initFederatedSearch({
+      inputId: 'federated-search-input',
+      buttonId: 'federated-search-btn',
+      statusId: 'federated-search-status',
+      resultsId: 'federated-search-results',
+      configId: 'federated-search-config',
+      chatThreadId: 'mcp-chat-thread',
+      chatInputId: 'mcp-chat-input',
+      chatButtonId: 'mcp-chat-send-btn',
+    });
+  </script>
+</BaseLayout>
