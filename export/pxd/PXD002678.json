@@ -3,67 +3,144 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "IgA plasma cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293A"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "monoclonal antibodies generated from single IgA plasma cells of celiac disease lesions",
+          "human monoclonal antibodies (hmAbs) obtained by these two approaches were specific to gliadin antigens",
+          "A rotavirus specific hmAb (Rota-2B04) was used as negative control."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "transglutaminase 2 (TG2)",
+        "dose_or_concentration": "0.1 \u00b5g/\u00b5l",
+        "duration": "60 min",
+        "route_or_context": "in vitro treatment of gliadin digest",
+        "evidence": [
+          "The pooled fractions were treated with 0.1 \u00b5g/\u00b5l TG2 in 100 mM Tris-HCl pH 7.4 supplemented with 2 mM CaCl2 for 60 min at 37 \u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "rotavirus-specific hmAb (Rota-2B04)"
+    ],
+    "case_arms": [
+      "gliadin-reactive hmAbs"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "rotavirus-specific hmAb",
+        "case_label": "gliadin-reactive hmAbs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To control for unspecific binding, a rotavirus-specific hmAb was included as a negative control."
+        ]
+      },
+      {
+        "control_label": "pre pull-down",
+        "case_label": "post pull-down",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The TG2-gliadin fractions were compared pre and post pull-down."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Triticum aestivum",
+        "taxonomy_hint": "wheat",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293A",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
     "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +148,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) on Q Exactive; pull-down enrichment suggests a comparative abundance analysis (pre vs post pull-down) although no formal labeling was used."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "no_enzyme_digestion",
+          "confidence": 0.95,
+          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex proteolytic digests (PTCEC) and TG2-treated."
+        }
+      ],
+      "trigger_keywords": [
+        "enzyme specificity was set as none",
+        "antibody pull-down",
+        "TG2-treated",
+        "data-dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) on Q Exactive; pull-down enrichment suggests a comparative abundance analysis (pre vs post pull-down) although no formal labeling was used."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "no_enzyme_digestion",
+          "confidence": 0.95,
+          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex proteolytic digests (PTCEC) and TG2-treated."
+        }
+      ],
+      "trigger_keywords": [
+        "enzyme specificity was set as none",
+        "antibody pull-down",
+        "TG2-treated",
+        "data-dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:38Z"
   }
 }

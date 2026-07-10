@@ -3,82 +3,226 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "cancer-associated fibroblasts",
-      "normal lung-associated fibroblasts"
+      "normal lung-associated fibroblasts",
+      "lung cancer cells"
     ],
     "cell_lines": [
-      "A549",
-      "PC9",
-      "PC9GR",
-      "H3122",
-      "H2228",
-      "STE1",
-      "H1975",
-      "A431",
-      "A431GR",
-      "HCC827ER4",
+      "CAF7",
+      "CAF12",
       "MRC5",
-      "WI38",
-      "IMR-90",
-      "HS-5"
+      "PC9GR"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "secretome scope",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "comparing the 6x riBAQ values for CAF7 and CAF12 to the 3x riBAQ values for MRC5 to determine p-values for significant differences between proteins in CAF versus NAF SFCM",
+          "determine the differences between CAFs and NAFs in an unbiased way"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "3-hour treatment with 500 nM osimertinib or DMSO, as control",
+          "comparing the 4 conditions (3 biological replicates each) to determine p-values for significant differences between them (for example, CAF CM + DMSO vs CAF CM + osimertinib, or CAF CM + DMSO vs NAF CM + DMSO, and so on)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "osimertinib",
+        "dose_or_concentration": "500 nM",
+        "duration": "3 hours",
+        "route_or_context": "PC9GR cells",
+        "evidence": [
+          "3-hour treatment with 500 nM osimertinib or DMSO, as control"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CAF-conditioned medium",
+        "dose_or_concentration": null,
+        "duration": "24 hours",
+        "route_or_context": "PC9GR cells",
+        "evidence": [
+          "PC9GR cells were plated in ten 15 cm dishes at 7 \u00d7 106 cells/dish in a 1:1 mixture of RPMI10 and (serum-containing) CM from CAF or NAF cells and allowed to adhere for 24 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "3 hours"
+    ],
+    "control_arms": [
+      "MRC5 (NAF)",
+      "DMSO"
+    ],
+    "case_arms": [
+      "CAF7",
+      "CAF12",
+      "osimertinib"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Samples were prepared as biological triplicates",
+      "Samples were injected as technical duplicates resulting in 6 values (3 biological \u00d7 2 technical) per sample"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "NAF SFCM",
+        "case_label": "CAF SFCM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the 6x riBAQ values for CAF7 and CAF12 to the 3x riBAQ values for MRC5 to determine p-values for significant differences between proteins in CAF versus NAF SFCM"
+        ]
+      },
+      {
+        "control_label": "DMSO",
+        "case_label": "osimertinib",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CAF CM + DMSO vs CAF CM + osimertinib"
+        ]
+      },
+      {
+        "control_label": "NAF CM",
+        "case_label": "CAF CM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CAF CM + DMSO vs NAF CM + DMSO"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cancer-associated fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "normal lung-associated fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "lung cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "CAF7",
+        "family": "cancer-associated fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "CAF12",
+        "family": "cancer-associated fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "MRC5",
+        "family": "normal lung-associated fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "PC9GR",
+        "family": "lung cancer",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "serum-free conditioned media",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "secretome scope",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "riBAQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -86,10 +230,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.95,
+          "reason": "The experiment used a Q-Exactive Plus in data-dependent acquisition (DDA) mode with iBAQ (intensity-based absolute quantification) for label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphotyrosine_enrichment",
+          "confidence": 0.9,
+          "reason": "The study explicitly describes a separate phosphoproteomics experiment using immunoaffinity purification with anti-phosphotyrosine antibody p-Tyr-1000."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent manner",
+        "iBAQ",
+        "label-free",
+        "phosphotyrosine",
+        "immunoaffinity purification",
+        "p-Tyr-1000"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.95,
+          "reason": "The experiment used a Q-Exactive Plus in data-dependent acquisition (DDA) mode with iBAQ (intensity-based absolute quantification) for label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphotyrosine_enrichment",
+          "confidence": 0.9,
+          "reason": "The study explicitly describes a separate phosphoproteomics experiment using immunoaffinity purification with anti-phosphotyrosine antibody p-Tyr-1000."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent manner",
+        "iBAQ",
+        "label-free",
+        "phosphotyrosine",
+        "immunoaffinity purification",
+        "p-Tyr-1000"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -110,6 +306,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:56:12Z"
   }
 }

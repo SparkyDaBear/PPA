@@ -3,72 +3,263 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "relative quantification",
     "labeling_strategy": [
       "Dimethyl",
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Viral Infection",
-      "Genetic Perturbations"
+      "ligand-mediated stimulation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "macrophage",
-      "monocyte-derived macrophages"
+      "monocyte-derived macrophages",
+      "bone-marrow-derived macrophage"
     ],
     "cell_lines": [
       "THP1",
-      "U937",
-      "Raw264.7"
+      "Raw264.7",
+      "U937"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "pathogen_mimic_stimulation",
+        "matched_class_path": [
+          "ligand-mediated stimulation",
+          "pathogen-mimic stimulation"
+        ],
+        "matched_definition": "Stimulation using pathogen-associated molecules (for example LPS, poly(I:C)).",
+        "confidence": "high",
+        "evidence": [
+          "characterize protein signaling in lipopolysaccharide (LPS)-stimulated macrophages",
+          "Lipopolysaccharide (LPS), a component of Gram-negative cell walls, is a highly immunogenic molecule capable of activating Toll-like receptor 4 (TLR4)"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "PARP inhibition was used to perturb the characterized systems",
+          "treatment with PARP inhibitors, a chemotherapeutic class of drugs that block the formation of ADP-ribosylation by poly(ADP-ribose) polymerases (PARPs)",
+          "pretreating human macrophage-like U937 cells with a PARP inhibitor (PARPi)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Lipopolysaccharide (LPS)",
+        "dose_or_concentration": "100 ng/mL",
+        "duration": null,
+        "route_or_context": "S. minnesota, R595",
+        "evidence": [
+          "The cells were stimulated with 100 ng/mL LPS from S. minnesota, R595 (Enzo)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PARP inhibitor (PJ34, olaparib)",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "48 h",
+        "route_or_context": null,
+        "evidence": [
+          "The PARP inhibitors PJ34 and olaparib (both from Selleck Chemicals) were titrated to determine the effective and nontoxic dose as 1 \u03bcM.",
+          "The cells were treated with PARPi for 48 h, unless otherwise indicated."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "LPS",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "time course",
+        "evidence": [
+          "stimulated with LPS for 0, 5, 15, 30, or 60 minutes",
+          "stimulated with LPS for either 0, 5, or 30 min"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0 min",
+      "5 min",
+      "15 min",
+      "30 min",
+      "60 min"
+    ],
+    "control_arms": [
+      "untreated",
+      "vehicle"
+    ],
+    "case_arms": [
+      "LPS-stimulated",
+      "PARPi-treated",
+      "PARPi + LPS"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "All proteomic experiments were performed, at minimum, in duplicate.",
+      "six total replicates that were stimulated with LPS"
+    ],
+    "multiplex_channel_hints": [
+      "application of dimethyl labeling (DML), a peptide-level isotopic labeling technique",
+      "SILAC RPMI 1640... (light = K0, R0; medium = K4, R6; heavy = K8, R10)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "LPS-stimulated",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "comparing SEC elution profiles of lysates from the human THP1 macrophage-like cell line with and without cellular LPS stimulation",
+          "stimulated with LPS for 0, 5, 15, 30, or 60 minutes"
+        ]
+      },
+      {
+        "control_label": "vehicle",
+        "case_label": "PARPi",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the proteomic profile of the HMW fraction is highly affected by PARP inhibition and to a lesser extent affected by LPS stimulation"
+        ]
+      },
+      {
+        "control_label": "vehicle + LPS",
+        "case_label": "PARPi + LPS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the proteomic profile of the HMW fractions from PARPi-treated cells did not change as much in response to LPS stimulation as those from the vehicle-treated cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "NEWT:10090",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000235"
+      },
+      {
+        "label": "monocyte-derived macrophages",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "bone-marrow-derived macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP1",
+        "family": "macrophage-like",
+        "ontology_curie": null
+      },
+      {
+        "label": "Raw264.7",
+        "family": "macrophage",
+        "ontology_curie": null
+      },
+      {
+        "label": "U937",
+        "family": "macrophage-like",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "blood",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "bone marrow",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Dimethyl",
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative quantification",
+      "dimethyl labeling",
+      "SILAC-based MS quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ADP-ribosylation enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +267,92 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicit use of dimethyl labeling (DML) for relative quantification in Database #2."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Database #1 and #3 use DDA without explicit labeling, implying label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.6,
+          "reason": "SILAC was used specifically for the ASK2 pulldown quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Extensive use of IMAC for phosphopeptide and phosphoribosylated peptide enrichment."
+        },
+        {
+          "modifier_workflow_id": "sec_fractionation",
+          "confidence": 1.0,
+          "reason": "Size exclusion chromatography (SEC) used to separate proteoforms and complexes (DB3, DB4)."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "SVP",
+        "phosphoribose",
+        "IMAC",
+        "SEC-MS",
+        "SILAC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicit use of dimethyl labeling (DML) for relative quantification in Database #2."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Database #1 and #3 use DDA without explicit labeling, implying label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.6,
+          "reason": "SILAC was used specifically for the ASK2 pulldown quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Extensive use of IMAC for phosphopeptide and phosphoribosylated peptide enrichment."
+        },
+        {
+          "modifier_workflow_id": "sec_fractionation",
+          "confidence": 1.0,
+          "reason": "Size exclusion chromatography (SEC) used to separate proteoforms and complexes (DB3, DB4)."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "SVP",
+        "phosphoribose",
+        "IMAC",
+        "SEC-MS",
+        "SILAC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +373,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:28:22Z"
   }
 }

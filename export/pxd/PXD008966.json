@@ -3,26 +3,37 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1-based quantification",
     "labeling_strategy": [
       "TMT",
       "Other"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "other"
     ],
-    "cell_types": [
-      "whole cell lysate"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "other",
+        "ontology_curie": null,
+        "category": "other",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "medium",
+        "evidence": [
+          "we compared three enrichment methods using the mTMT/phos9 recovery assay: two Fe-NTA (nitrilotriacetic acid)-based IMAC (immobilized metal affinity chromatography) protocols and one TiO2-based MOAC (metal oxide affinity chromatography) protocol."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,38 +42,90 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "case_arms": [
+      "IMAC1 (High-Select)",
+      "IMAC2 (Fe-NTA)",
+      "TiO2"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "we subjected 1 mg aliquots of human whole cell lysate to three phosphopeptide enrichment strategies in triplicate."
+    ],
+    "multiplex_channel_hints": [
+      "We coupled mass-differential tandem mass tag (mTMT) reagents (specifically, TMTzero and TMTsuper-heavy)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "TiO2",
+        "case_label": "High-Select",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "When comparing the TiO2 and High-Select workflows, we observed that although both methods have high enrichment specificity, High-Select identified over twice as many phosphopeptides."
+        ]
+      },
+      {
+        "control_label": "Fe-NTA",
+        "case_label": "High-Select",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Compared to High-Select, the Fe-NTA resin identified nearly 10% fewer phosphopeptides"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": "NEWT:4932",
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "Other"
+    ],
+    "quantification_strategy": [
+      "MS1-based quantification",
+      "peak area measurements from extracted ion chromatograms"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +133,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data collected in DDA mode using Q-Exactive; while mTMT labels are used for internal standards, the global phosphoproteome analysis is described as database searching for traditional metrics (number of phosphopeptides), and mTMT labels are non-isobaric (MS1-based quantification)."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.4,
+          "reason": "TMT reagents are mentioned, but the specific mTMT variants used (TMTzero and TMTsh) are explicitly described as non-isobaric and used for MS1-based quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Experiment specifically evaluates phosphopeptide recovery using IMAC (Fe-NTA) and MOAC (TiO2) enrichment strategies."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptide enrichment",
+        "IMAC",
+        "TiO2",
+        "DDA",
+        "mTMT",
+        "phosphoproteome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data collected in DDA mode using Q-Exactive; while mTMT labels are used for internal standards, the global phosphoproteome analysis is described as database searching for traditional metrics (number of phosphopeptides), and mTMT labels are non-isobaric (MS1-based quantification)."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.4,
+          "reason": "TMT reagents are mentioned, but the specific mTMT variants used (TMTzero and TMTsh) are explicitly described as non-isobaric and used for MS1-based quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Experiment specifically evaluates phosphopeptide recovery using IMAC (Fe-NTA) and MOAC (TiO2) enrichment strategies."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptide enrichment",
+        "IMAC",
+        "TiO2",
+        "DDA",
+        "mTMT",
+        "phosphoproteome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:54:24Z"
   }
 }

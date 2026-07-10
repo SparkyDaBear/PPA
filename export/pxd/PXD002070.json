@@ -3,17 +3,17 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "PAF",
+    "quantification_method": "Protein abundance factor (PAF)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK-293 cells",
-      "293-DDX6-FH cells"
+      "HEK-293",
+      "Flp-In 293 T-REx"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -27,14 +27,17 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
         "matched_class_path": [
-          "gene_modification_or_gain"
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion_variant"
         ],
-        "matched_definition": "Genetic perturbation that modifies sequence or increases expression/activity.",
-        "confidence": "medium",
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
         "evidence": [
-          "we created an HEK293-based cell line which stably expresses DDX6 fused with an N-terminal FLAG/HA-tag under control of a tetracycline-inducible promoter (293-DDX6-FH)."
+          "we created an HEK293-based cell line which stably expresses DDX6 fused with an N-terminal FLAG/HA-tag under control of a tetracycline-inducible promoter (293-DDX6-FH).",
+          "Identical experiments performed in doxycycline-treated HEK293 cells lacking the DDX6-FLAG-HA construct served as a control for non-specific binding."
         ]
       }
     ],
@@ -44,7 +47,7 @@
         "agent": "doxycycline",
         "dose_or_concentration": "1 \u00b5g/mL",
         "duration": "18 h",
-        "route_or_context": null,
+        "route_or_context": "induction of DDX6-FLAG-HA",
         "evidence": [
           "For DDX6-FLAG-HA induction, cells were treated with 1 \u00b5g/mL doxycycline (Sigma) for 18 h."
         ]
@@ -57,24 +60,25 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "HEK293 IP"
+      "HEK293 cells lacking the DDX6-FLAG-HA construct"
     ],
     "case_arms": [
-      "293-DDX6-FH IP"
+      "293-DDX6-FH cells"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "average of the three benzonase-treated replicates"
+      "average of the three benzonase-treated replicates",
+      "included only proteins which were identified by at least one peptide in a minimum of two biological replicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "HEK293 IP",
-        "case_label": "293-DDX6-FH IP",
+        "control_label": "HEK293 (control)",
+        "case_label": "293-DDX6-FH (experimental)",
         "contrast_type": "pairwise",
         "evidence": [
-          "Identical experiments performed in doxycycline-treated HEK293 cells lacking the DDX6-FLAG-HA construct served as a control for non-specific binding."
+          "included only proteins which were identified by at least one peptide in a minimum of two biological replicates of one experimental condition (control HEK293 vs. experimental 293-DDX6-FH IP)"
         ]
       }
     ],
@@ -87,20 +91,20 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [],
     "cell_lines": [
       {
-        "label": "HEK-293 cells",
-        "family": null,
+        "label": "HEK-293",
+        "family": "Human Embryonic Kidney",
         "ontology_curie": null
       },
       {
-        "label": "293-DDX6-FH cells",
-        "family": null,
+        "label": "Flp-In 293 T-REx",
+        "family": "Human Embryonic Kidney",
         "ontology_curie": null
       }
     ],
@@ -121,18 +125,24 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "PAF"
+      "Protein abundance factor (PAF)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "affinity purification",
+        "ontology_label": "AP-MS",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -147,27 +157,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Unlabeled DDA acquisition on an LTQ Orbitrap with label-free quantification (MaxQuant PAQ and PAF-based spectral counting)"
+          "confidence": 80,
+          "reason": "DDA acquisition on LTQ Orbitrap with label-free quantification (Protein Abundance Factor calculated from replicates) and standard trypsin digestion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "Tandem FLAG/HA immunoprecipitation enrichment of DDX6 protein complexes"
-        },
-        {
-          "modifier_workflow_id": "nuclease_treatment",
-          "confidence": 0.7,
-          "reason": "Benzonase digestion to remove RNA/DNA prior to MS analysis"
+          "modifier_workflow_id": "sumoylation_site_analysis",
+          "confidence": 70,
+          "reason": "Explicit use of SUMOsp software to identify sumoylation sites and analysis of sumoylation enrichment among DDX6 interactors."
         }
       ],
       "trigger_keywords": [
-        "tandem immunoprecipitation",
-        "LTQ Orbitrap",
-        "collision-induced dissociation",
-        "trypsin digestion"
+        "immunoprecipitation",
+        "tandem-pulldown",
+        "label-free",
+        "sumoylation",
+        "SUMOsp"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -175,32 +181,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Unlabeled DDA acquisition on an LTQ Orbitrap with label-free quantification (MaxQuant PAQ and PAF-based spectral counting)"
+          "confidence": 80,
+          "reason": "DDA acquisition on LTQ Orbitrap with label-free quantification (Protein Abundance Factor calculated from replicates) and standard trypsin digestion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "Tandem FLAG/HA immunoprecipitation enrichment of DDX6 protein complexes"
-        },
-        {
-          "modifier_workflow_id": "nuclease_treatment",
-          "confidence": 0.7,
-          "reason": "Benzonase digestion to remove RNA/DNA prior to MS analysis"
+          "modifier_workflow_id": "sumoylation_site_analysis",
+          "confidence": 70,
+          "reason": "Explicit use of SUMOsp software to identify sumoylation sites and analysis of sumoylation enrichment among DDX6 interactors."
         }
       ],
       "trigger_keywords": [
-        "tandem immunoprecipitation",
-        "LTQ Orbitrap",
-        "collision-induced dissociation",
-        "trypsin digestion"
+        "immunoprecipitation",
+        "tandem-pulldown",
+        "label-free",
+        "sumoylation",
+        "SUMOsp"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "enrichment_score",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -225,6 +227,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T03:45:41Z"
+    "stage3_refreshed_at": "2026-07-10T14:38:47Z"
   }
 }

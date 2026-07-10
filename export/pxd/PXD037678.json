@@ -2,71 +2,219 @@
   "pxd": "PXD037678",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "DDA",
+    "quantification_method": "isobaric labeling",
     "labeling_strategy": [
-      "Dimethyl",
-      "TMT"
+      "TMT",
+      "Dimethyl"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series",
-      "Chemical/Drug Treatment"
+      "anatomical or spatial comparison",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T",
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "we apply RinID in the mitochondrial matrix, capturing 477 mitochondrial proteins",
+          "We further demonstrate the broad applicability of RinID in various subcellular compartments, including the nucleus and the endoplasmic reticulum (ER)."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "HEK293T cells stably expressing mito-V5-miniSOG (or V5-miniSOG-sec61b, or V5-H2B-miniSOG) or Hela cells stably expressing ss-HA-SOPP3-KDEL"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "blue light illumination",
+        "dose_or_concentration": "30 mW\u00b7cm-2",
+        "duration": "15 min",
+        "route_or_context": "photocatalytic activation of miniSOG",
+        "evidence": [
+          "Labeling was triggered by 30 mW\u00b7cm-2 blue light for 15 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "probe 6 (propargyl amine)",
+        "dose_or_concentration": "20 mM",
+        "duration": "5 min",
+        "route_or_context": "nucleophilic probe for protein capture",
+        "evidence": [
+          "cells were incubated with 20 mM probe 6 (10 mM for V5-H2B-miniSOG, 5 mM for SOPP3-KDEL Hela) in HBSS for 5 min"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "chase period",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pulse-chase labeling of ER proteome",
+        "evidence": [
+          "re-cultured in DMEM and 10% FBS at 37 \u00b0C for various durations (0, 8, 16, 24 hours)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0h",
+      "8h",
+      "16h",
+      "24h"
+    ],
+    "control_arms": [
+      "omitting blue LED irradiation",
+      "wild type HEK293T cells",
+      "miniSOG-NES",
+      "omitting probe 6"
+    ],
+    "case_arms": [
+      "mito-V5-miniSOG",
+      "V5-miniSOG-sec61b",
+      "V5-H2B-miniSOG",
+      "ss-HA-SOPP3-KDEL"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two biological replicates were performed with -LED as the negative control",
+      "each time point has two replicates labeled by different TMT tags"
+    ],
+    "multiplex_channel_hints": [
+      "stable isotope dimethyl labeling strategy",
+      "TMT 10 plex Mass Tag Labeling Kits"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "no blue light",
+        "case_label": "blue light",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "two biological replicates were performed with -LED as the negative control"
+        ]
+      },
+      {
+        "control_label": "wild type / NES",
+        "case_label": "targeted miniSOG",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "another two were performed with the wild type HEK293T cells as the negative control",
+          "two 'ERM vs. NES' replicates (with cytoplasmic targeted miniSOG as the control)"
+        ]
+      },
+      {
+        "control_label": "0h",
+        "case_label": "8h, 16h, 24h",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "pulse-chase labeling of ER proteome in HeLa cells, which reveals substantially higher clearance rate for secreted proteins than ER resident proteins"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      },
+      {
+        "label": "Bos taurus",
+        "taxonomy_hint": "bovine",
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "human embryonic kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "isobaric labeling",
+      "stable isotope dimethyl labeling"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +222,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'dimethylation labeling was taken for quantitative proteomics identification' for miniSOG labeled samples."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'TMT 10 plex Mass Tag Labeling Kits and Reagents' were used for SOPP3 mediated pulse-chase labeled samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_enrichment",
+          "confidence": 1.0,
+          "reason": "Proteins were captured using 'streptavidin agarose resin' following biotinylation via click chemistry."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethylation labeling",
+        "TMT 10 plex",
+        "streptavidin agarose resin",
+        "click reaction",
+        "miniSOG",
+        "SOPP3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'dimethylation labeling was taken for quantitative proteomics identification' for miniSOG labeled samples."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'TMT 10 plex Mass Tag Labeling Kits and Reagents' were used for SOPP3 mediated pulse-chase labeled samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_enrichment",
+          "confidence": 1.0,
+          "reason": "Proteins were captured using 'streptavidin agarose resin' following biotinylation via click chemistry."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethylation labeling",
+        "TMT 10 plex",
+        "streptavidin agarose resin",
+        "click reaction",
+        "miniSOG",
+        "SOPP3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +308,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:56:10Z"
   }
 }

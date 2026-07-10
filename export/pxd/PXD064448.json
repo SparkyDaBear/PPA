@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "chemical or drug treatment",
+      "infection exposure"
     ],
     "cell_types": [
       "lung epithelial cells"
@@ -18,51 +18,193 @@
       "Calu-3"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Tetrandrine, a natural bis-benzylisoquinoline alkaloid derived from Stephania tetrandra",
+          "Cells were either left untreated, or treated with 5 microM or 10 microM of Tetrandrine"
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection",
+          "live_pathogen_infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "Proteomic analysis of Calu-3 cells infected with the Omicron BA.5 variant",
+          "Cells were either left untreated, or treated with 5 microM or 10 microM of Tetrandrine, in the absence or presence of SARS-CoV-2 infection."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Tetrandrine",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pre-treatment",
+        "evidence": [
+          "pre-treating Calu-3 cells with Tetrandrine 2 h before SARS-CoV-2 infection"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "Tetrandrine",
+        "dose_or_concentration": "5 \u00b5M",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "treated with 5 microM or 10 microM of Tetrandrine"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "Tetrandrine",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "treated with 5 microM or 10 microM of Tetrandrine"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "SARS-CoV-2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-infection",
+        "evidence": [
+          "extracted from the whole dataset proteins whose abundances were significantly modulated 24 h P.I."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h post-infection"
+    ],
+    "control_arms": [
+      "non-infected",
+      "untreated"
+    ],
+    "case_arms": [
+      "SARS-CoV-2 infected",
+      "Tetrandrine 5 \u00b5M",
+      "Tetrandrine 10 \u00b5M"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Protein extracts derived from three independent experiments were analyzed by mass spectrometry"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-infected",
+        "case_label": "SARS-CoV-2 infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "grouped to compare infected to non-infected cells"
+        ]
+      },
+      {
+        "control_label": "untreated infected",
+        "case_label": "Tetrandrine treated infected",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Differentially abundant proteins between non-infected and SARS-CoV-2 infected cells were compared based on Tetrandrine treatment"
+        ]
+      },
+      {
+        "control_label": "Tetrandrine 5 \u00b5M",
+        "case_label": "Tetrandrine 10 \u00b5M",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "distinct separation between 5 \u00b5M and 10 \u00b5M concentrations"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "SARS-CoV-2",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Calu-3",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +213,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in 'data-independent mode' and 'DIA scans were performed', with quantification performed using Spectronaut in 'direct DIA mode'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent mode",
+        "DIA scans",
+        "direct DIA mode",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in 'data-independent mode' and 'DIA scans were performed', with quantification performed using Spectronaut in 'direct DIA mode'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent mode",
+        "DIA scans",
+        "direct DIA mode",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +273,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:08:35Z"
   }
 }

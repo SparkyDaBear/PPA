@@ -2,45 +2,103 @@
   "pxd": "PXD048501",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "DDA",
+    "quantification_method": "TMT reporter ion quantification",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "Dimethyl"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Mechanical or Physical Stimuli"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "glioma cells"
-    ],
-    "cell_lines": [
-      "HEK 293T",
-      "U251MG",
-      "GL261"
-    ],
-    "sample_scope": "whole cell lysate",
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "we analyzed the meprin \u03b2 R238Q variant. This amino acid exchange R238Q leads to a loss of meprin \u03b2\u2019s characteristic cleavage preference",
+          "comparing meprin \u03b2 R238Q to meprin \u03b2 WT"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "meprin \u03b2 R238Q",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient transfection in HEK 293T and U251MG cells",
+        "evidence": [
+          "C-terminal flag\u2013tagged meprin \u03b2 WT and meprin \u03b2 R238Q were immunoprecipitated from lysates of transfected HEK 293T cells.",
+          "U251MG cells were transiently transfected with empty control, MT-2, meprin \u03b2 WT, meprin \u03b2 WT and MT-2, meprin \u03b2 R238Q, or meprin \u03b2 R238Q and MT-2."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "meprin \u03b2 WT",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient transfection in HEK 293T and U251MG cells",
+        "evidence": [
+          "C-terminal flag\u2013tagged meprin \u03b2 WT and meprin \u03b2 R238Q were immunoprecipitated from lysates of transfected HEK 293T cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 hours after transfection",
+      "8 hours after medium change"
+    ],
+    "control_arms": [
+      "meprin \u03b2 WT",
+      "empty control",
+      "mock control"
+    ],
+    "case_arms": [
+      "meprin \u03b2 R238Q"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "digested in duplicate",
+      "injected in duplicate"
+    ],
+    "multiplex_channel_hints": [
+      "labeled with a TMT-6-plex kit"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "meprin \u03b2 WT",
+        "case_label": "meprin \u03b2 R238Q",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing meprin \u03b2 R238Q to meprin \u03b2 WT",
+          "meprin \u03b2 WT versus mock, 143; meprin \u03b2 R238Q versus mock, 328"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -52,7 +110,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -62,11 +120,24 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion quantification",
+      "Relative abundance via dimethyl labeling"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +145,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PICS analysis explicitly uses TMT-6-plex labeling and DDA acquisition on a Q Exactive Plus."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "HYTANE analysis uses dimethylation for labeling but describes normalization to all human proteins and t-tests, typical of LFQ-style relative quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "terminomics_n_term_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses HYTANE (hydrophobic tagging-assisted N-terminal enrichment) and PICS (proteomic identification of protease cleavage sites) to identify neo-N termini."
+        }
+      ],
+      "trigger_keywords": [
+        "PICS",
+        "HYTANE",
+        "N-terminomics",
+        "neo-N termini",
+        "TMT-6-plex",
+        "dimethylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PICS analysis explicitly uses TMT-6-plex labeling and DDA acquisition on a Q Exactive Plus."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "HYTANE analysis uses dimethylation for labeling but describes normalization to all human proteins and t-tests, typical of LFQ-style relative quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "terminomics_n_term_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses HYTANE (hydrophobic tagging-assisted N-terminal enrichment) and PICS (proteomic identification of protease cleavage sites) to identify neo-N termini."
+        }
+      ],
+      "trigger_keywords": [
+        "PICS",
+        "HYTANE",
+        "N-terminomics",
+        "neo-N termini",
+        "TMT-6-plex",
+        "dimethylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +231,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:16:10Z"
   }
 }

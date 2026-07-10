@@ -2,25 +2,41 @@
   "pxd": "PXD051896",
   "title": null,
   "summary": {
-    "acquisition_type": null,
-    "quantification_method": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DIA",
+    "quantification_method": "MaxLFQ",
+    "labeling_strategy": [
+      "LFQ"
+    ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "monocytes",
-      "macrophages"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "A case\u2013control study was conducted with a cohort of 75 patients, including 16 with PSC (14 with concomitant IBD), 39 with IBD alone, and 20 controls.",
+          "Direct comparison between patients with PSC and IBD revealed 116 differently expressed proteins"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,38 +44,80 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "controls",
+      "IBD alone"
+    ],
+    "case_arms": [
+      "PSC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "filtering out of protein groups not quantified in at least three replicates of single sample type"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "controls",
+        "case_label": "PSC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "serum samples of patients with PSC showed notable changes compared with controls, with 102 differently expressed proteins"
+        ]
+      },
+      {
+        "control_label": "IBD alone",
+        "case_label": "PSC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Direct comparison between patients with PSC and IBD revealed 116 differently expressed proteins"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -68,10 +126,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of data-independent acquisition (DIA) mode and reporting of Protein MaxLFQ intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "MaxLFQ",
+        "DIA-NN"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of data-independent acquisition (DIA) mode and reporting of Protein MaxLFQ intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "MaxLFQ",
+        "DIA-NN"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +186,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:16:05Z"
   }
 }

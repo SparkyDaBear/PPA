@@ -3,39 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "molecular state comparison"
     ],
     "cell_types": [
-      "hematopoietic stem and progenitor cells",
-      "macrophage"
+      "hematopoietic cells"
     ],
     "cell_lines": [
-      "KG-1",
-      "Mono7",
-      "ML-2",
-      "HL-60",
-      "Kasumi-1",
-      "UoCM1",
-      "K562",
-      "U937",
-      "T-47D",
-      "NIH-3T3",
-      "MCF7",
-      "MDA-MB-231"
+      "KG-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "mutation_defined_state",
+        "matched_class_key": "mutation_defined_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "mutation-defined molecular state"
+        ],
+        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "confidence": "high",
+        "evidence": [
+          "We subjected KG-1 whole cell lysates and CUX1 immunoprecipitates to SDS-PAGE. We excised regions corresponding to 200 kDa and 75 kDa and performed LC\u2013MS/MS",
+          "In the 200 kDa region after CUX1 immunoprecipitation, we observed 51 peptides... that mapped to CUX1/CASP protein sequences.",
+          "In the 75 kDa region of the immunoprecipitated samples, we observed one peptide that ambiguously mapped to the N-terminal region of CUX1/CASP, but observed no peptides mapping to the p75 region"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -43,39 +49,87 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "p200 region"
+    ],
+    "case_arms": [
+      "p75 region"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "summed across replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "p200 isoform",
+        "case_label": "p75 isoform",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We excised regions corresponding to 200 kDa and 75 kDa and performed LC\u2013MS/MS",
+          "In the 200 kDa region... we observed 51 peptides... In the 75 kDa region... observed no peptides mapping to the p75 region"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hematopoietic cells",
+        "rollup_category": "hematopoietic system",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "KG-1",
+        "family": "AML",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "low"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -83,10 +137,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired via Q-Exactive Orbitrap using survey scans and HCD fragmentation (DDA) and analyzed with MaxQuant. No labeling (SILAC/Isobaric) is mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly lists 'Ubiquitylation of lysine (GlyGly)' as a variable modification in MaxQuant."
+        }
+      ],
+      "trigger_keywords": [
+        "Q-Exactive",
+        "MaxQuant",
+        "Ubiquitylation of lysine (GlyGly)",
+        "in-gel trypsin digested"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired via Q-Exactive Orbitrap using survey scans and HCD fragmentation (DDA) and analyzed with MaxQuant. No labeling (SILAC/Isobaric) is mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly lists 'Ubiquitylation of lysine (GlyGly)' as a variable modification in MaxQuant."
+        }
+      ],
+      "trigger_keywords": [
+        "Q-Exactive",
+        "MaxQuant",
+        "Ubiquitylation of lysine (GlyGly)",
+        "in-gel trypsin digested"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -107,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:55:37Z"
   }
 }

@@ -3,66 +3,154 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment"
+      "chemical or drug treatment",
+      "oxidative or redox modulation"
     ],
-    "cell_types": [
-      "HeLa cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
+        "evidence": [
+          "we treated HeLa cells with diamide",
+          "examined glutathionylation of hHsp70 in HeLa cells under both untreated and diamide-treated conditions"
+        ]
+      },
+      {
+        "ontology_label": "oxidative or redox modulation",
+        "ontology_curie": "PPA:0000013",
+        "category": "redox",
+        "matched_parent_class_key": "oxidative_or_redox_modulation",
+        "matched_class_key": "oxidative_stress_induction",
+        "matched_class_path": [
+          "oxidative_or_redox_modulation",
+          "oxidative_stress_induction"
+        ],
+        "matched_definition": "Redox perturbation caused by pro-oxidant treatment (for example H2O2 exposure).",
+        "confidence": "high",
+        "evidence": [
+          "diamide, which typically induces disulfide bond formation",
+          "an increase in abundance of glutathionylated proteins is detected under oxidative conditions"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "diamide",
+        "dose_or_concentration": "1 or 10 mm",
+        "duration": "15 min",
+        "route_or_context": "HeLa cells",
+        "evidence": [
+          "Half of the cultured cells (1.2 \u00d7 107, 10 dishes) were treated with 1 or 10 mm diamide for 15 min"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "15 min"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "diamide-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three independent rounds of cell sample preparation"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "diamide-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "examined glutathionylation of hHsp70 in HeLa cells under both untreated and diamide-treated conditions"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "S-glutathionylation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_redox",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +158,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a DDA acquisition (LTQ-Orbitrap XL) with a biotin-switch enrichment strategy. While no explicit quantification method is listed in PRIDE, the comparison between untreated and diamide-treated cells suggests a label-free approach for identifying modified peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_switch_cysteine",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a 'biotin switch assay' involving NEM blocking, Grx reduction, and biotin-maleimide labeling to enrich for reversible cysteine modifications (specifically S-glutathionylation)."
+        }
+      ],
+      "trigger_keywords": [
+        "biotin switch assay",
+        "S-glutathionylation",
+        "biotin-maleimide",
+        "NEM blocking",
+        "Grx reduction"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a DDA acquisition (LTQ-Orbitrap XL) with a biotin-switch enrichment strategy. While no explicit quantification method is listed in PRIDE, the comparison between untreated and diamide-treated cells suggests a label-free approach for identifying modified peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_switch_cysteine",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a 'biotin switch assay' involving NEM blocking, Grx reduction, and biotin-maleimide labeling to enrich for reversible cysteine modifications (specifically S-glutathionylation)."
+        }
+      ],
+      "trigger_keywords": [
+        "biotin switch assay",
+        "S-glutathionylation",
+        "biotin-maleimide",
+        "NEM blocking",
+        "Grx reduction"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +232,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:09Z"
   }
 }

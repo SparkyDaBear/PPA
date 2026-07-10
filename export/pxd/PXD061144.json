@@ -3,23 +3,57 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "Relative quantification using TMTpro 16plex reporter ions",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment"
+      "disease or clinical state",
+      "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "depleted plasma proteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "The present study cohort includes 114 patients, with an equal number of patients diagnosed with either lung cancer or no cancer, i.e., other benign lung conditions.",
+          "proteomic profiling of pre-diagnostic plasma samples from 114 individuals with suspected lung cancer, including 57 patients diagnosed with stage III-IV lung adenocarcinoma (LUAD) and 57 non-cancer controls."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell state or interaction comparison",
+          "activation or differentiation state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "we performed differential abundance analyses (DAA) between males and females"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -27,39 +61,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "no cancer",
+      "non-cancer controls",
+      "males"
+    ],
+    "case_arms": [
+      "lung cancer",
+      "lung adenocarcinoma",
+      "females"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "six samples were run in duplicate (aliquoted at the start of sample preparation), resulting in a total of 120 samples."
+    ],
+    "multiplex_channel_hints": [
+      "labeled with isobaric TMTs (TMTpro 16plex Label Reagent Set, Thermo Scientific)",
+      "labeled with eight sets of TMTpro 16plex, with one internal standard per set."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "no cancer",
+        "case_label": "lung cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The present study cohort includes 114 patients, with an equal number of patients diagnosed with either lung cancer or no cancer, i.e., other benign lung conditions."
+        ]
+      },
+      {
+        "control_label": "males",
+        "case_label": "females",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "DAAs between females (N = 37) and males (N = 51) were performed using a two-sided Welch\u2019s t test, with males as the reference group."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "depleted plasma proteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "Relative quantification using TMTpro 16plex reporter ions"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "high-abundance protein depletion",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +156,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation",
+          "confidence": 1.0,
+          "reason": "Samples underwent extensive pre-fractionation using high-resolution isoelectric focusing (HiRIEF) into 72 fractions."
+        },
+        {
+          "modifier_workflow_id": "depletion",
+          "confidence": 1.0,
+          "reason": "The 14 most abundant plasma proteins were depleted using High Select Top14 Abundant Protein Depletion Mini Spin Columns."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro 16plex",
+        "DDA",
+        "HiRIEF",
+        "isoelectric focusing",
+        "depletion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation",
+          "confidence": 1.0,
+          "reason": "Samples underwent extensive pre-fractionation using high-resolution isoelectric focusing (HiRIEF) into 72 fractions."
+        },
+        {
+          "modifier_workflow_id": "depletion",
+          "confidence": 1.0,
+          "reason": "The 14 most abundant plasma proteins were depleted using High Select Top14 Abundant Protein Depletion Mini Spin Columns."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro 16plex",
+        "DDA",
+        "HiRIEF",
+        "isoelectric focusing",
+        "depletion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +240,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:49:19Z"
   }
 }

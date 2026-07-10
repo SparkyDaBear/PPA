@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Isotopic labeling of sugar chains",
     "labeling_strategy": [
-      "Dimethyl"
+      "Other"
     ],
     "treatment_categories": [
-      "Unclassified"
+      "disease or clinical state"
     ],
     "cell_types": [
       "epithelial cell"
@@ -17,13 +17,31 @@
       "SKOV3",
       "IOSE80"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "surfaceome scope",
+    "sample_scope_curie": "PPA:0000200",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "differential cell-surface N-glycosylation of ovarian cancer SKOV3 cells with the non-cancerous ovarian epithelial IOSE80 cells as the control.",
+          "compared the characteristics of differentially expressed glycopeptide spectral matches (DEGSMs) in serous ovarian cancer SKOV3 cell lines... relative to non-cancerous ovarian epithelial IOSE80 cell lines."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +49,97 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "IOSE80"
+    ],
+    "case_arms": [
+      "SKOV3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three technical replicates (TRs: TR1, TR2, and TR3)"
+    ],
+    "multiplex_channel_hints": [
+      "isotopic labeling",
+      "1: 1 mixture of labeled intact N-glycopeptides from SKOV3 and IOSE80 cells",
+      "light [(12CH2 12CHO)2] and heavy [(13CH2 13CHO)2] demethylation"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "IOSE80",
+        "case_label": "SKOV3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "746 DEPGs in SKOV3 cells relative to IOSE80 cells were quantified",
+          "compared the characteristics of differentially expressed glycopeptide spectral matches (DEGSMs) in serous ovarian cancer SKOV3 cell lines... relative to non-cancerous ovarian epithelial IOSE80 cell lines."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SKOV3",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "IOSE80",
+        "family": "non-cancerous ovarian epithelial",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "surfaceome scope",
+      "curie": "PPA:0000200"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "Isotopic labeling of sugar chains",
+      "Relative quantification of precursor ion isotope profiles"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +147,68 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The experiment uses isotopic labeling (light/heavy diethylation) and DDA acquisition (Top 20 mode) to compare two cell lines."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_n_linked",
+          "confidence": 1.0,
+          "reason": "Explicit focus on intact N-glycopeptides, ZIC-HILIC enrichment, and use of GPSeeker for N-glycosite and N-glycan structure identification."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-glycopeptides",
+        "ZIC-HILIC enrichment",
+        "GPSeeker",
+        "isotopic labeling",
+        "diethylation"
+      ],
+      "raw_or_file_name_triggers": [
+        "TR1",
+        "TR2",
+        "TR3"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The experiment uses isotopic labeling (light/heavy diethylation) and DDA acquisition (Top 20 mode) to compare two cell lines."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_n_linked",
+          "confidence": 1.0,
+          "reason": "Explicit focus on intact N-glycopeptides, ZIC-HILIC enrichment, and use of GPSeeker for N-glycosite and N-glycan structure identification."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-glycopeptides",
+        "ZIC-HILIC enrichment",
+        "GPSeeker",
+        "isotopic labeling",
+        "diethylation"
+      ],
+      "raw_or_file_name_triggers": [
+        "TR1",
+        "TR2",
+        "TR3"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +229,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:17:41Z"
   }
 }

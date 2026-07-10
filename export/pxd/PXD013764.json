@@ -3,62 +3,151 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Time-Course / Temporal Series"
+      "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "monitor changes occurring over the lactation period in a single individual donor",
+          "collected human milk samples at nine time points covering the early, transitional, and mature lactational stages"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "lactation period",
+        "evidence": [
+          "Human milk samples were collected longitudinally from one healthy donor in weeks 1, 2, 3, 4, 6, 8, 10, 12, and 16 (for a total of nine time points)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "week 1",
+      "week 2",
+      "week 3",
+      "week 4",
+      "week 6",
+      "week 8",
+      "week 10",
+      "week 12",
+      "week 16"
+    ],
+    "control_arms": [
+      "week 1"
+    ],
+    "case_arms": [
+      "week 2",
+      "week 3",
+      "week 4",
+      "week 6",
+      "week 8",
+      "week 10",
+      "week 12",
+      "week 16"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three technical replicate analyses were performed",
+      "technical triplicates for each milk serum sample"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "week 1",
+        "case_label": "weeks 2-16",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "To relatively compare the proportional change in each time point, the protein abundance in week 1 was defined as standard",
+          "monitor changes occurring over the lactation period in a single individual donor"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "human milk",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification",
+      "Parallel reaction monitoring (PRM)",
+      "Scheduled single ion monitoring (SIM)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +155,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses label-free quantification (LFQ) based on XIC intensities for both the global proteome and the initial glycopeptide identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the N-glycoproteome using HILIC enrichment and Byonic search for intact glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoproteome",
+        "HILIC-based glycopeptide enrichment",
+        "Byonic",
+        "intact N-glycopeptides",
+        "EThcD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses label-free quantification (LFQ) based on XIC intensities for both the global proteome and the initial glycopeptide identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the N-glycoproteome using HILIC enrichment and Byonic search for intact glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoproteome",
+        "HILIC-based glycopeptide enrichment",
+        "Byonic",
+        "intact N-glycopeptides",
+        "EThcD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "time_anchored",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +229,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:04:32Z"
   }
 }

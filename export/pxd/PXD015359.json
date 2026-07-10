@@ -3,31 +3,49 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "naive human pluripotent stem cells",
-      "primed human pluripotent stem cells"
+      "human pluripotent stem cells",
+      "naive hPSC",
+      "primed hPSC"
     ],
     "cell_lines": [
       "H9",
       "HNES1",
-      "WIBR3"
+      "WIBR3",
+      "HDF"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell state or interaction comparison",
+          "activation or differentiation state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "directly measure cell-surface protein expression in naive and primed hPSC",
+          "differences in signaling and adhesion protein expression between Naive and Primed Human Pluripotent Stem Cells"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,39 +53,115 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "primed hPSC"
+    ],
+    "case_arms": [
+      "naive hPSC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three naive hPSC replicates and four primed hPSC replicates"
+    ],
+    "multiplex_channel_hints": [
+      "each sample was labeled with isobaric TMT to enable accurate relative quantitation",
+      "TMT-labeled samples were pooled"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "primed hPSC",
+        "case_label": "naive hPSC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Statistical analysis revealed that 518 cell-surface proteins were more abundant in naive compared with primed hPSC, and 636 were higher in primed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "human pluripotent stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0002322"
+      },
+      {
+        "label": "naive hPSC",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "primed hPSC",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H9",
+        "family": "human pluripotent stem cells",
+        "ontology_curie": null
+      },
+      {
+        "label": "HNES1",
+        "family": "human pluripotent stem cells",
+        "ontology_curie": null
+      },
+      {
+        "label": "WIBR3",
+        "family": "human pluripotent stem cells",
+        "ontology_curie": null
+      },
+      {
+        "label": "HDF",
+        "family": "human pluripotent stem cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT",
+      "relative quantitation"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "plasma membrane profiling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +169,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses tandem mass tags (TMT) for relative quantitation and describes a DDA-like acquisition (MS1 triggered MS2/MS3) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "plasma_membrane_enrichment",
+          "confidence": 0.9,
+          "reason": "The experiment uses 'plasma membrane profiling (PMP)' involving aminooxy-biotinylation of cell-surface proteins and streptavidin bead capture."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "plasma membrane profiling",
+        "aminooxy-biotinylated",
+        "streptavidin beads",
+        "isobaric TMT"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses tandem mass tags (TMT) for relative quantitation and describes a DDA-like acquisition (MS1 triggered MS2/MS3) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "plasma_membrane_enrichment",
+          "confidence": 0.9,
+          "reason": "The experiment uses 'plasma membrane profiling (PMP)' involving aminooxy-biotinylation of cell-surface proteins and streptavidin bead capture."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "plasma membrane profiling",
+        "aminooxy-biotinylated",
+        "streptavidin beads",
+        "isobaric TMT"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +243,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:46:02Z"
   }
 }

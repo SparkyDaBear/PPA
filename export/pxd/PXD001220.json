@@ -3,29 +3,44 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counts",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment",
-      "Time-Course / Temporal Series"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "osteosarcoma cells"
+      "osteosarcoma"
     ],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "soluble protein complexes",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "medium",
+        "evidence": [
+          "protein complexes were classified by size and deemed as either \u201clarger\u201d (fractions 7\u201323) or \u201csmaller\u201d (fractions 24\u201340)",
+          "we compared the biological process gene ontology (GO) annotations for the identified proteins that peaked in larger size fractions (1,720 proteins), smaller size fractions (2,280 proteins), or both size ranges (4,076 proteins)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +48,95 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "denaturing lysate buffer"
+    ],
+    "case_arms": [
+      "native SEC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three biological replicates were performed",
+      "The average of the three elution profiles was based on the normalized spectral peptide counts for each fraction."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "denaturing lysate",
+        "case_label": "native lysate",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "As a control, we also analyzed lysates from U2OS cells prepared using a highly denaturing (4% SDS-containing) PBS buffer... In this case there was a major shift in the elution profiles of most proteins from the SEC column relative to the previous analysis of lysates under native conditions."
+        ]
+      },
+      {
+        "control_label": "smaller complexes",
+        "case_label": "larger complexes",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "To examine whether a bias in protein function was evident between the larger and smaller complexes, we compared the biological process gene ontology (GO) annotations for the identified proteins that peaked in larger size fractions (1,720 proteins), smaller size fractions (2,280 proteins), or both size ranges (4,076 proteins)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "osteosarcoma",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U2OS",
+        "family": "osteosarcoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "soluble protein complexes",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counts"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +144,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) and quantified proteins using spectral counting (a form of label-free quantification) across 40 SEC fractions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.8,
+          "reason": "The study explicitly identified 1,600 phosphosites and analyzed the association of phosphorylated proteins with specific complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "spectral counts",
+        "data-dependent acquisition",
+        "phosphosites",
+        "SEC fractions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) and quantified proteins using spectral counting (a form of label-free quantification) across 40 SEC fractions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.8,
+          "reason": "The study explicitly identified 1,600 phosphosites and analyzed the association of phosphorylated proteins with specific complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "spectral counts",
+        "data-dependent acquisition",
+        "phosphosites",
+        "SEC fractions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:45:16Z"
   }
 }

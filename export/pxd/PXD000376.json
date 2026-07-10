@@ -3,26 +3,43 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "iTRAQ",
     "labeling_strategy": [
-      "iTRAQ"
+      "TMT",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "na\u00efve CD4+ T cells",
-      "memory CD4+ T cells"
+      "resting memory CD4+ T cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we carried out a multi-omic comparative analysis of na\u00efve with primary resting memory CD4+ T cells to identify molecular changes underlying T cell differentiation.",
+          "comparative analysis of na\u00efve and memory CD4+ T cells to explore the cellular mechanisms underlying the T cell immunological response."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,39 +47,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "na\u00efve CD4+ T cells"
+    ],
+    "case_arms": [
+      "resting memory CD4+ T cells"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "the difference in expression was computed using average values from replicate runs."
+    ],
+    "multiplex_channel_hints": [
+      "For iTRAQ based quantitative proteomics experiments, 75 \u03bcg of in-solution digested peptides from both na\u00efve and memory T cells were labelled according to manufacturer\u2019s protocol."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "na\u00efve CD4+ T cells",
+        "case_label": "resting memory CD4+ T cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparative analysis of na\u00efve and memory CD4+ T cells to explore the cellular mechanisms underlying the T cell immunological response."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "na\u00efve CD4+ T cells",
+        "rollup_category": "T cell",
+        "ontology_curie": "CL:0000084"
+      },
+      {
+        "label": "resting memory CD4+ T cells",
+        "rollup_category": "T cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iTRAQ",
+      "iBAQ",
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +138,68 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.95,
+          "reason": "Explicit mention of iTRAQ based quantitative proteomics for comparing na\u00efve and memory T cells."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Phosphopeptide abundance was quantitated by label-free method using MassNavigator."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Use of TiO2-based enrichment protocol for phosphopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "iTRAQ",
+        "label-free",
+        "TiO2-based enrichment",
+        "phosphopeptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.95,
+          "reason": "Explicit mention of iTRAQ based quantitative proteomics for comparing na\u00efve and memory T cells."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Phosphopeptide abundance was quantitated by label-free method using MassNavigator."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Use of TiO2-based enrichment protocol for phosphopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "iTRAQ",
+        "label-free",
+        "TiO2-based enrichment",
+        "phosphopeptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:08:46Z"
   }
 }

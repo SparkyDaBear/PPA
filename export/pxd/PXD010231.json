@@ -3,71 +3,209 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Temperature Stress",
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment"
+      "temperature stress",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "human embryonic kidney",
-      "human hepatic stellate"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T-REx",
       "LX2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
+        "category": "temperature",
+        "matched_parent_class_key": "temperature_stress",
+        "matched_class_key": "heat_stress",
+        "matched_class_path": [
+          "temperature_stress",
+          "heat_stress"
+        ],
+        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "confidence": "high",
+        "evidence": [
+          "All heat shock experiments were performed at 43\u00b0C and 5% CO2 for 75 min.",
+          "we used quantitative proteomics to study SUMO2 target-protein dynamics before, during, and after HS"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "gene_modification_or_gain",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain"
+        ],
+        "matched_definition": "Genetic perturbation that modifies sequence or increases expression/activity.",
+        "confidence": "high",
+        "evidence": [
+          "chronic inhibition of HSF1 via Dox-induced expression of dn-cHSF1",
+          "cells depleted of proteostasis network components via chronic heat shock factor 1 inhibition"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "heat shock",
+        "dose_or_concentration": "43\u00b0C",
+        "duration": "75 min",
+        "route_or_context": "environmental stress",
+        "evidence": [
+          "All heat shock experiments were performed at 43\u00b0C and 5% CO2 for 75 min."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dn-cHSF1",
+        "dose_or_concentration": "Dox-inducible",
+        "duration": "48 hr",
+        "route_or_context": "chronic HSF1 inhibition",
+        "evidence": [
+          "Chronic expression of dn-cHSF1 results in reduced steady-state levels of key proteostasis network components",
+          "Cells were subsequently treated with either Dox or DMSO for 48 hr prior to HS."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "recovery post-heat shock",
+        "evidence": [
+          "recovery to normal SUMOylation levels post-heat shock were selected based on a \u2265 2-fold decrease 4 hr post-heat shock compared to immediately post-heat shock"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "before HS",
+      "immediately post-HS",
+      "4 hr post-HS"
+    ],
+    "control_arms": [
+      "vehicle-treated",
+      "Dox-inducible GFP control cells"
+    ],
+    "case_arms": [
+      "Dox-treated (dn-cHSF1)",
+      "heat shock"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Four biological replicates were measured in technical duplicates"
+    ],
+    "multiplex_channel_hints": [
+      "Label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "no heat shock",
+        "case_label": "post-heat shock",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Heat shock-responsive SUMOylation of proteins was defined by a \u2265 2-fold increase in abundance post-heat shock compared to no heat shock controls"
+        ]
+      },
+      {
+        "control_label": "vehicle-treated 4 hr post-HS",
+        "case_label": "Dox-treated 4 hr post-HS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteins that retained SUMOylation during heat shock recovery owing to chronic HSF1 inhibition were selected if they showed \u2265 2-fold enrichment in the Dox-treated condition 4 hr post-heat shock condition compared to the vehicle-treated control condition 4 hr post-heat shock"
+        ]
+      },
+      {
+        "control_label": "immediately post-HS",
+        "case_label": "4 hr post-HS",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "Proteins that recovered to normal SUMOylation levels post-heat shock were selected based on a \u2265 2-fold decrease 4 hr post-heat shock compared to immediately post-heat shock"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T-REx",
+        "family": "human embryonic kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "LX2",
+        "family": "human hepatic stellate",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +213,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'Label-free quantification (LFQ)' and 'nanoLC-MS/MS on a Q-Exactive Orbitrap' (DDA instrument) processed with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_sumo",
+          "confidence": 1.0,
+          "reason": "The experiment specifically purifies SUMOylated proteins using His10-SUMO2 and focuses on identifying SUMOylation targets."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "The experiment also purifies ubiquitinated proteins using His10-Ub and analyzes co-modified Ub/SUMO proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SUMOylation",
+        "His10-SUMO2",
+        "His10-Ub",
+        "LFQ",
+        "Ni-NTA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'Label-free quantification (LFQ)' and 'nanoLC-MS/MS on a Q-Exactive Orbitrap' (DDA instrument) processed with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_sumo",
+          "confidence": 1.0,
+          "reason": "The experiment specifically purifies SUMOylated proteins using His10-SUMO2 and focuses on identifying SUMOylation targets."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "The experiment also purifies ubiquitinated proteins using His10-Ub and analyzes co-modified Ub/SUMO proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SUMOylation",
+        "His10-SUMO2",
+        "His10-Ub",
+        "LFQ",
+        "Ni-NTA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +297,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:46:18Z"
   }
 }

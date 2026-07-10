@@ -2,67 +2,139 @@
   "pxd": "PXD009870",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Spectral counting",
+    "acquisition_type": "DDA",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "disease or clinical state",
+      "cell state or interaction comparison"
     ],
-    "cell_types": [
-      "neutrophils"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease_or_clinical_state",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease_or_clinical_state",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Plasma collected at visit 2 from the MI subset of the Jackson Heart Study (JHS... underwent glycoproteomics grouped by outcome: (1) heart failure hospitalization after visit 2 (n = 3 men/12 women) and (2) without hospitalization through 2012 (n = 24 men/21 women)."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_or_interaction_comparison",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_or_interaction_comparison",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "Out of six N1 markers, day 1 neutrophils from females had elevated Ccl5 gene and reduced Ccl5 protein expression compared to neutrophils isolated from the infarct of males"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "timepoints": [
+      "visit 2"
+    ],
+    "control_arms": [
+      "without hospitalization through 2012"
+    ],
+    "case_arms": [
+      "heart failure hospitalization after visit 2"
+    ],
     "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "factorial_design": false,
+    "replicate_hints": [
+      "Samples were run in duplicate and results combined for analysis."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "without HF hospitalization",
+        "case_label": "HF hospitalization",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Individuals were grouped into those who experienced subsequent HF hospitalization after visit 2 (n=15; 3 men/ 12 women) and those without HF hospitalization through 2012 (n=45; 24 men/ 21 women)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +142,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "Data was acquired using a Q Exactive (DDA) and quantified via spectral counting, which is a label-free quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glycoproteomics",
+          "confidence": 10,
+          "reason": "The experiment is explicitly described as 'glycoproteomics' using hydrazide chemistry for N-linked glycopeptide enrichment and PNGase F treatment for release."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomics",
+        "N-linked",
+        "hydrazide chemistry",
+        "PNGase F",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "Data was acquired using a Q Exactive (DDA) and quantified via spectral counting, which is a label-free quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glycoproteomics",
+          "confidence": 10,
+          "reason": "The experiment is explicitly described as 'glycoproteomics' using hydrazide chemistry for N-linked glycopeptide enrichment and PNGase F treatment for release."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomics",
+        "N-linked",
+        "hydrazide chemistry",
+        "PNGase F",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:55:29Z"
   }
 }

@@ -3,24 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT 10plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "liver"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "the differences in the phosphoproteome between HCC and normal human liver tissues were profiled",
+          "four pairs of tumor and adjacent non-tumor tissues were resected from patients diagnosed with HCC"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +44,88 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal liver tissues",
+      "adjacent non-tumor tissue"
+    ],
+    "case_arms": [
+      "hepatocellular carcinoma (HCC)",
+      "tumor tissues"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Patients with HCC (n=4) were enrolled in the present study, and their tumor and adjacent non-tumor tissue samples were collected"
+    ],
+    "multiplex_channel_hints": [
+      "a multiplexed tandem mass tag approach",
+      "Quantification was performed using TMT 10plex"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal tissue",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparing the dataset in the current study with the phosphoSitesPlus database, 317 phosphoproteins and 138 phosphorylation sites were identified for the first time in the present study (Fig. 2C). Comparing the dataset in the current study with the phosphoSitesPlus database, 317 phosphoproteins and 138 phosphorylation sites were identified for the first time in the present study (Fig. 2C). The difference between the HCC and normal tissue groups of each phosphosite was plotted with the corresponding P-value"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "liver",
+        "source_kind": "organ"
+      },
+      {
+        "label": "hepatocellular carcinoma",
+        "source_kind": "tumor or lesion specimen"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT 10plex"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +133,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a multiplexed tandem mass tag (TMT) approach with data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses IMAC microspheres for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "tandem mass tag",
+        "TMT",
+        "IMAC",
+        "phosphoproteome",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a multiplexed tandem mass tag (TMT) approach with data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses IMAC microspheres for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "tandem mass tag",
+        "TMT",
+        "IMAC",
+        "phosphoproteome",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +207,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:00:07Z"
   }
 }

@@ -2,26 +2,43 @@
   "pxd": "PXD017646",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "Unknown",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK293"
+      "HEK 293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "glycopeptide enrichment",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "ptm_or_activation_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "PTM or activation molecular state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "comparisons of method performance for the two classes of glycopeptides",
+          "We systematically compare HCD, sceHCD, ETD, and EThcD for their performance in characterizing intact N- and O-glycopeptides."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,38 +47,92 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "N-glycopeptides",
+      "O-glycopeptides"
+    ],
     "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "factorial_design": false,
+    "replicate_hints": [
+      "each method was run in technical triplicate, except for the HEK293 glycopeptides, which we only injected once per dissociation method"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "N-glycopeptides",
+        "case_label": "O-glycopeptides",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "necessitates comparisons of method performance for the two classes of glycopeptides"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bos taurus",
+        "taxonomy_hint": "NEWT:9913",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "standard glycoprotein mixture",
+        "source_kind": "other"
+      },
+      {
+        "label": "recombinant mucins",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "glycopeptide enrichment",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +140,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses data-dependent acquisition (DDA) and product-dependent triggering (HCD-pd-X) for glycopeptide identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.9,
+          "reason": "Extensive analysis of N-glycopeptides using HCD, sceHCD, and EThcD, specifically targeting N-X-S/T sequons."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 0.9,
+          "reason": "Extensive analysis of O-glycopeptides using StcE digestion and EThcD for site-specific localization."
+        }
+      ],
+      "trigger_keywords": [
+        "intact glycopeptide analysis",
+        "N-glycopeptides",
+        "O-glycopeptides",
+        "sceHCD",
+        "EThcD",
+        "product-dependent triggering",
+        "oxonium ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses data-dependent acquisition (DDA) and product-dependent triggering (HCD-pd-X) for glycopeptide identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.9,
+          "reason": "Extensive analysis of N-glycopeptides using HCD, sceHCD, and EThcD, specifically targeting N-X-S/T sequons."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 0.9,
+          "reason": "Extensive analysis of O-glycopeptides using StcE digestion and EThcD for site-specific localization."
+        }
+      ],
+      "trigger_keywords": [
+        "intact glycopeptide analysis",
+        "N-glycopeptides",
+        "O-glycopeptides",
+        "sceHCD",
+        "EThcD",
+        "product-dependent triggering",
+        "oxonium ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:08:59Z"
   }
 }

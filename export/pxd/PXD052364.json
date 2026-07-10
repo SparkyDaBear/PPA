@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "TIC",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "endometrial cancer stem cells"
@@ -19,51 +18,134 @@
       "RL95-2"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "A mass spectrometry-based proteomic study was performed to determine the proteomic profile of endometrial cancer cells upon N,N-diethylaminobenzaldehyde (DEAB).",
+          "The cell lines ECC-1 and RL95-2 were subjected to ALDH inhibition, and their proteomes were profiled by LC-MS."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "N,N-diethylaminobenzaldehyde (DEAB)",
+        "dose_or_concentration": "100 \u00b5M",
+        "duration": null,
+        "route_or_context": "added to the culture medium used in the sphere-forming protocol at the time of plating",
+        "evidence": [
+          "For this, the sphere-forming protocol was performed in the presence of 100 \u00b5M DEAB (added to the culture medium used in the sphere-forming protocol at the time of plating)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "ECC-1",
+      "RL95-2"
+    ],
+    "case_arms": [
+      "ECC-1 DEAB",
+      "RL95-2 DEAB"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "ECC-1",
+        "case_label": "ECC-1 DEAB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteome of ECC-1 DEAB vs. ECC-1"
+        ]
+      },
+      {
+        "control_label": "RL95-2",
+        "case_label": "RL95-2 DEAB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteome of RL95-2 DEAB vs. RL95-2"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "endometrial cancer stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0000034"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "ECC-1",
+        "family": "endometrioid endometrial cancer",
+        "ontology_curie": "CRL-2923"
+      },
+      {
+        "label": "RL95-2",
+        "family": "endometrioid endometrial cancer",
+        "ontology_curie": "CRL-1671"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TIC",
+      "protein ion counts"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +154,68 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 90,
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('automatic data-dependent switch'), and quantification was performed using Total Ion Count (TIC) / ion counts, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phospho",
+          "confidence": 60,
+          "reason": "Serine, threonine, and tyrosine phosphorylation were set as variable modifications during the search."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 60,
+          "reason": "Lysine diglycine tag (K-GG) was set as a variable modification, indicating a search for ubiquitination sites."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent switch",
+        "ion counts",
+        "lysine diglycine tag",
+        "phosphorylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 90,
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('automatic data-dependent switch'), and quantification was performed using Total Ion Count (TIC) / ion counts, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phospho",
+          "confidence": 60,
+          "reason": "Serine, threonine, and tyrosine phosphorylation were set as variable modifications during the search."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 60,
+          "reason": "Lysine diglycine tag (K-GG) was set as a variable modification, indicating a search for ubiquitination sites."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent switch",
+        "ion counts",
+        "lysine diglycine tag",
+        "phosphorylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +236,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:54:16Z"
   }
 }

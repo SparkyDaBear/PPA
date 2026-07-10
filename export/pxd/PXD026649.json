@@ -3,25 +3,55 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Peptide counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "spermatozoa"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "These sperm glycoproteomic data were compared with previously published glycoproteome and glycome data to determine the glycoproteins and glycan structures distinctively expressed in spermatozoa.",
+          "Comparing with other tissues, such as human liver with maximal three fucoses per glycan, we realized the uniqueness of heavy fucosylation in human spermatozoa."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "Intriguingly, bisected core structure (with and without core fucosylation) was highly expressed in acrosome compared with the glycoproteins in other localization and total spermatozoa (Fig. 6A and supplemental Fig. S8)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,13 +59,39 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "other human tissues",
+      "total spermatozoa"
+    ],
+    "case_arms": [
+      "human spermatozoa",
+      "acrosome"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "subsequently subjected to triplicate LC-MS/MS analyses per fraction",
+      "Over 95% of glycoproteins (Fig. 1B) and 87% of glycopeptides (Fig. 1C) were overlapped among triplicate LC-MS analyses of a single fraction"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "other tissues",
+        "case_label": "spermatozoa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparing with other tissues, such as human liver with maximal three fucoses per glycan, we realized the uniqueness of heavy fucosylation in human spermatozoa."
+        ]
+      },
+      {
+        "control_label": "total spermatozoa",
+        "case_label": "acrosome",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "bisected core structure (with and without core fucosylation) was highly expressed in acrosome compared with the glycoproteins in other localization and total spermatozoa"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -47,7 +103,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -57,11 +113,22 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Peptide counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +136,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent HCD-MS/MS was used on an Orbitrap Fusion Lumos with a pooled sample approach, though quantification is described as peptide counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_intact",
+          "confidence": 0.95,
+          "reason": "The study specifically uses 'intact glycopeptide (IGP)' approaches and the specialized 'StrucGP' software to interpret precise glycan structures at each glycosite."
+        }
+      ],
+      "trigger_keywords": [
+        "intact glycopeptide",
+        "IGP",
+        "StrucGP",
+        "N-glycoproteome",
+        "site-specific glycoproteomic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent HCD-MS/MS was used on an Orbitrap Fusion Lumos with a pooled sample approach, though quantification is described as peptide counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_intact",
+          "confidence": 0.95,
+          "reason": "The study specifically uses 'intact glycopeptide (IGP)' approaches and the specialized 'StrucGP' software to interpret precise glycan structures at each glycosite."
+        }
+      ],
+      "trigger_keywords": [
+        "intact glycopeptide",
+        "IGP",
+        "StrucGP",
+        "N-glycoproteome",
+        "site-specific glycoproteomic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +210,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:02:48Z"
   }
 }

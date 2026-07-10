@@ -3,16 +3,17 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "spectral counting",
+    "quantification_method": "SAINT (Significance analysis of interactome)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "PTM or activation molecular state"
+      "cell state or interaction comparison",
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HeLa cell"
+      "HeLa"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -22,19 +23,35 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "PTM or activation molecular state",
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "HeLa cells were synchronized in mitosis through nocodazole treatment and released to obtain a predominantly prometaphase population of mitotic cells",
+          "we enriched for high molecular mass SUMO-2/3 modified proteins associated with mitotic chromosomes"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
         "ontology_curie": "PPA:0000021",
-        "category": "molecular_state_comparison",
-        "matched_parent_class_key": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "ptm_or_activation_state",
         "matched_class_key": "ptm_or_activation_state",
         "matched_class_path": [
-          "PPA:0000021",
           "ptm_or_activation_state"
         ],
         "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
         "confidence": "high",
         "evidence": [
-          "Purified proteins were immunopurified using the SUMO-2/3 specific monoclonal antibody 8A2 or purified mouse IgG as a control."
+          "identify proteins unique to the SUMO-2/3 immunopurifications",
+          "identify 149 chromosome-associated SUMO-2/3 substrates by nLC-ESI-MS/MS"
         ]
       }
     ],
@@ -50,13 +67,13 @@
         ]
       },
       {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
-        "duration": "two-hour release",
-        "route_or_context": "post\u2010nocodazole release",
+        "relation_key": "has_treatment_agent",
+        "agent": "thymidine",
+        "dose_or_concentration": "2 mM",
+        "duration": "18 hours",
+        "route_or_context": "double thymidine synchronizations",
         "evidence": [
-          "Cells were synchronized overnight using 100 ng/ml nocodazole (Sigma), followed by a two-hour release."
+          "cells were treated in Dulbecco\u2019s Modified Eagle Medium (Gibco/Invitrogen) supplemented with 5% fetal bovine serum and 1% HEPES with 2 mM thymidine (Sigma, T9250-5G) for 18 hours"
         ]
       }
     ],
@@ -66,27 +83,28 @@
   },
   "experimental_design": {
     "timepoints": [
-      "two-hour release"
+      "two-hour release (after nocodazole)",
+      "varying time points following release (double-thymidine)"
     ],
     "control_arms": [
-      "mouse control IgG immunopurification"
+      "mouse IgG"
     ],
     "case_arms": [
-      "SUMO-2/3 immunopurification"
+      "SUMO-2/3 monoclonal antibody (8A2)"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "immunopurifications were conducted from two independently prepared fractions of mitotic chromosomes"
+      "Immunopurifications were conducted from two independently prepared fractions of mitotic chromosomes."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "mouse control IgG immunopurification",
-        "case_label": "SUMO-2/3 immunopurification",
+        "control_label": "mouse IgG",
+        "case_label": "SUMO-2/3 (8A2)",
         "contrast_type": "pairwise",
         "evidence": [
-          "Purified proteins were immunopurified using the SUMO-2/3 specific monoclonal antibody 8A2 or purified mouse IgG as a control."
+          "The significance analysis of interactome (SAINT) approach was used to identify proteins unique to the SUMO-2/3 immunopurifications. SAINT utilizes statistical analysis of the total number of spectra obtained for individual proteins in experimental and control immunopurifications"
         ]
       }
     ],
@@ -98,7 +116,7 @@
     "human_system_present": "Yes",
     "organisms": [
       {
-        "label": "Homo sapiens (Human)",
+        "label": "Homo sapiens",
         "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
@@ -106,8 +124,8 @@
     "cell_types": [],
     "cell_lines": [
       {
-        "label": "HeLa cell",
-        "family": null,
+        "label": "HeLa",
+        "family": "HeLa",
         "ontology_curie": "BTO:0000567"
       }
     ],
@@ -119,7 +137,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -131,9 +149,9 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "spectral counting"
+      "SAINT (Significance analysis of interactome)"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "SUMOylome or QQTGG enrichment",
@@ -154,76 +172,50 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.95,
-          "reason": "Label-free DDA LC-MS/MS on an Orbitrap with spectral counting and SAINT analysis was used"
+          "confidence": 0.8,
+          "reason": "The experiment uses nLC-ESI-MS/MS on an Orbitrap (DDA) and employs the SAINT approach, which typically relies on spectral counting or intensity-based label-free quantification to distinguish experimental from control samples."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo2_3_immunoenrichment",
-          "confidence": 0.95,
-          "reason": "Endogenous SUMO-2/3 modified proteins were immunopurified using a SUMO-2/3 specific antibody"
-        },
-        {
-          "modifier_workflow_id": "sds_page_fractionation",
-          "confidence": 0.8,
-          "reason": "Proteins were separated by SDS-PAGE followed by in-gel trypsin digestion"
-        },
-        {
-          "modifier_workflow_id": "cysteine_alkylation_nem",
-          "confidence": 0.6,
-          "reason": "Cysteines were alkylated with N-ethylmaleimide to inhibit isopeptidases"
+          "modifier_workflow_id": "sumo_remnant",
+          "confidence": 0.9,
+          "reason": "The study specifically targets SUMO-2/3 modified proteins using immunopurification and mentions the identification of SUMO substrates."
         }
       ],
       "trigger_keywords": [
-        "immunopurifications",
-        "SDS-PAGE",
-        "nLC-ESI-MS/MS",
+        "SUMO-2/3",
+        "sumoylated proteins",
+        "SUMO substrates",
         "SAINT"
       ],
-      "raw_or_file_name_triggers": [
-        ".raw",
-        "PXD000381"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.95,
-          "reason": "Label-free DDA LC-MS/MS on an Orbitrap with spectral counting and SAINT analysis was used"
+          "confidence": 0.8,
+          "reason": "The experiment uses nLC-ESI-MS/MS on an Orbitrap (DDA) and employs the SAINT approach, which typically relies on spectral counting or intensity-based label-free quantification to distinguish experimental from control samples."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo2_3_immunoenrichment",
-          "confidence": 0.95,
-          "reason": "Endogenous SUMO-2/3 modified proteins were immunopurified using a SUMO-2/3 specific antibody"
-        },
-        {
-          "modifier_workflow_id": "sds_page_fractionation",
-          "confidence": 0.8,
-          "reason": "Proteins were separated by SDS-PAGE followed by in-gel trypsin digestion"
-        },
-        {
-          "modifier_workflow_id": "cysteine_alkylation_nem",
-          "confidence": 0.6,
-          "reason": "Cysteines were alkylated with N-ethylmaleimide to inhibit isopeptidases"
+          "modifier_workflow_id": "sumo_remnant",
+          "confidence": 0.9,
+          "reason": "The study specifically targets SUMO-2/3 modified proteins using immunopurification and mentions the identification of SUMO substrates."
         }
       ],
       "trigger_keywords": [
-        "immunopurifications",
-        "SDS-PAGE",
-        "nLC-ESI-MS/MS",
+        "SUMO-2/3",
+        "sumoylated proteins",
+        "SUMO substrates",
         "SAINT"
       ],
-      "raw_or_file_name_triggers": [
-        ".raw",
-        "PXD000381"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "enrichment_score",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -248,6 +240,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T03:46:01Z"
+    "stage3_refreshed_at": "2026-07-10T14:04:15Z"
   }
 }

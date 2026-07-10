@@ -3,67 +3,143 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-Free Quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "U2OS",
+      "AID-DIvA",
       "MDA-MB-231"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "Generation of ARID1A-knockout cells",
+          "Two separate CRISPR guide RNA sequences... targeting the exon1 of ARID1A open reading frame were designed",
+          "Using anti-IgG as control, we set a cutoff for Log2fold changes >2."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ARID1A",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9 knockout",
+        "evidence": [
+          "Generation of ARID1A-knockout cells",
+          "electroporation of the Cas9:crRNA:tracrRNA complex to the cells and knockout clones were established"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "anti-IgG"
+    ],
+    "case_arms": [
+      "anti-ARID1A"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "Label-Free Quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "anti-IgG",
+        "case_label": "anti-ARID1A",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using anti-IgG as control, we set a cutoff for Log2fold changes >2."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "AID-DIvA",
+        "family": "U2OS",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-231",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-Free Quantification (LFQ)",
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +147,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'data-dependent acquisition mode' (DDA) and 'Label-Free Quantification (LFQ)' processed with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.9,
+          "reason": "The experiment is described as an immunoprecipitation (IP) of ARID1A using anti-ARID1A antibodies, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "Label-Free Quantification",
+        "LFQ",
+        "immunoprecipitation",
+        "Maxquant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'data-dependent acquisition mode' (DDA) and 'Label-Free Quantification (LFQ)' processed with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.9,
+          "reason": "The experiment is described as an immunoprecipitation (IP) of ARID1A using anti-ARID1A antibodies, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "Label-Free Quantification",
+        "LFQ",
+        "immunoprecipitation",
+        "Maxquant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:57:11Z"
   }
 }

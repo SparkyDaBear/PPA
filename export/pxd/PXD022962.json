@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation",
+      "chemical or drug treatment",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "blood cell"
@@ -18,66 +18,239 @@
     "cell_lines": [
       "THP-1",
       "MV4;11",
-      "HT-29",
-      "MM1.S",
-      "JJN-3",
-      "OPM2",
-      "MOLM-13",
-      "HL-60",
-      "OCI-AML3",
       "HeLa",
-      "BJ-T",
-      "HS5",
-      "A431",
-      "HEK293T"
+      "S2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "THP-1-Cas9 cells expressing FgH1t-UTG-sgSCR-GFP or FgH1tUTG-sgINTS6-A-GFP with stable knockout of INTS6",
+          "Deletion of INTS6, a component of the Integrator complex, suppressed CDK9i-induced cell death"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Small molecule CDK9 inhibitors (CDK9i) (e.g., flavopiridol)",
+          "THP-1-Cas9 cells expressing FgH1t-UTG-sgSCR-GFP or FgH1tUTG-sgINTS6-A-GFP with stable knockout of INTS6 were treated with DMSO or AZ5576 for 2 hours."
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "agonist_or_activator",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "confidence": "high",
+        "evidence": [
+          "small molecule activators of PP2A (SMAPs)",
+          "The small molecule activator of PP2A (SMAP) DBK-1154"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AZ5576",
+        "dose_or_concentration": "170nM",
+        "duration": "16 hours",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "puromycin-selected cells were cultured for 16 hours with DMSO or AZ5576 (170nM)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AZ5576",
+        "dose_or_concentration": null,
+        "duration": "2 hours",
+        "route_or_context": "phospho-peptide mass spectrometry",
+        "evidence": [
+          "THP-1-Cas9 cells expressing FgH1t-UTG-sgSCR-GFP or FgH1tUTG-sgINTS6-A-GFP with stable knockout of INTS6 were treated with DMSO or AZ5576 for 2 hours."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DBK-1154",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "combination therapy",
+        "evidence": [
+          "concurrent treatment with the SMAP DBK-1154 greatly enhanced CDK9i-induced cell death"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "2 hours",
+      "6 hours"
+    ],
+    "control_arms": [
+      "DMSO",
+      "sgSCR"
+    ],
+    "case_arms": [
+      "AZ5576",
+      "sgINTS6-KO",
+      "DBK-1154"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "4 biological replicates were used for each condition",
+      "3 biological replicates were assessed for each treatment condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "sgSCR_UT",
+        "case_label": "sgSCR_CDK9i",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_CDK9i \u2013 SCR_UT < -0.3"
+        ]
+      },
+      {
+        "control_label": "sgSCR_UT",
+        "case_label": "sgINTS6_KO_UT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_UT \u2013 INTS6_KO_UT < 0.3"
+        ]
+      },
+      {
+        "control_label": "sgSCR_CDK9i",
+        "case_label": "sgINTS6_KO_CDK9i",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_CDK9i \u2264 INTS6_KO_CDK9i"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      },
+      {
+        "label": "Drosophila melanogaster",
+        "taxonomy_hint": "fruit fly",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "mouse",
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "blood cell",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000081"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "leukemia",
+        "ontology_curie": "CVCL_0006"
+      },
+      {
+        "label": "MV4;11",
+        "family": "leukemia",
+        "ontology_curie": "CVCL_0064"
+      },
+      {
+        "label": "HeLa",
+        "family": "cervical cancer",
+        "ontology_curie": "CVCL_0030"
+      },
+      {
+        "label": "S2",
+        "family": "Drosophila",
+        "ontology_curie": "CVCL_Z232"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -85,10 +258,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on a Q-Exactive Plus/HF and employs iBAQ for label-free quantification (LFQ) without any mention of isobaric or isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 10,
+          "reason": "Explicit use of Fe(III)-NTA beads for phospho-peptide enrichment and variable modification search for phosphorylation of Serine/Threonine/Tyrosine."
+        }
+      ],
+      "trigger_keywords": [
+        "phospho-peptide mass spectrometry",
+        "Fe(III)-NTA beads",
+        "iBAQ",
+        "data-dependent mode",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on a Q-Exactive Plus/HF and employs iBAQ for label-free quantification (LFQ) without any mention of isobaric or isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 10,
+          "reason": "Explicit use of Fe(III)-NTA beads for phospho-peptide enrichment and variable modification search for phosphorylation of Serine/Threonine/Tyrosine."
+        }
+      ],
+      "trigger_keywords": [
+        "phospho-peptide mass spectrometry",
+        "Fe(III)-NTA beads",
+        "iBAQ",
+        "data-dependent mode",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -109,6 +332,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:51:47Z"
   }
 }

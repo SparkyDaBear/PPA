@@ -3,26 +3,61 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "tumor tissue",
-      "nearby tissue"
+    "cell_types": [],
+    "cell_lines": [
+      "293T"
     ],
-    "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "measuring 84 pairs of tumors and their nearby tissues",
+          "SAM (samr R package) was performed to find differentially expressed proteins between tumors and paired nearby tissues of all 84 patients"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "medium",
+        "evidence": [
+          "Wilcoxon rank-sum test was used to identify proteins with significantly different expression between mutant samples and wild-type samples",
+          "Somatic single-nucleotide variations (SNVs) and small insertions and deletions (Indels) were detected"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,38 +65,93 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "nearby tissues"
+    ],
+    "case_arms": [
+      "tumors"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "Label-free protein quantifications were calculated using a label-free, intensity-based absolute quantification (iBAQ) approach."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "nearby tissue",
+        "case_label": "tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SAM (samr R package) was performed to find differentially expressed proteins between tumors and paired nearby tissues of all 84 patients"
+        ]
+      },
+      {
+        "control_label": "wild-type",
+        "case_label": "mutant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Wilcoxon rank-sum test was used to identify proteins with significantly different expression between mutant samples and wild-type samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "tumor",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "nearby tissue",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "stomach",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +160,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free protein quantifications (iBAQ) and data-dependent MS/MS scans (DDA) on Orbitrap instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "iBAQ",
+        "data-dependent MS/MS",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free protein quantifications (iBAQ) and data-dependent MS/MS scans (DDA) on Orbitrap instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "iBAQ",
+        "data-dependent MS/MS",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:57:16Z"
   }
 }

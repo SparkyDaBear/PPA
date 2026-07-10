@@ -3,35 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "non-small cell lung cancer cells",
-      "diffuse large B-cell lymphoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "A549",
-      "H358",
-      "H1703",
-      "Pfeiffer",
-      "Karpas422",
-      "U-2932",
-      "Farage"
+      "A549"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "mutation_defined_state",
+        "matched_class_key": "mutation_defined_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "mutation-defined molecular state"
+        ],
+        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "confidence": "high",
+        "evidence": [
+          "TP53 loss or mutation in tumor cells and clinical samples markedly upregulates DDR1 expression",
+          "TP53 mutation or depletion promotes DDR1 expression and enhances its association with USP7"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -39,39 +46,78 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "anti-IgG antibody (negative control)"
+    ],
+    "case_arms": [
+      "anti-DDR1 antibody (specific IP)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "anti-IgG",
+        "case_label": "anti-DDR1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we performed immunoprecipitation of endogenous DDR1 with anti-DDR1 antibody (specific IP) or anti-IgG antibody (negative control) in A549 cells followed by mass spectrometry analysis."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "A549",
+        "family": "non-small cell lung cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification mass spectrometry",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -79,10 +125,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'Bottom-up proteomics'. The experiment is an IP-MS comparing specific IP (anti-DDR1) vs negative control (anti-IgG), which typically uses label-free quantification (LFQ) for enrichment analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent acquisition",
+        "Bottom-up proteomics",
+        "immunoprecipitation of endogenous DDR1",
+        "anti-IgG antibody (negative control)"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'Bottom-up proteomics'. The experiment is an IP-MS comparing specific IP (anti-DDR1) vs negative control (anti-IgG), which typically uses label-free quantification (LFQ) for enrichment analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent acquisition",
+        "Bottom-up proteomics",
+        "immunoprecipitation of endogenous DDR1",
+        "anti-IgG antibody (negative control)"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -103,6 +185,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:57:19Z"
   }
 }

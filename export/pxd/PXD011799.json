@@ -3,67 +3,142 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "iPQF",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "B cells",
-      "plasmablast-like cells"
+      "B cell",
+      "tumor-associated B cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "confidence": "high",
+        "evidence": [
+          "we therefore exposed immortalized peripheral blood- and tumor-derived B cells derived from four patients with metastatic melanoma to melanoma-conditioned medium (MCM)",
+          "From these B cell cultures, we were able to generate RNA-seq (n = 11) and complementary proteomic (n = 8) profiles."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "melanoma-conditioned medium (MCM)",
+        "dose_or_concentration": null,
+        "duration": "48 h",
+        "route_or_context": "in vitro incubation of human B cells",
+        "evidence": [
+          "exposed immortalized peripheral blood- and tumor-derived B cells... to melanoma-conditioned medium (MCM)",
+          "For induction experiments, 5 \u00d7 105 human B cells were seeded in 24-well cell-culture plates (Corning Costar) and incubated in 1 ml MCM or control medium for 48 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "control medium"
+    ],
+    "case_arms": [
+      "MCM"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 8"
+    ],
+    "multiplex_channel_hints": [
+      "Isobaric labeling was performed using 10plex tandem mass tag (TMT) reagents"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "control medium",
+        "case_label": "MCM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Seven-hundred and fifty-two genes/proteins were identified as significantly regulated by MCM in both the RNA-seq and proteomics results."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "B cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000236"
+      },
+      {
+        "label": "tumor-associated B cells",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "iPQF"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +146,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 10plex tandem mass tag (TMT) reagents and data-dependent acquisition (DDA) mode on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment included a specific phosphopeptide enrichment step using TiO2 beads and analyzed phosphopeptide fractions."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10-plex",
+        "isobaric labeling",
+        "TiO2 phosphopeptide enrichment",
+        "data-dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 10plex tandem mass tag (TMT) reagents and data-dependent acquisition (DDA) mode on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment included a specific phosphopeptide enrichment step using TiO2 beads and analyzed phosphopeptide fractions."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10-plex",
+        "isobaric labeling",
+        "TiO2 phosphopeptide enrichment",
+        "data-dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:53:56Z"
   }
 }

@@ -3,29 +3,60 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "Parallel Reaction Monitoring (PRM)",
     "labeling_strategy": [
       "Other"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "anatomical or spatial comparison",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "HeLa cells",
-      "HEK293 cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa",
       "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "To determine the GSH redox state in the Golgi, we developed a Golgi-targeted roGFP",
+          "we quantified the degree of cysteine glutathionylation of sCGrx1p ([sCGrx1pSH]:[sCGrx1pSSG]) in the Golgi by a targeted proteomics approach"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "we determined the redox state and absolute concentrations of the GSH/GSSG pair in the Golgi of HeLa (cancerous) and HEK293 (non-cancerous) cells."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +64,88 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "HEK293"
+    ],
+    "case_arms": [
+      "HeLa"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The experiment was carried out in three biological replicates on different days"
+    ],
+    "multiplex_channel_hints": [
+      "targeted proteomics approach using light and heavy iodoacetamide labeling (L- and H-IAA, respectively)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "HEK293",
+        "case_label": "HeLa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we determined the redox state and absolute concentrations of the GSH/GSSG pair in the Golgi of HeLa (cancerous) and HEK293 (non-cancerous) cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cancerous",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293",
+        "family": "non-cancerous",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "Parallel Reaction Monitoring (PRM)",
+      "Isotopic labeling (light and heavy iodoacetamide)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "redox state sensing via sCGrx1p",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_redox",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +153,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The experiment uses Parallel Reaction Monitoring (PRM), which is a targeted approach. While not a standard DDA LFQ, it is the closest base for targeted quantification of specific peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of Parallel Reaction Monitoring (PRM) and Skyline for targeted quantification of specific peptide ions."
+        },
+        {
+          "modifier_workflow_id": "isotope_labeling_heavy_iaa",
+          "confidence": 0.9,
+          "reason": "The workflow uses a dual-labeling strategy with light-IAA and heavy-IAA to distinguish between pre-existing free thiols and those released from glutathionylation."
+        }
+      ],
+      "trigger_keywords": [
+        "Parallel Reaction Monitoring",
+        "PRM",
+        "targeted proteomics",
+        "light and heavy iodoacetamide labeling",
+        "Skyline"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The experiment uses Parallel Reaction Monitoring (PRM), which is a targeted approach. While not a standard DDA LFQ, it is the closest base for targeted quantification of specific peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of Parallel Reaction Monitoring (PRM) and Skyline for targeted quantification of specific peptide ions."
+        },
+        {
+          "modifier_workflow_id": "isotope_labeling_heavy_iaa",
+          "confidence": 0.9,
+          "reason": "The workflow uses a dual-labeling strategy with light-IAA and heavy-IAA to distinguish between pre-existing free thiols and those released from glutathionylation."
+        }
+      ],
+      "trigger_keywords": [
+        "Parallel Reaction Monitoring",
+        "PRM",
+        "targeted proteomics",
+        "light and heavy iodoacetamide labeling",
+        "Skyline"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "isotope_ratio",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +237,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:56:44Z"
   }
 }

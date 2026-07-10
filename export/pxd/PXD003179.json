@@ -3,29 +3,51 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 precursor peptide ion intensities",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "HeLa cells",
-      "human liver microtissue"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK-293"
+      "HEK-293",
+      "HeLa"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "confidence": "medium",
+        "evidence": [
+          "human liver micro-tissue samples treated by series concentrations of Aacetaminophen (APAP)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Aacetaminophen (APAP)",
+        "dose_or_concentration": "series concentrations",
+        "duration": null,
+        "route_or_context": "human liver micro-tissue samples",
+        "evidence": [
+          "human liver micro-tissue samples treated by series concentrations of Aacetaminophen (APAP)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -33,37 +55,83 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "Microtissue DIA",
+      "Microtissue DDA"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Three replicates were acquired for each DIA experiment",
+      "Two sets of independent DDA experiments (labeled DDA1 and DDA2) were acquired, each containing three replicate runs.",
+      "Each DIA or DDA dataset was run in triplicates."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "Aacetaminophen (APAP)",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "human liver micro-tissue samples treated by series concentrations of Aacetaminophen (APAP)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK-293",
+        "family": "HEK",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "human liver microtissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 precursor peptide ion intensities",
+      "MS2 fragment ion intensities"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +140,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly focuses on Data Independent Acquisition (DIA) using SWATH-type fixed size isolation windows on Orbitrap instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study includes parallel DDA experiments for baseline comparison and spectral library generation."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA",
+        "data independent acquisition",
+        "SWATH-MS",
+        "pseudo MS/MS",
+        "spectral library-free"
+      ],
+      "raw_or_file_name_triggers": [
+        "DIA 5Da",
+        "DIA 10Da",
+        "DIA 15Da",
+        "DIA 20Da",
+        "DIA 25Da",
+        "HEK-293 DIA",
+        "Microtissue DIA"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly focuses on Data Independent Acquisition (DIA) using SWATH-type fixed size isolation windows on Orbitrap instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study includes parallel DDA experiments for baseline comparison and spectral library generation."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA",
+        "data independent acquisition",
+        "SWATH-MS",
+        "pseudo MS/MS",
+        "spectral library-free"
+      ],
+      "raw_or_file_name_triggers": [
+        "DIA 5Da",
+        "DIA 10Da",
+        "DIA 15Da",
+        "DIA 20Da",
+        "DIA 25Da",
+        "HEK-293 DIA",
+        "Microtissue DIA"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:10:58Z"
   }
 }

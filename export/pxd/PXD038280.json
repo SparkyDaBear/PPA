@@ -2,66 +2,134 @@
   "pxd": "PXD038280",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "acquisition_type": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "tear film"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "ptm_or_activation_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "PTM or activation molecular state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "the enzymatic-induced release of the N-glycans leads to the deamidation of asparagine (N) to aspartic acid (D), which marks the original N-glycosylation site in the respective peptide backbone.",
+          "we also included an additional control group (CTRL) in our experimental design which comprised enriched glycopeptides without PNGase F pre-treatment from a master tear sample pool."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PNGase F",
+        "dose_or_concentration": "500 Units/mL",
+        "duration": "overnight",
+        "route_or_context": "in-solution digest of enriched glycopeptides",
+        "evidence": [
+          "treated the enriched tear glycopeptides (see method Section 4.3) with endoglycosidase PNGase F",
+          "addition of 4 \u00b5L of PNGase F solution (500 Units/mL; Roche Diagnostics, Mannheim, Germany). The digestion was performed at 37 \u00b0C overnight."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "CTRL"
+    ],
+    "case_arms": [
+      "PNGase F treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 3 biological sample pools",
+      "three biological replicates (100 \u00b5g of tear protein for each enrichment)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "CTRL (untreated)",
+        "case_label": "PNGase F treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The respective deamidation site was only acknowledged as a reliable and true protein N-glycosylation site (enzymatic induced by PNGase F), if it was not detected in the untreated CTRL group."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "tear film",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +137,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The experiment uses a hybrid linear ion trap-Orbitrap system for identification of N-glycosylation sites via a label-free approach (no labeling mentioned), though the primary goal is site mapping rather than relative quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "deglycosylation_pngasef",
+          "confidence": 100,
+          "reason": "The study explicitly uses PNGase F to release N-glycans, converting asparagine (N) to aspartic acid (D) to mark glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "PNGase F",
+        "N-glycosylation sites",
+        "deamidation of asparagine",
+        "lectin-based affinity enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The experiment uses a hybrid linear ion trap-Orbitrap system for identification of N-glycosylation sites via a label-free approach (no labeling mentioned), though the primary goal is site mapping rather than relative quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "deglycosylation_pngasef",
+          "confidence": 100,
+          "reason": "The study explicitly uses PNGase F to release N-glycans, converting asparagine (N) to aspartic acid (D) to mark glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "PNGase F",
+        "N-glycosylation sites",
+        "deamidation of asparagine",
+        "lectin-based affinity enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:35:58Z"
   }
 }

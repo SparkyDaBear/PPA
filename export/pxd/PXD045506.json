@@ -2,71 +2,151 @@
   "pxd": "PXD045506",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "Unknown",
+    "quantification_method": "Label free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
       "SAS",
-      "OEC-M1",
-      "Jurkat"
+      "OEC-M1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "Two independent MGAT5 knockout clones of SAS cells were generated and used as references to Mock cells.",
+          "The abundance of glycopeptides with potential \u03b21,6-branched N-glycans in Mock and MGAT5 knockout cells were analyzed"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CRISPR/Cas9 targeting MGAT5",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "SAS cells",
+        "evidence": [
+          "To knock out MGAT5, we used the CRISPR/Cas9 system."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "Mock"
+    ],
+    "case_arms": [
+      "MGAT5 knockout"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Two independent MGAT5 knockout clones of SAS cells were generated"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Mock",
+        "case_label": "MGAT5 knockout",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The fold change of potential \u03b21,6-branched N-GPs were compared between Mock and MGAT5 knockout SAS cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SAS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "OEC-M1",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label free",
+      "chromatographic alignment with m/z and retention time"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +154,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Label-free quantification (LFQ) of intact N-glycopeptides using DDA (HCD/EThcD) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.95,
+          "reason": "Explicit use of ZIC-cHILIC StageTip for N-glycopeptide enrichment and Byonic for glycan composition search."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptide",
+        "ZIC-cHILIC",
+        "Byonic",
+        "intact GP",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Label-free quantification (LFQ) of intact N-glycopeptides using DDA (HCD/EThcD) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.95,
+          "reason": "Explicit use of ZIC-cHILIC StageTip for N-glycopeptide enrichment and Byonic for glycan composition search."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptide",
+        "ZIC-cHILIC",
+        "Byonic",
+        "intact GP",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:52:10Z"
   }
 }

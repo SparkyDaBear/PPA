@@ -3,24 +3,23 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ",
+      "SILAC",
       "Dimethyl",
       "Other"
     ],
-    "treatment_categories": [
-      "Chemical/Drug Treatment"
-    ],
+    "treatment_categories": [],
     "cell_types": [
       "T cell"
     ],
     "cell_lines": [
-      "Jurkat"
+      "Jurkat T-cell line E6"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
@@ -36,34 +35,70 @@
     "case_arms": [],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
+    "replicate_hints": [
+      "eight replicates of LFQ and IPTL were analyzed"
+    ],
+    "multiplex_channel_hints": [
+      "isobaric peptides were mixed and measured in eight replicates",
+      "crosswise labeling of both peptide termini"
+    ],
     "contrast_hints": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Jurkat T-cell line E6",
+        "family": "Jurkat",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "SILAC",
+      "Dimethyl",
+      "Other"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification (LFQ)",
+      "Isobaric peptide termini labeling (IPTL)",
+      "MS1 intensity",
+      "MS2 reporter ion quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +107,82 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly describes LFQ samples measured in eight replicates using MS1 intensities."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.8,
+          "reason": "IPTL samples utilize N-terminal dimethylation (d0 and d4) for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.7,
+          "reason": "IPTL samples combine metabolic labeling (Arg-d4/Lys-d4) with chemical labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "iptl_crosswise_labeling",
+          "confidence": 1.0,
+          "reason": "The experiment specifically implements Isobaric Peptide Termini Labeling (IPTL) using crosswise N-terminal dimethylation and C-terminal SILAC labeling."
+        }
+      ],
+      "trigger_keywords": [
+        "LFQ",
+        "IPTL",
+        "isobaric peptide termini labeling",
+        "crosswise labeling",
+        "N-terminal dimethylation",
+        "SILAC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly describes LFQ samples measured in eight replicates using MS1 intensities."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.8,
+          "reason": "IPTL samples utilize N-terminal dimethylation (d0 and d4) for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.7,
+          "reason": "IPTL samples combine metabolic labeling (Arg-d4/Lys-d4) with chemical labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "iptl_crosswise_labeling",
+          "confidence": 1.0,
+          "reason": "The experiment specifically implements Isobaric Peptide Termini Labeling (IPTL) using crosswise N-terminal dimethylation and C-terminal SILAC labeling."
+        }
+      ],
+      "trigger_keywords": [
+        "LFQ",
+        "IPTL",
+        "isobaric peptide termini labeling",
+        "crosswise labeling",
+        "N-terminal dimethylation",
+        "SILAC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +203,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:26Z"
   }
 }

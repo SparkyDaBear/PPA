@@ -3,25 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Unclassified"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "regulatory T cell",
-      "CD4-positive helper T cell"
+      "regulatory T cells",
+      "conventional CD4+ T cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "We present a comprehensive proteomic dataset of Tregs paired with conventional CD4+ (Conv CD4+) T cells in healthy individuals.",
+          "differentially abundant proteins between Treg and Conv CD4+ were analysed (Treg vs. Conv CD4+)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +46,89 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "control_arms": [
+      "Conv CD4+ T cells"
+    ],
+    "case_arms": [
+      "Tregs"
+    ],
+    "paired_design": true,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "PBMC (n = 3)"
+    ],
+    "multiplex_channel_hints": [
+      "label-free data-dependent acquisition mass spectrometry (DDA-MS)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Conv CD4+",
+        "case_label": "Treg",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differentially abundant proteins between Treg and Conv CD4+ were analysed (Treg vs. Conv CD4+)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "regulatory T cells",
+        "rollup_category": "T cell",
+        "ontology_curie": "CL:0000815"
+      },
+      {
+        "label": "conventional CD4+ T cells",
+        "rollup_category": "T cell",
+        "ontology_curie": "CL:0000492"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "PBMC",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "venous blood",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantitation",
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +137,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of label-free data-dependent acquisition mass spectrometry (DDA-MS) and label free quantitation (LFQ) using MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free data-dependent acquisition",
+        "DDA-MS",
+        "label free quantitation",
+        "LFQ",
+        "MaxLFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of label-free data-dependent acquisition mass spectrometry (DDA-MS) and label free quantitation (LFQ) using MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free data-dependent acquisition",
+        "DDA-MS",
+        "label free quantitation",
+        "LFQ",
+        "MaxLFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +199,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:48:19Z"
   }
 }

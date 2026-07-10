@@ -3,70 +3,156 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
       "hepatocyte"
     ],
     "cell_lines": [
-      "Huh7",
-      "HepG2",
-      "PLC/PRF/5"
+      "Huh7"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "silencing the m6A writer METTL3 significantly enhanced the sensitivity to oxaliplatin",
+          "we generated the stable METTL3-depleted cells in Huh7 and HepG2",
+          "To identify the potential E3-liagese of G6PD, we performed co-IP in G6PD-flag exogenous expression Huh7 cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "METTL3",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "siRNA silencing / stable depletion",
+        "evidence": [
+          "silencing the m6A writer METTL3",
+          "we generated the stable METTL3-depleted cells in Huh7 and HepG2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "G6PD-Flag",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "exogenous expression",
+        "evidence": [
+          "co-IP in G6PD-flag exogenous expression Huh7 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "control cells",
+      "Huh7-shNC"
+    ],
+    "case_arms": [
+      "METTL3-depleted cells",
+      "Huh7-shMETTL3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each group included five independent repeats."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "shNC",
+        "case_label": "shMETTL3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we performed a non-targeted metabolomic analysis on Huh7-shNC and Huh7-shMETTL3 groups."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "liver cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Huh7",
+        "family": "hepatocellular carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +160,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the experiment is described as 'Shotgun proteomics' for protein identification of co-IP partners."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "Shotgun proteomics",
+        "co-IP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the experiment is described as 'Shotgun proteomics' for protein identification of co-IP partners."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "Shotgun proteomics",
+        "co-IP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:51:15Z"
   }
 }

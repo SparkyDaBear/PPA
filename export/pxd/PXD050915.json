@@ -3,28 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "peripheral blood mononuclear cells"
-    ],
-    "cell_lines": [
-      "AC16",
-      "HEK293T"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Differentially expressed proteins (DEPs) between 2 groups (mid\u2010BP versus low\u2010BP+low\u2010LVMI and high\u2010BP+high\u2010LVMI versus low\u2010BP+low\u2010LVMI) were analyzed using Student\u2019s t test",
+          "The SHIP AHOY (Systolic Hypertension in Pediatrics: Adult Hypertension Onset in Youth) study was a multicenter study of the effects of elevated BP in youths on target\u2010organ injury."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -32,38 +44,85 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "low\u2010BP+low\u2010LVMI"
+    ],
+    "case_arms": [
+      "mid\u2010BP",
+      "high\u2010BP+high\u2010LVMI"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "low\u2010BP+low\u2010LVMI (n=10)",
+      "high\u2010BP+high\u2010LVMI (n=10)",
+      "10 representative samples from the mid\u2010BP group"
+    ],
+    "multiplex_channel_hints": [
+      "TMT 11-plex labels",
+      "TMT11-plex tagged tryptic peptides"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "low\u2010BP+low\u2010LVMI",
+        "case_label": "mid\u2010BP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differentially expressed proteins (DEPs) between 2 groups (mid\u2010BP versus low\u2010BP+low\u2010LVMI...)"
+        ]
+      },
+      {
+        "control_label": "low\u2010BP+low\u2010LVMI",
+        "case_label": "high\u2010BP+high\u2010LVMI",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differentially expressed proteins (DEPs) between 2 groups (...high\u2010BP+high\u2010LVMI versus low\u2010BP+low\u2010LVMI)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +131,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly describes the use of TMT 11-plex labels and MS3 spectra for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_proteominer_enrichment",
+          "confidence": 1.0,
+          "reason": "The sample processing protocol explicitly states 'ProteoMiner (BioRad#163-3006) enrichment performed using manufacture\u2019s protocol' to reduce dynamic range in serum."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 11-plex",
+        "ProteoMiner",
+        "MS3 spectra",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly describes the use of TMT 11-plex labels and MS3 spectra for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_proteominer_enrichment",
+          "confidence": 1.0,
+          "reason": "The sample processing protocol explicitly states 'ProteoMiner (BioRad#163-3006) enrichment performed using manufacture\u2019s protocol' to reduce dynamic range in serum."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 11-plex",
+        "ProteoMiner",
+        "MS3 spectra",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +203,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:03:47Z"
   }
 }

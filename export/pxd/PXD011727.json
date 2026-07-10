@@ -3,66 +3,142 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK293A",
-      "HEK293T"
+      "HEK293T",
+      "HEK293A"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "For treatment with MMC, 100 ng/ml of MMC was added into the cell culture media 24 h before cell collection."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Mitomycin C (MMC)",
+        "dose_or_concentration": "100 ng/ml",
+        "duration": "24 h",
+        "route_or_context": "cell culture media",
+        "evidence": [
+          "For treatment with MMC, 100 ng/ml of MMC was added into the cell culture media 24 h before cell collection."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "MMC-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Four plates of nearly 100% confluent cells were used for each purification."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "MMC-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To identify ICL-related, SLX4-interacting proteins, we treated HEK293T cells stably expressing SLX4-SFB with 100 ng/ml of MMC before TAP-MS."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293A",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification",
+      "Fold enrichment compared to control"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +146,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on an Orbitrap instrument with label-free quantification (LFQ) based on PSM counts/ratios."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.95,
+          "reason": "The study explicitly uses Tandem Affinity Purification (TAP) and BioID pull-downs to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "Tandem affinity purification",
+        "TAP-MS",
+        "BioID pull downs",
+        "data-dependent mode",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on an Orbitrap instrument with label-free quantification (LFQ) based on PSM counts/ratios."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.95,
+          "reason": "The study explicitly uses Tandem Affinity Purification (TAP) and BioID pull-downs to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "Tandem affinity purification",
+        "TAP-MS",
+        "BioID pull downs",
+        "data-dependent mode",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:10:03Z"
   }
 }

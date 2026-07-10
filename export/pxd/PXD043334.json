@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "genetic perturbation"
     ],
     "cell_types": [
       "CD4+ T cells"
@@ -18,57 +16,144 @@
     "cell_lines": [
       "Jurkat",
       "J-Lat 11.1",
-      "J-Lat 10.6",
-      "J-Lat A2",
       "HEK 293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "we generated stably transfected J-Lat 11.1 cells which express PCID2-Flag (F-PCID2 J-Lat 11.1)",
+          "Immunoprecipitation of exogenously expressed PCID2-Flag in J-Lats 11.1 cells coupled with semi-quantitative mass spectrometry analysis (IP-MS). As a control, we used J-Lat cells transfected with an empty vector."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PCID2-Flag",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable exogenous expression",
+        "evidence": [
+          "we generated stably transfected J-Lat 11.1 cells which express PCID2-Flag (F-PCID2 J-Lat 11.1)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "empty vector",
+      "control"
+    ],
+    "case_arms": [
+      "PCID2-Flag"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "We performed the IP-MS pipeline two times with independent PCID2-Flag immunoprecipitations"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "empty vector",
+        "case_label": "PCID2-Flag",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "a fold enrichment was calculated of iBAQ value in PCID2-Flag samples over control samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "CD4+ T cells",
+        "rollup_category": "leukocyte",
+        "ontology_curie": "CL:0000738"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Jurkat",
+        "family": "T-cell leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "J-Lat 11.1",
+        "family": "Jurkat",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK 293T",
+        "family": "Embryonic kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "relative quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +161,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 95,
+          "reason": "Data-dependent acquisition (DDA) on Fusion Lumos with relative quantification using iBAQ values (label-free) as described in the text and PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "iBAQ",
+        "relative quantification",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 95,
+          "reason": "Data-dependent acquisition (DDA) on Fusion Lumos with relative quantification using iBAQ values (label-free) as described in the text and PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "iBAQ",
+        "relative quantification",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:26:37Z"
   }
 }

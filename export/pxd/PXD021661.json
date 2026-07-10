@@ -3,66 +3,138 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMTproC (complementary ion quantification)",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "HeLa"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "inter-tissue comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "we prepared a sample of mixed HeLa lysate and Saccharomyces cerevisiae (yeast) lysate",
+          "Human peptides from HeLa cell lysate and yeast peptides from Saccharomyces cerevisiae lysate were both used for method optimization."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TMTpro",
+        "dose_or_concentration": "5:1 tag:peptide",
+        "duration": "2 hours",
+        "route_or_context": "isobaric labeling",
+        "evidence": [
+          "The TMTpro mixture was added at a mass ratio of 5:1 tag:peptide and allowed to react for 2 hours at room temperature."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "HeLa lysate"
+    ],
+    "case_arms": [
+      "Saccharomyces cerevisiae (yeast) lysate"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "back-to-back duplicates analyzed in 2-hour gradients"
+    ],
+    "multiplex_channel_hints": [
+      "eight channels",
+      "multiplexing is limited to five channels",
+      "increases complementary ion plexing capacity to eight channels"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "HeLa (1:1 ratio)",
+        "case_label": "Yeast (0:1:5:10:10:5:1:0 ratio)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "HeLa peptides were labelled with TMTpro in ratios of 1:1 in all eight channels, while yeast peptides were labelled in ratios of 0:1:5:10:10:5:1:0."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": "NEWT:4932",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cervical cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMTproC (complementary ion quantification)",
+      "TMTpro-MS2",
+      "TMTpro-MS3",
+      "RTS-SPS-MS3"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +143,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro isobaric tags for multiplexed quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tmtpro_complementary_ions",
+          "confidence": 1.0,
+          "reason": "The core of the paper is the 'TMTproC' method, which uses complementary ions (balancer group-peptide conjugates) instead of standard reporter ions for quantification."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTproC",
+        "complementary ion quantification",
+        "balancer group-peptide conjugates",
+        "TMTpro"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro isobaric tags for multiplexed quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tmtpro_complementary_ions",
+          "confidence": 1.0,
+          "reason": "The core of the paper is the 'TMTproC' method, which uses complementary ions (balancer group-peptide conjugates) instead of standard reporter ions for quantification."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTproC",
+        "complementary ion quantification",
+        "balancer group-peptide conjugates",
+        "TMTpro"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:04:53Z"
   }
 }

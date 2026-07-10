@@ -3,28 +3,61 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "human hepatocarcinoma cells",
-      "thyroid tissues"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HepG2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "intact N-glycopeptide enrichment",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "plasma from prostate cancer (PCa) patients",
+          "urine from immunoglobulin A nephropathy (IgAN) patients",
+          "thyroid tissues from thyroid cancer (TC) patients"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "inter-tissue comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "complex clinical samples (e.g., plasma, urine, cells, and tissues)",
+          "plasma from prostate cancer (PCa) patients, urine from immunoglobulin A nephropathy (IgAN) patients, human hepatocarcinoma cell line (HepG2), and thyroid tissues from thyroid cancer (TC) patients"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +66,93 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "prostate cancer (PCa) plasma",
+      "immunoglobulin A nephropathy (IgAN) urine",
+      "HepG2 cells",
+      "thyroid cancer (TC) tissues"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each sample was detected in three technical replicates for every MS/MS dissociation method."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "previous dissociation methods",
+        "case_label": "EThcD-sceHCD",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "we compared the performance of EThcD-sceHCD with those previous approaches (EThcD, sceHCD, HCD-pd-ETD, and sceHCD-pd-ETD)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HepG2",
+        "family": "human hepatocarcinoma",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "urine",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "thyroid tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "intact N-glycopeptide enrichment",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +160,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos; no labeling (SILAC/Isobaric) is mentioned, implying label-free quantification or identification-focused analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_intact_n_glycan",
+          "confidence": 1.0,
+          "reason": "The study specifically focuses on the identification and characterization of intact N-glycopeptides using Zic-HILIC enrichment and specialized fragmentation (EThcD, sceHCD)."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-glycopeptide",
+        "Zic-HILIC",
+        "EThcD",
+        "sceHCD",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos; no labeling (SILAC/Isobaric) is mentioned, implying label-free quantification or identification-focused analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_intact_n_glycan",
+          "confidence": 1.0,
+          "reason": "The study specifically focuses on the identification and characterization of intact N-glycopeptides using Zic-HILIC enrichment and specialized fragmentation (EThcD, sceHCD)."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-glycopeptide",
+        "Zic-HILIC",
+        "EThcD",
+        "sceHCD",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +234,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:46:44Z"
   }
 }

@@ -3,63 +3,135 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "molecular state comparison"
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      "Rosetta 2 (DE3)"
+    ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "ptm_or_activation_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "PTM or activation molecular state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "Identification of phosphorylation sites on Mad1CTD and Mad1:C-Mad2 was performed at the MRC-LMB mass spectrometry facility.",
+          "Purified complexes of the tetrameric Mad1485\u2013718:C-Mad2 (using Mad2R133A) complex, as well as the unphosphorylated and phosphorylated hexameric Mad1485\u2013718:C-Mad2:O-Mad2 complexes (with O-Mad2 being the Mad2LL mutant described earlier) were cross-linked following the published IGX-MS workflow."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Mps1 kinase",
+        "dose_or_concentration": null,
+        "duration": "3.5 h",
+        "route_or_context": "in vitro phosphorylation",
+        "evidence": [
+          "Mad1 and GST-Mps1 were mixed at a 5:1 ratio and incubated at 28 \u00b0C for 3.5 h before removing the phosphorylation buffer and GST-Mps1 from Mad1 by size-exclusion chromatography."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "unphosphorylated Mad1:C-Mad2 tetramer",
+      "unphosphorylated Mad1:C-Mad2:O-Mad2 hexamer"
+    ],
+    "case_arms": [
+      "phosphorylated Mad1:C-Mad2:O-Mad2 hexamer"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "cross-linked (in triplicates) with 1.5 mM DSS"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unphosphorylated",
+        "case_label": "phosphorylated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "unphosphorylated and phosphorylated hexameric Mad1485\u2013718:C-Mad2:O-Mad2 complexes"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Rosetta 2 (DE3)",
+        "family": "E. coli",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +139,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent analysis (DDA) was used on an Orbitrap Exploris 480 for peptide identification and cross-link mapping."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_cxms",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as in-gel cross-linking mass spectrometry (IGX-MS) using DSS and BS3 reagents, analyzed with pLink2."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass spectrometry",
+        "IGX-MS",
+        "DSS",
+        "BS3",
+        "pLink2",
+        "cross-linked peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent analysis (DDA) was used on an Orbitrap Exploris 480 for peptide identification and cross-link mapping."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_cxms",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as in-gel cross-linking mass spectrometry (IGX-MS) using DSS and BS3 reagents, analyzed with pLink2."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass spectrometry",
+        "IGX-MS",
+        "DSS",
+        "BS3",
+        "pLink2",
+        "cross-linked peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:51Z"
   }
 }

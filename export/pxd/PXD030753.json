@@ -3,66 +3,151 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations",
-      "Viral Infection"
+      "infection exposure"
     ],
     "cell_types": [
-      "macrophages",
-      "endothelial cells"
+      "endothelial cells",
+      "alveolar epithelial cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection_exposure",
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection_exposure",
+          "live_pathogen_infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "we profiled the cytosol of endothelial cells after LoC infection for changes in highly expressed proteins by mass spectrometry.",
+          "Analysis of the mass spectrometry data identified differences in the abundance of 75 proteins at 3 days after infection"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SARS-CoV-2",
+        "dose_or_concentration": "400\u2013600 PFU",
+        "duration": null,
+        "route_or_context": "lung-on-chip (LoC) model",
+        "evidence": [
+          "an infectious dose of 400\u2013600 PFU in a volume of 30\u2009\u00b5l. This volume was then added to the apical channel of each LoC",
+          "we profiled the cytosol of endothelial cells after LoC infection for changes in highly expressed proteins by mass spectrometry."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "3 days",
+        "route_or_context": "post-infection",
+        "evidence": [
+          "Analysis of the mass spectrometry data identified differences in the abundance of 75 proteins at 3 days after infection"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "3 days"
+    ],
+    "control_arms": [
+      "uninfected"
+    ],
+    "case_arms": [
+      "SARS-CoV-2 infected"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Replicate time-course data can be compared allowing for variability both within and between time points."
+    ],
+    "multiplex_channel_hints": [
+      "labelled with 3\u2009\u00b5l of isobaric tags (TMT 20\u2009\u00b5g\u2009\u03bcl\u22121 in pure acetonitrile)",
+      "The SL normalization assumes that total protein abundances are equal across the TMT channels"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "SARS-CoV-2 infected",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "Analysis of the mass spectrometry data identified differences in the abundance of 75 proteins at 3 days after infection",
+          "Time-course analysis confirmed a steady increase in altered expression of proteins linked to mitochondrial metabolism"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "endothelial cells",
+        "rollup_category": "vascular cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "alveolar epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT",
+      "Sample loading (SL) normalization",
+      "Trimmed mean of M-values (TMM) normalization"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +156,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes the use of TMT isobaric tags, data-dependent acquisition (DDA) mode, and HCD fragmentation."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "isobaric tags",
+        "data-dependent acquisition",
+        "HCD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes the use of TMT isobaric tags, data-dependent acquisition (DDA) mode, and HCD fragmentation."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "isobaric tags",
+        "data-dependent acquisition",
+        "HCD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "time_anchored",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:42:55Z"
   }
 }

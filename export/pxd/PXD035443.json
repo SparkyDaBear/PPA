@@ -3,78 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "normal mammary epithelial cells",
-      "breast cancer cells"
+      "mammary epithelial cells"
     ],
     "cell_lines": [
-      "HMEC",
       "T-47D",
-      "MDA-MB-231",
-      "MDA-MB-157",
-      "BT-549",
-      "HCC1143",
-      "Hs 578T",
-      "MCF7",
-      "SK-BR-3",
-      "BT-474"
+      "HMEC"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "N-terminal proteome analyses in HMEC and T-47D cells following ATE1 knockdown",
+          "Quantitative profiling of the canonical N-terminal peptides revealed substantial changes upon knockdown."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATE1 knockdown (siRNA/shRNA)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "T-47D and HMEC cell lines",
+        "evidence": [
+          "N-terminal proteome analyses in HMEC and T-47D cells following ATE1 knockdown"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "Control (non-knockdown)"
+    ],
+    "case_arms": [
+      "ATE1 knockdown"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "ATE1 knockdown",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Quantitative profiling of the canonical N-terminal peptides revealed substantial changes upon knockdown."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "mammary epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "T-47D",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HMEC",
+        "family": "normal human mammary epithelial cell",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification",
+      "spectral count"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -82,10 +152,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive mass spectrometer with MS1 intensity-based label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes 'N-terminal proteomic analysis', 'N-terminal peptide enrichment', and the use of 'R-catcher' to enrich N-terminally arginylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "N-terminal proteomic analysis",
+        "N-terminomics",
+        "R-catcher",
+        "iNrich",
+        "N-terminal peptides",
+        "Nt-arginylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive mass spectrometer with MS1 intensity-based label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes 'N-terminal proteomic analysis', 'N-terminal peptide enrichment', and the use of 'R-catcher' to enrich N-terminally arginylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "N-terminal proteomic analysis",
+        "N-terminomics",
+        "R-catcher",
+        "iNrich",
+        "N-terminal peptides",
+        "Nt-arginylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -106,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:53:50Z"
   }
 }

@@ -3,34 +3,65 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "tumor-infiltrating lymphocytes",
-      "normal human tissues"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "neuroblastoma",
-      "Ewing sarcoma",
-      "osteosarcoma",
-      "rhabdomyosarcoma",
-      "TC32",
-      "SAOS2"
+      "U2OS",
+      "SAOS2",
+      "TC32"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we performed immunopeptidome (HLA-Ligandome) analysis using MHC class I immunoprecipitation (IP), peptide elution, and identification using LC-MS/MS on HLA*A2:01 positive cell lines. We focused on OS and EWS"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Osteosarcoma (OS)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines",
+        "evidence": [
+          "We focused on OS and EWS as these are among the most common pediatric sarcomas"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Ewing sarcoma (EWS)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines",
+        "evidence": [
+          "We focused on OS and EWS as these are among the most common pediatric sarcomas"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -38,38 +69,86 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "Osteosarcoma",
+      "Ewing sarcoma"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Normal/Baseline",
+        "case_label": "Osteosarcoma/Ewing Sarcoma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Integration of our transcriptomic and immunopeptidomic analyses revealed high-affinity peptides derived from tumor-associated genes"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "U2OS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "SAOS2",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "TC32",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +156,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Q-Exactive HF. While no specific labeling is mentioned, the goal was profiling the HLA peptidome, typically handled via LFQ or spectral counting in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes an 'immunopeptidomics approach' involving MHC class I immunoprecipitation and elution of HLA-associated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA-associated peptides",
+        "MHC class I bound peptides",
+        "no enzyme digestion",
+        "de novo sequencing"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Q-Exactive HF. While no specific labeling is mentioned, the goal was profiling the HLA peptidome, typically handled via LFQ or spectral counting in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes an 'immunopeptidomics approach' involving MHC class I immunoprecipitation and elution of HLA-associated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA-associated peptides",
+        "MHC class I bound peptides",
+        "no enzyme digestion",
+        "de novo sequencing"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,6 +230,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:36Z"
   }
 }

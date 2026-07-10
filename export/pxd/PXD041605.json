@@ -2,15 +2,13 @@
   "pxd": "PXD041605",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "Unknown",
+    "quantification_method": "isotopic dimethyl labeling",
     "labeling_strategy": [
       "Dimethyl"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "human embryonic stem cells"
@@ -19,13 +17,30 @@
       "H1",
       "H9"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we profile protein O-GlcNAcylation of the two pluripotency states by quantitative proteomics",
+          "we obtained the profiles of O-GlcNAcylated proteins in H9 primed hESC and H9-PXGL hESC via MS based-quantitative proteomics"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +48,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "primed hESCs"
+    ],
+    "case_arms": [
+      "naive hESCs"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "isotopic dimethyl labeling",
+      "DimethLys0/DimethNter0 (light label)",
+      "DimethLys4/DimethNter4 (heavy label)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "primed hESCs",
+        "case_label": "naive hESCs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we profile protein O-GlcNAcylation of the two pluripotency states by quantitative proteomics",
+          "we obtained the profiles of O-GlcNAcylated proteins in H9 primed hESC and H9-PXGL hESC via MS based-quantitative proteomics"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "human embryonic stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H1",
+        "family": "human embryonic stem cells",
+        "ontology_curie": null
+      },
+      {
+        "label": "H9",
+        "family": "human embryonic stem cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "isotopic dimethyl labeling"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +143,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'isotopic dimethyl labelling' and MaxQuant configuration 'DimethLys0/DimethNter0' and 'DimethLys4/DimethNter4'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 0.95,
+          "reason": "The experiment uses a specific chemical tagging strategy (GalNAz and alkynyl-biotin click chemistry) to enrich O-GlcNAcylated proteins prior to MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "O-GlcNAcylation",
+        "GalNAz",
+        "alkynyl-biotin",
+        "streptavidin-coated beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'isotopic dimethyl labelling' and MaxQuant configuration 'DimethLys0/DimethNter0' and 'DimethLys4/DimethNter4'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 0.95,
+          "reason": "The experiment uses a specific chemical tagging strategy (GalNAz and alkynyl-biotin click chemistry) to enrich O-GlcNAcylated proteins prior to MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "O-GlcNAcylation",
+        "GalNAz",
+        "alkynyl-biotin",
+        "streptavidin-coated beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:23Z"
   }
 }

@@ -3,66 +3,152 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "cell state or interaction comparison"
     ],
-    "cell_types": [
-      "HeLa S3"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa S3"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell state or interaction comparison",
+          "activation or differentiation state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we combined microarray, PUNCH-P and total proteome measurements in a HeLa cell cycle model to characterize the dynamic relationship between the transcriptome, translatome and proteome",
+          "cells were synchronized to G1, S and G2/M phases of the cell cycle using double thymidine block"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "thymidine",
+        "dose_or_concentration": "2 mM",
+        "duration": "19 h, 18 h",
+        "route_or_context": "double-thymidine block for cell synchronization",
+        "evidence": [
+          "For double-thymidine block, cells were treated with 2 mM thymidine for 19 h, released from G1/S block in fresh DMEM for 9 h, treated again with 2 mM thymidine for 18 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "2h",
+      "8.5h",
+      "14h"
+    ],
+    "control_arms": [
+      "G1"
+    ],
+    "case_arms": [
+      "S",
+      "G2/M"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "triplicate measurements of the transcriptome (Affymetrix microarray), translatome (PUNCH-P) and proteome (MS; this study)",
+      "Means were calculated from a minimum of 2 replicates."
+    ],
+    "multiplex_channel_hints": [
+      "The label free quantification algorithm was used for data normalization"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "G1",
+        "case_label": "S",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "reflecting the transition from G1 to S-phase"
+        ]
+      },
+      {
+        "control_label": "S",
+        "case_label": "G2/M",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "S-phase to mitosis"
+        ]
+      },
+      {
+        "control_label": "G2/M",
+        "case_label": "G1",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "mitosis to G1"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa S3",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "LFQ",
+      "iBAQ",
+      "TOP3"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +157,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states MS analysis was performed in a data dependent mode (DDA) and used the label free quantification (LFQ) algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data dependent mode",
+        "label free quantification",
+        "LFQ algorithm",
+        "top 10 method"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states MS analysis was performed in a data dependent mode (DDA) and used the label free quantification (LFQ) algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data dependent mode",
+        "label free quantification",
+        "LFQ algorithm",
+        "top 10 method"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "time_anchored",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:36:35Z"
   }
 }

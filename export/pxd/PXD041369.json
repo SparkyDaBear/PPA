@@ -2,69 +2,224 @@
   "pxd": "PXD041369",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "DIA",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Genetic Perturbations"
+      "ligand-mediated stimulation",
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "human lung epithelial cells"
+      "lung epithelial cells"
     ],
     "cell_lines": [
       "A549"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "pathogen_mimic_stimulation",
+        "matched_class_path": [
+          "ligand-mediated stimulation",
+          "pathogen-mimic stimulation"
+        ],
+        "matched_definition": "Stimulation using pathogen-associated molecules (for example LPS, poly(I:C)).",
+        "confidence": "high",
+        "evidence": [
+          "A549 cells were transfected with poly(I:C) (HMW, Invivogen, San Diego, CA, USA)",
+          "innate immune pathway activation by poly(I:C) transfection"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "A549 cells were pretreated with inhibitors at 10 \u00b5M or an equal volume of DMSO",
+          "inhibitors of kinases ATM, ATR, AMPK, and PLK1 reduced the induction of interferon-stimulated gene expression"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "siRNA depletion of these kinases did not validate findings with kinase inhibitors",
+          "SiGENOME SMARTpool siRNA pools targeting ATM (M-003201-04-0005), ATR (M-003202-05-0005), PLK1 (M-003290-01-0005), AMPKA1 (M-005027-02-0005), and non-targeting control (D-001206-13-20)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "poly(I:C)",
+        "dose_or_concentration": "0.5 \u00b5g/mL",
+        "duration": null,
+        "route_or_context": "transfection",
+        "evidence": [
+          "cells were transfected with poly(I:C)/Lyovec (HMW, Invivogen) at 0.5 \u00b5g/mL concentration"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "kinase inhibitors",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": "1 h",
+        "route_or_context": "pretreatment",
+        "evidence": [
+          "A549 cells were pretreated with inhibitors at 10 \u00b5M or an equal volume of DMSO in biological triplicate. Then, 1 h after inhibitor treatment, cells were transfected with poly(I:C)"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "poly(I:C)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-transfection",
+        "evidence": [
+          "Transfected plates were lysed at 5 min, 30 min, 2 h, and 24 h post-transfection"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "5 min",
+      "30 min",
+      "2 h",
+      "24 h"
+    ],
+    "control_arms": [
+      "untransfected negative control",
+      "DMSO",
+      "non-targeting control siRNA"
+    ],
+    "case_arms": [
+      "poly(I:C) transfected",
+      "kinase inhibitor treated",
+      "siRNA depleted"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "biological triplicate"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untransfected",
+        "case_label": "poly(I:C) transfected",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "All time points were compared to an untransfected control harvested at the 5-min time point."
+        ]
+      },
+      {
+        "control_label": "DMSO + poly(I:C)",
+        "case_label": "Inhibitor + poly(I:C)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We compared the intensities of the ISGs in untreated cells to cells transfected with poly(I:C) and treated with DMSO or two concentrations of each of these inhibitors"
+        ]
+      },
+      {
+        "control_label": "non-targeting siRNA",
+        "case_label": "kinase-targeting siRNA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "All conditions were compared to untreated cells transfected with a non-targeting control siRNA pool."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A549",
+        "family": "lung epithelial",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +227,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Data-independent analysis (DIA) was performed on all individual samples' and uses Spectronaut for intensity extraction."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "DDA was used specifically to build the spectral libraries for the DIA analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly performs 'quantitative proteome and phosphoproteome analysis' and describes 'phosphopeptide enriched pooled samples'."
+        }
+      ],
+      "trigger_keywords": [
+        "Data-independent analysis",
+        "DIA",
+        "phosphoproteomics",
+        "spectral library",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Data-independent analysis (DIA) was performed on all individual samples' and uses Spectronaut for intensity extraction."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "DDA was used specifically to build the spectral libraries for the DIA analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly performs 'quantitative proteome and phosphoproteome analysis' and describes 'phosphopeptide enriched pooled samples'."
+        }
+      ],
+      "trigger_keywords": [
+        "Data-independent analysis",
+        "DIA",
+        "phosphoproteomics",
+        "spectral library",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +311,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:52:13Z"
   }
 }

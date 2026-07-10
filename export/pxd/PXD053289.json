@@ -3,65 +3,161 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [
       "OVCAR3"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "MUC16 is found in serum but is not frequently detected with mass spectrometry because of its high dilution.",
+          "Serum CA125 levels can range from below 35 U mL\u22121 in healthy individuals to over 10,000 U mL\u22121 in patients with ovarian cancer."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MUC16 (CA125)",
+        "dose_or_concentration": "30\u201330,000 U mL\u22121",
+        "duration": null,
+        "route_or_context": "spiked into plasma-derived serum",
+        "evidence": [
+          "can enrich CA125 across concentration ranges spanning clinically relevant values (30\u201330,000 U mL\u22121)",
+          "Filtered plasma-derived serum was spiked with MUC16 from the conditioned cell media of OVCAR3 cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "non-enriched serum",
+      "SEC alone"
+    ],
+    "case_arms": [
+      "SEC enrichment",
+      "SEC and Top 14 depletion"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "duplicate digestions",
+      "two biological replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-enriched serum",
+        "case_label": "SEC enriched serum",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MUC16 peptides were detected in all samples processed using SEC. This is in contrast with the results from samples not enriched by SEC in which no MUC16 peptides were detected"
+        ]
+      },
+      {
+        "control_label": "SEC alone",
+        "case_label": "SEC + Top 14 depletion",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A sample containing 11 U CA125 that underwent SEC and Top 14 protein depletion resulted in 4\u201311 identified peptides, whereas a sample that underwent SEC alone but contained a similar CA125 amount resulted in 1\u20132 identified peptides."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "OVCAR3",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "ascites",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "MUC16 enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "abundant protein depletion",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +165,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Eclipse and performed bottom-up proteomics. While explicit LFQ software isn't named, the goal was to correlate peptide counts with CA125 levels, implying label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "bottom-up proteomics",
+        "data-dependent mode",
+        "Orbitrap Eclipse",
+        "SEQUEST"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Eclipse and performed bottom-up proteomics. While explicit LFQ software isn't named, the goal was to correlate peptide counts with CA125 levels, implying label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "bottom-up proteomics",
+        "data-dependent mode",
+        "Orbitrap Eclipse",
+        "SEQUEST"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +225,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:07:36Z"
   }
 }

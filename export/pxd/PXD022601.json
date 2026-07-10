@@ -3,74 +3,137 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "Caco-2",
-      "DLD1",
-      "HCT116",
-      "HeLa"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "Caco-2",
-      "DLD1",
-      "HCT116",
-      "HeLa",
       "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "we carried out BioID proximity labeling coupled with mass spectrometry (MS) to identify GIV/GIV-L-interacting proteins",
+          "HEK293T were plated 24 h prior to transfection with mycBirA-tagged GIV construct",
+          "MS identification and gene ontology analysis (via protein domain) of the biotinylated proteins in HEK293T revealed PDZ proteins were proximity labeled by GIV-L, but not by GIV"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "biotin",
+        "dose_or_concentration": "50 \u23a7M",
+        "duration": "16 h",
+        "route_or_context": "culture media",
+        "evidence": [
+          "Thirty hours post transfection, cells were treated with 50 \u23a7M biotin (dissolved in culture media) for 16 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "GIV"
+    ],
+    "case_arms": [
+      "GIV-L"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "GIV",
+        "case_label": "GIV-L",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteins identified by MS in biotin-treated samples, but not in non-biotin-treated samples, were analyzed using DAVID.",
+          "MS identification and gene ontology analysis (via protein domain) of the biotinylated proteins in HEK293T revealed PDZ proteins were proximity labeled by GIV-L, but not by GIV"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +141,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos and explicitly performed label-free quantification (LFQ) using Peaks Studio 8.5."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid_proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The study explicitly used BioID proximity labeling with mycBirA-tagged GIV constructs and streptavidin magnetic bead enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "proximity labeling",
+        "label-free quantification",
+        "data dependent scans",
+        "streptavidin magnetic beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos and explicitly performed label-free quantification (LFQ) using Peaks Studio 8.5."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid_proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The study explicitly used BioID proximity labeling with mycBirA-tagged GIV constructs and streptavidin magnetic bead enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "proximity labeling",
+        "label-free quantification",
+        "data dependent scans",
+        "streptavidin magnetic beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:43:12Z"
   }
 }

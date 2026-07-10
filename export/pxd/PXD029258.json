@@ -3,26 +3,64 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells and performed immunoprecipitation (IP) against FLAG. The immunoprecipitated products were then analyzed by mass spectrometry (MS)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FLAG-PHF20",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression in U2OS cells",
+        "evidence": [
+          "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FLAG-PHF20L1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression in U2OS cells",
+        "evidence": [
+          "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -30,38 +68,83 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "FLAG-PHF20",
+      "FLAG-PHF20L1"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "All experiments were performed at least in duplicates to confirm the results."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "FLAG-PHF20",
+        "case_label": "FLAG-PHF20L1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "our IP\u2013MS results show that both PHF20 and PHF20L1 are associated with KAT8 and all known subunits of the NSL complex... However, PHF20 and PHF20L1 are not associated with each other, indicating that two different NSL complexes might exist: one with PHF20 and one with PHF20L1."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "U2OS",
+        "family": "osteosarcoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +152,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no specific labeling (SILAC/TMT) is mentioned, the use of AP-MS for complex identification typically follows a label-free quantification (LFQ) or spectral counting approach for comparing interactomes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags to identify NSL complex members."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "top speed data-dependent acquisition",
+        "IP-MS",
+        "Affinity purification",
+        "FLAG-tagged",
+        "HA-tagged"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no specific labeling (SILAC/TMT) is mentioned, the use of AP-MS for complex identification typically follows a label-free quantification (LFQ) or spectral counting approach for comparing interactomes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags to identify NSL complex members."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "top speed data-dependent acquisition",
+        "IP-MS",
+        "Affinity purification",
+        "FLAG-tagged",
+        "HA-tagged"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:03:45Z"
   }
 }

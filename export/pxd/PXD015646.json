@@ -3,15 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection",
-      "Disease"
+      "infection exposure",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "macrophage"
@@ -19,53 +17,194 @@
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection_exposure",
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection_exposure",
+          "live_pathogen_infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "THP-1 cells were infected with BCG-GFP, alive or heat-killed",
+          "immunopeptidomic based identification of peptides presented by MHC-I and MHC-II in macrophages infected with M. bovis BCG"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_mediated_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_mediated_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "we stimulated cells with a cytokine mix to induce higher MHC class-II presentation",
+          "Cytokine treatments included 50 ng/mL IFN\u03b3, 50 ng/mL TNF\u03b1 (both from Immuno Tools, Germany) and 1 \u03bcg/mL anti-IL10"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "M. bovis BCG (BCG-GFP)",
+        "dose_or_concentration": "MOI of 10",
+        "duration": "4 h",
+        "route_or_context": "in vitro infection of THP-1 macrophages",
+        "evidence": [
+          "THP-1 cells were infected with BCG-GFP, alive or heat-killed, at a Multiplicity of Infection (MOI) of 10",
+          "for 4 h at 37 \u00b0C with 5% CO2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "cytokine cocktail (IFN\u03b3, TNF\u03b1, anti-IL10)",
+        "dose_or_concentration": "50 ng/mL IFN\u03b3, 50 ng/mL TNF\u03b1, 1 \u03bcg/mL anti-IL10",
+        "duration": null,
+        "route_or_context": "pre-treatment of THP-1 cells",
+        "evidence": [
+          "Cytokine treatments included 50 ng/mL IFN\u03b3, 50 ng/mL TNF\u03b1 (both from Immuno Tools, Germany) and 1 \u03bcg/mL anti-IL10"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "1 or 7 days",
+        "route_or_context": "post-infection harvest",
+        "evidence": [
+          "One or 7 days post-infection, cells were harvested, lysed and total proteins collected"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "1 day post-infection",
+      "7 days post-infection"
+    ],
+    "control_arms": [
+      "uninfected",
+      "heat-killed BCG-GFP (HK-BCG)",
+      "untreated"
+    ],
+    "case_arms": [
+      "live BCG-GFP",
+      "cytokine cocktail stimulated"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "three samples in each of these groups"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected/untreated",
+        "case_label": "live BCG-GFP infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The three samples in each of these groups were then infected with live BCG-GFP, treated with HK-BCG or left uninfected."
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "cytokine cocktail stimulated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "three of which were stimulated with cytokine cocktail containing IFN\u03b3 to improve MHC-II expression and anti-IL10... and three of which were left untreated."
+        ]
+      },
+      {
+        "control_label": "live BCG-GFP",
+        "case_label": "heat-killed BCG-GFP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "THP-1 cells were infected with BCG-GFP, alive or heat-killed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mycobacterium bovis",
+        "taxonomy_hint": "1763",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000235"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +212,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (TopSpeed mode on Orbitrap Fusion Lumos) and identifies peptides without explicit labeling (LFQ-like), though it is primarily a discovery-based immunopeptidomics study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Explicitly described as an immunopeptidomics pipeline involving MHC class-I and class-II immunoprecipitation and no-enzyme search."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "MHC class-I",
+        "MHC class-II",
+        "no enzyme specificity",
+        "HLA-bound peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (TopSpeed mode on Orbitrap Fusion Lumos) and identifies peptides without explicit labeling (LFQ-like), though it is primarily a discovery-based immunopeptidomics study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Explicitly described as an immunopeptidomics pipeline involving MHC class-I and class-II immunoprecipitation and no-enzyme search."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "MHC class-I",
+        "MHC class-II",
+        "no enzyme specificity",
+        "HLA-bound peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +286,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:29:01Z"
   }
 }

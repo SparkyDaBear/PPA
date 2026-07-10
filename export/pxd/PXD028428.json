@@ -3,25 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "dimethyl-based heavy/light quantitation",
     "labeling_strategy": [
       "Dimethyl"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "clear cell renal cell carcinoma tumor",
-      "normal adjacent tissue"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we performed a comprehensive quantitative phosphoproteomics characterization of ccRCC tumor and normal adjacent tissues",
+          "To determine significantly regulated phosphopeptides between tumor and normal tissues, one-sample Wilcoxon signed-rank test (p-value <0.05) was employed on the median log2 tumor/normal ratios."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +44,88 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal adjacent tissue (NAT)"
+    ],
+    "case_arms": [
+      "ccRCC tumor"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Phospho-enriched samples were analyzed as triplicates",
+      "13 patients"
+    ],
+    "multiplex_channel_hints": [
+      "dimethylation-based quantitative phosphoproteomics",
+      "labeled at their primary amines (N terminus and lysine residues) with heavy and light dimethyl isotopes",
+      "labeling was swapped for half of the patient samples"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal adjacent tissue",
+        "case_label": "ccRCC tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "600 phosphopeptides to be significantly differentially regulated between tumor and normal tissues"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "ccRCC tumor",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "normal adjacent tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "dimethyl-based heavy/light quantitation"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +133,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'dimethylation-based quantitative phosphoproteomics analysis' and '2plex dimethyl-based heavy/light quantitation method'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Used TiO2-MOAC (metal oxide affinity chromatography) for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethylation",
+        "TiO2",
+        "phosphoproteomics",
+        "heavy and light dimethyl isotopes"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "Explicitly states 'dimethylation-based quantitative phosphoproteomics analysis' and '2plex dimethyl-based heavy/light quantitation method'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Used TiO2-MOAC (metal oxide affinity chromatography) for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethylation",
+        "TiO2",
+        "phosphoproteomics",
+        "heavy and light dimethyl isotopes"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +205,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:34:20Z"
   }
 }

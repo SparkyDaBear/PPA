@@ -3,68 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion intensity",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
       "malignant cell"
     ],
     "cell_lines": [
-      "OVCAR8",
-      "OVCAR4"
+      "OVCAR8"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "CRISPR\u2013Cas9-mediated knockout of L1CAM in ovarian cancer OVCAR8 and OVCAR4 cells",
+          "The knockout (\u0394L1CAM) and control (\u0394AAVS1) cells were generated using CRISPR\u2013Cas9 gene-editing technology"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "L1CAM",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9 knockout",
+        "evidence": [
+          "CRISPR\u2013Cas9-mediated knockout of L1CAM in ovarian cancer OVCAR8 and OVCAR4 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "\u0394AAVS1"
+    ],
+    "case_arms": [
+      "\u0394L1CAM"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicates per condition"
+    ],
+    "multiplex_channel_hints": [
+      "TMT 18-plex reagent",
+      "TMT-channel"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "\u0394AAVS1",
+        "case_label": "\u0394L1CAM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identified and quantified the abundance of 24,072 phosphopeptides by phosphoproteomics (Figure 2A) and 7483 protein groups by proteomics analysis (Figure 2B) in \u0394L1CAM OVCAR8 cells in comparison to \u0394AAVS1 (L1CAM+) OVCAR8 control cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "malignant cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "CL:0001064"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "OVCAR8",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +149,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT 18-plex labeling and data-dependent acquisition (DDA) on an Orbitrap Exploris 480."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses Ti-IMAC HP MagBeads for phosphopeptide enrichment and reports a specific phosphoproteomics dataset."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 18-plex",
+        "Ti-IMAC",
+        "phosphoproteomics",
+        "DDA",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT 18-plex labeling and data-dependent acquisition (DDA) on an Orbitrap Exploris 480."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses Ti-IMAC HP MagBeads for phosphopeptide enrichment and reports a specific phosphoproteomics dataset."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 18-plex",
+        "Ti-IMAC",
+        "phosphoproteomics",
+        "DDA",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +223,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:09:00Z"
   }
 }

@@ -3,22 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "Subjects were selected from among regular plasma donors of Access Biologicals.",
+          "Subjects were considered healthy since they were from qualified plasma donor participants."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell state or interaction comparison",
+          "activation or differentiation state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old).",
+          "Among all biological factors analyzed in the study, we closely examined age-related markers."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +62,83 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "young (18\u201322 years old)"
+    ],
+    "case_arms": [
+      "aged (55\u201365 years old)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "At least three technical replicates of each of the undiluted samples, their two dilutions, and the buffer were tested",
+      "technical CV was calculated using duplicates of eight samples",
+      "technical CV was calculated using four samples with four technical replicates each"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "young",
+        "case_label": "aged",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old).",
+          "Among all biological factors analyzed in the study, we closely examined age-related markers."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ",
+      "Robust LC (high precision)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "nanoparticle-based enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +146,84 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Multiple MS workflows (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification (MaxLFQ/Robust LC)."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "Mention of bottom-up approach, though specific acquisition for discovery was DIA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "nanoparticle_enrichment",
+          "confidence": 0.9,
+          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins."
+        },
+        {
+          "modifier_workflow_id": "hap_depletion",
+          "confidence": 0.9,
+          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (Agilent) for high-abundance protein depletion."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "Data-Independent Acquisition",
+        "nanoparticle",
+        "depletion",
+        "MaxLFQ",
+        "DIA-NN",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Multiple MS workflows (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification (MaxLFQ/Robust LC)."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "Mention of bottom-up approach, though specific acquisition for discovery was DIA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "nanoparticle_enrichment",
+          "confidence": 0.9,
+          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins."
+        },
+        {
+          "modifier_workflow_id": "hap_depletion",
+          "confidence": 0.9,
+          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (Agilent) for high-abundance protein depletion."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "Data-Independent Acquisition",
+        "nanoparticle",
+        "depletion",
+        "MaxLFQ",
+        "DIA-NN",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +244,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:28:44Z"
   }
 }

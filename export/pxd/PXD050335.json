@@ -3,26 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Unclassified"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "immune cells",
-      "mesenchymal cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Fresh human intestinal resection tissues from Crohn\u2019s disease (CD) inflamed (N = 10) and CD non-inflamed (N = 9) specimens were collected",
+          "Non-IBD control patients (N = 9) were procured from multiple sources"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "compare immune and mesenchymal cell profiles and pathways in the mucosal and submucosa/wall compartments",
+          "we dissected mucosa away from submucosa/wall tissue segments from fresh clinical full-thickness resection samples"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,38 +62,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "non-IBD control",
+      "CD non-inflamed"
+    ],
+    "case_arms": [
+      "CD inflamed"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "CD inflamed (N = 10)",
+      "CD non-inflamed (N = 9)",
+      "Non-IBD control patients (N = 9)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-IBD control",
+        "case_label": "CD inflamed",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "From the proteomic data, we identified 592 differentially expressed proteins (DEPs, adjusted p-value < 0.05) in CD mucosa... compared to non-IBD normal controls, and 249 DEPs in CD submucosa/wall... compared to non-IBD normal controls"
+        ]
+      },
+      {
+        "control_label": "mucosa",
+        "case_label": "submucosa/wall",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare immune and mesenchymal cell profiles and pathways in the mucosal and submucosa/wall compartments"
+        ]
+      },
+      {
+        "control_label": "CD non-inflamed",
+        "case_label": "CD inflamed",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Inflamed samples were compared with non-inflamed samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "colon mucosa",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "colon submucosa/wall",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +158,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive Plus in 'top-15 data-dependent mode' (DDA) and quantified protein intensities using MaxQuant's proteinGroups.txt, which is characteristic of label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_isoform_search",
+          "confidence": 0.9,
+          "reason": "The authors explicitly performed a 'proteogenomic analysis to identify protein isoforms' using a 'sample-specific protein database from the RNA-seq data' via the customProDB R package."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "MaxQuant",
+        "protein intensities",
+        "proteogenomic analysis",
+        "protein isoforms",
+        "sample-specific protein database"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive Plus in 'top-15 data-dependent mode' (DDA) and quantified protein intensities using MaxQuant's proteinGroups.txt, which is characteristic of label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_isoform_search",
+          "confidence": 0.9,
+          "reason": "The authors explicitly performed a 'proteogenomic analysis to identify protein isoforms' using a 'sample-specific protein database from the RNA-seq data' via the customProDB R package."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "MaxQuant",
+        "protein intensities",
+        "proteogenomic analysis",
+        "protein isoforms",
+        "sample-specific protein database"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +234,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:00:11Z"
   }
 }

@@ -3,71 +3,228 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "disease or clinical state",
+      "molecular state comparison"
     ],
     "cell_types": [
-      "acute myeloid leukemia",
-      "lymphoma",
-      "multiple myeloma"
+      "blood cell",
+      "B cell"
     ],
     "cell_lines": [
-      "AML cell lines",
+      "acute myeloid leukemia cell lines",
       "lymphoma cell lines",
       "multiple myeloma cell lines"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "quantify 2,000 phosphorylation sites across three acute myeloid leukemia, three lymphoma, and three multiple myeloma cell lines",
+          "classified these cell lines according to their pathological origin, namely acute myeloid leukemia (AML), lymphoma, or multiple myeloma"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "mutation_defined_state",
+        "matched_class_key": "mutation_defined_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "mutation-defined molecular state"
+        ],
+        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "confidence": "medium",
+        "evidence": [
+          "classify cells according to their responses to kinase inhibitor treatment",
+          "identify phosphopeptides whose intensities across the cell lines correlated with the sensitivity to three inhibitors"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PI-103",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "72 h",
+        "route_or_context": "viability assay",
+        "evidence": [
+          "treated 24 h later with 1 \u03bcM PI-103 (Calbiochem cat # 528100)... for a further 72 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MEK inhibitor I (MEK-i)",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "72 h",
+        "route_or_context": "viability assay",
+        "evidence": [
+          "treated 24 h later with... 10 \u03bcM MEK inhibitor I (referred as MEK-i hereafter, Calbiochem cat # 444937)... for a further 72 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "JAK inhibitor (JAK-i)",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "72 h",
+        "route_or_context": "viability assay",
+        "evidence": [
+          "treated 24 h later with... 1 \u03bcM JAK inhibitor (referred as JAK-i hereafter, Calbiochem cat # 420099)... for a further 72 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "DMSO-treated control"
+    ],
+    "case_arms": [
+      "acute myeloid leukemia",
+      "lymphoma",
+      "multiple myeloma",
+      "PI-103 sensitive",
+      "PI-103 resistant",
+      "MEK-i sensitive",
+      "MEK-i resistant",
+      "JAK-i sensitive",
+      "JAK-i resistant"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "six biological replicates",
+      "Three biological replicates were analyzed on two separate occasions to give a total of six replicates per cell line"
+    ],
+    "multiplex_channel_hints": [
+      "label-free mass spectrometry (MS)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "AML",
+        "case_label": "Lymphoma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "principal component 1 (PC1) produced two clearly separated groups, one containing AML cell lines and another containing lymphoma and multiple myeloma cell lines"
+        ]
+      },
+      {
+        "control_label": "AML",
+        "case_label": "Multiple Myeloma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "principal component 2 (PC2) separated cells derived from lymphoma from those that originated from multiple myeloma"
+        ]
+      },
+      {
+        "control_label": "Sensitive",
+        "case_label": "Resistant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify phosphopeptides whose intensities across the cell lines correlated with the sensitivity to three inhibitors",
+          "fold changes (> 100 between the most resistant and sensitive cells)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "blood cell",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000081"
+      },
+      {
+        "label": "B cell",
+        "rollup_category": "lymphocyte",
+        "ontology_curie": "CL:0000236"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "acute myeloid leukemia cell lines",
+        "family": "AML",
+        "ontology_curie": null
+      },
+      {
+        "label": "lymphoma cell lines",
+        "family": "lymphoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "multiple myeloma cell lines",
+        "family": "multiple myeloma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "extracted ion chromatograms (XICs)",
+      "peak height and area"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +232,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free mass spectrometry (LFQ) with data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Phosphopeptides were enriched using Immobilized Metal Ion Affinity Chromatography (IMAC) with Fe(III) coated sepharose beads."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "IMAC",
+        "phosphoproteomics",
+        "data dependent manner",
+        "XIC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free mass spectrometry (LFQ) with data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Phosphopeptides were enriched using Immobilized Metal Ion Affinity Chromatography (IMAC) with Fe(III) coated sepharose beads."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "IMAC",
+        "phosphoproteomics",
+        "data dependent manner",
+        "XIC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +306,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:06:34Z"
   }
 }

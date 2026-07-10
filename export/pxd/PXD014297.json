@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Disease"
+      "anatomical or spatial comparison",
+      "disease or clinical state"
     ],
     "cell_types": [
       "cardiomyocytes"
@@ -18,12 +19,47 @@
       "UMGi014-A clone 2"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "inter-tissue comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "obtain candidate proteins that were differentially expressed between the atrial and ventricular samples",
+          "profile the proteomes of 17 atrial and 29 left ventricular myocardial FFPE human myocardial tissue samples from AVS-patients"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "To detect protein expression signatures related to aortic valve disease, a comparison to healthy heart tissue was necessary.",
+          "we selected potentially disease related proteins by comparing our results to published results from healthy human hearts."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,38 +67,99 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "healthy human hearts"
+    ],
+    "case_arms": [
+      "atrial myocardium (AVS)",
+      "ventricular myocardium (AVS)"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "Protein expression profiles of 46 specimen were analyzed in duplicates."
+    ],
+    "multiplex_channel_hints": [
+      "For SILAC quantification, multiplicity was set to two-channel (Lys + 0/Arg + 0, Lys + 8/Arg + 10) labeling."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "ventricular myocardium",
+        "case_label": "atrial myocardium",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "obtain candidate proteins that were differentially expressed between the atrial and ventricular samples"
+        ]
+      },
+      {
+        "control_label": "healthy hearts",
+        "case_label": "AVS hearts",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To detect protein expression signatures related to aortic valve disease, a comparison to healthy heart tissue was necessary."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cardiomyocytes",
+        "rollup_category": "heart cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "UMGi001-A clone 1",
+        "family": "iPSC",
+        "ontology_curie": null
+      },
+      {
+        "label": "UMGi014-A clone 2",
+        "family": "iPSC",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "atrial and ventricular myocardial FFPE human myocardial tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +168,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly describes the use of a SILAC-labeled protein quantification standard (iPSC-CMs) mixed with tissue lysates for relative quantification using DDA (Top30) on a Q Exactive HF-X."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "SILAC",
+        "stable isotope-labeled arginine and lysine",
+        "two-channel (Lys + 0/Arg + 0, Lys + 8/Arg + 10)",
+        "super-SILAC standard"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly describes the use of a SILAC-labeled protein quantification standard (iPSC-CMs) mixed with tissue lysates for relative quantification using DDA (Top30) on a Q Exactive HF-X."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "SILAC",
+        "stable isotope-labeled arginine and lysine",
+        "two-channel (Lys + 0/Arg + 0, Lys + 8/Arg + 10)",
+        "super-SILAC standard"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:46:34Z"
   }
 }

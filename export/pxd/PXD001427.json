@@ -3,66 +3,161 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Normalized Spectral Abundance Factor (NSAF)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "Cellular Compartment",
+      "Complex Composition"
     ],
     "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "Cellular Compartment",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "we carried out immunoprecipitations from HeLa cell cytoplasmic and nuclear extracts",
+          "MudPIT analysis of proteins co-precipitated with TAF2 from the nuclear fraction",
+          "MudPIT analysis of TAF2-associated proteins from the cytoplasmic fraction"
+        ]
+      },
+      {
+        "ontology_label": "Complex Composition",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "molecular_state"
+        ],
+        "matched_definition": "Comparison based on molecular context such as mutation, PTM, or complex assembly state.",
+        "confidence": "high",
+        "evidence": [
+          "transition from 7TAF to 8TAF complexes on TAF2 binding by crosslinking and MS (CLMS) experiments",
+          "We crosslinked 7TAF and 8TAF complexes"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TAF2",
+        "dose_or_concentration": "twofold molar excess",
+        "duration": null,
+        "route_or_context": "reconstitution of 8TAF from 7TAF",
+        "evidence": [
+          "8TAF complexes were reconstituted from purified 7TAF complexes by adding twofold molar excess of TAF2"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "cytoplasmic fraction",
+      "7TAF complex"
+    ],
+    "case_arms": [
+      "nuclear fraction",
+      "8TAF complex"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "cytoplasmic fraction",
+        "case_label": "nuclear fraction",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MudPIT analysis of proteins co-precipitated with TAF2 from the nuclear fraction",
+          "MudPIT analysis of TAF2-associated proteins from the cytoplasmic fraction"
+        ]
+      },
+      {
+        "control_label": "7TAF complex",
+        "case_label": "8TAF complex",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "transition from 7TAF to 8TAF complexes on TAF2 binding by crosslinking and MS (CLMS) experiments"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cervix carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Normalized Spectral Abundance Factor (NSAF)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity Purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +165,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses MudPIT with data-dependent acquisition (DDA) and relative quantification via Normalized Spectral Abundance Factor (NSAF), which is a label-free quantification (LFQ) approach based on spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_bs3",
+          "confidence": 0.95,
+          "reason": "The text explicitly describes CLMS analyses using the bifunctional reagent BS3 (Bis-sulfosuccinimidyl suberate) to map protein-protein interactions in 7TAF and 8TAF complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "MudPIT",
+        "NSAF",
+        "BS3",
+        "crosslinked peptides",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses MudPIT with data-dependent acquisition (DDA) and relative quantification via Normalized Spectral Abundance Factor (NSAF), which is a label-free quantification (LFQ) approach based on spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_bs3",
+          "confidence": 0.95,
+          "reason": "The text explicitly describes CLMS analyses using the bifunctional reagent BS3 (Bis-sulfosuccinimidyl suberate) to map protein-protein interactions in 7TAF and 8TAF complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "MudPIT",
+        "NSAF",
+        "BS3",
+        "crosslinked peptides",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +239,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:36:53Z"
   }
 }

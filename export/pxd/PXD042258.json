@@ -3,68 +3,234 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Radiation or Photostress",
-      "Genetic Perturbations"
+      "radiation or photostress",
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "B cell"
+      "Pre-B cells"
     ],
     "cell_lines": [
-      "HCT116"
+      "HCT116",
+      "Mouse Pre-B cells (Lig4\u2212/\u2212)"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": null,
+        "matched_class_key": "ionizing_radiation",
+        "matched_class_path": [
+          "radiation or photostress",
+          "ionizing_radiation"
+        ],
+        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "confidence": "high",
+        "evidence": [
+          "Cells were exposed to 20 Gy of gamma radiation (0.89 Gy/min) from a Cs-137 source.",
+          "G1-arrested cells were treated with 20 Gy of IR and then harvested 90 min later"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": null,
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "selective kinase inactivation using the DNA-PKcs inhibitor (DNA-PKi) NU7441 and the ATM inhibitor (ATMi) KU55933",
+          "comparing cells mock-treated or treated with DNA-PKcs inhibitor"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "gamma radiation (IR)",
+        "dose_or_concentration": "20 Gy",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "Cells were exposed to 20 Gy of gamma radiation (0.89 Gy/min) from a Cs-137 source."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "gamma radiation (IR)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "harvested 90 min after treatment",
+        "evidence": [
+          "Cells were harvested 90 min after the treatment."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NU7441 (DNA-PKcs inhibitor)",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "prior to IR treatment",
+        "evidence": [
+          "cells were incubated at 37 \u00b0C with 10 \u03bcM of ATM (KU-55933) and/or DNA-PKcs (NU7441) inhibitors for 1 h prior to IR treatment."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "KU-55933 (ATM inhibitor)",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "prior to IR treatment",
+        "evidence": [
+          "cells were incubated at 37 \u00b0C with 10 \u03bcM of ATM (KU-55933) and/or DNA-PKcs (NU7441) inhibitors for 1 h prior to IR treatment."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "90 min"
+    ],
+    "control_arms": [
+      "mock-treated",
+      "non-IR treated"
+    ],
+    "case_arms": [
+      "IR",
+      "IR + NU7441",
+      "IR + KU-55933",
+      "IR + NU7441 + KU-55933"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "reciprocal labeling"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC",
+      "light and heavy lysates"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-IR",
+        "case_label": "IR",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "2258 exhibited at least a 2-fold increase in abundance after IR treatment and were categorized as IR-induced."
+        ]
+      },
+      {
+        "control_label": "IR",
+        "case_label": "IR + DNA-PKi",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Inhibition of DNA-PKcs impaired 145 sites, which represents \u20397% of all the IR-induced phosphorylation sites"
+        ]
+      },
+      {
+        "control_label": "IR",
+        "case_label": "IR + ATMi",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Individual inhibition of ATM impaired 185 sites, which represents \u203919.5% of all the IR-induced phosphorylation sites"
+        ]
+      },
+      {
+        "control_label": "IR",
+        "case_label": "IR + DNA-PKi + ATMi",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Simultaneous inhibition of DNA-PKcs and ATM caused a reduction in 929 sites"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "NEWT:10090",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "Pre-B cells",
+        "rollup_category": "B cell",
+        "ontology_curie": "CL:0000236"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colorectal carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "Mouse Pre-B cells (Lig4\u2212/\u2212)",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +238,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicit mention of SILAC metabolic labeling (light and heavy isotopes of lysine and arginine) and data-dependent acquisition (DDA) on a Q-Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of Fe-NTA phosphopeptide enrichment and focus on phosphorylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomics",
+        "Fe-NTA",
+        "data-dependent mode",
+        "phosphopeptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicit mention of SILAC metabolic labeling (light and heavy isotopes of lysine and arginine) and data-dependent acquisition (DDA) on a Q-Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of Fe-NTA phosphopeptide enrichment and focus on phosphorylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomics",
+        "Fe-NTA",
+        "data-dependent mode",
+        "phosphopeptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +312,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:16:34Z"
   }
 }

@@ -3,22 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "evaluate differences and similarities between AD and age-matched elderly healthy controls (HC)",
+          "Twenty-four subjects affected by AD were recruited",
+          "Thirty-four volunteers were enrolled as healthy controls"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +45,99 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "HC",
+      "NEG"
+    ],
+    "case_arms": [
+      "AD"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three salivary pools were prepared",
+      "Four aliquots with 400 \u03bcg of total protein amount from both the AD and HC pools and two aliquots with 400 \u03bcg of total protein amount from the NEG pool were prepared for CoIP experiments",
+      "triplicate IPs analyzed under R conditions"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "HC",
+        "case_label": "AD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "evaluate differences and similarities between AD and age-matched elderly healthy controls (HC)",
+          "The comparison between AD or HC proteins\u2019 LFQ abundances was carried out with the two-sample student t-test"
+        ]
+      },
+      {
+        "control_label": "NEG",
+        "case_label": "AD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparison between AD or HC proteins\u2019 LFQ abundances with respect to NEG was carried out with the two-sample student t-test"
+        ]
+      },
+      {
+        "control_label": "NEG",
+        "case_label": "HC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparison between AD or HC proteins\u2019 LFQ abundances with respect to NEG was carried out with the two-sample student t-test"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "saliva",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification mass spectrometry",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +145,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive Plus and performed label-free quantification (LFQ) using Proteome Discoverer."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses an affinity purification mass spectrometry (AP-MS) approach via co-immunoprecipitation (CoIP) of cystatin B."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "AP-MS",
+        "label free quantification",
+        "DDA",
+        "bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive Plus and performed label-free quantification (LFQ) using Proteome Discoverer."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses an affinity purification mass spectrometry (AP-MS) approach via co-immunoprecipitation (CoIP) of cystatin B."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "AP-MS",
+        "label free quantification",
+        "DDA",
+        "bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:05:12Z"
   }
 }

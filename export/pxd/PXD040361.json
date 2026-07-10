@@ -3,67 +3,156 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT10plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Nutrient or Metabolic Perturbation",
-      "Genetic Perturbations",
-      "Disease"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
-      "colorectal cancer cells"
+      "epithelial cell"
     ],
     "cell_lines": [
       "HCT116"
     ],
     "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_deprivation",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient or metabolic perturbation",
+          "nutrient deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "high",
+        "evidence": [
+          "Five paired samples of conditioned medium... were collected over a 24-h period from glutamine-depleted and glutamine-replete HCT116 cells",
+          "Reduced glutamine levels suppress signalling by the nutrient-sensitive mTORC1 kinase complex, which induces elevated secretion of Rab11a-exosomes"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "L-glutamine",
+        "dose_or_concentration": "0.15 mM (depleted) vs 2.00 mM (replete)",
+        "duration": "24 h",
+        "route_or_context": "cell culture medium",
+        "evidence": [
+          "For glutamine depletion experiments, cells were grown for 24 h in DMEM/F12 medium without L-glutamine... supplemented with 1% ITS and 2.00 mM or 0.15 mM glutamine"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "EV collection",
+        "evidence": [
+          "collected over a 24-h period from glutamine-depleted and glutamine-replete HCT116 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "glutamine-replete"
+    ],
+    "case_arms": [
+      "glutamine-depleted"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Five paired samples"
+    ],
+    "multiplex_channel_hints": [
+      "TMT10plex label",
+      "All 10 samples were combined"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "glutamine-replete",
+        "case_label": "glutamine-depleted",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the proteomes of the paired sEV preparations",
+          "identified two groups of proteins that are at significantly higher levels either in Rab11a-exosome or late endosomal exosome preparations"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "small extracellular vesicles",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
-      "label": null,
-      "curie": null
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT10plex",
+      "MultiNotch MS3"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +161,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of TMT10plex labeling and LC-MS/MS on an Orbitrap Fusion Lumos platform."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT10plex",
+        "isobaric",
+        "MultiNotch MS3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of TMT10plex labeling and LC-MS/MS on an Orbitrap Fusion Lumos platform."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT10plex",
+        "isobaric",
+        "MultiNotch MS3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:17:37Z"
   }
 }

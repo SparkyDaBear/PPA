@@ -3,30 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT-labeled LC-MS/MS",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "cancer-associated fibroblasts",
-      "endothelial cells",
-      "T cells",
-      "B cells",
-      "macrophages",
-      "hepatocytes",
-      "cholangiocytes"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we elaborated a molecular architecture of 3 PLC types, namely hepatocellular carcinoma (HCC), intrahepatic cholangiocarcinoma (ICC) and combined hepatocellular-cholangiocarcinoma (CHC).",
+          "bulk tissue multi-omics were performed on 15 matched solid tissues (P121-P127), ranging from genome to metabolome: ... isobaric tandem mass tags (TMT)-based global proteomics"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "In this study, we define the area 1\u2009cm inside and outside the edge of tumor as the junctional zone; the area outside the edge of tumor as the peritumor zone; the area inside the edge of tumor as the tumor zone.",
+          "coefficient of variation (CV) was calculated for T124, T125, P124, and P125"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,38 +62,87 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "control_arms": [
+      "peritumor"
+    ],
+    "case_arms": [
+      "HCC",
+      "ICC",
+      "CHC",
+      "tumor"
+    ],
+    "paired_design": true,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "To ensure reproducibility, replicates were utilized under the same experimental conditions."
+    ],
+    "multiplex_channel_hints": [
+      "TMT-labeled LC-MS/MS",
+      "Each TMT 11-plex reagent set was distributed ahead.",
+      "Internal reference \u201cMIX\u201d sample was prepared with mixed samples in remaining channels"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "peritumor",
+        "case_label": "tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "coefficient of variation (CV) was calculated for T124, T125, P124, and P125"
+        ]
+      },
+      {
+        "control_label": "HCC",
+        "case_label": "ICC",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "parallel comparison among different PLC types",
+          "a panoramic view of and parallel comparison among different PLC types rather than investigation in separation."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "liver",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT-labeled LC-MS/MS"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +151,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'TMT-labeled LC-MS/MS', 'TMT 11-plex reagent set', and 'isobaric tandem mass tags (TMT)-based global proteomics' using a data-dependent procedure."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "isobaric tandem mass tags",
+        "TMT 11-plex",
+        "data-dependent procedure"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'TMT-labeled LC-MS/MS', 'TMT 11-plex reagent set', and 'isobaric tandem mass tags (TMT)-based global proteomics' using a data-dependent procedure."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "isobaric tandem mass tags",
+        "TMT 11-plex",
+        "data-dependent procedure"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +211,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:43:46Z"
   }
 }

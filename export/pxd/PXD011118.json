@@ -3,69 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "myeloid cells",
-      "neutrophils"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "Ba/F3",
       "293T17"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "FLAG-purified WT and N610H constructs allowed us to identify by MS in vitro several hybrid glycoform structures",
+          "We determined that N610 is occupied with a sialylated hybrid N-glycan.",
+          "Mutation of the N610 site prevented membrane-proximal N-glycosylation of CSF3R"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CSF3R N610H",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "FLAG-purified construct",
+        "evidence": [
+          "FLAG-purified WT and N610H constructs allowed us to identify by MS in vitro several hybrid glycoform structures"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CSF3R WT",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "FLAG-purified construct",
+        "evidence": [
+          "FLAG-purified WT and N610H constructs allowed us to identify by MS in vitro several hybrid glycoform structures"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "WT CSF3R"
+    ],
+    "case_arms": [
+      "N610H mutant"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "labeled with TMT0"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "WT CSF3R",
+        "case_label": "N610H mutant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "FLAG-purified WT and N610H constructs allowed us to identify by MS in vitro several hybrid glycoform structures"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "293T17",
+        "family": "HEK 293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +149,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states samples were labeled with TMT0 and analyzed using a data-dependent mode (DDA) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as 'glycoproteomic analysis' using a 'custom glycan database' and Byonic search node to identify N-linked glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "glycoproteomic",
+        "N-linked glycosylation",
+        "Byonic",
+        "glycopeptide"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states samples were labeled with TMT0 and analyzed using a data-dependent mode (DDA) on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as 'glycoproteomic analysis' using a 'custom glycan database' and Byonic search node to identify N-linked glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "glycoproteomic",
+        "N-linked glycosylation",
+        "Byonic",
+        "glycopeptide"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +223,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:03:25Z"
   }
 }

@@ -3,71 +3,138 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMTpro sixteen-plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Nutrient or Metabolic Perturbation",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "HeLa cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293T",
-      "HeLaGLU",
-      "HeLaGAL"
+      "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "confidence": "high",
+        "evidence": [
+          "the C-terminal fusion of dihydrofolate reductase (DHFR), which resists unfolding when bound to the drug methotrexate (MTX), can be exploited to block the import machinery",
+          "TMT-MS to identify proteins associated with the trapped precursor. Cells were subject to stalling through the production of a Su9-EGFP-DHFR fusion (with and without the MTS and MTX as controls)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "methotrexate (MTX)",
+        "dose_or_concentration": "100 nM",
+        "duration": "48 h",
+        "route_or_context": "HeLaGAL cells",
+        "evidence": [
+          "cells were pre-treated with 100 nM MTX by adding it dropwise to the cell medium",
+          "Following a chronic (48 h) treatment",
+          "HeLa cells were conditioned in galactose (HeLaGAL) to maximise their dependency on mitochondrial OXPHOS"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "- MTX (imported precursor, no trap)",
+      "- MTS (non-specific effects of MTX)"
+    ],
+    "case_arms": [
+      "+ MTS + MTX (trapped precursor)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Sample size (N) for all experiments was 3\u20136 biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "labelled with TMTpro sixteen-plex reagents"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "- MTX",
+        "case_label": "+ MTX",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "highlight proteins in complex with the stalled precursor (+ MTX), controlled against those associated with the imported form (- MTX)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "HeLa",
+        "ontology_curie": "BTO:0000567"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMTpro sixteen-plex"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +142,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro sixteen-plex reagents for labeling and an SPS-MS3 data-dependent acquisition (DDA) workflow on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The samples were processed using a GFP-trap for immunoprecipitation of proteins interacting with the trapped precursor (affinity purification)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro",
+        "SPS-MS3",
+        "GFP trap",
+        "immunoprecipitation",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro sixteen-plex reagents for labeling and an SPS-MS3 data-dependent acquisition (DDA) workflow on an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The samples were processed using a GFP-trap for immunoprecipitation of proteins interacting with the trapped precursor (affinity purification)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro",
+        "SPS-MS3",
+        "GFP trap",
+        "immunoprecipitation",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:26:42Z"
   }
 }

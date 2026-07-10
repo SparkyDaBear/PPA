@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Relative, label-free quantification",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
       "blood cell"
@@ -17,14 +16,45 @@
     "cell_lines": [
       "K562"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "We applied the now refined affinity enrichment settings to the full workflow for in vivo DSBSO crosslinking... to investigate the nuclear interactome in K562 cells.",
+          "We further show, that by applying DSBSO to nuclear extracts we yield more crosslinks on lower abundant proteins",
+          "Within the whole cell dataset... we found a total of 311 PPI... Within the nuclear extract dataset, we found a total of 333 PPIs"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DSBSO",
+        "dose_or_concentration": "2 mM",
+        "duration": "1 h",
+        "route_or_context": "in vivo (K562 cells and nuclei)",
+        "evidence": [
+          "Crosslinking was initiated immediately after resuspension by directly adding the DSBSO powder to the cells/nuclear extracts to reach a final concentration of 2 mM DSBSO.",
+          "Samples were incubated while shaking gently at 37 \u00b0C for 1 h at 1000 rpm."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -32,38 +62,94 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "whole cells",
+      "nuclear extracts"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 5 biological replicates of non-crosslinked K562 samples"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "whole cells",
+        "case_label": "nuclear extracts",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Moreover, within the nuclear extract, we were able to cover more low-abundant proteins compared to the whole cell crosslinking approach"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "S. pyogenes",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "blood cell",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000081"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "K562",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "nuclear extracts",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Relative, label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Chemical cross-linking mass spectrometry (XL-MS)",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +157,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative label-free quantification (apQuant)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "xl_dsbso",
+          "confidence": 1.0,
+          "reason": "The experiment specifically uses DSBSO, an MS-cleavable, enrichable crosslinker, and employs MS Annika for crosslink searching."
+        }
+      ],
+      "trigger_keywords": [
+        "DSBSO",
+        "cross-linking mass spectrometry",
+        "XL-MS",
+        "MS Annika",
+        "crosslinked peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative label-free quantification (apQuant)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "xl_dsbso",
+          "confidence": 1.0,
+          "reason": "The experiment specifically uses DSBSO, an MS-cleavable, enrichable crosslinker, and employs MS Annika for crosslink searching."
+        }
+      ],
+      "trigger_keywords": [
+        "DSBSO",
+        "cross-linking mass spectrometry",
+        "XL-MS",
+        "MS Annika",
+        "crosslinked peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +231,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:55:10Z"
   }
 }

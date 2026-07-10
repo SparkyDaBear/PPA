@@ -2,64 +2,138 @@
   "pxd": "PXD060074",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "pH or Ionic Strength Changes"
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "confidence": "high",
+        "evidence": [
+          "HDX-MS of the HDMX-S403D protein was conducted in both ligand-free and ligand-bound conformations with TP53 mRNA",
+          "Control undeuterated samples of HDMX-S403D, both ligand-free and in complex with p53 mRNA"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "cDNA of MDMX wildtype (WT) or S403D constructs were cloned",
+          "The Ser403-to-Asp mutation mimics ATM kinase-mediated phosphorylation at this site in response to DNA damage."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TP53 mRNA",
+        "dose_or_concentration": "1:1 molar ratio",
+        "duration": null,
+        "route_or_context": "ligand-bound conformation",
+        "evidence": [
+          "Each HDX time point was set up by mixing the protein and ligand in a 1:1 molar ratio."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "10 s",
+      "120 s",
+      "1800 s"
+    ],
+    "control_arms": [
+      "ligand-free"
+    ],
+    "case_arms": [
+      "ligand-bound"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three distinct time points (10 s, 120 s, and 1800 s)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "ligand-free",
+        "case_label": "ligand-bound",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "HDX-MS of the HDMX-S403D protein was conducted in both ligand-free and ligand-bound conformations with TP53 mRNA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -68,10 +142,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The dataset uses data-dependent acquisition (DDA) for peptide mapping and relative fractional uptake (RFU) calculations, which is a form of label-free quantification for HDX-MS."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "hdx_ms",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as Hydrogen-deuterium exchange mass spectrometry (HDX-MS) to study protein-RNA interactions."
+        }
+      ],
+      "trigger_keywords": [
+        "HDX-MS",
+        "Hydrogen-deuterium exchange",
+        "deuteration suppression",
+        "fractional uptake",
+        "RFU"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The dataset uses data-dependent acquisition (DDA) for peptide mapping and relative fractional uptake (RFU) calculations, which is a form of label-free quantification for HDX-MS."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "hdx_ms",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly described as Hydrogen-deuterium exchange mass spectrometry (HDX-MS) to study protein-RNA interactions."
+        }
+      ],
+      "trigger_keywords": [
+        "HDX-MS",
+        "Hydrogen-deuterium exchange",
+        "deuteration suppression",
+        "fractional uptake",
+        "RFU"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:59:11Z"
   }
 }

@@ -3,24 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
-      "Other"
+      "Unknown"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "serum"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "glycopeptides",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Serum samples from four healthy people, ten patients with colon cancer, and four patients with liver cancer were provided by Georgia Cancer Center at Augusta University",
+          "We then applied this method to analyze the N-linked \u03b12,3/\u03b12,6-sialoglycopeptides of complex biological samples. Serum samples from healthy individuals (n = 4) and patients diagnosed with liver cancer (n = 4) and colon cancer (n = 10) were used in this study."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +44,91 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "healthy people"
+    ],
+    "case_arms": [
+      "colon cancer",
+      "liver cancer"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "All the serum samples were analyzed in three replicated LC\u2013MS/MS runs"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "healthy people",
+        "case_label": "colon cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Serum samples from four healthy people, ten patients with colon cancer, and four patients with liver cancer were provided by Georgia Cancer Center at Augusta University"
+        ]
+      },
+      {
+        "control_label": "healthy people",
+        "case_label": "liver cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Serum samples from four healthy people, ten patients with colon cancer, and four patients with liver cancer were provided by Georgia Cancer Center at Augusta University"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bovine",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "human serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "glycopeptides",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
     "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +136,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Elite with HCD fragmentation; no labeling (SILAC/Isobaric) mentioned for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of iSPE HILIC cartridges for glycopeptide enrichment."
+        },
+        {
+          "modifier_workflow_id": "enzymatic_labeling_glams",
+          "confidence": 1.0,
+          "reason": "Use of CgtA glycosyltransferase to label alpha2,3-sialylated glycans with GalNAz."
+        }
+      ],
+      "trigger_keywords": [
+        "GLAMS",
+        "glycopeptides",
+        "HILIC",
+        "CgtA",
+        "GalNAz",
+        "sialoglycopeptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Elite with HCD fragmentation; no labeling (SILAC/Isobaric) mentioned for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of iSPE HILIC cartridges for glycopeptide enrichment."
+        },
+        {
+          "modifier_workflow_id": "enzymatic_labeling_glams",
+          "confidence": 1.0,
+          "reason": "Use of CgtA glycosyltransferase to label alpha2,3-sialylated glycans with GalNAz."
+        }
+      ],
+      "trigger_keywords": [
+        "GLAMS",
+        "glycopeptides",
+        "HILIC",
+        "CgtA",
+        "GalNAz",
+        "sialoglycopeptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +222,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:20:33Z"
   }
 }

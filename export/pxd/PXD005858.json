@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS3",
+    "quantification_method": "TMT6plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Viral Infection"
+      "infection exposure"
     ],
     "cell_types": [
       "macrophage"
@@ -19,51 +18,146 @@
       "FPS10C"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": null,
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection exposure",
+          "live pathogen infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "protein expression was measured by Proteomic Mass Spectrometry at 24 h post infection",
+          "comparing infected to uninfected cells, proteomics revealed significant changes in 307 proteins"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Chlamydia trachomatis",
+        "dose_or_concentration": "MOI of 1",
+        "duration": null,
+        "route_or_context": "human iPSdMs",
+        "evidence": [
+          "C. trachomatis were added to the macrophages at MOI of 1",
+          "protein expression was measured by Proteomic Mass Spectrometry at 24 h post infection"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "24 h",
+        "route_or_context": "post infection",
+        "evidence": [
+          "protein expression was measured by Proteomic Mass Spectrometry at 24 h post infection"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "uninfected"
+    ],
+    "case_arms": [
+      "C. trachomatis infected"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three independent samples of uninfected and C. trachomatis infected human iPSdMs"
+    ],
+    "multiplex_channel_hints": [
+      "peptides were labelled with TMT6plex (Thermo Scientific), and pooled"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing infected to uninfected cells, proteomics revealed significant changes in 307 proteins"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Chlamydia trachomatis",
+        "taxonomy_hint": "NEWT:813",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000235"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "KOLF2",
+        "family": "induced pluripotent stem cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "FPS10C",
+        "family": "induced pluripotent stem cell",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT6plex",
+      "MS3 quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +166,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT6plex labeling and Orbitrap Fusion Tribrid MS with CID/HCD fragmentation for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT6plex",
+        "isobaric",
+        "SPS-MS3",
+        "Reporter Ion Quantifier"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT6plex labeling and Orbitrap Fusion Tribrid MS with CID/HCD fragmentation for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT6plex",
+        "isobaric",
+        "SPS-MS3",
+        "Reporter Ion Quantifier"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:24:45Z"
   }
 }

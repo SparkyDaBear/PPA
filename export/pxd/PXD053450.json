@@ -3,64 +3,162 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "Isobaric labeling (TMT)",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "myocardium"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Patients were divided into four experimental groups, with 20 patients per group: HF, DM, both HF and DM, or neither HF nor DM.",
+          "The non-HF, non-DM group was regarded as the control group",
+          "For statistical analysis, the HF, DM, and HF + DM groups were considered experimental groups."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "heart failure",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pericardial fluid",
+        "evidence": [
+          "patients with heart failure (HF)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "type 2 diabetes mellitus",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pericardial fluid",
+        "evidence": [
+          "patients with type 2 diabetes mellitus (DM)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "neither HF nor DM"
+    ],
+    "case_arms": [
+      "HF",
+      "DM",
+      "both HF and DM"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "For each carrier amount, technical triplicates were analyzed"
+    ],
+    "multiplex_channel_hints": [
+      "labeled with 11-plex TMTs",
+      "TMT labels 126\u2013131N",
+      "carrier (131C)",
+      "internal control sample (mass tag 126)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "neither HF nor DM",
+        "case_label": "HF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing each experimental group to the control group"
+        ]
+      },
+      {
+        "control_label": "neither HF nor DM",
+        "case_label": "DM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing each experimental group to the control group"
+        ]
+      },
+      {
+        "control_label": "neither HF nor DM",
+        "case_label": "both HF and DM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing each experimental group to the control group"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "pericardial fluid",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "myocardial tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "Isobaric labeling (TMT)",
+      "Reporter ion signal-to-noise ratios (SNR)"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +167,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and 11-plex TMT isobaric labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "scope_ms_carrier",
+          "confidence": 0.9,
+          "reason": "The authors explicitly adapted the SCoPE-MS method using a myocardial tissue carrier to boost detection of low-abundant proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SCoPE-MS",
+        "carrier proteome",
+        "TMT",
+        "isobaric labels",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and 11-plex TMT isobaric labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "scope_ms_carrier",
+          "confidence": 0.9,
+          "reason": "The authors explicitly adapted the SCoPE-MS method using a myocardial tissue carrier to boost detection of low-abundant proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SCoPE-MS",
+        "carrier proteome",
+        "TMT",
+        "isobaric labels",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +241,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:25:21Z"
   }
 }

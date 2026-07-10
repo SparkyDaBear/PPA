@@ -2,14 +2,14 @@
   "pxd": "PXD025836",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "DIA",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "genetic perturbation"
     ],
     "cell_types": [
       "hepatocyte"
@@ -23,13 +23,50 @@
       "Huh7",
       "HepG2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "differential expression analysis of the HCC transcriptome and proteome compared to normal livers",
+          "In total, 122 HCC biopsies and 115 non-tumoral tissues from 114 patients were included in the study",
+          "As control, we used liver biopsies with normal histology obtained from 19 patients without HCC"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "To evaluate the molecular changes associated with CTNNB1 and TP53 mutations, we performed differential expression analyses comparing mutant and wild-type HCCs.",
+          "KSEA revealed that, compared to CTNNB1-wild-type HCCs, CTNNB1-mutant HCCs showed increased AMPK\u03b12 kinase activity"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -37,39 +74,149 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "control_arms": [
+      "normal livers",
+      "wild-type HCCs"
+    ],
+    "case_arms": [
+      "HCC",
+      "CTNNB1-mutant HCCs",
+      "TP53-mutant HCCs"
+    ],
+    "paired_design": true,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "samples were injected in triplicates",
+      "The samples were measured in triplicates"
+    ],
+    "multiplex_channel_hints": [
+      "label-free DDA",
+      "data-independent acquisition"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal liver",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differential expression analysis of the HCC transcriptome and proteome compared to normal livers"
+        ]
+      },
+      {
+        "control_label": "CTNNB1-wild-type",
+        "case_label": "CTNNB1-mutant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differential expression analyses comparing mutant and wild-type HCCs"
+        ]
+      },
+      {
+        "control_label": "TP53-wild-type",
+        "case_label": "TP53-mutant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differential expression analyses comparing mutant and wild-type HCCs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "liver cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Hep3B",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "Huh6",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "SNU449",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "SNU182",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "SNU398",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "Huh7",
+        "family": "HCC-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "HepG2",
+        "family": "hepatoblastoma derived",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "liver",
+        "source_kind": "organ"
+      },
+      {
+        "label": "tumor lesion",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free",
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +224,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The proteome was measured using Sequential Window Acquisition of all Theoretical Mass Spectra (SWATH), which is a specific form of data-independent acquisition (DIA), and quantified in a label-free manner."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The phosphoproteome was measured in a data-dependent (DDA) and label-free manner."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Peptide samples were enriched for phosphorylated peptides using Fe(III)-IMAC cartridges on an AssayMAP Bravo platform."
+        }
+      ],
+      "trigger_keywords": [
+        "SWATH",
+        "data-independent acquisition",
+        "label-free",
+        "Fe(III)-IMAC",
+        "phospho-proteome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The proteome was measured using Sequential Window Acquisition of all Theoretical Mass Spectra (SWATH), which is a specific form of data-independent acquisition (DIA), and quantified in a label-free manner."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The phosphoproteome was measured in a data-dependent (DDA) and label-free manner."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Peptide samples were enriched for phosphorylated peptides using Fe(III)-IMAC cartridges on an AssayMAP Bravo platform."
+        }
+      ],
+      "trigger_keywords": [
+        "SWATH",
+        "data-independent acquisition",
+        "label-free",
+        "Fe(III)-IMAC",
+        "phospho-proteome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,6 +308,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:01:24Z"
   }
 }

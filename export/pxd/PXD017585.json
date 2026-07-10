@@ -8,9 +8,7 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Genetic Perturbations"
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "fibroblast"
@@ -18,53 +16,139 @@
     "cell_lines": [
       "WI-38"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "confidence": "high",
+        "evidence": [
+          "Quiescent WI-38 cells reenter the cell cycle upon serum stimulation",
+          "serum reactivation was performed by adding back the regular 10% serum growth medium"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "serum",
+        "dose_or_concentration": "10% FBS",
+        "duration": null,
+        "route_or_context": "serum reactivation",
+        "evidence": [
+          "serum reactivation was performed by adding back the regular 10% serum growth medium"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post quiescence",
+        "evidence": [
+          "serum-stimulated (3 and 6 h of serum-stimulation post quiescence) WI-38 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "3 h",
+      "6 h"
+    ],
+    "control_arms": [
+      "quiescent"
+    ],
+    "case_arms": [
+      "serum-stimulated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "quiescent",
+        "case_label": "serum-stimulated",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "comparing different RNA-seq samples, including... quiescence to serum stimulation (SS) (Q to 3 h SS, Q to 6 h SS)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "fibroblast",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000057"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "WI-38",
+        "family": "human diploid fibroblasts",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +156,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an Orbitrap Fusion for DDA (full-scan mass spectra followed by HCD fragmentation) and identified proteins via streptavidin pulldown. No labeling (SILAC/Isobaric) is mentioned; quantification is implied by 'top hits' across biological replicates."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment is explicitly described as a streptavidin pulldown using biotinylated RNA to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "streptavidin pulldown",
+        "biotinylated",
+        "interactome",
+        "Affinity purification coupled with mass spectrometry proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an Orbitrap Fusion for DDA (full-scan mass spectra followed by HCD fragmentation) and identified proteins via streptavidin pulldown. No labeling (SILAC/Isobaric) is mentioned; quantification is implied by 'top hits' across biological replicates."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment is explicitly described as a streptavidin pulldown using biotinylated RNA to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "streptavidin pulldown",
+        "biotinylated",
+        "interactome",
+        "Affinity purification coupled with mass spectrometry proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:01:49Z"
   }
 }

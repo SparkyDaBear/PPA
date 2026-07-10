@@ -3,15 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Nutrient or Metabolic Perturbation",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment",
+      "chemical or drug treatment",
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
       "macrophage"
@@ -19,52 +18,201 @@
     "cell_lines": [
       "U937"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "confidence": "high",
+        "evidence": [
+          "three aliquots of each group (FCS batch) were subsequently treated with lipopolysaccharides (LPS) to induce inflammatory stimulation",
+          "spiking in of the two HETEs was associated with distinct proteome alterations"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
+        "evidence": [
+          "All cells were differentiated using phorbol 12-myristate 13-acetate (PMA) to induce macrophage formation"
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "metabolite_supplementation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "metabolite_supplementation"
+        ],
+        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
+        "confidence": "high",
+        "evidence": [
+          "we supplemented the FCS batch found to have the lowest levels of these two eicosanoids, here designated FCS-B... with the pure chemicals to levels close to those observed in case of FCS batch A"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Lipopolysaccharides (LPS)",
+        "dose_or_concentration": "1 \u00b5g/mL",
+        "duration": "24 h",
+        "route_or_context": "inflammatory activation",
+        "evidence": [
+          "Three ml of new fully supplemented media was added either with 1 \u00b5g/mL LPS (Lipopolysaccharides from Escherichia coli 055:B5, \u03b3-irradiated, BioXtra, Sigma-Aldrich, Vienna, Austria) or 1 \u00b5L PBS per 1 mL medium as control. After 24 h activation the medium was withdrawn"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Phorbol 12-Myristate 13-Acetate (PMA)",
+        "dose_or_concentration": "100 ng/mL",
+        "duration": "48 h",
+        "route_or_context": "differentiation",
+        "evidence": [
+          "2 \u00d7 106 cells were seeded... with 5 mL fully supplemented media and 100 ng/mL PMA (Phorbol 12-myristate 13-acetate \u2265 99%, Sigma-Aldrich, Vienna, Austria) to induce differentiation. After 48 h incubation"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "5-HETE and 15-HETE",
+        "dose_or_concentration": "nanomolar concentration range",
+        "duration": null,
+        "route_or_context": "spiking into FCS-B",
+        "evidence": [
+          "we supplemented the FCS batch found to have the lowest levels of these two eicosanoids, here designated FCS-B (containing 5 nM 5-HETE and 12 nM 15-HETE), with the pure chemicals to levels close to those observed in case of FCS batch A (FCS-A, containing 42 nM 5-HETE and 49 nM 15-HETE, Figure 4A)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "48 h (PMA differentiation)",
+      "24 h (LPS activation)",
+      "4 h (post-activation incubation)"
+    ],
+    "control_arms": [
+      "PBS control",
+      "FCS-B (low HETE)",
+      "methanol control"
+    ],
+    "case_arms": [
+      "LPS activation",
+      "FCS-A (high HETE)",
+      "supplemented FCS-B"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "All experiments were carried out in triplicates of LPS activation and control",
+      "Technical duplicates were averaged",
+      "Only proteins detected in three of three biological replicates in either control and/or treatment groups were considered"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "PBS control",
+        "case_label": "LPS activation",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Three ml of new fully supplemented media was added either with 1 \u00b5g/mL LPS... or 1 \u00b5L PBS per 1 mL medium as control."
+        ]
+      },
+      {
+        "control_label": "FCS-B",
+        "case_label": "supplemented FCS-B",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we supplemented the FCS batch found to have the lowest levels of these two eicosanoids, here designated FCS-B... with the pure chemicals to levels close to those observed in case of FCS batch A"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bos taurus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000235"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U937",
+        "family": "monocyte",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "fetal calf serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label free quantification (LFQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +221,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'label free quantification (LFQ) values' and 'MS1 intensity based label-free quantification method' using a QExactive Orbitrap (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label free quantification",
+        "LFQ",
+        "QExactive Orbitrap MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'label free quantification (LFQ) values' and 'MS1 intensity based label-free quantification method' using a QExactive Orbitrap (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label free quantification",
+        "LFQ",
+        "QExactive Orbitrap MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +279,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:14:51Z"
   }
 }

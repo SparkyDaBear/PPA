@@ -3,26 +3,56 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Unclassified"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "prostate cancer cell",
-      "prostate gland"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "identify groups of proteins associated with prostate cancer from a proteomics analysis of tumor and adjacent normal tissue samples",
+          "We show how MetaNetwork can identify molecular changes between cancerous and normal tissues."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease_stage_or_response",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "Six aggressive and six indolent, flash-frozen, radical prostatectomy specimens",
+          "Six tumors had a Gleason score of eight or higher, indicating aggressive cancer, and six tumors were indolent, with a Gleason score of six."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,38 +60,100 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "Normal",
+      "Indolent Normal"
+    ],
+    "case_arms": [
+      "Tumor",
+      "Aggressive Tumor",
+      "Indolent Tumor"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "six biological replicates across four different types of tissues"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Normal",
+        "case_label": "Tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify molecular changes between cancerous and normal tissues"
+        ]
+      },
+      {
+        "control_label": "Indolent Tumor",
+        "case_label": "Aggressive Tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "An unpaired, two-tailed t-test was used for comparing Aggressive versus Indolent Tumor samples"
+        ]
+      },
+      {
+        "control_label": "Aggressive Normal",
+        "case_label": "Aggressive Tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "a paired, two-tailed t-test was used for both the Indolent Tumor versus Indolent Normal samples and the Aggressive Tumor versus Aggressive Normal sample sets."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "prostate",
+        "source_kind": "organ"
+      },
+      {
+        "label": "tumor",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "adjacent normal tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +162,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used label-free quantification (FlashLFQ) and DDA acquisition (top ten highest intensity parent ions)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "FlashLFQ",
+        "ten MS/MS HCD scans of the ten highest intensity parent ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used label-free quantification (FlashLFQ) and DDA acquisition (top ten highest intensity parent ions)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "FlashLFQ",
+        "ten MS/MS HCD scans of the ten highest intensity parent ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:28:16Z"
   }
 }

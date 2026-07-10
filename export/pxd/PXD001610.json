@@ -3,14 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "nutrient or metabolic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "myeloid leukemia cells"
@@ -19,51 +18,185 @@
       "NB4"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_deprivation",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient or metabolic perturbation",
+          "nutrient deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "high",
+        "evidence": [
+          "Serum starvation for 48 hr was used to arrest cells in G0/G1 phase.",
+          "Serum starvation induces reversible cell cycle exit, with cells entering a quiescent state (G0 phase)"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "To arrest cells in S phase, cells were treated with hydroxyurea for 18 hr.",
+          "To arrest cells in G2 phase, cells were treated with RO-3306 for 18 hr, which specifically inhibits CDK1 activity"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "serum starvation",
+        "dose_or_concentration": null,
+        "duration": "48 hr",
+        "route_or_context": "serum-free culture medium",
+        "evidence": [
+          "Serum starvation for 48 hr was used to arrest cells in G0/G1 phase."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "hydroxyurea",
+        "dose_or_concentration": "80 \u03bcM",
+        "duration": "18 hr",
+        "route_or_context": null,
+        "evidence": [
+          "To arrest cells in S phase, cells were treated with hydroxyurea for 18 hr.",
+          "NB4 cells appear hypersensitive to hydroxyurea and undergo apoptosis at concentrations typically used to arrest other cell lines (i.e., 1\u20135 mM vs 80 \u03bcM in this study)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "RO-3306",
+        "dose_or_concentration": "9 \u03bcM",
+        "duration": "18 hr",
+        "route_or_context": null,
+        "evidence": [
+          "To arrest cells in G2 phase, cells were treated with RO-3306 for 18 hr",
+          "cells were treated with a CDK1 inhibitor, RO-3306 at a final concentration of 9 \u03bcM for 18 hr."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "18 hr",
+      "48 hr"
+    ],
+    "control_arms": [
+      "asynchronous cells",
+      "mock-treated cells"
+    ],
+    "case_arms": [
+      "serum starvation (SS)",
+      "hydroxyurea (HU)",
+      "RO-3306"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each experiment was performed in biological triplicate.",
+      "All treatments were performed in triplicate for downstream MS analysis."
+    ],
+    "multiplex_channel_hints": [
+      "label-free proteomics"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "asynchronous",
+        "case_label": "serum starvation",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The increase in total histone H3 levels upon serum starvation was confirmed by immunoblot analysis of lysates from serum starved and asynchronous cells"
+        ]
+      },
+      {
+        "control_label": "G0/G1",
+        "case_label": "S phase (HU)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "abundances of cyclin E2, GTSE1... and RRM2... all increase in abundance in S phase, relative to G1"
+        ]
+      },
+      {
+        "control_label": "mock-treated",
+        "case_label": "RO-3306",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "upon CDK1 inhibition, G2&M cells express abnormally high levels of CDT1 protein... compared with mock treatment."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "myeloid leukemia cells",
+        "rollup_category": "leukocyte",
+        "ontology_curie": "CL:0000738"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "NB4",
+        "family": "myeloid leukemia",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +205,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of label-free quantification (LFQ) and a 'Top10' DDA acquisition method on a Q-Exactive Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "LFQ",
+        "Top10",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of label-free quantification (LFQ) and a 'Top10' DDA acquisition method on a Q-Exactive Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "LFQ",
+        "Top10",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +265,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:28:15Z"
   }
 }

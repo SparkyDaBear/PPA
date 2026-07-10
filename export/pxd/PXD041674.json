@@ -3,70 +3,192 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1-based quantification",
     "labeling_strategy": [
       "SILAC",
-      "TMT"
+      "TMT",
+      "Dimethyl",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "K562",
-      "HeLa"
+      "HeLa Kyoto"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "confidence": "medium",
+        "evidence": [
+          "DNA pull-downs using a concentration range of specific and control DNA baits are performed in SILAC-labeled nuclear extracts.",
+          "Binding specificity is determined by calculating SILAC ratios of peptides bound to either the motif of interest or the control motif."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "The human BEND3 coding sequence was fused to V5-miniTurbo and cloned into the pTwist CMV overexpression plasmid.",
+          "we performed proximity biotinylation experiments in HeLa cells using a BEND3-miniTurbo fusion construct"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DNA oligonucleotides (specific motifs vs control)",
+        "dose_or_concentration": "0.15 nM to 3 \u03bcM",
+        "duration": "2 h",
+        "route_or_context": "nuclear extract pull-down",
+        "evidence": [
+          "A dilution series was prepared consisting of ten DNA oligonucleotide concentrations (ranging from 0.15 nM to 3 \u03bcM)",
+          "Per pull-down, 100 \u03bcg of the nuclear extract or SILAC-labeled nuclear extract was added to the corresponding pull-downs and incubated for 2 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "biotin",
+        "dose_or_concentration": "50 \u03bcM",
+        "duration": "10 min",
+        "route_or_context": "proximity-labeling in HeLa cells",
+        "evidence": [
+          "cells were treated with 50 \u03bcM biotin (B20656, Invitrogen) for 10 min preharvesting."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "negative control bait",
+      "wild-type HeLa cells"
+    ],
+    "case_arms": [
+      "specific DNA motif bait",
+      "BEND3-miniTurbo transfected cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "DNA pull-downs were performed in duplicate",
+      "a label-swap experiment was performed for each replicate",
+      "Pull-down experiments of biotinylated proteins were performed in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC-labeled nuclear extracts (light and heavy)",
+      "isobaric 10-plex tandem mass tags (TMT)",
+      "higher-order multiplexing"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "control DNA bait",
+        "case_label": "specific DNA motif bait",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "Binding specificity is determined by calculating SILAC ratios of peptides bound to either the motif of interest or the control motif.",
+          "Binding affinities are determined... Hill-like curves are generated from quantified TMT reporter ions"
+        ]
+      },
+      {
+        "control_label": "wild-type HeLa",
+        "case_label": "BEND3-miniTurbo",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Pull-down experiments of biotinylated proteins were performed in triplicate with biotin-treated HeLa wild-type and transfected cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "K562",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa Kyoto",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "TMT",
+      "Dimethyl",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1-based quantification",
+      "TMT reporter ion quantification",
+      "SILAC ratio calculation",
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +196,92 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "Extensive use of TMT 10-plex labeling for PAQMAN and PASMAN experiments."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.8,
+          "reason": "Use of SILAC-labeled nuclear extracts (light/heavy) to determine binding specificity."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.7,
+          "reason": "Mention of dimethyl labeling on StageTips for some samples."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Label-free LFQ workflow used for some pull-down samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "higher_order_multiplexing_silac_tmt",
+          "confidence": 1.0,
+          "reason": "The PASMAN method explicitly combines SILAC (MS1) and TMT (MS3) for simultaneous specificity and affinity quantification."
+        }
+      ],
+      "trigger_keywords": [
+        "PASMAN",
+        "PAQMAN",
+        "higher-order multiplexing",
+        "SILAC/TMT",
+        "TMT 10-plex",
+        "SPS MS3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "Extensive use of TMT 10-plex labeling for PAQMAN and PASMAN experiments."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.8,
+          "reason": "Use of SILAC-labeled nuclear extracts (light/heavy) to determine binding specificity."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.7,
+          "reason": "Mention of dimethyl labeling on StageTips for some samples."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Label-free LFQ workflow used for some pull-down samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "higher_order_multiplexing_silac_tmt",
+          "confidence": 1.0,
+          "reason": "The PASMAN method explicitly combines SILAC (MS1) and TMT (MS3) for simultaneous specificity and affinity quantification."
+        }
+      ],
+      "trigger_keywords": [
+        "PASMAN",
+        "PAQMAN",
+        "higher-order multiplexing",
+        "SILAC/TMT",
+        "TMT 10-plex",
+        "SPS MS3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "biophysical_curve",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +302,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:49:39Z"
   }
 }

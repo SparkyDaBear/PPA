@@ -3,30 +3,64 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "NSAF",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "human vaginal epithelial cells",
-      "U937 pro-monocytes"
+      "vaginal epithelial cells"
     ],
     "cell_lines": [
-      "VK2 E6/E7",
-      "U937"
+      "VK2 E6/E7"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "we compared the Fc glycosylation of HCA produced in two novel mAb manufacturing platforms, namely transgenic tobacco plants (Nicotiana benthamiana; HCA-N) and mRNA-mediated expression in human vaginal cells (HCAmRNA)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Nicotiana benthamiana",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transgenic tobacco plants",
+        "evidence": [
+          "transgenic tobacco plants (Nicotiana benthamiana; HCA-N)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "synthetic mRNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human vaginal cells",
+        "evidence": [
+          "mRNA-mediated expression in human vaginal cells (HCAmRNA)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -34,38 +68,88 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "HCA-N",
+      "HCAmRNA"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "HCA-N",
+        "case_label": "HCAmRNA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The Fc N-glycan profile of HCA-N was compared to HCAmRNA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Nicotiana benthamiana",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "vaginal epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "VK2 E6/E7",
+        "family": "human vaginal epithelial",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "NSAF",
+      "Peak height ratios (18O labeling for occupancy)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +157,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While PRIDE mentions NSAF, the study focuses on relative glycoform distribution and site occupancy across two platforms (HCA-N vs HCAmRNA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 0.95,
+          "reason": "The experiment specifically targets N-glycosylation at Asn297 using oxonium-ion triggered HCD and a glycan library (PMI-Byonic)."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycan",
+        "glycoform",
+        "oxonium ions",
+        "PNGase F",
+        "site occupancy",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While PRIDE mentions NSAF, the study focuses on relative glycoform distribution and site occupancy across two platforms (HCA-N vs HCAmRNA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 0.95,
+          "reason": "The experiment specifically targets N-glycosylation at Asn297 using oxonium-ion triggered HCD and a glycan library (PMI-Byonic)."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycan",
+        "glycoform",
+        "oxonium ions",
+        "PNGase F",
+        "site occupancy",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +233,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:47:25Z"
   }
 }

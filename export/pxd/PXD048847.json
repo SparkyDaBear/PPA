@@ -3,68 +3,142 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "monocytes"
+      "monocyte"
     ],
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "To identify the functional relevance of SMANTIS, a SMANTIS LentiCRISPRv2-mediated knockout in THP-1 cells was generated.",
+          "NTC cells were used as a reference to identify protein interaction partners, which were lost in SMANTIS knockout cells (Fig. 2f, Supplementary Data 5)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SMANTIS",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9-mediated deletion",
+        "evidence": [
+          "a SMANTIS LentiCRISPRv2-mediated knockout in THP-1 cells was generated."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "NTC"
+    ],
+    "case_arms": [
+      "SMANTIS KO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Except of the iPSC and osteoclast-differentiation RNA-seq experiments, which were performed n = 2, all other experiments were performed at least n = 3 as biological replicates."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "NTC",
+        "case_label": "SMANTIS KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "NTC cells were used as a reference to identify protein interaction partners, which were lost in SMANTIS knockout cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "monocyte",
+        "rollup_category": "myeloid cell",
+        "ontology_curie": "CL:0000576"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "leukemia monocytic cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "RNA-protein interaction pulldown",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +146,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) on a Q Exactive Plus, processed with MaxQuant, and compared using student's t-test on protein levels without evidence of isobaric or SILAC labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_protein_interaction",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly an antisense oligonucleotide pulldown to identify protein interaction partners of lncRNA SMANTIS."
+        }
+      ],
+      "trigger_keywords": [
+        "antisense pulldown",
+        "data dependent acquisition",
+        "MaxQuant",
+        "interaction partners"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) on a Q Exactive Plus, processed with MaxQuant, and compared using student's t-test on protein levels without evidence of isobaric or SILAC labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_protein_interaction",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly an antisense oligonucleotide pulldown to identify protein interaction partners of lncRNA SMANTIS."
+        }
+      ],
+      "trigger_keywords": [
+        "antisense pulldown",
+        "data dependent acquisition",
+        "MaxQuant",
+        "interaction partners"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:48:05Z"
   }
 }

@@ -5,9 +5,11 @@
     "acquisition_type": "Unknown",
     "quantification_method": "protein intensities",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "chemical or drug treatment"
+    ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
@@ -16,23 +18,83 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "confidence": "medium",
+        "evidence": [
+          "We compared a panel of five NPs to a high-pH fractionation of plasma depleted for high-abundance proteins (deep fractionation)",
+          "We compared NPs to high-pH fractionation and found that our NP workflow provides better performance in terms of precision and depth."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "surface-functionalized superparamagnetic nanoparticles",
+        "dose_or_concentration": "5 mg/mL (some 2.5 mg/mL or 10 mg/mL)",
+        "duration": "1 h",
+        "route_or_context": "plasma protein corona formation",
+        "evidence": [
+          "a panel of surface-functionalized superparamagnetic nanoparticles in comparison to conventional workflows",
+          "NP powder was reconstituted in deionized water to a final concentration of 5 mg/mL for all NPs except for SP-339-008 and SP-353-002 (final concentration 2.5 mg/mL) and SP-373-007 (final concentration 10 mg/mL)",
+          "To form the protein corona, 100 \u03bcL of NP suspension was mixed with 100 \u03bcL of plasma samples... incubated at 37 \u00b0C for 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "neat plasma",
+      "depleted plasma",
+      "deep fractionation (high-pH peptide fractionation)"
+    ],
+    "case_arms": [
+      "multi-NP workflow (five-NP panel)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "three assay replicates"
+      "three assay replicates",
+      "assay triplicates exhibited high reproducibility"
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "neat plasma",
+        "case_label": "five-NP panel",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using the five-NP panel, we identified over 1,700 protein groups across three assay replicates, which translates to... 5.5\u00d7 more protein groups compared to... neat plasma"
+        ]
+      },
+      {
+        "control_label": "depleted plasma",
+        "case_label": "five-NP panel",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using the five-NP panel, we identified over 1,700 protein groups across three assay replicates, which translates to... 4.4\u00d7 more protein groups compared to... depleted"
+        ]
+      },
+      {
+        "control_label": "deep fractionation",
+        "case_label": "five-NP panel",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using the five-NP panel, we identified over 1,700 protein groups across three assay replicates, which translates to 2.5\u00d7... more protein groups compared to deep fractionation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -50,7 +112,7 @@
     "cell_lines": [],
     "noncellular_sources": [
       {
-        "label": "plasma samples",
+        "label": "plasma",
         "source_kind": "biofluid"
       }
     ],
@@ -61,7 +123,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -70,14 +132,20 @@
   "assay": {
     "acquisition_type": "Unknown",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "protein intensities",
-      "coefficient of variation (CV)"
+      "protein intensities"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "protein corona enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -90,37 +158,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.9,
-          "reason": "Primary acquisitions were performed in DIA/SWATH mode with library-based quantification in Spectronaut"
+          "confidence": 5,
+          "reason": "Explicit use of SWATH (DIA) acquisition with Spectronaut and DIA-NN for quantification without isobaric labels."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "Supplementary DDA acquisitions on Orbitrap Fusion Lumos with LFQ in MaxQuant"
+          "confidence": 4,
+          "reason": "DDA acquisition performed using Orbitrap Fusion Lumos, processed with MaxQuant for protein intensities."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "library_based",
-          "confidence": 0.8,
-          "reason": "Spectronaut analysis employed a spectral library generated from Proteograph and pooled plasma DDA data"
-        },
-        {
-          "modifier_workflow_id": "no_cross_run_normalization",
-          "confidence": 0.7,
-          "reason": "Quantification in Spectronaut was run with no cross-run normalization"
-        },
-        {
-          "modifier_workflow_id": "library_free",
-          "confidence": 0.6,
-          "reason": "DIA-NN was used in library-free (directDIA) mode"
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SWATH",
-        "data-independent acquisition",
+        "DIA",
+        "DDA",
         "Spectronaut",
-        "DIA-NN"
+        "DIA-NN",
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -128,43 +182,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.9,
-          "reason": "Primary acquisitions were performed in DIA/SWATH mode with library-based quantification in Spectronaut"
+          "confidence": 5,
+          "reason": "Explicit use of SWATH (DIA) acquisition with Spectronaut and DIA-NN for quantification without isobaric labels."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "Supplementary DDA acquisitions on Orbitrap Fusion Lumos with LFQ in MaxQuant"
+          "confidence": 4,
+          "reason": "DDA acquisition performed using Orbitrap Fusion Lumos, processed with MaxQuant for protein intensities."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "library_based",
-          "confidence": 0.8,
-          "reason": "Spectronaut analysis employed a spectral library generated from Proteograph and pooled plasma DDA data"
-        },
-        {
-          "modifier_workflow_id": "no_cross_run_normalization",
-          "confidence": 0.7,
-          "reason": "Quantification in Spectronaut was run with no cross-run normalization"
-        },
-        {
-          "modifier_workflow_id": "library_free",
-          "confidence": 0.6,
-          "reason": "DIA-NN was used in library-free (directDIA) mode"
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SWATH",
-        "data-independent acquisition",
+        "DIA",
+        "DDA",
         "Spectronaut",
-        "DIA-NN"
+        "DIA-NN",
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "unknown",
-      "pairwise_strategy": "unknown",
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -188,6 +228,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T04:19:28Z"
+    "stage3_refreshed_at": "2026-07-10T14:34:51Z"
   }
 }

@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "super-SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment",
+      "genetic perturbation",
+      "disease or clinical state"
     ],
     "cell_types": [
       "breast invasive ductal carcinoma cell"
@@ -20,51 +20,205 @@
       "MDA-MB-231"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "confidence": "high",
+        "evidence": [
+          "Proteomic profiling of matched tumors before and after chemotherapy",
+          "All patients underwent NAT to reduce tumor burden with AC-T (four cycles of doxorubicin (60 mg/m2) and cyclophosphamide (600 mg/m2) every 2 weeks followed by paclitaxel (175/m2) two weekly for four cycles."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "For analysis of PYCR1 WT versus KO MCF7 cell line, we used the label-free algorithm in MaxQuant",
+          "We knocked out PYCR1 by CRISPR/Cas9"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "We obtained matched pre-treatment biopsy, post-treatment residual carcinoma, and tumor-adjacent normal samples from each of the 35 patients."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AC-T (doxorubicin, cyclophosphamide, paclitaxel)",
+        "dose_or_concentration": "doxorubicin (60 mg/m2), cyclophosphamide (600 mg/m2), paclitaxel (175/m2)",
+        "duration": "four cycles of doxorubicin and cyclophosphamide every 2 weeks followed by paclitaxel two weekly for four cycles",
+        "route_or_context": "neoadjuvant treatment (NAT)",
+        "evidence": [
+          "All patients underwent NAT to reduce tumor burden with AC-T (four cycles of doxorubicin (60 mg/m2) and cyclophosphamide (600 mg/m2) every 2 weeks followed by paclitaxel (175/m2) two weekly for four cycles."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PYCR1 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9",
+        "evidence": [
+          "We knocked out PYCR1 by CRISPR/Cas9"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "pre-treatment",
+      "post-treatment"
+    ],
+    "control_arms": [
+      "tumor-adjacent normal",
+      "WT (no gRNA)"
+    ],
+    "case_arms": [
+      "pre-treatment tumor",
+      "post-treatment residual carcinoma",
+      "PYCR1 KO"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological repeats (3 technical repeats each)"
+    ],
+    "multiplex_channel_hints": [
+      "breast super-SILAC mix that served as an internal standard"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "pre-treatment",
+        "case_label": "post-treatment",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared the reduction in tumor cellularity before and after treatment"
+        ]
+      },
+      {
+        "control_label": "tumor-adjacent normal",
+        "case_label": "tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared the reduction in tumor cellularity before and after treatment",
+          "compared them to breast ducts from five breast reduction surgeries of healthy women"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "PYCR1 KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "For analysis of PYCR1 WT versus KO MCF7 cell line"
+        ]
+      },
+      {
+        "control_label": "better responders",
+        "case_label": "worse responders",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "divided the patients into two groups based on their M&P score (better responders-M&P = 3,4 and worse responders-M&P = 1,2)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "breast invasive ductal carcinoma cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "BTO:0002844"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MCF7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-231",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "breast cancer cohort",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "tumor-adjacent normal tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "super-SILAC",
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +227,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'breast super-SILAC mix' as an internal standard for quantification of FFPE samples and specifies 'H/L normalized data' and 'L/H ratios'."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Cell line experiments (PYCR1 WT vs KO) specifically used the 'label-free algorithm in MaxQuant'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "super-SILAC",
+        "H/L normalized",
+        "L/H ratios",
+        "label-free algorithm"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'breast super-SILAC mix' as an internal standard for quantification of FFPE samples and specifies 'H/L normalized data' and 'L/H ratios'."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Cell line experiments (PYCR1 WT vs KO) specifically used the 'label-free algorithm in MaxQuant'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "super-SILAC",
+        "H/L normalized",
+        "L/H ratios",
+        "label-free algorithm"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +297,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:12:23Z"
   }
 }

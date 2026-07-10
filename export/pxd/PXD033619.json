@@ -3,27 +3,43 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free LC-MS/MS",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "human embryonic stem cells"
+      "embryonic stem cell"
     ],
     "cell_lines": [
       "H1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "systematically mapped out phosphorylation sites in OCT4 protein that are differentially phosphorylated between two states of pluripotency",
+          "The naive vs primed hESC phosphoproteomics (shown in Fig. 4B) have been deposited to the ProteomeXchange Consortium via the PRIDE partner repository with the dataset identifier PXD030230."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +47,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "primed hESCs"
+    ],
+    "case_arms": [
+      "na\u00efve hESCs"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "five independent Co-IP followed by LC-MS/MS",
+      "quantify and compare the phosphoproteome of primed and na\u00efve hESCs in biological triplicates"
+    ],
+    "multiplex_channel_hints": [
+      "label-free LC-MS/MS"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "primed hESCs",
+        "case_label": "na\u00efve hESCs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differentially phosphorylated between two states of pluripotency",
+          "The naive vs primed hESC phosphoproteomics (shown in Fig. 4B)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "embryonic stem cell",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0002322"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H1",
+        "family": "human embryonic stem cell",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free LC-MS/MS"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +138,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.95,
+          "reason": "The text explicitly states 'Data were acquired by DDA' and 'employed label-free LC-MS/MS to quantify and compare the phosphoproteome'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.9,
+          "reason": "The study used 'High-Select\u2122 TiO2 Phosphopeptide Enrichment Kit' for the global phosphoproteomics dataset (PXD030230)."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free",
+        "TiO2 Phosphopeptide Enrichment",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.95,
+          "reason": "The text explicitly states 'Data were acquired by DDA' and 'employed label-free LC-MS/MS to quantify and compare the phosphoproteome'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.9,
+          "reason": "The study used 'High-Select\u2122 TiO2 Phosphopeptide Enrichment Kit' for the global phosphoproteomics dataset (PXD030230)."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free",
+        "TiO2 Phosphopeptide Enrichment",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +210,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:57:37Z"
   }
 }

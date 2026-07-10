@@ -3,65 +3,138 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantitative analysis",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Growth Factor or Cytokine Stimulation"
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "platelet"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "confidence": "high",
+        "evidence": [
+          "changes in ubiquitylated proteins following stimulation by collagen-related peptide (CRP-XL)",
+          "mapping sites of ubiquitylation of proteins in resting platelets and following stimulation of GPVI with collagen-related peptide (CRP-XL)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "collagen-related peptide (CRP-XL)",
+        "dose_or_concentration": "10 \u03bcg/mL",
+        "duration": "5 minutes",
+        "route_or_context": "human washed platelets",
+        "evidence": [
+          "stimulated with CRP-XL (10 \u03bcg/mL) for 5 minutes at 37\u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "resting",
+      "5 minutes"
+    ],
+    "control_arms": [
+      "untreated",
+      "resting platelets"
+    ],
+    "case_arms": [
+      "CRP-XL stimulated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Using platelets from six individuals over three independent experiments",
+      "This analysis was performed three times, in each case pooling platelets from three individuals"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "CRP-XL stimulated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of stimulated versus unstimulated conditions",
+          "comparing the three repeats"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "platelet",
+        "rollup_category": "blood cell",
+        "ontology_curie": "CL:0000233"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantitative analysis",
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +142,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study uses label-free quantitative analysis (Progenesis QI) and DDA acquisition (Orbitrap Fusion Lumos/Velos) without any mention of isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "Explicit use of PTMScan Ubiquitin Remnant Motif Kit and antibodies against the diGly-tag to enrich for ubiquitylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "diGly-tag",
+        "ubiquitylated peptides",
+        "PTMScan Ubiquitin Remnant Motif Kit",
+        "label-free quantitative analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study uses label-free quantitative analysis (Progenesis QI) and DDA acquisition (Orbitrap Fusion Lumos/Velos) without any mention of isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "Explicit use of PTMScan Ubiquitin Remnant Motif Kit and antibodies against the diGly-tag to enrich for ubiquitylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "diGly-tag",
+        "ubiquitylated peptides",
+        "PTMScan Ubiquitin Remnant Motif Kit",
+        "label-free quantitative analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +214,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:50:27Z"
   }
 }

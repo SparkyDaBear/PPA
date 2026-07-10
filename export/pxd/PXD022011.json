@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "normalized spectral abundance factor (NSAF)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
       "platelet",
@@ -17,12 +16,30 @@
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": null,
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "inter-tissue comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "comparative studies of the molecular composition and structure of platelets in relation to their functions and megakaryocytic origin",
+          "Comparison between cell types gave a same distribution pattern (p > 0.10, \u03c72) for platelets and megakaryocytes"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,39 +47,91 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "healthy subjects"
+    ],
+    "case_arms": [
+      "megakaryocytes"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "six cohorts of healthy subjects",
+      "n = 3",
+      "n = 2",
+      "n = 8",
+      "n \u2265 3 per transcript"
+    ],
+    "multiplex_channel_hints": [
+      "pooled platelets from 30 healthy subjects"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "platelets",
+        "case_label": "megakaryocytes",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparison between cell types gave a same distribution pattern (p > 0.10, \u03c72) for platelets and megakaryocytes"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "platelet",
+        "rollup_category": "blood cell",
+        "ontology_curie": "CL:0000233"
+      },
+      {
+        "label": "megakaryocyte",
+        "rollup_category": "blood cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "normalized spectral abundance factor (NSAF)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +139,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a common bottom-up mass-spectrometry approach with QExactive HF (DDA) and mentions relative protein abundance levels and NSAF for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.9,
+          "reason": "Explicit mention of 'detection and quantification of platelet phospho-peptides' using TiO2 beads and HILIC fractionation."
+        }
+      ],
+      "trigger_keywords": [
+        "bottom-up",
+        "TiO2 beads",
+        "phospho-peptides",
+        "NSAF",
+        "QExactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a common bottom-up mass-spectrometry approach with QExactive HF (DDA) and mentions relative protein abundance levels and NSAF for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.9,
+          "reason": "Explicit mention of 'detection and quantification of platelet phospho-peptides' using TiO2 beads and HILIC fractionation."
+        }
+      ],
+      "trigger_keywords": [
+        "bottom-up",
+        "TiO2 beads",
+        "phospho-peptides",
+        "NSAF",
+        "QExactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:19:55Z"
   }
 }

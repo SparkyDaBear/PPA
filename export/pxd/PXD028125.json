@@ -3,70 +3,138 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free differential mass spectrometry",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "mesenchymal glioma stem cells",
-      "glioma stem cells"
+      "mesenchymal glioma stem cells"
     ],
     "cell_lines": [
-      "GSC-83",
-      "GSC-326",
-      "U87MG"
+      "GSC-326"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "The lead compound, MCI-INI-3, is a selective competitive inhibitor of human ALDH1A3",
+          "To determine if MCI-INI-3 binds to ALDH1A3 in cell lysates (GSC-326), we employed an approach combining label-free differential mass spectrometry and cellular thermal shift analysis"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MCI-INI-3",
+        "dose_or_concentration": "10\u03bcM",
+        "duration": "1 h",
+        "route_or_context": "GSC-326 cell lysates",
+        "evidence": [
+          "Cell lysates from GSC-326 cells were incubated with MCI-INI-3 at 18x the Ki value (10\u03bcM, Ki = 0.55\u03bcM)",
+          "The extracts were incubated with compound at room temperature for 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "vehicle"
+    ],
+    "case_arms": [
+      "MCI-INI-3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 8 of compound and vehicle treated samples"
+    ],
+    "multiplex_channel_hints": [
+      "label-free differential mass spectrometry"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "vehicle",
+        "case_label": "MCI-INI-3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "volcano plots of statistical significance versus magnitude of change in relative protein abundance for vehicle and MCI-INI-3 treated lysates"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "mesenchymal glioma stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0000034"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "GSC-326",
+        "family": "glioma stem cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free differential mass spectrometry",
+      "TIC"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +143,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a 'data-dependent top 5 method' and 'label-free differential mass spectrometry' with intensities assigned by MaxQuant using full scan mass spectra."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "cetsa",
+          "confidence": 0.9,
+          "reason": "The experiment is explicitly described as 'Mass spectrometry-based cellular thermal shift analysis' (CETSA) to identify protein-ligand binding."
+        }
+      ],
+      "trigger_keywords": [
+        "cellular thermal shift analysis",
+        "label-free differential mass spectrometry",
+        "data-dependent top 5",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a 'data-dependent top 5 method' and 'label-free differential mass spectrometry' with intensities assigned by MaxQuant using full scan mass spectra."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "cetsa",
+          "confidence": 0.9,
+          "reason": "The experiment is explicitly described as 'Mass spectrometry-based cellular thermal shift analysis' (CETSA) to identify protein-ligand binding."
+        }
+      ],
+      "trigger_keywords": [
+        "cellular thermal shift analysis",
+        "label-free differential mass spectrometry",
+        "data-dependent top 5",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:43:24Z"
   }
 }

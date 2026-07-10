@@ -3,22 +3,39 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "Relative quantification using stable isotope-labeled internal standard peptides",
     "labeling_strategy": [
       "Other"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "quantified in sera from a cohort of 69 patients with early-stage HGSOC, late-stage HGSOC, benign ovarian conditions, and healthy (non-cancer) controls."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,38 +43,91 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "non-cancer controls",
+      "benign ovarian disease"
+    ],
+    "case_arms": [
+      "early-stage I/II HGSOC",
+      "late-stage III/IV HGSOC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "analyzed by our PRM assay in duplicate (n = 2 injections per sample)"
+    ],
+    "multiplex_channel_hints": [
+      "multiplexed Tier 2 targeted MS parallel reaction monitoring (PRM) assay"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-cancer controls",
+        "case_label": "late-stage HGSOC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "IBP2 was identified as a diagnostic biomarker candidate based on its significantly increased abundance in the late-stage HGSOC patient sera compared to the healthy controls"
+        ]
+      },
+      {
+        "control_label": "benign ovarian conditions",
+        "case_label": "late-stage HGSOC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "IBP2 was identified as a diagnostic biomarker candidate based on its significantly increased abundance in the late-stage HGSOC patient sera compared to ... patients with benign ovarian conditions."
+        ]
+      },
+      {
+        "control_label": "early-stage HGSOC",
+        "case_label": "late-stage HGSOC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "IBP2_LEG showed significant differences in abundance when comparing early-stage vs. late-stage sera"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "sera",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "Relative quantification using stable isotope-labeled internal standard peptides"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -66,10 +136,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "While the experiment is PRM (targeted), the data is relative quantification of endogenous peptides using internal standards, which most closely aligns with LFQ-style relative abundance reporting in a bottom-up context, though it is technically a targeted assay."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The text explicitly and repeatedly describes the use of a 'multiplexed targeted PRM MS assay' and 'parallel reaction monitoring'."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "parallel reaction monitoring",
+        "targeted mass spectrometry",
+        "internal standard peptides",
+        "Skyline"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "While the experiment is PRM (targeted), the data is relative quantification of endogenous peptides using internal standards, which most closely aligns with LFQ-style relative abundance reporting in a bottom-up context, though it is technically a targeted assay."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The text explicitly and repeatedly describes the use of a 'multiplexed targeted PRM MS assay' and 'parallel reaction monitoring'."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "parallel reaction monitoring",
+        "targeted mass spectrometry",
+        "internal standard peptides",
+        "Skyline"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +210,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:38:53Z"
   }
 }

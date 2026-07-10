@@ -3,25 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Post-Translational Modification Enrichment"
+      "disease or clinical state"
     ],
     "cell_types": [
       "peripheral blood mononuclear cells"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "quantify lysine crotonylation (Kcr) and lysine 2-hydroxyisobutyrylation (Khib) in peripheral blood mononuclear cells (PBMCs) of systemic lupus erythematosus (SLE) patients and normal controls",
+          "Seventy-six differentially modified proteins (DMPs) dually modified by Kcr and Khib were identified between SLE patients and healthy people."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +46,97 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal controls",
+      "healthy people",
+      "NC group"
+    ],
+    "case_arms": [
+      "systemic lupus erythematosus (SLE) patients",
+      "SLE group"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "3.5-ml peripheral blood samples from 11 SLE patients and 36 healthy people were gathered for Kcr proteomics analysis",
+      "3.5-ml peripheral blood samples from 8 SLE patients and 20 healthy people were collected for Khib proteomics analysis"
+    ],
+    "multiplex_channel_hints": [
+      "Peptides were labeled with TMT reagent"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal control",
+        "case_label": "SLE",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differentially expressed between the SLE group and NC group"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "peripheral blood mononuclear cells",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "peripheral blood",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "lysine crotonylation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "lysine 2-hydroxyisobutyrylation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +144,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The methods section explicitly states 'Peptides were labeled with TMT reagent' and describes a data-dependent acquisition (DDA) procedure on a Q Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses pan antibody-based PTM enrichment for both lysine crotonylation (Kcr) and lysine 2-hydroxyisobutyrylation (Khib)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "crotonylation",
+        "2-hydroxyisobutyrylation",
+        "antibody beads",
+        "enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The methods section explicitly states 'Peptides were labeled with TMT reagent' and describes a data-dependent acquisition (DDA) procedure on a Q Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses pan antibody-based PTM enrichment for both lysine crotonylation (Kcr) and lysine 2-hydroxyisobutyrylation (Khib)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "crotonylation",
+        "2-hydroxyisobutyrylation",
+        "antibody beads",
+        "enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:45:39Z"
   }
 }

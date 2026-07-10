@@ -3,28 +3,34 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "precursor intensity",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
-    "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
-    ],
-    "cell_types": [
-      "prostate gland"
-    ],
+    "treatment_categories": [],
+    "cell_types": [],
     "cell_lines": [
       "PC-3"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
     "primary_variables": [],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sulfo-NHS-LC-biotin",
+        "dose_or_concentration": "0.4 mM",
+        "duration": "30 min",
+        "route_or_context": "ice-cold PBS",
+        "evidence": [
+          "The cells were then incubated in 10 ml of 0.4 mM of membrane-impermeant amine-reactive biotinylation agent sulfo-NHS-LC-biotin (APExBIO, Boston, MA) in ice-cold PBS for 30 min at 4 \u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -33,9 +39,13 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "with 4 dishes used per replicate",
+      "Extracellular lysine residues of proteins expressed in PC-3, a prostate cancer cell line, were labeled using a non-cleavable, membrane-impermeant biotinylation reagent in triplicate.",
+      "A total of 6700 biotinylated peptides were detected across the three replicates"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -43,27 +53,53 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "PC-3",
+        "family": "prostate cancer cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "biotinylation enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +107,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA mode on an Orbitrap Exploris 480 and label-free quantitation (LFQ) via Minora feature detection."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotinylation_site_enrichment",
+          "confidence": 1.0,
+          "reason": "The study specifically describes the sBioSITe method for direct enrichment of biotinylated peptides using anti-biotin antibodies to identify cell surface lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "sBioSITe",
+        "biotinylated peptides",
+        "anti-biotin antibodies",
+        "cell surface proteome",
+        "DDA",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA mode on an Orbitrap Exploris 480 and label-free quantitation (LFQ) via Minora feature detection."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotinylation_site_enrichment",
+          "confidence": 1.0,
+          "reason": "The study specifically describes the sBioSITe method for direct enrichment of biotinylated peptides using anti-biotin antibodies to identify cell surface lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "sBioSITe",
+        "biotinylated peptides",
+        "anti-biotin antibodies",
+        "cell surface proteome",
+        "DDA",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +183,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:44:32Z"
   }
 }

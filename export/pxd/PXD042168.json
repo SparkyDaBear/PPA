@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "Acute Myeloid Leukemia",
@@ -21,51 +19,144 @@
       "K562"
     ],
     "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Treatment with SAHA (Vorinostat)\u2014an FDA-approved HDAC inhibitor",
+          "comparing EVs of the two cell lines treated with SAHA to related controls"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SAHA (Vorinostat)",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "in vitro cell culture",
+        "evidence": [
+          "SAHA (Vorinostat; Merck, Kenilworth, NJ, USA) was dissolved in DMSO (Sigma-Aldrich) and used at a final concentration of 5 \u03bcM.",
+          "treated with SAHA for 24 h before EV isolation."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "EV Ctr",
+      "DMSO"
+    ],
+    "case_arms": [
+      "EV SAHA"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Tryptic peptides were analyzed in triplicate by LC\u2013MS/MS",
+      "All experiments were repeated three times (biological replicates)."
+    ],
+    "multiplex_channel_hints": [
+      "label-free proteomics analysis"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "EV Ctr",
+        "case_label": "EV SAHA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing EVs of the two cell lines treated with SAHA to related controls",
+          "protein ratios (EV SAHA/EV Ctr) were used for Gene Ontology and functional enrichment analysis"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "Acute Myeloid Leukemia",
+        "rollup_category": "leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "Chronic Myeloid Leukemia",
+        "rollup_category": "leukemia",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U937",
+        "family": "AML",
+        "ontology_curie": "CVCL_0007"
+      },
+      {
+        "label": "K562",
+        "family": "CML",
+        "ontology_curie": "CVCL_0004"
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "extracellular vesicles",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
-      "label": null,
-      "curie": null
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "label-free identification and quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +165,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated 'label-free proteomics analysis' using 'Data Dependent Acquisition (DDA) mode' and 'iBAQs' for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "DDA",
+        "iBAQs",
+        "Data Dependent Acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated 'label-free proteomics analysis' using 'Data Dependent Acquisition (DDA) mode' and 'iBAQs' for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "DDA",
+        "iBAQs",
+        "Data Dependent Acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +225,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:19:45Z"
   }
 }

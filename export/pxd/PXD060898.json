@@ -3,67 +3,210 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "robust LC (high precision)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "cystic fibrosis bronchial epithelial cells"
+      "bronchial epithelial cells"
     ],
     "cell_lines": [
-      "HEK293T"
+      "HEK293T",
+      "CFBE"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Cells were treated at 48 h after confluency with vehicle (DMSO), probe (1 \u03bcM VU439), or competition (incubated with a 10-fold excess of VX-445 for 1 h, followed by 1 \u03bcM VU439 addition).",
+          "We filtered identified proteins from both probe (VU439: 1 \u03bcM) and competition conditions (VU439: 1 \u03bcM; VX-445: 10 \u03bcM) against vehicle control (DMSO)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "HEK293T cells were transfected with mock or SCCPDH plasmid",
+          "To further validate SCCPDH as an off-target of VX-445, we transiently overexpressed Myc-tagged SCCPDH in HEK293T cells."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "VU439",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "CFBE cells expressing F508del CFTR",
+        "evidence": [
+          "Cells were treated at 48 h after confluency with vehicle (DMSO), probe (1 \u03bcM VU439)... After incubating cells for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "VX-445",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "competition condition",
+        "evidence": [
+          "competition (incubated with a 10-fold excess of VX-445 for 1 h, followed by 1 \u03bcM VU439 addition)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SCCPDH plasmid",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient transfection in HEK293T cells",
+        "evidence": [
+          "HEK293T cells were transfected with mock or SCCPDH plasmid"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "vehicle (DMSO)",
+      "mock (GFP)"
+    ],
+    "case_arms": [
+      "probe (VU439)",
+      "competition (VX-445 + VU439)",
+      "SCCPDH overexpression"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "multiple paired t tests"
+    ],
+    "multiplex_channel_hints": [
+      "Label-Free DIA"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "vehicle",
+        "case_label": "probe",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Targets that were enriched over one standard deviation (\u03c3) from the log2 distribution when probe was compared to vehicle"
+        ]
+      },
+      {
+        "control_label": "competition",
+        "case_label": "probe",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We then compared the probe against the competition conditions to remove nonspecific targets"
+        ]
+      },
+      {
+        "control_label": "mock",
+        "case_label": "SCCPDH overexpression",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "HEK293T cells were transfected with mock or SCCPDH plasmid... We observed no statistically significant global changes in protein expression caused by SCCPDH overexpression"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "bronchial epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "CFBE",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "robust LC (high precision)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +214,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label-Free DIA Sample Preparation' and 'data-independent acquisition-mass spectrometry (DIA-MS)' using DIA-NN."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment uses a photoaffinity ligand (VU439) with a desthiobiotin handle for streptavidin-based enrichment of cross-linked proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "data-independent acquisition",
+        "photoaffinity ligand",
+        "click chemistry",
+        "streptavidin enrichment",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label-Free DIA Sample Preparation' and 'data-independent acquisition-mass spectrometry (DIA-MS)' using DIA-NN."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment uses a photoaffinity ligand (VU439) with a desthiobiotin handle for streptavidin-based enrichment of cross-linked proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "data-independent acquisition",
+        "photoaffinity ligand",
+        "click chemistry",
+        "streptavidin enrichment",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +290,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:20:35Z"
   }
 }

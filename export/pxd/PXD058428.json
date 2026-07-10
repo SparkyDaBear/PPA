@@ -2,25 +2,42 @@
   "pxd": "PXD058428",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "Unknown",
+    "quantification_method": "TMT-based isobaric quantification",
     "labeling_strategy": [
       "TMT",
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "integrative serum proteomics study on samples from 134 individuals (healthy controls, patients with obesity and/or T2D)",
+          "Altogether, samples were collected from 134 individuals: 46 healthy volunteers, 43 obese patients and 46 patients with T2D mellitus."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,102 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "healthy controls",
+      "Control group"
+    ],
+    "case_arms": [
+      "obesity",
+      "T2D"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "More than 30 subjects (biological replicates) for each group were included in the study"
+    ],
+    "multiplex_channel_hints": [
+      "ten 10-plex series were formed, each containing nine individual samples and one supermix",
+      "TMTpro 16plex Label Reagent Set"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "Obesity",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The following seven proteins are present in higher amounts in the Obesity group compared with the Control group"
+        ]
+      },
+      {
+        "control_label": "Control",
+        "case_label": "T2D",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "When the T2D group was compared to controls, nine proteins... were present in higher amounts, and three proteins... in lower amounts."
+        ]
+      },
+      {
+        "control_label": "Obesity",
+        "case_label": "T2D",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In the comparison of the Obesity and T2D groups, we could not identify any statistically significant changes in protein abundances."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "TMT",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TMT-based isobaric quantification",
+      "Label-free quantification (DIA)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +148,68 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit use of TMTpro 16plex labeling and DDA acquisition for global proteomics and phosphoproteomics."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "Explicit use of DIA-NN for data-independent acquisition (DIA) on depleted serum samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Use of High-Select Fe-NTA Phosphopeptide Enrichment Kit for phosphoproteomics."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro 16plex",
+        "DIA",
+        "Fe-NTA Phosphopeptide Enrichment",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit use of TMTpro 16plex labeling and DDA acquisition for global proteomics and phosphoproteomics."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "Explicit use of DIA-NN for data-independent acquisition (DIA) on depleted serum samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Use of High-Select Fe-NTA Phosphopeptide Enrichment Kit for phosphoproteomics."
+        }
+      ],
+      "trigger_keywords": [
+        "TMTpro 16plex",
+        "DIA",
+        "Fe-NTA Phosphopeptide Enrichment",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +230,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:48:16Z"
   }
 }

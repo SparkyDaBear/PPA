@@ -2,37 +2,43 @@
   "pxd": "PXD039053",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "colon cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "SW480",
-      "HeLa",
-      "HEK293",
-      "MHCC97H",
-      "HT29",
-      "T24",
-      "TCC",
-      "MDA231",
-      "T47D"
+      "SW480"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "N-terminome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "we measured Nt-formylated proteins by anti-fMetHs-based immunoblotting in a set of human cell lines, including HEK293 (embryonic kidney), HeLa (cervical carcinoma), MHCC97H (hepatocellular carcinoma), SW480 and HT29 (colorectal carcinoma), T24 and TCC (bladder carcinoma), and MDA231 and T47D (breast carcinoma)",
+          "strong upregulation of Nt-formylated proteins was observed in SW480 colon cancer cells"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -40,39 +46,78 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "HEK293"
+    ],
+    "case_arms": [
+      "SW480"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-cancerous/other cell lines",
+        "case_label": "SW480",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "strong upregulation of Nt-formylated proteins was observed in SW480 colon cancer cells, although each cell line exhibited different patterns"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "SW480",
+        "family": "colorectal carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "N-terminome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -80,10 +125,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Q Exactive (DDA) with spectrum counting for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminome_enrichment",
+          "confidence": 0.9,
+          "reason": "Explicit use of 'integrated Nt-peptide enrichment method' (iNrich) to isolate N-terminal peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "Nt-peptide enrichment",
+        "N-terminome",
+        "iNrich",
+        "LC-MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Q Exactive (DDA) with spectrum counting for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminome_enrichment",
+          "confidence": 0.9,
+          "reason": "Explicit use of 'integrated Nt-peptide enrichment method' (iNrich) to isolate N-terminal peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "Nt-peptide enrichment",
+        "N-terminome",
+        "iNrich",
+        "LC-MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -104,6 +197,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:42:49Z"
   }
 }

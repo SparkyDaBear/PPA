@@ -3,29 +3,61 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Normalized Spectral Abundance Factor (NSAF)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment",
-      "Disease"
+      "anatomical or spatial comparison",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "melanocyte"
+      "melanoma cells"
     ],
     "cell_lines": [
       "A375"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "Interpreting these 25 million tandem mass spectra \u2013 derived from 30 adult and fetal tissues",
+          "To compare modification sites between tissues, we quantified the abundance of sites using two methods",
+          "Modification site abundances (stoichiometry or NSC) per tissue were calculated as the average of the site abundances over all experiments performed on that tissue."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "Histone H4 R56 dimethylation occurring with 25-fold greater abundance in fetal than adult tissues.",
+          "Twenty-six diverse PTMs showed similarly greater abundance in fetal tissues, suggesting specific roles in development"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,38 +66,103 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "adult tissues",
+      "fetal tissues"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Most statistical calculations, however, describe populations of protein, peptide, and PTM observations by considering each large-scale proteomic experiment as a single replicate."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "adult tissues",
+        "case_label": "fetal tissues",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Histone H4 R56 dimethylation occurring with 25-fold greater abundance in fetal than adult tissues."
+        ]
+      },
+      {
+        "control_label": "tissue A",
+        "case_label": "tissue B",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "To compare modification sites between tissues, we quantified the abundance of sites using two methods"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "melanoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A375",
+        "family": "melanoma",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "adult and fetal tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "lung",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Normalized Spectral Abundance Factor (NSAF)",
+      "normalized spectral counts (NSC)",
+      "estimated stoichiometry"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +170,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 90,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos. Quantification was performed using Normalized Spectral Abundance Factor (NSAF), which is a label-free spectral counting method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_discovery",
+          "confidence": 95,
+          "reason": "The primary goal of the study is the unrestricted discovery and localization of a vast landscape of PTMs, including proline, lysine, and asparagine hydroxylation."
+        }
+      ],
+      "trigger_keywords": [
+        "data dependent mode",
+        "NSAF",
+        "post-translational modifications",
+        "unrestricted string-based search",
+        "spectral counts"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 90,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos. Quantification was performed using Normalized Spectral Abundance Factor (NSAF), which is a label-free spectral counting method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_discovery",
+          "confidence": 95,
+          "reason": "The primary goal of the study is the unrestricted discovery and localization of a vast landscape of PTMs, including proline, lysine, and asparagine hydroxylation."
+        }
+      ],
+      "trigger_keywords": [
+        "data dependent mode",
+        "NSAF",
+        "post-translational modifications",
+        "unrestricted string-based search",
+        "spectral counts"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +244,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:06:37Z"
   }
 }

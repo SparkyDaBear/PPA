@@ -3,67 +3,150 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "TIC",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
-      "K562",
-      "HEK293T"
+      "Rosetta-2 (DE3) pLysS"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
+        "evidence": [
+          "treated with or without SIRT2 at 4 \u00b0C overnight"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SIRT2",
+        "dose_or_concentration": null,
+        "duration": "overnight",
+        "route_or_context": "in vitro protein treatment",
+        "evidence": [
+          "treated with or without SIRT2 at 4 \u00b0C overnight"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "overnight",
+        "route_or_context": "incubation period",
+        "evidence": [
+          "treated with or without SIRT2 at 4 \u00b0C overnight"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "overnight"
+    ],
+    "control_arms": [
+      "control (\u2212) SIRT"
+    ],
+    "case_arms": [
+      "acetylated (+) SIRT"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 1"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control (\u2212) SIRT",
+        "case_label": "acetylated (+) SIRT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the trypsinized peptides for the control (\u2212) SIRT (n = 1) and the acetylated (+) SIRT (n = 1) were resuspended"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "E. coli",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Rosetta-2 (DE3) pLysS",
+        "family": "E. coli",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +154,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q-Exactive HF-X in DDA mode (top 12 most intense peaks isolated) and analyzed with MaxQuant. While 'TIC' is listed in PRIDE, the experimental design is a simple comparison of two states (with/without SIRT2) for site identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_acetylation",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets auto-acetylation sites on MORF using SIRT2 (a deacetylase) as a control to identify acetylated lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation sites analysis",
+        "autoacetylation",
+        "SIRT2",
+        "lysine side chain acetylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q-Exactive HF-X in DDA mode (top 12 most intense peaks isolated) and analyzed with MaxQuant. While 'TIC' is listed in PRIDE, the experimental design is a simple comparison of two states (with/without SIRT2) for site identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_acetylation",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets auto-acetylation sites on MORF using SIRT2 (a deacetylase) as a control to identify acetylated lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation sites analysis",
+        "autoacetylation",
+        "SIRT2",
+        "lysine side chain acetylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:31:56Z"
   }
 }

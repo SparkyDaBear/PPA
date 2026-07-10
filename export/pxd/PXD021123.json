@@ -3,26 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "glomeruli"
-    ],
-    "cell_lines": [
-      "HEK293"
-    ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Mass spectra of laser capture microdissected (LCMD) glomeruli from 13 cases of MN of unknown antigen type, including both lupus and non-lupus patients, were compared with twelve cases of known etiology (including 8 PLA2R and 4 EXT-associated MN)",
+          "Protein G co-immunoprecipitation was performed from OCT frozen tissue of 4 PLA2R positive, 4 EXT positive, and 3 NCAM1 positive renal biopsies"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,39 +44,84 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "PLA2R-associated MN",
+      "EXT-associated MN"
+    ],
+    "case_arms": [
+      "NCAM1-associated MN"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "4 PLA2R positive, 4 EXT positive, and 3 NCAM1 positive renal biopsies"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Known etiology MN (PLA2R/EXT)",
+        "case_label": "Unknown antigen type MN (NCAM1)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "The protein differential abundance for each type of MN was compared against the remaining two groups using normalized iBAQ values produced by MaxQuant."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "kidney",
+        "source_kind": "organ"
+      },
+      {
+        "label": "glomeruli",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +129,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (explicitly mentioned in PRIDE keywords) and label-free quantitation via iBAQ values from MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunoprecipitation",
+          "confidence": 0.9,
+          "reason": "One of the primary discovery methods was Protein G co-immunoprecipitation of IgG from frozen kidney biopsy tissue."
+        },
+        {
+          "modifier_workflow_id": "laser_capture_microdissection",
+          "confidence": 0.9,
+          "reason": "The other primary discovery method utilized laser capture microdissected (LCMD) glomeruli from FFPE tissue."
+        }
+      ],
+      "trigger_keywords": [
+        "Dda",
+        "iBAQ",
+        "MaxQuant",
+        "Protein G co-immunoprecipitation",
+        "laser capture microdissected",
+        "LCMD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (explicitly mentioned in PRIDE keywords) and label-free quantitation via iBAQ values from MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunoprecipitation",
+          "confidence": 0.9,
+          "reason": "One of the primary discovery methods was Protein G co-immunoprecipitation of IgG from frozen kidney biopsy tissue."
+        },
+        {
+          "modifier_workflow_id": "laser_capture_microdissection",
+          "confidence": 0.9,
+          "reason": "The other primary discovery method utilized laser capture microdissected (LCMD) glomeruli from FFPE tissue."
+        }
+      ],
+      "trigger_keywords": [
+        "Dda",
+        "iBAQ",
+        "MaxQuant",
+        "Protein G co-immunoprecipitation",
+        "laser capture microdissected",
+        "LCMD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:28:05Z"
   }
 }

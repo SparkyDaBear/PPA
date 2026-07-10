@@ -3,65 +3,182 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "ligand-mediated stimulation",
+      "infection exposure"
     ],
     "cell_types": [
-      "primary human airway epithelial cells"
+      "human airway epithelial cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand-mediated stimulation",
+          "cytokine stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "Global proteomic analyses systematically assessed the abundance of specific antiviral key effector molecules which are involved in IFN-I signaling pathways, negative regulation of viral processes, and immune effector processes for the potent antiviral IFN\u03b15.",
+          "primary hAECs were pretreated with selected IFNs for 16 h."
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection exposure",
+          "live pathogen infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "we included a late time point, 72 h posttreatment both in the presence (t = 72 h [CoV-2]) and absence of viral infection (t = 72 h [mock])"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IFN\u03b15, IFN\u03b17, IFN\u03b116, IFN\u03bb3",
+        "dose_or_concentration": null,
+        "duration": "16 h",
+        "route_or_context": "basolateral side of the cells",
+        "evidence": [
+          "we decided to further investigate their specific proteomic profile in direct comparison with IFN\u03b17, which exhibited a moderate antiviral effect, and IFN\u03b116, displaying a weak effect against SARS-CoV-2 infection",
+          "primary hAECs were pretreated with selected IFNs for 16 h.",
+          "Treatment of hAECs was performed by adding the indicated amounts of IFNs or remdesivir directly to the cell culture medium on the basolateral side of the cells."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SARS-CoV-2",
+        "dose_or_concentration": "30,000 PFU",
+        "duration": "72 h",
+        "route_or_context": "apically",
+        "evidence": [
+          "the cells were infected apically with 30,000 PFU diluted in HBSS",
+          "we included a late time point, 72 h posttreatment both in the presence (t = 72 h [CoV-2]) and absence of viral infection (t = 72 h [mock])"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0 h",
+      "72 h"
+    ],
+    "control_arms": [
+      "untreated hAECs",
+      "mock"
+    ],
+    "case_arms": [
+      "IFN\u03b15",
+      "IFN\u03b17",
+      "IFN\u03b116",
+      "IFN\u03bb3",
+      "CoV-2"
+    ],
+    "paired_design": true,
+    "factorial_design": true,
+    "replicate_hints": [
+      "minimum of three out of four donors per group"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification was used for peak quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "IFN-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "GO analysis of proteins differentially abundant between untreated and IFN-treated samples at each time point (untreated vs. IFN)"
+        ]
+      },
+      {
+        "control_label": "mock",
+        "case_label": "CoV-2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the comparison of samples in the presence or absence of SARS-CoV-2 (mock vs. CoV-2)"
+        ]
+      },
+      {
+        "control_label": "IFN\u03b116",
+        "case_label": "IFN\u03b15",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "investigate their specific proteomic profile in direct comparison with IFN\u03b17... and IFN\u03b116"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "human airway epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +187,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free quantification was used for peak quantification' and describes a DDA acquisition (top 10 highest abundant peptide ions fragmented)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "Q Exactive HF",
+        "top 10 highest abundant peptide ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free quantification was used for peak quantification' and describes a DDA acquisition (top 10 highest abundant peptide ions fragmented)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "Q Exactive HF",
+        "top 10 highest abundant peptide ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +247,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:13:04Z"
   }
 }

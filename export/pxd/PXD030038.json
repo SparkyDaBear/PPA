@@ -3,67 +3,139 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "K562"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "K562"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "confidence": "high",
+        "evidence": [
+          "K562 cells were treated with STI571 (Gleevec, 1 \u00b5M final concentration, 1 h, 37 \u00b0C) followed by incubation with 500 \u00b5M pervanadate (20 min, 37 \u00b0C).",
+          "we prepared cell lysates from unstimulated and stimulated K562 cells."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "STI571 (Gleevec)",
+        "dose_or_concentration": "1 \u00b5M",
+        "duration": "1 h",
+        "route_or_context": "K562 cells",
+        "evidence": [
+          "K562 cells were treated with STI571 (Gleevec, 1 \u00b5M final concentration, 1 h, 37 \u00b0C)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "pervanadate",
+        "dose_or_concentration": "500 \u00b5M",
+        "duration": "20 min",
+        "route_or_context": "K562 cells",
+        "evidence": [
+          "followed by incubation with 500 \u00b5M pervanadate (20 min, 37 \u00b0C)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "unstimulated"
+    ],
+    "case_arms": [
+      "stimulated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unstimulated",
+        "case_label": "stimulated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we prepared cell lysates from unstimulated and stimulated K562 cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "K562",
+        "family": "leukemia",
+        "ontology_curie": "CL:0000233"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +143,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data was acquired using a DDA approach (TopN of 15, survey full-scan MS) on an Orbitrap Fusion Lumos. No labeling (SILAC, TMT, dimethyl) is mentioned; the study focuses on the number of unique peptides/sites identified across different enrichment tools."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_enrichment",
+          "confidence": 1.0,
+          "reason": "The entire experiment is centered on phosphotyrosine (pTyr) enrichment using engineered SH2 domains and Ti/Zr-IMAC."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "pTyr-peptide enrichment",
+        "SH2 superbinders",
+        "Ti/Zr-IMAC",
+        "phosphotyrosine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data was acquired using a DDA approach (TopN of 15, survey full-scan MS) on an Orbitrap Fusion Lumos. No labeling (SILAC, TMT, dimethyl) is mentioned; the study focuses on the number of unique peptides/sites identified across different enrichment tools."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_enrichment",
+          "confidence": 1.0,
+          "reason": "The entire experiment is centered on phosphotyrosine (pTyr) enrichment using engineered SH2 domains and Ti/Zr-IMAC."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "pTyr-peptide enrichment",
+        "SH2 superbinders",
+        "Ti/Zr-IMAC",
+        "phosphotyrosine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:29:22Z"
   }
 }

@@ -3,69 +3,144 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "neutrophils"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293T17",
-      "BaF3",
       "Expi293F"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "A single amino acid mutation in CSF3R, T618I, instead allows for constitutive, ligand-independent cell growth",
+          "We confirmed glycosylation at multiple CSF3R residues by mass spectrometry, including the presence of GalNAc and Gal-GalNAc glycans at WT threonine 618."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "WT CSF3R 5FnIII domain",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "recombinant protein expressed in Expi293F cells",
+        "evidence": [
+          "Using a recombinant form of the WT CSF3R 5FnIII domain expressed in human Expi293F cells, we first treated samples with sialidase"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IL-31R\u03b1 extracellular domain",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "recombinant protein",
+        "evidence": [
+          "the full extracellular domain of IL-31R\u03b1 (ACROBiosystems ILA-H52H7) was incubated in a similar fashion as described above."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "WT CSF3R"
+    ],
+    "case_arms": [
+      "T618I mutation",
+      "S489F mutation"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT CSF3R",
+        "case_label": "T618I CSF3R",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We compared BaF3 activity for full-length WT and T618I CSF3R constructs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Expi293F",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +148,76 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Data acquired using Orbitrap Fusion Tribrid with DDA-like precursor selection (top speed, dynamic exclusion) and HCD/ETD fragmentation, though primarily used for site identification rather than large-scale LFQ."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 0.95,
+          "reason": "Explicit use of O-glycoprotease (OpeRATOR/IMPa), search against O-glycan databases, and use of oxonium ion-triggered ETD for site localization."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.9,
+          "reason": "Explicit use of PNGase F and search against N-glycan libraries for WT 5FnIII."
+        }
+      ],
+      "trigger_keywords": [
+        "O-glycopeptides",
+        "N-glycopeptides",
+        "OpeRATOR",
+        "PNGase F",
+        "oxonium ions",
+        "Byonic",
+        "O-Pair Search",
+        "site-localization of glycosylation sites"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Data acquired using Orbitrap Fusion Tribrid with DDA-like precursor selection (top speed, dynamic exclusion) and HCD/ETD fragmentation, though primarily used for site identification rather than large-scale LFQ."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 0.95,
+          "reason": "Explicit use of O-glycoprotease (OpeRATOR/IMPa), search against O-glycan databases, and use of oxonium ion-triggered ETD for site localization."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_n_linked",
+          "confidence": 0.9,
+          "reason": "Explicit use of PNGase F and search against N-glycan libraries for WT 5FnIII."
+        }
+      ],
+      "trigger_keywords": [
+        "O-glycopeptides",
+        "N-glycopeptides",
+        "OpeRATOR",
+        "PNGase F",
+        "oxonium ions",
+        "Byonic",
+        "O-Pair Search",
+        "site-localization of glycosylation sites"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +238,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:22:07Z"
   }
 }

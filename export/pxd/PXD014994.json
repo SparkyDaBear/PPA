@@ -3,29 +3,43 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantitative proteomics",
     "labeling_strategy": [
       "LFQ",
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [
       "hepatocyte"
     ],
-    "cell_lines": [
-      "HepG2",
-      "L02"
-    ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_lines": [],
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we characterized the proteome and acetyl proteome (acetylome) profile of normal, paracancerous, and HCC liver tissues in human clinical samples",
+          "compared the differential acetylation levels between three group pairs (T vs. N, T vs. P, and P vs. N)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +47,107 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal liver tissues",
+      "paracancerous tissues"
+    ],
+    "case_arms": [
+      "HCC liver tissues"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three paired paracancerous and HCC tissues from three patients were used for TMT labeling quantification"
+    ],
+    "multiplex_channel_hints": [
+      "6-plex TMT labeling was performed",
+      "Samples A1, A2, B1, B2, C1, and C2 were labeled by TMT reagents 126, 127, 128, 129, 130, and 131, respectively"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "250 Kac sites of 214 proteins were upregulated and 662 Kac sites of 451 proteins were downregulated in HCC compared with normal liver tissues"
+        ]
+      },
+      {
+        "control_label": "paracancerous",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparisons of T versus P and P versus N groups were performed with a similar approach as above"
+        ]
+      },
+      {
+        "control_label": "normal",
+        "case_label": "paracancerous",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparisons of T versus P and P versus N groups were performed with a similar approach as above"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "liver cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "liver tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "label-free quantitative proteomics",
+      "TMT-labeling quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +155,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly mentions 'label-free quantitative proteomics' and 'Data-dependent MS/MS acquisition'."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly mentions 'TMT-labeling quantification' and '6-plex TMT labeling'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_enrichment_acetyl",
+          "confidence": 1.0,
+          "reason": "Used immunoaffinity precipitation with antibody beads (PTM-104) to enrich lysine-acetylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "TMT-labeling",
+        "acetylome",
+        "immunoaffinity precipitation",
+        "Kac sites",
+        "data-dependent MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly mentions 'label-free quantitative proteomics' and 'Data-dependent MS/MS acquisition'."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly mentions 'TMT-labeling quantification' and '6-plex TMT labeling'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_enrichment_acetyl",
+          "confidence": 1.0,
+          "reason": "Used immunoaffinity precipitation with antibody beads (PTM-104) to enrich lysine-acetylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "TMT-labeling",
+        "acetylome",
+        "immunoaffinity precipitation",
+        "Kac sites",
+        "data-dependent MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +241,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:02:48Z"
   }
 }

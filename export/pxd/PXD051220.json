@@ -2,30 +2,40 @@
   "pxd": "PXD051220",
   "title": null,
   "summary": {
-    "acquisition_type": "DIA",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "DDA",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "inter-tissue comparison"
     ],
-    "cell_types": [
-      "endometrium",
-      "myometrium",
-      "fibroid"
-    ],
-    "cell_lines": [
-      "THESC"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "inter-tissue comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial_comparison",
+        "matched_parent_class_key": "PPA:0000019",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "PPA:0000019",
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "Integration of fibroid (n\u2009=\u200950) and myometrium (n\u2009=\u200941, including 31 UF and 10 non-UF patients) identified 6 latent factors (Supplementary Fig. 4)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +43,75 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "myometrium"
+    ],
+    "case_arms": [
+      "fibroid"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "n = 50 fibroid samples",
+      "n = 41 myometrium samples"
+    ],
+    "multiplex_channel_hints": [
+      "TMT 10plex",
+      "global pooled samples (1X Pool and 5X Pool)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "myometrium",
+        "case_label": "fibroid",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Integration of fibroid (n\u2009=\u200950) and myometrium (n\u2009=\u200941, including 31 UF and 10 non-UF patients) identified 6 latent factors (Supplementary Fig. 4)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "fibroid tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +120,84 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.95,
+          "reason": "TMT 10plex isobaric labeling with DDA acquisition on Q Exactive HF"
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "TMT_10plex_labeling",
+          "confidence": 0.9,
+          "reason": "Use of TMT 10plex isobaric labeling on peptide N-termini and lysine residues"
+        },
+        {
+          "modifier_workflow_id": "high_pH_reversed_phase_prefractionation",
+          "confidence": 0.8,
+          "reason": "Offline high-pH reversed-phase pre-fractionation concatenated into 10 fractions"
+        },
+        {
+          "modifier_workflow_id": "SMART_Digest_trypsin_digestion",
+          "confidence": 0.7,
+          "reason": "Automated high-temperature SMART Digest trypsin digestion"
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10plex",
+        "isobaric",
+        "DDA",
+        "Q Exactive",
+        "10plex"
+      ],
+      "raw_or_file_name_triggers": [
+        ".raw"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.95,
+          "reason": "TMT 10plex isobaric labeling with DDA acquisition on Q Exactive HF"
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "TMT_10plex_labeling",
+          "confidence": 0.9,
+          "reason": "Use of TMT 10plex isobaric labeling on peptide N-termini and lysine residues"
+        },
+        {
+          "modifier_workflow_id": "high_pH_reversed_phase_prefractionation",
+          "confidence": 0.8,
+          "reason": "Offline high-pH reversed-phase pre-fractionation concatenated into 10 fractions"
+        },
+        {
+          "modifier_workflow_id": "SMART_Digest_trypsin_digestion",
+          "confidence": 0.7,
+          "reason": "Automated high-temperature SMART Digest trypsin digestion"
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10plex",
+        "isobaric",
+        "DDA",
+        "Q Exactive",
+        "10plex"
+      ],
+      "raw_or_file_name_triggers": [
+        ".raw"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T04:47:25Z"
   }
 }

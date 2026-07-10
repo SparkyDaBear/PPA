@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "mammary epithelial cells"
@@ -17,53 +16,130 @@
     "cell_lines": [
       "MCF10A"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "To identify proteins potentially involved in cell context induced YAP nuclear translocation, we performed a YAP co-IP/MS experiment using sparsely or densely plated MCF10A cells",
+          "identify proteins that differentially associate with YAP under activating and inactivating conditions"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "cell plating density",
+        "dose_or_concentration": "1 x 10^5 (sparse) or 1 x 10^6 (dense) cells",
+        "duration": "24 h",
+        "route_or_context": "polylysine coated coverslips",
+        "evidence": [
+          "seeded with 1 \u00d7 105 (sparse) or 1 \u00d7 106 (dense) MCF10A cells, and incubated for 24 h to allow attachment"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "dense plating"
+    ],
+    "case_arms": [
+      "sparse plating"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "3 independent trials"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "dense",
+        "case_label": "sparse",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "For determining proteins with greatest fold increase in dense/sparse and sparse/dense, the ratio of protein spectra was calculated"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "mammary epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MCF10A",
+        "family": "mammary epithelial cell line",
+        "ontology_curie": "BTO:0002768"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +147,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used a 'fastest' MSMS data acquisition (DDA) on an Orbitrap Elite/Fusion and performed quantification by calculating the ratio of protein spectra (spectral counting/LFQ approach) between dense and sparse conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_coip",
+          "confidence": 1.0,
+          "reason": "Explicitly described as a co-immunoprecipitation followed by mass spectrometry (co-IP/MS) experiment to identify YAP binding partners."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "co-IP/MS",
+        "ratio of protein spectra",
+        "Orbitrap Elite",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used a 'fastest' MSMS data acquisition (DDA) on an Orbitrap Elite/Fusion and performed quantification by calculating the ratio of protein spectra (spectral counting/LFQ approach) between dense and sparse conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_coip",
+          "confidence": 1.0,
+          "reason": "Explicitly described as a co-immunoprecipitation followed by mass spectrometry (co-IP/MS) experiment to identify YAP binding partners."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "co-IP/MS",
+        "ratio of protein spectra",
+        "Orbitrap Elite",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:52:56Z"
   }
 }

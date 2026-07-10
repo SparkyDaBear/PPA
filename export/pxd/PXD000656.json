@@ -3,24 +3,39 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Unclassified"
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "cerebrospinal fluid"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "biofluid source",
+    "sample_scope_curie": "PPA:0000189",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "In order to compare the CSF proteome to the plasma proteome, 40 \u03bcl of plasma (2400 \u03bcg protein) from the same individuals were processed and analyzed in the same way as for the MM (RP-AX) CSF strategy.",
+          "An overlap of 877 proteins was found between the two body fluids, whereas 2204 proteins were identified only in CSF and 173 only in plasma."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +43,83 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "CSF"
+    ],
+    "case_arms": [
+      "plasma"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "pool of 21 (20 for the plasma pool) neurologically healthy individuals"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "CSF",
+        "case_label": "plasma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In order to compare the CSF proteome to the plasma proteome"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "cerebrospinal fluid",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "biofluid source",
+      "curie": "PPA:0000189"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +127,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses Data Dependent Acquisition (DDA) on an Orbitrap Velos Pro with no mention of isobaric or SILAC labeling, focusing on proteome mapping (LFQ-style identification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_deglycosylation",
+          "confidence": 0.95,
+          "reason": "One of the four experiments specifically uses hydrazide-based glycopeptide capture followed by deglycosylation and search for deamidated asparagine as a proxy for glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "hydrazide-based glycopeptide capture",
+        "deglycosylated peptides",
+        "deamidated asparagine",
+        "N-glyco sequence motif",
+        "DDA",
+        "Orbitrap"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses Data Dependent Acquisition (DDA) on an Orbitrap Velos Pro with no mention of isobaric or SILAC labeling, focusing on proteome mapping (LFQ-style identification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_deglycosylation",
+          "confidence": 0.95,
+          "reason": "One of the four experiments specifically uses hydrazide-based glycopeptide capture followed by deglycosylation and search for deamidated asparagine as a proxy for glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "hydrazide-based glycopeptide capture",
+        "deglycosylated peptides",
+        "deamidated asparagine",
+        "N-glyco sequence motif",
+        "DDA",
+        "Orbitrap"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +203,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:22:26Z"
   }
 }

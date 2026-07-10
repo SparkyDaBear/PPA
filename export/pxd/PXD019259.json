@@ -3,25 +3,57 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "peak area-based quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "lung adenocarcinoma",
-      "normal lung tissue"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Cases of early-stage (I-II) and advanced-stage (III-IV) lung ADCs were selected and paired with normal lung tissues from 22 patients."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease_stage_or_response",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease stage or response state"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "To compare tissues of early versus advanced stages, an unpaired Student t-test (two-tailed) was applied.",
+          "In total, 84 and 71 proteins were down- and upregulated, respectively, in advanced tumor tissue compared to early tumor tissue"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +61,96 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal lung tissues",
+      "matched control lung tissue"
+    ],
+    "case_arms": [
+      "early-stage (I-II) lung ADC",
+      "advanced-stage (III-IV) lung ADC"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Samples (peptides produced by digestion) were analyzed by triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "label-free proteomics"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "normal",
+        "case_label": "early-stage ADC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In early- and advanced-stage ADC, 365 and 366 proteins were differentially expressed, respectively, between normal and tumor tissues"
+        ]
+      },
+      {
+        "control_label": "normal",
+        "case_label": "advanced-stage ADC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In early- and advanced-stage ADC, 365 and 366 proteins were differentially expressed, respectively, between normal and tumor tissues"
+        ]
+      },
+      {
+        "control_label": "early-stage ADC",
+        "case_label": "advanced-stage ADC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A total of 155 proteins were dysregulated between early- and advanced-stage ADCs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "lung adenocarcinoma",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "normal lung tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "peak area-based quantitation",
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +159,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes a 'label-free liquid chromatography (LC)-MS approach' using a 'top 10 DDA method' on a Q-Exactive Plus instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "DDA",
+        "peak area-based quantitation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes a 'label-free liquid chromatography (LC)-MS approach' using a 'top 10 DDA method' on a Q-Exactive Plus instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free",
+        "DDA",
+        "peak area-based quantitation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:49:34Z"
   }
 }

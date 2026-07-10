@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT-based LC-MS/MS quantitative proteomics",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Growth Factor or Cytokine Stimulation"
+      "genetic perturbation",
+      "chemical or drug treatment",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -18,53 +18,216 @@
     "cell_lines": [
       "SUM-149"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "comparing wild-type and SCAMP3-knockout cells",
+          "The knockout of SCAMP3 in SUM-149 cells was achieved using CRISPR/Cas9",
+          "SCAMP3 knockout (SC3KO) SUM-149 cells"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "during ERK1/2 inhibition with MK-8353",
+          "treated with 8 \u03bcM MK-8353 for 2 h"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "growth_factor_stimulation",
+        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_path": [
+          "growth_factor_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "confidence": "high",
+        "evidence": [
+          "after epidermal growth factor (EGF) stimulation",
+          "stimulated with 10 ng/mL EGF for 30 min"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MK-8353",
+        "dose_or_concentration": "8 \u03bcM",
+        "duration": "2 h",
+        "route_or_context": "ERK1/2 inhibition",
+        "evidence": [
+          "treated with 8 \u03bcM MK-8353 for 2 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EGF",
+        "dose_or_concentration": "10 ng/mL",
+        "duration": "30 min",
+        "route_or_context": "stimulation",
+        "evidence": [
+          "stimulated with 10 ng/mL EGF for 30 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SCAMP3 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9",
+        "evidence": [
+          "The knockout of SCAMP3 in SUM-149 cells was achieved using CRISPR/Cas9"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "30 min",
+      "2 h"
+    ],
+    "control_arms": [
+      "WT",
+      "untreated"
+    ],
+    "case_arms": [
+      "SC3KO",
+      "EGF-stimulated",
+      "MK-8353-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "four independent biological replicates per group for a total of 24 samples"
+    ],
+    "multiplex_channel_hints": [
+      "TMT-based LC-MS/MS",
+      "TMT11-131C Label Reagent Kit",
+      "three TMT kits were used"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "WT",
+        "case_label": "SC3KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparative analysis between SC3KO and WT cells under basal conditions (NT: SC3KO vs. WT)"
+        ]
+      },
+      {
+        "control_label": "WT untreated",
+        "case_label": "WT MK-8353",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In MK-8353-treated WT cells compared with untreated control (WT: MK vs. NT)"
+        ]
+      },
+      {
+        "control_label": "SC3KO untreated",
+        "case_label": "SC3KO MK-8353",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In SC3KO cells, MK-8353 induced the upregulation of 77 phosphosites and the downregulation of 7 phosphosites (SC3KO: MK vs. NT)"
+        ]
+      },
+      {
+        "control_label": "WT MK-8353",
+        "case_label": "SC3KO MK-8353",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MK-8353-treated SC3KO cells showed 55 upregulated and 439 downregulated phosphosites relative to MK-treated WT cells (MK: SC3KO vs. WT)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SUM-149",
+        "family": "triple negative breast cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT-based LC-MS/MS quantitative proteomics"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +235,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of TMT-based LC-MS/MS quantitative proteomics and data-dependent acquisition (DDA) on a Q-Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Use of High-Select Fe-NTA phosphopeptide enrichment kit to isolate phosphopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "phosphoproteomics",
+        "Fe-NTA",
+        "isobaric label",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of TMT-based LC-MS/MS quantitative proteomics and data-dependent acquisition (DDA) on a Q-Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Use of High-Select Fe-NTA phosphopeptide enrichment kit to isolate phosphopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "phosphoproteomics",
+        "Fe-NTA",
+        "isobaric label",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +309,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:53:10Z"
   }
 }

@@ -3,27 +3,60 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "SILAC",
-      "Other"
+      "LFQ",
+      "TMT",
+      "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "nucleus pulposus",
-      "annulus fibrosus"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "To establish how protein composition changes with age, Tam, Chen et al. quantified the protein levels and gene activity (which leads to protein production) of intervertebral discs from young and old deceased individuals.",
+          "We presented DIPPER... for studying the human IVD in youth, ageing, and degeneration."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "spatial region comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "We subdivided each lumbar disc into 11 key regions (Figure 1D), spanning the outer-most (outer AF) to the central-most (NP) region of the disc, traversing both anteroposterior and lateral axes",
+          "We evaluated variations among the disc compartments and levels by principal component analysis (PCA), analysis of variance (ANOVA), and identification of differentially expressed proteins (DEPs)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +64,95 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "young"
+    ],
+    "case_arms": [
+      "aged",
+      "degenerated"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "comprising 94 genome-wide profiles from 17 individuals"
+    ],
+    "multiplex_channel_hints": [
+      "6-plex TMT labelling",
+      "SILAC-labelled samples"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "young",
+        "case_label": "aged",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Within the core-matrisome, the expression was higher (p=6.4 \u00d7 10\u221221) in young (median 30.74) than aged (median 29.72) discs"
+        ]
+      },
+      {
+        "control_label": "inner disc",
+        "case_label": "outer AF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The most distinctive pattern on the PCA is the separation of the OAF from the inner disc"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "intervertebral disc",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "TMT",
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "heavy/light ratio",
+      "TMT reporter ion quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +160,82 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The primary dataset for the spatial atlas used DDA mode with MaxQuant LFQ for quantification of 66 profiles from cadaveric samples."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "A separate dynamic proteome dataset was generated using SILAC (heavy 13C6-Arg and 4,4,5,5-D4-Lys) with DDA acquisition."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The degradome analysis utilized 6-plex TMT labeling with DDA acquisition."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tails_degradomics",
+          "confidence": 0.9,
+          "reason": "The study explicitly used the Terminal Amine Isotopic Labeling of Substrates (TAILS) method for degradome analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "LFQ",
+        "SILAC",
+        "TMT",
+        "TAILS",
+        "DDA",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The primary dataset for the spatial atlas used DDA mode with MaxQuant LFQ for quantification of 66 profiles from cadaveric samples."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "A separate dynamic proteome dataset was generated using SILAC (heavy 13C6-Arg and 4,4,5,5-D4-Lys) with DDA acquisition."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The degradome analysis utilized 6-plex TMT labeling with DDA acquisition."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tails_degradomics",
+          "confidence": 0.9,
+          "reason": "The study explicitly used the Terminal Amine Isotopic Labeling of Substrates (TAILS) method for degradome analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "LFQ",
+        "SILAC",
+        "TMT",
+        "TAILS",
+        "DDA",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +256,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:26:52Z"
   }
 }

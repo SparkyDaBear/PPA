@@ -3,70 +3,143 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Viral Infection"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "neuronal cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293",
       "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "pLenti-xParkin and pLenti-xParkin with the inactivating C431A mutation were co-transfected with pLenti-HBT-xUB into the HEK293 cells with stable expression of xUba7-xUbcH7 pair to express the Parkin OUT cascade and the control OUT cascade in the cell."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MG132",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "4 h",
+        "route_or_context": "proteasome inhibition",
+        "evidence": [
+          "After 48-h of transfection, cells were treated with 10 \u03bcM MG132 for 4 h at 37\u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "48-h post-transfection"
+    ],
+    "control_arms": [
+      "control cells expressing an inactive xPARKIN C431A mutant"
+    ],
+    "case_arms": [
+      "OUT cells expressing the Parkin OUT cascade"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three independent purifications were carried out (N = 3 independent biological replicates)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "xParkin C431A",
+        "case_label": "xParkin OUT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculating the p-value based on the PSM ratios of the proteins purified from OUT cells compared to the control cells (Log2[PSM ratio OUT/control] > 1)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting",
+      "PSM ratios"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +147,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses label-free quantification based on PSM ratios (spectrum counting) and DDA acquisition on an Orbitrap Fusion/Eclipse."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 0.9,
+          "reason": "The study specifically targets ubiquitinated substrates using an orthogonal ubiquitin transfer (OUT) cascade and searches for the lysine ubiquitination mass shift (+114.04293 Da), which corresponds to the diGly remnant after tryptic digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "lysine ubiquitination",
+        "diGly-modified peptide",
+        "PSM ratio",
+        "orthogonal ubiquitin transfer"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses label-free quantification based on PSM ratios (spectrum counting) and DDA acquisition on an Orbitrap Fusion/Eclipse."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 0.9,
+          "reason": "The study specifically targets ubiquitinated substrates using an orthogonal ubiquitin transfer (OUT) cascade and searches for the lysine ubiquitination mass shift (+114.04293 Da), which corresponds to the diGly remnant after tryptic digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "lysine ubiquitination",
+        "diGly-modified peptide",
+        "PSM ratio",
+        "orthogonal ubiquitin transfer"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:50:45Z"
   }
 }

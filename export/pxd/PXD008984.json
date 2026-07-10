@@ -3,77 +3,234 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Viral Infection",
-      "Time-Course / Temporal Series",
-      "Growth Factor or Cytokine Stimulation"
+      "chemical or drug treatment",
+      "infection exposure",
+      "radiation or photostress"
     ],
     "cell_types": [
-      "glioma stem-like cells",
-      "primary glioblastoma cultures"
+      "glioma"
     ],
     "cell_lines": [
-      "LN229",
-      "LNZ308",
-      "GS8",
-      "T81/16",
-      "T1094/17",
-      "T708/16",
-      "HT29",
-      "HEK293T"
+      "LNZ308"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "chemotherapy, virotherapy, and finally radiotherapy (CT-VT-RT)",
+          "temozolomide (TMZ) or lomustine (CCNU)"
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection",
+          "live_pathogen_infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "oncolytic measles virus (MeV) therapy",
+          "virotherapy (VT)"
+        ]
+      },
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation"
+        ],
+        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "confidence": "high",
+        "evidence": [
+          "radiotherapy (RT)",
+          "\u03b3-irradiation"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "temozolomide",
+        "dose_or_concentration": "130 \u03bcM",
+        "duration": null,
+        "route_or_context": "chemotherapy (CT)",
+        "evidence": [
+          "CT, 130 \u03bcM"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "measles virus (MeV)",
+        "dose_or_concentration": "0.05 MOI",
+        "duration": null,
+        "route_or_context": "virotherapy (VT)",
+        "evidence": [
+          "VT, 0.05 MOI"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "\u03b3-irradiation",
+        "dose_or_concentration": "2 Gy",
+        "duration": null,
+        "route_or_context": "radiotherapy (RT)",
+        "evidence": [
+          "RT, 2 Gy"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "96 h",
+        "route_or_context": "HLA ligandome analysis",
+        "evidence": [
+          "Cells subjected to treatment regimens as mentioned above (RNA sequencing) were harvested at 96 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "96 h"
+    ],
+    "control_arms": [
+      "CTL-DMSO",
+      "CTL [R/V]"
+    ],
+    "case_arms": [
+      "CT",
+      "VT",
+      "RT",
+      "CT-VT",
+      "CT-VT-RT"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "liquid chromatography-tandem MS (LC-MS/MS) analysis was performed in five technical replicates for each sample"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "CT",
+        "case_label": "CT-VT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CT-VT seemed to exhibit a significantly differential profile compared with CT"
+        ]
+      },
+      {
+        "control_label": "RT",
+        "case_label": "CT-VT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CT-VT seemed to exhibit a significantly differential profile compared with... RT"
+        ]
+      },
+      {
+        "control_label": "VT",
+        "case_label": "CT-VT-RT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "this MeV-L peptide... was particularly increased in the triple regimen CT-VT-RT (2.7-fold increase) compared to VT alone"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "glioma",
+        "rollup_category": "tumor cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "LNZ308",
+        "family": "glioma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "precursor-extracted ion chromatograms"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -81,10 +238,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment uses label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) acquisition on an LTQ Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidome",
+          "confidence": 1.0,
+          "reason": "The study specifically performs HLA ligandome analysis, isolating HLA class I molecules via immunoaffinity purification and restricting peptide lengths to 8-12 aa."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidome",
+        "HLA ligandome",
+        "label-free quantification",
+        "immunoaffinity purification",
+        "HLA class I molecules"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment uses label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) acquisition on an LTQ Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidome",
+          "confidence": 1.0,
+          "reason": "The study specifically performs HLA ligandome analysis, isolating HLA class I molecules via immunoaffinity purification and restricting peptide lengths to 8-12 aa."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidome",
+        "HLA ligandome",
+        "label-free quantification",
+        "immunoaffinity purification",
+        "HLA class I molecules"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -105,6 +312,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:31:54Z"
   }
 }

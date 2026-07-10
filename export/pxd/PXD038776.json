@@ -2,26 +2,43 @@
   "pxd": "PXD038776",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "acquisition_type": "DDA",
+    "quantification_method": "QconCAT",
     "labeling_strategy": [
       "Other"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [
       "hepatocyte"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "protein abundance of 21 RTKs was assessed in 15 healthy and 18 cancerous liver samples [2 primary and 16 colorectal cancer liver metastasis (CRLM)] matched with non-tumorous (histologically normal) tissue",
+          "The aim of the current study was to quantify human hepatic RTKs and to assess the impact of cancer on their abundance."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +46,106 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "healthy",
+      "non-tumorous (histologically normal)"
+    ],
+    "case_arms": [
+      "tumorous"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "replicate measurements in a pool of healthy samples"
+    ],
+    "multiplex_channel_hints": [
+      "isotope-labelled KinCAT"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "healthy",
+        "case_label": "tumorous",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "abundance of EGFR, INSR, VGFR3 and AXL, is lower in tumours relative to livers from healthy individuals"
+        ]
+      },
+      {
+        "control_label": "non-tumorous (histologically normal)",
+        "case_label": "tumorous",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "EPHA2 was upregulated in tumour compared with histologically normal tissue surrounding it.",
+          "PGFRB levels were higher in tumours relative to both histologically normal tissue surrounding tumour"
+        ]
+      },
+      {
+        "control_label": "healthy",
+        "case_label": "non-tumorous (histologically normal)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differences in absolute abundances between healthy and histologically normal livers"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "liver",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "QconCAT",
+      "light-to-heavy MS intensity ratios"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "receptor tyrosine kinases",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +153,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) on a Q Exactive HF. While QconCAT is used for absolute quantification, the PRIDE metadata describes the general search as shotgun proteomics and the use of MaxQuant for processing."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "qconcat_absolute_quant",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a novel QconCAT standard (KinCAT) for the absolute quantification of 21 receptor tyrosine kinases (RTKs) using light-to-heavy MS intensity ratios."
+        }
+      ],
+      "trigger_keywords": [
+        "QconCAT",
+        "KinCAT",
+        "light-to-heavy MS intensity ratios",
+        "absolute abundance",
+        "data dependant acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) on a Q Exactive HF. While QconCAT is used for absolute quantification, the PRIDE metadata describes the general search as shotgun proteomics and the use of MaxQuant for processing."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "qconcat_absolute_quant",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a novel QconCAT standard (KinCAT) for the absolute quantification of 21 receptor tyrosine kinases (RTKs) using light-to-heavy MS intensity ratios."
+        }
+      ],
+      "trigger_keywords": [
+        "QconCAT",
+        "KinCAT",
+        "light-to-heavy MS intensity ratios",
+        "absolute abundance",
+        "data dependant acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +227,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:17:15Z"
   }
 }

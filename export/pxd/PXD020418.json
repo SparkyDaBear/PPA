@@ -3,21 +3,69 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "genetic perturbation",
+      "molecular state comparison"
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "we genetically incorporate non-canonical amino acids for photo- and chemical crosslinking into \u03b2arr1 and \u03b2arr2"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "mutation_defined_state",
+        "matched_class_key": "mutation_defined_state",
+        "matched_class_path": [
+          "molecular state comparison",
+          "mutation-defined molecular state"
+        ],
+        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "confidence": "medium",
+        "evidence": [
+          "explore binding topologies to GPCRs forming either stable or transient complexes with arrestin: the vasopressin receptor 2 (rhodopsin-like), the corticotropin releasing factor receptor 1 and the parathyroid hormone receptor 1 (both secretin-like)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "non-canonical amino acids",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "genetically encoded crosslinkers",
+        "evidence": [
+          "we genetically incorporate non-canonical amino acids for photo- and chemical crosslinking into \u03b2arr1 and \u03b2arr2"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -25,37 +73,63 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "vasopressin receptor 2",
+      "corticotropin releasing factor receptor 1",
+      "parathyroid hormone receptor 1"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "baseline arrestin",
+        "case_label": "GPCR-arrestin complex",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "We show that each receptor leaves a unique footprint on arrestin, whereas the two \u03b2-arrestins yield quite similar crosslinking patterns."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -64,10 +138,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used ('data-dependent top 10 method') and no specific labeling (SILAC/TMT) is mentioned, suggesting label-free quantification if quantification is performed."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as 'Chemical cross-linking coupled with mass spectrometry proteomics' and uses 'genetically encoded crosslinkers'."
+        }
+      ],
+      "trigger_keywords": [
+        "Chemical cross-linking",
+        "crosslinkers",
+        "crosslinking patterns"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used ('data-dependent top 10 method') and no specific labeling (SILAC/TMT) is mentioned, suggesting label-free quantification if quantification is performed."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as 'Chemical cross-linking coupled with mass spectrometry proteomics' and uses 'genetically encoded crosslinkers'."
+        }
+      ],
+      "trigger_keywords": [
+        "Chemical cross-linking",
+        "crosslinkers",
+        "crosslinking patterns"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -88,6 +208,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:45:06Z"
   }
 }

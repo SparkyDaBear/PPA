@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "area under the curve",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "non-small cell lung cancer cells"
@@ -18,53 +17,150 @@
       "A549",
       "H358"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "confidence": "high",
+        "evidence": [
+          "treated with a novel Small Molecule Activator of PP2A (SMAP)",
+          "differential phosphorylation between DMSO vs. TRC-794 using Welch\u2019s t-test"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TRC-794 (SMAP)",
+        "dose_or_concentration": "20\u03bcM",
+        "duration": "12hrs",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "Cells were treated with fresh media containing either 0.025% (v/v%) DMSO (control) or 20\u03bcM of TRC-794 for 12hrs."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "phosphoproteomics analysis",
+        "evidence": [
+          "a 12hr time-point allowed for reproducible dephosphorylation of ERK1/2"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "12hrs"
+    ],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "TRC-794 (SMAP)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "each one having 3 independent replicates of DMSO (control) treatment and 3 independent replicates of SMAP treatment",
+      "each sample was further divided into 2 technical replicates"
+    ],
+    "multiplex_channel_hints": [
+      "Label-Free Phosphoproteomics"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "TRC-794",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "analyzed for differential phosphorylation between DMSO vs. TRC-794 using Welch\u2019s t-test"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "non-small cell lung cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A549",
+        "family": "non-small cell lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "H358",
+        "family": "non-small cell lung cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "area under the curve",
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +168,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label-Free Phosphoproteomics' and 'data-dependent mode' (DDA) using an LTQ-Orbitrap Velos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment used titanium dioxide (TiO2) spin tips for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "Label-Free Phosphoproteomics",
+        "data-dependent mode",
+        "titanium dioxide spin tips",
+        "phosphopeptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label-Free Phosphoproteomics' and 'data-dependent mode' (DDA) using an LTQ-Orbitrap Velos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment used titanium dioxide (TiO2) spin tips for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "Label-Free Phosphoproteomics",
+        "data-dependent mode",
+        "titanium dioxide spin tips",
+        "phosphopeptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +240,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:26:16Z"
   }
 }

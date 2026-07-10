@@ -3,64 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Intensity-based absolute quantification (iBAQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "primary tumor cells"
+      "tumor cells",
+      "CD8+ T cells"
     ],
-    "cell_lines": [],
+    "cell_lines": [
+      "primary tumor cell cultures"
+    ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Compared with benign effusions, the soluble HLA peptidomes of malignant pleural effusions were larger",
+          "Analysis of both soluble and membranal HLA peptidomes from pleural effusion patients with malignant tumors (n=9) or with benign conditions (n=5)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "different visits"
+    ],
+    "control_arms": [
+      "benign effusions"
+    ],
+    "case_arms": [
+      "malignant pleural effusions"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "samples of pleural effusions were collected during different visits of the same patient"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "benign effusions",
+        "case_label": "malignant pleural effusions",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Compared with benign effusions, the soluble HLA peptidomes of malignant pleural effusions were larger"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "tumor cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "CD8+ T cells",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "primary tumor cell cultures",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "pleural effusions",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Intensity-based absolute quantification (iBAQ)"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +152,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "Data acquired via Q-Exactive-Plus (DDA) and quantified using label-free methods (iBAQ in MaxQuant)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 10,
+          "reason": "Experiment specifically targets HLA-bound peptides using immunoaffinity purification (W6/32 antibody) and filters for HLA-allele consensus motifs."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA peptidome",
+        "immunopeptidomics",
+        "immunoaffinity purification",
+        "HLA ligands",
+        "NetMHCpan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "Data acquired via Q-Exactive-Plus (DDA) and quantified using label-free methods (iBAQ in MaxQuant)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 10,
+          "reason": "Experiment specifically targets HLA-bound peptides using immunoaffinity purification (W6/32 antibody) and filters for HLA-allele consensus motifs."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA peptidome",
+        "immunopeptidomics",
+        "immunoaffinity purification",
+        "HLA ligands",
+        "NetMHCpan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:04:51Z"
   }
 }

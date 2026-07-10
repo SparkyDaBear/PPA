@@ -3,83 +3,219 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
+      "lung cancer cells",
       "cancer-associated fibroblasts",
-      "normal lung-associated fibroblasts",
-      "lung cancer cells"
+      "normal lung-associated fibroblasts"
     ],
     "cell_lines": [
-      "A549",
-      "PC9",
       "PC9GR",
-      "H3122",
-      "H2228",
-      "STE1",
-      "H1975",
-      "A431",
-      "A431GR",
-      "HCC827ER4",
       "MRC5",
-      "WI38",
-      "IMR-90",
-      "HS-5"
+      "CAF7",
+      "CAF12"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "3-hour treatment with 500 nM osimertinib or DMSO, as control"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "co_culture_or_interaction_state",
+        "matched_class_key": "co_culture_or_interaction_state",
+        "matched_class_path": [
+          "cell state or interaction comparison",
+          "co-culture or interaction state"
+        ],
+        "matched_definition": "Comparison between monoculture and interaction-enabled conditions.",
+        "confidence": "high",
+        "evidence": [
+          "PC9GR cells were plated in ten 15 cm dishes at 7 x 106 cells/dish in a 1:1 mixture of RPMI10 and (serum-containing) CM from CAF or NAF cells",
+          "comparing the 4 conditions (3 biological replicates each) to determine p-values for significant differences between them (for example, CAF CM + DMSO vs CAF CM + osimertinib, or CAF CM + DMSO vs NAF CM + DMSO, and so on)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "osimertinib",
+        "dose_or_concentration": "500 nM",
+        "duration": "3 hours",
+        "route_or_context": "PC9GR cells in CAF or NAF conditioned medium",
+        "evidence": [
+          "3-hour treatment with 500 nM osimertinib or DMSO, as control"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CAF-conditioned medium",
+        "dose_or_concentration": "1:1 mixture with RPMI10",
+        "duration": "24 hours",
+        "route_or_context": "PC9GR cells",
+        "evidence": [
+          "PC9GR cells were plated in ten 15 cm dishes at 7 x 106 cells/dish in a 1:1 mixture of RPMI10 and (serum-containing) CM from CAF or NAF cells and allowed to adhere for 24 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 hours (adhesion/CM exposure)",
+      "3 hours (drug treatment)"
+    ],
+    "control_arms": [
+      "NAF CM + DMSO",
+      "CAF CM + DMSO"
+    ],
+    "case_arms": [
+      "NAF CM + osimertinib",
+      "CAF CM + osimertinib"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Samples were prepared as biological triplicates",
+      "Samples were injected as technical duplicates resulting in 6 values (3 biological x 2 technical) per sample"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "NAF CM + DMSO",
+        "case_label": "CAF CM + DMSO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CAF CM + DMSO vs NAF CM + DMSO"
+        ]
+      },
+      {
+        "control_label": "CAF CM + DMSO",
+        "case_label": "CAF CM + osimertinib",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CAF CM + DMSO vs CAF CM + osimertinib"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "cancer-associated fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "normal lung-associated fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "PC9GR",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MRC5",
+        "family": "normal lung-associated fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "CAF7",
+        "family": "cancer-associated fibroblast",
+        "ontology_curie": null
+      },
+      {
+        "label": "CAF12",
+        "family": "cancer-associated fibroblast",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "serum-free conditioned media",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -87,10 +223,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive Plus (DDA) with MaxQuant for intensity-based quantification (iBAQ/TIC) without labels."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of immunoaffinity purification with anti-phosphotyrosine antibody p-Tyr-1000 to enrich phosphotyrosine-containing peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphotyrosine",
+        "immunoaffinity purification",
+        "p-Tyr-1000",
+        "DDA",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive Plus (DDA) with MaxQuant for intensity-based quantification (iBAQ/TIC) without labels."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of immunoaffinity purification with anti-phosphotyrosine antibody p-Tyr-1000 to enrich phosphotyrosine-containing peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphotyrosine",
+        "immunoaffinity purification",
+        "p-Tyr-1000",
+        "DDA",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -111,6 +297,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:14:40Z"
   }
 }

@@ -3,67 +3,137 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "endothelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "The Ingenuity Pathway Analysis (IPA) of either differentially expressed, or differentially ubiquitinated proteins in HeLa cells harboring wt-LZTR1 or LZTR1-indels demonstrated that endocytosis was one of the top canonical pathways altered by LZTR1 loss",
+          "a t-test was performed (FDR=0.05 and S0=1) to compare site intensities in Lztr1 WT and Lztr1 KO samples and reveal significantly regulated ubiquitin sites."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "LZTR1-indels",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HeLa cells",
+        "evidence": [
+          "differentially expressed, or differentially ubiquitinated proteins in HeLa cells harboring wt-LZTR1 or LZTR1-indels"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "wt-LZTR1",
+      "Lztr1 WT"
+    ],
+    "case_arms": [
+      "LZTR1-indels",
+      "Lztr1 KO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "wt-LZTR1 or LZTR1-indel HeLa cells (1 dish/replicate, 3 replicates/condition)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "wt-LZTR1",
+        "case_label": "LZTR1-indels",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare site intensities in Lztr1 WT and Lztr1 KO samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "HeLa",
+        "ontology_curie": "BTO:0000567"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +141,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) used on Q Exactive HF and LTQ Orbitrap Elite with MS1 intensity-based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diglycine",
+          "confidence": 1.0,
+          "reason": "Explicit use of PTMScan Ubiquitin Remnant Motif (K-epsilon-GG) Kit for immunocapture of GG-modified peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "K-epsilon-GG",
+        "ubiquitome",
+        "GG-modified peptides",
+        "label-free quantification",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) used on Q Exactive HF and LTQ Orbitrap Elite with MS1 intensity-based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diglycine",
+          "confidence": 1.0,
+          "reason": "Explicit use of PTMScan Ubiquitin Remnant Motif (K-epsilon-GG) Kit for immunocapture of GG-modified peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "K-epsilon-GG",
+        "ubiquitome",
+        "GG-modified peptides",
+        "label-free quantification",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:43:50Z"
   }
 }

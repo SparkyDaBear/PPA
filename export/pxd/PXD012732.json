@@ -3,73 +3,226 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "cell state or interaction comparison",
+      "genetic perturbation",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "lung adenocarcinoma cells",
-      "cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK 293T",
-      "HeLa",
-      "A549",
       "U2OS"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "CDC14B interactomes from unsynchronized and G2/M-enriched cells were compared",
+          "analysis of differential ubiquitin proteomes of synchronized (G2/M) and non-synchronized HEK 293 T cells"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "the control knockdown and the USP9X knockdown sample were combined using equal amounts of total protein to purify ubiquitinated proteins"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "medium",
+        "evidence": [
+          "quantitative phospho-proteomic screen of USP9X using Stable Isotope Labeling of Amino Acids in Culture (SILAC) in control or CDC14B overexpressing mitotic cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nocodazole",
+        "dose_or_concentration": "400 ng/ml",
+        "duration": "14 h",
+        "route_or_context": "synchronization in mitosis",
+        "evidence": [
+          "nocodazole 400 ng/ml",
+          "If not otherwise specified nocodazole was applied for 14 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CDC14B",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression",
+        "evidence": [
+          "control or CDC14B overexpressing mitotic cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "USP9X",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown",
+        "evidence": [
+          "the control knockdown and the USP9X knockdown sample were combined"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "unsynchronized",
+      "control knockdown",
+      "control cells"
+    ],
+    "case_arms": [
+      "G2/M-enriched",
+      "USP9X knockdown",
+      "CDC14B overexpressing"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "SILAC",
+      "heavy label",
+      "medium label",
+      "light label"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "unsynchronized",
+        "case_label": "G2/M-enriched",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CDC14B interactomes from unsynchronized and G2/M-enriched cells were compared"
+        ]
+      },
+      {
+        "control_label": "control knockdown",
+        "case_label": "USP9X knockdown",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the control knockdown and the USP9X knockdown sample were combined using equal amounts of total protein to purify ubiquitinated proteins"
+        ]
+      },
+      {
+        "control_label": "control mitotic cells",
+        "case_label": "CDC14B overexpressing mitotic cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "quantitative phospho-proteomic screen of USP9X using Stable Isotope Labeling of Amino Acids in Culture (SILAC) in control or CDC14B overexpressing mitotic cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "U2OS",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting",
+      "SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +230,82 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Multiple experiments explicitly use SILAC for quantification, including a phospho-proteomic screen and a ubiquitin-purification screen."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "The PRIDE metadata describes a semi-quantitative comparison based on spectral counting for the CDC14B interactome."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Text explicitly mentions 'phosphopeptide enrichment using the PhosphoCatch kit' for USP9X samples."
+        },
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "Text describes 'SILAC-based ubiquitin purification' using Ni-NTA-Agarose and searching for 'diGly (K)' as a variable modification."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphopeptide enrichment",
+        "PhosphoCatch",
+        "diGly (K)",
+        "Ni-NTA-Agarose",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Multiple experiments explicitly use SILAC for quantification, including a phospho-proteomic screen and a ubiquitin-purification screen."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "The PRIDE metadata describes a semi-quantitative comparison based on spectral counting for the CDC14B interactome."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Text explicitly mentions 'phosphopeptide enrichment using the PhosphoCatch kit' for USP9X samples."
+        },
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "Text describes 'SILAC-based ubiquitin purification' using Ni-NTA-Agarose and searching for 'diGly (K)' as a variable modification."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphopeptide enrichment",
+        "PhosphoCatch",
+        "diGly (K)",
+        "Ni-NTA-Agarose",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,6 +326,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:51:28Z"
   }
 }

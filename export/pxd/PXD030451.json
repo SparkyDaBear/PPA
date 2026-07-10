@@ -3,71 +3,255 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Nutrient or Metabolic Perturbation"
+      "nutrient or metabolic perturbation",
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "embryonic kidney cells",
-      "chondrocyte"
+      "chondrocyte",
+      "alveolar cells"
     ],
     "cell_lines": [
       "U2OS",
+      "RCS",
       "HEK293T",
-      "RCS"
+      "MEF",
+      "A549"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_deprivation",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient or metabolic perturbation",
+          "nutrient deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "high",
+        "evidence": [
+          "Phosphoproteomic analysis comparing starved (HBSS) with nutrient- and insulin-rich medium (full medium) U2OS cells expressing HA-FAM134C",
+          "Cells were starved for 5 hours (HBSS containing 200 nM BafA1) and stimulated for 20 min with complete DMEM"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "the proteins found to be significantly modulated by Torin1 treatment in control cells were used for downstream analyses in cells with the different genotypes",
+          "Torin1 treatment significantly down-regulates several ER proteins in an ER-phagy\u2013dependent fashion"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we generated RCS cells lacking either Fam134a, Fam134b, Fam134c, or all three combined (Fam134TKO)",
+          "Proteomic analysis performed in Fam134cKO, but not Fam134bKO, cells showed impaired degradation of enzymes involved in lipid biosynthesis upon Torin1 treatment"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Torin1",
+        "dose_or_concentration": "150 nM, 250 nM, or 1 \u03bcM",
+        "duration": null,
+        "route_or_context": "cell culture",
+        "evidence": [
+          "Torin1 (Euroclone, #BK14379S) was used at 150 nM, 250 nM, or 1 \u03bcM at different time points."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HBSS",
+        "dose_or_concentration": null,
+        "duration": "5 hours",
+        "route_or_context": "starvation",
+        "evidence": [
+          "Cells were starved for 5 hours (HBSS containing 200 nM BafA1)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "5 hours (starvation)",
+      "20 min (stimulation)"
+    ],
+    "control_arms": [
+      "full medium",
+      "control cells"
+    ],
+    "case_arms": [
+      "starved (HBSS)",
+      "Torin1 treatment",
+      "Fam134cKO",
+      "Fam134bKO",
+      "Fam134TKO"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "All experiments were performed in at least three independent biological replicates."
+    ],
+    "multiplex_channel_hints": [
+      "All the experiments were performed in a labeling-free setting."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "full medium",
+        "case_label": "starved (HBSS)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Phosphoproteomic analysis comparing starved (HBSS) with nutrient- and insulin-rich medium (full medium) U2OS cells"
+        ]
+      },
+      {
+        "control_label": "control cells",
+        "case_label": "Torin1 treatment",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the proteins found to be significantly modulated by Torin1 treatment in control cells"
+        ]
+      },
+      {
+        "control_label": "Fam134cKO",
+        "case_label": "Fam134bKO",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Proteomic analysis performed in Fam134cKO, but not Fam134bKO, cells showed impaired degradation of enzymes involved in lipid biosynthesis upon Torin1 treatment"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Rattus norvegicus",
+        "taxonomy_hint": "NEWT:10116",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "chondrocyte",
+        "rollup_category": "cell type",
+        "ontology_curie": null
+      },
+      {
+        "label": "alveolar cells",
+        "rollup_category": "cell type",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U2OS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "RCS",
+        "family": "Swarm chondrosarcoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MEF",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "A549",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +259,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'All the experiments were performed in a labeling-free setting' and describes a DDA acquisition (Top20 mode) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The study includes a specific phosphoproteomics experiment using Titansphere Phos-TiO beads for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "labeling-free",
+        "phosphoproteomes",
+        "Phos-TiO beads",
+        "DDA",
+        "Top20 mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'All the experiments were performed in a labeling-free setting' and describes a DDA acquisition (Top20 mode) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The study includes a specific phosphoproteomics experiment using Titansphere Phos-TiO beads for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "labeling-free",
+        "phosphoproteomes",
+        "Phos-TiO beads",
+        "DDA",
+        "Top20 mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +333,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:44:50Z"
   }
 }

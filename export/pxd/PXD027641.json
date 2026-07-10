@@ -2,69 +2,145 @@
   "pxd": "PXD027641",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "Targeted peak area",
+    "acquisition_type": "Targeted",
+    "quantification_method": "Parallel Reaction Monitoring (PRM)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Viral Infection"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "human pneumocyte-like cells",
-      "Caco-2"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "VeroE6",
       "VeroE6-TMPRSS2"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "the substitution S:655Y, represented in the gamma and omicron VOCs, enhances viral replication and spike protein cleavage",
+          "the S:655Y substitution was transmitted more efficiently than its ancestor S:655H",
+          "We demonstrate that the 655Y polymorphism enhances spike cleavage and viral growth",
+          "Quantification of Spike cleavage across different Sars-Cov2 variants by partial reaction monitoring mass spectrometry"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SARS-CoV-2 variants (WA1, WA1-655Y, NY7, Gamma, Beta, Alpha, Kappa, Delta)",
+        "dose_or_concentration": "MOI of 0.1",
+        "duration": "24 h",
+        "route_or_context": "VeroE6-TMPRSS2 cells",
+        "evidence": [
+          "VeroE6-TMPRSS2 cells were seeded in a 6 well-plate and infected with the corresponding SARS-CoV-2 variants at an MOI of 0.1. Cells were lysated after 24 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "WA1",
+      "NY6"
+    ],
+    "case_arms": [
+      "WA1-655Y",
+      "NY7",
+      "Gamma",
+      "Beta",
+      "Alpha",
+      "Kappa",
+      "Delta"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "separated into three samples to assess technical reproducibility"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WA1",
+        "case_label": "SARS-CoV-2 variants (VOCs)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "log2 fold change was calculated by averaging the intensities for the furin-cleaved peptide per variant and divide them by the one from the WA1 variant used here as control sample"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "SARS-CoV-2",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "VeroE6-TMPRSS2",
+        "family": "VeroE6",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Parallel Reaction Monitoring (PRM)",
+      "Median centering normalization"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +149,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used to generate a fragment library for targeted assay design; LFQ-like normalization (median centering) was applied to the resulting targeted data."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "targeted analysis",
+        "PRM",
+        "Skyline",
+        "median centering"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used to generate a fragment library for targeted assay design; LFQ-like normalization (median centering) was applied to the resulting targeted data."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "targeted analysis",
+        "PRM",
+        "Skyline",
+        "median centering"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +211,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T15:03:30Z"
   }
 }

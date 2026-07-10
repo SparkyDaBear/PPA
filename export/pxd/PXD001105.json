@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SIC peak area calculation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Temperature Stress",
-      "Chemical/Drug Treatment"
+      "temperature stress",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "T cell"
@@ -17,53 +17,190 @@
     "cell_lines": [
       "Jurkat E6-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphotyrosine enriched scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
+        "category": "temperature",
+        "matched_parent_class_key": "temperature_stress",
+        "matched_class_key": "cold_stress",
+        "matched_class_path": [
+          "temperature_stress",
+          "cold_stress"
+        ],
+        "matched_definition": "Reduced temperature exposure (cold shock or hypothermic condition).",
+        "confidence": "high",
+        "evidence": [
+          "Cells were incubated for 20 minutes at 4 \u00b0C for cold stimulation.",
+          "A total of 5 biological replicate experiments were analyzed: cells incubated in 37 \u00b0C for 20 minutes (Control, n=5), cells incubated at 4 \u00b0C for 20 minutes (Cold, n=5)"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_mediated_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_mediated_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "medium",
+        "evidence": [
+          "For soluble antibody stimulation, cells were treated with anti-CD3 and anti-CD4 antibody in PBS (clones OKT3 and OKT4; eBioscience, San Diego, CA) for 5 minutes",
+          "cells incubated in 37 \u00b0C for 20 minutes followed by anti-CD3 and anti-CD4 antibody stimulation for 5 minutes (CD3/4 stimulation, n=5)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "anti-CD3 and anti-CD4 antibody",
+        "dose_or_concentration": null,
+        "duration": "5 minutes",
+        "route_or_context": "PBS",
+        "evidence": [
+          "cells were treated with anti-CD3 and anti-CD4 antibody in PBS (clones OKT3 and OKT4; eBioscience, San Diego, CA) for 5 minutes"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "cold stimulation",
+        "dose_or_concentration": "4 \u00b0C",
+        "duration": "20 minutes",
+        "route_or_context": null,
+        "evidence": [
+          "Cells were incubated for 20 minutes at 4 \u00b0C for cold stimulation."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "control",
+        "dose_or_concentration": "37 \u00b0C",
+        "duration": "20 minutes",
+        "route_or_context": null,
+        "evidence": [
+          "As a control, cells were incubated at 37 \u00b0C for 20 minutes."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "20 minutes",
+      "5 minutes"
+    ],
+    "control_arms": [
+      "Control (37 \u00b0C)"
+    ],
+    "case_arms": [
+      "Cold (4 \u00b0C)",
+      "CD3/4 stimulation"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "5 biological replicate experiments",
+      "n=5"
+    ],
+    "multiplex_channel_hints": [
+      "label free"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "Cold",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Fold change of peak area for each phosphopeptide was calculated between cold stimulated cells or CD3/4 stimulated cells towards control."
+        ]
+      },
+      {
+        "control_label": "Control",
+        "case_label": "CD3/4 stimulation",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Fold change of peak area for each phosphopeptide was calculated between cold stimulated cells or CD3/4 stimulated cells towards control."
+        ]
+      },
+      {
+        "control_label": "CD3/4 stimulation",
+        "case_label": "Cold",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Careful statistical comparison between the two stimulations revealed a striking level of identity between the subset of 339 sites that changed significantly with both stimulations."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Jurkat E6-1",
+        "family": "Jurkat",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphotyrosine enriched scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SIC peak area calculation",
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +208,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent MS/MS (DDA) was used on an LTQ Orbitrap Velos, and quantification was performed via label-free SIC peak area calculation."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Specific use of p-Tyr-100 phosphotyrosine antibody beads for peptide immunoprecipitation to enrich for tyrosine phosphorylation."
+        }
+      ],
+      "trigger_keywords": [
+        "label free",
+        "phosphoproteomic",
+        "p-Tyr-100",
+        "phosphotyrosine",
+        "SIC peak areas"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent MS/MS (DDA) was used on an LTQ Orbitrap Velos, and quantification was performed via label-free SIC peak area calculation."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Specific use of p-Tyr-100 phosphotyrosine antibody beads for peptide immunoprecipitation to enrich for tyrosine phosphorylation."
+        }
+      ],
+      "trigger_keywords": [
+        "label free",
+        "phosphoproteomic",
+        "p-Tyr-100",
+        "phosphotyrosine",
+        "SIC peak areas"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +282,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:22:09Z"
   }
 }

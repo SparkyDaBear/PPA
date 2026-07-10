@@ -8,65 +8,147 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "keratinocytes"
+      "cutaneous squamous cell carcinoma cells"
     ],
     "cell_lines": [
-      "HSC-1",
-      "A431",
-      "HaCaT"
+      "A431"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we prepared LINP1 knockout cSCC cell strains using CRISPR/Cas9 technique",
+          "The specific binding protein profile of LINP1 was identified by high-performance liquid chromatography-mass spectrometry (HPLC-MS) excluding the non-specific binding proteins associated with EGFP RNA"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "LINP1 RNA",
+        "dose_or_concentration": "3 \u03bcg",
+        "duration": "1 h",
+        "route_or_context": "RNA pulldown in A431 cells",
+        "evidence": [
+          "total cell lysate was mixed with 3 \u03bcg of renatured RNA respectively and incubated with rotation for 1 h at RT",
+          "We performed LINP1 RNA pulldown followed by HPLC-MS analysis to identify LINP1-interacting proteins in A431 cells."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EGFP RNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "Control for RNA pulldown",
+        "evidence": [
+          "excluding the non-specific binding proteins associated with EGFP RNA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "EGFP RNA"
+    ],
+    "case_arms": [
+      "LINP1 RNA"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "EGFP RNA",
+        "case_label": "LINP1 RNA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The specific binding protein profile of LINP1 was identified by high-performance liquid chromatography-mass spectrometry (HPLC-MS) excluding the non-specific binding proteins associated with EGFP RNA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cutaneous squamous cell carcinoma cells",
+        "rollup_category": "tumor cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A431",
+        "family": "cutaneous squamous cell carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +156,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used Orbitrap Fusion LC-MS/MS (DDA) on immunoprecipitated protein mixes. While the PRIDE metadata mentions 'Shotgun proteomics', the study design is a comparative RNA pulldown (LINP1 vs EGFP control) to identify interacting proteins, typically analyzed via label-free quantification (LFQ) or spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "RNA pulldown",
+        "immunoprecipitated protein mix",
+        "Orbitrap Fusion",
+        "Proteome Discoverer"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used Orbitrap Fusion LC-MS/MS (DDA) on immunoprecipitated protein mixes. While the PRIDE metadata mentions 'Shotgun proteomics', the study design is a comparative RNA pulldown (LINP1 vs EGFP control) to identify interacting proteins, typically analyzed via label-free quantification (LFQ) or spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "RNA pulldown",
+        "immunoprecipitated protein mix",
+        "Orbitrap Fusion",
+        "Proteome Discoverer"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:00:20Z"
   }
 }

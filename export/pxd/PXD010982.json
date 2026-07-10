@@ -3,25 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "precursor ion peak areas",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Unclassified"
+      "anatomical or spatial comparison",
+      "molecular state comparison"
     ],
     "cell_types": [
       "keratinocyte"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "This research aimed to assess variation in single-inch head, arm, and pubic hair",
+          "Hair proteomic variation at three different body locations in 36 hair specimens was first assessed"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "mutation_defined_state",
+        "matched_class_key": "mutation_defined_state",
+        "matched_class_path": [
+          "mutation_defined_state"
+        ],
+        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "confidence": "high",
+        "evidence": [
+          "Individualizing single nucleotide polymorphisms (SNPs) are often conserved as single amino acid polymorphisms in genetically variant peptides (GVPs).",
+          "between-individual comparisons exhibited the greatest number of GVP profile differences"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,37 +63,92 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "head hair",
+      "arm hair",
+      "pubic hair"
+    ],
     "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "factorial_design": true,
+    "replicate_hints": [
+      "different 25-mm single hair specimens from each body location were prepared as n = 4 for each individual"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "head hair",
+        "case_label": "pubic hair",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A single inch of pubic hair yields more proteins, unique peptides, and amino acids, than head or arm hair."
+        ]
+      },
+      {
+        "control_label": "head hair",
+        "case_label": "arm hair",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "While the protein abundance profiles of head and arm hair samples are more similar compared to pubic hair"
+        ]
+      },
+      {
+        "control_label": "Individual 1",
+        "case_label": "Individual 2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "between-individual comparisons exhibited the greatest number of GVP profile differences... between Individuals 1\u20132, 2\u20133, and 1\u20133"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "keratinocyte",
+        "rollup_category": "skin cell",
+        "ontology_curie": "CL:0000312"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "hair",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor ion peak areas"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +157,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive Plus, and quantification was performed using precursor ion peak areas (label-free)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "gvp_variant_search",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is the detection of Genetically Variant Peptides (GVPs) using individualized protein databases created from exome sequence data."
+        }
+      ],
+      "trigger_keywords": [
+        "genetically variant peptides",
+        "GVP",
+        "individualized protein databases",
+        "exome sequence data",
+        "data-dependent MS/MS",
+        "precursor ion peak areas"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive Plus, and quantification was performed using precursor ion peak areas (label-free)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "gvp_variant_search",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is the detection of Genetically Variant Peptides (GVPs) using individualized protein databases created from exome sequence data."
+        }
+      ],
+      "trigger_keywords": [
+        "genetically variant peptides",
+        "GVP",
+        "individualized protein databases",
+        "exome sequence data",
+        "data-dependent MS/MS",
+        "precursor ion peak areas"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +233,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:49:35Z"
   }
 }

@@ -3,70 +3,222 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Isotopic labeling",
     "labeling_strategy": [
       "Dimethyl"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "human colorectal carcinoma cells",
-      "immortalized aneuploid human keratinocyte cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HCT116",
-      "HaCaT"
+      "HaCaT",
+      "DH5\u03b1",
+      "BL21-CodonPlus (DE3)-RIPL"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "N-terminome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "samples were treated with ABT-199 at a final concentration of 150 \u03bcM to induce caspase-3 activation",
+          "HCT116 cells were treated with ABT-199 and DMSO (control)."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "insertion variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "HCT116 cells were transfected with a bicistronic caspase-3/GFP plasmid",
+          "generate caspase-3-overexpressing cells (GFP-positive) and nontransfected cells (no GFP)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ABT-199",
+        "dose_or_concentration": "150 \u03bcM",
+        "duration": "2 h",
+        "route_or_context": "HCT116 cells",
+        "evidence": [
+          "samples were treated with ABT-199 at a final concentration of 150 \u03bcM to induce caspase-3 activation for 2 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "recombinant human caspase-3",
+        "dose_or_concentration": "1:20 w/w ratio",
+        "duration": "1, 6, and 18 h",
+        "route_or_context": "in vitro clear lysate",
+        "evidence": [
+          "One was left untreated (control) while the other was mixed with recombinant human caspase-3 in a 1:20 w/w ratio. Both samples were kept at 37 \u00b0C with gentle mixing. After 1, 6, and 18 h, a fraction of 200 \u03bcg protein was taken"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0.5 h",
+      "1 h",
+      "2 h",
+      "6 h",
+      "18 h"
+    ],
+    "control_arms": [
+      "DMSO",
+      "nontransfected cells",
+      "untreated lysate"
+    ],
+    "case_arms": [
+      "ABT-199",
+      "caspase-3-overexpressing cells (GFP-positive)",
+      "caspase-3-treated lysate"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Cell-based proteomic analyses were done using triplicate cell cultures (biological replicates)."
+    ],
+    "multiplex_channel_hints": [
+      "Caspase-3-treated samples and control samples were labeled with heavy and light dimethylation respectively.",
+      "N-terminal \u03b1-amines\u2013specific labeling was done by adding 40 mM (final) of C13D2 (heavy) or C12H2 (light) formaldehyde"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "ABT-199",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "HCT116 cells were treated with ABT-199 and DMSO (control). Cells were collected from the ABT-treated and control cells after 0.5, 1, and 2 h"
+        ]
+      },
+      {
+        "control_label": "nontransfected",
+        "case_label": "caspase-3-overexpressing",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "generate caspase-3-overexpressing cells (GFP-positive) and nontransfected cells (no GFP)."
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "caspase-3-treated",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "One was left untreated (control) while the other was mixed with recombinant human caspase-3... After 1, 6, and 18 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colorectal carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "HaCaT",
+        "family": "immortalized aneuploid human keratinocyte",
+        "ontology_curie": null
+      },
+      {
+        "label": "DH5\u03b1",
+        "family": "E. coli",
+        "ontology_curie": null
+      },
+      {
+        "label": "BL21-CodonPlus (DE3)-RIPL",
+        "family": "E. coli",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "N-terminome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "Isotopic labeling",
+      "Relative peptide quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +226,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses reductive dimethylation with C13D2 (heavy) and C12H2 (light) formaldehyde for relative quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "DDA was used, but the primary quantification is isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses two specialized N-terminomics enrichment strategies: LATE (LysN Amino Terminal Enrichment) and HYTANE (Hydrophobic Tagging-Assisted N-termini Enrichment)."
+        }
+      ],
+      "trigger_keywords": [
+        "LATE",
+        "HYTANE",
+        "N-terminomics",
+        "dimethylation",
+        "LysN",
+        "neo-N-termini",
+        "undecanal"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses reductive dimethylation with C13D2 (heavy) and C12H2 (light) formaldehyde for relative quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "DDA was used, but the primary quantification is isotopic labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses two specialized N-terminomics enrichment strategies: LATE (LysN Amino Terminal Enrichment) and HYTANE (Hydrophobic Tagging-Assisted N-termini Enrichment)."
+        }
+      ],
+      "trigger_keywords": [
+        "LATE",
+        "HYTANE",
+        "N-terminomics",
+        "dimethylation",
+        "LysN",
+        "neo-N-termini",
+        "undecanal"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +314,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:34:26Z"
   }
 }

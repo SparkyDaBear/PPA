@@ -3,26 +3,59 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison",
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293T",
       "K562"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "microprotein enriched fraction",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "inter_tissue_comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "MS experiments were carried out using HEK293T cell lysates and K562 cell lysates",
+          "we detected 909 and 862 SAMs by MS in HEK293T and K562 cells, respectively"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "In a clinical lung cancer dataset, ShortStop uncovered differentially expressed microprotein candidates, several of which were validated by mass spectrometry.",
+          "we also used data from a separate study that captured HLA-immunoprecipitated peptidomes from two tumors and matched primary adjacent tissues."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,39 +63,102 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "HEK293T",
+      "adjacent normal lung tissues"
+    ],
+    "case_arms": [
+      "K562",
+      "lung tumors"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "HEK293T",
+        "case_label": "K562",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "One SAM was particularly noteworthy because it was nearly exclusively expressed in K562 cells in high abundance versus HEK293T cells."
+        ]
+      },
+      {
+        "control_label": "adjacent normal lung tissues",
+        "case_label": "lung tumors",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SAMs were indeed differentially expressed between tumors and adjacent tissue"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "K562",
+        "family": "Chronic Myelogenous Leukemia",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "lung tissue",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "lung tumors",
+        "source_kind": "tumor or lesion specimen"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "microprotein enriched fraction",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +166,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos. While explicit LFQ software isn't named for the cell lysates, the use of MSFragger/FragPipe and the comparison of abundance between cell lines (HEK293T vs K562) implies a label-free quantification approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_small_protein_enrichment",
+          "confidence": 0.95,
+          "reason": "Extensive use of acid extraction, C8 solid-phase extraction, GELFrEE fractionation, and Superdex 75 size exclusion chromatography specifically to enrich for proteins under 17 kDa."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "acid extraction",
+        "C8 solid-phase extraction",
+        "GELFrEE",
+        "Superdex 75",
+        "microprotein"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos. While explicit LFQ software isn't named for the cell lysates, the use of MSFragger/FragPipe and the comparison of abundance between cell lines (HEK293T vs K562) implies a label-free quantification approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_small_protein_enrichment",
+          "confidence": 0.95,
+          "reason": "Extensive use of acid extraction, C8 solid-phase extraction, GELFrEE fractionation, and Superdex 75 size exclusion chromatography specifically to enrich for proteins under 17 kDa."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "acid extraction",
+        "C8 solid-phase extraction",
+        "GELFrEE",
+        "Superdex 75",
+        "microprotein"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +242,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:46:03Z"
   }
 }

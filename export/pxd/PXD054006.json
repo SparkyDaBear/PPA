@@ -2,64 +2,147 @@
   "pxd": "PXD054006",
   "title": null,
   "summary": {
-    "acquisition_type": "Top-down",
-    "quantification_method": "Unknown",
+    "acquisition_type": "Unknown",
+    "quantification_method": "2D gel electrophoresis spot intensity (%vol)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Time-Course / Temporal Series",
-      "Disease"
+      "temperature stress"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
+        "category": "temperature",
+        "matched_parent_class_key": "temperature_stress",
+        "matched_class_key": "heat_stress",
+        "matched_class_path": [
+          "temperature_stress",
+          "heat_stress"
+        ],
+        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "confidence": "high",
+        "evidence": [
+          "Plasma samples (n\u2009=\u200912) from clinically diagnosed classical (non-exertional) heatstroke patients were collected at diagnosis and recovery.",
+          "The plasma proteome of heatstroke patients is examined at heatstroke diagnosis and during recovery to identify potential biomarkers and molecular targets for early therapeutic interventions."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_timepoint",
+        "agent": "heatstroke",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "diagnosis",
+        "evidence": [
+          "Twelve plasma samples were collected from six patients at two distinct time points: upon diagnosis (at patient presentation to the emergency room) and during recovery"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "heatstroke",
+        "dose_or_concentration": null,
+        "duration": "4\u20137 days post-diagnosis",
+        "route_or_context": "recovery",
+        "evidence": [
+          "Twelve plasma samples were collected from six patients at two distinct time points: upon diagnosis (at patient presentation to the emergency room) and during recovery, typically 4\u20137 days post-diagnosis"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "diagnosis",
+      "recovery"
+    ],
+    "control_arms": [
+      "recovery"
+    ],
+    "case_arms": [
+      "diagnosis"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Six patients were enrolled, with paired plasma samples collected at diagnosis and recovery to reduce interindividual variability",
+      "paired t-tests were performed on the results of six patients"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "recovery",
+        "case_label": "diagnosis",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "To determine protein spots that changed significantly between the diagnosis and recovery groups, each spot\u2019s %vol was analyzed using a paired t-test."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "2D gel electrophoresis spot intensity (%vol)",
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "depletion of high-abundance proteins",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +150,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses 2-DE for initial quantification (label-free) followed by LC-MS/MS for identification of excised spots. While the PRIDE metadata mentions 'Top-down', the methods explicitly describe 'in-gel trypsin digestion' and 'LC-MS/MS' for identification, which is a bottom-up approach for the MS phase."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "two-dimensional gel electrophoresis",
+        "2-DE",
+        "in-gel trypsin digestion",
+        "spot picker"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses 2-DE for initial quantification (label-free) followed by LC-MS/MS for identification of excised spots. While the PRIDE metadata mentions 'Top-down', the methods explicitly describe 'in-gel trypsin digestion' and 'LC-MS/MS' for identification, which is a bottom-up approach for the MS phase."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "two-dimensional gel electrophoresis",
+        "2-DE",
+        "in-gel trypsin digestion",
+        "spot picker"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +210,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:56:11Z"
   }
 }

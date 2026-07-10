@@ -3,68 +3,209 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation",
+      "chemical or drug treatment",
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "early embryonic cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293flpGR",
-      "HEK293flpGR3KR"
+      "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "Culturing of isogenic HEK293 cells (Flp-In\u2122 -293, Invitrogen) stably expressing GRwt (HEK293flpGR) or GR3KR (HEK293flpGR3KR)",
+          "cDNA of the human GR isoform alpha mutant (K277,293,703R) was transferred",
+          "mutation of lysines at the three SUMO consensus motifs leads to a SUMOylation-defective GR (GR3KR)"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "agonist_or_activator",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "agonist or activator treatment"
+        ],
+        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "confidence": "high",
+        "evidence": [
+          "Dex-treated HEK293flpGR cells were labeled with medium SILAC",
+          "Dex-treated HEK293flpGR3KR cells were labeled with heavy SILAC",
+          "dexamethasone (Dex, a synthetic GR agonist)"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical or drug treatment",
+          "small-molecule inhibitor treatment"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Blockage of SUMOylation by a SUMO-activating enzyme inhibitor (ML-792)",
+          "utilize a novel potent SUMO-activating enzyme (SAE) inhibitor ML-792"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dexamethasone",
+        "dose_or_concentration": "100 nM",
+        "duration": "2 h",
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "treated with 100 nM dexamethasone (Dex, Sigma-Aldrich)",
+          "Cells were treated with 100 nM Dex or vehicle 2 h before performing ChIP"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ML-792",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "exposed to 1 \u03bcM ML-792 (or DMSO as control) for 24 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "2 h"
+    ],
+    "control_arms": [
+      "vehicle (ethanol, EtOH)",
+      "GRwt",
+      "DMSO"
+    ],
+    "case_arms": [
+      "Dex",
+      "GR3KR",
+      "ML-792"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "two biological replicates as input",
+      "Both GR3KR replicates showed comparable levels of GR capture"
+    ],
+    "multiplex_channel_hints": [
+      "triple SILAC experimental setting",
+      "light SILAC (Arg 0 and Lys 0)",
+      "medium SILAC (Arg 6 and Lys 4)",
+      "heavy SILAC (Arg10 and Lys8)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "vehicle",
+        "case_label": "Dex",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "determine differentially enriched proteins in ChIP-SICAP data by using log2(FC) SILAC-ratios",
+          "Dex-induced interactors of the GRwt (M/L) or GR3KR (H/L)"
+        ]
+      },
+      {
+        "control_label": "GRwt",
+        "case_label": "GR3KR",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "When interactor enrichment in GRwt was compared with GR3KR (H/M)",
+          "log2(H/M) <0 were considered GRwt-enriched and with adjusted P-value <0.05, log2(H/M) >0 GR3KR-enriched"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "LFQ",
+      "iBAQ",
+      "Spectral counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +213,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a triple SILAC experimental setting (light, medium, heavy) using data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_sumo_remnant",
+          "confidence": 0.8,
+          "reason": "The study focuses on SUMOylation and uses a monoclonal SUMO2/3 antibody for IP, though the primary ChIP-SICAP analysis used standard search parameters. A separate SUMO2/3 target analysis is mentioned."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "triple SILAC",
+        "data dependent acquisition",
+        "ChIP-SICAP",
+        "SUMOylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a triple SILAC experimental setting (light, medium, heavy) using data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_sumo_remnant",
+          "confidence": 0.8,
+          "reason": "The study focuses on SUMOylation and uses a monoclonal SUMO2/3 antibody for IP, though the primary ChIP-SICAP analysis used standard search parameters. A separate SUMO2/3 target analysis is mentioned."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "triple SILAC",
+        "data dependent acquisition",
+        "ChIP-SICAP",
+        "SUMOylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +287,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:07:40Z"
   }
 }

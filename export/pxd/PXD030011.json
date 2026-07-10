@@ -3,25 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Relative intensity-based label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "pancreatic ductal cell"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we decided to establish the ubiquitination profiles of 60 PDAC",
+          "generate the ubiquitination profiles of large cohort of 60 PDXs obtained from both resected and advanced (non-resected) PDACs"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,38 +47,99 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "case_arms": [
+      "PDAC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "only technical duplicates were performed"
+    ],
+    "multiplex_channel_hints": [
+      "Relative intensity-based label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "low PAMG (more-aggressive)",
+        "case_label": "high PAMG (less-aggressive)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we performed correlation analyses between PAMG values and the different levels of ubiquitination at specific sites",
+          "indicating that their ubiquitination level is increased in high PAMG, that is, less-aggressive tumours"
+        ]
+      },
+      {
+        "control_label": "low ubiquitination",
+        "case_label": "high ubiquitination",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "two groups of patients, high- and low-level ubiquitination, were created for all these candidates and used to perform a multivariate Cox regression analysis"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "pancreatic ductal cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0002079"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "Patients' derived xenographs",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Relative intensity-based label-free quantification (LFQ)",
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +147,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MaxLFQ for relative intensity-based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the 'ubiquitinome' using immune-enrichment of diGlycine-conjugated peptides (diGly-pept) and searches for GlyGly motifs on lysine."
+        }
+      ],
+      "trigger_keywords": [
+        "ubiquitinome",
+        "diGly-pept",
+        "diGlycine-conjugated peptides",
+        "GlyGly motifs on lysine",
+        "MaxLFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MaxLFQ for relative intensity-based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the 'ubiquitinome' using immune-enrichment of diGlycine-conjugated peptides (diGly-pept) and searches for GlyGly motifs on lysine."
+        }
+      ],
+      "trigger_keywords": [
+        "ubiquitinome",
+        "diGly-pept",
+        "diGlycine-conjugated peptides",
+        "GlyGly motifs on lysine",
+        "MaxLFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:49:34Z"
   }
 }

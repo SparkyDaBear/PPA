@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Viral Infection"
+      "infection exposure"
     ],
     "cell_types": [
       "epithelial cell"
@@ -16,53 +16,146 @@
     "cell_lines": [
       "A549"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": null,
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "live_pathogen_infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "A549 adenocarcinoma human alveolar basal epithelial cells Salmonella enterica infection Proteomics",
+          "A549 cells were incubated with Salmonella enterica for 1 or 4 hours"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Salmonella enterica",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "A549 cells",
+        "evidence": [
+          "A549 cells were incubated with Salmonella enterica"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "1 or 4 hours",
+        "route_or_context": null,
+        "evidence": [
+          "A549 cells were incubated with Salmonella enterica for 1 or 4 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "1 hour",
+      "4 hours"
+    ],
+    "control_arms": [
+      "uninfected"
+    ],
+    "case_arms": [
+      "Salmonella enterica infection"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "in triplicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "Salmonella enterica infection",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "A549 cells were incubated with Salmonella enterica for 1 or 4 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Salmonella enterica",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A549",
+        "family": "adenocarcinoma human alveolar basal epithelial cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label free"
+    ],
+    "proteomics_mode": "Peptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +163,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Explicit mention of 'shotgun proteomics data', 'Label free' quantification, and use of MaxQuant LFQ."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "peptidomics",
+          "confidence": 0.8,
+          "reason": "The study explicitly includes 'peptidomics data of proteasome-derived peptides' and uses 'unspecific search' parameters in MaxQuant, which is characteristic of peptidomics/non-tryptic peptide analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "peptidomics",
+        "proteasome-derived peptides",
+        "unspecific search",
+        "LFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Explicit mention of 'shotgun proteomics data', 'Label free' quantification, and use of MaxQuant LFQ."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "peptidomics",
+          "confidence": 0.8,
+          "reason": "The study explicitly includes 'peptidomics data of proteasome-derived peptides' and uses 'unspecific search' parameters in MaxQuant, which is characteristic of peptidomics/non-tryptic peptide analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "peptidomics",
+        "proteasome-derived peptides",
+        "unspecific search",
+        "LFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "time_anchored",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +237,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:44:33Z"
   }
 }

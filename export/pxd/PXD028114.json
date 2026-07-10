@@ -2,44 +2,80 @@
   "pxd": "PXD028114",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "breast cancer cell line"
-    ],
-    "cell_lines": [
-      "MDA-MB-231",
-      "MCF10CA1A"
-    ],
-    "sample_scope": "whole cell lysate",
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "incubated with extracts collected from SIRT1 knock-down cells",
+          "the reduction in ATP6V1A expression that occurred when knocking down SIRT1, for example as shown in SI Appendix, Fig. S2A using two different short hairpin RNAs (shRNAs) that target SIRT1"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SIRT1 shRNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "breast cancer cells",
+        "evidence": [
+          "using two different short hairpin RNAs (shRNAs) that target SIRT1"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "control cells"
+    ],
+    "case_arms": [
+      "SIRT1 knock-down cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "SIRT1 knock-down",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "incubated with extracts collected from SIRT1 knock-down cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -51,7 +87,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -61,11 +97,22 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +120,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "The samples were prepared using biotinylated RNA pull-down (affinity purification) and gel-based excision of bands."
+        }
+      ],
+      "trigger_keywords": [
+        "Shotgun proteomics",
+        "Spectrum counting",
+        "Affinity purification",
+        "biotinylated RNA transcripts",
+        "streptavidin-conjugated beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "The samples were prepared using biotinylated RNA pull-down (affinity purification) and gel-based excision of bands."
+        }
+      ],
+      "trigger_keywords": [
+        "Shotgun proteomics",
+        "Spectrum counting",
+        "Affinity purification",
+        "biotinylated RNA transcripts",
+        "streptavidin-conjugated beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +194,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:49:07Z"
   }
 }

@@ -2,69 +2,199 @@
   "pxd": "PXD037866",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "Targeted",
+    "quantification_method": "Parallel Reaction Monitoring (PRM)",
     "labeling_strategy": [
-      "TMT"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "genetic perturbation",
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "epithelial cell"
+      "epithelial cells"
     ],
     "cell_lines": [
       "HEK293T",
       "A549"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "the usage of synonymous codons can be optimized for heterologous expression",
+          "we then use these identified patterns for the development of CUSTOM, a codon optimizer algorithm which suggests a synonymous codon design in order to optimize protein production in a tissue-specific manner",
+          "We applied CUSTOM to the protein sequences of eGFP and mCherry... Sequences were optimized to either lung or kidney"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "inter_tissue_comparison",
+        "matched_class_key": "inter_tissue_comparison",
+        "matched_class_path": [
+          "anatomical or spatial comparison",
+          "inter-tissue comparison"
+        ],
+        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "confidence": "high",
+        "evidence": [
+          "compute the protein-to-mRNA (PTR) ratios of 36 human tissues",
+          "optimizing eGFP and mCherry proteins to a human cell model of kidney and lung",
+          "The cell lines included in this study are HEK293T and A549... both renal (Lonza, cat # CC-2556) and small airway (Lonza, cat # CC-2547) cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "doxycycline",
+        "dose_or_concentration": "500 ng/mL",
+        "duration": "48 h",
+        "route_or_context": "gene expression induction",
+        "evidence": [
+          "Gene expression was induced with 500 ng/mL of doxycycline during 48 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "synonymous codon optimization (CUSTOM)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "eGFP and mCherry sequences optimized to lung or kidney",
+        "evidence": [
+          "We applied CUSTOM to the protein sequences of eGFP and mCherry... Sequences were optimized to either lung or kidney"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "non-optimized or opposite-tissue optimized sequences"
+    ],
+    "case_arms": [
+      "eGFPLung",
+      "eGFPKidney",
+      "mCherryLung",
+      "mCherryKidney"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Two independent batches of primary cells were used for each cell type",
+      "technical triplicates for each condition and biological replicate"
+    ],
+    "multiplex_channel_hints": [
+      "bidirectional TRE3G promoter, which allows the simultaneous expression of both genes",
+      "FITC channel and PE\u2013Texas Red channel"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Kidney-optimized",
+        "case_label": "Lung-optimized",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we observed that the eGFP/mCherry ratio was significantly higher in the tissue for which eGFP was optimized"
+        ]
+      },
+      {
+        "control_label": "HEK293T (Kidney model)",
+        "case_label": "A549 (Lung model)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "These constructs were then simultaneously expressed in the lung and kidney cell lines A549 and HEK293T"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "A549",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "kidney",
+        "source_kind": "organ"
+      },
+      {
+        "label": "lung",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Parallel Reaction Monitoring (PRM)",
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +203,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "The dataset includes DDA acquisition used to generate a library for subsequent PRM, and the primary quantification of the target proteins (eGFP, mCherry) is described as targeted proteomics using PRM."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "DDA",
+        "PRM",
+        "parallel reaction monitoring",
+        "targeted proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "The dataset includes DDA acquisition used to generate a library for subsequent PRM, and the primary quantification of the target proteins (eGFP, mCherry) is described as targeted proteomics using PRM."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "DDA",
+        "PRM",
+        "parallel reaction monitoring",
+        "targeted proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +265,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:16:42Z"
   }
 }

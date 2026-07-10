@@ -3,26 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT labeling was used to improve the identification of peptides and was not used for quantification purposes",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "tumor-associated fibroblasts",
-      "cancer-associated fibroblasts"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease or clinical state",
+          "disease case-control"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "characterize the repertoire of MAPs presented by HR+ and TNBC tumors",
+          "We analyzed 26 primary breast cancer samples (14 HR+ and 12 TNBC) from untreated patients."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,39 +44,83 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "HR+"
+    ],
+    "case_arms": [
+      "TNBC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "14 HR+",
+      "12 TNBC"
+    ],
+    "multiplex_channel_hints": [
+      "TMT labeling was used to improve the identification of peptides and was not used for quantification purposes."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "HR+",
+        "case_label": "TNBC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "characterize the repertoire of MAPs presented by HR+ and TNBC tumors",
+          "TSAs were most frequently identified in TNBC samples and were more shared among The Cancer Genome Atlas (TCGA) database TNBC than HR+ samples."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "primary breast cancer samples",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT labeling was used to improve the identification of peptides and was not used for quantification purposes"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +128,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "TMT labeling was used for all samples, and DDA (Survey scan MS1 followed by MS/MS) was employed on Orbitrap Fusion and Q-Exactive HF."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "TMT was used only to improve identification, not for quantification, suggesting a label-free approach to abundance might be intended despite the chemistry."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Experiment specifically targets MHC I-associated peptides (MAPs) using MHC I immunoprecipitation."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomes",
+        "MHC I immunoprecipitation",
+        "MAPs",
+        "TMT labeling",
+        "personalized reference databases"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "TMT labeling was used for all samples, and DDA (Survey scan MS1 followed by MS/MS) was employed on Orbitrap Fusion and Q-Exactive HF."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "TMT was used only to improve identification, not for quantification, suggesting a label-free approach to abundance might be intended despite the chemistry."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Experiment specifically targets MHC I-associated peptides (MAPs) using MHC I immunoprecipitation."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomes",
+        "MHC I immunoprecipitation",
+        "MAPs",
+        "TMT labeling",
+        "personalized reference databases"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +212,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:26:34Z"
   }
 }

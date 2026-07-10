@@ -2,73 +2,207 @@
   "pxd": "PXD008624",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "Reporter ion MS3",
+    "acquisition_type": "DDA",
+    "quantification_method": "TMT-based multiplexed quantification",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "human cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "hTERT RPE-1",
       "HeLa K",
       "HeLa FRT/TO-3xFlag-FZR1ala",
-      "HeLa FRT/TO-3xFlag-Venus-SBP-ANAPC4+TIR1+mAID-vhhGFP4"
+      "HeLa FRT/TO-3xFlag-Venus-SBP-ANAPC4 + TIR1 + mAID-vhhGFP4"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "quantitative comparison of substrates identified in the presence or absence of the E3 ligase of interest",
+          "anaphase extracts, where APC/C has been removed (E3 inactive) by immuno-depleting its crucial ANAPC4 subunit",
+          "applied E2~dID to wild type and siz1\u2206siz2\u2206 S. cerevisiae strains"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ANAPC4 depletion",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "immuno-depletion from extracts",
+        "evidence": [
+          "anaphase extracts, where APC/C has been removed (E3 inactive) by immuno-depleting its crucial ANAPC4 subunit"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siz1\u2206siz2\u2206 deletion",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "S. cerevisiae genetic knockout",
+        "evidence": [
+          "applied E2~dID to wild type and siz1\u2206siz2\u2206 S. cerevisiae strains"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NAA (1-naphthaleneacetic acid)",
+        "dose_or_concentration": "500 \u00b5M",
+        "duration": "3 h",
+        "route_or_context": "auxin-mediated degradation of ANAPC4 in living cells",
+        "evidence": [
+          "Adding the synthetic auxin analog 1-naphthaleneacetic acid (NAA) for three hours to prometaphase-arrested cells enabled mAID-vhhGFP to decrease the levels of endogenous 3xFlag-Streptavidin-binding-peptide-Venus-ANAPC4 by ~75%"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "prometaphase",
+      "anaphase",
+      "G2 phase",
+      "G1-phase"
+    ],
+    "control_arms": [
+      "mock",
+      "ANAPC4-depleted",
+      "wild type (yeast)",
+      "siz1\u2206siz2\u2206 (yeast)"
+    ],
+    "case_arms": [
+      "UBE2CK119R~bioUBB reactions",
+      "Ubc9~bioSmt3 reactions"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "We analyzed three replicates for each condition (6 samples in total).",
+      "All data are representative of at least three independent repeats if not otherwise stated."
+    ],
+    "multiplex_channel_hints": [
+      "labelled with TMT10plex as instructed by the manufacturer",
+      "TMT10plex reporter ion quantifier"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "-APC/C",
+        "case_label": "+APC/C",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "quantitative comparison of substrates identified in the presence or absence of the E3 ligase of interest",
+          "enrichment in UBE2CK119R~bioUBB reactions compared to control (bioUBB, UBE2CC114S) and ANAPC4-depleted (\u2212APC/C) samples"
+        ]
+      },
+      {
+        "control_label": "siz1\u2206siz2\u2206",
+        "case_label": "wild type",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "yielded 34 hits that were sensitive to Siz1/Siz2 deletion"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": "NEWT:4932",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "hTERT RPE-1",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa K",
+        "family": "HeLa",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa FRT/TO-3xFlag-FZR1ala",
+        "family": "HeLa",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa FRT/TO-3xFlag-Venus-SBP-ANAPC4 + TIR1 + mAID-vhhGFP4",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT-based multiplexed quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +210,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT10plex labeling for quantification across multiple conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "The study performs 'diGly proteomics' and uses PTMScan Ubiquitin branch motif (K-\u03b5-GG) immunoaffinity beads to enrich for ubiquitin remnant peptides."
+        },
+        {
+          "modifier_workflow_id": "sumo_remnant",
+          "confidence": 0.9,
+          "reason": "The study applies the E2~dID method to SUMO in S. cerevisiae using SMT3KGG mutant to obtain shorter SUMO remnants."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT10plex",
+        "diGly proteomics",
+        "K-\u03b5-GG",
+        "SMT3KGG",
+        "ubiquitin remnant peptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT10plex labeling for quantification across multiple conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "The study performs 'diGly proteomics' and uses PTMScan Ubiquitin branch motif (K-\u03b5-GG) immunoaffinity beads to enrich for ubiquitin remnant peptides."
+        },
+        {
+          "modifier_workflow_id": "sumo_remnant",
+          "confidence": 0.9,
+          "reason": "The study applies the E2~dID method to SUMO in S. cerevisiae using SMT3KGG mutant to obtain shorter SUMO remnants."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT10plex",
+        "diGly proteomics",
+        "K-\u03b5-GG",
+        "SMT3KGG",
+        "ubiquitin remnant peptide enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +294,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T13:43:28Z"
   }
 }

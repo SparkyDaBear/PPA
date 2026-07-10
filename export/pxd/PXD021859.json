@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
-      "TMT",
-      "SILAC"
+      "SILAC",
+      "TMT"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations"
+      "infection exposure",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -21,53 +21,219 @@
       "HEK293T",
       "MEFs"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": null,
+        "matched_class_key": "live_pathogen_infection",
+        "matched_class_path": [
+          "infection exposure",
+          "live pathogen infection"
+        ],
+        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "confidence": "high",
+        "evidence": [
+          "Through conducting quantitative proteomics upon Salmonella infection",
+          "HCT116 cells were metabolically labeled with stable isotope labeling of amino acid in cell culture (SILAC)... \u201clight\u201d-labeled cells were left uninfected and \u201cheavy\u201d- and \u201cmedium\u201d-labeled cells were infected with Salmonella"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "gene_disruption",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene disruption",
+          "whole-gene knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we used short interfering RNAs (siRNA) to deplete cells of SIK2",
+          "HeLa cells transfected with non-targeting control- and anti-SIK2 siRNA were left uninfected or infected with Salmonella"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Salmonella Typhimurium strain SL1344",
+        "dose_or_concentration": "multiplicity of infection of 100",
+        "duration": null,
+        "route_or_context": "infection of HeLa and HCT116 cells",
+        "evidence": [
+          "S. enterica serovar Typhimurium strain SL1344",
+          "Cells were infected in antibiotic-free medium with a multiplicity of infection of 100 for 10 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "anti-SIK2 siRNA",
+        "dose_or_concentration": "20nM",
+        "duration": "48 to 72 h posttransfection",
+        "route_or_context": "siRNA transfection in HeLa cells",
+        "evidence": [
+          "Cells were transfected 24 h postseeding with 20nM siRNA (ON TARGETplus anti-SIK2 siRNA [Horizon Discovery] and AllStars Negative Control siRNA [Qiagen])",
+          "Experiments were performed 48 to 72 h posttransfection."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-infection (pi)",
+        "evidence": [
+          "analyzed (30 min or 2 h pi)",
+          "lysed 1 h post-infection"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "30 min pi",
+      "1 h pi",
+      "2 h pi"
+    ],
+    "control_arms": [
+      "uninfected",
+      "siCTRL-transfected"
+    ],
+    "case_arms": [
+      "Salmonella infected",
+      "anti-SIK2 siRNA depleted"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "four experimental replicates",
+      "mean of replicates"
+    ],
+    "multiplex_channel_hints": [
+      "triple-SILAC labeling",
+      "TMT 16-plexed",
+      "TMT-pro 16-plex"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "Salmonella infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "\u201clight\u201d-labeled cells were left uninfected and \u201cheavy\u201d- and \u201cmedium\u201d-labeled cells were infected with Salmonella"
+        ]
+      },
+      {
+        "control_label": "siCTRL",
+        "case_label": "anti-SIK2 siRNA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "HeLa cells transfected with non-targeting control- and anti-SIK2 siRNA were left uninfected or infected with Salmonella"
+        ]
+      },
+      {
+        "control_label": "uninfected",
+        "case_label": "Salmonella infected (30 min vs 2 h)",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "analyzed (30 min or 2 h pi)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Salmonella typhimurium",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT116",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MEFs",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "TMT"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +241,94 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Multiple mentions of TMT labeling (TMT-pro 16-plex, TMT6) and DDA acquisition on Q Exactive HF and Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "Explicit section on 'SILAC-Based Phosphoproteomics' using triple-SILAC labeling (light, medium, heavy) in HCT116 cells."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "General shotgun proteomics mentioned, but specific quantification is TMT or SILAC."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of TiO2 and Fe-NTA phosphopeptide enrichment across multiple experiments."
+        },
+        {
+          "modifier_workflow_id": "interactomics_ip",
+          "confidence": 1.0,
+          "reason": "Specific workflow for HA-IP (immunoprecipitation) of endogenously tagged SIK2-HA."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "SILAC",
+        "phosphoproteomics",
+        "TiO2-based phospho-enrichment",
+        "Fe-NTA Phosphopeptide Enrichment Kit",
+        "HA-IP",
+        "on-bead digest"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Multiple mentions of TMT labeling (TMT-pro 16-plex, TMT6) and DDA acquisition on Q Exactive HF and Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "Explicit section on 'SILAC-Based Phosphoproteomics' using triple-SILAC labeling (light, medium, heavy) in HCT116 cells."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.3,
+          "reason": "General shotgun proteomics mentioned, but specific quantification is TMT or SILAC."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of TiO2 and Fe-NTA phosphopeptide enrichment across multiple experiments."
+        },
+        {
+          "modifier_workflow_id": "interactomics_ip",
+          "confidence": 1.0,
+          "reason": "Specific workflow for HA-IP (immunoprecipitation) of endogenously tagged SIK2-HA."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "SILAC",
+        "phosphoproteomics",
+        "TiO2-based phospho-enrichment",
+        "Fe-NTA Phosphopeptide Enrichment Kit",
+        "HA-IP",
+        "on-bead digest"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +349,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T14:53:19Z"
   }
 }

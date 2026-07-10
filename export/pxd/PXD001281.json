@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": null,
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "heat stress"
+      "temperature stress",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,19 +23,39 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "heat stress",
-        "ontology_curie": null,
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
         "category": "temperature",
-        "matched_parent_class_key": "PPA:0000022",
+        "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
         "matched_class_path": [
-          "PPA:0000022",
+          "temperature",
           "heat_stress"
         ],
         "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
         "confidence": "high",
         "evidence": [
-          "Cells (~ 3 \u00d7 10^8) were heat stressed at 43 \u00b0C for 30 minutes to enhance sumoylation (3) and lysed under denaturing conditions."
+          "Cells were heat-shocked to enhance sumoylation",
+          "6 L of cell culture (~800 000 cells/ml) was stimulated by heat shock at 43 \u00b0C",
+          "Cells (~ 3 \u00d7 108) were heat stressed at 43\u00b0C for 30 minutes to enhance sumoylation"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_modification_or_gain",
+        "matched_class_path": [
+          "genetic",
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "expression of polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys",
+          "We stably expressed polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys (SUMO2T90K) in human embryonic kidney (HEK) 293 cells."
         ]
       }
     ],
@@ -42,11 +63,21 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "heat shock",
-        "dose_or_concentration": null,
+        "dose_or_concentration": "43 \u00b0C",
         "duration": "30 minutes",
-        "route_or_context": "43 \u00b0C",
+        "route_or_context": "HEK293 N3S cells",
         "evidence": [
-          "Cells (~ 3 \u00d7 10^8) were heat stressed at 43 \u00b0C for 30 minutes to enhance sumoylation (3) and lysed under denaturing conditions."
+          "Cells (~ 3 \u00d7 108) were heat stressed at 43\u00b0C for 30 minutes to enhance sumoylation"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "6His-SUMO2T90K",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stably expressed in HEK293 N3S cells",
+        "evidence": [
+          "We stably expressed polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys (SUMO2T90K) in human embryonic kidney (HEK) 293 cells."
         ]
       }
     ],
@@ -55,20 +86,30 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "30 minutes"
+    "timepoints": [],
+    "control_arms": [
+      "parental cells"
     ],
-    "control_arms": [],
     "case_arms": [
-      "heat-stressed cells"
+      "6His-SUMO2T90K expressing cells"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "In the experiment designed to evaluate reproducibility, duplicate 750 mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 10^7 cells were processed in parallel."
+      "In the experiment designed to evaluate reproducibility, duplicate 750mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 107 cells were processed in parallel.",
+      "To estimate the reproducibility of the SUMO2T90K-based enrichment strategy, we repeated the experiment."
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "parental cells",
+        "case_label": "SUMO2T90K-expressing cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Similar to parental cells, SUMO2T90K-expressing cells had a comparable doubling time and morphology"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -78,7 +119,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -86,7 +127,7 @@
     "cell_lines": [
       {
         "label": "HEK293 N3S",
-        "family": "HEK-293 cell",
+        "family": "HEK293",
         "ontology_curie": "BTO:0000007"
       }
     ],
@@ -98,7 +139,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -107,10 +148,12 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "quantification_strategy": [],
-    "proteomics_mode": "Bottom-up",
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "SUMOylome or QQTGG enrichment",
@@ -132,21 +175,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Shotgun DDA label-free data acquisition on Q Exactive with no isotopic or isobaric labels"
+          "reason": "Data was acquired using a Q Exactive mass spectrometer in data-dependent acquisition (DDA) mode ('Up to one data dependent MS2 spectrum was acquired'). No labeling (SILAC, isobaric) is mentioned; the study focuses on site identification and reproducibility."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment_diGly",
-          "confidence": 0.85,
-          "reason": "Immunopurification of diGly-Lys peptides using anti-K-\u03b5-GG antibody after Lys-C/Glu-C digestion"
+          "modifier_workflow_id": "diGly_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses a diGly-Lys specific antibody (anti-K-epsilon-GG) to enrich for peptides containing the diGly remnant produced by Lys-C digestion of SUMO2T90K modified proteins."
         }
       ],
       "trigger_keywords": [
-        "diGly",
-        "anti-K-\u03b5-GG",
-        "Lys-C",
-        "Glu-C"
+        "diGly remnant",
+        "anti-K-epsilon-GG",
+        "SUMO2T90K",
+        "diGly adduction to Lys",
+        "immunoprecipitation of SUMO2T90K modified peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -155,26 +199,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Shotgun DDA label-free data acquisition on Q Exactive with no isotopic or isobaric labels"
+          "reason": "Data was acquired using a Q Exactive mass spectrometer in data-dependent acquisition (DDA) mode ('Up to one data dependent MS2 spectrum was acquired'). No labeling (SILAC, isobaric) is mentioned; the study focuses on site identification and reproducibility."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment_diGly",
-          "confidence": 0.85,
-          "reason": "Immunopurification of diGly-Lys peptides using anti-K-\u03b5-GG antibody after Lys-C/Glu-C digestion"
+          "modifier_workflow_id": "diGly_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses a diGly-Lys specific antibody (anti-K-epsilon-GG) to enrich for peptides containing the diGly remnant produced by Lys-C digestion of SUMO2T90K modified proteins."
         }
       ],
       "trigger_keywords": [
-        "diGly",
-        "anti-K-\u03b5-GG",
-        "Lys-C",
-        "Glu-C"
+        "diGly remnant",
+        "anti-K-epsilon-GG",
+        "SUMO2T90K",
+        "diGly adduction to Lys",
+        "immunoprecipitation of SUMO2T90K modified peptides"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "unknown",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "unknown",
       "analyte_level": "site"
     },
@@ -199,6 +244,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T03:44:15Z"
+    "stage3_refreshed_at": "2026-07-10T13:50:23Z"
   }
 }
