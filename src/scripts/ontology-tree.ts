@@ -2,12 +2,15 @@ import * as d3 from 'd3';
 
 type OntologyNode = {
   curie: string;
+  source_curie?: string;
   preferred_label: string;
   definition?: string;
   branch?: string | null;
   parent?: string | null;
   children?: string[];
   linked_pxd_count?: number;
+  project_ids?: string[];
+  term_page_available?: boolean;
 };
 
 type BranchMap = Record<string, { root?: string; description?: string }>;
@@ -15,10 +18,13 @@ type BranchMap = Record<string, { root?: string; description?: string }>;
 type TreeNode = {
   id: string;
   curie: string;
+  source_curie: string;
   preferred_label: string;
   definition: string;
   branch: string | null;
   linked_pxd_count: number;
+  project_ids: string[];
+  term_page_available: boolean;
   child_count: number;
   children?: TreeNode[];
   _children?: TreeNode[];
@@ -27,6 +33,7 @@ type TreeNode = {
 type TreePayload = {
   nodes: OntologyNode[];
   branches: BranchMap;
+  root_curie?: string;
 };
 
 type InitOptions = {
@@ -61,10 +68,13 @@ function toTreeNode(curie: string, byCurie: Map<string, OntologyNode>): TreeNode
     return {
       id: curie,
       curie,
+      source_curie: curie,
       preferred_label: curie,
       definition: 'Missing ontology node in export payload.',
       branch: null,
       linked_pxd_count: 0,
+      project_ids: [],
+      term_page_available: false,
       child_count: 0,
       children: [],
     };
@@ -76,10 +86,13 @@ function toTreeNode(curie: string, byCurie: Map<string, OntologyNode>): TreeNode
   return {
     id: raw.curie,
     curie: raw.curie,
+    source_curie: raw.source_curie || raw.curie,
     preferred_label: raw.preferred_label,
     definition: raw.definition || 'No definition available.',
     branch: raw.branch ?? null,
     linked_pxd_count: raw.linked_pxd_count || 0,
+    project_ids: raw.project_ids || [],
+    term_page_available: Boolean(raw.term_page_available),
     child_count: childIds.length,
     children,
   };
@@ -106,20 +119,29 @@ export function initOntologyTree(options: InitOptions) {
 
   const byCurie = new Map(nodeList.map((node) => [node.curie, node]));
 
+  const rootCurie = payload.root_curie && byCurie.has(payload.root_curie)
+    ? payload.root_curie
+    : null;
+
   const branchRoots = Object.values(payload.branches || {})
     .map((entry) => entry.root)
     .filter((root): root is string => Boolean(root) && byCurie.has(root));
 
-  const syntheticRoot: TreeNode = {
-    id: 'PPA_TREE_ROOT',
-    curie: 'PPA:0000001',
-    preferred_label: 'PPA metadata ontology',
-    definition: 'Synthetic tree root used for branch-first rendering.',
-    branch: null,
-    linked_pxd_count: 0,
-    child_count: branchRoots.length,
-    children: branchRoots.map((rootCurie) => toTreeNode(rootCurie, byCurie)),
-  };
+  const syntheticRoot: TreeNode = rootCurie
+    ? toTreeNode(rootCurie, byCurie)
+    : {
+        id: 'PPA_TREE_ROOT',
+        curie: 'PPA:0000001',
+        source_curie: 'PPA:0000001',
+        preferred_label: 'PPA metadata ontology',
+        definition: 'Synthetic tree root used for branch-first rendering.',
+        branch: null,
+        linked_pxd_count: 0,
+        project_ids: [],
+        term_page_available: false,
+        child_count: branchRoots.length,
+        children: branchRoots.map((rootCurie) => toTreeNode(rootCurie, byCurie)),
+      };
 
   const width = Math.max(container.clientWidth, 760);
   const height = Math.max(window.innerHeight * 0.72, 620);
@@ -157,6 +179,7 @@ export function initOntologyTree(options: InitOptions) {
   const branchEl = getTextElement(`${options.detailPrefix}-branch`);
   const defEl = getTextElement(`${options.detailPrefix}-def`);
   const statsEl = getTextElement(`${options.detailPrefix}-stats`);
+  const projectsEl = getTextElement(`${options.detailPrefix}-projects`);
   const linkWrapEl = getTextElement(`${options.detailPrefix}-link-wrap`);
 
   const setDetail = (datum: TreeNode) => {
@@ -167,9 +190,25 @@ export function initOntologyTree(options: InitOptions) {
     if (statsEl) {
       statsEl.textContent = `${datum.child_count} child terms · ${datum.linked_pxd_count} linked projects`;
     }
+    if (projectsEl) {
+      if (!datum.project_ids || datum.project_ids.length === 0) {
+        projectsEl.textContent = 'PXDs: none linked for this node context.';
+      } else {
+        const first = datum.project_ids.slice(0, 12);
+        const links = first
+          .map((pxd) => `<a class="badge" href="${base}projects/${encodeURIComponent(pxd)}/">${pxd}</a>`)
+          .join(' ');
+        const remainder = datum.project_ids.length - first.length;
+        projectsEl.innerHTML = remainder > 0 ? `${links} <span class="row-code">+${remainder} more</span>` : links;
+      }
+    }
     if (linkWrapEl) {
-      const href = `${base}terms/${encodeURIComponent(datum.curie)}/`;
-      linkWrapEl.innerHTML = `<a class="badge" href="${href}">Open term page</a>`;
+      if (datum.term_page_available && /^PPA:\d+$/.test(datum.source_curie || '')) {
+        const href = `${base}terms/${encodeURIComponent(datum.source_curie)}/`;
+        linkWrapEl.innerHTML = `<a class="badge" href="${href}">Open term page</a>`;
+      } else {
+        linkWrapEl.innerHTML = '';
+      }
     }
   };
 

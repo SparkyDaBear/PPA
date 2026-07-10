@@ -1,25 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getOntology, getRelease } from '../../lib/site-data';
+import { getRelease, getTreatmentFocusedOntologyTree } from '../../lib/site-data';
 
-const [release, ontology] = await Promise.all([getRelease(), getOntology()]);
+const [release, treePayload] = await Promise.all([getRelease(), getTreatmentFocusedOntologyTree()]);
 const base = import.meta.env.BASE_URL;
-
-const treePayload = {
-  nodes: ontology.nodes || [],
-  branches: ontology.branches || {},
-};
 ---
 
 <BaseLayout title="Ontology Tree · PPA Curator Workbench">
   <section class="hero-panel">
     <div>
       <p class="hero-kicker">Ontology tree</p>
-      <h2>Explore branch-first ontology structure with lazy expansion and linked term detail pages.</h2>
+      <h2>Treatment-first navigation: Level 1 coarse categories, Level 2 fine classes, then metadata subtrees per treatment class.</h2>
     </div>
     <div class="hero-badges">
       <span class="badge">{release.term_count} terms</span>
-      <span class="badge">D3 interactive tree</span>
+      <span class="badge">Treatment-context explorer</span>
     </div>
   </section>
 
@@ -35,6 +30,7 @@ const treePayload = {
         <p class="row-meta" id="tree-node-branch"></p>
         <p class="row-meta" id="tree-node-def"></p>
         <p class="row-meta" id="tree-node-stats"></p>
+        <p class="row-meta" id="tree-node-projects"></p>
         <p id="tree-node-link-wrap"></p>
       </aside>
     </div>
