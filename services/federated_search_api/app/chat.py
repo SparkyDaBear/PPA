@@ -1,0 +1,62 @@
+from __future__ import annotations
+
+import uuid
+
+from .clients import chat_mcp_bridge, chat_openai_fallback, search_ppa_local
+from .schemas import ChatRequest, ChatResponse, SearchResult
+
+
+def _to_citations(raw: list[dict]) -> list[SearchResult]:
+    citations: list[SearchResult] = []
+    for row in raw:
+        try:
+            citations.append(SearchResult(**row))
+        except Exception:
+            continue
+    return citations
+
+
+async def run_chat(request: ChatRequest) -> ChatResponse:
+    active_session_id = request.session_id or f'session-{uuid.uuid4().hex[:12]}'
+
+    mcp = await chat_mcp_bridge(
+        message=request.message,
+        history=request.history,
+        session_id=active_session_id,
+        limit=request.limit,
+    )
+
+    warnings = list(mcp.get('warnings', []))
+    reply = (mcp.get('reply') or '').strip()
+    model = mcp.get('model')
+    session_id = mcp.get('session_id') or active_session_id
+    citations = _to_citations(mcp.get('citations', []))
+
+    # If MCP did not provide citations, attach top local PPA search matches.
+    if not citations and request.message.strip():
+        local = search_ppa_local(request.message, limit=min(request.limit, 8))
+        citations = local.results
+        warnings.extend(local.warnings)
+
+    # Optional model-provider fallback for chat if MCP bridge fails.
+    if not reply:
+        fallback = await chat_openai_fallback(request.message, request.history)
+        fallback_reply = (fallback.get('reply') or '').strip()
+        if fallback_reply:
+            reply = fallback_reply
+            model = fallback.get('model')
+            warnings.extend(fallback.get('warnings', []))
+
+    if not reply:
+        reply = (
+            'The MCP chat bridge is currently unavailable. You can still use /v1/search '
+            'for federated retrieval while chat connectivity is configured.'
+        )
+
+    return ChatResponse(
+        reply=reply,
+        session_id=session_id,
+        model=model,
+        warnings=warnings,
+        citations=citations,
+    )
