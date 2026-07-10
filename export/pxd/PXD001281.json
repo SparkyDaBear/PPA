@@ -3,39 +3,38 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label_free",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "SUMO modification"
+      "heat stress"
     ],
-    "cell_types": [
-      "HEK-293 cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293 N3S"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
-    "instrument": "Q Exactive"
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
+    "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "SUMO modification",
+        "ontology_label": "heat stress",
         "ontology_curie": null,
-        "category": "molecular_state",
-        "matched_parent_class_key": "PPA:0000021",
-        "matched_class_key": null,
+        "category": "temperature",
+        "matched_parent_class_key": "PPA:0000022",
+        "matched_class_key": "heat_stress",
         "matched_class_path": [
-          "molecular_state comparison"
+          "PPA:0000022",
+          "heat_stress"
         ],
-        "matched_definition": "Comparison based on molecular context such as mutation, PTM, or complex assembly state.",
+        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
         "confidence": "high",
         "evidence": [
-          "Mass spectrometry analysis of SUMO enriched peptides revealed over 1,000 sumoylated lysines in 539 proteins, including many functionally related proteins involved in cell cycle, transcription, and DNA repair."
+          "Cells (~ 3 \u00d7 10^8) were heat stressed at 43 \u00b0C for 30 minutes to enhance sumoylation (3) and lysed under denaturing conditions."
         ]
       }
     ],
@@ -45,9 +44,9 @@
         "agent": "heat shock",
         "dose_or_concentration": null,
         "duration": "30 minutes",
-        "route_or_context": null,
+        "route_or_context": "43 \u00b0C",
         "evidence": [
-          "Cells were heat-shocked to enhance sumoylation."
+          "Cells (~ 3 \u00d7 10^8) were heat stressed at 43 \u00b0C for 30 minutes to enhance sumoylation (3) and lysed under denaturing conditions."
         ]
       }
     ],
@@ -56,13 +55,17 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "30 minutes"
+    ],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "heat-stressed cells"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [
-      "Duplicate 750mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 107 cells were processed in parallel."
+      "In the experiment designed to evaluate reproducibility, duplicate 750 mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 10^7 cells were processed in parallel."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
@@ -74,34 +77,28 @@
     "human_system_present": "Yes",
     "organisms": [
       {
-        "label": "Homo sapiens (human)",
-        "taxonomy_hint": "NEWT:9606",
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "HEK-293 cell",
-        "rollup_category": "organism part",
-        "ontology_curie": "BTO:0000007"
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293 N3S",
-        "family": null,
-        "ontology_curie": null
+        "family": "HEK-293 cell",
+        "ontology_curie": "BTO:0000007"
       }
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": true
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -112,21 +109,13 @@
     "labeling_strategy": [
       "Unknown"
     ],
-    "quantification_strategy": [
-      "label_free"
-    ],
+    "quantification_strategy": [],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "SUMOylome or QQTGG enrichment",
         "ontology_curie": "PPA:0000437",
         "workflow_modifier_hint": "mod_sumo_qqtgg",
-        "confidence": "high"
-      },
-      {
-        "ontology_label": "ubiquitylome or diGly enrichment",
-        "ontology_curie": "PPA:0000294",
-        "workflow_modifier_hint": "mod_ubiquitin",
         "confidence": "high"
       }
     ],
@@ -143,60 +132,50 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study employs DDA mass spectrometry and label-free quantification methods."
+          "reason": "Shotgun DDA label-free data acquisition on Q Exactive with no isotopic or isobaric labels"
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "base_dda_isobaric",
-          "confidence": 0.7,
-          "reason": "Potential for isobaric labeling in future studies based on the described methods."
+          "modifier_workflow_id": "ptm_enrichment_diGly",
+          "confidence": 0.85,
+          "reason": "Immunopurification of diGly-Lys peptides using anti-K-\u03b5-GG antibody after Lys-C/Glu-C digestion"
         }
       ],
       "trigger_keywords": [
-        "SUMO modification",
-        "diGly remnant",
-        "HEK293",
-        "mass spectrometry"
+        "diGly",
+        "anti-K-\u03b5-GG",
+        "Lys-C",
+        "Glu-C"
       ],
-      "raw_or_file_name_triggers": [
-        "2013",
-        "qEx",
-        "T90",
-        "IP"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study employs DDA mass spectrometry and label-free quantification methods."
+          "reason": "Shotgun DDA label-free data acquisition on Q Exactive with no isotopic or isobaric labels"
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "base_dda_isobaric",
-          "confidence": 0.7,
-          "reason": "Potential for isobaric labeling in future studies based on the described methods."
+          "modifier_workflow_id": "ptm_enrichment_diGly",
+          "confidence": 0.85,
+          "reason": "Immunopurification of diGly-Lys peptides using anti-K-\u03b5-GG antibody after Lys-C/Glu-C digestion"
         }
       ],
       "trigger_keywords": [
-        "SUMO modification",
-        "diGly remnant",
-        "HEK293",
-        "mass spectrometry"
+        "diGly",
+        "anti-K-\u03b5-GG",
+        "Lys-C",
+        "Glu-C"
       ],
-      "raw_or_file_name_triggers": [
-        "2013",
-        "qEx",
-        "T90",
-        "IP"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
-      "pairwise_strategy": "control_vs_case",
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
       "analyte_level": "site"
     },
     "source_sections": [
@@ -219,6 +198,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-10T03:44:15Z"
   }
 }

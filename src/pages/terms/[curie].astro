@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
-import { getProjectIndex, getTermIndex, normalizeLabel, stringifyList } from '../../lib/site-data';
+import { getProjectIndex, getTermIndex, normalizeLabel, projectMentionsCurie, stringifyList } from '../../lib/site-data';
 
 export async function getStaticPaths() {
   const termIndex = await getTermIndex();
@@ -11,12 +11,7 @@ export async function getStaticPaths() {
 const { term } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const projects = (await getProjectIndex()).projects || [];
-const linkedProjects = projects.filter((project) => {
-  const summary = project.summary || {};
-  const treatmentCategories = summary.treatment_categories || [];
-  const branch = normalizeLabel(term.branch).toLowerCase();
-  return treatmentCategories.some((value: string) => value.toLowerCase().includes(branch));
-});
+const linkedProjects = projects.filter((project) => projectMentionsCurie(project, term.curie));
 ---
 
 <BaseLayout title={`${term.preferred_label} · PPA Curator Workbench`}>
