@@ -34,7 +34,7 @@ async def run_chat(request: ChatRequest) -> ChatResponse:
 
     # If MCP did not provide citations, attach top local PPA search matches.
     if not citations and request.message.strip():
-        local = search_ppa_local(request.message, limit=min(request.limit, 8))
+        local = await search_ppa_local(request.message, limit=min(request.limit, 8))
         citations = local.results
         warnings.extend(local.warnings)
 
