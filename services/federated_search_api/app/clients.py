@@ -312,14 +312,49 @@ async def chat_openai_fallback(message: str, history: list[ChatTurn]) -> dict[st
     if not settings.openai_api_key:
         return {'warnings': ['openai fallback is not configured'], 'reply': ''}
 
+    return {
+        'warnings': ['openai fallback called without retrieval context'],
+        'reply': '',
+    }
+
+
+async def chat_openai_fallback_grounded(
+    query: str,
+    citations: list[SearchResult],
+    history: list[ChatTurn],
+) -> dict[str, Any]:
+    if not settings.openai_api_key:
+        return {'warnings': ['openai fallback is not configured'], 'reply': ''}
+
     headers = {
         'Authorization': f'Bearer {settings.openai_api_key}',
         'Content-Type': 'application/json',
     }
     endpoint = f"{settings.openai_base_url.rstrip('/')}/chat/completions"
 
-    messages = [turn.model_dump() for turn in history]
-    messages.append({'role': 'user', 'content': message})
+    evidence_lines = []
+    for idx, citation in enumerate(citations[:12], start=1):
+        evidence_lines.append(
+            (
+                f"[{idx}] source={citation.source}; kind={citation.kind}; score={citation.score:.3f}; "
+                f"title={citation.title}; subtitle={citation.subtitle or ''}; "
+                f"snippet={citation.snippet or ''}; link={citation.link or ''}"
+            )
+        )
+
+    evidence_block = '\n'.join(evidence_lines) if evidence_lines else '[none]'
+
+    system_prompt = (
+        'You are a retrieval-grounded assistant for proteomics dataset search. '
+        'Use only the provided EVIDENCE lines. Do not fabricate studies or claims. '
+        'If evidence is insufficient for the requested constraint, say that explicitly and '
+        'suggest a concise follow-up query. Keep answers concise and practical.\n\n'
+        f'EVIDENCE:\n{evidence_block}'
+    )
+
+    messages = [{'role': 'system', 'content': system_prompt}]
+    messages.extend(turn.model_dump() for turn in history)
+    messages.append({'role': 'user', 'content': query})
 
     try:
         async with httpx.AsyncClient(timeout=45.0) as client:
@@ -329,7 +364,7 @@ async def chat_openai_fallback(message: str, history: list[ChatTurn]) -> dict[st
                 json={
                     'model': settings.openai_model,
                     'messages': messages,
-                    'temperature': 0.2,
+                    'temperature': 0.0,
                 },
             )
             response.raise_for_status()

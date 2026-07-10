@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import uuid
+import re
 
-from .clients import chat_mcp_bridge, chat_openai_fallback, search_ppa_local
+from .clients import chat_mcp_bridge, chat_openai_fallback_grounded, search_ppa_local
 from .schemas import ChatRequest, ChatResponse, SearchResult
 
 
@@ -14,6 +15,34 @@ def _to_citations(raw: list[dict]) -> list[SearchResult]:
         except Exception:
             continue
     return citations
+
+
+def _query_tokens(query: str) -> list[str]:
+    # Keep semantically useful tokens to detect whether evidence actually matches constraints.
+    tokens = re.findall(r'[a-zA-Z0-9_-]+', query.lower())
+    return [token for token in tokens if len(token) >= 4]
+
+
+def _citation_text(citation: SearchResult) -> str:
+    return ' '.join(
+        [
+            citation.title or '',
+            citation.subtitle or '',
+            citation.snippet or '',
+            citation.provenance or '',
+        ]
+    ).lower()
+
+
+def _evidence_is_constraint_match(query: str, citations: list[SearchResult]) -> bool:
+    tokens = _query_tokens(query)
+    if not tokens or not citations:
+        return False
+
+    merged = ' '.join(_citation_text(citation) for citation in citations)
+    # Treat at least two token hits as minimally grounded for multi-constraint questions.
+    hit_count = sum(1 for token in tokens if token in merged)
+    return hit_count >= min(2, len(tokens))
 
 
 async def run_chat(request: ChatRequest) -> ChatResponse:
@@ -38,14 +67,23 @@ async def run_chat(request: ChatRequest) -> ChatResponse:
         citations = local.results
         warnings.extend(local.warnings)
 
+    evidence_match = _evidence_is_constraint_match(request.message, citations)
+
     # Optional model-provider fallback for chat if MCP bridge fails.
     if not reply:
-        fallback = await chat_openai_fallback(request.message, request.history)
+        fallback = await chat_openai_fallback_grounded(
+            query=request.message,
+            citations=citations,
+            history=request.history,
+        )
         fallback_reply = (fallback.get('reply') or '').strip()
         if fallback_reply:
             reply = fallback_reply
             model = fallback.get('model')
             warnings.extend(fallback.get('warnings', []))
+
+    if not evidence_match:
+        warnings.append('retrieved evidence does not fully satisfy all query constraints')
 
     if not reply:
         reply = (
