@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getRelease, getTermIndex, normalizeLabel } from '../../lib/site-data';
+
+const [release, termIndex] = await Promise.all([getRelease(), getTermIndex()]);
+---
+
+<BaseLayout title="Ontology Terms · PPA Curator Workbench">
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Ontology explorer</p>
+      <h2>Search the public term index and drill into branch-level metadata.</h2>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">{release.term_count} terms</span>
+      <span class="badge">Static HTML + client search</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <label class="search-field">
+      <span>Search terms</span>
+      <input id="term-search" type="search" placeholder="Search label, synonym, or CURIE" />
+    </label>
+    <div id="term-results" class="table-list">
+      {termIndex.map((term) => (
+        <a class="table-row row-clickable term-row" href={`/terms/${encodeURIComponent(term.curie)}/`} data-search={`${term.preferred_label} ${term.curie} ${(term.synonyms || []).join(' ')}`.toLowerCase()}>
+          <div class="row-head">
+            <h4 class="row-title">{term.preferred_label}</h4>
+            <span class="row-code">{term.curie}</span>
+          </div>
+          <div class="row-meta">{normalizeLabel(term.branch) }</div>
+          <div class="row-meta">{term.definition_snippet || 'No definition snippet available.'}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    const input = document.getElementById('term-search');
+    const rows = Array.from(document.querySelectorAll('.term-row'));
+
+    input?.addEventListener('input', () => {
+      const needle = input.value.trim().toLowerCase();
+      rows.forEach((row) => {
+        row.hidden = needle ? !row.dataset.search.includes(needle) : false;
+      });
+    });
+  </script>
+</BaseLayout>

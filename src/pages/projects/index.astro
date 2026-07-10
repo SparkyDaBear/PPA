@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getProjectIndex, getRelease, stringifyList } from '../../lib/site-data';
+
+const [release, projectIndex] = await Promise.all([getRelease(), getProjectIndex()]);
+const projects = projectIndex.projects || [];
+---
+
+<BaseLayout title="Projects · PPA Curator Workbench">
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Project browser</p>
+      <h2>Browse curated PXD records and open a dedicated detail page for each study.</h2>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">{release.pxd_count} PXDs</span>
+      <span class="badge">Detail routes enabled</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <label class="search-field">
+      <span>Search projects</span>
+      <input id="project-search" type="search" placeholder="Search PXD, label, scope, or instrument" />
+    </label>
+    <div id="project-results" class="table-list">
+      {projects.map((project) => {
+        const summary = project.summary || {};
+        const labels = [summary.acquisition_type, summary.quantification_method, ...(summary.labeling_strategy || [])].filter(Boolean).join(' · ');
+        return (
+          <a class="table-row row-clickable project-row" href={`/projects/${project.pxd}/`} data-search={`${project.pxd} ${summary.acquisition_type || ''} ${summary.quantification_method || ''} ${summary.sample_scope_label || ''} ${(summary.labeling_strategy || []).join(' ')}`.toLowerCase()}>
+            <div class="row-head">
+              <h4 class="row-title">{project.pxd}</h4>
+              <span class="row-code">{summary.sample_scope_label || 'no scope'}</span>
+            </div>
+            <div class="row-meta">{labels || 'No summary labels exported yet.'}</div>
+            <div class="row-meta">{summary.instrument || 'No instrument exported yet.'}</div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <script>
+    const input = document.getElementById('project-search');
+    const rows = Array.from(document.querySelectorAll('.project-row'));
+
+    input?.addEventListener('input', () => {
+      const needle = input.value.trim().toLowerCase();
+      rows.forEach((row) => {
+        row.hidden = needle ? !row.dataset.search.includes(needle) : false;
+      });
+    });
+  </script>
+</BaseLayout>

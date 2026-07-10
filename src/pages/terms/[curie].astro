@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getProjectIndex, getTermIndex, normalizeLabel, stringifyList } from '../../lib/site-data';
+
+export async function getStaticPaths() {
+  const termIndex = await getTermIndex();
+  return termIndex.map((term) => ({ params: { curie: term.curie }, props: { term } }));
+}
+
+const { term } = Astro.props;
+const projects = (await getProjectIndex()).projects || [];
+const linkedProjects = projects.filter((project) => {
+  const summary = project.summary || {};
+  const treatmentCategories = summary.treatment_categories || [];
+  const branch = normalizeLabel(term.branch).toLowerCase();
+  return treatmentCategories.some((value: string) => value.toLowerCase().includes(branch));
+});
+---
+
+<BaseLayout title={`${term.preferred_label} · PPA Curator Workbench`}>
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Term detail</p>
+      <h2>{term.preferred_label}</h2>
+      <p class="lede">{term.definition_snippet || 'No definition snippet available.'}</p>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">{term.curie}</span>
+      <span class="badge">{normalizeLabel(term.branch)}</span>
+    </div>
+  </section>
+
+  <div class="content-grid">
+    <section class="panel">
+      <SectionHeading kicker="Metadata" title="Term summary" />
+      <ul class="detail-list">
+        <li><strong>Parent:</strong> {term.parent_curie || 'None'}</li>
+        <li><strong>Synonyms:</strong> {stringifyList(term.synonyms)}</li>
+        <li><strong>Linked PXDs:</strong> {term.linked_pxd_count}</li>
+        <li><strong>Children:</strong> {term.has_children ? 'Yes' : 'No'}</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <SectionHeading kicker="Crosswalk" title="Related projects" description="Initial crosswalk view based on the public summary index." />
+      <div class="table-list">
+        {linkedProjects.slice(0, 50).map((project) => (
+          <a class="table-row row-clickable" href={`/projects/${project.pxd}/`}>
+            <div class="row-head">
+              <h4 class="row-title">{project.pxd}</h4>
+              <span class="row-code">{project.summary?.sample_scope_label || 'no scope'}</span>
+            </div>
+            <div class="row-meta">{stringifyList(project.summary?.labeling_strategy)}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

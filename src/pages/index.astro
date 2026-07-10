@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getOntology, getProjectIndex, getRelease } from '../lib/site-data';
+
+const [release, ontology, projectIndex] = await Promise.all([
+  getRelease(),
+  getOntology(),
+  getProjectIndex(),
+]);
+
+const branches = Object.keys(ontology.branches || {});
+const projects = projectIndex.projects || [];
+---
+
+<BaseLayout title="PPA Curator Workbench">
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Scientific atlas</p>
+      <h2>Ontology and PRIDE metadata, rendered from curated public exports.</h2>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">Astro static site</span>
+      <span class="badge">Links-only evidence policy</span>
+    </div>
+  </section>
+
+  <section class="metrics-grid">
+    <article class="metric-card">
+      <p class="metric-label">Ontology Terms</p>
+      <p class="metric-value">{release.term_count}</p>
+    </article>
+    <article class="metric-card">
+      <p class="metric-label">Public Projects</p>
+      <p class="metric-value">{release.pxd_count}</p>
+    </article>
+    <article class="metric-card">
+      <p class="metric-label">Schema Version</p>
+      <p class="metric-value">{release.schema_version}</p>
+    </article>
+  </section>
+
+  <div class="content-grid">
+    <section class="panel">
+      <SectionHeading kicker="Ontology branches" title="Branch structure" description="Browse the public ontology by major metadata branch." />
+      <div class="pill-list">
+        {branches.map((branch) => <span class="pill">{branch.replace(/_/g, ' ')}</span>)}
+      </div>
+    </section>
+
+    <section class="panel">
+      <SectionHeading kicker="Current scope" title="Public export boundary" description="The public site only exposes normalized metadata and outbound source links." />
+      <ul class="plain-list">
+        <li>Ontology terms and branch hierarchy</li>
+        <li>Per-PXD normalized metadata summaries</li>
+        <li>Stage 4 workflow summary fields</li>
+        <li>Outbound PRIDE and literature links</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top: 18px;">
+    <SectionHeading kicker="Release" title="Export metadata" />
+    <div class="content-grid">
+      <div>
+        <p class="detail-label">Generated</p>
+        <p class="lede">{release.generated_at}</p>
+      </div>
+      <div>
+        <p class="detail-label">Evidence policy</p>
+        <p class="lede">{release.public_evidence_policy}</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    {projects.length} projects are available in the public export.
+  </footer>
+</BaseLayout>

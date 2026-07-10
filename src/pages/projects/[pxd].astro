@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getProject, getProjectIndex, stringifyList, titleize } from '../../lib/site-data';
+
+export async function getStaticPaths() {
+  const projectIndex = await getProjectIndex();
+  return (projectIndex.projects || []).map((project) => ({ params: { pxd: project.pxd } }));
+}
+
+const { pxd } = Astro.params;
+const project = await getProject(pxd);
+const summary = project.summary || {};
+const sourceLinks = project.source_links || {};
+const treatment = project.treatment || {};
+const sampleSource = project.sample_source || {};
+const assay = project.assay || {};
+const processing = project.processing || {};
+const stage4 = project.stage4 || {};
+---
+
+<BaseLayout title={`${project.pxd} · PPA Curator Workbench`}>
+  <section class="hero-panel">
+    <div>
+      <p class="hero-kicker">Project detail</p>
+      <h2>{project.pxd}</h2>
+      <p class="lede">{summary.sample_scope || 'Project metadata'}</p>
+    </div>
+    <div class="hero-badges">
+      {sourceLinks.pride_project_url ? <a class="badge" href={sourceLinks.pride_project_url} target="_blank" rel="noreferrer">PRIDE</a> : null}
+      {sourceLinks.pubmed_url ? <a class="badge" href={sourceLinks.pubmed_url} target="_blank" rel="noreferrer">PubMed</a> : null}
+      {sourceLinks.pmc_url ? <a class="badge" href={sourceLinks.pmc_url} target="_blank" rel="noreferrer">PMC</a> : null}
+    </div>
+  </section>
+
+  <div class="content-grid">
+    <section class="panel">
+      <SectionHeading kicker="Summary" title="Normalized project metadata" />
+      <ul class="detail-list">
+        <li><strong>Acquisition:</strong> {titleize(summary.acquisition_type)}</li>
+        <li><strong>Quantification:</strong> {summary.quantification_method || 'Unknown'}</li>
+        <li><strong>Labeling:</strong> {stringifyList(summary.labeling_strategy)}</li>
+        <li><strong>Instrument:</strong> {summary.instrument || 'Unknown'}</li>
+        <li><strong>Cell types:</strong> {stringifyList(summary.cell_types)}</li>
+        <li><strong>Cell lines:</strong> {stringifyList(summary.cell_lines)}</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <SectionHeading kicker="Source" title="Public evidence fields" description="The site keeps evidence links public while avoiding raw private text dumps." />
+      <ul class="detail-list">
+        <li><strong>Sample scope:</strong> {summary.sample_scope_label || sampleSource.sample_scope?.label || 'Unknown'}</li>
+        <li><strong>Human system:</strong> {sampleSource.human_system_present || 'Unknown'}</li>
+        <li><strong>Treatment categories:</strong> {stringifyList(summary.treatment_categories)}</li>
+        <li><strong>Primary variables:</strong> {stringifyList((treatment.primary_variables || []).map((item) => item.ontology_label))}</li>
+        <li><strong>Reanalysis compatibility:</strong> {processing.reanalysis_compatibility || 'Unknown'}</li>
+        <li><strong>Workflow ID:</strong> {stage4.workflow_id || 'Not assigned'}</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top: 18px;">
+    <SectionHeading kicker="Processing" title="Workflow hints" />
+    <div class="content-grid">
+      <div>
+        <p class="detail-label">Assay</p>
+        <p class="lede">{stringifyList(assay.labeling_strategy)}</p>
+      </div>
+      <div>
+        <p class="detail-label">Processing</p>
+        <p class="lede">{processing.differential_hints?.preferred_engine || 'No differential hints exported yet.'}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
