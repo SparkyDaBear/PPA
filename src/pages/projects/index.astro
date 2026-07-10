@@ -5,6 +5,7 @@ import { getProjectIndex, getRelease, stringifyList } from '../../lib/site-data'
 
 const [release, projectIndex] = await Promise.all([getRelease(), getProjectIndex()]);
 const projects = projectIndex.projects || [];
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Projects · PPA Curator Workbench">
@@ -29,7 +30,7 @@ const projects = projectIndex.projects || [];
         const summary = project.summary || {};
         const labels = [summary.acquisition_type, summary.quantification_method, ...(summary.labeling_strategy || [])].filter(Boolean).join(' · ');
         return (
-          <a class="table-row row-clickable project-row" href={`/projects/${project.pxd}/`} data-search={`${project.pxd} ${summary.acquisition_type || ''} ${summary.quantification_method || ''} ${summary.sample_scope_label || ''} ${(summary.labeling_strategy || []).join(' ')}`.toLowerCase()}>
+          <a class="table-row row-clickable project-row" href={`${base}projects/${project.pxd}/`} data-search={`${project.pxd} ${summary.acquisition_type || ''} ${summary.quantification_method || ''} ${summary.sample_scope_label || ''} ${(summary.labeling_strategy || []).join(' ')}`.toLowerCase()}>
             <div class="row-head">
               <h4 class="row-title">{project.pxd}</h4>
               <span class="row-code">{summary.sample_scope_label || 'no scope'}</span>
