@@ -102,6 +102,52 @@ function getTextElement(id: string): HTMLElement | null {
   return document.getElementById(id);
 }
 
+function getNodeStyleByDepth(root: HierNode) {
+  const countsByDepth = new Map<number, number[]>();
+
+  for (const node of root.descendants() as HierNode[]) {
+    const values = countsByDepth.get(node.depth) || [];
+    values.push(node.data.linked_pxd_count || 0);
+    countsByDepth.set(node.depth, values);
+  }
+
+  const styleByDepth = new Map<number, (count: number, isCollapsed: boolean) => { radius: number; fill: string; stroke: string }>();
+
+  for (const [depth, counts] of countsByDepth.entries()) {
+    const maxCount = Math.max(...counts, 0);
+    if (maxCount <= 0) {
+      styleByDepth.set(depth, () => ({
+        radius: 3.2,
+        fill: '#6b7f91',
+        stroke: '#47586b',
+      }));
+      continue;
+    }
+
+    styleByDepth.set(depth, (count: number, isCollapsed: boolean) => {
+      const safeCount = Math.max(count, 0);
+      const ratio = safeCount / maxCount;
+      const radius = 3.2 + ratio * 8.8;
+
+      if (isCollapsed) {
+        return {
+          radius,
+          fill: `hsl(28 82% ${64 - ratio * 12}%)`,
+          stroke: `hsl(22 72% ${40 - ratio * 4}%)`,
+        };
+      }
+
+      return {
+        radius,
+        fill: `hsl(${208 - ratio * 34} 72% ${70 - ratio * 10}%)`,
+        stroke: `hsl(${208 - ratio * 34} 78% ${40 - ratio * 4}%)`,
+      };
+    });
+  }
+
+  return styleByDepth;
+}
+
 export function initOntologyTree(options: InitOptions) {
   const dataEl = document.getElementById(options.dataId);
   const container = document.getElementById(options.containerId);
@@ -171,6 +217,7 @@ export function initOntologyTree(options: InitOptions) {
 
   const tree = d3.tree<TreeNode>().nodeSize([34, 240]);
   const duration = 240;
+  const nodeStyleByDepth = getNodeStyleByDepth(treeRoot);
 
   const base = container.dataset.base || '/';
 
@@ -270,7 +317,21 @@ export function initOntologyTree(options: InitOptions) {
       .select('circle')
       .transition()
       .duration(duration)
-      .attr('r', 7)
+      .attr('r', (d) => {
+        const depth = (d as HierNode).depth;
+        const styleFn = nodeStyleByDepth.get(depth);
+        return styleFn ? styleFn((d.data as TreeNode).linked_pxd_count || 0, Boolean((d as HierNode)._children && (d as HierNode)._children?.length)).radius : 7;
+      })
+      .attr('fill', (d) => {
+        const depth = (d as HierNode).depth;
+        const styleFn = nodeStyleByDepth.get(depth);
+        return styleFn ? styleFn((d.data as TreeNode).linked_pxd_count || 0, Boolean((d as HierNode)._children && (d as HierNode)._children?.length)).fill : 'var(--accent-soft)';
+      })
+      .attr('stroke', (d) => {
+        const depth = (d as HierNode).depth;
+        const styleFn = nodeStyleByDepth.get(depth);
+        return styleFn ? styleFn((d.data as TreeNode).linked_pxd_count || 0, Boolean((d as HierNode)._children && (d as HierNode)._children?.length)).stroke : 'var(--accent)';
+      })
       .attr('class', (d) => ((d as HierNode)._children && (d as HierNode)._children?.length ? 'tree-node-dot is-collapsed' : 'tree-node-dot'));
 
     const nodeExit = nodeSel
