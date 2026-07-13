@@ -3,25 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "colorectal cancer",
-      "liver metastases"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "EXPEL-extruded fluids were collected from 7 colon cancer and 6 liver metastases patients with their corresponding normal tissue counterparts.",
+          "the general trend is that EXPEL fluids from the normal samples cluster separately from the tumoural ones."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +44,86 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "normal tissue counterparts"
+    ],
+    "case_arms": [
+      "colon cancer",
+      "liver metastases"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal tissue",
+        "case_label": "colon cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "EXPEL fluids from the normal samples cluster separately from the tumoural ones."
+        ]
+      },
+      {
+        "control_label": "normal tissue",
+        "case_label": "liver metastases",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "EXPEL-extruded fluids were collected from 7 colon cancer and 6 liver metastases patients with their corresponding normal tissue counterparts."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "colorectal cancer tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "liver metastases tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "interstitial fluid",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "LFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +132,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states MS acquisition was conducted in 'data-dependent mode' and normalization was performed using the 'LFQ algorithm' in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "LFQ algorithm",
+        "MaxQuant",
+        "label free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states MS acquisition was conducted in 'data-dependent mode' and normalization was performed using the 'LFQ algorithm' in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "LFQ algorithm",
+        "MaxQuant",
+        "label free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +192,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:06:26Z"
   }
 }

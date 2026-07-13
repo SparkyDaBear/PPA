@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT10plex",
+    "quantification_method": "TMT10plex isobaric label",
     "labeling_strategy": [
       "TMT",
       "LFQ"
@@ -27,12 +27,12 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_parent_class_key": "genetic",
         "matched_class_key": "substitution_variant",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene modification or gain of function",
-          "substitution variant"
+          "genetic",
+          "gene_modification_or_gain",
+          "substitution_variant"
         ],
         "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
         "confidence": "high",
@@ -45,15 +45,14 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene disruption",
-          "whole-gene knockout"
+          "genetic",
+          "gene_disruption"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
-        "confidence": "medium",
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
         "evidence": [
           "HEK293T cells were transfected with either SFB-TLK1, SFB-TLK2, siRNA targeting TLK1, TLK2, or TLK1 and TLK2."
         ]
@@ -86,10 +85,10 @@
         "relation_key": "has_treatment_agent",
         "agent": "siRNA targeting TLK1, TLK2",
         "dose_or_concentration": null,
-        "duration": "24 hours",
+        "duration": "24 h",
         "route_or_context": "transfection into HEK293T cells",
         "evidence": [
-          "HEK293T cells were transfected with... siRNA targeting TLK1, TLK2, or TLK1 and TLK2. Cells were harvested 24 h after transfection"
+          "HEK293T cells were transfected with either SFB-TLK1, SFB-TLK2, siRNA targeting TLK1, TLK2, or TLK1 and TLK2. Cells were harvested 24 h after transfection"
         ]
       }
     ],
@@ -103,8 +102,8 @@
       "48 h"
     ],
     "control_arms": [
-      "SFB-TLK1 133-208",
-      "control non-transfected cells"
+      "non-transfected cells",
+      "SFB-TLK1 133-208"
     ],
     "case_arms": [
       "SFB-TLK1 133-208 Y149A F150A",
@@ -130,11 +129,11 @@
         ]
       },
       {
-        "control_label": "non-transfected",
-        "case_label": "siRNA TLK1/2",
+        "control_label": "non-transfected cells",
+        "case_label": "siRNA targeting TLK1/2",
         "contrast_type": "pairwise",
         "evidence": [
-          "HEK293T cells were transfected with either SFB-TLK1, SFB-TLK2, siRNA targeting TLK1, TLK2, or TLK1 and TLK2... four replicates of each transfected or control non-transfected cells"
+          "HEK293T cells were transfected with either SFB-TLK1, SFB-TLK2, siRNA targeting TLK1, TLK2, or TLK1 and TLK2... four replicates of each transfected or control non-transfected cells were lysed"
         ]
       }
     ],
@@ -155,7 +154,7 @@
     "cell_lines": [
       {
         "label": "HEK293T",
-        "family": "Human Embryonic Kidney",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -167,7 +166,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -180,8 +179,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "TMT10plex",
-      "Label-free"
+      "TMT10plex isobaric label",
+      "intensities"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -189,6 +188,12 @@
         "ontology_label": "phosphoproteome enrichment",
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -204,23 +209,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an Orbitrap Fusion Tribrid, standard trypsin digestion, and identifies proteins via Mascot/Scaffold. While TMT is mentioned in a separate phosphoproteomics section, the PRIDE metadata for PXD048215 specifically describes TAP-MS for TLK1 fragments without isobaric labeling."
+          "confidence": 80,
+          "reason": "The PRIDE metadata and methods describe a DDA experiment (top 10 precursors) using an Orbitrap Fusion Tribrid. While TMT is mentioned in a separate phosphopeptide analysis section, the specific PRIDE dataset PXD048215 describes TAP-MS of TLK1 fragments without mentioning isobaric labels for that specific set."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 40,
+          "reason": "The 'TMT11plex labeling and phosphopeptide analysis' section describes a separate quantitative experiment using TMT10plex and MS3, but the PRIDE metadata for PXD048215 specifically focuses on the TAP-MS of TLK1 133-208 fragments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.7,
-          "reason": "The text describes a separate TMT11plex phosphopeptide analysis using High-Select TiO2 enrichment and MS3 acquisition."
+          "confidence": 90,
+          "reason": "The study explicitly performs 'quantitative phospho-enrichment proteomics' using High-Select TiO2 phosphopeptide enrichment kits."
         }
       ],
       "trigger_keywords": [
         "Tandem affinity purification",
         "DDA",
-        "in-gel trypsin digestion",
-        "TMT11plex",
-        "TiO2 phosphopeptide enrichment"
+        "TMT10plex",
+        "TiO2 phosphopeptide enrichment",
+        "MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -228,23 +238,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an Orbitrap Fusion Tribrid, standard trypsin digestion, and identifies proteins via Mascot/Scaffold. While TMT is mentioned in a separate phosphoproteomics section, the PRIDE metadata for PXD048215 specifically describes TAP-MS for TLK1 fragments without isobaric labeling."
+          "confidence": 80,
+          "reason": "The PRIDE metadata and methods describe a DDA experiment (top 10 precursors) using an Orbitrap Fusion Tribrid. While TMT is mentioned in a separate phosphopeptide analysis section, the specific PRIDE dataset PXD048215 describes TAP-MS of TLK1 fragments without mentioning isobaric labels for that specific set."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 40,
+          "reason": "The 'TMT11plex labeling and phosphopeptide analysis' section describes a separate quantitative experiment using TMT10plex and MS3, but the PRIDE metadata for PXD048215 specifically focuses on the TAP-MS of TLK1 133-208 fragments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.7,
-          "reason": "The text describes a separate TMT11plex phosphopeptide analysis using High-Select TiO2 enrichment and MS3 acquisition."
+          "confidence": 90,
+          "reason": "The study explicitly performs 'quantitative phospho-enrichment proteomics' using High-Select TiO2 phosphopeptide enrichment kits."
         }
       ],
       "trigger_keywords": [
         "Tandem affinity purification",
         "DDA",
-        "in-gel trypsin digestion",
-        "TMT11plex",
-        "TiO2 phosphopeptide enrichment"
+        "TMT10plex",
+        "TiO2 phosphopeptide enrichment",
+        "MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -274,6 +289,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:22:28Z"
+    "stage3_refreshed_at": "2026-07-13T02:40:59Z"
   }
 }

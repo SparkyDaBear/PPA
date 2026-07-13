@@ -3,68 +3,160 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "epithelial cell",
-      "leukocyte"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HCT116",
       "HAP1"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "si-RNAs targeting eIF1 (si-eIF1)",
+          "si-RNAs targeting eIF1B (si-eIF1B)",
+          "a single eIF1B knockout clone and two eIF1 knockout clones were acquired",
+          "label-free shotgun proteome analyses of HAP1 cells, three biological replicate samples of WT cells, eIF1B knockout and both eIF1 knockout clones were prepared"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "eIF1",
+        "dose_or_concentration": "10nM",
+        "duration": null,
+        "route_or_context": "siRNA knockdown",
+        "evidence": [
+          "10nM si-RNAs targeting eIF1 (si-eIF1)",
+          "siRNA mediated knockdown of eIF1 (si-eIF1) in the near-diploid and chromosomally stable HCT116 cell line"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "eIF1B",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 knockout",
+        "evidence": [
+          "a single eIF1B knockout clone... were acquired",
+          "label-free shotgun proteome analyses of HAP1 cells, three biological replicate samples of WT cells, eIF1B knockout"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "si-Ctrl",
+      "WT"
+    ],
+    "case_arms": [
+      "si-eIF1",
+      "eIF1KO",
+      "eIF1BKO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicate samples of WT cells, eIF1B knockout and both eIF1 knockout clones",
+      "two biological replicate samples of si-Ctrl cells and si-eIF1"
+    ],
+    "multiplex_channel_hints": [
+      "label-free shotgun proteomics"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "si-Ctrl",
+        "case_label": "si-eIF1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculated ratios (fold changes) of normalized read counts between the eIF1 knockdown (si-eIF1) and control (si-Ctrl) conditions"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "eIF1KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "complement the studies performed upon eIF1 knockdown with label-free shotgun proteomics data from eIF1 knockout (eIF1KO) and eIF1B knockout (eIF1BKO) HAP1 cell lines"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "human colon cancer cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "HAP1",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +165,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'label-free shotgun proteomics' using MaxLFQ algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "custom_database_search",
+          "confidence": 0.9,
+          "reason": "The study uses a 'custom database' containing in-silico translated ORFs predicted from ribo-seq data to identify non-canonical proteoforms/uORFs."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free shotgun proteomics",
+        "MaxLFQ",
+        "custom database",
+        "aTIS database",
+        "in-silico translated ORFs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'label-free shotgun proteomics' using MaxLFQ algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "custom_database_search",
+          "confidence": 0.9,
+          "reason": "The study uses a 'custom database' containing in-silico translated ORFs predicted from ribo-seq data to identify non-canonical proteoforms/uORFs."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free shotgun proteomics",
+        "MaxLFQ",
+        "custom database",
+        "aTIS database",
+        "in-silico translated ORFs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +239,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:34:10Z"
   }
 }

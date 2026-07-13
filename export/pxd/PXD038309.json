@@ -3,67 +3,136 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "precursor ion quantifier node with summed abundances",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "embryonic stem cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293 MSR"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "depletion of MPST in human cells lowers overall intracellular protein persulfidation levels",
+          "We compared the abundance of biotinylated proteins in mock-depleted and MPST-depleted cells using mass spectrometry-based label free quantitation",
+          "MPST was depleted in HEK293 MSR cells (GripTite, Thermo Fisher Scientific) using ON-TARGET plus small-interfering RNA SMARTpool (Dharmacon)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA (ON-TARGET plus small-interfering RNA SMARTpool)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293 MSR cells",
+        "evidence": [
+          "MPST was depleted in HEK293 MSR cells (GripTite, Thermo Fisher Scientific) using ON-TARGET plus small-interfering RNA SMARTpool (Dharmacon)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "mock-depleted",
+      "wild-type"
+    ],
+    "case_arms": [
+      "MPST-depleted"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "label free quantitation"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "mock-depleted",
+        "case_label": "MPST-depleted",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We compared the abundance of biotinylated proteins in mock-depleted and MPST-depleted cells using mass spectrometry-based label free quantitation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293 MSR",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor ion quantifier node with summed abundances"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Protein S-persulfidation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_redox",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +140,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap QE HF, and quantification was performed using summed precursor abundances (label-free)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_site_enrichment",
+          "confidence": 0.9,
+          "reason": "The experiment uses the 'dimedone switch' method and DCP-Bio1 affinity enrichment specifically to isolate and identify persulfidated cysteine sites."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "summed abundances",
+        "dimedone switch",
+        "affinity enrichment",
+        "DCP-Bio1"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap QE HF, and quantification was performed using summed precursor abundances (label-free)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_site_enrichment",
+          "confidence": 0.9,
+          "reason": "The experiment uses the 'dimedone switch' method and DCP-Bio1 affinity enrichment specifically to isolate and identify persulfidated cysteine sites."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "summed abundances",
+        "dimedone switch",
+        "affinity enrichment",
+        "DCP-Bio1"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +214,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:18:34Z"
   }
 }

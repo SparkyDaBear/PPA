@@ -3,30 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "un-classified"
     ],
-    "cell_types": [
-      "HSC-6",
-      "SCC-25"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK 293T",
       "HSC-6",
       "SCC-25"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "we evaluate a DIA multiplexing approach that combines three proteolytic digests (Trypsin, AspN, and GluC) into a single sample",
+          "The use of multiple proteases has been shown to increase protein sequence coverage in proteomics experiments",
+          "we demonstrate that application of these conditions to a protease-multiplexed sample of human peptides results in similar protein identifications and quantitative performance as compared to trypsin alone"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,38 +46,88 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "trypsin alone"
+    ],
+    "case_arms": [
+      "protease-multiplexed sample",
+      "trypsin:GluC:AspN 1:1:1",
+      "trypsin:GluC:AspN 1:2:2",
+      "trypsin:GluC:AspN 1:3:3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "analyzing them in technical triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "combines three proteolytic digests (Trypsin, AspN, and GluC) into a single sample"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "trypsin alone",
+        "case_label": "protease-multiplexed",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The DIA results of this pooled sample were compared to DIA of trypsin alone."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "HSC-6",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "SCC-25",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "median normalized and log2 transformed"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +136,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses Data-Independent Acquisition (DIA) with DIA-NN for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "multi_protease_digest",
+          "confidence": 1.0,
+          "reason": "The core of the study is multiplexing three different proteases (Trypsin, AspN, and GluC) into single samples to increase sequence coverage."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "protease-multiplexing",
+        "Trypsin",
+        "AspN",
+        "GluC",
+        "non-tryptic peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses Data-Independent Acquisition (DIA) with DIA-NN for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "multi_protease_digest",
+          "confidence": 1.0,
+          "reason": "The core of the study is multiplexing three different proteases (Trypsin, AspN, and GluC) into single samples to increase sequence coverage."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "protease-multiplexing",
+        "Trypsin",
+        "AspN",
+        "GluC",
+        "non-tryptic peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +212,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:18:33Z"
   }
 }

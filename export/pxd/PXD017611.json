@@ -3,14 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "blood cell"
@@ -19,53 +18,179 @@
       "KBM7",
       "HCT-116"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "chromatin proteomics",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "we employed the degradation tag (dTAG) technology to generate eight endogenously tagged, degradation-sensitive Mediator alleles",
+          "Acute Mediator loss strongly abrogated the transcription of SE-driven, cell type-specifying GRN genes",
+          "MED14 depletion was near-saturating at 95% and evicted other Mediator subunits off chromatin"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "we pharmacologically inhibited CDK9 in the last 30 min of 2h MED14 degradation",
+          "blocking pause release after near-complete Mediator degradation substantially increased promoter-proximal Pol II occupancy"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dTAG ligand (dTAG7 / dTAGV-1)",
+        "dose_or_concentration": "500nM",
+        "duration": "6h",
+        "route_or_context": "KBM7 and HCT-116 cells with dTAG-tagged Mediator subunits",
+        "evidence": [
+          "Drug treatments from 1000x DMSO stocks were performed for 6h with the following conditions: 500nM dTAG7 or DMSO for dTAG-carrying clones",
+          "near-complete degradation evident after 6h of ligand exposure"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CDK9 inhibitor",
+        "dose_or_concentration": null,
+        "duration": "30 min",
+        "route_or_context": "combined with MED14 degradation",
+        "evidence": [
+          "we pharmacologically inhibited CDK9 in the last 30 min of 2h MED14 degradation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "1h",
+      "2h",
+      "6h"
+    ],
+    "control_arms": [
+      "DMSO",
+      "wild-type KBM7 cells"
+    ],
+    "case_arms": [
+      "dTAG-treated MED-dTAG cells",
+      "CDK9 inhibited MED14-dTAG cells"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "biological triplicates",
+      "three independent data analysis strategies"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO / Untreated",
+        "case_label": "dTAG-treated (Mediator degradation)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Significance of differential enrichment was calculated by comparing LFQ and iBAQ protein intensities of untreated and dTAG-treated samples"
+        ]
+      },
+      {
+        "control_label": "MED14-dTAG",
+        "case_label": "MED14-dTAG + CDK9 inhibition",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we pharmacologically inhibited CDK9 in the last 30 min of 2h MED14 degradation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "blood cell",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000081"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "KBM7",
+        "family": "chronic myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT-116",
+        "family": "colorectal carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "chromatin proteomics",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label free quantification (LFQ)",
+      "intensity-based absolute quantification (iBAQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "chromatin proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +198,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly states 'Analysis was performed in a data-dependent acquisition mode' and 'label free quantification (LFQ) calculations were performed'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "label free quantification",
+        "LFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly states 'Analysis was performed in a data-dependent acquisition mode' and 'label free quantification (LFQ) calculations were performed'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "label free quantification",
+        "LFQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +256,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:36:48Z"
   }
 }

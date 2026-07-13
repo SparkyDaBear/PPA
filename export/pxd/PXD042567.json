@@ -3,23 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "evaluate qualitative differences and similarities between SM patients and healthy controls (Ctrls)",
+          "An exploratory affinity purification-mass spectrometry method was applied on pooled salivary samples from SM patients, SM patient subgroups with and without cutaneous symptoms (SM+C and SM\u2212C), and healthy controls (Ctrls)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -27,39 +44,102 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "Ctrls",
+      "NEG"
+    ],
+    "case_arms": [
+      "SM",
+      "SM+C",
+      "SM-C"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "For SM and SM + C groups, two biological replicates were prepared utilizing salivary whole samples from different patients",
+      "the two biological replicates of samples from the entire patient group (SM) and from the subgroup of patients with both systemic and cutaneous symptoms (SM+C) were separately analyzed by (HR)-MS/MS"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Ctrls",
+        "case_label": "SM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "evaluate qualitative differences and similarities between SM patients and healthy controls (Ctrls)"
+        ]
+      },
+      {
+        "control_label": "SM-C",
+        "case_label": "SM+C",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "distinguish patients from healthy subject and the different forms of systemic mastocytosis",
+          "highlight any differences among the groups of patients (the whole SM group and the subgroups SM+C and SM\u2212C) and the Ctrls"
+        ]
+      },
+      {
+        "control_label": "NEG",
+        "case_label": "SM/Ctrl",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The statistical comparison among the quantitative MS data determined in the patient and Ctrl groups was performed against the NEG group"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "saliva",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification-mass spectrometry",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +147,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) mode and label-free quantification (LFQ) for protein abundance determination."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The experiment is an affinity purification-mass spectrometry (AP-MS) study using co-immunoprecipitation (CoIP) with a specific antibody against cystatin D-C26."
+        }
+      ],
+      "trigger_keywords": [
+        "affinity purification-mass spectrometry",
+        "co-immunoprecipitation",
+        "label-free quantification",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": [
+        "Ctrl",
+        "NEG",
+        "SM-C",
+        "SM+C1",
+        "SM+C2",
+        "SM1",
+        "SM2"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) mode and label-free quantification (LFQ) for protein abundance determination."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The experiment is an affinity purification-mass spectrometry (AP-MS) study using co-immunoprecipitation (CoIP) with a specific antibody against cystatin D-C26."
+        }
+      ],
+      "trigger_keywords": [
+        "affinity purification-mass spectrometry",
+        "co-immunoprecipitation",
+        "label-free quantification",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": [
+        "Ctrl",
+        "NEG",
+        "SM-C",
+        "SM+C1",
+        "SM+C2",
+        "SM1",
+        "SM2"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +235,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:09:42Z"
   }
 }

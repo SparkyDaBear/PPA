@@ -3,66 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
-      "mesenchymal stem cells"
+      "stem cells from human exfoliated deciduous teeth"
     ],
-    "cell_lines": [
-      "HUVEC"
-    ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_lines": [],
+    "sample_scope": "extracellular vesicle scope",
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "nutrient_deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "high",
+        "evidence": [
+          "Apoptosis was induced in SHED via serum starvation for 3 weeks",
+          "SHED were induced to undergo apoptosis through serum starvation",
+          "followed by a switch to an FBS-free medium for 3 weeks without replacement"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "serum starvation (FBS-free medium)",
+        "dose_or_concentration": null,
+        "duration": "3 weeks",
+        "route_or_context": "SHED cell culture",
+        "evidence": [
+          "Apoptosis was induced in SHED via serum starvation for 3 weeks",
+          "followed by a switch to an FBS-free medium for 3 weeks without replacement"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "48 h",
+        "route_or_context": "exosome collection after induction",
+        "evidence": [
+          "After 48 h of incubation, conditioned media (CM) from both normal and apoptosis-induced SHED were collected."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "3 weeks (induction)",
+      "48 h (collection)"
+    ],
+    "control_arms": [
+      "normal SHED",
+      "Norm Exos"
+    ],
+    "case_arms": [
+      "apoptosis-induced SHED",
+      "Apop Exos"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each experiment was conducted in triplicate and independently repeated at least three times."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Norm Exos",
+        "case_label": "Apop Exos",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Among the 144 differentially expressed SHED exosomal proteins, 3 were absent, 85 were downregulated, 28 were upregulated, and 28 were exclusively present in Apop Exos"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "stem cells from human exfoliated deciduous teeth",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0000034"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "exosomes",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "category": "extracellular vesicle scope",
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -71,10 +153,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used data-dependent acquisition (DDA) and reported differentially expressed proteins (upregulated/downregulated) between two groups (Norm Exos vs Apop Exos) without mention of labels or isobaric tags."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent (TopN15) acquisition",
+        "differentially expressed SHED exosomal proteins",
+        "downregulated",
+        "upregulated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used data-dependent acquisition (DDA) and reported differentially expressed proteins (upregulated/downregulated) between two groups (Norm Exos vs Apop Exos) without mention of labels or isobaric tags."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent (TopN15) acquisition",
+        "differentially expressed SHED exosomal proteins",
+        "downregulated",
+        "upregulated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:13:31Z"
   }
 }

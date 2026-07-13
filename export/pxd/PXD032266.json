@@ -3,65 +3,136 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "breast epithelial cell"
+      "breast epithelial cell",
+      "epithelial cell"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "analyze a cohort of 27 primary breast cancers and their matched IBTRs to define proteogenomic determinants of molecular tumor evolution",
+          "a second analysis that included primaries with no recurrence pinpointed proliferation and immune infiltration as predictive of IBTR"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "primary tumor",
+      "ipsilateral breast tumor recurrence"
+    ],
+    "control_arms": [
+      "primary breast cancers (PTs)",
+      "primary tumors from patients who did not develop any recurrent disease (PTnorec)"
+    ],
+    "case_arms": [
+      "ipsilateral breast tumor recurrence (IBTR)"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Primary Tumor (PT)",
+        "case_label": "Ipsilateral Breast Tumor Recurrence (IBTR)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The paired analysis of PT and IBTR enabled a patient-centered view of the changes in recurrent tumors"
+        ]
+      },
+      {
+        "control_label": "PTnorec",
+        "case_label": "PTrec",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared PT from this set (PTrec) with another set of PTs from patients that did not experience any IBTR (PTnorec)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "breast epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "BTO:0001211"
+      },
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "breast tumor tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +141,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated as 'data-independent acquisition (DIA) MS analysis' and 'Label free' quantification in PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "Label free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly stated as 'data-independent acquisition (DIA) MS analysis' and 'Label free' quantification in PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "Label free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +199,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:08:32Z"
   }
 }

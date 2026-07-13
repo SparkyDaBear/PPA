@@ -2,72 +2,133 @@
   "pxd": "PXD021309",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "TIC",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Viral Infection"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "endothelial cells",
-      "type II alveolar cells",
-      "renal proximal tubular epithelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HUVEC-TERT",
-      "HEK-293",
-      "A549"
+      "HEK-293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "nUPLC-MS/MS analyses of CD209L digests enabled detection of a glycopeptide bearing high-mannose-type N-linked glycosylation at site N92",
+          "Treatment with PNGase F in the presence of H218O, which removes N-linked glycans and isotopically labels the formerly-glycosylated site, confirmed that both unmodified and formerly-glycosylated versions of the peptide spanning the N92 N-glycosylated sequon were present."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PNGase F",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "in the presence of H218O",
+        "evidence": [
+          "Treatment with PNGase F in the presence of H218O, which removes N-linked glycans and isotopically labels the formerly-glycosylated site"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "unmodified peptide"
+    ],
+    "case_arms": [
+      "formerly-glycosylated peptide"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unmodified",
+        "case_label": "glycosylated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "confirmed that both unmodified and formerly-glycosylated versions of the peptide spanning the N92 N-glycosylated sequon were present"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK-293",
+        "family": "HEK",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +136,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (HCD fragmentation) on an Orbitrap Fusion Lumos for protein and glycopeptide identification without evidence of isobaric or SILAC labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycan_site_occupancy",
+          "confidence": 0.95,
+          "reason": "The study specifically uses PNGase F in H218O to determine N-glycosylation site occupancy via mass shifts (N to D conversion with 18O incorporation)."
+        },
+        {
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 0.9,
+          "reason": "The protocol explicitly reserves half of the sample for glycopeptide analyses and uses oxonium-ion triggered MS2 for glycopeptide identification."
+        }
+      ],
+      "trigger_keywords": [
+        "PNGase F",
+        "H218O",
+        "glycopeptide",
+        "N-glycosylation site occupancy",
+        "oxonium ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (HCD fragmentation) on an Orbitrap Fusion Lumos for protein and glycopeptide identification without evidence of isobaric or SILAC labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycan_site_occupancy",
+          "confidence": 0.95,
+          "reason": "The study specifically uses PNGase F in H218O to determine N-glycosylation site occupancy via mass shifts (N to D conversion with 18O incorporation)."
+        },
+        {
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 0.9,
+          "reason": "The protocol explicitly reserves half of the sample for glycopeptide analyses and uses oxonium-ion triggered MS2 for glycopeptide identification."
+        }
+      ],
+      "trigger_keywords": [
+        "PNGase F",
+        "H218O",
+        "glycopeptide",
+        "N-glycosylation site occupancy",
+        "oxonium ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:38:07Z"
   }
 }

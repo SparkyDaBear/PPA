@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "iTRAQ intensities",
     "labeling_strategy": [
       "iTRAQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "gastric tissue"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "in tumor and adjacent normal tissues from three gastric cancer patients",
+          "Log2-fold-changes of the proteins between gastric cancer and adjacent normal tissues were estimated",
+          "Three pairs of human gastric cancer and adjacent normal tissues were extensively characterized"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,93 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "adjacent normal tissues"
+    ],
+    "case_arms": [
+      "tumor"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "For each patient, we generated two independent replicates from the tumor and adjacent normal tissue masses, respectively"
+    ],
+    "multiplex_channel_hints": [
+      "individually double-labeled with 4-plex iTRAQ reagents",
+      "iTRAQ labeled peptides from human gastric cancer and adjacent normal tissues of a patient"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "adjacent normal tissues",
+        "case_label": "gastric cancer tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Log2-fold-changes of the proteins between gastric cancer and adjacent normal tissues were estimated"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "gastric cancer and adjacent normal tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "stomach",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "iTRAQ"
+    ],
+    "quantification_strategy": [
+      "iTRAQ intensities",
+      "quantile normalization"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +139,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit use of 4-plex iTRAQ labeling for relative quantification across tumor and normal tissues."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Use of IMAC for phosphopeptide enrichment and search for phosphorylation on S/T/Y."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "Use of FACE for N-glycopeptide enrichment and PNGase F deglycosylation (Asn -> Asp)."
+        }
+      ],
+      "trigger_keywords": [
+        "iTRAQ",
+        "IMAC",
+        "FACE",
+        "N-glycopeptide",
+        "phosphopeptide",
+        "PNGase F"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit use of 4-plex iTRAQ labeling for relative quantification across tumor and normal tissues."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Use of IMAC for phosphopeptide enrichment and search for phosphorylation on S/T/Y."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "Use of FACE for N-glycopeptide enrichment and PNGase F deglycosylation (Asn -> Asp)."
+        }
+      ],
+      "trigger_keywords": [
+        "iTRAQ",
+        "IMAC",
+        "FACE",
+        "N-glycopeptide",
+        "phosphopeptide",
+        "PNGase F"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +225,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:16:43Z"
   }
 }

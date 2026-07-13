@@ -3,25 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "saliva"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "comparing the proteome of healthy control and oral squamous cell carcinoma (OSCC) patients",
+          "independent patient cohort including healthy control (n = 4) and OSCC patients (n = 8, pN0 = 4, pN+ = 4)"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "comparing the proteome of healthy control and oral squamous cell carcinoma (OSCC) patients with and without lymph node metastasis",
+          "Potential prognostic markers: peptides differentially abundant between pN+ and pN0"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +62,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "healthy control"
+    ],
+    "case_arms": [
+      "OSCC pN0",
+      "OSCC pN+"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "healthy control (n = 4)",
+      "OSCC patients (n = 8, pN0 = 4, pN+ = 4)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "healthy control",
+        "case_label": "OSCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Potential diagnostic markers: peptides differentially abundant between control and OSCC (pN0 and/or pN+)"
+        ]
+      },
+      {
+        "control_label": "pN0",
+        "case_label": "pN+",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Potential prognostic markers: peptides differentially abundant between pN+ and pN0"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "saliva",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification",
+      "Normalized peak areas"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "low"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +153,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MS1 intensity-based label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "lip_ms",
+          "confidence": 1.0,
+          "reason": "The core methodology is Limited Proteolysis-Mass Spectrometry (LiP-MS), involving a non-specific protease (Proteinase K) followed by trypsin digestion to detect structural changes."
+        }
+      ],
+      "trigger_keywords": [
+        "Limited proteolysis-mass spectrometry",
+        "LiP-MS",
+        "conformotypic proteins",
+        "Proteinase K",
+        "semispecific tryptic digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MS1 intensity-based label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "lip_ms",
+          "confidence": 1.0,
+          "reason": "The core methodology is Limited Proteolysis-Mass Spectrometry (LiP-MS), involving a non-specific protease (Proteinase K) followed by trypsin digestion to detect structural changes."
+        }
+      ],
+      "trigger_keywords": [
+        "Limited proteolysis-mass spectrometry",
+        "LiP-MS",
+        "conformotypic proteins",
+        "Proteinase K",
+        "semispecific tryptic digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +227,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:13:08Z"
   }
 }

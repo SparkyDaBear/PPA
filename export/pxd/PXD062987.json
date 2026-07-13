@@ -3,71 +3,235 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "genetic perturbation",
+      "chemical or drug treatment",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "CD8+ T cells",
-      "Natural Killer cells",
       "melanocyte"
     ],
     "cell_lines": [
       "D10",
       "BLM"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "Functional knockouts of TBK1 and IKK\u03b5 in melanoma cells result in heightened sensitivity",
+          "1\u00d710\u2077 BLM or D10 cells (sgCtrl or sgTBK1/IKK\u03b5) were cultured",
+          "TRAF2 knockout (KO) melanoma cells",
+          "we generated CYLD knockout melanoma lines"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "treatment with Birinipant, a SMAC mimetic targeting cIAP1/2",
+          "RNF31 ubiquitination activity was shown to be selectively inhibited by the drug HOPIN-8"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_mediated_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_mediated_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "incubated with 100 ng/mL biotinylated TNF (BT210\u2013010, R&D Systems) or unlabeled TNF (300-01A, PeproTech) for 10 minutes",
+          "compared the responses of tumor cells in CD8 T cell (herein referred to as T cell) co-culture to those in direct TNF stimulation"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TNF",
+        "dose_or_concentration": "100 ng/mL",
+        "duration": "10 min",
+        "route_or_context": "biotinylated or unlabeled",
+        "evidence": [
+          "incubated with 100 ng/mL biotinylated TNF (BT210\u2013010, R&D Systems) or unlabeled TNF (300-01A, PeproTech) for 10 minutes"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Birinipant",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "SMAC mimetic targeting cIAP1/2",
+        "evidence": [
+          "treatment with Birinipant, a SMAC mimetic targeting cIAP1/2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HOPIN-8",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inhibits RNF31 ubiquitination",
+        "evidence": [
+          "RNF31 ubiquitination activity was shown to be selectively inhibited by the drug HOPIN-8"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "10 minutes",
+      "6 hours"
+    ],
+    "control_arms": [
+      "WT",
+      "sgCtrl",
+      "untagged TNF pull-downs"
+    ],
+    "case_arms": [
+      "TRAF2 KO",
+      "sgTBK1/IKK\u03b5",
+      "RNF31 KO",
+      "Birinipant treated",
+      "HOPIN-8 treated"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "quantify the protein content of replicates for normalization purposes"
+    ],
+    "multiplex_channel_hints": [
+      "TMT analysis of melanoma co-cultures"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "WT",
+        "case_label": "sgTBK1/IKK\u03b5",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the TNFR1 complex in WT and RNF31 KO tumor cells with and without HOPIN-8 drug treatment"
+        ]
+      },
+      {
+        "control_label": "Resistant (WT)",
+        "case_label": "Sensitized (TRAF2 KO + Birinipant)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "S25 phosphorylation is described as a pro-survival checkpoint... RIPK1 was phosphorylated at site S25 in resistant but not sensitized tumor cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "melanocyte",
+        "rollup_category": "tumor cell",
+        "ontology_curie": "CL:0000148"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "D10",
+        "family": "melanoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "BLM",
+        "family": "melanoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "TMT"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +239,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "The text explicitly states 'MS data was acquired using a DDA method' and 'Protein abundances were determined through label-free quantification with default settings'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 10,
+          "reason": "The experiment used Fe(III)-NTA cartridges on the AssayMAP Bravo Platform for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "phosphopeptide enrichment",
+        "Fe(III)-NTA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 10,
+          "reason": "The text explicitly states 'MS data was acquired using a DDA method' and 'Protein abundances were determined through label-free quantification with default settings'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 10,
+          "reason": "The experiment used Fe(III)-NTA cartridges on the AssayMAP Bravo Platform for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "phosphopeptide enrichment",
+        "Fe(III)-NTA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +311,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:42:36Z"
   }
 }

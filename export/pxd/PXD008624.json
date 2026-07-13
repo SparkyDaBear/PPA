@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT-based multiplexed quantification",
+    "quantification_method": "TMT10plex reporter ion quantifier",
     "labeling_strategy": [
       "TMT"
     ],
@@ -28,13 +28,13 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
         "matched_class_path": [
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "gene_disruption"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
         "confidence": "high",
         "evidence": [
           "quantitative comparison of substrates identified in the presence or absence of the E3 ligase of interest",
@@ -49,29 +49,20 @@
         "agent": "ANAPC4 depletion",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "immuno-depletion from extracts",
+        "route_or_context": "immuno-depletion / auxin-mediated degradation",
         "evidence": [
-          "anaphase extracts, where APC/C has been removed (E3 inactive) by immuno-depleting its crucial ANAPC4 subunit"
+          "anaphase extracts, where APC/C has been removed (E3 inactive) by immuno-depleting its crucial ANAPC4 subunit",
+          "Adding the synthetic auxin analog 1-naphthaleneacetic acid (NAA) for three hours to prometaphase-arrested cells enabled mAID-vhhGFP to decrease the levels of endogenous 3xFlag-Streptavidin-binding-peptide-Venus-ANAPC4 by ~75%"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "siz1\u2206siz2\u2206 deletion",
+        "agent": "Siz1/Siz2 deletion",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "S. cerevisiae genetic knockout",
+        "route_or_context": "genetic knockout",
         "evidence": [
           "applied E2~dID to wild type and siz1\u2206siz2\u2206 S. cerevisiae strains"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "NAA (1-naphthaleneacetic acid)",
-        "dose_or_concentration": "500 \u00b5M",
-        "duration": "3 h",
-        "route_or_context": "auxin-mediated degradation of ANAPC4 in living cells",
-        "evidence": [
-          "Adding the synthetic auxin analog 1-naphthaleneacetic acid (NAA) for three hours to prometaphase-arrested cells enabled mAID-vhhGFP to decrease the levels of endogenous 3xFlag-Streptavidin-binding-peptide-Venus-ANAPC4 by ~75%"
         ]
       }
     ],
@@ -87,14 +78,14 @@
       "G1-phase"
     ],
     "control_arms": [
-      "mock",
-      "ANAPC4-depleted",
-      "wild type (yeast)",
-      "siz1\u2206siz2\u2206 (yeast)"
+      "unperturbed anaphase extracts (E3 active)",
+      "wild type S. cerevisiae",
+      "mock treatment (HA antibody-beads)"
     ],
     "case_arms": [
-      "UBE2CK119R~bioUBB reactions",
-      "Ubc9~bioSmt3 reactions"
+      "ANAPC4-depleted extracts (-APC/C)",
+      "siz1\u2206siz2\u2206 S. cerevisiae",
+      "ANAPC4-depleted anaphase extracts"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -108,20 +99,20 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "-APC/C",
-        "case_label": "+APC/C",
+        "control_label": "+APC/C",
+        "case_label": "-APC/C",
         "contrast_type": "pairwise",
         "evidence": [
           "quantitative comparison of substrates identified in the presence or absence of the E3 ligase of interest",
-          "enrichment in UBE2CK119R~bioUBB reactions compared to control (bioUBB, UBE2CC114S) and ANAPC4-depleted (\u2212APC/C) samples"
+          "comparing the mitotic ubiquitinome in the presence and absence of APC/C activity"
         ]
       },
       {
-        "control_label": "siz1\u2206siz2\u2206",
-        "case_label": "wild type",
+        "control_label": "wild type",
+        "case_label": "siz1\u2206siz2\u2206",
         "contrast_type": "pairwise",
         "evidence": [
-          "yielded 34 hits that were sensitive to Siz1/Siz2 deletion"
+          "applied E2~dID to wild type and siz1\u2206siz2\u2206 S. cerevisiae strains"
         ]
       }
     ],
@@ -174,7 +165,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -186,7 +177,7 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT-based multiplexed quantification"
+      "TMT10plex reporter ion quantifier"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -216,27 +207,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT10plex labeling for quantification across multiple conditions."
+          "reason": "The experiment explicitly uses TMT10plex labeling and MS3-based quantification (SPS10-MS3 method)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
+          "modifier_workflow_id": "ubiquitin_remnant_enrichment",
           "confidence": 1.0,
-          "reason": "The study performs 'diGly proteomics' and uses PTMScan Ubiquitin branch motif (K-\u03b5-GG) immunoaffinity beads to enrich for ubiquitin remnant peptides."
+          "reason": "The study performs specific enrichment of K-epsilon-GG (diGly) peptides using PTMScan Ubiquitin branch motif beads and GX41 antibody."
         },
         {
-          "modifier_workflow_id": "sumo_remnant",
+          "modifier_workflow_id": "sumo_remnant_enrichment",
           "confidence": 0.9,
-          "reason": "The study applies the E2~dID method to SUMO in S. cerevisiae using SMT3KGG mutant to obtain shorter SUMO remnants."
+          "reason": "The study adapts the E2~dID approach for SUMO (Smt3) in S. cerevisiae, searching for SUMO remnants."
         }
       ],
       "trigger_keywords": [
         "TMT10plex",
         "diGly proteomics",
-        "K-\u03b5-GG",
-        "SMT3KGG",
-        "ubiquitin remnant peptide enrichment"
+        "K-epsilon-GG",
+        "SPS10-MS3",
+        "Smt3",
+        "SUMO remnant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -245,27 +237,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT10plex labeling for quantification across multiple conditions."
+          "reason": "The experiment explicitly uses TMT10plex labeling and MS3-based quantification (SPS10-MS3 method)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
+          "modifier_workflow_id": "ubiquitin_remnant_enrichment",
           "confidence": 1.0,
-          "reason": "The study performs 'diGly proteomics' and uses PTMScan Ubiquitin branch motif (K-\u03b5-GG) immunoaffinity beads to enrich for ubiquitin remnant peptides."
+          "reason": "The study performs specific enrichment of K-epsilon-GG (diGly) peptides using PTMScan Ubiquitin branch motif beads and GX41 antibody."
         },
         {
-          "modifier_workflow_id": "sumo_remnant",
+          "modifier_workflow_id": "sumo_remnant_enrichment",
           "confidence": 0.9,
-          "reason": "The study applies the E2~dID method to SUMO in S. cerevisiae using SMT3KGG mutant to obtain shorter SUMO remnants."
+          "reason": "The study adapts the E2~dID approach for SUMO (Smt3) in S. cerevisiae, searching for SUMO remnants."
         }
       ],
       "trigger_keywords": [
         "TMT10plex",
         "diGly proteomics",
-        "K-\u03b5-GG",
-        "SMT3KGG",
-        "ubiquitin remnant peptide enrichment"
+        "K-epsilon-GG",
+        "SPS10-MS3",
+        "Smt3",
+        "SUMO remnant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -295,6 +288,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:43:28Z"
+    "stage3_refreshed_at": "2026-07-13T05:08:39Z"
   }
 }

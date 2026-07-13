@@ -3,27 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Normalized Spectral Abundance Factor (NSAF)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "HeLa cells"
+      "nuclear extract"
     ],
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "We analyzed TAF11-containing complexes by co-IP experiments from the cytoplasm and the nucleus of HeLa cells.",
+          "In cytosolic co-IPs, we identified the TAF11/TAF13 histone fold pair",
+          "The anti-TAF11 co-IP from nuclear extract, in contrast, contained all TFIID components."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +49,99 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "cytosol"
+    ],
+    "case_arms": [
+      "nucleus"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "cytosol",
+        "case_label": "nucleus",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In cytosolic co-IPs, we identified the TAF11/TAF13 histone fold pair... The anti-TAF11 co-IP from nuclear extract, in contrast, contained all TFIID components."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      },
+      {
+        "label": "Sf21 insect cells",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      },
+      {
+        "label": "E. coli",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "nuclear extract",
+        "rollup_category": "subcellular fraction",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cervix carcinoma",
+        "ontology_curie": "DOID:2893"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Normalized Spectral Abundance Factor (NSAF)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +149,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and methods describe 'Shotgun proteomics' using 'Top 20 CID data-dependent mass spectrometry' (DDA) and quantification via 'Normalized Spectral Abundance Factor (NSAF)', which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_bs3",
+          "confidence": 0.9,
+          "reason": "The text explicitly describes cross-linking mass spectrometry (CLMS) using the BS3 cross-linker to identify distance constraints."
+        },
+        {
+          "modifier_workflow_id": "crosslinking_photo",
+          "confidence": 0.9,
+          "reason": "The text describes site-specific UV-induced CLMS using the unnatural amino acid DiAzKs (diazirin lysine)."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass-spectrometry",
+        "CLMS",
+        "BS3",
+        "DiAzKs",
+        "NSAF",
+        "data-dependent mass spectrometry"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and methods describe 'Shotgun proteomics' using 'Top 20 CID data-dependent mass spectrometry' (DDA) and quantification via 'Normalized Spectral Abundance Factor (NSAF)', which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_bs3",
+          "confidence": 0.9,
+          "reason": "The text explicitly describes cross-linking mass spectrometry (CLMS) using the BS3 cross-linker to identify distance constraints."
+        },
+        {
+          "modifier_workflow_id": "crosslinking_photo",
+          "confidence": 0.9,
+          "reason": "The text describes site-specific UV-induced CLMS using the unnatural amino acid DiAzKs (diazirin lysine)."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass-spectrometry",
+        "CLMS",
+        "BS3",
+        "DiAzKs",
+        "NSAF",
+        "data-dependent mass spectrometry"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +235,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:49:00Z"
   }
 }

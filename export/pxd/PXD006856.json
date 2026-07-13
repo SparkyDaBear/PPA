@@ -3,67 +3,161 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 based isotope labeling",
     "labeling_strategy": [
-      "LFQ"
+      "Other"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
       "haploid cell"
     ],
     "cell_lines": [
-      "HAP1"
+      "HAP1",
+      "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "N-terminal peptides",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we generated two HAP1 NAA80-KO cell lines (KO1 and KO2) using the CRISPR/Cas9 system",
+          "Actin\u2019s identity was confirmed using N-terminal proteomics by quantitatively assessing the Nt-acetylation status of 402 unique N termini from control and NAA80 KO1 cell lysates."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NAA80",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 knockout",
+        "evidence": [
+          "we generated two HAP1 NAA80-KO cell lines (KO1 and KO2) using the CRISPR/Cas9 system"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "control",
+      "HAP1 control cells"
+    ],
+    "case_arms": [
+      "NAA80 KO1",
+      "NAA80 KO2"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two HAP1 NAA80-KO cell lines (KO1 and KO2)"
+    ],
+    "multiplex_channel_hints": [
+      "MS1 quantitation of the Total Ion Current signal",
+      "light (12C2H3) and heavy (13C2D3) acetylation of peptide N-termini"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "control",
+        "case_label": "NAA80-KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "quantitatively assessing the Nt-acetylation status of 402 unique N termini from control and NAA80 KO1 cell lysates"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "haploid cell",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000413"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HAP1",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "N-terminal peptides",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "MS1 based isotope labeling",
+      "light/heavy (Ac/AcDC) ratio"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +165,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While isotope labeling was used for the acetylation ratio, the overall comparison between WT and KO cells is based on MS1 quantitation of the Total Ion Current signal."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminal_acetylation",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets N-terminal acetylation using a specialized blocking strategy (NHS ester of 13C2D3-acetic acid) and SCX enrichment of N-terminal peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-terminal acetylation",
+        "SCX enrichment of N-terminal peptides",
+        "NHS ester of 13C2D3-acetic acid",
+        "Nt-acetylation status"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While isotope labeling was used for the acetylation ratio, the overall comparison between WT and KO cells is based on MS1 quantitation of the Total Ion Current signal."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminal_acetylation",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets N-terminal acetylation using a specialized blocking strategy (NHS ester of 13C2D3-acetic acid) and SCX enrichment of N-terminal peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-terminal acetylation",
+        "SCX enrichment of N-terminal peptides",
+        "NHS ester of 13C2D3-acetic acid",
+        "Nt-acetylation status"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +237,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:09:38Z"
   }
 }

@@ -27,14 +27,13 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene disruption",
-          "whole-gene knockout"
+          "genetic",
+          "gene_disruption"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
         "confidence": "high",
         "evidence": [
           "we performed RAP-MS experiment (Figure 2(d)) with ~240 million SH-SY5Y cells expressing the Tau minigene using oligo sets that target either the Tau minigene pre-mRNA or GAPDH mature mRNA (negative control).",
@@ -50,7 +49,7 @@
         "duration": null,
         "route_or_context": "RAP-MS capture",
         "evidence": [
-          "we performed RAP-MS experiment (Figure 2(d)) with ~240 million SH-SY5Y cells expressing the Tau minigene using oligo sets that target either the Tau minigene pre-mRNA or GAPDH mature mRNA (negative control)."
+          "we designed probes targeting the Tau pre-mRNA around its exon 10 region and performed RAP-MS proteomic analysis in the neuroblastoma cell line SH-SY5Y."
         ]
       },
       {
@@ -58,9 +57,9 @@
         "agent": "GAPDH mature mRNA",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "RAP-MS negative control",
+        "route_or_context": "negative control pull-down",
         "evidence": [
-          "we performed RAP-MS experiment (Figure 2(d)) with ~240 million SH-SY5Y cells expressing the Tau minigene using oligo sets that target either the Tau minigene pre-mRNA or GAPDH mature mRNA (negative control)."
+          "half lysate used for Tau minigene pre-mRNA pull-down, the other half lysate used for GAPDH mature transcript control pull-down"
         ]
       }
     ],
@@ -71,25 +70,26 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "GAPDH mature mRNA"
+      "GAPDH mature mRNA pull-down"
     ],
     "case_arms": [
-      "Tau minigene pre-mRNA"
+      "Tau minigene pre-mRNA pull-down"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "From two RAP-MS runs with the Tau-targeting probes",
+      "two RAP-MS runs with the Tau-targeting probes",
       "selected proteins should present in both biological replicate of the Tau RAP-MS runs"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "GAPDH mature mRNA",
-        "case_label": "Tau minigene pre-mRNA",
+        "control_label": "GAPDH pull-down",
+        "case_label": "Tau minigene pull-down",
         "contrast_type": "pairwise",
         "evidence": [
-          "When we compared these results to proteins that were also identified in the control RAP-MS runs using GAPDH-targeting probes, we narrowed our results down to 16 RBPs that specifically interact with the Tau minigene pre-mRNA"
+          "we narrowed our results down to 16 RBPs that specifically interact with the Tau minigene pre-mRNA",
+          "the sum of the number of peptide spectrum matches (PSM) for each selected protein in the two Tau RAP-MS runs are at least two-fold higher compared to that in the two GAPDH negative control runs"
         ]
       }
     ],
@@ -102,7 +102,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -128,7 +128,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -142,10 +142,10 @@
     "quantification_strategy": [
       "TMT reporter ion intensities"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "RNA antisense purification",
+        "ontology_label": "RNA-protein interaction enrichment (RAP-MS)",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -162,44 +162,56 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The publication describes a DDA approach (top 20 most intense peaks) using PSM counts for relative quantification between Tau-targeting and GAPDH-targeting runs."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'TMT-6plex labeling' and 'TMT reporter ion intensities' were used for quantification."
         },
         {
-          "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.4,
-          "reason": "The PRIDE metadata mentions TMT-6plex labeling, but this contradicts the publication's description of RAP-MS using PSM counts for comparison. The publication text is prioritized for the specific assay described."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The publication text describes a RAP-MS experiment using PSM counts for relative quantification between Tau and GAPDH runs, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "enrichment_rap_ms",
+          "confidence": 1.0,
+          "reason": "The publication describes 'RNA Antisense Purification with Mass Spectrometry (RAP-MS)' using biotinylated DNA probes to capture RNA-protein complexes."
+        }
+      ],
       "trigger_keywords": [
         "RAP-MS",
-        "PSM counts",
-        "top 20 most intense peaks",
-        "Tau minigene pre-mRNA pull-down"
+        "TMT-6plex",
+        "RNA antisense purification",
+        "biotinylated DNA oligonucleotide probes"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The publication describes a DDA approach (top 20 most intense peaks) using PSM counts for relative quantification between Tau-targeting and GAPDH-targeting runs."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'TMT-6plex labeling' and 'TMT reporter ion intensities' were used for quantification."
         },
         {
-          "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.4,
-          "reason": "The PRIDE metadata mentions TMT-6plex labeling, but this contradicts the publication's description of RAP-MS using PSM counts for comparison. The publication text is prioritized for the specific assay described."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The publication text describes a RAP-MS experiment using PSM counts for relative quantification between Tau and GAPDH runs, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "enrichment_rap_ms",
+          "confidence": 1.0,
+          "reason": "The publication describes 'RNA Antisense Purification with Mass Spectrometry (RAP-MS)' using biotinylated DNA probes to capture RNA-protein complexes."
+        }
+      ],
       "trigger_keywords": [
         "RAP-MS",
-        "PSM counts",
-        "top 20 most intense peaks",
-        "Tau minigene pre-mRNA pull-down"
+        "TMT-6plex",
+        "RNA antisense purification",
+        "biotinylated DNA oligonucleotide probes"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,6 +241,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:14:14Z"
+    "stage3_refreshed_at": "2026-07-13T03:05:12Z"
   }
 }

@@ -9,7 +9,7 @@
     ],
     "treatment_categories": [
       "disease or clinical state",
-      "molecular state comparison"
+      "disease or clinical state"
     ],
     "cell_types": [
       "melanocyte"
@@ -29,32 +29,33 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease",
         "matched_class_path": [
+          "disease",
           "case_control_disease"
         ],
         "matched_definition": "Comparison between disease and matched control cohorts.",
         "confidence": "high",
         "evidence": [
           "111 lymph node metastasis samples from patients with malignant melanoma (Stage 3 and 4)",
-          "In order to relate protein expression in lymph node metastatic melanomas to patient survival"
+          "identify novel protein markers to predict progression and survival of melanoma"
         ]
       },
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
         "matched_class_path": [
-          "mutation_defined_state"
+          "disease",
+          "disease_stage_or_response"
         ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
-        "confidence": "medium",
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
         "evidence": [
-          "The cohort included 59% of patients with wild type BRAF status and 36% of patients with V600E mutation in the BRAF gene",
-          "Melanoma type, disease stage, BRAF status, TCGA classification and four-category classification of J\u00f6nsson et al. were used as annotation terms."
+          "cluster 3 (long survival) clearly had underrepresentation of melanomas that were stage 4 while cluster 2 (poor survival) clearly had overrepresentation of stage 4 melanomas"
         ]
       }
     ],
@@ -65,11 +66,12 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "long survival cluster"
+    ],
     "case_arms": [
       "short survival cluster",
-      "long survival cluster",
-      "intermediate survival cluster"
+      "poor survival cluster"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -79,12 +81,12 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "long survival cluster",
-        "case_label": "short survival cluster",
-        "contrast_type": "pairwise",
+        "control_label": "long survival",
+        "case_label": "short survival",
+        "contrast_type": "multi_group",
         "evidence": [
-          "differentially expressed proteins and genes obtained from SAM analysis... between the three clusters",
-          "One of the clusters corresponded to poor survival and was characterized by downregulation of the 9 proteins positively correlated and by upregulation of the 18 proteins negatively correlated to survival."
+          "three patient clusters which show distinct differences in survival",
+          "differentially expressed between the three clusters"
         ]
       }
     ],
@@ -122,7 +124,7 @@
     ],
     "noncellular_sources": [
       {
-        "label": "lymph node metastasis",
+        "label": "lymph node metastases",
         "source_kind": "tissue"
       }
     ],
@@ -157,10 +159,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes 'Label-free LC-MS/MS analysis' using a 'data-dependent top-15 method' on a Q-Exactive Plus mass spectrometer."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Label-free",
+        "data-dependent",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes 'Label-free LC-MS/MS analysis' using a 'data-dependent top-15 method' on a Q-Exactive Plus mass spectrometer."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Label-free",
+        "data-dependent",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -182,6 +218,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:07:59Z"
+    "stage3_refreshed_at": "2026-07-13T06:58:41Z"
   }
 }

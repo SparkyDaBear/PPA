@@ -3,68 +3,136 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "cytoskeletal proteins"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "Tagging of the endogenous type II chaperonin TRiC complex using CRISPR knock-in enables its purification for cryo-EM.",
+          "To insert a purification tag to the endogenous TRiC/CCT, HEK293T cells were transfected with plasmid encoding eSpCas9(1.1) and sgRNAs targeting CCT5 and ATP1A1",
+          "insert 3\u00d7FLAG/Spytag at the C terminus of CCT5"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CCT5-FLAG tag",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9 knock-in in HEK293T cells",
+        "evidence": [
+          "insert 3\u00d7FLAG/Spytag at the C terminus of CCT5"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "WT HEK293T"
+    ],
+    "case_arms": [
+      "CCT5-FLAG tagged cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Quadruplicate samples of WT HEK293T and CCT5-FLAG tagged cells"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT HEK293T",
+        "case_label": "CCT5-FLAG",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "This includes one set from the CCT5-FLAG cell line and one set from wild-type untransfected HEK293T cells as a reference"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +140,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses DDA (data-dependent acquisition) and compares CCT5-FLAG tagged cells vs WT HEK293T cells to identify enriched proteins (AP-MS)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_xlms",
+          "confidence": 1.0,
+          "reason": "Extensive use of chemical cross-linking mass spectrometry (XL-MS) using BS3 and DSS crosslinkers to validate structural models."
+        }
+      ],
+      "trigger_keywords": [
+        "XL-MS",
+        "crosslinking mass spectrometry",
+        "BS3",
+        "DSS",
+        "AP-MS",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses DDA (data-dependent acquisition) and compares CCT5-FLAG tagged cells vs WT HEK293T cells to identify enriched proteins (AP-MS)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_xlms",
+          "confidence": 1.0,
+          "reason": "Extensive use of chemical cross-linking mass spectrometry (XL-MS) using BS3 and DSS crosslinkers to validate structural models."
+        }
+      ],
+      "trigger_keywords": [
+        "XL-MS",
+        "crosslinking mass spectrometry",
+        "BS3",
+        "DSS",
+        "AP-MS",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:15:41Z"
   }
 }

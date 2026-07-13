@@ -7,16 +7,19 @@
     "labeling_strategy": [
       "TMT"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "chemical or drug treatment",
+      "genetic perturbation"
+    ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
       "22Rv1",
       "MCF7",
-      "HT1080",
       "HEK293T",
-      "HeLa"
+      "HeLa",
+      "HT1080"
     ],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
@@ -24,21 +27,110 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "identifyh electrophilic small molecules that rapidly and stereoselectively decrease the expression of transcripts encoding the androgen receptor",
+          "covalent NONO ligands suppress an array of cancer-relevant genes",
+          "treated 22Rv1 cells with active (2\u20135, (R)-10 and (R)-SKBG-1) or inactive control (6\u20139, (S)-10 and (S)-SKBG-1) compounds (20 \u03bcM) for 1 h"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "genetic disruption of NONO did not suppress AR transcript or protein expression but instead blocked compound activity",
+          "NONO-knockout cells were generated using previously described protocols... NONO-targeting single guide RNAs (sgRNAs; sgNONO cells)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "(R)-SKBG-1",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "22Rv1 cells",
+        "evidence": [
+          "treated 22Rv1 cells with active (2\u20135, (R)-10 and (R)-SKBG-1) or inactive control (6\u20139, (S)-10 and (S)-SKBG-1) compounds (20 \u03bcM) for 1 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "(S)-SKBG-1",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "22Rv1 cells",
+        "evidence": [
+          "treated 22Rv1 cells with active (2\u20135, (R)-10 and (R)-SKBG-1) or inactive control (6\u20139, (S)-10 and (S)-SKBG-1) compounds (20 \u03bcM) for 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "1 h",
+      "24 h"
+    ],
+    "control_arms": [
+      "DMSO",
+      "(S)-SKBG-1",
+      "sgControl"
+    ],
+    "case_arms": [
+      "(R)-SKBG-1",
+      "sgNONO"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "two plates for each compound"
+    ],
+    "multiplex_channel_hints": [
+      "tandem mass tag (TMT) labeling"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "(S)-SKBG-1",
+        "case_label": "(R)-SKBG-1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "active and inactive enantiomeric pairs of compounds, such as (R)-SKBG-1 and (S)-SKBG-1, provided particularly useful sets of probes"
+        ]
+      },
+      {
+        "control_label": "sgControl",
+        "case_label": "sgNONO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The 22Rv1 cell populations containing NONO-targeting single guide RNAs (sgRNAs; sgNONO cells) displayed substantial loss of NONO compared to sgControl cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -55,7 +147,7 @@
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial",
+        "rollup_category": "cell type",
         "ontology_curie": "CL:0000066"
       }
     ],
@@ -71,17 +163,17 @@
         "ontology_curie": null
       },
       {
-        "label": "HT1080",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
         "label": "HEK293T",
         "family": null,
         "ontology_curie": null
       },
       {
         "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HT1080",
         "family": null,
         "ontology_curie": null
       }
@@ -111,15 +203,21 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "AP-MS",
+        "ontology_label": "cysteine-directed activity-based protein profiling",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
+        "workflow_modifier_hint": null,
         "confidence": "high"
       },
       {
-        "ontology_label": "cysteine-directed ABPP",
+        "ontology_label": "biotin-azide enrichment",
         "ontology_curie": null,
         "workflow_modifier_hint": null,
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "immunoprecipitation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -136,14 +234,14 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Multiple proteomics experiments (Whole proteomics, MS-ABPP, Enriched proteomics, and IP-MS) explicitly state the use of TMT labeling and LC-MS analysis."
+          "reason": "Multiple proteomics experiments (MS-ABPP, Whole Proteomics, Enriched Proteomics, and IP-MS) explicitly state the use of Tandem Mass Tag (TMT) labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_abpp",
           "confidence": 0.9,
-          "reason": "The study uses 'cysteine-directed mass spectrometry-activity-based protein profiling (MS-ABPP)' and 'Enriched proteomics with alkyne probe 14' involving biotin-azide conjugation and streptavidin bead enrichment."
+          "reason": "The study utilizes 'cysteine-directed mass spectrometry-activity-based protein profiling (MS-ABPP)' and 'Enriched proteomics with alkyne probe 14' involving biotin-azide conjugation and streptavidin bead enrichment."
         }
       ],
       "trigger_keywords": [
@@ -161,14 +259,14 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Multiple proteomics experiments (Whole proteomics, MS-ABPP, Enriched proteomics, and IP-MS) explicitly state the use of TMT labeling and LC-MS analysis."
+          "reason": "Multiple proteomics experiments (MS-ABPP, Whole Proteomics, Enriched Proteomics, and IP-MS) explicitly state the use of Tandem Mass Tag (TMT) labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_abpp",
           "confidence": 0.9,
-          "reason": "The study uses 'cysteine-directed mass spectrometry-activity-based protein profiling (MS-ABPP)' and 'Enriched proteomics with alkyne probe 14' involving biotin-azide conjugation and streptavidin bead enrichment."
+          "reason": "The study utilizes 'cysteine-directed mass spectrometry-activity-based protein profiling (MS-ABPP)' and 'Enriched proteomics with alkyne probe 14' involving biotin-azide conjugation and streptavidin bead enrichment."
         }
       ],
       "trigger_keywords": [
@@ -182,9 +280,9 @@
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
+      "analyte_level": "site"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -207,6 +305,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:12:01Z"
+    "stage3_refreshed_at": "2026-07-13T03:14:35Z"
   }
 }

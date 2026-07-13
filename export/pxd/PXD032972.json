@@ -3,63 +3,161 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "relative abundance based on protein fragment scores",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "differentiate between healthy controls and bladder cancer-diagnosed patients",
+          "Samples were obtained from patients diagnosed with bladder cancer, median age 69 or from a control group from patients without cancer in the bladder or urinary tract."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "differentiate... between early non-invasive tumors and late stage tumors",
+          "distinguish Ta and T2\u2013T4-stage bladder cancer patients"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "bladder cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human plasma",
+        "evidence": [
+          "plasma samples from bladder cancer patients"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "healthy controls",
+      "C"
+    ],
+    "case_arms": [
+      "Ta bladder tumors",
+      "T2\u2013T4 cancer"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "training cohort with plasma from 32 control individuals, 32 patients diagnosed with Ta bladder tumors and 32 patients diagnosed with T2\u2013T4 cancer"
+    ],
+    "multiplex_channel_hints": [
+      "For each PCR sample, forward and reverse oligos containing specific barcode sequences were used to allow sample multiplexing during next-generation sequencing."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "healthy controls",
+        "case_label": "bladder cancer patients",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differentiate between healthy controls and bladder cancer-diagnosed patients"
+        ]
+      },
+      {
+        "control_label": "Ta (non-muscle-invasive)",
+        "case_label": "T2\u2013T4 (muscle-invasive)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "distinguish Ta and T2\u2013T4-stage bladder cancer patients"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative abundance based on protein fragment scores"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "aptamer-based affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +165,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Eclipse Tribrid. While the primary quantification was done via aptamer sequencing, the MS part was used for protein identification of pull-downs, which typically follows a label-free (LFQ) identification/abundance approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The proteins were captured using biotinylated RNA aptamers on streptavidin magnetic beads (pull-down)."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition mode",
+        "pull-down",
+        "biotinylated aptamer",
+        "streptavidin magnetic beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Eclipse Tribrid. While the primary quantification was done via aptamer sequencing, the MS part was used for protein identification of pull-downs, which typically follows a label-free (LFQ) identification/abundance approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The proteins were captured using biotinylated RNA aptamers on streptavidin magnetic beads (pull-down)."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition mode",
+        "pull-down",
+        "biotinylated aptamer",
+        "streptavidin magnetic beads"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +237,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:08:41Z"
   }
 }

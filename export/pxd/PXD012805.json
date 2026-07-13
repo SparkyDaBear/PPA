@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "epithelial cell"
@@ -19,53 +17,145 @@
       "ES-2",
       "HCT 116"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Relative quantitation of proteins enriched in ferroptocide and DMSO pre-treated samples was achieved by spectral counting",
+          "ferroptocide, a small molecule that rapidly and robustly induces ferroptotic death of cancer cells",
+          "target identification efforts and CRISPR knockout studies reveal that ferroptocide is an inhibitor of thioredoxin"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ferroptocide",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": "1 hr",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "treated with DMSO or 20 \u03bcM ferroptocide for 1 hr"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DMSO",
+        "dose_or_concentration": null,
+        "duration": "1 hr",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "treated with DMSO or 20 \u03bcM ferroptocide for 1 hr"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "1 hr"
+    ],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "ferroptocide"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "ferroptocide",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Relative quantitation of proteins enriched in ferroptocide and DMSO pre-treated samples was achieved by spectral counting"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "ES-2",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT 116",
+        "family": "cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +163,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used DDA (one full MS scan followed by 8 data dependent scans) and quantification was performed via spectral counting, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment explicitly used a biotin-streptavidin pulldown to enrich proteins labeled by the alkyne tool compound P29."
+        }
+      ],
+      "trigger_keywords": [
+        "biotin-streptavidin pulldown",
+        "spectral counting",
+        "data dependent scans",
+        "on-bead trypsin digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used DDA (one full MS scan followed by 8 data dependent scans) and quantification was performed via spectral counting, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment explicitly used a biotin-streptavidin pulldown to enrich proteins labeled by the alkyne tool compound P29."
+        }
+      ],
+      "trigger_keywords": [
+        "biotin-streptavidin pulldown",
+        "spectral counting",
+        "data dependent scans",
+        "on-bead trypsin digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +235,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:42:28Z"
   }
 }

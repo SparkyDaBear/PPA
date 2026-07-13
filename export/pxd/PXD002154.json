@@ -3,65 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "FLAG-tagged versions of the wild-type (WT) form of POLR1C and its variants having the p.Asn32Ile (N32I) or p.Asn74Ser (N74S) substitution were expressed in HeLa cells.",
+          "we expressed FLAG-tagged POLR1C with the p.Arg279Gln (R279Q) mutation in HeLa cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "POLR1C variants (N32I, N74S, R279Q)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable HeLa cell lines",
+        "evidence": [
+          "Generation of cell lines stably expressing FLAG-tagged POLR1C subunits (WT and mutated)",
+          "FLAG-tagged versions of the wild-type (WT) form of POLR1C and its variants having the p.Asn32Ile (N32I) or p.Asn74Ser (N74S) substitution were expressed in HeLa cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "WT FLAG-POLR1C",
+      "empty vector (EV)"
+    ],
+    "case_arms": [
+      "N32I",
+      "N74S",
+      "R279Q"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "These experiments were performed in triplicate.",
+      "identified and quantified in all three replicates of WT POLR1C or MUT POLR1C"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT",
+        "case_label": "MUT (N32I, N74S, R279Q)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "For each high-confidence interacting protein, a two-tailed one-sample t-test was performed on the spectral count ratios (MUT/WT)."
+        ]
+      },
+      {
+        "control_label": "EV",
+        "case_label": "WT/MUT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the spectral counts of the interactors obtained from the purifications of the paired WT POLR1C and the MUT POLR1C to those of the proteins purified with an empty vector (EV) of the FLAG tag"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +152,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) with spectral counting for quantification, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "spectral count quantification",
+        "LC-MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) with spectral counting for quantification, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "spectral count quantification",
+        "LC-MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +210,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:43:43Z"
   }
 }

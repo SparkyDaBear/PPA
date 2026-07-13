@@ -3,68 +3,140 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC ratios",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "hepatocellular carcinoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HepG2",
-      "HEK293"
+      "HepG2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "VISTA exploits the small-molecule VCP inhibitor CB5083 to trap ERAD substrates in a membrane-associated, ubiquitinated form.",
+          "Following a 6 h treatment with DMSO (light) or 5 \u00b5M CB5083 (heavy), membrane fractions were collected"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CB5083",
+        "dose_or_concentration": "5 \u00b5M",
+        "duration": "6 h",
+        "route_or_context": "cultured human hepatocellular carcinoma cells",
+        "evidence": [
+          "Following a 6 h treatment with DMSO (light) or 5 \u00b5M CB5083 (heavy), membrane fractions were collected"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "6 h"
+    ],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "CB5083"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "four independent experiments"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC",
+      "light media\u2014l-arginine (Arg0) and l-lysine (Lys0)",
+      "heavy media\u2014l-arginine (Arg0) and 13C615N2-l-lysine (Lys8)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "CB5083",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Following a 6 h treatment with DMSO (light) or 5 \u00b5M CB5083 (heavy), membrane fractions were collected"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HepG2",
+        "family": "hepatocellular carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC ratios"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +144,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC (light/heavy media) and DDA acquisition on a Q Exactive Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "The study uses PTMScan Ubiquitin remnant Motif (K-\u03b5-GG) Kit for immunoaffinity purification of diGly-modified peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "diGly",
+        "K-\u03b5-GG",
+        "ubiquitin remnant",
+        "PTMScan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC (light/heavy media) and DDA acquisition on a Q Exactive Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_digly",
+          "confidence": 1.0,
+          "reason": "The study uses PTMScan Ubiquitin remnant Motif (K-\u03b5-GG) Kit for immunoaffinity purification of diGly-modified peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "diGly",
+        "K-\u03b5-GG",
+        "ubiquitin remnant",
+        "PTMScan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:14:44Z"
   }
 }

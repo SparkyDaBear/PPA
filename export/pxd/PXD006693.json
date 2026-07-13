@@ -3,70 +3,156 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "XIC peak area",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "FH-deficient cells",
-      "UOK262 cells"
+      "cancer cells"
     ],
     "cell_lines": [
       "UOK262",
       "UOK262pFH"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "investigate at a genome-scale level the regulatory interactions between metabolism and signalling using cell lines derived from an HLRCC tumor, UOK262, and the FH reconstituted counterpart, UOK262pFH",
+          "molecular adaptations of signalling and metabolism driven by the loss-of-function of FH in HLRCC",
+          "FH mutations lead to the impairment of the catalytic activity of the enzyme"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "fumarate hydratase (FH)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "loss-of-function / deficiency",
+        "evidence": [
+          "fumarate hydratase (FH) deficient cells",
+          "loss-of-function of FH in HLRCC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "UOK262pFH"
+    ],
+    "case_arms": [
+      "UOK262"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "replicates showed higher correlation coefficients than all the pairwise comparisons"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "UOK262pFH",
+        "case_label": "UOK262",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential protein and phosphorylation changes were performed between UOK262 and UOK262pFH, i.e. log2(UOK262) - log2(UOK262pFH)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cancer cells",
+        "rollup_category": "transformed cells",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "UOK262",
+        "family": "HLRCC",
+        "ontology_curie": null
+      },
+      {
+        "label": "UOK262pFH",
+        "family": "HLRCC",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "kidney",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "XIC peak area"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +160,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used an LTQ-Orbitrap in multistage acquisition mode (DDA) and quantified using peak areas of extracted ion chromatographs (XICs) for the first three isotopes, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of Titanium dioxide (TiO2) enrichment beads for phosphoproteomics analysis and search for phosphorylation of serine, threonine, and tyrosine."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "Titanium dioxide (TiO2) enrichment",
+        "LTQ-Orbitrap",
+        "peak areas of the first three isotopes",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used an LTQ-Orbitrap in multistage acquisition mode (DDA) and quantified using peak areas of extracted ion chromatographs (XICs) for the first three isotopes, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of Titanium dioxide (TiO2) enrichment beads for phosphoproteomics analysis and search for phosphorylation of serine, threonine, and tyrosine."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "Titanium dioxide (TiO2) enrichment",
+        "LTQ-Orbitrap",
+        "peak areas of the first three isotopes",
+        "label-free"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +234,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:03:15Z"
   }
 }

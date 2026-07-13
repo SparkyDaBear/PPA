@@ -3,15 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "UV-C irradiation",
-      "Genetic Perturbations",
-      "Disease"
+      "radiation or photostress",
+      "genetic perturbation"
     ],
     "cell_types": [
       "fibroblast"
@@ -22,53 +21,193 @@
       "CS3BE-hTert",
       "VH10-hTert"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "uv_or_phototoxic_stress",
+        "matched_class_path": [
+          "radiation_photostress",
+          "uv_or_phototoxic_stress"
+        ],
+        "matched_definition": "Exposure to UV or intense light causing photodamage or photostress.",
+        "confidence": "high",
+        "evidence": [
+          "SILAC comparison between CSA interactome before and after UV treatment.",
+          "CSA IP from SILAC labeled CS3BE cells before and after UV irradiation",
+          "CS3BE CSA-FLAG UV Treatment 20J/m2 (K8/R10) / CS3BE CSA-FLAG mock (K0/R0)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "we created eight different CSA mutants in which one of the residues Glu103, Phe120, Lys122, Arg164, Lys247, Lys292, Lys293, or Arg354 in this platform was substituted by Alanine",
+          "we then generated a CSA mutant (CSA 8M) that contains all the eight afore-studied mutations",
+          "pulldown of GFP-tagged CSA WT and CSA 8M from CSA-deficient patient cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "UV-C irradiation",
+        "dose_or_concentration": "20J/m2",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "CS3BE CSA-FLAG UV Treatment 20J/m2 (K8/R10) / CS3BE CSA-FLAG mock (K0/R0)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CSA 8M mutation",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable expression in CSA-deficient patient cells",
+        "evidence": [
+          "pulldown of GFP-tagged CSA WT and CSA 8M from CSA-deficient patient cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "before UV treatment",
+      "after UV treatment"
+    ],
+    "control_arms": [
+      "mock",
+      "CSA WT"
+    ],
+    "case_arms": [
+      "UV Treatment",
+      "CSA 8M"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "GFP immunoprecipitations for LFQ and stoichiometry analysis were performed in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC multiplicity = 2 settings (K0/R0, K8R10)",
+      "CS3BE CSA-FLAG UV Treatment 20J/m2 (K8/R10) / CS3BE CSA-FLAG mock (K0/R0)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "mock",
+        "case_label": "UV Treatment",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CS3BE CSA-FLAG UV Treatment 20J/m2 (K8/R10) / CS3BE CSA-FLAG mock (K0/R0)"
+        ]
+      },
+      {
+        "control_label": "CSA WT",
+        "case_label": "CSA 8M",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "pulldown of GFP-tagged CSA WT and CSA 8M from CSA-deficient patient cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "fibroblast",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000057"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U2OS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "CS3BE-SV40",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "CS3BE-hTert",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "VH10-hTert",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "LFQ",
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +215,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata and methods explicitly state SILAC labeling (K0/R0, K8/R10) and data-dependent acquisition (DDA) on a Q-Exactive."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Methods describe a separate set of experiments using label-free quantification (LFQ) for stoichiometry and interaction analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "Methods describe xIP-MS using BS3 cross-linker, analyzed with pLink to identify residue-residue linkages."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "LFQ",
+        "cross-linking",
+        "BS3",
+        "pLink",
+        "iBAQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata and methods explicitly state SILAC labeling (K0/R0, K8/R10) and data-dependent acquisition (DDA) on a Q-Exactive."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Methods describe a separate set of experiments using label-free quantification (LFQ) for stoichiometry and interaction analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "Methods describe xIP-MS using BS3 cross-linker, analyzed with pLink to identify residue-residue linkages."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "LFQ",
+        "cross-linking",
+        "BS3",
+        "pLink",
+        "iBAQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +301,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:16:31Z"
   }
 }

@@ -3,28 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free semiquantitative assessment",
     "labeling_strategy": [
-      "Dimethyl"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "cerebrocortical neurons"
     ],
     "cell_lines": [
-      "human induced pluripotent stem cell (hiPSC)-derived neurons"
+      "hiPSC"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "comparing isogenic wild\u2010type and AD mutant human induced pluripotent stem cell (hiPSC)\u2010derived cerebrocortical neurons (hiN)",
+          "aberrant S\u2010nitrosylation is documented not only in AD\u2010hiN but also in postmortem human AD brains versus controls",
+          "The analysis of 3 male AD brains versus 3 control male brains"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -32,39 +49,101 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "isogenic WT",
+      "non-AD brains",
+      "Control brains"
+    ],
+    "case_arms": [
+      "AD mutant hiN",
+      "AD brains"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Five technical runs were conducted for each biological replicate",
+      "Three different biological samples per group were each analyzed in duplicate"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "AD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "aberrant S\u2010nitrosylation is documented not only in AD\u2010hiN but also in postmortem human AD brains versus controls"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cerebrocortical neurons",
+        "rollup_category": "neuron",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "hiPSC",
+        "family": "human induced pluripotent stem cell",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "prefrontal cortex",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "brain",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free semiquantitative assessment",
+      "spectral counting",
+      "MS1 peak intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "S-nitrosylation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_redox",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +151,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The SNOTRAP/MS method used data-dependent acquisition (DDA) on a Q Exactive and label-free semiquantitative assessment based on precursor intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "s_nitrosylation_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets S-nitrosylation using two enrichment strategies: SNOTRAP (converting SNO to stable disulfide-iminophosphorane) and chemoselective-organomercury columns."
+        }
+      ],
+      "trigger_keywords": [
+        "SNOTRAP",
+        "S-nitrosylation",
+        "organomercury-chemoselective enrichment",
+        "S-nitrosothiols",
+        "SNO-sites"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The SNOTRAP/MS method used data-dependent acquisition (DDA) on a Q Exactive and label-free semiquantitative assessment based on precursor intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "s_nitrosylation_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets S-nitrosylation using two enrichment strategies: SNOTRAP (converting SNO to stable disulfide-iminophosphorane) and chemoselective-organomercury columns."
+        }
+      ],
+      "trigger_keywords": [
+        "SNOTRAP",
+        "S-nitrosylation",
+        "organomercury-chemoselective enrichment",
+        "S-nitrosothiols",
+        "SNO-sites"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +225,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:58:38Z"
   }
 }

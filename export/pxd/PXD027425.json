@@ -2,26 +2,39 @@
   "pxd": "PXD027425",
   "title": null,
   "summary": {
-    "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "Unknown",
+    "quantification_method": "MS1 peak areas",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "un-classified"
     ],
     "cell_types": [],
     "cell_lines": [
       "293"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "we compared the depth of coverage produced by DDA versus DIA and the ability to assign identifications confidently."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +42,93 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "alpha-1-acid glycoprotein (AGP)"
+    ],
+    "case_arms": [
+      "SARS-CoV-2 spike protein"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "We ran 3 DDA and 3 DIA replicates for all AGP samples.",
+      "We ran 3 DDA replicates and 4 DIA replicates for all spike samples.",
+      "We ran 2 replicates for all deglycosylated peptide samples."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "DDA",
+        "case_label": "DIA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared the depth of coverage produced by DDA versus DIA and the ability to assign identifications confidently."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "SARS-CoV-2",
+        "taxonomy_hint": "virus",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "293",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "human serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 peak areas",
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +136,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "The study explicitly compares DDA and DIA, with a primary focus on using DIA for quantitative site-specific glycoproteomics using MS1 peak areas."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used in parallel for comparison and to provide a high-confidence reference for glycopeptide assignments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire experiment is dedicated to site-specific N-linked glycoproteomics, utilizing HILIC enrichment and specialized search engines (GlycReSoft)."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "DDA",
+        "glycoproteomics",
+        "HILIC",
+        "site-specific glycosylation",
+        "glycoforms",
+        "N-linked"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "The study explicitly compares DDA and DIA, with a primary focus on using DIA for quantitative site-specific glycoproteomics using MS1 peak areas."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used in parallel for comparison and to provide a high-confidence reference for glycopeptide assignments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire experiment is dedicated to site-specific N-linked glycoproteomics, utilizing HILIC enrichment and specialized search engines (GlycReSoft)."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "DDA",
+        "glycoproteomics",
+        "HILIC",
+        "site-specific glycosylation",
+        "glycoforms",
+        "N-linked"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +224,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:08:51Z"
   }
 }

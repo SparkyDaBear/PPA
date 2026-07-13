@@ -3,27 +3,56 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
+      "Sf9",
       "HEK293T"
     ],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "confidence": "high",
+        "evidence": [
+          "the prototypical psychedelic LSD",
+          "LSD is a partial agonist for HTR2B",
+          "LSD-bound HTR2B"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Lysergic acid diethylamide (LSD)",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "30 min",
+        "route_or_context": "purified cell membranes",
+        "evidence": [
+          "incubated with 10 \u03bcM LSD and 200 \u03bcM TCEP for 30 min at room temperature"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -31,9 +60,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "LSD-bound HTR2B"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
@@ -42,27 +73,63 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      },
+      {
+        "label": "Spodoptera frugiperda",
+        "taxonomy_hint": "Sf9",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Sf9",
+        "family": "Spodoptera frugiperda",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "LFQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +137,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Exploris 480, and the goal was site identification/probability rather than relative quantification across many samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of Ni-NTA magnetic beads for phosphopeptide enrichment and search for phosphorylation on S, T, and Y."
+        }
+      ],
+      "trigger_keywords": [
+        "Phosphopeptide enrichment",
+        "Ni-NTA magnetics beads",
+        "data-dependent acquisition mode",
+        "phosphorylation of serine, threonine, and tyrosine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Exploris 480, and the goal was site identification/probability rather than relative quantification across many samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of Ni-NTA magnetic beads for phosphopeptide enrichment and search for phosphorylation on S, T, and Y."
+        }
+      ],
+      "trigger_keywords": [
+        "Phosphopeptide enrichment",
+        "Ni-NTA magnetics beads",
+        "data-dependent acquisition mode",
+        "phosphorylation of serine, threonine, and tyrosine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:11:46Z"
   }
 }

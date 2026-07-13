@@ -3,25 +3,57 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Unclassified"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "bone"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "subproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "medium",
+        "evidence": [
+          "comparing samples classified (by ORAU criteria) as low \u201ccollagen yield\u201d samples... with those deemed to have sufficient \u201ccollagen yield\u201d for radiocarbon dating."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "compare the proteomes observed in different fractions obtained from the same sample, focusing on the second prewash and the acid incubation (demineralization) steps",
+          "we compared the fractions obtained from the second HCl prewash step (fraction A) and the overnight HCl incubation (fraction B)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +61,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "sufficient collagen yield"
+    ],
+    "case_arms": [
+      "low collagen yield",
+      "fraction A",
+      "fraction B"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "sufficient collagen yield",
+        "case_label": "low collagen yield",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing samples classified (by ORAU criteria) as low \u201ccollagen yield\u201d samples... with those deemed to have sufficient \u201ccollagen yield\u201d for radiocarbon dating."
+        ]
+      },
+      {
+        "control_label": "fraction A",
+        "case_label": "fraction B",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared the fractions obtained from the second HCl prewash step (fraction A) and the overnight HCl incubation (fraction B)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Bos taurus",
+        "taxonomy_hint": "Bovine",
+        "confidence": "high"
+      },
+      {
+        "label": "Equus caballus",
+        "taxonomy_hint": "Horse",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "Human",
+        "confidence": "high"
+      },
+      {
+        "label": "Cervus elaphus",
+        "taxonomy_hint": "Red deer",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "bone",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "subproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +157,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite with semi-quantitative analysis performed via total spectrum counting (spectral counting is a form of label-free quantification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ancient_proteins",
+          "confidence": 0.8,
+          "reason": "Samples are archaeological ancient bone with explicit focus on diagenetic alterations and semi-tryptic digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent analysis",
+        "total spectrum count",
+        "ancient bone",
+        "diagenetic alterations",
+        "semiTrypsin"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite with semi-quantitative analysis performed via total spectrum counting (spectral counting is a form of label-free quantification)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ancient_proteins",
+          "confidence": 0.8,
+          "reason": "Samples are archaeological ancient bone with explicit focus on diagenetic alterations and semi-tryptic digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent analysis",
+        "total spectrum count",
+        "ancient bone",
+        "diagenetic alterations",
+        "semiTrypsin"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +231,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:01:45Z"
   }
 }

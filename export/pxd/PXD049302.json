@@ -7,7 +7,10 @@
     "labeling_strategy": [
       "SILAC"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "chemical or drug treatment",
+      "nutrient or metabolic perturbation"
+    ],
     "cell_types": [
       "neuron-like cells"
     ],
@@ -20,21 +23,117 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "the most commonly used drug that causes PD-like mitochondrial dysfunction is rotenone (Rot)",
+          "Rot is hydrophobic and enters the cell independently of transporters, where it inhibits complex I of the respiratory chain."
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "metabolite_supplementation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "metabolite_supplementation"
+        ],
+        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
+        "confidence": "high",
+        "evidence": [
+          "To study the potential protective effect of DHA, the cells were additionally pre-treated with DHA prior to rotenone administration.",
+          "omega-3 fatty acids, such as docosahexaenoic acid (DHA), are essential nutrients"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "rotenone",
+        "dose_or_concentration": "5.4 \u00b5M",
+        "duration": "24 h",
+        "route_or_context": "SH-SY5Y cells",
+        "evidence": [
+          "Cells were treated with ... 5.4 \u00b5M rotenone (Rot) ... for 24 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "docosahexaenoic acid (DHA)",
+        "dose_or_concentration": "25 \u00b5M",
+        "duration": "48 h",
+        "route_or_context": "pre-treatment",
+        "evidence": [
+          "Cells were treated with 25 \u00b5M cis-4, 7, 10, 13, 16, 19-DHA for 48 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h",
+      "48 h"
+    ],
+    "control_arms": [
+      "control (light label)",
+      "Ctrl"
+    ],
+    "case_arms": [
+      "Rot (medium label)",
+      "DHA + Rot (heavy label)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "n = 5",
+      "mitochondria isolation via ultracentrifugation was carried out four times, resulting in 4 replicates per condition"
+    ],
+    "multiplex_channel_hints": [
+      "combining SILAC labeling, mitochondria enrichment, and subsequent proteomic analyses",
+      "control (light label), Rot (medium label) and DHA + Rot (heavy label)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Ctrl",
+        "case_label": "Rot",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "revealing 366 proteins being differentially expressed between Ctrl and Rot-treated cells (Rot/Ctrl)"
+        ]
+      },
+      {
+        "control_label": "Ctrl",
+        "case_label": "DHA + Rot",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "as well as 322 proteins in DHA + Rot vs. Ctrl cells (DHA + Rot/Ctrl)"
+        ]
+      },
+      {
+        "control_label": "Rot",
+        "case_label": "DHA + Rot",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "determine the molecular changes that occur as a result of treatment with Rot alone compared to DHA pre-treated cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -52,7 +151,7 @@
       {
         "label": "neuron-like cells",
         "rollup_category": "neuron",
-        "ontology_curie": "CL:0000095"
+        "ontology_curie": null
       }
     ],
     "cell_lines": [
@@ -70,7 +169,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -106,16 +205,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (light, medium, heavy) and DDA acquisition (Full MS scans with dynamic exclusion and HCD fragments)."
+          "reason": "Explicit mention of SILAC labeling (light, medium, heavy) and DDA acquisition (Full MS scans followed by HCD fragments)."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "subcellular_fractionation",
+          "confidence": 0.9,
+          "reason": "The experiment specifically used OptiPrep density gradient centrifugation for mitochondria enrichment."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "light (Lys0, Arg0)",
-        "medium (Lys4, Arg6)",
-        "heavy labeled (Lys8, Arg10)",
-        "Data-dependent acquisition"
+        "mitochondria enrichment",
+        "OptiPrep",
+        "DDA",
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -124,16 +229,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (light, medium, heavy) and DDA acquisition (Full MS scans with dynamic exclusion and HCD fragments)."
+          "reason": "Explicit mention of SILAC labeling (light, medium, heavy) and DDA acquisition (Full MS scans followed by HCD fragments)."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "subcellular_fractionation",
+          "confidence": 0.9,
+          "reason": "The experiment specifically used OptiPrep density gradient centrifugation for mitochondria enrichment."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "light (Lys0, Arg0)",
-        "medium (Lys4, Arg6)",
-        "heavy labeled (Lys8, Arg10)",
-        "Data-dependent acquisition"
+        "mitochondria enrichment",
+        "OptiPrep",
+        "DDA",
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -163,6 +274,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:04:30Z"
+    "stage3_refreshed_at": "2026-07-13T06:02:55Z"
   }
 }

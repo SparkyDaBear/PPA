@@ -3,31 +3,44 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "bronchial epithelial cells",
-      "endothelial cells",
-      "monocytes"
+      "bronchial epithelial cells"
     ],
     "cell_lines": [
-      "BEAS-2B",
-      "THP-1",
-      "HUVEC"
+      "BEAS-2B"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "extracellular vesicle scope",
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "the EV-low protein-rich SEC fractions provide a well-matched control for studying differences in the proteomic composition and biological effects between EVs and the non-EV associated secretome",
+          "Proteomic analysis was performed by nano LC-MS/MS for UF-SEC EVs, UC EVs or UF-SEC protein fractions."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,39 +48,102 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "UF-SEC protein"
+    ],
+    "case_arms": [
+      "UF-SEC EVs",
+      "UC EVs"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "UF-SEC EVs (n = 5)",
+      "UC-EVs (n = 3)",
+      "UF-SEC protein (n = 3)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "UF-SEC protein",
+        "case_label": "UF-SEC EVs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the proteomic composition and functional effects of EVs and free secreted molecules"
+        ]
+      },
+      {
+        "control_label": "UC EVs",
+        "case_label": "UF-SEC EVs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "hypothesized that ultrafiltration followed by SEC (UF-SEC) allows isolating EVs from cell culture media with comparable or superior yield and purity as compared to ultracentrifugation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "bronchial epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "BEAS-2B",
+        "family": "bronchial epithelial",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "cell culture media",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "subproteome",
-      "label": null,
-      "curie": null
+      "category": "extracellular vesicle scope",
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Extracellular Vesicle isolation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +151,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (top10 method) was used on a Q Exactive. While no explicit labeling is mentioned, the study compares protein abundance across different isolation methods (UF-SEC vs UC) and fractions, implying label-free quantification (LFQ) for the compositional analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "nano LC-MS/MS",
+        "data-dependent top10 method",
+        "Q Exactive",
+        "compositional analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (top10 method) was used on a Q Exactive. While no explicit labeling is mentioned, the study compares protein abundance across different isolation methods (UF-SEC vs UC) and fractions, implying label-free quantification (LFQ) for the compositional analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "nano LC-MS/MS",
+        "data-dependent top10 method",
+        "Q Exactive",
+        "compositional analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +211,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:31:44Z"
   }
 }

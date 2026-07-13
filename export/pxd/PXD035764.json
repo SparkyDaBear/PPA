@@ -3,68 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Sequest HT Scores",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "ovarian epithelial cells"
+      "ovarian epithelial cell"
     ],
     "cell_lines": [
-      "SV-40"
+      "SV40"
     ],
     "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "we separate the proteome into membrane, cytoplasm, nuclear, chromatin, and cytoskeleton proteomes",
+          "subcellular protein fractionation was used to extract five different protein fractions corresponding to cytoplasm (Cyt), membrane-bound (Memb), nuclear (Nuc), chromatin-bound (Chr), and cytoskeletal (Ske) proteins"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "disuccinimidyl sulfoxide (DSSO)",
+        "dose_or_concentration": "2 mM",
+        "duration": "1 h",
+        "route_or_context": "in cellulo chemical cross-linking",
+        "evidence": [
+          "The crosslinking reaction was performed with a final concentration of 2 mM of DSSO",
+          "The reaction was quenched after 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "non-crosslinked control"
+    ],
+    "case_arms": [
+      "cytoplasm",
+      "membrane-bound",
+      "nuclear",
+      "chromatin-bound",
+      "cytoskeletal"
+    ],
     "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "factorial_design": false,
+    "replicate_hints": [
+      "replicates of 3E6 immortalized human ovarian cells"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-crosslinked",
+        "case_label": "crosslinked",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "this was only observed when analyzing crosslinked samples and for the positive control of crosslinking reaction (BSA)",
+          "a clear band is observed in the separation gel that is also present in the non-crosslinked control"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "ovarian epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SV40",
+        "family": "immortalized ovarian epithelial cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "subproteome",
-      "label": null,
-      "curie": null
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Sequest HT Scores"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000430",
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +152,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive instrument. While no formal LFQ method is detailed, the study compares protein identifications across subcellular fractions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_xlms",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses DSSO for in cellulo chemical cross-linking and analyzes data using the XlinkX algorithm."
+        }
+      ],
+      "trigger_keywords": [
+        "crosslinked peptides",
+        "DSSO",
+        "XlinkX",
+        "XL-MS",
+        "chemical cross-linking"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive instrument. While no formal LFQ method is detailed, the study compares protein identifications across subcellular fractions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "crosslinking_xlms",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses DSSO for in cellulo chemical cross-linking and analyzes data using the XlinkX algorithm."
+        }
+      ],
+      "trigger_keywords": [
+        "crosslinked peptides",
+        "DSSO",
+        "XlinkX",
+        "XL-MS",
+        "chemical cross-linking"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:22:32Z"
   }
 }

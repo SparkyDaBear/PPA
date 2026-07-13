@@ -3,68 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "medullary thymic epithelial cells",
-      "embryonic stem cells"
+      "ovarian surface epithelial cell"
     ],
     "cell_lines": [
+      "OVCAR-3",
       "B-lymphoblastoid cell lines"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "we also analyzed matched transcriptomic and immunopeptidomic data of an ovarian cancer cell line (OVCAR-3) treated with IFN\u03b3 (12.5 ng/mL) for 72 h in order to increase MHC I expression."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IFN\u03b3",
+        "dose_or_concentration": "12.5 ng/mL",
+        "duration": "72 h",
+        "route_or_context": "OVCAR-3 cell line",
+        "evidence": [
+          "ovarian cancer cell line (OVCAR-3) treated with IFN\u03b3 (12.5 ng/mL) for 72 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "72 h"
+    ],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "IFN\u03b3 treated OVCAR-3"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated OVCAR-3",
+        "case_label": "IFN\u03b3 treated OVCAR-3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated with IFN\u03b3 (12.5 ng/mL) for 72 h in order to increase MHC I expression"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "ovarian surface epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:2000064"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "OVCAR-3",
+        "family": "ovarian cancer cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "B-lymphoblastoid cell lines",
+        "family": "B-LCL",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +149,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive HF, top 20 MS/MS) and is described as label-free in PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study specifically analyzes the immunopeptidome (MHC I-associated peptides) using mild acid elution and W6/32 antibody immunoprecipitation."
+        },
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 1.0,
+          "reason": "The authors developed a proteogenomic workflow combining RNA-seq and MS to search against a personalized proteome including endogenous retroelements (EREs)."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomic",
+        "ereMAPs",
+        "personalized proteome",
+        "MHC I-associated peptides",
+        "proteogenomic workflow"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive HF, top 20 MS/MS) and is described as label-free in PRIDE metadata."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study specifically analyzes the immunopeptidome (MHC I-associated peptides) using mild acid elution and W6/32 antibody immunoprecipitation."
+        },
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 1.0,
+          "reason": "The authors developed a proteogenomic workflow combining RNA-seq and MS to search against a personalized proteome including endogenous retroelements (EREs)."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomic",
+        "ereMAPs",
+        "personalized proteome",
+        "MHC I-associated peptides",
+        "proteogenomic workflow"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +233,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:55:36Z"
   }
 }

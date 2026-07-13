@@ -3,27 +3,60 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "dopaminergic neurons",
-      "neurons",
-      "astrocytes",
-      "oligodendrocytes"
+      "midbrain dopaminergic neuron"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "identify differences in the proteomic profile of NMGs from DLB patients (n = 5) compared to healthy controls (CTRL, n = 5)",
+          "Fresh frozen SN tissue slices of five CTRL cases were used as well as tissue slices of five patients post-mortem diagnosed with DLB"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "comparison of proteomic profiles of NMGs and SNSurr. tissue",
+          "NMGs and SNSurr. tissue were isolated as displayed in Supplementary Figure S1"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +64,98 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "CTRL"
+    ],
+    "case_arms": [
+      "DLB"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 5",
+      "five CTRL cases",
+      "five patients post-mortem diagnosed with DLB"
+    ],
+    "multiplex_channel_hints": [
+      "Label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "CTRL",
+        "case_label": "DLB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify differences in the proteomic profile of NMGs from DLB patients (n = 5) compared to healthy controls (CTRL, n = 5)"
+        ]
+      },
+      {
+        "control_label": "SNSurr.",
+        "case_label": "NMG",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of proteomic profiles of NMGs and SNSurr. tissue"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "midbrain dopaminergic neuron",
+        "rollup_category": "neuron",
+        "ontology_curie": "CL:2000097"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "substantia nigra",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification (LFQ)",
+      "Intensity-based absolute quantification (iBAQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Neuromelanin granules (NMGs)",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +163,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data dependent acquisition (DDA) and label-free quantification (LFQ) via MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "LFQ",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data dependent acquisition (DDA) and label-free quantification (LFQ) via MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "LFQ",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +223,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:05:38Z"
   }
 }

@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT ratio",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "retina"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "global phosphoproteomics of retinoblastoma (RB) was carried out to identify signalling events associated with this cancer",
+          "Over 350 proteins showed differential phosphorylation in RB compared to control retina.",
+          "We carried out a pilot quantitative phosphoproteomics study of primary RB tumour tissues and control retina"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,85 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "control retina"
+    ],
+    "case_arms": [
+      "retinoblastoma tumour tissues"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Two control retinas and four retinoblastoma tumour tissues"
+    ],
+    "multiplex_channel_hints": [
+      "TMT labels 126, 127C, 129C, and 130C were used for labelling RB tumour samples, and TMT labels 129N and 130N were used for labelling control retina samples."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "control retina",
+        "case_label": "retinoblastoma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Over 350 proteins showed differential phosphorylation in RB compared to control retina."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "retina",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "retinoblastoma tumour tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT ratio"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +131,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT 6-plex labeling (126, 127C, 129C, 130C for tumors; 129N, 130N for controls) and data-dependent acquisition (DDA) on an LTQ Orbitrap Elite."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses TiO2-based phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT labelling",
+        "TiO2-based phosphopeptide enrichment",
+        "Data-dependent acquisition",
+        "TMT 6-plex"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT 6-plex labeling (126, 127C, 129C, 130C for tumors; 129N, 130N for controls) and data-dependent acquisition (DDA) on an LTQ Orbitrap Elite."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The study uses TiO2-based phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT labelling",
+        "TiO2-based phosphopeptide enrichment",
+        "Data-dependent acquisition",
+        "TMT 6-plex"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +203,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:01:45Z"
   }
 }

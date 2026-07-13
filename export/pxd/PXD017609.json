@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "semiquantitative approach based on glycopeptide peak intensity",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
       "gastric cancer cells"
@@ -19,53 +18,145 @@
       "MKN-74",
       "MKN45"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "the ST6GAL1 gene was silenced in the ErbB2-driven NCI-N87 GC cell line, using the CRISPR-Cas9 system",
+          "ST6GAL1 knockout (K.O.) ErbB2-addicted GC cells displayed a reduced ErbB2 degradation rate"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ST6GAL1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9 genomic silencing",
+        "evidence": [
+          "the ST6GAL1 gene was silenced in the ErbB2-driven NCI-N87 GC cell line, using the CRISPR-Cas9 system"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "WT"
+    ],
+    "case_arms": [
+      "ST6GAL1 K.O."
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "first and second biological replicate"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT",
+        "case_label": "ST6GAL1 K.O.",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The overall glycomic profile of both WT and ST6GAL1 K.O. ErbB2 confirmed that the loss of ST6Gal1 function leads to no alterations in the relative amount of detected oligomannosidic species"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "gastric cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "NCI-N87",
+        "family": "gastric cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MKN-74",
+        "family": "gastric cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MKN45",
+        "family": "gastric cancer",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "gastric tumor clinical specimens",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "semiquantitative approach based on glycopeptide peak intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +164,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (top-10) was used with a semiquantitative approach based on glycopeptide peak intensity."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets N-glycosylation using Byonic with a mammalian N-glycan database and oxonium ion triggers (m/z 204.087)."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomic",
+        "N-glycosylation",
+        "glycopeptide peak intensity",
+        "Byonic",
+        "oxonium ion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (top-10) was used with a semiquantitative approach based on glycopeptide peak intensity."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets N-glycosylation using Byonic with a mammalian N-glycan database and oxonium ion triggers (m/z 204.087)."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomic",
+        "N-glycosylation",
+        "glycopeptide peak intensity",
+        "Byonic",
+        "oxonium ion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +238,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:31:28Z"
   }
 }

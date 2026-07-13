@@ -3,68 +3,148 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "HCT116"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HCT116"
+      "HCT116",
+      "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "SILAC-based phosphoproteomics upon brief CDK11 inhibition identified SF3B1, CDC5L, and ESS2 as CDK11 substrates",
+          "two 15-cm dishes (80% cell confluency) were treated with 50 nM OTS964 or DMSO for 10 min"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "OTS964",
+        "dose_or_concentration": "50 nM",
+        "duration": "10 min",
+        "route_or_context": "HCT116 cells",
+        "evidence": [
+          "two 15-cm dishes (80% cell confluency) were treated with 50 nM OTS964 or DMSO for 10 min"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "10 min"
+    ],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "OTS964"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "In total, four biological replicates were performed",
+      "the labeling was flipped between the inhibited and control conditions"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC DMEM Kit, U-13C, U-15N (Lys & Arg)",
+      "\u201clight\u201d and \u201cheavy\u201d samples",
+      "label-flip"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "OTS964",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "statistical evaluation of differences between inhibitor and control sample replicates using log2 normalized intensities"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "Protein intensities"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +152,80 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes 'SILAC-based phosphoproteomics' using 'light' and 'heavy' media (Lys8, Arg10) with a label-flip design."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "The BioID dataset described in the PRIDE metadata and results section uses protein intensities for enrichment analysis (log2FC), which is typical for LFQ-style processing of BioID."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of High-Select TiO2 and Fe-NTA phosphopeptide enrichment kits."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomics",
+        "TiO2",
+        "Fe-NTA",
+        "BioID",
+        "label-flip"
+      ],
+      "raw_or_file_name_triggers": [
+        "ID",
+        "IM",
+        "Ti"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes 'SILAC-based phosphoproteomics' using 'light' and 'heavy' media (Lys8, Arg10) with a label-flip design."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "The BioID dataset described in the PRIDE metadata and results section uses protein intensities for enrichment analysis (log2FC), which is typical for LFQ-style processing of BioID."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of High-Select TiO2 and Fe-NTA phosphopeptide enrichment kits."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomics",
+        "TiO2",
+        "Fe-NTA",
+        "BioID",
+        "label-flip"
+      ],
+      "raw_or_file_name_triggers": [
+        "ID",
+        "IM",
+        "Ti"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +246,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:18:25Z"
   }
 }

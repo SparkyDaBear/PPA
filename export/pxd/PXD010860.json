@@ -3,68 +3,141 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Peptide counting",
+    "quantification_method": "unique peptide counts (UPCs)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "Unknown"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HeLa",
-      "Flp-In T-REx 293"
+      "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "medium",
+        "evidence": [
+          "Folded rG4 and control oligonucleotides (Figure 1B) were immobilized on streptavidin beads and used as baits for affinity enrichments (AEs) of proteins from HeLa cell cytosolic extracts",
+          "To critically evaluate specific rG4 interactors, a G-to-A mutated NRAS sequence (mrG4) that is unable to fold in to a G4, a stem-loop-forming sequence (SL), and empty beads (beads i.e. no oligonucleotide) were used in independent AEs"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NRAS 5\u2032-UTR rG4",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": null,
+        "route_or_context": "biotinylated oligonucleotides used as baits for affinity enrichments",
+        "evidence": [
+          "10 \u03bcM biotinylated oligonucleotides were folded in 1 x phosphate-buffered saline supplemented with 2M KCl",
+          "used an unbiased affinity proteomics approach to catalog cytoplasmic interactors of the human NRAS 5\u2032-UTR rG4"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "mrG4",
+      "SL",
+      "beads"
+    ],
+    "case_arms": [
+      "NRAS rG4"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Two biological replicates were analyzed by LC-MSMS"
+    ],
+    "multiplex_channel_hints": [
+      "qualitative approach due to its simplicity... as compared to stable isotope labeling by amino acids in cell culture (SILAC)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Negative Controls (mrG4, SL, beads)",
+        "case_label": "NRAS rG4",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "contrasting NRAS rG4 counts to the merged set of negative controls (NRAS mrG4, SL and beads-only)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "unique peptide counts (UPCs)",
+      "spectrum counting",
+      "peptide counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +145,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used LC-MSMS with a qualitative approach based on unique peptide counts (UPCs) and spectrum counting, which is a form of label-free quantification (LFQ) for affinity proteomics."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "unique peptide counts",
+        "UPCs",
+        "spectrum counting",
+        "affinity enrichments",
+        "on-bead trypsin digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used LC-MSMS with a qualitative approach based on unique peptide counts (UPCs) and spectrum counting, which is a form of label-free quantification (LFQ) for affinity proteomics."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "unique peptide counts",
+        "UPCs",
+        "spectrum counting",
+        "affinity enrichments",
+        "on-bead trypsin digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +207,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:31:24Z"
   }
 }

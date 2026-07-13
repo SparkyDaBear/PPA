@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "molecular state comparison"
     ],
     "cell_types": [
       "hepatocyte"
@@ -18,53 +16,131 @@
     "cell_lines": [
       "HepG2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "medium",
+        "evidence": [
+          "The resulting supernatant was incubated with 10ug of anti-ARS2 antibody (Abcam, ab192999) or 10ug of rabbit IgG mock (Abcam, ab37415) bound to protein A magnetic beads (NEB) for 4 h at 4 \u00b0C with slow rotation."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "anti-ARS2 antibody",
+        "dose_or_concentration": "10ug",
+        "duration": "4 h",
+        "route_or_context": "RIME (Rapid immunoprecipitation mass spectrometry of endogenous proteins)",
+        "evidence": [
+          "The resulting supernatant was incubated with 10ug of anti-ARS2 antibody (Abcam, ab192999) or 10ug of rabbit IgG mock (Abcam, ab37415) bound to protein A magnetic beads (NEB) for 4 h at 4 \u00b0C with slow rotation."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "rabbit IgG mock"
+    ],
+    "case_arms": [
+      "anti-ARS2 antibody"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "IgG mock",
+        "case_label": "anti-ARS2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "p-values for peptide detection were estimated from the observed distribution of log2(#PSMs-Ars2/#PSMs-Ig-Control)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Schizosaccharomyces pombe",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HepG2",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +148,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an Orbitrap Fusion with HCD fragmentation and Proteome Discoverer for search. While PRIDE metadata mentions 'Spectrum counting', the RIME method typically involves label-free comparison between IP and control."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "rime_crosslinking",
+          "confidence": 0.9,
+          "reason": "The text explicitly states 'Rapid immunoprecipitation mass spectrometry of endogenous proteins technique (RIME)' was used, involving formaldehyde crosslinking of HepG2 cells."
+        }
+      ],
+      "trigger_keywords": [
+        "RIME",
+        "Rapid immunoprecipitation mass spectrometry of endogenous proteins",
+        "crosslinked with 0.8% formaldehyde"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an Orbitrap Fusion with HCD fragmentation and Proteome Discoverer for search. While PRIDE metadata mentions 'Spectrum counting', the RIME method typically involves label-free comparison between IP and control."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "rime_crosslinking",
+          "confidence": 0.9,
+          "reason": "The text explicitly states 'Rapid immunoprecipitation mass spectrometry of endogenous proteins technique (RIME)' was used, involving formaldehyde crosslinking of HepG2 cells."
+        }
+      ],
+      "trigger_keywords": [
+        "RIME",
+        "Rapid immunoprecipitation mass spectrometry of endogenous proteins",
+        "crosslinked with 0.8% formaldehyde"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:37:15Z"
   }
 }

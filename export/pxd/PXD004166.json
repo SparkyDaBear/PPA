@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "label-free",
+    "quantification_method": "relative abundance of PTMs",
     "labeling_strategy": [
       "LFQ",
       "SILAC",
@@ -11,7 +11,7 @@
     ],
     "treatment_categories": [
       "genetic perturbation",
-      "chemical or drug treatment"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -29,9 +29,10 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_parent_class_key": "genetic",
         "matched_class_key": "substitution_variant",
         "matched_class_path": [
+          "genetic",
           "gene_modification_or_gain",
           "substitution_variant"
         ],
@@ -43,15 +44,16 @@
         ]
       },
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "agonist_or_activator",
-        "matched_class_key": "agonist_or_activator",
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "metabolite_supplementation",
         "matched_class_path": [
-          "agonist_or_activator"
+          "nutrient_metabolic",
+          "metabolite_supplementation"
         ],
-        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
         "confidence": "medium",
         "evidence": [
           "For the analysis of histone acylation (e.g. crotonylation), we incubated histone H3 with histone acetyltransferase (HAT) p300 and crotonylation.",
@@ -77,7 +79,7 @@
         "duration": "60 min",
         "route_or_context": "in vitro enzymatic assay with p300 and recombinant histone H3",
         "evidence": [
-          "incubating 0.5 \u03bcg of p300 with 10 \u03bcg of recombinant histone H3 in the presence of 0.5 mM crotonyl-CoA... for 60 min at 30\u00b0C"
+          "incubating 0.5 \u03bcg of p300 with 10 \u03bcg of recombinant histone H3 in the presence of 0.5 mM crotonyl-CoA (Sigma-Aldrich) in 1X HAT buffer... for 60 min at 30\u00b0C"
         ]
       }
     ],
@@ -88,19 +90,25 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "H3.3 WT-FLAG-HA"
+      "H3.3 WT-FLAG-HA",
+      "unmodified histone H3"
     ],
     "case_arms": [
-      "H3.3 K27M-FLAG-HA"
+      "H3.3 K27M-FLAG-HA",
+      "crotonylated histone H3"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "we assessed the reproducibility of EpiProfile in performing XIC using three technical replicates"
+      "three technical replicates"
     ],
     "multiplex_channel_hints": [
-      "EpiProfile 2.0 supports label-free and isotopic labeling",
-      "automatically supports more SILAC options (Arg10, Lys8Arg10, Arg6, Lys6Arg6), 13C glucose, 15N labeling, and 13CD3 labeled heavy methylation and methionine"
+      "label-free",
+      "isotopic labeling",
+      "SILAC (Arg10, Lys8Arg10, Arg6, Lys6Arg6)",
+      "13C glucose",
+      "15N labeling",
+      "13CD3 labeled heavy methylation and methionine"
     ],
     "contrast_hints": [
       {
@@ -109,6 +117,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "C8-D1A primary murine astrocytes transduced with a lentivirus encoding H3.3 WT-FLAG-HA or H3.3 K27M-FLAG-HA"
+        ]
+      },
+      {
+        "control_label": "unmodified H3",
+        "case_label": "crotonylated H3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "For the analysis of histone acylation (e.g. crotonylation), we incubated histone H3 with histone acetyltransferase (HAT) p300 and crotonylation."
         ]
       }
     ],
@@ -151,7 +167,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -165,8 +181,7 @@
       "Other"
     ],
     "quantification_strategy": [
-      "label-free",
-      "isotopic labeling",
+      "relative abundance of PTMs",
       "heavy/light ratios",
       "area under curve (AUC)"
     ],
@@ -179,16 +194,16 @@
         "confidence": "medium"
       },
       {
-        "ontology_label": "acetylome enrichment",
-        "ontology_curie": "PPA:0000295",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
-      },
-      {
         "ontology_label": "ubiquitylome or diGly enrichment",
         "ontology_curie": "PPA:0000294",
         "workflow_modifier_hint": "mod_ubiquitin",
         "confidence": "medium"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -198,36 +213,36 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "The text explicitly states EpiProfile 2.0 is optimized for data-independent acquisition (DIA) and uses precursor and fragment extracted ion chromatography for quantification."
+          "reason": "The text explicitly states the software is optimized for data-independent acquisition (DIA) and describes the use of precursor and fragment extracted ion chromatography for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "The software and PRIDE metadata support both DIA and DDA modes for histone analysis."
+          "reason": "The software and experimental design also support data-dependent acquisition (DDA) for identification and quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.5,
-          "reason": "The text mentions support for various SILAC options (Arg10, Lys8Arg10, etc.) and isotopic labeling."
+          "reason": "The software supports various SILAC options (Arg10, Lys8Arg10, Arg6, Lys6Arg6) and 13C glucose labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_discrimination",
           "confidence": 1.0,
-          "reason": "The entire focus is on discriminating isobaric histone peptides using fragment XICs and retention time layouts."
+          "reason": "The entire focus of the platform is the discrimination of isobaric histone peptides and the quantification of dense PTMs using retention time layouts."
         }
       ],
       "trigger_keywords": [
         "DIA",
         "DDA",
-        "isobaric forms",
+        "isobaric peptides",
         "histone PTMs",
         "extracted ion chromatography",
         "retention time prediction"
@@ -239,30 +254,30 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "The text explicitly states EpiProfile 2.0 is optimized for data-independent acquisition (DIA) and uses precursor and fragment extracted ion chromatography for quantification."
+          "reason": "The text explicitly states the software is optimized for data-independent acquisition (DIA) and describes the use of precursor and fragment extracted ion chromatography for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "The software and PRIDE metadata support both DIA and DDA modes for histone analysis."
+          "reason": "The software and experimental design also support data-dependent acquisition (DDA) for identification and quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.5,
-          "reason": "The text mentions support for various SILAC options (Arg10, Lys8Arg10, etc.) and isotopic labeling."
+          "reason": "The software supports various SILAC options (Arg10, Lys8Arg10, Arg6, Lys6Arg6) and 13C glucose labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_discrimination",
           "confidence": 1.0,
-          "reason": "The entire focus is on discriminating isobaric histone peptides using fragment XICs and retention time layouts."
+          "reason": "The entire focus of the platform is the discrimination of isobaric histone peptides and the quantification of dense PTMs using retention time layouts."
         }
       ],
       "trigger_keywords": [
         "DIA",
         "DDA",
-        "isobaric forms",
+        "isobaric peptides",
         "histone PTMs",
         "extracted ion chromatography",
         "retention time prediction"
@@ -295,6 +310,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:51:04Z"
+    "stage3_refreshed_at": "2026-07-13T06:55:39Z"
   }
 }

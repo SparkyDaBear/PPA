@@ -3,25 +3,57 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "product ion intensity",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "colonic epithelium"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "We obtained low\u2010coverage whole genome sequencing, RNA sequencing and tandem mass spectrometry data for 30 CRCs, 30 adenomas and 18 normal adjacent colon samples."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "Differential protein expression analysis revealed 78 proteins with higher and 86 with lower expression in HRAs",
+          "Twenty\u2010four out of 30 adenomas could be unambiguously classified as high risk (n = 9) or low risk (n = 15) of progressing to cancer"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +61,104 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "normal adjacent colon samples",
+      "low-risk adenomas (LRAs)"
+    ],
+    "case_arms": [
+      "colorectal cancers (CRCs)",
+      "high-risk adenomas (HRAs)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "30 CRCs, 30 adenomas and 18 normal adjacent colon samples"
+    ],
+    "multiplex_channel_hints": [
+      "data independent acquisition mass spectrometry protocol"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "low-risk adenomas",
+        "case_label": "high-risk adenomas",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential protein expression analysis revealed 78 proteins with higher and 86 with lower expression in HRAs"
+        ]
+      },
+      {
+        "control_label": "normal adjacent colon",
+        "case_label": "colorectal cancers",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "higher intensity in CRCs when compared to normal colon"
+        ]
+      },
+      {
+        "control_label": "low-risk adenomas",
+        "case_label": "colorectal cancers",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "the single\u2010sample GSEA score increased through colorectal tumor progression, with the lowest score in LRAs and the highest in CRCs."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "colon",
+        "source_kind": "organ"
+      },
+      {
+        "label": "colorectal mucosa",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "colorectal adenomas",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "colorectal cancer",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "product ion intensity",
+      "label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +167,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of a 'data independent acquisition mass spectrometry protocol' and 'DIA-MS method' with specific window configurations."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data independent acquisition",
+        "DIA",
+        "Spectronaut",
+        "SWATH MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of a 'data independent acquisition mass spectrometry protocol' and 'DIA-MS method' with specific window configurations."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data independent acquisition",
+        "DIA",
+        "Spectronaut",
+        "SWATH MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +227,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:41:08Z"
   }
 }

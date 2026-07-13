@@ -3,65 +3,136 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "cell state or interaction comparison"
     ],
-    "cell_types": [
-      "islets of Langerhans"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "To characterize PTMs in the pancreas, native and decellularized tissues from four donors were analyzed.",
+          "Separate samples of tissue from four donors were analyzed in the native or decellularized state."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "decellularization",
+        "dose_or_concentration": null,
+        "duration": "18-h period",
+        "route_or_context": "treated with 2.5 mM deoxycholate and lipase",
+        "evidence": [
+          "For decellularization, thawed pancreas pieces were homogenized and treated with 2.5 mM deoxycholate and lipase over an 18-h period"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "native"
+    ],
+    "case_arms": [
+      "decellularized"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each sample was analyzed in technical duplicate."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "native",
+        "case_label": "decellularized",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A summary of the MS results comparing these two sample types is shown in Fig. 2.",
+          "more species were identified at the protein and peptide levels in the native state than in the decellularized state."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "pancreas",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
     "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +140,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion Lumos with DDA-like acquisition (implied by Byonic/Proteome Discoverer search) and no explicit labeling mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of ERLIC spin-tip enrichment for phosphopeptides."
+        },
+        {
+          "modifier_workflow_id": "glyco_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of ERLIC spin-tip enrichment for N-glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "ERLIC",
+        "N-glycosylated",
+        "phosphorylated",
+        "electrostatic repulsion-hydrophilic interaction chromatography",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion Lumos with DDA-like acquisition (implied by Byonic/Proteome Discoverer search) and no explicit labeling mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of ERLIC spin-tip enrichment for phosphopeptides."
+        },
+        {
+          "modifier_workflow_id": "glyco_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of ERLIC spin-tip enrichment for N-glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "ERLIC",
+        "N-glycosylated",
+        "phosphorylated",
+        "electrostatic repulsion-hydrophilic interaction chromatography",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +224,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:56:48Z"
   }
 }

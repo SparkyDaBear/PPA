@@ -3,22 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "AQUA",
     "labeling_strategy": [
       "Other"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "the ratio of pY39 \u03b1\u03b2-syn to Y39 \u03b1\u03b2-syn was significantly increased in the CSF of patients with PD",
+          "The CSF samples from PD or control individuals were used to compare pY39 \u03b1\u03b2-syn peptide levels between the two groups."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +44,81 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "control individuals",
+      "cognitively normal healthy control individuals"
+    ],
+    "case_arms": [
+      "PD patients"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "4 PD and 4 control individuals"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control",
+        "case_label": "PD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the ratio of pY39 \u03b1\u03b2-syn to Y39 \u03b1\u03b2-syn was significantly increased in the CSF of patients with PD"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "cerebrospinal fluid",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "AQUA",
+      "Internal standard"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +126,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The experiment uses PRM (Parallel Reaction Monitoring) which is a targeted approach, but the data was acquired in a 'data-dependent manner with a full scan... followed by targeted MS2'. While targeted, the acquisition structure described is a hybrid. Standard LFQ is the closest base for relative quantification of the target peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of a two-step enrichment: anti-phosphotyrosine antibody (PTMScan pY1000) followed by TiO2 beads."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "phosphotyrosine",
+        "TiO2",
+        "anti-phosphotyrosine antibody",
+        "targeted mass spectrometry"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The experiment uses PRM (Parallel Reaction Monitoring) which is a targeted approach, but the data was acquired in a 'data-dependent manner with a full scan... followed by targeted MS2'. While targeted, the acquisition structure described is a hybrid. Standard LFQ is the closest base for relative quantification of the target peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of a two-step enrichment: anti-phosphotyrosine antibody (PTMScan pY1000) followed by TiO2 beads."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "phosphotyrosine",
+        "TiO2",
+        "anti-phosphotyrosine antibody",
+        "targeted mass spectrometry"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +200,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:27:17Z"
   }
 }

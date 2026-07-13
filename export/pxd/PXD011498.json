@@ -3,65 +3,126 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Relative levels of peptides were assigned by integrating peptide peak areas",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "enteroendocrine cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "In lean human gastrectomy patients, we compared biopsies taken from the jejunum at the time of surgery, with biopsies taken by endoscopy after surgery from the same anatomic region",
+          "Profiling of the human jejunum peptidome before and after total gastrectomy."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "total gastrectomy",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "surgical procedure",
+        "evidence": [
+          "Participants undergoing total gastrectomy (for the treatment or prevention of gastric cancer) with Roux-en-Y reconstruction consented to collection of a small cuff of jejunum"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "pre-operative",
+      "post-operative"
+    ],
+    "control_arms": [
+      "pre-operative"
+    ],
+    "case_arms": [
+      "post-operative"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "3 pre-operative (age 48 \u00b1 24, all male) and 4 post-operative participants (age 48 \u00b1 17, 3Male:1Female)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "pre-operative",
+        "case_label": "post-operative",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared biopsies taken from the jejunum at the time of surgery, with biopsies taken by endoscopy after surgery"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "jejunum",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "subproteome",
-      "label": null,
-      "curie": null
+      "category": "whole cell lysate",
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Relative levels of peptides were assigned by integrating peptide peak areas"
+    ],
+    "proteomics_mode": "Peptidomics",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -70,10 +131,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (top 10 ions) and relative quantification via peak area integration (LFQ-like) of intact peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_peptidomics",
+          "confidence": 0.95,
+          "reason": "Explicitly described as 'peptidomics' and 'top-down proteomics' in PRIDE metadata, searching for intact peptides < 65 amino acids with 'No digest' settings."
+        }
+      ],
+      "trigger_keywords": [
+        "peptidomics",
+        "intact peptides",
+        "No digest",
+        "Top-down proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (top 10 ions) and relative quantification via peak area integration (LFQ-like) of intact peptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_peptidomics",
+          "confidence": 0.95,
+          "reason": "Explicitly described as 'peptidomics' and 'top-down proteomics' in PRIDE metadata, searching for intact peptides < 65 amino acids with 'No digest' settings."
+        }
+      ],
+      "trigger_keywords": [
+        "peptidomics",
+        "intact peptides",
+        "No digest",
+        "Top-down proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +203,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:13:08Z"
   }
 }

@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "melanoma cells"
@@ -17,53 +16,135 @@
     "cell_lines": [
       "A375"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "we treated A375 melanoma cells with a recently-developed potent ERAP1 inhibitor",
+          "pharmacological inhibition of ERAP1 in cells could regulate the cellular immunopeptidome",
+          "We have developed a potent ERAP1 inhibitor, DG013A"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DG013A",
+        "dose_or_concentration": "1\u03bcM",
+        "duration": "6 days",
+        "route_or_context": "A375 melanoma cells",
+        "evidence": [
+          "A375 cells were treated with DG013A inhibitor for a total of 6 days.",
+          "The inhibitor was added to the complete culture medium at a final concentration 1\u03bcM."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "6 days"
+    ],
+    "control_arms": [
+      "absence of the inhibitor"
+    ],
+    "case_arms": [
+      "DG013A inhibitor"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "we performed three biological replicates for each condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control",
+        "case_label": "inhibitor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A control experiment was performed in the absence of the inhibitor.",
+          "we defined peptides to be control-specific when they were either uniquely identified in the control condition or down-regulated by the inhibitor",
+          "Similarly, we defined peptides as inhibitor-specific when they were either uniquely identified in the inhibitor condition or up-regulated by the inhibitor"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "melanoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A375",
+        "family": "melanoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +152,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive-Plus (DDA) and label-free quantification (LFQ) as specified in the PRIDE metadata and the use of MaxQuant for intensity-based comparisons."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study specifically isolates MHC-I bound peptides (immunopeptidome) using W6/32 antibody affinity purification and analyzes eluted peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidome",
+        "MHC-I",
+        "eluted peptides",
+        "W6/32 antibody",
+        "HLA alleles"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q-Exactive-Plus (DDA) and label-free quantification (LFQ) as specified in the PRIDE metadata and the use of MaxQuant for intensity-based comparisons."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The study specifically isolates MHC-I bound peptides (immunopeptidome) using W6/32 antibody affinity purification and analyzes eluted peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidome",
+        "MHC-I",
+        "eluted peptides",
+        "W6/32 antibody",
+        "HLA alleles"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:47:49Z"
   }
 }

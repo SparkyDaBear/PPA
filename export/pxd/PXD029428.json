@@ -3,13 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
+      "LFQ",
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "ovarian surface epithelial cell"
@@ -18,53 +19,193 @@
       "UWB1.289",
       "UWB1.289 + BRCA1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "the PARPi rucaparib induced the cell cycle pathway and nonhomologous end joining (NHEJ) pathway in UWB cells",
+          "UWB and UWB+B cells were treated with rucaparib (1 \u03bcM) for 24 h",
+          "UWB and UWB+B cells were treated with 10 \u03bcM rucaparib or DMSO for 1 h"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "BRCA1-null UWB1.289 (UWB) cells and the corresponding UWB1.289 + BRCA1 (UWB+B) cells that express a restored WT BRCA1 function",
+          "BRCA1-isogenic OC cell line pair",
+          "BRCA1-deficient UWB1.289 (UWB) cells compared to PARPi-insensitive, BRCA1-reconstituted UWB1.289+BRCA1 (UWB+B) cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "rucaparib",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "UWB and UWB+B cells were treated with rucaparib (1 \u03bcM) for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "rucaparib",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "UWB and UWB+B cells were treated with 10 \u03bcM rucaparib or DMSO for 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "1 h",
+      "24 h"
+    ],
+    "control_arms": [
+      "DMSO",
+      "UWB+B (BRCA1-reconstituted)"
+    ],
+    "case_arms": [
+      "rucaparib",
+      "UWB (BRCA1-null)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "The experiment was performed with three biological replicates."
+    ],
+    "multiplex_channel_hints": [
+      "TMT labeling",
+      "TMT sixplex Isobaric Mass Tagging Kit"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "rucaparib",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of rucaparib with DMSO control at 24 h"
+        ]
+      },
+      {
+        "control_label": "UWB+B",
+        "case_label": "UWB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differential PARP1 and PARP2 protein complex composition in PARPi-sensitive, BRCA1-deficient UWB1.289 (UWB) cells compared to PARPi-insensitive, BRCA1-reconstituted UWB1.289+BRCA1 (UWB+B) cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "ovarian surface epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:2000064"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "UWB1.289",
+        "family": "ovarian carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "UWB1.289 + BRCA1",
+        "family": "ovarian carcinoma",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "ovarian tumor",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "iBAQ",
+      "TMT reporter ion intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ADP-ribosylation proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +213,92 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The ADP-ribosylation and chemical proteomics experiments used label-free quantification (LFQ) with iBAQ intensities and Log2 transformation."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The global phosphoproteomics experiment explicitly used TMT sixplex isobaric labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of IMAC enrichment for pSTY peptides."
+        },
+        {
+          "modifier_workflow_id": "chemical_proteomics",
+          "confidence": 1.0,
+          "reason": "Use of PARPi baits (c-olaparib, c-rucaparib) for affinity pull-down."
+        },
+        {
+          "modifier_workflow_id": "adp_ribosylation_proteomics",
+          "confidence": 1.0,
+          "reason": "Use of 6YnAd and 2YnAd probes with click chemistry and NeutrAvidin-Agarose enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT labeling",
+        "IMAC enrichment",
+        "chemical proteomics",
+        "ADP-ribosylation proteomics",
+        "iBAQ",
+        "label-free quantitative MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The ADP-ribosylation and chemical proteomics experiments used label-free quantification (LFQ) with iBAQ intensities and Log2 transformation."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "The global phosphoproteomics experiment explicitly used TMT sixplex isobaric labeling."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit use of IMAC enrichment for pSTY peptides."
+        },
+        {
+          "modifier_workflow_id": "chemical_proteomics",
+          "confidence": 1.0,
+          "reason": "Use of PARPi baits (c-olaparib, c-rucaparib) for affinity pull-down."
+        },
+        {
+          "modifier_workflow_id": "adp_ribosylation_proteomics",
+          "confidence": 1.0,
+          "reason": "Use of 6YnAd and 2YnAd probes with click chemistry and NeutrAvidin-Agarose enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT labeling",
+        "IMAC enrichment",
+        "chemical proteomics",
+        "ADP-ribosylation proteomics",
+        "iBAQ",
+        "label-free quantitative MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +319,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:26:21Z"
   }
 }

@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "intensity-based quantification",
+    "quantification_method": "Intensity-based quantification",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -27,9 +27,10 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
         "matched_class_key": "whole_gene_knockout",
         "matched_class_path": [
+          "genetic",
           "gene_disruption",
           "whole_gene_knockout"
         ],
@@ -44,17 +45,18 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "substitution_variant",
         "matched_class_path": [
+          "genetic",
           "gene_modification_or_gain",
-          "insertion_variant"
+          "substitution_variant"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
         "confidence": "high",
         "evidence": [
-          "To purify the protein of interest, each expression plasmid was transfected to HEK293T cells, either individually (in vitro kinase assay) or in combination with TTBK2 expression vector (in vivo).",
-          "FLAG-TTBK2 WT and kinase dead variant (KD) were used for production of proteins for in vitro or TTBK2 autophosphorylation experiments"
+          "TTBK2 KD was used as a control condition to account for actions of endogenous kinases possibly copurifying with immunoprecipitated TTBK2.",
+          "the sum of intensities of all phosphopeptides detected for a given phosphosite in an individual experiment must be at least twofold of total intensity of the corresponding phosphosite in the control sample (substrate incubated with TTBK2 KD)."
         ]
       }
     ],
@@ -64,19 +66,29 @@
         "agent": "TTBK2 WT",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpression",
+        "route_or_context": "overexpression/coexpression",
         "evidence": [
-          "FLAG-TTBK2 WT and kinase dead variant (KD) were used for production of proteins for in vitro or TTBK2 autophosphorylation experiments"
+          "GFP-TTBK2 WT was coexpressed for in vivo experiments."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "TTBK2 KD",
+        "agent": "TTBK2 KD (kinase dead)",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "kinase dead variant",
+        "route_or_context": "overexpression/control",
         "evidence": [
-          "TTBK2 KD was used as a control condition to account for actions of endogenous kinases possibly copurifying with immunoprecipitated TTBK2."
+          "TTBK2 KD was used as a control condition"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TTBK2 KO",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR knockout",
+        "evidence": [
+          "HEK293T WT or TTBK2 KO cells were used."
         ]
       }
     ],
@@ -87,12 +99,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "HEK293T WT",
+      "TTBK2 KO",
       "TTBK2 KD",
       "Mock"
     ],
     "case_arms": [
-      "TTBK2 KO",
       "TTBK2 WT"
     ],
     "paired_design": false,
@@ -103,8 +114,8 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "TTBK2 WT",
-        "case_label": "TTBK2 KO",
+        "control_label": "TTBK2 KO",
+        "case_label": "TTBK2 WT",
         "contrast_type": "pairwise",
         "evidence": [
           "CEP164 was immunoprecipitated from HEK293T wt or TTBK2 KO."
@@ -115,15 +126,7 @@
         "case_label": "TTBK2 WT",
         "contrast_type": "pairwise",
         "evidence": [
-          "the sum of intensities of all phosphopeptides detected for a given phosphosite in an individual experiment must have been at least twofold of total intensity of the corresponding phosphosite in the control sample (substrate incubated with TTBK2 KD)."
-        ]
-      },
-      {
-        "control_label": "Mock",
-        "case_label": "TTBK2 WT",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "The sum of intensities of all phosphopeptides detected for a given phosphosite in an individual experiment must have been at least twofold of intensity of the corresponding phosphosite in the control sample (Mock)."
+          "the sum of intensities of all phosphopeptides detected for a given phosphosite in an individual experiment must be at least twofold of total intensity of the corresponding phosphosite in the control sample (substrate incubated with TTBK2 KD)."
         ]
       }
     ],
@@ -173,8 +176,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "intensity-based quantification",
-      "normalization using phosphopeptide standards (MS PhosphoMix)"
+      "Intensity-based quantification",
+      "Normalization using phosphopeptide standards (MS PhosphoMix)"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -198,21 +201,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite/Lumos. Quantification was performed using peak area intensities (LFQ-like) and normalized with internal phosphopeptide standards."
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite/Fusion Lumos. Quantification was performed using peak area intensities (LFQ-like) and validated in Skyline, with normalization using phosphopeptide standards and non-phosphorylated peptide sums."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of Pierce Magnetic Titanium Dioxide Phosphopeptide Enrichment Kit for the majority of the samples."
+          "reason": "Explicit use of Pierce Magnetic Titanium Dioxide (TiO2) Phosphopeptide Enrichment Kit."
         }
       ],
       "trigger_keywords": [
         "phosphopeptide enrichment",
         "Titanium Dioxide",
         "data-dependent strategy",
-        "phosphoRS"
+        "top 10 precursors"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -221,21 +224,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite/Lumos. Quantification was performed using peak area intensities (LFQ-like) and normalized with internal phosphopeptide standards."
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Elite/Fusion Lumos. Quantification was performed using peak area intensities (LFQ-like) and validated in Skyline, with normalization using phosphopeptide standards and non-phosphorylated peptide sums."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of Pierce Magnetic Titanium Dioxide Phosphopeptide Enrichment Kit for the majority of the samples."
+          "reason": "Explicit use of Pierce Magnetic Titanium Dioxide (TiO2) Phosphopeptide Enrichment Kit."
         }
       ],
       "trigger_keywords": [
         "phosphopeptide enrichment",
         "Titanium Dioxide",
         "data-dependent strategy",
-        "phosphoRS"
+        "top 10 precursors"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -265,6 +268,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:54:56Z"
+    "stage3_refreshed_at": "2026-07-13T04:52:44Z"
   }
 }

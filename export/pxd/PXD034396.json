@@ -3,24 +3,39 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [],
-    "cell_types": [
-      "epithelial cell"
+    "treatment_categories": [
+      "un-classified"
     ],
+    "cell_types": [],
     "cell_lines": [
       "HEK 293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "Evaluation of the Potential Risk of Analyzing Phosphopeptides with Easy-nLC 1200-Coupled Mass Spectrometers",
+          "we report that the widely used Easy-nLC 1200 has poor performance in analyzing phosphopeptides, particularly in terms of sensitivity and reproducibility, whereas its predecessor, Easy-nLC 1000, has a much better performance."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +43,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "Easy-nLC 1000"
+    ],
+    "case_arms": [
+      "Easy-nLC 1200"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "reproducibility among the triplicate experiments"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Easy-nLC 1000",
+        "case_label": "Easy-nLC 1200",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we report that the widely used Easy-nLC 1200 has poor performance in analyzing phosphopeptides, particularly in terms of sensitivity and reproducibility, whereas its predecessor, Easy-nLC 1000, has a much better performance."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Arabidopsis thaliana",
+        "taxonomy_hint": "NEWT:3702",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "Arabidopsis (Col-0) seedlings",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +134,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) mode was used on Orbitrap Elite/Lumos; no labeling (SILAC/Isobaric) is mentioned, suggesting label-free quantification or qualitative identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of titanium dioxide (TiO2) beads for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptides",
+        "titanium dioxide beads",
+        "TiO2",
+        "data-dependent acquisition",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) mode was used on Orbitrap Elite/Lumos; no labeling (SILAC/Isobaric) is mentioned, suggesting label-free quantification or qualitative identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of titanium dioxide (TiO2) beads for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptides",
+        "titanium dioxide beads",
+        "TiO2",
+        "data-dependent acquisition",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +208,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:04:21Z"
   }
 }

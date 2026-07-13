@@ -3,69 +3,147 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "Unknown",
+    "quantification_method": "precursor-level data normalization",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK293T",
-      "LN229",
-      "MRC-9",
-      "U2OS"
+      "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "The compound 10 (50 \u03bcM) or DMSO was added and preincubated for 1 h at 4 \u00b0C before the addition of compound 15 (5 \u03bcM) or DMSO to the individual samples",
+          "In the competition setup we show that LIMK1 is depleted if SM311 is added in excess"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SM311",
+        "dose_or_concentration": "50 \u03bcM",
+        "duration": "1 h",
+        "route_or_context": "HEK293 cell lysates",
+        "evidence": [
+          "The compound 10 (50 \u03bcM) or DMSO was added and preincubated for 1 h at 4 \u00b0C",
+          "SM311 is a covalent LIMK1 inhibitor"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SM429",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "15 min",
+        "route_or_context": "HEK293 cell lysates",
+        "evidence": [
+          "before the addition of compound 15 (5 \u03bcM) or DMSO to the individual samples, which were then incubated for 15 min at 4 \u00b0C",
+          "a biotin adduct of SM311, namely SM429"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "SM311"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The experiments were carried out with n = 4 replicates per condition."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "SM311",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In the competition setup we show that LIMK1 is depleted if SM311 is added in excess but also identified two additional kinase off-targets"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor-level data normalization",
+      "differential abundance calculation"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +151,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 100,
+          "reason": "The text explicitly states that samples were measured in data-independent acquisition (DIA) mode and processed using Spectronaut and Protti for protein abundance calculation."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The text mentions that each sample was measured in both DIA and data-dependent acquisition (DDA) modes, and a hybrid spectral library was generated from both."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_biotin_pulldown",
+          "confidence": 95,
+          "reason": "The experiment uses a biotinylated probe (compound 15/SM429) and Strep-Tactin beads for enrichment of target proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "DDA",
+        "Spectronaut",
+        "Strep-Tactin beads",
+        "biotin derivative",
+        "hybrid spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 100,
+          "reason": "The text explicitly states that samples were measured in data-independent acquisition (DIA) mode and processed using Spectronaut and Protti for protein abundance calculation."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The text mentions that each sample was measured in both DIA and data-dependent acquisition (DDA) modes, and a hybrid spectral library was generated from both."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_biotin_pulldown",
+          "confidence": 95,
+          "reason": "The experiment uses a biotinylated probe (compound 15/SM429) and Strep-Tactin beads for enrichment of target proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "DDA",
+        "Spectronaut",
+        "Strep-Tactin beads",
+        "biotin derivative",
+        "hybrid spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +239,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:31:52Z"
   }
 }

@@ -3,22 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "biofluid source",
+    "sample_scope_curie": "PPA:0000189",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Thirteen pericardial fluid samples were randomly selected for proteomic analysis and were further divided according to cardiac rhythm: AF or sinus rhythm (SR; n = 8 and n = 5, respectively).",
+          "The first step towards the identification of surrogate markers for AF was to browse dysregulated proteins by the means of a t-test",
+          "The separation of AF and SR in 2 components is clear in Figure 3A, showing that pericardial fluid proteome holds value in the identification of ill patients."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +45,81 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "sinus rhythm (SR)"
+    ],
+    "case_arms": [
+      "atrial fibrillation (AF)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "AF n = 8 and n = 5, respectively"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification approach (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "sinus rhythm (SR)",
+        "case_label": "atrial fibrillation (AF)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Dysregulated proteins were assessed by calculating the fold difference between proteins quantified in the pericardial fluid of SR and AF patients."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "pericardial fluid",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "biofluid source",
+      "curie": "PPA:0000189"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "albumin removal",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +127,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'shotgun (GeLC\u2013MS/MS) and a label-free quantification approach (LFQ)' with data-dependent acquisition (DDA) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "data-dependent acquisition",
+        "shotgun"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'shotgun (GeLC\u2013MS/MS) and a label-free quantification approach (LFQ)' with data-dependent acquisition (DDA) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "data-dependent acquisition",
+        "shotgun"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +187,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:56:42Z"
   }
 }

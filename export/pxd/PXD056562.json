@@ -3,26 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Area-under-curve (AUC) quantitation using Skyline",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
       "Expi293"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "When examining the comparative N-glycome of all fractions, an increase in degree of sialylation could be observed as fractions increased their elution from anion exchange",
+          "the N-glycome of the relatively inactive fraction 35, collected directly after the most active fraction 34 (Fig. 1A), only carried a 6.9% abundance of N-glycans with at least three sialic acids"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,11 +46,17 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "inactive fraction 35"
+    ],
+    "case_arms": [
+      "most active fraction 34"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "PBMCs (104/well) were incubated in 200 \u03bcl IP5 medium in replicates of three"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -42,27 +64,53 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Expi293",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Area-under-curve (AUC) quantitation using Skyline"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +118,64 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used for glycopeptide analysis; quantification was performed via AUC in Skyline (label-free approach)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glyco_o_hybrid",
+          "confidence": 1.0,
+          "reason": "Text explicitly states: 'MSFragger searching used the default Glyco-O-Hybrid workflow with a combined composition list of N-glycans and O-glycans'."
+        }
+      ],
+      "trigger_keywords": [
+        "Glyco-O-Hybrid",
+        "EThcD",
+        "glycopeptide",
+        "N-linked",
+        "O-linked",
+        "MSFragger",
+        "O-Pair"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used for glycopeptide analysis; quantification was performed via AUC in Skyline (label-free approach)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glyco_o_hybrid",
+          "confidence": 1.0,
+          "reason": "Text explicitly states: 'MSFragger searching used the default Glyco-O-Hybrid workflow with a combined composition list of N-glycans and O-glycans'."
+        }
+      ],
+      "trigger_keywords": [
+        "Glyco-O-Hybrid",
+        "EThcD",
+        "glycopeptide",
+        "N-linked",
+        "O-linked",
+        "MSFragger",
+        "O-Pair"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +196,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:39:03Z"
   }
 }

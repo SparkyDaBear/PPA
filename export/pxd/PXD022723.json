@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Nutrient or Metabolic Perturbation",
-      "Genetic Perturbations"
+      "nutrient or metabolic perturbation",
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "hepatocyte"
@@ -22,51 +22,213 @@
       "JHH-5"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "nutrient_deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "high",
+        "evidence": [
+          "fasting improves sorafenib efficacy",
+          "nutrient restriction can sensitize sorafenib-resistant HCC models",
+          "starvation medium (SM) shown to induce autophagy in cultured liver cells",
+          "mice were withheld food for 24 hours two times a week"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "sorafenib efficacy",
+          "sorafenib acts noncanonically as an inhibitor of mitochondrial respiration",
+          "sorafenib (30 mg/kg) by oral gavage"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "Generating a stable p53 KO cell line using the CRISPR-Cas9 system",
+          "comparing p53WT and p53KO samples from cells and xenografts",
+          "p53KO cells were treated with the same starvation/sorafenib protocol"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sorafenib",
+        "dose_or_concentration": "30 mg/kg",
+        "duration": null,
+        "route_or_context": "oral gavage",
+        "evidence": [
+          "Mice received sorafenib (30 mg/kg) by oral gavage."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "fasting",
+        "dose_or_concentration": "24 hours two times a week",
+        "duration": "4 weeks",
+        "route_or_context": "periodic fasting regimen",
+        "evidence": [
+          "mice were withheld food for 24 hours two times a week",
+          "combined treatment over 4 weeks significantly stunted in vivo tumor growth"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "4 weeks"
+    ],
+    "control_arms": [
+      "ad libitum diet",
+      "vehicle control",
+      "p53WT"
+    ],
+    "case_arms": [
+      "fasted",
+      "sorafenib",
+      "fasted + sorafenib",
+      "p53KO"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "triplicate experiments",
+      "n = 6 to 10 per group"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "p53WT",
+        "case_label": "p53KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "performed proteomics comparing p53WT and p53KO samples"
+        ]
+      },
+      {
+        "control_label": "ad libitum diet",
+        "case_label": "fasted",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "receiving either vehicle control... or sorafenib via oral gavage in groups that were kept on ad libitum diet... or on a periodic fasting regimen"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "mouse",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "liver cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HepG2",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Huh6 clone 5",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HuH-7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "JHH-5",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "xenograft HCC tumors",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +237,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q Exactive HF-x mass spectrometer with a full-scan MS and selection of the 25 most intense precursor ions for MS/MS (DDA), and quantification was explicitly performed using label-free quantification (LFQ) in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "Q Exactive HF-x",
+        "most intense precursor ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q Exactive HF-x mass spectrometer with a full-scan MS and selection of the 25 most intense precursor ions for MS/MS (DDA), and quantification was explicitly performed using label-free quantification (LFQ) in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "Q Exactive HF-x",
+        "most intense precursor ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +297,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:46:50Z"
   }
 }

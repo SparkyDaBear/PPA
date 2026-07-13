@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "epithelial cell"
@@ -19,13 +18,30 @@
       "SKBR3",
       "MCF10A"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Two breast cancer cell lines, representative of ER + (MCF7) and HER2 + (SKBR3) breast cancers, as well as a non-tumorigenic cell line (MCF10A), were subjected to tandem mass spectrometric analysis"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +49,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "MCF10A"
+    ],
+    "case_arms": [
+      "MCF7",
+      "SKBR3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three biological replicates were produced for each cell state.",
+      "Five LC-MS/MS replicates were performed for each sample."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-tumorigenic (MCF10A)",
+        "case_label": "breast cancer (MCF7, SKBR3)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Two breast cancer cell lines, representative of ER + (MCF7) and HER2 + (SKBR3) breast cancers, as well as a non-tumorigenic cell line (MCF10A), were subjected to tandem mass spectrometric analysis"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MCF7",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SKBR3",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF10A",
+        "family": "non-tumorigenic",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +141,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used a 'triple play data-dependent analysis method' (DDA) and abundance was estimated via spectral counting, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mutation_search",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is the identification of mutated peptides using a specialized database (XMAn-v1) for missense, indels, and frame shifts."
+        }
+      ],
+      "trigger_keywords": [
+        "mutated peptide sequences",
+        "XMAn-v1",
+        "somatic mutations",
+        "spectral counting",
+        "data-dependent analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used a 'triple play data-dependent analysis method' (DDA) and abundance was estimated via spectral counting, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mutation_search",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is the identification of mutated peptides using a specialized database (XMAn-v1) for missense, indels, and frame shifts."
+        }
+      ],
+      "trigger_keywords": [
+        "mutated peptide sequences",
+        "XMAn-v1",
+        "somatic mutations",
+        "spectral counting",
+        "data-dependent analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:31:31Z"
   }
 }

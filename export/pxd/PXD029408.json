@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
       "retinal pigment epithelial cell"
@@ -17,53 +16,135 @@
     "cell_lines": [
       "hTERT-RPE1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "we silenced CFH in hTERT-RPE1 cells to investigate the mechanism by which intracellular FH regulates RPE cell homeostasis",
+          "Upon silencing of the CFH gene via RNAi to reduce FH protein levels in hTERT-RPE1 cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA against CFH",
+        "dose_or_concentration": null,
+        "duration": "24 h incubation",
+        "route_or_context": "Lullaby transfection reagent",
+        "evidence": [
+          "Gene silencing was performed using Lullaby transfection reagent... using a equimolar mixture of three different double strand hairpin interference RNAs specific for CFH",
+          "After 24 h incubation (37 \u00b0C, 5% CO2), cells were switched to serum free medium (SFM) for 48 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "timepoints": [
+      "24 h incubation",
+      "48 h in SFM"
+    ],
+    "control_arms": [
+      "siNeg",
+      "IgG control"
+    ],
+    "case_arms": [
+      "siCFH",
+      "anti-FH antibody IP"
+    ],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "at least two technical replicates per condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "IgG control",
+        "case_label": "FH pulldown",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Analyses of the intracellular FH-interactome yielded a set of 101 identified proteins with significant enrichment in the FH pulldown samples in comparison to the IgG control samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "retinal pigment epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0002586"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "hTERT-RPE1",
+        "family": "RPE1",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +152,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used label-free quantification (LFQ) based on MS1 intensities with DDA acquisition (top speed mode, HCD fragmentation) on an Orbitrap Fusion Tribrid."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The proteomics data was generated via immunoprecipitation (IP) of FH compared to an IgG control to analyze the interactome."
+        }
+      ],
+      "trigger_keywords": [
+        "immunoprecipitation",
+        "interactome",
+        "label-free quantification",
+        "MS1 intensity based"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used label-free quantification (LFQ) based on MS1 intensities with DDA acquisition (top speed mode, HCD fragmentation) on an Orbitrap Fusion Tribrid."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 1.0,
+          "reason": "The proteomics data was generated via immunoprecipitation (IP) of FH compared to an IgG control to analyze the interactome."
+        }
+      ],
+      "trigger_keywords": [
+        "immunoprecipitation",
+        "interactome",
+        "label-free quantification",
+        "MS1 intensity based"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +224,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:09:16Z"
   }
 }

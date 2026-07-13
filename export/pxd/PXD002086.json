@@ -10,7 +10,10 @@
     "treatment_categories": [
       "disease or clinical state"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "colonic cancer cell",
+      "rectal cancer cell"
+    ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
@@ -23,18 +26,17 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "case_control_disease"
         ],
         "matched_definition": "Comparison between disease and matched control cohorts.",
         "confidence": "high",
         "evidence": [
           "We analyzed proteomes of colon and rectal tumors",
-          "HNF4\u03b1 abundance was significantly higher in subtype E tumors compared to normal colon samples",
-          "required signature proteins for a subtype to be significantly different in abundance compared to normal colon samples from 30 individuals"
+          "required signature proteins for a subtype to be significantly different in abundance compared to normal colon samples from 30 individuals analyzed on the same proteome analysis platform"
         ]
       }
     ],
@@ -46,16 +48,14 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "normal colon"
+      "normal colon samples"
     ],
     "case_arms": [
       "colon and rectal tumors"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [
-      "Benchmark quality control (QC) samples from one basal and one luminal human breast tumor xenograft were analyzed in alternating order after every five CRC samples"
-    ],
+    "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -63,7 +63,7 @@
         "case_label": "CRC tumors",
         "contrast_type": "pairwise",
         "evidence": [
-          "HNF4\u03b1 abundance was significantly higher in subtype E tumors compared to normal colon samples"
+          "required signature proteins for a subtype to be significantly different in abundance compared to normal colon samples"
         ]
       }
     ],
@@ -78,9 +78,25 @@
         "label": "Homo sapiens",
         "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
+      },
+      {
+        "label": "NOD.Cg-Prkdcscid Il2rgtm1Wjl/SzJ mice",
+        "taxonomy_hint": "Mus musculus",
+        "confidence": "high"
       }
     ],
-    "cell_types": [],
+    "cell_types": [
+      {
+        "label": "colonic cancer cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "BTO:0000586"
+      },
+      {
+        "label": "rectal cancer cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "BTO:0000193"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [
       {
@@ -89,6 +105,10 @@
       },
       {
         "label": "normal colon biopsies",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "human breast tumor xenograft",
         "source_kind": "tissue"
       }
     ],
@@ -127,15 +147,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Shotgun proteomics using LC-MS/MS with spectral counting for relative quantification across 95 tumor samples."
+          "confidence": 1.0,
+          "reason": "The study explicitly uses 'shotgun proteomic analyses' and quantifies protein abundance using 'spectral counts', which is a label-free quantification (LFQ) method. PRIDE metadata confirms DDA acquisition ('Precursors: Top 8')."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_variant_search",
+          "confidence": 0.9,
+          "reason": "The authors performed 'database searches with customized sequence databases from matched RNA-Seq data' to identify single amino acid variants (SAAVs)."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun proteomic",
         "spectral counts",
-        "LC-MS/MS"
+        "shotgun proteomic analyses",
+        "customized sequence databases",
+        "variant peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -143,21 +170,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Shotgun proteomics using LC-MS/MS with spectral counting for relative quantification across 95 tumor samples."
+          "confidence": 1.0,
+          "reason": "The study explicitly uses 'shotgun proteomic analyses' and quantifies protein abundance using 'spectral counts', which is a label-free quantification (LFQ) method. PRIDE metadata confirms DDA acquisition ('Precursors: Top 8')."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_variant_search",
+          "confidence": 0.9,
+          "reason": "The authors performed 'database searches with customized sequence databases from matched RNA-Seq data' to identify single amino acid variants (SAAVs)."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun proteomic",
         "spectral counts",
-        "LC-MS/MS"
+        "shotgun proteomic analyses",
+        "customized sequence databases",
+        "variant peptides"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "all_pairs",
+      "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -181,6 +215,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:45:32Z"
+    "stage3_refreshed_at": "2026-07-13T07:26:00Z"
   }
 }

@@ -3,29 +3,49 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "tumor-infiltrating lymphocytes",
-      "CD8+ T cells"
+      "T cells",
+      "CD8+ T lymphocytes"
     ],
     "cell_lines": [
       "T2",
-      "C1R"
+      "C1R",
+      "lymphoblastoid cell lines",
+      "Daudi"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we provide a comprehensive multi-omics data set for 32 patients across 25 tumor types for proteogenomic-based discovery of neoantigens",
+          "Comparison of the endogenous MS/MS spectrum and the synthetic MS/MS spectrum",
+          "the prevalence of the corresponding variants was examined in normal tissue RNA-seq samples"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +53,112 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "control_arms": [
+      "normal tissue",
+      "healthy donors"
+    ],
+    "case_arms": [
+      "tumor specimens"
+    ],
+    "paired_design": true,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "in duplicate or triplicate according to available cell numbers"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal tissue",
+        "case_label": "tumor tissue",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To confirm the tumor-specificity of potential neoantigens, the prevalence of the corresponding variants was examined in normal tissue RNA-seq samples."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cells",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "CD8+ T lymphocytes",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "T2",
+        "family": null,
+        "ontology_curie": "CRL-1992"
+      },
+      {
+        "label": "C1R",
+        "family": null,
+        "ontology_curie": "CRL-1993"
+      },
+      {
+        "label": "lymphoblastoid cell lines",
+        "family": "LCL",
+        "ontology_curie": null
+      },
+      {
+        "label": "Daudi",
+        "family": null,
+        "ontology_curie": "CCL-213"
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "tumor tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +166,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive HF-X; no labeling (SILAC/Isobaric) is mentioned for the primary immunopeptidomics dataset."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets HLA class I complexes via immunoprecipitation (pHLA-I) to analyze the presented immunopeptidome."
+        },
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a proteogenomic pipeline combining WES, RNA-seq, and MS to identify neoantigens using customized databases."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "pHLA-I",
+        "neoantigen",
+        "proteogenomic",
+        "non-specifically digested peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive HF-X; no labeling (SILAC/Isobaric) is mentioned for the primary immunopeptidomics dataset."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets HLA class I complexes via immunoprecipitation (pHLA-I) to analyze the presented immunopeptidome."
+        },
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a proteogenomic pipeline combining WES, RNA-seq, and MS to identify neoantigens using customized databases."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "pHLA-I",
+        "neoantigen",
+        "proteogenomic",
+        "non-specifically digested peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +250,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:00:55Z"
   }
 }

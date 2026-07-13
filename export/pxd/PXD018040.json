@@ -7,11 +7,15 @@
     "labeling_strategy": [
       "TMT"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "genetic perturbation",
+      "cell state or interaction comparison"
+    ],
     "cell_types": [
       "cardiomyocytes"
     ],
     "cell_lines": [
+      "iPSC-CMs",
       "PGP1 iPSCs"
     ],
     "sample_scope": "purified protein or complex",
@@ -20,21 +24,97 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "into Actinin-BirA* iPSCs, we knocked out cardiac troponin T (cTnT-KO, Figure S1E), because cTnT-KO iPSC-CMs assembly only Z-bodies unless cTnT is reintroduced"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction_comparison",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction_comparison",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "We identify 324 actinin proximity partners, including those that are dynamically regulated by sarcomere assembly",
+          "To identify actinin neighborhoods underlying this transition... we knocked out cardiac troponin T (cTnT-KO... because cTnT-KO iPSC-CMs assembly only Z-bodies unless cTnT is reintroduced"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "biotin",
+        "dose_or_concentration": "50 \u03bcM",
+        "duration": "24 hours",
+        "route_or_context": "BioID proximity labeling",
+        "evidence": [
+          "For BioID studies, Actinin-BirA* and control non-BirA* iPSC-CMs were treated with 50 \u03bcM biotin for 24 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "Day 25-30"
+    ],
+    "control_arms": [
+      "non-BirA*",
+      "cTnT-KO-Actinin BirA*"
+    ],
+    "case_arms": [
+      "Actinin-BirA*",
+      "cTnT-WT-Actinin-BirA*"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicates per condition were submitted"
+    ],
+    "multiplex_channel_hints": [
+      "tandem mass tag (TMT) mass spectrometry",
+      "10-plex tandem mass tag (TMT) reagent",
+      "first 9 of a 10-plex tandem mass tag (TMT) reagent"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-BirA*",
+        "case_label": "Actinin-BirA*",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculating the L2FC of proteins from Actinin-BirA* relative to control non-BirA*"
+        ]
+      },
+      {
+        "control_label": "cTnT-KO-Actinin BirA*",
+        "case_label": "cTnT-WT-Actinin-BirA*",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculating the L2FC of proteins from cTnT-WT-Actinin-BirA* relative to cTnT-KO-Actinin BirA*"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -57,8 +137,13 @@
     ],
     "cell_lines": [
       {
+        "label": "iPSC-CMs",
+        "family": "induced pluripotent stem cell",
+        "ontology_curie": null
+      },
+      {
         "label": "PGP1 iPSCs",
-        "family": "induced pluripotent stem cells",
+        "family": "induced pluripotent stem cell",
         "ontology_curie": null
       }
     ],
@@ -84,7 +169,7 @@
     "quantification_strategy": [
       "TMT reporter ion intensities"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "proximity labeling",
@@ -106,12 +191,12 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of TMT (tandem mass tag) labeling and an LC-MS3 data collection strategy on an Orbitrap Fusion."
+          "reason": "The text explicitly describes the use of tandem mass tag (TMT) labeling and an LC-MS3 data collection strategy on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_biotinylation_enrichment",
+          "modifier_workflow_id": "modifier_biotin_enrichment",
           "confidence": 1.0,
           "reason": "The experiment uses BioID (proximity-dependent biotinylation) with streptavidin immunoprecipitation to enrich for proximity partners."
         }
@@ -121,8 +206,7 @@
         "tandem mass tag",
         "BioID",
         "streptavidin immunoprecipitation",
-        "LC-MS3",
-        "proximity-dependent biotinylation"
+        "LC-MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -131,12 +215,12 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of TMT (tandem mass tag) labeling and an LC-MS3 data collection strategy on an Orbitrap Fusion."
+          "reason": "The text explicitly describes the use of tandem mass tag (TMT) labeling and an LC-MS3 data collection strategy on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_biotinylation_enrichment",
+          "modifier_workflow_id": "modifier_biotin_enrichment",
           "confidence": 1.0,
           "reason": "The experiment uses BioID (proximity-dependent biotinylation) with streptavidin immunoprecipitation to enrich for proximity partners."
         }
@@ -146,8 +230,7 @@
         "tandem mass tag",
         "BioID",
         "streptavidin immunoprecipitation",
-        "LC-MS3",
-        "proximity-dependent biotinylation"
+        "LC-MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -177,6 +260,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:59:35Z"
+    "stage3_refreshed_at": "2026-07-13T07:13:18Z"
   }
 }

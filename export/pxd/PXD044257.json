@@ -3,39 +3,94 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "Label-Free Quantification",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "A549 cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Covalent tool compounds and chemical probes have been established as a powerful technology with diverse applications in chemical biology. These applications range from inhibitors used for therapeutic applications to covalent probes used to study the function and properties of target proteins.",
+          "We applied this approach to prepare pan-14-3-3 covalent binders that label a conserved lysine in the peptide binding pocket."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "methacrylate peptides (peptides 3, 8, 11)",
+        "dose_or_concentration": "5 \u00b5M",
+        "duration": "48 h",
+        "route_or_context": "in vitro incubation with 14-3-3\u03c3",
+        "evidence": [
+          "14-3-3\u03c3 was diluted to 2 \u00b5M in HEPES 25 mM pH 7.5, 100 mM NaCl, 10 mM MgCl2, and incubated with 5 \u00b5M peptide in samples of 50 \u00b5l. The samples were incubated for 48 h at room temperature"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "biotinylated derivatives of peptides 3 and 8",
+        "dose_or_concentration": "20 \u00b5M",
+        "duration": "22 h",
+        "route_or_context": "A549 cell lysates",
+        "evidence": [
+          "142.5 \u00b5l of lysate were mixed with 7.5 \u00b5l of 20 \u00b5M peptide stock and the samples were incubated at 25 \u00b0C for 22 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "DMSO control"
+    ],
+    "case_arms": [
+      "peptide 3",
+      "peptide 8",
+      "peptide 11"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Four samples were analyzed per condition."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "methacrylate peptides",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The 3 most intense product ions were used for quantitation relative to the DMSO control."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -47,7 +102,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -57,11 +112,23 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-Free Quantification",
+      "Parallel Reaction Monitoring (PRM)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "biotin-streptavidin enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +136,64 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA mode for initial discovery and PRM for targeted quantitation, with label-free quantification (LFQ) mentioned for the pull-down proteomics (PXD044294) and relative quantitation against DMSO control for the site characterization (PXD044257)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "covalent_adduct_site_mapping",
+          "confidence": 0.8,
+          "reason": "The study specifically aims to identify covalent ligation sites of methacrylate warheads on Lysine and Cysteine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "DDA",
+        "parallel reaction monitoring",
+        "PRM",
+        "Label-Free Quantification",
+        "covalent labeling",
+        "aza-Michael addition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA mode for initial discovery and PRM for targeted quantitation, with label-free quantification (LFQ) mentioned for the pull-down proteomics (PXD044294) and relative quantitation against DMSO control for the site characterization (PXD044257)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "covalent_adduct_site_mapping",
+          "confidence": 0.8,
+          "reason": "The study specifically aims to identify covalent ligation sites of methacrylate warheads on Lysine and Cysteine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "DDA",
+        "parallel reaction monitoring",
+        "PRM",
+        "Label-Free Quantification",
+        "covalent labeling",
+        "aza-Michael addition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +214,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:20:23Z"
   }
 }

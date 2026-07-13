@@ -3,25 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "peak intensities",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "endothelial cell",
-      "fibroblast"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "collagen-targeting proteomics",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Collagen from human aortic valve samples was studied across three patient categories: normal, pediatric end-stage congenital aortic valve stenosis (pCAVS), and aortic valve insufficiency (AVI)",
+          "Quantitative data analysis reported significant regulation of collagen HYP sites across patient categories."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +44,88 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "normal"
+    ],
+    "case_arms": [
+      "pCAVS",
+      "AVI"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "A total of 20 human AV tissue specimens with clinical data on AV function were evaluated."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal",
+        "case_label": "pCAVS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "126 peptides were differentially expressed between normal and pCAVS by a minimum of twofold change"
+        ]
+      },
+      {
+        "control_label": "normal",
+        "case_label": "AVI",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In AVI, COL1A1 and FN1 increased compared to normal AV tissue"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "aortic valve tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "collagen-targeting proteomics",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "peak intensities"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "collagen-targeting proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +133,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data dependent acquisition (DDA) on Orbitrap Elite with label-free quantification (peak intensities) using MaxQuant and Perseus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "collagen_targeted",
+          "confidence": 0.95,
+          "reason": "Specific use of Collagenase Type III (COLase3) for digestion and a restricted database subset for collagen/ECM proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "collagen-targeting proteomics",
+        "Collagenase Type III",
+        "COLase3",
+        "unspecified proteolytic enzyme",
+        "hydroxylated prolines",
+        "HYP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data dependent acquisition (DDA) on Orbitrap Elite with label-free quantification (peak intensities) using MaxQuant and Perseus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "collagen_targeted",
+          "confidence": 0.95,
+          "reason": "Specific use of Collagenase Type III (COLase3) for digestion and a restricted database subset for collagen/ECM proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "collagen-targeting proteomics",
+        "Collagenase Type III",
+        "COLase3",
+        "unspecified proteolytic enzyme",
+        "hydroxylated prolines",
+        "HYP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:13:07Z"
   }
 }

@@ -3,24 +3,43 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "comprehensively describe the naturally presented HLA-ligandome of CRC and corresponding non-malignant colon (NMC) tissue",
+          "Relative quantitation of peptide presentation on paired CRC and NMC tissue",
+          "Immunopeptidome analysis of colorectal adenocarcinoma tissues as well as adjacent benign tissues was performed to characterize the natural HLA class I and class II presented ligandome represented in the context of malignancy as well as in benign tissue of the colon."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +47,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "non-malignant colon (NMC)"
+    ],
+    "case_arms": [
+      "colorectal carcinoma (CRC)"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "analyzed in up to five technical replicates each",
+      "five technical replicates for each sample"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantitation (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "NMC",
+        "case_label": "CRC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Relative quantitation of peptide presentation on paired CRC and NMC tissue",
+          "comparing peptide abundance in CRC and NMC tissue"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "colorectal adenocarcinoma",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "non-malignant colon",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantitation",
+      "area of precursor extracted ion chromatograms (XIC)"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +142,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantitation (LFQ) based on precursor extracted ion chromatograms (XIC) from DDA (top 5 CID) MS runs."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment is a dedicated HLA-ligandome (immunopeptidomics) study using immunoaffinity purification of HLA-class I and II molecules and non-enzymatic peptide search."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA-ligandome",
+        "immunopeptidome",
+        "label-free quantitation",
+        "without enzymatic restriction",
+        "HLA-class I",
+        "HLA-class II"
+      ],
+      "raw_or_file_name_triggers": [
+        "REP#",
+        "PA",
+        "R(#)"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantitation (LFQ) based on precursor extracted ion chromatograms (XIC) from DDA (top 5 CID) MS runs."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment is a dedicated HLA-ligandome (immunopeptidomics) study using immunoaffinity purification of HLA-class I and II molecules and non-enzymatic peptide search."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA-ligandome",
+        "immunopeptidome",
+        "label-free quantitation",
+        "without enzymatic restriction",
+        "HLA-class I",
+        "HLA-class II"
+      ],
+      "raw_or_file_name_triggers": [
+        "REP#",
+        "PA",
+        "R(#)"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:54:13Z"
   }
 }

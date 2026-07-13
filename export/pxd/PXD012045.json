@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -18,53 +16,130 @@
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "LC/MS analysis identified the RNA binding protein, HNRNPD",
+          "we created a modified DNA structure in order to discover new proteins involved in the DNA end-resection process",
+          "Bound proteins were identified upon tryptic digestion through mass spectrometry"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "synthetic DNA end-resection intermediate",
+        "dose_or_concentration": "87 pmol of 70 nt biotinylated ssDNA were annealed with 87 pmol of 21 nt ssDNA",
+        "duration": "30 min",
+        "route_or_context": "streptavidin pull-down assay using nuclear-enriched protein extract from HeLa cells",
+        "evidence": [
+          "we created a modified DNA structure in order to discover new proteins involved in the DNA end-resection process",
+          "87 pmol of 70 nt biotinylated ssDNA were annealed with 87 pmol of 21 nt ssDNA, partially complementary, to generate the DNA end-resection intermediate used as bait in the proteomic screening",
+          "subsequently incubated with protein extract from HeLa enriched for the nuclear fraction at RT for 30 min"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "DNA fragments either blunt or with varying ssDNA length"
+    ],
+    "case_arms": [
+      "DNA end-resection intermediate"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "blunt/varying length DNA",
+        "case_label": "resection intermediate bait",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "to generate the DNA end-resection intermediate used as bait in the proteomic screening, or with the same amount of other, different length, ssDNAs to generate DNA fragments either blunt or with varying ssDNA length"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "epithelial",
+        "ontology_curie": "CVCL_0030"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +147,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a biotinylated DNA pull-down (affinity purification) followed by LC-MS/MS. While no explicit quantification method like TMT or SILAC is mentioned, the use of Mascot for identification and the nature of the screening suggest a label-free DDA approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "biotinylated DNA pull-down",
+        "streptavidin pull-down",
+        "LC-ESI/MS-MS",
+        "Mascot"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a biotinylated DNA pull-down (affinity purification) followed by LC-MS/MS. While no explicit quantification method like TMT or SILAC is mentioned, the use of Mascot for identification and the nature of the screening suggest a label-free DDA approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "biotinylated DNA pull-down",
+        "streptavidin pull-down",
+        "LC-ESI/MS-MS",
+        "Mascot"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +207,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:10:29Z"
   }
 }

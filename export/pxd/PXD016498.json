@@ -3,25 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "thymic epithelium"
+      "thymic epithelial cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "134 fresh\u2010frozen tissue samples (84 tumor, 40 tumor adjacent, and 10 normal thymus) were recruited to generate a quantitative and systematic view of proteomic landscape of TETs.",
+          "Comparison between thymoma and TSCC samples."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +46,101 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "normal thymus",
+      "tumor adjacent"
+    ],
+    "case_arms": [
+      "thymoma (type A, AB, B1, B2, B3)",
+      "thymic squamous cell carcinoma (TSCC)"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "90 samples were analyzed by data\u2010independent acquisition mass spectrometry (DIA\u2010MS)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal thymus/adjacent",
+        "case_label": "TET (thymoma/TSCC)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Overall evaluation of these quantified proteomes by clustering analysis reveals similar protein expression patterns between adjacent tissue and normal thymus, which is significantly different from that of thymoma and TSCC samples"
+        ]
+      },
+      {
+        "control_label": "type A thymoma",
+        "case_label": "type B thymoma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we specifically compared proteomic profiles of type A and type B thymomas."
+        ]
+      },
+      {
+        "control_label": "thymoma",
+        "case_label": "TSCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared protein profiles between thymoma and TSCC samples."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "thymic epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "thymus",
+        "source_kind": "organ"
+      },
+      {
+        "label": "thymic epithelial tumors",
+        "source_kind": "tumor or lesion specimen"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free",
+      "XIC extraction",
+      "Peak area summation"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +149,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly states the use of data-independent acquisition mass spectrometry (DIA-MS) for the discovery phase of 90 samples."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used to generate the spectral library from 14 samples."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA-MS",
+        "t-MS2 mode",
+        "spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly states the use of data-independent acquisition mass spectrometry (DIA-MS) for the discovery phase of 90 samples."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA was used to generate the spectral library from 14 samples."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA-MS",
+        "t-MS2 mode",
+        "spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:33:02Z"
   }
 }

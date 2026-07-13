@@ -2,31 +2,43 @@
   "pxd": "PXD038673",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "un-classified"
     ],
     "cell_types": [
-      "platelets",
-      "glycoproteins"
+      "platelet"
     ],
     "cell_lines": [
       "NS0",
       "CHO"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "we evaluated FAIMS for O-glycoprotein and mucin-domain glycoprotein analysis using samples of varying complexity",
+          "we analyzed three samples consisting of a mucin-domain glycoprotein, a mixture of recombinant glycoproteins, and a platelet glyco-sheddome"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,39 +46,105 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "without FAIMS"
+    ],
+    "case_arms": [
+      "FAIMS"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "One replicate was performed for all experiments."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "without FAIMS",
+        "case_label": "with FAIMS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "FAIMS experiments showed a 2- to 5-fold increase in spectral matches from IFF compared with control experiments."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bovine",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "platelet",
+        "rollup_category": "blood cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "NS0",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "CHO",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "human plasma",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "depleted human serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +152,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using Data Dependent Acquisition (DDA) mode on Orbitrap instruments. While no specific LFQ method is detailed, the focus is on identification and coverage of glycopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire study is dedicated to N- and O-glycopeptide identification, using specialized search engines like Byonic and O-Pair."
+        },
+        {
+          "modifier_workflow_id": "faims",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is evaluating High-field asymmetric waveform ion mobility spectrometry (FAIMS) separation."
+        }
+      ],
+      "trigger_keywords": [
+        "glycopeptide",
+        "FAIMS",
+        "O-glycoprotein",
+        "N-glycosylation",
+        "Byonic",
+        "O-Pair",
+        "oxonium fingerprint ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using Data Dependent Acquisition (DDA) mode on Orbitrap instruments. While no specific LFQ method is detailed, the focus is on identification and coverage of glycopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire study is dedicated to N- and O-glycopeptide identification, using specialized search engines like Byonic and O-Pair."
+        },
+        {
+          "modifier_workflow_id": "faims",
+          "confidence": 1.0,
+          "reason": "The core of the experiment is evaluating High-field asymmetric waveform ion mobility spectrometry (FAIMS) separation."
+        }
+      ],
+      "trigger_keywords": [
+        "glycopeptide",
+        "FAIMS",
+        "O-glycoprotein",
+        "N-glycosylation",
+        "Byonic",
+        "O-Pair",
+        "oxonium fingerprint ions"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +240,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:01:45Z"
   }
 }

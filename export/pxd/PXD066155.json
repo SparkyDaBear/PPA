@@ -3,11 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "SILAC",
+    "quantification_method": "super-SILAC internal standard",
     "labeling_strategy": [
       "SILAC"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "genetic perturbation"
+    ],
     "cell_types": [
       "mammary gland epithelial cell"
     ],
@@ -20,21 +22,82 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "We derived a H4K16ac-negative clonal population by inactivating the MSL3 subunit of the complex via CRISPR-mediated genome editing (Fig. 2A) (hereafter: MSL KO), and a control population where the nonexpressed gene TNP2 was targeted by a specific sgRNA."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MSL3 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-mediated genome editing in hTert-HME1 cells",
+        "evidence": [
+          "We derived a H4K16ac-negative clonal population by inactivating the MSL3 subunit of the complex via CRISPR-mediated genome editing (Fig. 2A) (hereafter: MSL KO)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TNP2 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "negative control CRISPR targeting",
+        "evidence": [
+          "a control population where the nonexpressed gene TNP2 was targeted by a specific sgRNA."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "TNP2-KO",
+      "Ctrl-KO"
+    ],
+    "case_arms": [
+      "MSL3-KO",
+      "MSL KO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "at least three biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "super-SILAC internal standard",
+      "light channel \u2013 L",
+      "heavy channel \u2013 H",
+      "L/H ratios"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Ctrl-KO",
+        "case_label": "MSL3-KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To evaluate the effect of MSL KO on histone PTM levels (Supplementary Fig. S4D and E) %RAs value for the sample (light channel \u2013 L) and the internal standard (heavy channel \u2013 H) were used to calculate Light/Heavy (L/H) ratios."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -44,7 +107,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -82,8 +145,8 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "SILAC",
-      "Relative abundance (%RA)"
+      "super-SILAC internal standard",
+      "Light/Heavy (L/H) ratios"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -107,14 +170,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists quantification method as SILAC and the text mentions mixing samples with a super-SILAC internal standard."
+          "reason": "PRIDE metadata explicitly lists quantification method as SILAC and the text describes mixing samples with a super-SILAC internal standard."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
-          "confidence": 0.9,
-          "reason": "The experiment focuses on histone PTMs (H4K16ac, H3K36me3) and uses specialized chemical acylation (propionic anhydride) and N-terminal derivatization (phenyl isocyanate) to improve peptide detection."
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 0.95,
+          "reason": "The experiment uses specialized histone chemistry: chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC) to facilitate the analysis of acetylated residues."
         }
       ],
       "trigger_keywords": [
@@ -122,7 +185,7 @@
         "propionic anhydride",
         "phenyl isocyanate",
         "histone octamer",
-        "EpiProfile"
+        "EpiProfile 2.0"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -131,14 +194,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists quantification method as SILAC and the text mentions mixing samples with a super-SILAC internal standard."
+          "reason": "PRIDE metadata explicitly lists quantification method as SILAC and the text describes mixing samples with a super-SILAC internal standard."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
-          "confidence": 0.9,
-          "reason": "The experiment focuses on histone PTMs (H4K16ac, H3K36me3) and uses specialized chemical acylation (propionic anhydride) and N-terminal derivatization (phenyl isocyanate) to improve peptide detection."
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 0.95,
+          "reason": "The experiment uses specialized histone chemistry: chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC) to facilitate the analysis of acetylated residues."
         }
       ],
       "trigger_keywords": [
@@ -146,7 +209,7 @@
         "propionic anhydride",
         "phenyl isocyanate",
         "histone octamer",
-        "EpiProfile"
+        "EpiProfile 2.0"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -176,6 +239,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:15:33Z"
+    "stage3_refreshed_at": "2026-07-13T06:07:01Z"
   }
 }

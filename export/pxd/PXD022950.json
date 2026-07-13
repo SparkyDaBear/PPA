@@ -3,31 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "maximum intensity strategy",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "un-classified"
     ],
     "cell_types": [
-      "T cells",
-      "B cells"
+      "B cell",
+      "T cell"
     ],
     "cell_lines": [
       "RA957",
       "JY",
       "OD5P",
-      "TIL1"
+      "ME290",
+      "ME275"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "We implemented a DIA immunopeptidomics workflow and assessed its sensitivity and accuracy by matching DIA data against libraries with growing complexity"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -37,9 +51,12 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "We generated 2 to 3 replicates of DIA measurements of immunopeptidomics samples from RA957, JY, and OD5P samples",
+      "three technical replicates of this HLA-I immunopeptidome sample by DDA"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -47,27 +64,98 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "B cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "RA957",
+        "family": "B cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "JY",
+        "family": "B cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "OD5P",
+        "family": "melanoma cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "ME290",
+        "family": "melanoma cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "ME275",
+        "family": "melanoma cell line",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "tumor tissue biopsies",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "meningioma tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "colon cancer organoids",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "subproteome",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "maximum intensity strategy",
+      "MS/MS level quantification"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +163,82 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly implements and evaluates a DIA immunopeptidomics workflow using Spectronaut for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA measurements were used to generate spectral libraries and for baseline comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics_nontryptic",
+          "confidence": 1.0,
+          "reason": "The experiment analyzes HLA-I binding peptides with 'unspecific' enzyme specificity, which is characteristic of immunopeptidomics."
+        },
+        {
+          "modifier_workflow_id": "prosit_predicted_library",
+          "confidence": 0.9,
+          "reason": "The authors specifically demonstrate the use of Prosit-predicted MS/MS spectra to identify neoantigens in DIA data."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "immunopeptidomics",
+        "unspecific",
+        "spectral library",
+        "Prosit",
+        "HLA-I"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly implements and evaluates a DIA immunopeptidomics workflow using Spectronaut for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA measurements were used to generate spectral libraries and for baseline comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics_nontryptic",
+          "confidence": 1.0,
+          "reason": "The experiment analyzes HLA-I binding peptides with 'unspecific' enzyme specificity, which is characteristic of immunopeptidomics."
+        },
+        {
+          "modifier_workflow_id": "prosit_predicted_library",
+          "confidence": 0.9,
+          "reason": "The authors specifically demonstrate the use of Prosit-predicted MS/MS spectra to identify neoantigens in DIA data."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA",
+        "immunopeptidomics",
+        "unspecific",
+        "spectral library",
+        "Prosit",
+        "HLA-I"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +259,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:06:21Z"
   }
 }

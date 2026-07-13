@@ -2,29 +2,45 @@
   "pxd": "PXD062039",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "Peak area intensity",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Growth Factor or Cytokine Stimulation",
-      "Nutrient or Metabolic Perturbation",
-      "Viral Infection"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "enterochromaffin cells"
+      "enterochromaffin (EC) cells"
     ],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "Venus positive and negative cells were purified by fluorescence-activated cell sorting from organoid cultures, for bulk RNA sequencing and mass spectrometry peptidomics",
+          "Differential expression compared TPH1-Venus positive vs negative cell populations",
+          "Peptide extraction and analysis of FACS-sorted cells were performed by LC-MS/MS",
+          "10,000 Venus-fluoresecent (\u201cTPH+\u201d) and 10,000 nonfluorescent (negative) cells were collected from each of 5 independent sorts."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -32,38 +48,77 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "nonfluorescent (negative) cells"
+    ],
+    "case_arms": [
+      "Venus-fluorescent (TPH1+) cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "collected from each of 5 independent sorts"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "TPH1-negative cells",
+        "case_label": "TPH1-Venus positive cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential expression compared TPH1-Venus positive vs negative cell populations"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "enterochromaffin (EC) cells",
+        "rollup_category": "enteroendocrine cell",
+        "ontology_curie": "CL:0000577"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "duodenal biopsies",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "category": "whole cell lysate",
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Peak area intensity"
+    ],
+    "proteomics_mode": "Peptidomics",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +127,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q Exactive Plus (DDA) and analyzed for relative quantification of proteins/peptides using peak area intensities in PEAKS and Xcalibur."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "peptidomics",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as 'peptidomics' multiple times, using a 'no-enzyme setting' during search, which is characteristic of peptidomics/non-tryptic analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "peptidomics",
+        "no-enzyme setting",
+        "relative quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q Exactive Plus (DDA) and analyzed for relative quantification of proteins/peptides using peak area intensities in PEAKS and Xcalibur."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "peptidomics",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as 'peptidomics' multiple times, using a 'no-enzyme setting' during search, which is characteristic of peptidomics/non-tryptic analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "peptidomics",
+        "no-enzyme setting",
+        "relative quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +197,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:22:17Z"
   }
 }

@@ -2,14 +2,13 @@
   "pxd": "PXD040500",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "acquisition_type": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
       "B cell"
@@ -18,53 +17,142 @@
       "U2932",
       "OCI-Ly7"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "the depletion of the ZNF587-ZNF417 pair of TF paralogs drastically impaired the proliferation",
+          "ZNF587/417 knockdown profoundly altered the transcriptomic landscape",
+          "A first set of control and ZNF587/417 KD cell pellets"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ZNF587/ZNF417 knockdown",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "shRNA (implied by shEmpty, ShV5, ShV6 labels)",
+        "evidence": [
+          "ZNF587/417 knockdown profoundly altered the transcriptomic landscape",
+          "shEmpty 18.5 million cells, SCR1-2-3 30 million cells each, ShV5.1-2-3 20/30/30 million cells, and ShV6.1-2-3 20/30/30 million cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "control",
+      "shEmpty",
+      "SCR"
+    ],
+    "case_arms": [
+      "ZNF587/417 KD",
+      "ShV5",
+      "ShV6"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "SCR1-2-3",
+      "ShV5.1-2-3",
+      "ShV6.1-2-3"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control/shEmpty/SCR",
+        "case_label": "ZNF587/417 KD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A first set of control and ZNF587/417 KD cell pellets"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "B cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000236"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U2932",
+        "family": "ABC DLBCL",
+        "ontology_curie": null
+      },
+      {
+        "label": "OCI-Ly7",
+        "family": "GCB DLBCL",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +160,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "The primary experimental set was acquired using DIA method and analyzed by Spectronaut."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically to generate a spectral library for the DIA analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'Immunopeptidomics analysis' involving immunopurification of HLA-I peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "Immunopeptidomics",
+        "HLA-I peptides",
+        "DIA",
+        "DDA",
+        "Spectronaut",
+        "unspecific digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.9,
+          "reason": "The primary experimental set was acquired using DIA method and analyzed by Spectronaut."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically to generate a spectral library for the DIA analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "Explicitly described as 'Immunopeptidomics analysis' involving immunopurification of HLA-I peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "Immunopeptidomics",
+        "HLA-I peptides",
+        "DIA",
+        "DDA",
+        "Spectronaut",
+        "unspecific digestion"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +246,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:33:25Z"
   }
 }

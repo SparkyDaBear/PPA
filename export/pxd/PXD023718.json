@@ -2,7 +2,7 @@
   "pxd": "PXD023718",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "spectral counting",
     "labeling_strategy": [
       "LFQ"
@@ -27,17 +27,17 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
+        "matched_parent_class_key": "genetic_perturbation",
         "matched_class_key": "insertion_variant",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene modification or gain of function",
-          "insertion variant"
+          "genetic_perturbation",
+          "gene_modification_or_gain",
+          "insertion_variant"
         ],
         "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
         "confidence": "high",
         "evidence": [
-          "Myc-BirA-Rac1G15A (from Dr. Jean-Francois Cote, Clinical Research Institute) was subcloned into pTRE2 (Clontech) and expressed in immortalized human podocytes",
+          "Myc-BirA-Rac1G15A (from Dr. Jean-Francois Cote, Montreal Clinical Research Institute) was subcloned into pTRE2 (Clontech) and expressed in immortalized human podocytes",
           "As control, pTRE2-myc-BirA was used."
         ]
       }
@@ -45,21 +45,23 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "biotin",
-        "dose_or_concentration": "50 \u03bcM",
+        "agent": "Myc-BirA-Rac1G15A",
+        "dose_or_concentration": null,
         "duration": "16 h",
-        "route_or_context": "exogenous",
+        "route_or_context": "nucleofection in immortalized human podocytes",
         "evidence": [
+          "Myc-BirA-Rac1G15A... was subcloned into pTRE2 (Clontech) and expressed in immortalized human podocytes that stably express rtTA using nucleofection.",
           "cells were incubated for 16 h with exogenous 50 \u03bcM biotin (BioShop, BIO302) and doxycycline (Sigma, D9891)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "doxycycline",
+        "agent": "pTRE2-myc-BirA",
         "dose_or_concentration": null,
         "duration": "16 h",
-        "route_or_context": null,
+        "route_or_context": "control expression in immortalized human podocytes",
         "evidence": [
+          "As control, pTRE2-myc-BirA was used.",
           "cells were incubated for 16 h with exogenous 50 \u03bcM biotin (BioShop, BIO302) and doxycycline (Sigma, D9891)"
         ]
       }
@@ -84,11 +86,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "BirA",
+        "control_label": "BirA control",
         "case_label": "BirA-Rac1G15A",
         "contrast_type": "pairwise",
         "evidence": [
-          "One hundred and twenty-five proteins were identified in BirA-Rac1G15A expressing podocytes at significantly higher levels compared to control podocytes expressing BirA alone"
+          "All proteins with a P-value of < 0.05 and a fold change of two over the BirA controls were considered as interactors of BirA-Rac1G15A."
         ]
       }
     ],
@@ -134,14 +136,14 @@
     ]
   },
   "assay": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
       "spectral counting"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "proximity labeling",
@@ -157,10 +159,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used shotgun proteomics with spectrum counting (spectral counts) for quantification, which is a label-free approach. The instrument used was an Orbitrap Fusion, typically associated with DDA in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid_enrichment",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a BioID (proximity-based ligation) assay using BirA-Rac1G15A and streptavidin bead capture of biotinylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "proximity-based ligation",
+        "biotinylated proteins",
+        "streptavidin beads",
+        "spectral counts"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used shotgun proteomics with spectrum counting (spectral counts) for quantification, which is a label-free approach. The instrument used was an Orbitrap Fusion, typically associated with DDA in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid_enrichment",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes a BioID (proximity-based ligation) assay using BirA-Rac1G15A and streptavidin bead capture of biotinylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "proximity-based ligation",
+        "biotinylated proteins",
+        "streptavidin beads",
+        "spectral counts"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -182,6 +234,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:41:13Z"
+    "stage3_refreshed_at": "2026-07-13T06:06:00Z"
   }
 }

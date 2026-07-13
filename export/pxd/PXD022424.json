@@ -3,71 +3,241 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC",
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation",
+      "chemical or drug treatment",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "breast cancer cells",
-      "colorectal cancer cells",
-      "prostate cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293"
+      "HEK293",
+      "MCF7",
+      "HCT116",
+      "LNCaP"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "Light and heavy labeled cells were transfected with control siRNA and siRNA specifically targeting PRMT4, 5 or 7, respectively.",
+          "We show that PRMT7 knockdown decreases monomethylation at 297 arginine sites of 174 proteins",
+          "The knockdown of PRMT4 and PRMT5 were examined by immunoblotting"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Alternatively, light and heavy labeled cells were treated with or without SGC3027, respectively.",
+          "we performed methylation profiling in cells treated with or without the PRMT7-specific inhibitor SGC3027."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Four pairs of normal and tumor tissues for each cancer type were subjected to tandem mass tag (TMT) labeling and quantitative MS analysis",
+          "Breast tumor tissues and matched adjacent normal tissues were obtained from patients"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA targeting PRMT4, PRMT5, or PRMT7",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "Light and heavy labeled cells were transfected with control siRNA and siRNA specifically targeting PRMT4, 5 or 7, respectively."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SGC3027",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "Alternatively, light and heavy labeled cells were treated with or without SGC3027, respectively."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "control siRNA",
+      "untreated (without SGC3027)",
+      "adjacent normal tissues"
+    ],
+    "case_arms": [
+      "siPRMT4",
+      "siPRMT5",
+      "siPRMT7",
+      "SGC3027-treated",
+      "tumor tissues"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Four pairs of normal and tumor tissues for each cancer type"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC (stable isotope labeling by amino acids in cell culture) (light label) or L-lysine/arginine-U-13C6 (heavy label)",
+      "labeling with TMT10plex (Pierce)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "siControl",
+        "case_label": "siPRMT7",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "939 MMA sites could be quantified between the control and PRMT7-knockdown cells"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "SGC3027",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "1027 could be quantified between the control and SGC3027-treated cells"
+        ]
+      },
+      {
+        "control_label": "normal tissue",
+        "case_label": "tumor tissue",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Arginine methylation in the RGG domain of hnRNPA1 was often significantly higher than that in normal samples in all three types of cancers"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "human embryonic kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF7",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT116",
+        "family": "colon cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LNCaP",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "breast tumor tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "colorectal tumor tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "prostate tumor tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "TMT10plex"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "arginine methylation enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ptm_methylation",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +245,74 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (stable isotope labeling by amino acids in cell culture) with light and heavy labels for quantitative mass spectrometry."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "A separate part of the study uses TMT10plex (tandem mass tags) for quantitative proteomics of clinical specimens."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_enrichment_methylation",
+          "confidence": 1.0,
+          "reason": "Extensive use of PTMScan immunoaffinity beads for enrichment of mono-methyl, asymmetric di-methyl, and symmetric di-methyl arginine peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TMT10plex",
+        "PTMScan",
+        "immunoaffinity beads",
+        "mono-methyl arginine",
+        "asymmetric di-methyl arginine",
+        "symmetric di-methyl arginine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (stable isotope labeling by amino acids in cell culture) with light and heavy labels for quantitative mass spectrometry."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "A separate part of the study uses TMT10plex (tandem mass tags) for quantitative proteomics of clinical specimens."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_enrichment_methylation",
+          "confidence": 1.0,
+          "reason": "Extensive use of PTMScan immunoaffinity beads for enrichment of mono-methyl, asymmetric di-methyl, and symmetric di-methyl arginine peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TMT10plex",
+        "PTMScan",
+        "immunoaffinity beads",
+        "mono-methyl arginine",
+        "asymmetric di-methyl arginine",
+        "symmetric di-methyl arginine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +333,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:21:58Z"
   }
 }

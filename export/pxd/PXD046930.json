@@ -3,29 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "iTRAQ-based relative quantification",
     "labeling_strategy": [
       "iTRAQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "oral squamous cell carcinoma"
+      "oral squamous cell carcinoma cell"
     ],
     "cell_lines": [
       "SCC4",
       "OECM-1"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "increased ENAH levels in primary OSCC tissues compared with adjacent noncancerous counterparts",
+          "Tissues from adjacent noncancerous epithelia (N), primary tumors (T), and tumors from first (P1) and second (P2) generation PDX mice were comparatively analyzed."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +49,113 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "adjacent noncancerous epithelia (N)"
+    ],
+    "case_arms": [
+      "primary tumors (T)",
+      "first-generation PDX tumors (P1)",
+      "second-generation PDX tumors (P2)"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "five patients with OSCC (#06, #29, #34, #44, and #48)"
+    ],
+    "multiplex_channel_hints": [
+      "iTRAQ reagents 114, 115, 116, and 117 were employed to label peptide mixtures of adjacent non-cancerous (N), primary tumor tissues (T), first-generation PDX tumor tissues (P1), and second-generation PDX tumor tissues (P2), respectively."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "adjacent noncancerous epithelia",
+        "case_label": "primary OSCC tumors",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "increased ENAH levels in primary OSCC tissues compared with adjacent noncancerous counterparts"
+        ]
+      },
+      {
+        "control_label": "primary OSCC tumors",
+        "case_label": "PDX tumors",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We examined the correlations of protein abundances between the T, P1, and P2 tissues in each patient group."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "NSG mice",
+        "taxonomy_hint": "Mus musculus",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "oral squamous cell carcinoma cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "BTO:0003614"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SCC4",
+        "family": "OSCC",
+        "ontology_curie": null
+      },
+      {
+        "label": "OECM-1",
+        "family": "OSCC",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "cancer tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "adjacent noncancerous epithelia",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "PDX tumors",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "iTRAQ"
+    ],
+    "quantification_strategy": [
+      "iTRAQ-based relative quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +164,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses iTRAQ 4-plex reagents for relative quantification of proteins across four conditions (N, T, P1, P2) using a tandem MS (LTQ-Orbitrap Elite)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "iTRAQ",
+        "isobaric tags for relative and absolute quantitation",
+        "4-plex"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses iTRAQ 4-plex reagents for relative quantification of proteins across four conditions (N, T, P1, P2) using a tandem MS (LTQ-Orbitrap Elite)."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "iTRAQ",
+        "isobaric tags for relative and absolute quantitation",
+        "4-plex"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +222,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:24:49Z"
   }
 }

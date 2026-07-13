@@ -3,29 +3,44 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "T cells",
-      "CD8+ T cells",
-      "macrophages"
+      "tumor cells"
     ],
-    "cell_lines": [
-      "primary rhabdoid cell line"
-    ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_lines": [],
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Comparative HLA ligandome analysis of the HLA ligandome revealed 55 class I and 139 class II tumor-exclusive peptides.",
+          "The comparative cohort of benign tissue donors showed an HLA allotype population coverage of 99.8%",
+          "we performed comparative HLA class I ligandome profiling to identify AT/RT-associated source proteins",
+          "By comparing the AT/RT and benign tissue cohort regarding single mapped source proteins, we were able to identify 139 AT/RT-associated HLA class II source proteins"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +48,87 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "benign tissue donors"
+    ],
+    "case_arms": [
+      "AT/RT tumor samples"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Samples were analyzed in three or five technical replicates."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "benign tissue",
+        "case_label": "AT/RT tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparative HLA ligandome analysis of the HLA ligandome revealed 55 class I and 139 class II tumor-exclusive peptides."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "tumor cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "atypical teratoid rhabdoid tumors",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "brain",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
     "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +136,64 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquired via LTQ Orbitrap XL using a top-five CID method (DDA). While no formal labeling is mentioned, the study performs comparative ligandome profiling between tumor and benign cohorts."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidome_no_enzyme",
+          "confidence": 0.95,
+          "reason": "The experiment specifically analyzes HLA class I and II ligands, which are non-enzymatically processed peptides. The search was explicitly 'not restricted by enzymatic specificity'."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA class I",
+        "HLA class II",
+        "immunopeptidome",
+        "not restricted by enzymatic specificity",
+        "no enzyme",
+        "cryptic peptides",
+        "Peptide-PRISM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquired via LTQ Orbitrap XL using a top-five CID method (DDA). While no formal labeling is mentioned, the study performs comparative ligandome profiling between tumor and benign cohorts."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidome_no_enzyme",
+          "confidence": 0.95,
+          "reason": "The experiment specifically analyzes HLA class I and II ligands, which are non-enzymatically processed peptides. The search was explicitly 'not restricted by enzymatic specificity'."
+        }
+      ],
+      "trigger_keywords": [
+        "HLA class I",
+        "HLA class II",
+        "immunopeptidome",
+        "not restricted by enzymatic specificity",
+        "no enzyme",
+        "cryptic peptides",
+        "Peptide-PRISM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +214,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:28:09Z"
   }
 }

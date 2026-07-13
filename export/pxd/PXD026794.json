@@ -27,17 +27,17 @@
         "ontology_label": "molecular state comparison",
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
         "matched_class_path": [
-          "molecular state comparison",
-          "mutation-defined molecular state"
+          "molecular_state",
+          "ptm_or_activation_state"
         ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
-        "confidence": "high",
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "medium",
         "evidence": [
-          "we conducted an exhaustive quantitative proteomics-based interaction screening using three pairs of DNA probes that are capable or incapable of folding into G4 structures",
-          "We also obtained the corresponding mutated probes incompetent in G4 folding."
+          "three pairs of DNA probes that are capable or incapable of folding into G4 structures",
+          "preferential binding toward G4 probes over the mutated single-stranded DNA probes"
         ]
       }
     ],
@@ -47,21 +47,22 @@
         "agent": "G4 DNA probes (human telomere, c-MYC promoter, c-KIT promoter)",
         "dose_or_concentration": "0.5 \u03bcM",
         "duration": "2 hr",
-        "route_or_context": "biotin-conjugated DNA immobilized on streptavidin agarose beads",
+        "route_or_context": "in vitro interaction screening with nuclear proteome",
         "evidence": [
-          "The annealed biotin-conjugated G4 DNA probes and the corresponding mutant probes, at a concentration of 0.5 \u03bcM, were incubated separately with high-capacity streptavidin agarose beads",
+          "three G4 DNA probes derived from the G-rich sequences of the human telomere and the promoters of c-KIT and c-MYC genes",
+          "The annealed biotin-conjugated G4 DNA probes and the corresponding mutant probes, at a concentration of 0.5 \u03bcM",
           "The DNA-bound streptavidin beads were then incubated with 500 \u03bcg of nuclear proteome... at 4\uf0b0C with rocking for 2 hr."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "M4 mutated DNA probes",
+        "agent": "M4 (mutated) DNA probes",
         "dose_or_concentration": "0.5 \u03bcM",
         "duration": "2 hr",
-        "route_or_context": "biotin-conjugated DNA immobilized on streptavidin agarose beads",
+        "route_or_context": "control probes incapable of G4 folding",
         "evidence": [
-          "The annealed biotin-conjugated G4 DNA probes and the corresponding mutant probes, at a concentration of 0.5 \u03bcM, were incubated separately with high-capacity streptavidin agarose beads",
-          "The DNA-bound streptavidin beads were then incubated with 500 \u03bcg of nuclear proteome... at 4\uf0b0C with rocking for 2 hr."
+          "corresponding mutated probes incompetent in G4 folding",
+          "The annealed biotin-conjugated G4 DNA probes and the corresponding mutant probes, at a concentration of 0.5 \u03bcM"
         ]
       }
     ],
@@ -72,23 +73,23 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "M4 (mutated probes incompetent in G4 folding)"
+      "M4 (mutated DNA probes)"
     ],
     "case_arms": [
-      "G4 (human telomere)",
-      "G4 (c-MYC promoter)",
-      "G4 (c-KIT promoter)"
+      "G4 (human telomere probe)",
+      "G4 (c-MYC promoter probe)",
+      "G4 (c-KIT promoter probe)"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "a minimum of 4 independent (2 forward and 2 reverse) SILAC-based interaction screening experiments for each pair of G4/M4 probes"
+      "minimum of 4 independent (2 forward and 2 reverse) SILAC-based interaction screening experiments for each pair of G4/M4 probes"
     ],
     "multiplex_channel_hints": [
       "SILAC",
       "heavy- and light-labeled nuclear proteomes",
       "forward experiment, where the light- and heavy-labeled nuclear proteomes were passed through streptavidin columns immobilized with biotin-conjugated G4 and M4 DNA probes",
-      "reverse experiment... where the heavy and light nuclear protein lysates were incubated with the G4-containing probe and the mutant control probe"
+      "reverse experiment (Figure 1)"
     ],
     "contrast_hints": [
       {
@@ -96,7 +97,15 @@
         "case_label": "G4",
         "contrast_type": "pairwise",
         "evidence": [
-          "the protein needs to be enriched on the G4 over the corresponding M4 probes in both forward and reverse SILAC experiments with an average G4/M4 ratio being greater than 1.5"
+          "protein needs to be enriched on the G4 over the corresponding M4 probes"
+        ]
+      },
+      {
+        "control_label": "G4 (telomere/c-KIT)",
+        "case_label": "G4 (c-MYC)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "GRSF1 binds selectively to the G4 structure derived from the c-MYC promoter, but not that from the human telomere or c-KIT promoter"
         ]
       }
     ],
@@ -152,7 +161,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "AP-MS (Affinity Purification Mass Spectrometry)",
+        "ontology_label": "DNA Guanine Quadruplex-binding proteins",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -171,15 +180,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC (stable isotope labeling by amino acids in cell culture) with heavy-labeled arginine and lysine, and data was acquired using a DDA (data-dependent acquisition) approach on an LTQ-Orbitrap Velos."
+          "reason": "Explicit use of SILAC labeling with [13C6]-l-arginine and [13C6,15N2]-l-lysine and DDA acquisition (top 20 most abundant ions)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
         "heavy- and light-labeled",
-        "data-dependent acquisition",
-        "DDA"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -188,15 +196,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC (stable isotope labeling by amino acids in cell culture) with heavy-labeled arginine and lysine, and data was acquired using a DDA (data-dependent acquisition) approach on an LTQ-Orbitrap Velos."
+          "reason": "Explicit use of SILAC labeling with [13C6]-l-arginine and [13C6,15N2]-l-lysine and DDA acquisition (top 20 most abundant ions)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
         "heavy- and light-labeled",
-        "data-dependent acquisition",
-        "DDA"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -226,6 +233,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:18:38Z"
+    "stage3_refreshed_at": "2026-07-13T04:30:26Z"
   }
 }

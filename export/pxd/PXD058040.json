@@ -3,18 +3,17 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion quantification",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "neuronal cells",
-      "dendritic cells"
+      "neuron"
     ],
     "cell_lines": [
       "SH-SY5Y",
@@ -23,53 +22,255 @@
       "CAD",
       "HEK293 6E"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "O-glycoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "we targeted C1GALT1 or its obligate chaperone COSMC to limit biosynthesis of O-glycans",
+          "we generated five clonal isogenic cell lines of both SH-SY5Y-\u0394COSMC (SHSY-5YSC) and STC-1\u2212\u0394C1GALT1 (STC-1SC)",
+          "truncate GAG glycosylation in SH-SY5Y cells by KO of the B4GALT7 gene"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "Comparing the protein identifications of regulated secretion (100 mM KCl) to basal secretion (5 mM KCl)",
+          "one flask in each pair was incubated (15 min at 37 \u00b0C) in depolarizing conditions (5 ml KRB adjusted to 35 mM NaCl, 100 mM KCl) while the second flask was incubated in non-depolarizing conditions (KRB)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "KCl",
+        "dose_or_concentration": "100 mM",
+        "duration": "15 min",
+        "route_or_context": "depolarizing conditions",
+        "evidence": [
+          "regulated secretion (100 mM KCl)",
+          "one flask in each pair was incubated (15 min at 37 \u00b0C) in depolarizing conditions (5 ml KRB adjusted to 35 mM NaCl, 100 mM KCl)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "COSMC knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 KO",
+        "evidence": [
+          "SH-SY5Y-\u0394COSMC (SHSY-5YSC)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "C1GALT1 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 KO",
+        "evidence": [
+          "STC-1\u2212\u0394C1GALT1 (STC-1SC)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "B4GALT7 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 KO",
+        "evidence": [
+          "truncate GAG glycosylation in SH-SY5Y cells by KO of the B4GALT7 gene"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "15 min"
+    ],
+    "control_arms": [
+      "WT",
+      "basal secretion (5 mM KCl)"
+    ],
+    "case_arms": [
+      "SH-SY5YSC",
+      "STC-1SC",
+      "SH-SY5Y\u0394B4GALT7",
+      "regulated secretion (100 mM KCl)"
+    ],
+    "paired_design": true,
+    "factorial_design": true,
+    "replicate_hints": [
+      "five clonal isogenic cell lines",
+      "five individual WT clones"
+    ],
+    "multiplex_channel_hints": [
+      "TMT6plex",
+      "TMT 10plex",
+      "internal reference proteome (a WT polyclonal secretome) was included in each individual TMT-10plex assay"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "basal secretion",
+        "case_label": "regulated secretion",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparing the protein identifications of regulated secretion (100 mM KCl) to basal secretion (5 mM KCl)"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "SimpleCells SC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We compared constitutive and regulated secretomes from the isogenic cell line pairs SH-SY5YWT/SH-SY5YSC and STC-1WT/STC-1SC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "10090",
+        "confidence": "high"
+      },
+      {
+        "label": "Rattus norvegicus",
+        "taxonomy_hint": "10116",
+        "confidence": "high"
+      },
+      {
+        "label": "Sus scrofa",
+        "taxonomy_hint": "9823",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "neuron",
+        "rollup_category": "neuronal",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SH-SY5Y",
+        "family": "neuroblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "STC-1",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "N2a",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "CAD",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293 6E",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "cerebrospinal fluid",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "cortical tissue",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "whole brain",
+        "source_kind": "organ"
+      },
+      {
+        "label": "cerebellum",
+        "source_kind": "organ"
+      },
+      {
+        "label": "prostate",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "O-glycoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion quantification",
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +278,88 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "The secretome analysis explicitly uses TMT6plex and TMT10plex labeling with DDA acquisition on Orbitrap Fusion/Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The initial O-glycoproteome mapping for various tissues and cell lines used DDA without explicit mention of labeling for all samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_galnac",
+          "confidence": 0.95,
+          "reason": "Extensive use of LWAC (Jacalin, PNA, VVA lectins) for enrichment of GalNAc-type O-glycopeptides."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_gag",
+          "confidence": 0.9,
+          "reason": "Specific workflow for GAG-glycopeptides using SAX-chromatography and enzymatic depolymerization (chondroitinase ABC, heparinase II/III)."
+        }
+      ],
+      "trigger_keywords": [
+        "LWAC",
+        "O-GalNAc",
+        "TMT6plex",
+        "TMT10plex",
+        "GAG-glycopeptides",
+        "chondroitinase ABC",
+        "Jacalin",
+        "PNA",
+        "VVA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "The secretome analysis explicitly uses TMT6plex and TMT10plex labeling with DDA acquisition on Orbitrap Fusion/Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The initial O-glycoproteome mapping for various tissues and cell lines used DDA without explicit mention of labeling for all samples."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_galnac",
+          "confidence": 0.95,
+          "reason": "Extensive use of LWAC (Jacalin, PNA, VVA lectins) for enrichment of GalNAc-type O-glycopeptides."
+        },
+        {
+          "modifier_workflow_id": "glycoproteomics_gag",
+          "confidence": 0.9,
+          "reason": "Specific workflow for GAG-glycopeptides using SAX-chromatography and enzymatic depolymerization (chondroitinase ABC, heparinase II/III)."
+        }
+      ],
+      "trigger_keywords": [
+        "LWAC",
+        "O-GalNAc",
+        "TMT6plex",
+        "TMT10plex",
+        "GAG-glycopeptides",
+        "chondroitinase ABC",
+        "Jacalin",
+        "PNA",
+        "VVA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,6 +380,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:58:58Z"
   }
 }

@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -19,53 +19,150 @@
       "HEK293",
       "Hs27"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we generated CRISPR/Cas9 PTPRK knockout (KO) MCF10A cells",
+          "to compare wildtype and PTPRK KO MCF10A cells",
+          "PTPRK deletion should result in the hyperphosphorylation of its substrates"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PTPRK knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 genome editing",
+        "evidence": [
+          "we generated CRISPR/Cas9 PTPRK knockout (KO) MCF10A cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 hr post media change"
+    ],
+    "control_arms": [
+      "wildtype (WT)"
+    ],
+    "case_arms": [
+      "PTPRK-KO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three experiments",
+      "three 10 cm2 dishes in heavy (WT) or light (PTPRK-KO) SILAC medium for each experiment"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC (stable isotopomeric versions of amino acids)-labeled wildtype and PTPRK KO MCF10A lysates",
+      "heavy (WT) or light (PTPRK-KO)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "wildtype",
+        "case_label": "PTPRK KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare wildtype and PTPRK KO MCF10A cells",
+          "15 phosphosites were statistically upregulated in PTPRK KO cells compared to wildtype"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MCF10A",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Hs27",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +170,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes the use of SILAC (stable isotopomeric versions of amino acids) for quantitative tyrosine phosphoproteomics and total proteomics, acquired using DDA (Top10) on Q Exactive and Fusion Lumos instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The pull-down experiments used label-free quantification (LFQ) processed via MaxQuant and Perseus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performed tyrosine phosphoproteomics using anti-pY-1000 antibodies and biotinylated Src/Grb2 SH2 mutant domains for enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "quantitative tyrosine phosphoproteomics",
+        "anti-pY-1000",
+        "SH2 mutant domains",
+        "DDA",
+        "label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes the use of SILAC (stable isotopomeric versions of amino acids) for quantitative tyrosine phosphoproteomics and total proteomics, acquired using DDA (Top10) on Q Exactive and Fusion Lumos instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The pull-down experiments used label-free quantification (LFQ) processed via MaxQuant and Perseus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performed tyrosine phosphoproteomics using anti-pY-1000 antibodies and biotinylated Src/Grb2 SH2 mutant domains for enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "quantitative tyrosine phosphoproteomics",
+        "anti-pY-1000",
+        "SH2 mutant domains",
+        "DDA",
+        "label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +256,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T09:03:07Z"
   }
 }

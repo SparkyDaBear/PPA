@@ -3,29 +3,56 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "TMT",
     "labeling_strategy": [
-      "Unknown"
+      "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "molecular state comparison"
     ],
     "cell_types": [
-      "tumor tissues",
-      "normal tissues"
+      "epithelial cell"
     ],
     "cell_lines": [
       "HK2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "medium",
+        "evidence": [
+          "The phosphopeptides were loaded onto a self-packed column using buffer A for the phosphoproteomic study.",
+          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "KIFC1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "co-immunoprecipitation",
+        "evidence": [
+          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -33,38 +60,88 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "KIFC1-interacting proteins"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "TMT"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-interacting proteins",
+        "case_label": "KIFC1-interacting proteins",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HK2",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "renal clear cell carcinoma",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +149,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the LC-MS/MS section describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.95,
+          "reason": "Both the publication methods and PRIDE sample processing protocol explicitly state 'The phosphopeptides were loaded' and 'for the phosphoproteomic study'."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptides",
+        "TMT",
+        "DDA",
+        "phosphoproteomic study"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the LC-MS/MS section describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.95,
+          "reason": "Both the publication methods and PRIDE sample processing protocol explicitly state 'The phosphopeptides were loaded' and 'for the phosphoproteomic study'."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptides",
+        "TMT",
+        "DDA",
+        "phosphoproteomic study"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:38:11Z"
   }
 }

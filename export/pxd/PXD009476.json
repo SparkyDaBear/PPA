@@ -3,24 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "T cells"
     ],
-    "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "cell_lines": [
+      "CEM T cells"
+    ],
+    "sample_scope": "subproteome",
+    "sample_scope_label": "O-linked glycoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "EXoO was also able to reveal significant differences in the O-linked glycoproteome of tumor and normal kidney tissues",
+          "To study kidney tissue, paired tumor and normal tissues were collected from three patients.",
+          "To identify changes in the O-linked glycoproteome between normal and tumor kidney tissue, spectral counting label-free quantification of the EXoO identified peptides was used"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +49,104 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "normal kidney tissue"
+    ],
+    "case_arms": [
+      "tumor kidney tissue"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "paired tumor and normal tissues were collected from three patients"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal kidney tissue",
+        "case_label": "tumor kidney tissue",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To identify changes in the O-linked glycoproteome between normal and tumor kidney tissue, spectral counting label-free quantification of the EXoO identified peptides was used"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bovine",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cells",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "CEM T cells",
+        "family": "T cell",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "kidney tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "kidney tumor tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "O-linked glycoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +154,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent HCD MS/MS was used with label-free quantification via spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the O-linked glycoproteome using the EXoO method and OpeRATOR enzyme."
+        }
+      ],
+      "trigger_keywords": [
+        "O-linked glycopeptides",
+        "EXoO",
+        "OpeRATOR",
+        "oxonium ion",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent HCD MS/MS was used with label-free quantification via spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_o_linked",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the O-linked glycoproteome using the EXoO method and OpeRATOR enzyme."
+        }
+      ],
+      "trigger_keywords": [
+        "O-linked glycopeptides",
+        "EXoO",
+        "OpeRATOR",
+        "oxonium ion",
+        "spectral counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +228,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:58:59Z"
   }
 }

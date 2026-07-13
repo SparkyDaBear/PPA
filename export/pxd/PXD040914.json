@@ -3,65 +3,142 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "relative quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic",
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "Human HRG is a highly polymorphic protein, with at least five variants with minor allele frequencies of more than 10%",
+          "the variant occurring at residue His340Arg substitution has been associated with divergent serum HRG levels",
+          "the MAF occurring at residue Pro204Ser substitution is also very high",
+          "we purified HRG from serum of 44 individual donors and investigated by proteomics the occurrence of different allotypes, each being either homozygote or heterozygote for each of the five mutation sites"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HRG allotypes (Ile180Thr, Pro204Ser, His340Arg, Arg448Cys, Asn493Ile)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human serum",
+        "evidence": [
+          "we purified HRG from serum of 44 individual donors and investigated by proteomics the occurrence of different allotypes",
+          "we observed a ratio of 88%:12% for the Ile180Thr substitution rs10770 (T > C), a ratio of 53%:47% for the Pro204Ser substitution rs9898 (C > T), a ratio of 60%:40% for the His340Arg substitution rs2228243 (A > G), a ratio of 72%:28% for the Arg448Cys substitution rs1042445 (C > T) with Arg>Cys, and for Asn493Ile substitution rs1042464 (A > T) a ratio of 41%:59%"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "homozygote reference alleles"
+    ],
+    "case_arms": [
+      "heterozygote variants",
+      "homozygote mutant variants"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "homozygote reference",
+        "case_label": "mutant allotype",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "investigated by proteomics the occurrence of different allotypes, each being either homozygote or heterozygote for each of the five mutation sites"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +146,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun LC-MS/MS (DDA) was used with relative quantification performed via Skyline integration of peak areas."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 0.9,
+          "reason": "Explicit mention of analyzing glycopeptides using Byonic and investigating N-glycosylation at Asn202."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "glycopeptides",
+        "Byonic",
+        "N-glycosylation",
+        "relative quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun LC-MS/MS (DDA) was used with relative quantification performed via Skyline integration of peak areas."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 0.9,
+          "reason": "Explicit mention of analyzing glycopeptides using Byonic and investigating N-glycosylation at Asn202."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun proteomics",
+        "glycopeptides",
+        "Byonic",
+        "N-glycosylation",
+        "relative quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:06:48Z"
   }
 }

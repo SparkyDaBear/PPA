@@ -3,14 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "Dimethyl"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "ligand-mediated stimulation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "T cell"
@@ -18,53 +18,190 @@
     "cell_lines": [
       "Jurkat"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "Apoptosis was initiated using anti-Fas monoclonal antibody (CH11, EMD Millipore) at 250 ng/ml",
+          "We measured the response to initiation of Fas\u2010mediated apoptosis"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "For the inhibition of caspase activity, the pan\u2010caspase inhibitor Z\u2010vad\u2010FMK was added at 20 \u03bcM"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "anti-Fas monoclonal antibody (CH11)",
+        "dose_or_concentration": "250 ng/ml",
+        "duration": null,
+        "route_or_context": "Jurkat T cells",
+        "evidence": [
+          "Apoptosis was initiated using anti-Fas monoclonal antibody (CH11, EMD Millipore) at 250 ng/ml"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Z-vad-FMK",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": "1 h prior to initiation of anti-Fas treatments",
+        "route_or_context": "pan-caspase inhibitor",
+        "evidence": [
+          "the pan\u2010caspase inhibitor Z\u2010vad\u2010FMK was added at 20 \u03bcM for 1 h prior to initiation of anti\u2010Fas treatments."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-Fas stimulation",
+        "evidence": [
+          "Apoptosis was initiated using anti\u2010Fas monoclonal antibody (CH11, EMD Millipore) at 250 ng/ml for 0, 0.5, 1, 2, 4, 8, 16, or 24 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0 h",
+      "0.5 h",
+      "1 h",
+      "2 h",
+      "4 h",
+      "8 h",
+      "16 h",
+      "24 h"
+    ],
+    "control_arms": [
+      "untreated",
+      "0 h"
+    ],
+    "case_arms": [
+      "Fas-stimulated",
+      "Fas-stimulated + Z-vad-FMK"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "three biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC labeling",
+      "light, medium, and heavy",
+      "three SILAC media formulations"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "Fas-stimulated",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "Apoptosis was initiated using anti\u2010Fas monoclonal antibody (CH11, EMD Millipore) at 250 ng/ml for 0, 0.5, 1, 2, 4, 8, 16, or 24 h."
+        ]
+      },
+      {
+        "control_label": "Fas-stimulated",
+        "case_label": "Fas-stimulated + Z-vad-FMK",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "N\u2010termini were quantified by SILAC in the untreated vs. Fas\u2010stimulated cells in the presence or absence of the caspase inhibitor Z\u2010vad\u2010FMK"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Jurkat",
+        "family": "T cell",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "MS1 full scan"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +209,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (light, medium, heavy) for quantitative proteomics across multiple experimental setups (PCP-SEC, PCP-BN, and TAILS) and employs data-dependent acquisition (DDA) on LTQ-Orbitrap Velos and Q-Exactive instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tails_n_terminome",
+          "confidence": 0.95,
+          "reason": "The study utilizes Terminal Amine Isotopic Labeling of Substrates (TAILS) for N-terminal peptide enrichment to identify neo-N-termini resulting from proteolysis."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TAILS",
+        "protein correlation profiling",
+        "PCP",
+        "neo-N-termini",
+        "data-dependent manner"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (light, medium, heavy) for quantitative proteomics across multiple experimental setups (PCP-SEC, PCP-BN, and TAILS) and employs data-dependent acquisition (DDA) on LTQ-Orbitrap Velos and Q-Exactive instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "tails_n_terminome",
+          "confidence": 0.95,
+          "reason": "The study utilizes Terminal Amine Isotopic Labeling of Substrates (TAILS) for N-terminal peptide enrichment to identify neo-N-termini resulting from proteolysis."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TAILS",
+        "protein correlation profiling",
+        "PCP",
+        "neo-N-termini",
+        "data-dependent manner"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +285,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:58:06Z"
   }
 }

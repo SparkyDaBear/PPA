@@ -3,30 +3,46 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "hybrid glioblastoma cells"
+      "glioblastoma cells"
     ],
     "cell_lines": [
-      "MGG4",
       "MGG8",
+      "MGG4",
       "P3"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "We defined the top 10% of GBM cells expressing both MES and PN reporters as hybrid cells, and the lowest 10% as hybrid-low cells",
+          "Nuclear proteome (Figure 4B, Supplementary Figure 6A, Supplementary File 5) unveiled higher nuclear concentrations of both PN-like (CBX1, UCHL1, and CRMP1) and MES-like (ANXA1, S100A4, and SARS2) markers in hybrid cells than in the rest of the cells."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,39 +50,98 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "bulk cells",
+      "hybrid-low cells"
+    ],
+    "case_arms": [
+      "hybrid cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Median and scale normalization at the peptide level were applied to the total signal to correct the XICs for each biological replicate (N=3)."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "bulk cells",
+        "case_label": "hybrid cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Enrichment analysis of the nuclear differentially enriched proteins (DEPs, 475 proteins for hybrid, 339 for bulk populations) in hybrid compared to bulk cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "glioblastoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MGG8",
+        "family": "patient-derived GBM cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "MGG4",
+        "family": "patient-derived GBM cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "P3",
+        "family": "patient-derived GBM cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "peptide extracted ion chromatograms (XICs)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "nuclear proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +149,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'Label-free quantification was performed using peptide extracted ion chromatograms (XICs)'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent acquisition",
+        "Label-free quantification",
+        "XICs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'Label-free quantification was performed using peptide extracted ion chromatograms (XICs)'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Data-dependent acquisition",
+        "Label-free quantification",
+        "XICs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +207,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:46:57Z"
   }
 }

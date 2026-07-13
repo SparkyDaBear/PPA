@@ -3,26 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
+      "neurons",
       "Betz cells",
       "Purkinje cells"
     ],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "we isolated sets of individual Betz and Purkinje cells",
+          "Both cell types define distinct cytoarchitectonic regions of the human brain, namely, the primary motor cortex (Betz cells) and cerebellar cortex (Purkinje cells).",
+          "By comparing the average LFQ intensity of the proteins within these cells using a two-sample t test we generated a volcano plot that clearly delineated proteins that are differentially expressed in each cell type."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,38 +50,101 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "Betz cells",
+      "Purkinje cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 3"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Betz cells",
+        "case_label": "Purkinje cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "By comparing the average LFQ intensity of the proteins within these cells using a two-sample t test we generated a volcano plot that clearly delineated proteins that are differentially expressed in each cell type."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "neurons",
+        "rollup_category": "neuron",
+        "ontology_curie": null
+      },
+      {
+        "label": "Betz cells",
+        "rollup_category": "neuron",
+        "ontology_curie": null
+      },
+      {
+        "label": "Purkinje cells",
+        "rollup_category": "neuron",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "human brain",
+        "source_kind": "organ"
+      },
+      {
+        "label": "cerebellum",
+        "source_kind": "organ"
+      },
+      {
+        "label": "motor cortex",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "subproteome",
-      "label": null,
-      "curie": null
+      "category": "whole cell lysate",
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "spatial proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_spatial",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +152,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (precursor selection for CID/HCD) and MaxLFQ for label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "MaxLFQ",
+        "label-free quantification",
+        "DDA",
+        "collision-induced dissociation",
+        "higher energy collisional dissociation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (precursor selection for CID/HCD) and MaxLFQ for label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "MaxLFQ",
+        "label-free quantification",
+        "DDA",
+        "collision-induced dissociation",
+        "higher energy collisional dissociation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +214,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:22:38Z"
   }
 }

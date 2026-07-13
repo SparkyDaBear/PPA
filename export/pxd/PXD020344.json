@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT ratio from the MultiNotch MS3 spectra",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "colorectal cancer cells"
@@ -20,12 +19,31 @@
       "LS174T"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "we performed quantitative proteomics to study the major differences in proteins involved in glycosylation in these cells",
+          "Binary comparisons of the cell lines showed between 175 and 303 proteins to be differentially abundant",
+          "differential MGL binding to the colorectal cancer cell lines HCT116, HT29, and LS174T"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +51,117 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "LS174T"
+    ],
+    "case_arms": [
+      "HCT116",
+      "HT29"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicates for each",
+      "prepared in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "9-plex TMT labeling (Tandem Mass Tags)",
+      "TMT10plex Label Reagents (126 to 130)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "LS174T",
+        "case_label": "HCT116",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Binary comparisons of the cell lines showed between 175 and 303 proteins to be differentially abundant"
+        ]
+      },
+      {
+        "control_label": "LS174T",
+        "case_label": "HT29",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Binary comparisons of the cell lines showed between 175 and 303 proteins to be differentially abundant"
+        ]
+      },
+      {
+        "control_label": "HCT116",
+        "case_label": "HT29",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Binary comparisons of the cell lines showed between 175 and 303 proteins to be differentially abundant"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colorectal cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HT29",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LS174T",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT ratio from the MultiNotch MS3 spectra"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +169,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT10plex labeling with a MultiNotch MS3 procedure for quantitative proteomics."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The MGL pull-down experiments were analyzed using DDA (top-10 mode) for protein identification without explicit labeling mentioned for that specific subset."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT10plex",
+        "MultiNotch MS3",
+        "isobaric",
+        "Tandem Mass Tag"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT10plex labeling with a MultiNotch MS3 procedure for quantitative proteomics."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The MGL pull-down experiments were analyzed using DDA (top-10 mode) for protein identification without explicit labeling mentioned for that specific subset."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT10plex",
+        "MultiNotch MS3",
+        "isobaric",
+        "Tandem Mass Tag"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +239,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:38:13Z"
   }
 }

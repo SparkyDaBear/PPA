@@ -3,31 +3,46 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free Mass spectrometry",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "lung adenocarcinoma"
     ],
     "cell_lines": [
       "CL1-1",
-      "CL1-5",
-      "A549",
-      "293T"
+      "CL1-5"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "comparing profiles of O-GlcNAcylated proteins from two lung cancer cell lines different in their invasive potential",
+          "comparative O-GlcNAc proteome profiling of two differentially invasive lung adenocarcinoma cell lines",
+          "we employed CL1-1 and CL1-5, which are two well-established human lung adenocarcinoma cell lines with differential invasiveness"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,39 +50,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "CL1-1"
+    ],
+    "case_arms": [
+      "CL1-5"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "analyzed in triplicate by nano-LC-MS/MS"
+    ],
+    "multiplex_channel_hints": [
+      "label-free Mass spectrometry (MS)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "CL1-1 (low invasiveness)",
+        "case_label": "CL1-5 (high invasiveness)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparing the mass spectrometry data and using a threshold of >1.5-fold change between the two cell lines, we reproducibly identified 63 down-regulated and 62 up-regulated candidates for nuclear O-GlcNAcylated proteins, and 95 down-regulated and 44 up-regulated cytosolic ones in CL1-5 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung adenocarcinoma",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "CL1-1",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "CL1-5",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free Mass spectrometry",
+      "average normalized spectral counts"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +145,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study used data-dependent acquisition (DDA) on an Orbitrap Elite and performed label-free quantitation (LFQ) via spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of Wheat Germ Agglutinin (WGA) resin for enrichment of O-GlcNAcylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "WGA-enriched",
+        "O-GlcNAc proteome",
+        "label-free Mass spectrometry",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study used data-dependent acquisition (DDA) on an Orbitrap Elite and performed label-free quantitation (LFQ) via spectral counting."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of Wheat Germ Agglutinin (WGA) resin for enrichment of O-GlcNAcylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "WGA-enriched",
+        "O-GlcNAc proteome",
+        "label-free Mass spectrometry",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:16:05Z"
   }
 }

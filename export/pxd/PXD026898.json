@@ -3,67 +3,157 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "intensity",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HeLa"
+      "HeLa",
+      "HEK293T",
+      "BL21 (RIL)"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
+        "evidence": [
+          "The deacetylation reaction was carried out by incubating purified p300 WT and mutant proteins with SIRT2 overnight",
+          "Purified p300BRPHZ (40\u201350\u2009\u00b5g) with or without SIRT2 treatment was denatured, reduced, and alkylated"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SIRT2",
+        "dose_or_concentration": null,
+        "duration": "overnight",
+        "route_or_context": "in vitro deacetylation of purified p300BRPHZ",
+        "evidence": [
+          "The deacetylation reaction was carried out by incubating purified p300 WT and mutant proteins with SIRT2 overnight"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "untreated p300BRPHZ"
+    ],
+    "case_arms": [
+      "SIRT2-treated p300BRPHZ"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Experiments were repeated in at least three batches of purified and SIRT2-treated p300 proteins."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "SIRT2-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparison of the signal intensities of peptides revealed substantial differences in acetylation levels of untreated and SIRT2-treated p300BRPHZ"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": "BL21 (RIL)",
+        "confidence": "medium"
+      },
+      {
+        "label": "Xenopus laevis",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "BL21 (RIL)",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "intensity",
+      "spectrum counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +161,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive HF-X) and compares signal intensities of peptides between untreated and SIRT2-treated samples to quantify acetylation changes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.95,
+          "reason": "The primary goal is the analysis of acetylation sites on p300, specifically comparing untreated vs SIRT2-deacetylated states."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation sites analysis",
+        "SIRT2-treated",
+        "variable modifications",
+        "lysine side chain acetylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive HF-X) and compares signal intensities of peptides between untreated and SIRT2-treated samples to quantify acetylation changes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.95,
+          "reason": "The primary goal is the analysis of acetylation sites on p300, specifically comparing untreated vs SIRT2-deacetylated states."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation sites analysis",
+        "SIRT2-treated",
+        "variable modifications",
+        "lysine side chain acetylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +233,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:19:11Z"
   }
 }

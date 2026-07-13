@@ -3,22 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT-11plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "N-glycosylation modification",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "plasma from 20 lung adenocarcinoma (LUAD), which were all classified as stage I, as well as 20 normal controls (NL) were labeled and screened by mass spectrometry (MS).",
+          "This study contained two groups, including 20 LUAD patients and 20 healthy controls (NL)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +44,83 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "NL"
+    ],
+    "case_arms": [
+      "LUAD"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "20 lung adenocarcinoma (LUAD)",
+      "20 normal controls (NL)"
+    ],
+    "multiplex_channel_hints": [
+      "TMT 10plex Mass Tag Labeling kit",
+      "TMT-11plex"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "NL",
+        "case_label": "LUAD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The differential N-glycoprotein levels between LUAD and NL were analyzed based on databases."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
+      "category": "subproteome",
+      "label": "N-glycosylation modification",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT-11plex"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +128,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT 10plex Mass Tag Labeling kit and TMT-11plex quantitative method using Q Exactive HF-X (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "deglycosylation_pngasef",
+          "confidence": 1.0,
+          "reason": "HILIC enrichment of glycopeptides followed by digestion with PNGase F glycodidase to produce de-glycopeptides for MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10plex",
+        "TMT-11plex",
+        "HILIC enrichment",
+        "PNGase F",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT 10plex Mass Tag Labeling kit and TMT-11plex quantitative method using Q Exactive HF-X (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "deglycosylation_pngasef",
+          "confidence": 1.0,
+          "reason": "HILIC enrichment of glycopeptides followed by digestion with PNGase F glycodidase to produce de-glycopeptides for MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT 10plex",
+        "TMT-11plex",
+        "HILIC enrichment",
+        "PNGase F",
+        "N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +202,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:52:45Z"
   }
 }

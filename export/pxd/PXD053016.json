@@ -3,74 +3,139 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "breast cancer cells",
-      "ductal cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293",
-      "MDA-MB-231",
-      "HCT116",
-      "U2OS",
-      "U87",
-      "T98"
+      "HEK293"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "we used label-free, quantitative high-resolution mass spectrometry on untreated and 24-h MVO-treated HEK293 cells",
+          "HEK293 cells were treated or not with 50 \u03bcM MVO26630 for 24 h."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MVO26630",
+        "dose_or_concentration": "50 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "HEK293 cells were treated or not with 50 \u03bcM MVO26630 for 24 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "MVO-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three independent, biological replicas"
+    ],
+    "multiplex_channel_hints": [
+      "label-free"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "MVO-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we used label-free, quantitative high-resolution mass spectrometry on untreated and 24-h MVO-treated HEK293 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": null,
+        "ontology_curie": "CVCL_0045"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free",
+      "peptide and protein ratios"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +143,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free, quantitative high-resolution mass spectrometry' and describes a 'top 15 method (1 MS plus 15 MS2)' which is characteristic of DDA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_enrichment",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata mentions 'TurboID approaches' and 'treated with biotin', and the text mentions 'proteins... biotinylated when using AEP-TiD'."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "top 15 method",
+        "TurboID",
+        "biotinylated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free, quantitative high-resolution mass spectrometry' and describes a 'top 15 method (1 MS plus 15 MS2)' which is characteristic of DDA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_enrichment",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata mentions 'TurboID approaches' and 'treated with biotin', and the text mentions 'proteins... biotinylated when using AEP-TiD'."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "top 15 method",
+        "TurboID",
+        "biotinylated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:41:53Z"
   }
 }

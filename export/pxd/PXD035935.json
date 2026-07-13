@@ -3,24 +3,61 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "PRM",
     "labeling_strategy": [
       "TMT",
-      "LFQ"
+      "Other"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "glycoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "distinguish prostate cancer from benign prostatic hyperplasia",
+          "163 serum samples (79 from PCa patients and 84 from individuals affected by benign prostatic hyperplasia (BPH))",
+          "patients suffering from BPH were recruited as controls"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "distinguishing AG-PCa from NAG-PCa",
+          "distinguish aggressive (AG-PCa) from indolent forms of PCa (NAG-PCa)",
+          "PCa patients were split in two subgroups: 53 AG-PCa (Gleason > 3 + 3) and 26 NAG-PCa (Gleason 3 + 3)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +65,96 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "BPH"
+    ],
+    "case_arms": [
+      "PCa",
+      "AG-PCa",
+      "NAG-PCa"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "in two technical replicates",
+      "The whole pipeline was carried out in duplicate for 84 BPH and 79 PCa serum samples"
+    ],
+    "multiplex_channel_hints": [
+      "TMT-10 plex",
+      "TMT labelling was performed"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "BPH",
+        "case_label": "PCa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "distinguish PCa from BPH"
+        ]
+      },
+      {
+        "control_label": "NAG-PCa",
+        "case_label": "AG-PCa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "distinguishing AG-PCa from NAG-PCa"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
+      "category": "subproteome",
+      "label": "glycoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "TMT",
+      "Other"
+    ],
+    "quantification_strategy": [
+      "PRM",
+      "Isotopically labelled peptides",
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +162,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "Discovery experiments TMT-A and TMT-B explicitly used TMT-10 plex isobaric labeling with DDA acquisition."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Discovery 3D experiments were performed in label-free mode using DDA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glycoproteomics_pngase",
+          "confidence": 0.95,
+          "reason": "Samples were enriched using TiO2 for glycopeptides and subsequently de-glycosylated using PNGase F before MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT-10 plex",
+        "TiO2 enrichment",
+        "PNGase F",
+        "formerly N-glycosylated peptides",
+        "isobaric labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.9,
+          "reason": "Discovery experiments TMT-A and TMT-B explicitly used TMT-10 plex isobaric labeling with DDA acquisition."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "Discovery 3D experiments were performed in label-free mode using DDA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glycoproteomics_pngase",
+          "confidence": 0.95,
+          "reason": "Samples were enriched using TiO2 for glycopeptides and subsequently de-glycosylated using PNGase F before MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT-10 plex",
+        "TiO2 enrichment",
+        "PNGase F",
+        "formerly N-glycosylated peptides",
+        "isobaric labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +246,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:45:53Z"
   }
 }

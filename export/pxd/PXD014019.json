@@ -3,70 +3,137 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "cancer-associated fibroblasts",
-      "endothelial cells"
+      "cancer-associated fibroblasts"
     ],
-    "cell_lines": [
-      "HUVECs",
-      "hTERT-BJ1",
-      "293T"
-    ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_lines": [],
+    "sample_scope": "secretome scope",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "siRNA-mediated knockdown of WNT2 in CAFs",
+          "Upon siRNA-mediated silencing of WNT2, 180 proteins were found to be significantly downregulated (P value < 0.05, Q value < 0.05) in CAF#1 and 131 proteins in CAF#2, compared to their corresponding controls."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA targeting WNT2",
+        "dose_or_concentration": null,
+        "duration": "72 h",
+        "route_or_context": "CAF (Cancer-associated fibroblasts)",
+        "evidence": [
+          "siRNA-mediated knockdown of WNT2 in CAFs was conducted using Lipofectamine\u00ae RNAiMAX Transfection Reagent and SMARTpool ON-TARGETplus siRNA",
+          "Cells were incubated for 72 h at 37 \u00b0C before further usage."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "72 h"
+    ],
+    "control_arms": [
+      "CAF-NTC"
+    ],
+    "case_arms": [
+      "CAF-siWNT2"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three biological replicates of CAF-NTC and CAF-siWNT2",
+      "two different primary CAF cultures"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "CAF-NTC",
+        "case_label": "CAF-siWNT2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Upon siRNA-mediated silencing of WNT2, 180 proteins were found to be significantly downregulated... compared to their corresponding controls."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cancer-associated fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": "CL:0000057"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum-free supernatants",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "secretome scope",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +142,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the text mentions 'label-free quantification (LFQ)' using MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "MS1 intensity based"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the text mentions 'label-free quantification (LFQ)' using MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ",
+        "MS1 intensity based"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +200,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:46:40Z"
   }
 }

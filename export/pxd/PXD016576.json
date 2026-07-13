@@ -3,19 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Intensity-based quantification (iBAQ and LFQ)",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
       "LFQ",
       "SILAC"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "mouse embryonic stem cells"
+    ],
     "cell_lines": [
       "HeLa",
-      "A549",
-      "mES cells"
+      "A549"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -28,15 +30,32 @@
         "ontology_label": "cell state or interaction comparison",
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_parent_class_key": "cell_state_interaction",
         "matched_class_key": "activation_or_differentiation_state",
         "matched_class_path": [
+          "cell_state_interaction",
           "activation_or_differentiation_state"
         ],
         "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
         "confidence": "high",
         "evidence": [
           "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells, which resemble the pre- and post-implantation inner cell mass (ICM) of embryos, respectively."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "medium",
+        "evidence": [
+          "BioID was carried out in HeLa cells expressing mutant BirA (BirA*) fused to SEC61B or in wild-type cells as negative control that expressed only BirA*"
         ]
       }
     ],
@@ -70,20 +89,22 @@
     "timepoints": [],
     "control_arms": [
       "serum",
+      "BirA*-expressing cells",
       "normal IgG"
     ],
     "case_arms": [
-      "2i"
+      "2i",
+      "SEC61B-BirA* fusion protein"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Two biological replicates were carried out for serum and 2i conditions with SILAC label swap"
+      "Two biological replicates were carried out for serum and 2i conditions with SILAC label swap",
+      "The experiments were performed in triplicate"
     ],
     "multiplex_channel_hints": [
       "triple SILAC experiment",
-      "forward labeling (2i heavy, serum light, 2i medium normal IgG control)",
-      "reverse labeling (2i light, serum heavy, 2i medium normal IgG)"
+      "forward labeling (2i heavy, serum light, 2i medium normal IgG control) and reverse labeling (2i light, serum heavy, 2i medium normal IgG)"
     ],
     "contrast_hints": [
       {
@@ -95,11 +116,11 @@
         ]
       },
       {
-        "control_label": "normal IgG",
-        "case_label": "Suz12 ChIP-SICAP",
+        "control_label": "BirA*-expressing cells",
+        "case_label": "SEC61B-BirA*",
         "contrast_type": "pairwise",
         "evidence": [
-          "In comparison to the normal IgG controls, 262 proteins were enriched by more than twofold in both replicates"
+          "BioID was carried out in HeLa cells expressing mutant BirA (BirA*) fused to SEC61B or in wild-type cells as negative control that expressed only BirA*"
         ]
       }
     ],
@@ -121,21 +142,22 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [],
+    "cell_types": [
+      {
+        "label": "mouse embryonic stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": "HeLa",
+        "family": "cervical cancer",
         "ontology_curie": null
       },
       {
         "label": "A549",
-        "family": "A549",
-        "ontology_curie": null
-      },
-      {
-        "label": "mES cells",
-        "family": "mouse embryonic stem cells",
+        "family": "lung carcinoma",
         "ontology_curie": null
       }
     ],
@@ -160,21 +182,22 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "Intensity-based quantification (iBAQ and LFQ)",
-      "SILAC ratio"
+      "iBAQ",
+      "LFQ",
+      "SILAC"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "Affinity purification",
-        "ontology_curie": null,
+        "ontology_curie": "PRIDE:0000433",
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       },
       {
-        "ontology_label": "biotinylated biomolecules enrichment",
+        "ontology_label": "proximity labeling",
         "ontology_curie": null,
-        "workflow_modifier_hint": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
         "confidence": "high"
       }
     ],
@@ -191,12 +214,12 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "Multiple experiments (ChIP-SICAP and Lipid pull-down) explicitly use SILAC labeling (heavy, medium, light) for quantification."
+          "reason": "Multiple experiments (ChIP-SICAP and Lipid pull-down) explicitly use SILAC labeling (heavy, medium, light channels) and DDA acquisition on an Orbitrap Fusion."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "BioID and Plasma membrane protein experiments use label-free quantification (LFQ/iBAQ) and DDA (data-dependent acquisition)."
+          "reason": "BioID and Plasma membrane protein experiments use label-free quantification (LFQ/iBAQ) with DDA acquisition."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -214,12 +237,12 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "Multiple experiments (ChIP-SICAP and Lipid pull-down) explicitly use SILAC labeling (heavy, medium, light) for quantification."
+          "reason": "Multiple experiments (ChIP-SICAP and Lipid pull-down) explicitly use SILAC labeling (heavy, medium, light channels) and DDA acquisition on an Orbitrap Fusion."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "BioID and Plasma membrane protein experiments use label-free quantification (LFQ/iBAQ) and DDA (data-dependent acquisition)."
+          "reason": "BioID and Plasma membrane protein experiments use label-free quantification (LFQ/iBAQ) with DDA acquisition."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -258,6 +281,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:00:42Z"
+    "stage3_refreshed_at": "2026-07-13T04:29:50Z"
   }
 }

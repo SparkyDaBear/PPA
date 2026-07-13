@@ -3,30 +3,63 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease",
-      "Chemical/Drug Treatment"
+      "genetic perturbation",
+      "disease or clinical state"
     ],
     "cell_types": [
-      "primary dermal fibroblasts"
+      "dermal fibroblasts"
     ],
     "cell_lines": [
-      "HEK 293",
-      "HEK 293 MUT-KO",
-      "HEK 293 MUT-RES"
+      "HEK 293"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "HEK 293 cells carrying the knockout of MUT gene (MUT-KO)",
+          "generation of a MMA HEK 293cellular model by CRISPR/Cas9-mediated knock-out of the MMUT gene (MUT-KO)"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Primary dermal fibroblasts of MMA patients... belong to two distinct patients (that we named M01 and M02)",
+          "Commercially available primary healthy human dermal fibroblast HDFa purchased from Thermo Fisher Scientific (Waltham, MA, USA) were used as a control (CTRL) for the experiments involving M01 and M02 cells."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,38 +67,94 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "WT",
+      "MUT-RES",
+      "CTRL"
+    ],
+    "case_arms": [
+      "MUT-KO",
+      "M01",
+      "M02"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 15 (for HEK 293 DIA)",
+      "3 biological replicates of each cell line (namely WT, KO and RES) were analyzed by parallel reaction monitoring (PRM)",
+      "n = 4 per condition (for mut0 fibroblasts)",
+      "total n = 12 (for mut0 fibroblasts)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT + MUT-RES",
+        "case_label": "MUT-KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the MUT-KO against the WT plus MUT-RES control conditions (WT + RES)"
+        ]
+      },
+      {
+        "control_label": "CTRL",
+        "case_label": "M01 + M02",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "analyze the M01 and M02 fibroblasts\u2019 proteomes together (M01 + M02) for the statistical comparison against the CTRL proteome"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "dermal fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HEK 293",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification",
+      "PG.Quantity"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +163,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly states the use of data-independent acquisition (DIA) proteomics for HEK 293 cell models using Spectronaut for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Explicitly states the use of shotgun label-free quantitative (LFQ) proteomics for mut0 fibroblasts using MaxLFQ algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA",
+        "data-independent acquisition",
+        "label-free quantitative (LFQ)",
+        "MaxLFQ",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "Explicitly states the use of data-independent acquisition (DIA) proteomics for HEK 293 cell models using Spectronaut for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Explicitly states the use of shotgun label-free quantitative (LFQ) proteomics for mut0 fibroblasts using MaxLFQ algorithm in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA",
+        "data-independent acquisition",
+        "label-free quantitative (LFQ)",
+        "MaxLFQ",
+        "Spectronaut"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +235,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:21:13Z"
   }
 }

@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "peak area (i.e., area under the curve)",
     "labeling_strategy": [
+      "LFQ",
       "Other"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "brain"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "surfaceome scope",
+    "sample_scope_curie": "PPA:0000200",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "large-scale, site-specific N-glycoproteome profiling study of human AD and control brains",
+          "N-glycoproteomics analysis was performed by using the same sets of dorsolateral prefrontal cortex tissue samples from AD and age-matched control cases"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,85 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "control brains",
+      "age-matched control cases"
+    ],
+    "case_arms": [
+      "AD brains",
+      "AD cases"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "a total of 16 AD and control cases",
+      "eight neuropathologically confirmed AD cases and eight age-matched control individuals"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control",
+        "case_label": "AD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential abundance analysis was performed using the normalized N-glycopeptide abundances to identify disease signature of altered N-glycopeptides in AD.",
+          "N-glycosylation site occupancy changes in AD versus control were determined"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "dorsolateral prefrontal cortex",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "surfaceome scope",
+      "curie": "PPA:0000200"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "Other"
+    ],
+    "quantification_strategy": [
+      "peak area (i.e., area under the curve)",
+      "normalized to the peak area of the 18O-labeled internal standard N-glycopeptide"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +131,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Elite with MS1 intensity-based label-free quantification (LFQ) normalized to an internal standard."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_nglyco_18O",
+          "confidence": 1.0,
+          "reason": "The experiment specifically uses PNGase F in H218O to label N-glycosylation sites with a +2.9890 Da mass shift on asparagine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoproteomics",
+        "18O-labeling",
+        "PNGase F",
+        "ZIC-HILIC",
+        "N-glycosylation site occupancy"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Elite with MS1 intensity-based label-free quantification (LFQ) normalized to an internal standard."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_nglyco_18O",
+          "confidence": 1.0,
+          "reason": "The experiment specifically uses PNGase F in H218O to label N-glycosylation sites with a +2.9890 Da mass shift on asparagine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoproteomics",
+        "18O-labeling",
+        "PNGase F",
+        "ZIC-HILIC",
+        "N-glycosylation site occupancy"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site_with_occupancy",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +205,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:32:18Z"
   }
 }

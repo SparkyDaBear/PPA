@@ -2,35 +2,41 @@
   "pxd": "PXD008394",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ",
+      "Dimethyl"
     ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "cardiac fibroblasts",
-      "cardiomyocytes",
-      "endothelial cells",
-      "pericytes",
-      "smooth muscle cells",
-      "myeloid cells",
-      "lymphoid cells"
-    ],
-    "cell_lines": [
-      "primary human ventricular cardiac fibroblast"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Proteomic data generated from mass spectrometry-based analysis of left ventricular heart tissue from patients with no heart failure (n = 7) and patients with dilated cardiomyopathy (n = 5) was accessed from ProteomeXchange to evaluate the protein-level expression changes of AEBP1 in association with DCM (PXD008394)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -38,39 +44,82 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "no heart failure"
+    ],
+    "case_arms": [
+      "dilated cardiomyopathy"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "patients with no heart failure (n = 7)",
+      "patients with dilated cardiomyopathy (n = 5)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-HF",
+        "case_label": "DCM",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "found that only AEBP1 was upregulated in DCM at the protein level (NF vs. DCM, p = 0.0062 **)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "left ventricular heart tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ",
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification",
+      "Dimethyl labeling"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AMPylation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "Unknown",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +127,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly mentions dimethyl labelling (DiMe) with light and heavy buffers."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly mentions label-free quantification (LFQ) as an alternative to DiMe."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "chemical_proteomics_ampylation",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized small molecule probe (PAK-76) for in situ labelling of AMPylation, followed by click chemistry (azide-TEV-biotin) and enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "AMPylation",
+        "dimethyl labelling",
+        "LFQ",
+        "PAK-76",
+        "chemical-proteomic",
+        "click reaction"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly mentions dimethyl labelling (DiMe) with light and heavy buffers."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly mentions label-free quantification (LFQ) as an alternative to DiMe."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "chemical_proteomics_ampylation",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized small molecule probe (PAK-76) for in situ labelling of AMPylation, followed by click chemistry (azide-TEV-biotin) and enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "AMPylation",
+        "dimethyl labelling",
+        "LFQ",
+        "PAK-76",
+        "chemical-proteomic",
+        "click reaction"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:32:49Z"
   }
 }

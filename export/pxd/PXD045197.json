@@ -3,14 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "relative quantification",
     "labeling_strategy": [
-      "Dimethyl"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "glioblastoma cells"
@@ -19,53 +18,166 @@
       "T98G",
       "U87MG"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "following the chemical inhibition of SIRT3",
+          "treated and untreated with a SIRT3 inhibitor",
+          "treated with the 3-TYP (3-(1H-1,2,3-triazol-4-yl) pyridine) reagent (from Selleck Chem, Houston, TX, USA) at a final concentration of 20 \u00b5M"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "two glioblastoma cell lines, each exhibiting distinct metabolic behaviors",
+          "comparative analysis of the T98G (oxidative) and U87MG (glycolytic) cell lines",
+          "U87MG cells exhibiting a glycolytic phenotype and T98G cells demonstrating an oxidative metabolic phenotype"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "3-TYP (3-(1H-1,2,3-triazol-4-yl) pyridine)",
+        "dose_or_concentration": "20 \u00b5M",
+        "duration": "24 h",
+        "route_or_context": "EMEM medium without fetal bovine serum",
+        "evidence": [
+          "treated with the 3-TYP (3-(1H-1,2,3-triazol-4-yl) pyridine) reagent (from Selleck Chem, Houston, TX, USA) at a final concentration of 20 \u00b5M in EMEM medium without fetal bovine serum. This treatment was maintained for 24 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h"
+    ],
+    "control_arms": [
+      "untreated",
+      "dimethyl sulfoxide (control)"
+    ],
+    "case_arms": [
+      "3-TYP (treated)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "All the experiments were carried out in triplicate",
+      "three biological replicates for each condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated/DMSO",
+        "case_label": "3-TYP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the relative quantification of proteins in the three replicates and their controls using the two-sample t-test statistical analysis"
+        ]
+      },
+      {
+        "control_label": "T98G (oxidative)",
+        "case_label": "U87MG (glycolytic)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "uncovered 2300 proteins with markedly different expressions between the cell lines (t-test, FDR 1%)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "glioblastoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "T98G",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "U87MG",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative quantification",
+      "acetylation stoichiometry"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +185,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses high-resolution LC-MS/MS (Q-Exactive) with MaxQuant for relative quantification of proteins and acetylation sites across biological replicates."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_acetylation_stoichiometry",
+          "confidence": 0.95,
+          "reason": "The experiment specifically employs a chemical acetylation strategy using deuterated N-Acetoxysuccinimide (NAS-d3) to distinguish endogenous from chemical acetylation for stoichiometry analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation stoichiometry",
+        "NAS-d3",
+        "deuterated N-Acetoxysuccinimide",
+        "site occupancy",
+        "acetylome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses high-resolution LC-MS/MS (Q-Exactive) with MaxQuant for relative quantification of proteins and acetylation sites across biological replicates."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_acetylation_stoichiometry",
+          "confidence": 0.95,
+          "reason": "The experiment specifically employs a chemical acetylation strategy using deuterated N-Acetoxysuccinimide (NAS-d3) to distinguish endogenous from chemical acetylation for stoichiometry analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation stoichiometry",
+        "NAS-d3",
+        "deuterated N-Acetoxysuccinimide",
+        "site occupancy",
+        "acetylome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site_with_occupancy",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +259,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:26:40Z"
   }
 }

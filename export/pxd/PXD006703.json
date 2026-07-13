@@ -3,17 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC quantitation",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "luminal-A breast cancer cells",
-      "luminal-B breast cancer cells",
-      "basal-like breast cancer cells"
+      "epithelial cell"
     ],
     "cell_lines": [
       "MCF-7",
@@ -21,12 +19,29 @@
       "MDA-MB-468"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Protein folding stability differences were studied in a comparison of two luminal breast cancer subtypes, luminal-A and -B (i.e., MCF-7 and BT-474 cells, respectively), and in a comparison of a luminal-A and basal subtype of the disease (i.e., MCF-7 and MDA-MB-468 cells, respectively)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,38 +49,101 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "MCF-7"
+    ],
+    "case_arms": [
+      "BT-474",
+      "MDA-MB-468"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each comparative analysis was performed in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC quantitation",
+      "heavy-labeled MCF-7 and light-labeled BT-474 cell lines",
+      "heavy-labeled MCF-7 and light-labeled MDA-MB-468 cell lines"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "MCF-7",
+        "case_label": "BT-474",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of the MCF-7 versus BT474 cell lines"
+        ]
+      },
+      {
+        "control_label": "MCF-7",
+        "case_label": "MDA-MB-468",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of the MCF-7 versus MDA-MB-468 cell lines"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MCF-7",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "BT-474",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-468",
+        "family": "breast cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC quantitation"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +152,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly uses SILAC labeling (heavy MCF-7 vs light BT-474/MDA-MB-468) and data-dependent acquisition (DDA) mode."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "sprox_stability_analysis",
+          "confidence": 1.0,
+          "reason": "The experiment uses the SILAC-SPROX technique, which requires a specialized analysis of methionine oxidation rates across a urea denaturant gradient to determine protein folding stability."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC-SPROX",
+        "protein folding stability",
+        "denaturant concentrations",
+        "methionine-containing peptides",
+        "H2O2"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly uses SILAC labeling (heavy MCF-7 vs light BT-474/MDA-MB-468) and data-dependent acquisition (DDA) mode."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "sprox_stability_analysis",
+          "confidence": 1.0,
+          "reason": "The experiment uses the SILAC-SPROX technique, which requires a specialized analysis of methionine oxidation rates across a urea denaturant gradient to determine protein folding stability."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC-SPROX",
+        "protein folding stability",
+        "denaturant concentrations",
+        "methionine-containing peptides",
+        "H2O2"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:11:32Z"
   }
 }

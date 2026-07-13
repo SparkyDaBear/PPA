@@ -3,32 +3,84 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "un-classified"
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "Blind testing cross-linking/mass spectrometry under the auspices of the 11 th critical assessment of methods of protein structure prediction (CASP11)",
+          "We identified between 201-381 unique residue pairs at an estimated 5% FDR... for four target proteins."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sulfo-SDA",
+        "dose_or_concentration": null,
+        "duration": "1h",
+        "route_or_context": "dark reaction followed by UV irradiation",
+        "evidence": [
+          "Each target was cross-linked using sulfo-SDA",
+          "sulfo-SDA... was added to target protein (30 \u00b5g, 1 \u00b5g/\u00b5L) and left to react in the dark for 1h at room temperature."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "UV activation times",
+        "evidence": [
+          "four UV activation times (15, 30, 45 and 60 minutes)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "15 minutes",
+      "30 minutes",
+      "45 minutes",
+      "60 minutes"
+    ],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "Tx781",
+      "Tx808",
+      "Tx767",
+      "Tx812"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "four different cross-linker to protein ratios (2:1, 1:1, 0.5:1 and 0.25:1, w/w)",
+      "four UV activation times (15, 30, 45 and 60 minutes)"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -36,27 +88,67 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Ruminococcus gnavus",
+        "taxonomy_hint": "NEWT:33038",
+        "confidence": "high"
+      },
+      {
+        "label": "Bacteroides caccae",
+        "taxonomy_hint": "NEWT:47678",
+        "confidence": "high"
+      },
+      {
+        "label": "Staphylococcus aureus",
+        "taxonomy_hint": "NEWT:1280",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000430",
+        "workflow_modifier_hint": "mod_tpp",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -64,10 +156,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquired using LTQ-Orbitrap Velos with a 'high/high' DDA strategy (survey scan in Orbitrap, fragmentation in ion trap). No labeling (SILAC/TMT) mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_clms_sda",
+          "confidence": 1.0,
+          "reason": "Explicit use of sulfo-SDA cross-linker for high-density cross-linking mass spectrometry (HD-CLMS)."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking",
+        "sulfo-SDA",
+        "HD-CLMS",
+        "cross-linked peptides",
+        "residue pairs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquired using LTQ-Orbitrap Velos with a 'high/high' DDA strategy (survey scan in Orbitrap, fragmentation in ion trap). No labeling (SILAC/TMT) mentioned."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_clms_sda",
+          "confidence": 1.0,
+          "reason": "Explicit use of sulfo-SDA cross-linker for high-density cross-linking mass spectrometry (HD-CLMS)."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking",
+        "sulfo-SDA",
+        "HD-CLMS",
+        "cross-linked peptides",
+        "residue pairs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -88,6 +230,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:12:10Z"
   }
 }

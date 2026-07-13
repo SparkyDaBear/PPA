@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "brain"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "We analyzed brain tissue from 10 persons with no cognitive impairment or AD, 10 with asymptomatic AD, and 10 with symptomatic AD",
+          "observed AD-associated differences in the number of antennae, frequency of fucosylation, bisection, and other monosaccharides at individual glycosylation sites among samples from our three groups",
+          "illustrate the N-glycoproteomics landscape across the spectrum of AD clinical and pathologic severity"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,105 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "no cognitive impairment or AD"
+    ],
+    "case_arms": [
+      "asymptomatic AD",
+      "symptomatic AD"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Technical replicates were performed with two normal brain samples, that is, samples 170 and 363, denoted as replicates I, II, or III"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "no cognitive impairment",
+        "case_label": "asymptomatic AD",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "We observed a decrease in galactosylation, fucosylation, bisection, and the number of antennary glycans in asymptomatic and symptomatic AD samples, compared with normal brain samples."
+        ]
+      },
+      {
+        "control_label": "no cognitive impairment",
+        "case_label": "symptomatic AD",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "We observed a decrease in galactosylation, fucosylation, bisection, and the number of antennary glycans in asymptomatic and symptomatic AD samples, compared with normal brain samples."
+        ]
+      },
+      {
+        "control_label": "asymptomatic AD",
+        "case_label": "symptomatic AD",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "For asymptomatic compared to symptomatic AD samples, there are generally higher levels of galactosylation, fucosylation, bisection, and the number of antennary and hybrid glycans."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "UniProt mouse",
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "brain",
+        "source_kind": "organ"
+      },
+      {
+        "label": "frontal cortex",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +151,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used with top 15 ions. While the authors describe the analysis as 'qualitative', they perform comparisons across groups and mention 'label-free quantification' in the context of previous similar work, and the current study uses a 'delta score' for site-specific comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_intact_n_glycan",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets intact N-linked glycopeptides using multi-lectin affinity enrichment and HILIC SPE, searched using the Byonic 'N-glycan 309 mammalian no sodium' database."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-linked glycoproteomics",
+        "multi-lectin affinity enrichment",
+        "HILIC SPE",
+        "Byonic",
+        "glycoforms",
+        "stepped HCD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used with top 15 ions. While the authors describe the analysis as 'qualitative', they perform comparisons across groups and mention 'label-free quantification' in the context of previous similar work, and the current study uses a 'delta score' for site-specific comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics_intact_n_glycan",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets intact N-linked glycopeptides using multi-lectin affinity enrichment and HILIC SPE, searched using the Byonic 'N-glycan 309 mammalian no sodium' database."
+        }
+      ],
+      "trigger_keywords": [
+        "intact N-linked glycoproteomics",
+        "multi-lectin affinity enrichment",
+        "HILIC SPE",
+        "Byonic",
+        "glycoforms",
+        "stepped HCD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +227,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:58:32Z"
   }
 }

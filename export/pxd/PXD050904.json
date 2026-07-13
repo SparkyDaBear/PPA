@@ -3,15 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "IS-PRM",
     "labeling_strategy": [
-      "TMT",
-      "Other"
+      "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "molecular state comparison"
     ],
     "cell_types": [
       "stem cell"
@@ -20,12 +17,31 @@
       "WTC11"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "medium",
+        "evidence": [
+          "Alternative splicing is a major contributor of transcriptomic complexity, but the extent to which transcript isoforms are translated into stable, functional protein isoforms is unclear.",
+          "we defined any minor isoform as an alternative isoform.",
+          "The selected peptides, named AS192 peptides, consist of 192 peptides that correspond to 55 genes with one major isoform and at least one minor isoform represented"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +49,93 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "major isoform"
+    ],
+    "case_arms": [
+      "minor isoform"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "analyzed samples in triplicate",
+      "injected in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "super heavy tandem mass tags (TMT)",
+      "TMT-labeled WTC11 tryptic digest",
+      "shTMTpro-labeled synthetic trigger AS192 peptides were spiked into TMTpro-labeled WTC11 peptide digest"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "major isoform",
+        "case_label": "minor isoform",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we defined any minor isoform as an alternative isoform.",
+          "The selected peptides, named AS192 peptides, consist of 192 peptides that correspond to 55 genes with one major isoform and at least one minor isoform represented"
+        ]
+      },
+      {
+        "control_label": "DDA",
+        "case_label": "Tomahto",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The IS-PRM method called Tomahto was tested versus DDA to demonstrate improved coverage of isoform-specific peptides."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "stem cell",
+        "rollup_category": "stem cell",
+        "ontology_curie": "CL:0000034"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "WTC11",
+        "family": "iPSC",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "IS-PRM",
+      "SPS-MS3"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +144,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 10,
+          "reason": "The experiment uses TMTpro labeling for endogenous targets and shTMTpro for triggers, with DDA runs explicitly mentioned for comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "is_prm_tomahto",
+          "confidence": 10,
+          "reason": "The core of the study is the 'Tomahto' IS-PRM method, which uses synthetic labeled triggers to prompt MS2/MS3 acquisition of endogenous targets."
+        }
+      ],
+      "trigger_keywords": [
+        "IS-PRM",
+        "Tomahto",
+        "internal standard parallel reaction monitoring",
+        "shTMTpro",
+        "TMTpro",
+        "trigger peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 10,
+          "reason": "The experiment uses TMTpro labeling for endogenous targets and shTMTpro for triggers, with DDA runs explicitly mentioned for comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "is_prm_tomahto",
+          "confidence": 10,
+          "reason": "The core of the study is the 'Tomahto' IS-PRM method, which uses synthetic labeled triggers to prompt MS2/MS3 acquisition of endogenous targets."
+        }
+      ],
+      "trigger_keywords": [
+        "IS-PRM",
+        "Tomahto",
+        "internal standard parallel reaction monitoring",
+        "shTMTpro",
+        "TMTpro",
+        "trigger peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:23:42Z"
   }
 }

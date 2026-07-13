@@ -3,42 +3,94 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "lymphoblastoid cells",
-      "primary fibroblasts"
-    ],
-    "cell_lines": [
-      "AD-293"
-    ],
-    "sample_scope": "whole cell lysate",
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic perturbation",
+          "gene modification or gain of function",
+          "substitution variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "we investigated the proximity interaction landscape of TLK2 and analysed the effects of p.(Asp551Gly) and a previously reported missense variant (c.1850C>T; p.(Ser617Leu)) on TLK2 interactions, localization and activity.",
+          "BirA-tagged TLK2-WT, TLK2-D551G and TLK2-S617L were expressed in AD-293 cells by transient transfection"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TLK2 variants (p.Asp551Gly, p.Ser617Leu)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient transfection in AD-293 cells",
+        "evidence": [
+          "BirA-tagged TLK2-WT, TLK2-D551G and TLK2-S617L were expressed in AD-293 cells by transient transfection"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "48 hours post-transfection"
+    ],
+    "control_arms": [
+      "TLK2-WT"
+    ],
+    "case_arms": [
+      "TLK2-D551G",
+      "TLK2-S617L"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "5x15cm plates were used per condition",
+      "the 5 plates per condition were pooled together"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "TLK2-WT",
+        "case_label": "TLK2-D551G",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We next compared our TLK2-WT proximal interactome to the SFARI... and identified 8 proteins",
+          "In parallel to TLK2-WT, we performed BioID analysis with TLK2-D551G and TLK2-S617L."
+        ]
+      },
+      {
+        "control_label": "TLK2-WT",
+        "case_label": "TLK2-S617L",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In parallel to TLK2-WT, we performed BioID analysis with TLK2-D551G and TLK2-S617L."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -50,7 +102,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -60,11 +112,23 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting",
+      "SAINTexpress"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +136,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used Data-Dependent Acquisition (DDA) and quantification was performed via spectrum counting (label-free approach) using SAINTexpress."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses BioID (proximity-dependent biotin identification) with BirA-tagged TLK2 variants and streptavidin-sepharose bead enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID-MS",
+        "proximity-dependent biotin identification",
+        "BirA-tagged",
+        "streptavidin-sepharose beads",
+        "DDA",
+        "spectrum counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used Data-Dependent Acquisition (DDA) and quantification was performed via spectrum counting (label-free approach) using SAINTexpress."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses BioID (proximity-dependent biotin identification) with BirA-tagged TLK2 variants and streptavidin-sepharose bead enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID-MS",
+        "proximity-dependent biotin identification",
+        "BirA-tagged",
+        "streptavidin-sepharose beads",
+        "DDA",
+        "spectrum counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +212,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:54:11Z"
   }
 }

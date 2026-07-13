@@ -3,15 +3,17 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": null,
+    "quantification_method": "peptide mass fingerprinting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "chemical or drug treatment"
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      "CHO"
+    ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "purified protein or complex",
     "sample_scope_curie": "PPA:0000196",
@@ -23,36 +25,29 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
-        "confidence": "high",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
         "evidence": [
-          "The phosphorylation reaction was kept at 50\u2009\u00b5L containing 10\u2009\u00b5M of KFL728-839 with 5\u2009\u00b5M of MAPK or Src kinase"
+          "The addition of 5% 1,6-hexanediol (1,6-HD), an alcohol that disrupts weak hydrophobic interactions of proteins, substantially impaired droplet formation"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "MAPK or Src kinase",
-        "dose_or_concentration": "5\u2009\u00b5M",
-        "duration": "1\u2009h",
-        "route_or_context": "in vitro phosphorylation reaction",
-        "evidence": [
-          "The phosphorylation reaction was kept at 50\u2009\u00b5L containing 10\u2009\u00b5M of KFL728-839 with 5\u2009\u00b5M of MAPK or Src kinase",
-          "Mixed proteins were incubated for 1\u2009h"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "KFL728-839",
-        "dose_or_concentration": "10\u2009\u00b5M",
+        "agent": "1,6-hexanediol (1,6-HD)",
+        "dose_or_concentration": "5%",
         "duration": null,
-        "route_or_context": "substrate for phosphorylation",
+        "route_or_context": "in vitro and live cell imaging",
         "evidence": [
-          "The phosphorylation reaction was kept at 50\u2009\u00b5L containing 10\u2009\u00b5M of KFL728-839"
+          "The addition of 5% 1,6-hexanediol (1,6-HD), an alcohol that disrupts weak hydrophobic interactions of proteins, substantially impaired droplet formation",
+          "The working solution of 1,6-HD (Sigma-Aldrich, 240117) at a concentration of 5% in phenol-red free medium was freshly prepared."
         ]
       }
     ],
@@ -62,26 +57,30 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 h"
+      "24h"
     ],
     "control_arms": [
-      "unphosphorylated KFL728-839"
+      "NoLLPS",
+      "0.1% DMSO (vehicle control)"
     ],
     "case_arms": [
-      "Src-phosphorylated KFL728-839",
-      "MAPK-phosphorylated KFL728-839"
+      "LLPS",
+      "1,6-HD treatment",
+      "Calcium Ionophore treatment"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Graphs represent data from at least three independent experiments."
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "unphosphorylated KFL",
-        "case_label": "phosphorylated KFL",
+        "control_label": "NoLLPS",
+        "case_label": "LLPS",
         "contrast_type": "pairwise",
         "evidence": [
-          "To test whether phosphorylation of the PYK2 KFL alters its LLPS propensity, we incubated purified KFL with purified active kinases (either Src or a constitutively active homolog of the Erk MAP kinase, MPK4). Subsequent mass spectrometry analysis confirmed the in vitro phosphorylation of KFL"
+          "We compared an LLPS-containing KFL728-839 sample... to the same sample titrated with LLPS-disrupting 5% 1,6-HD."
         ]
       }
     ],
@@ -94,7 +93,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
@@ -104,7 +103,13 @@
       }
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "CHO",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
@@ -113,7 +118,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -122,9 +127,11 @@
   "assay": {
     "acquisition_type": "Unknown",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "quantification_strategy": [],
+    "quantification_strategy": [
+      "peptide mass fingerprinting"
+    ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
@@ -147,21 +154,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "The experiment uses in-gel trypsin digestion followed by MS analysis to identify modified residues. While no explicit quantification method is listed in PRIDE, the use of Mascot for peptide mass fingerprinting on digested bands is a standard DDA-style identification approach."
+          "reason": "The experiment uses in-gel trypsin digestion followed by MS analysis to identify modified residues. While no complex labeling (SILAC/TMT) is mentioned, the use of Mascot for peptide mass fingerprinting and identification of phosphorylation sites suggests a standard DDA approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_localization",
           "confidence": 0.9,
-          "reason": "The MS analysis specifically targets the identification of phosphorylation sites (Y819, S752, S759, T765) on the KFL728-839 fragment after incubation with Src and MAPK kinases."
+          "reason": "The primary goal of the MS analysis was to confirm in vitro phosphorylation of KFL at canonical sites for Src and MAP kinases."
         }
       ],
       "trigger_keywords": [
-        "in-gel trypsin digestion",
         "phosphorylation reaction",
+        "in-gel trypsin digestion",
         "identify modified residues",
-        "Mascot peptide mass fingerprinting"
+        "phosphorylated residue"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -170,21 +177,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "The experiment uses in-gel trypsin digestion followed by MS analysis to identify modified residues. While no explicit quantification method is listed in PRIDE, the use of Mascot for peptide mass fingerprinting on digested bands is a standard DDA-style identification approach."
+          "reason": "The experiment uses in-gel trypsin digestion followed by MS analysis to identify modified residues. While no complex labeling (SILAC/TMT) is mentioned, the use of Mascot for peptide mass fingerprinting and identification of phosphorylation sites suggests a standard DDA approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_localization",
           "confidence": 0.9,
-          "reason": "The MS analysis specifically targets the identification of phosphorylation sites (Y819, S752, S759, T765) on the KFL728-839 fragment after incubation with Src and MAPK kinases."
+          "reason": "The primary goal of the MS analysis was to confirm in vitro phosphorylation of KFL at canonical sites for Src and MAP kinases."
         }
       ],
       "trigger_keywords": [
-        "in-gel trypsin digestion",
         "phosphorylation reaction",
+        "in-gel trypsin digestion",
         "identify modified residues",
-        "Mascot peptide mass fingerprinting"
+        "phosphorylated residue"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -214,6 +221,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:00:54Z"
+    "stage3_refreshed_at": "2026-07-13T07:10:02Z"
   }
 }

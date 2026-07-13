@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "Parallel Reaction Monitoring (PRM)",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "serum"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "study the site-specific isomerism of haptoglobin (Hp) extracted from cirrhosis and HCC patients",
+          "15 cases of liver NASH cirrhosis, and 15 cases of NASH-related HCC",
+          "significant differences in abundance between patients with cirrhosis and HCC"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +45,89 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "cirrhosis"
+    ],
+    "case_arms": [
+      "HCC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "15 cases of liver NASH cirrhosis, and 15 cases of NASH-related HCC"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "cirrhosis",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "significant differences in abundance between cirrhosis and HCC samples (p < 0.05)",
+          "differentiate between cirrhosis and HCC group samples"
+        ]
+      },
+      {
+        "control_label": "cirrhosis",
+        "case_label": "early HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "When comparing cirrhosis vs. early HCC, the isomeric N-glycopeptide Asn207 + 5-6-0-1 better estimated AUC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Parallel Reaction Monitoring (PRM)",
+      "Peak area calculation"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +135,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "While the primary quantification was PRM, the initial identification of precursor ions was performed using a pooled sample in DDA mode."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire study is focused on the identification and quantification of isomeric N-glycopeptides from serum haptoglobin."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptides",
+        "PRM",
+        "glycoproteomic analysis",
+        "isomeric N-glycopeptides",
+        "glycosylation site"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "While the primary quantification was PRM, the initial identification of precursor ions was performed using a pooled sample in DDA mode."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The entire study is focused on the identification and quantification of isomeric N-glycopeptides from serum haptoglobin."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptides",
+        "PRM",
+        "glycoproteomic analysis",
+        "isomeric N-glycopeptides",
+        "glycosylation site"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:07:33Z"
   }
 }

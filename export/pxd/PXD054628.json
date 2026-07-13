@@ -3,25 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "B cells",
-      "T cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "This study examined and compared the blood extracellular vesicles (EVs) of lung cancer patients and healthy individuals using proteomics and bioinformatics analyses.",
+          "The results revealed that... the antibody subtypes from lung cancer serum EVs differ from those of healthy controls (HCs)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,38 +44,78 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "healthy individuals",
+      "HCs"
+    ],
+    "case_arms": [
+      "lung cancer patients",
+      "LA patients"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Nine patients with LA were randomly divided into three groups, each containing the mixed plasma of three patients, labeled LA 1\u20133, LA 4\u20136, and LA 7\u20139, respectively.",
+      "nine healthy individuals were randomly divided into three groups via the same method and labeled HC 1\u20133, HC 4\u20136, and HC 7\u20139."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Healthy Controls (HCs)",
+        "case_label": "Lung Adenocarcinoma (LA)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify the proteins and the DEPs of the LA patients and HCs."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood plasma",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "extracellular vesicles",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +124,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'label-free quantitative (LFQ) proteomic analysis' and 'MaxLFQ algorithm' with a QExactive HF-X mass spectrometer."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantitative (LFQ)",
+        "MaxLFQ",
+        "QExactive HF-X"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of 'label-free quantitative (LFQ) proteomic analysis' and 'MaxLFQ algorithm' with a QExactive HF-X mass spectrometer."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantitative (LFQ)",
+        "MaxLFQ",
+        "QExactive HF-X"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +182,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:04:21Z"
   }
 }

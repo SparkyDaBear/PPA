@@ -3,32 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
       "MDA-MB-231",
-      "DU145",
-      "SUM159",
-      "M1a",
-      "ob1"
+      "SUM159-M1a"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "surfaceome scope",
+    "sample_scope_curie": "PPA:0000200",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "co_culture_or_interaction_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "co_culture_or_interaction_state"
+        ],
+        "matched_definition": "Comparison between monoculture and interaction-enabled conditions.",
+        "confidence": "high",
+        "evidence": [
+          "N-glycoproteins were then isolated from MDA-MB-231 and SUM159-M1a cells",
+          "The 361 N-glycosylated proteins shared between the MDA-MB-231 and M1a cells were cross-referenced"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -36,39 +49,92 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "MDA-MB-231"
+    ],
+    "case_arms": [
+      "SUM159-M1a"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "detected in either all four samples or detected in both samples from one cell line"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "MDA-MB-231",
+        "case_label": "SUM159-M1a",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The 361 N-glycosylated proteins shared between the MDA-MB-231 and M1a cells were cross-referenced"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MDA-MB-231",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SUM159-M1a",
+        "family": "breast cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "surfaceome scope",
+      "curie": "PPA:0000200"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification",
+      "peptide peaks areas from MS1 extracted ion chromatograms"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +142,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'label-free LC-MS/MS'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoprotein_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized N-glycoprotein capture protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, and PNGase F digestion to release N-glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoprotein capture",
+        "PNGase F",
+        "label-free",
+        "alkoxyamine-biotinylation",
+        "N-glycopeptide release"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'label-free LC-MS/MS'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoprotein_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized N-glycoprotein capture protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, and PNGase F digestion to release N-glycopeptides."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycoprotein capture",
+        "PNGase F",
+        "label-free",
+        "alkoxyamine-biotinylation",
+        "N-glycopeptide release"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:10:21Z"
   }
 }

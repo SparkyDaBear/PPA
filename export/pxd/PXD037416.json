@@ -3,63 +3,128 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "IBAQ-Ub",
     "labeling_strategy": [
-      "LFQ"
+      "Other"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "Subsequent liquid chromatography-mass spectrometry (LC-MS) analysis of these fragments allows quantification of site-specific monoubiquitination frequency via a comparison of the corresponding chromatography peak-area ratios",
+          "The high purity of the monoubiquitinated \u03b1-synuclein facilitated a detailed stoichiometric analysis using our chemical proteomics approach"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NEDD4-family E3 ligases (NEDD4L, WWP2)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "in vitro recombinant protein ubiquitination",
+        "evidence": [
+          "we produced milligram quantities of two monoubiquitinated targets, Parkinson\u2019s protein \u03b1-synuclein and ESCRT-protein ALIX, using NEDD4-family E3 ligases",
+          "The N-terminal membrane binding region (MBR), central nonamyloid component (NAC), and C-terminal region (CTR) of \u03b1-synuclein were monoubiquitinated by NEDD4L"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "unmodified protein"
+    ],
+    "case_arms": [
+      "monoubiquitinated protein"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "13C-acetyl-NHS labeling for quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "unmodified",
+        "case_label": "monoubiquitinated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "quantification of site-specific monoubiquitination frequency via a comparison of the corresponding chromatography peak-area ratios"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Other"
+    ],
+    "quantification_strategy": [
+      "IBAQ-Ub",
+      "peak-area ratios"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +132,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using LTQ Orbitrap and MaxQuant; quantification is based on peak-area ratios of labeled pairs rather than standard LFQ or isobaric tags."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 0.9,
+          "reason": "Experiment specifically targets monoubiquitination hotspots using a chemical proteomics approach that generates di-glycine-like remnants (AcGG) on lysines."
+        }
+      ],
+      "trigger_keywords": [
+        "monoubiquitination",
+        "dipeptidyl lysine",
+        "AcGG labeling",
+        "IBAQ-Ub workflow",
+        "ubiquitination hotspots"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using LTQ Orbitrap and MaxQuant; quantification is based on peak-area ratios of labeled pairs rather than standard LFQ or isobaric tags."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 0.9,
+          "reason": "Experiment specifically targets monoubiquitination hotspots using a chemical proteomics approach that generates di-glycine-like remnants (AcGG) on lysines."
+        }
+      ],
+      "trigger_keywords": [
+        "monoubiquitination",
+        "dipeptidyl lysine",
+        "AcGG labeling",
+        "IBAQ-Ub workflow",
+        "ubiquitination hotspots"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +206,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:50:13Z"
   }
 }

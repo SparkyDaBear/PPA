@@ -3,65 +3,138 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "PRM",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "nasopharyngeal swab samples"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "This workflow was applied to 41 RT-PCR-confirmed clinical SARS-CoV-2 positive nasopharyngeal swab samples and 30 negative samples."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SARS-CoV-2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "nasopharyngeal swab samples",
+        "evidence": [
+          "41 RT-PCR-confirmed clinical SARS-CoV-2 positive nasopharyngeal swab samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "negative samples"
+    ],
+    "case_arms": [
+      "SARS-CoV-2 positive samples"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three process replicates were used to measure the inter and intra-experiment CV"
+    ],
+    "multiplex_channel_hints": [
+      "targeted parallel reaction monitoring (PRM) analysis"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "SARS-CoV-2 negative",
+        "case_label": "SARS-CoV-2 positive",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "This workflow was applied to 41 RT-PCR-confirmed clinical SARS-CoV-2 positive nasopharyngeal swab samples and 30 negative samples."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "SARS-CoV-2",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "nasopharyngeal swab",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "PRM",
+      "SISCAPA"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "SISCAPA-based enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +142,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "While the experiment is PRM (targeted), standard bottom-up reanalysis of raw files often defaults to DDA-like processing if a specific PRM pipeline is not available; however, the data is fundamentally targeted."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses Parallel Reaction Monitoring (PRM) for targeted analysis of specific viral peptides."
+        },
+        {
+          "modifier_workflow_id": "siscapa_enrichment",
+          "confidence": 1.0,
+          "reason": "The workflow uses Stable Isotope Standards and Capture by Anti-Peptide Antibodies (SISCAPA) for peptide-level enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "Parallel Reaction Monitoring",
+        "SISCAPA",
+        "targeted workflow",
+        "anti-peptide antibodies"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "While the experiment is PRM (targeted), standard bottom-up reanalysis of raw files often defaults to DDA-like processing if a specific PRM pipeline is not available; however, the data is fundamentally targeted."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses Parallel Reaction Monitoring (PRM) for targeted analysis of specific viral peptides."
+        },
+        {
+          "modifier_workflow_id": "siscapa_enrichment",
+          "confidence": 1.0,
+          "reason": "The workflow uses Stable Isotope Standards and Capture by Anti-Peptide Antibodies (SISCAPA) for peptide-level enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "PRM",
+        "Parallel Reaction Monitoring",
+        "SISCAPA",
+        "targeted workflow",
+        "anti-peptide antibodies"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +226,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:27:23Z"
   }
 }

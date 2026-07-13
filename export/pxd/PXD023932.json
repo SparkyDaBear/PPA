@@ -3,18 +3,19 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion intensity",
     "labeling_strategy": [
       "TMT",
-      "Other"
+      "Dimethyl",
+      "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "acute myeloid leukemia cells"
+      "acute myeloid leukemia cells",
+      "blood cell"
     ],
     "cell_lines": [
       "OCI-AML3",
@@ -25,53 +26,247 @@
       "HEK293T",
       "PC3"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "we describe ABD957, a potent and selective covalent inhibitor of the ABHD17 family of depalmitoylases",
+          "General lipase inhibitors such as Palmostatin M block N-Ras depalmitoylation",
+          "treated with DMSO, Palm M (10 \u03bcM), HDFP (20 \u03bcM), JJH254 (1 \u03bcM), ABD298 (500 nM) or ABD957 (500 nM or 1 \u03bcM)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "we generated OCI-AML3 cell lines lacking both ABHD17A and ABHD17B (ABHD17-DKO) or both LYPLA1 and LYPLA2 (LYPLA-DKO) using CRISPR/Cas9 genome editing methods",
+          "triple knockdown of ABHD17A/B/C by RNA interference impaired N-Ras palmitoylation turnover"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ABD957",
+        "dose_or_concentration": "500 nM or 1 \u03bcM",
+        "duration": "2 h",
+        "route_or_context": "in situ",
+        "evidence": [
+          "MS-based ABPP experiments on OCI-AML3 cells treated in situ with ABD957 (500 nM) for 2 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Palmostatin M",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "treated with DMSO, Palm M (10 \u03bcM)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HDFP",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "treated with DMSO, Palm M (10 \u03bcM), HDFP (20 \u03bcM)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "t0",
+      "t1"
+    ],
+    "control_arms": [
+      "DMSO",
+      "JJH254",
+      "ABD298"
+    ],
+    "case_arms": [
+      "ABD957",
+      "Palm M",
+      "HDFP",
+      "ABHD17-DKO",
+      "LYPLA-DKO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "For in situ datasets (n = 3)",
+      "Each treatment was performed in triplicate"
+    ],
+    "multiplex_channel_hints": [
+      "multiplexed MS-based proteomics using tandem mass tagging (TMT)",
+      "6-plex, 10-plex, or 16-plex TMT tag",
+      "duplex reductive dimethylation (ReDiMe)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "ABD957",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "DMSO vs. inhibitor treated"
+        ]
+      },
+      {
+        "control_label": "t0",
+        "case_label": "t1",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "designated t0, or re-suspended in pre-warmed chase medium... designated t1"
+        ]
+      },
+      {
+        "control_label": "Parental OCI-AML3",
+        "case_label": "ABHD17-DKO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared to parental OCI-AML3 or LYPLA-DKO control lines"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "acute myeloid leukemia cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "blood cell",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000081"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "OCI-AML3",
+        "family": "acute myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "NB-4",
+        "family": "acute myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "NOMO1",
+        "family": "acute myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "HL60",
+        "family": "acute myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "THP1",
+        "family": "acute myeloid leukemia",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": "embryonic kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "PC3",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "human liver microsomes",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "Dimethyl",
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion intensity",
+      "Reductive dimethylation ratio",
+      "SILAC heavy/light ratios"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "palmitoylation enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_lip_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -79,10 +274,104 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Extensive use of TMT (6-plex, 10-plex, 16-plex) with MS3-based acquisition on Orbitrap Fusion."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "Explicit mention of duplex and triplex reductive dimethylation (ReDiMe) using CH2O and 13CD2O."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "General DDA mentioned, but primarily used for spectral libraries for PRM."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_abpp",
+          "confidence": 1.0,
+          "reason": "The entire study is based on Activity-Based Protein Profiling (ABPP) using FP-biotin and FP-Rhodamine probes to target serine hydrolases."
+        },
+        {
+          "modifier_workflow_id": "modifier_silac",
+          "confidence": 0.8,
+          "reason": "Use of SILAC (heavy lysine/arginine) combined with TMT for protein turnover/half-life measurements."
+        },
+        {
+          "modifier_workflow_id": "modifier_palmitoylation",
+          "confidence": 0.8,
+          "reason": "Use of 17-ODYA metabolic labeling and click chemistry (Biotin-N3) to enrich palmitoylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "reductive dimethylation",
+        "ABPP",
+        "17-ODYA",
+        "SILAC",
+        "SPS-MS3",
+        "biotin-N3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Extensive use of TMT (6-plex, 10-plex, 16-plex) with MS3-based acquisition on Orbitrap Fusion."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "Explicit mention of duplex and triplex reductive dimethylation (ReDiMe) using CH2O and 13CD2O."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "General DDA mentioned, but primarily used for spectral libraries for PRM."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_abpp",
+          "confidence": 1.0,
+          "reason": "The entire study is based on Activity-Based Protein Profiling (ABPP) using FP-biotin and FP-Rhodamine probes to target serine hydrolases."
+        },
+        {
+          "modifier_workflow_id": "modifier_silac",
+          "confidence": 0.8,
+          "reason": "Use of SILAC (heavy lysine/arginine) combined with TMT for protein turnover/half-life measurements."
+        },
+        {
+          "modifier_workflow_id": "modifier_palmitoylation",
+          "confidence": 0.8,
+          "reason": "Use of 17-ODYA metabolic labeling and click chemistry (Biotin-N3) to enrich palmitoylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "reductive dimethylation",
+        "ABPP",
+        "17-ODYA",
+        "SILAC",
+        "SPS-MS3",
+        "biotin-N3"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -103,6 +392,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:08:55Z"
   }
 }

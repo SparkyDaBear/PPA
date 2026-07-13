@@ -3,65 +3,141 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "myocardium"
+      "cardiomyocytes"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "AVS patients were categorised based on left ventricle mass regression (LVM): complete RR (\u2265 15%) or incomplete RR (\u2264 5%).",
+          "we aimed to characterise, for the first time, the myocardial proteome and phosphoproteome in AVS patients undergoing AVR and assess its association with patients\u2019 outcomes regarding LV mass (LVM) regression."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "perioperative"
+    ],
+    "control_arms": [
+      "complete RR (cRR)"
+    ],
+    "case_arms": [
+      "incomplete RR (iRR)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Eight patients were selected for an exploratory shotgun proteomics/phosphoproteomics study (discovery cohort, A)."
+    ],
+    "multiplex_channel_hints": [
+      "MaxQuant\u2019s label-free quantification algorithm (MaxLFQ) was used"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "complete RR",
+        "case_label": "incomplete RR",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MaxQuant\u2019s label-free quantification algorithm (MaxLFQ) was used to calculate the fold-change of proteins/phosphopeptides between cRR and iRR."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "mice",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "cardiomyocytes",
+        "rollup_category": "heart cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "myocardium",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "left ventricle",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +145,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses DDA mode on an Orbitrap Fusion Lumos with MaxLFQ for label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performs TiO2-based phosphopeptide enrichment and analyzes the phosphoproteome."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "MaxLFQ",
+        "label-free quantification",
+        "TiO2 Phosphopeptide Enrichment",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses DDA mode on an Orbitrap Fusion Lumos with MaxLFQ for label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performs TiO2-based phosphopeptide enrichment and analyzes the phosphoproteome."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "MaxLFQ",
+        "label-free quantification",
+        "TiO2 Phosphopeptide Enrichment",
+        "phosphoproteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:07:11Z"
   }
 }

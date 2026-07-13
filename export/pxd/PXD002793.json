@@ -3,15 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Nutrient or Metabolic Perturbation",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "colon epithelial cell"
@@ -21,52 +18,139 @@
       "SW480"
     ],
     "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "high-molecular weight fraction",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Cells were treated with 1\u03bcg/ml VP for 2 hours, and protein lysates were separated on SDS-PAGE.",
+          "Verteporfin (VP), an FDA approved drug used as a photosensitizer for photodynamic therapy in patients with age-related macular degeneration (AMD) potently inhibits YAP1 transcriptional activity"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "verteporfin",
+        "dose_or_concentration": "1\u03bcg/ml",
+        "duration": "2 hours",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "Cells were treated with 1\u03bcg/ml VP for 2 hours, and protein lysates were separated on SDS-PAGE."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "2 hours"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "VP-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "identified in both HCT-116 cells and SW480"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "VP-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteomic analysis of oligomers... Cells were treated with 1\u03bcg/ml VP for 2 hours"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colon epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0011108"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT-116",
+        "family": "colon cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SW480",
+        "family": "colon cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "subproteome",
-      "label": null,
-      "curie": null
+      "label": "high-molecular weight fraction",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "Unknown"
+    ],
     "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "low"
+      },
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "low"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +158,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (implied by Proteome Discoverer and Orbitrap Fusion) and gel-based fractionation (SDS-PAGE >100kD). While no explicit label is mentioned, the goal is to identify proteins present in the high-molecular weight fraction across two cell lines (HCT-116 and SW480), which typically follows a label-free identification or relative abundance approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_ubiquitin",
+          "confidence": 0.7,
+          "reason": "Ubiquitination of lysine was explicitly listed as a dynamic modification in the search parameters."
+        }
+      ],
+      "trigger_keywords": [
+        "SDS-PAGE",
+        "high-molecular weight",
+        "Proteome Discoverer",
+        "ubiquitination"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (implied by Proteome Discoverer and Orbitrap Fusion) and gel-based fractionation (SDS-PAGE >100kD). While no explicit label is mentioned, the goal is to identify proteins present in the high-molecular weight fraction across two cell lines (HCT-116 and SW480), which typically follows a label-free identification or relative abundance approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_ubiquitin",
+          "confidence": 0.7,
+          "reason": "Ubiquitination of lysine was explicitly listed as a dynamic modification in the search parameters."
+        }
+      ],
+      "trigger_keywords": [
+        "SDS-PAGE",
+        "high-molecular weight",
+        "Proteome Discoverer",
+        "ubiquitination"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +230,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:40:12Z"
   }
 }

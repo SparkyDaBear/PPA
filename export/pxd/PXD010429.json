@@ -2,26 +2,58 @@
   "pxd": "PXD010429",
   "title": null,
   "summary": {
-    "acquisition_type": "DIA",
-    "quantification_method": "Reporter ion MS2",
+    "acquisition_type": "DDA",
+    "quantification_method": "TMT reporter ion intensities",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "squamous cell carcinoma"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "integrate DNA copy number, somatic mutations, RNA-sequencing, and expression proteomics in a cohort of 108 squamous cell lung cancer (SCC) patients.",
+          "We identified three proteomic subtypes, two of which (Inflamed, Redox) comprise 87% of tumors."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "medium",
+        "evidence": [
+          "To compare the mutant NFE2L2/KEAP1 proteome to the Redox subtype, we next took tumors with either a NFE2L2 or KEAP1 mutation (41 samples total; 32 Redox, six Inflamed, three Mixed) and compared to NFE2L2 and KEAP1 wild-type tumors."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,13 +61,50 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "NFE2L2 and KEAP1 wild-type tumors"
+    ],
+    "case_arms": [
+      "Inflamed subtype",
+      "Redox subtype",
+      "Mixed subtype",
+      "NFE2L2 or KEAP1 mutation tumors"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two tumor pool replicates"
+    ],
+    "multiplex_channel_hints": [
+      "TMT 6-plex",
+      "one pool fixed in channel 126"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Rest of cohort",
+        "case_label": "Inflamed subtype",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "these comparisons and others were made for a given subtype or group vs. the rest of the cohort."
+        ]
+      },
+      {
+        "control_label": "Rest of cohort",
+        "case_label": "Redox subtype",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "these comparisons and others were made for a given subtype or group vs. the rest of the cohort."
+        ]
+      },
+      {
+        "control_label": "NFE2L2 and KEAP1 wild-type tumors",
+        "case_label": "NFE2L2 or KEAP1 mutation tumors",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared to NFE2L2 and KEAP1 wild-type tumors"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -47,7 +116,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -57,10 +126,15 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion intensities",
+      "internal reference scaling"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +143,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes TMT labeling, TMT 6-plex experiments, and the use of reporter ion intensities for quantification."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.7,
+          "reason": "The methods section mentions that DIA aliquots were injected and describes DIA tandem mass spectrometry scans, though the primary results focus on TMT."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "tandem mass tag",
+        "TMT 6-plex",
+        "reporter ion intensities",
+        "DIA",
+        "data independent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes TMT labeling, TMT 6-plex experiments, and the use of reporter ion intensities for quantification."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.7,
+          "reason": "The methods section mentions that DIA aliquots were injected and describes DIA tandem mass spectrometry scans, though the primary results focus on TMT."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMT",
+        "tandem mass tag",
+        "TMT 6-plex",
+        "reporter ion intensities",
+        "DIA",
+        "data independent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:39:47Z"
   }
 }

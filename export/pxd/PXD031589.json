@@ -8,7 +8,10 @@
       "SILAC",
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "genetic perturbation",
+      "nutrient or metabolic perturbation"
+    ],
     "cell_types": [],
     "cell_lines": [
       "HEK293T"
@@ -19,21 +22,118 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "CRISPR-Cas9\u2013mediated gene editing was used to generate COA7 knockout (COA7KO) HEK293T cell lines.",
+          "Two clones (termed COA7KO-1 and COA7KO-2) were found to contain frameshift deletions in the COA7 gene"
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "nutrient_deprivation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "nutrient_deprivation"
+        ],
+        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "confidence": "medium",
+        "evidence": [
+          "chemical cross-linking proteomics on control cells and COA7KO + COA7Flag cells grown in standard glucose-containing media or with galactose (where cells are reliant on OXPHOS for ATP).",
+          "CPOXKO cells grown in heme-depleted media"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CRISPR-Cas9 COA7 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293T cells",
+        "evidence": [
+          "CRISPR-Cas9\u2013mediated gene editing was used to generate COA7 knockout (COA7KO) HEK293T cell lines."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "galactose",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "culture media",
+        "evidence": [
+          "grown in standard glucose-containing media or with galactose (where cells are reliant on OXPHOS for ATP)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "succinylacetone (SA)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "heme biosynthesis inhibition",
+        "evidence": [
+          "in the presence or absence of succinylacetone (SA), an inhibitor of 5-aminolevulinic acid dehydratase (ALAD)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "control cells",
+      "wild-type COA7"
+    ],
+    "case_arms": [
+      "COA7KO",
+      "CPOXKO",
+      "COA7 variants (D6G, R39W, Y137C, S149I)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Two clones (termed COA7KO-1 and COA7KO-2)"
+    ],
+    "multiplex_channel_hints": [
+      "quantitative stable isotope labeling of amino acids in cell culture (SILAC) proteomics",
+      "multiplicity set to 2 (Lys8, Arg10)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "COA7KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "investigate the effect of COA7 loss on the mitoproteome",
+          "Control and COA7KO-1 cells were labeled"
+        ]
+      },
+      {
+        "control_label": "Glucose",
+        "case_label": "Galactose",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "grown in standard glucose-containing media or with galactose"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -49,7 +149,7 @@
       {
         "label": "E. coli",
         "taxonomy_hint": null,
-        "confidence": "high"
+        "confidence": "medium"
       }
     ],
     "cell_types": [],
@@ -60,12 +160,7 @@
         "ontology_curie": null
       }
     ],
-    "noncellular_sources": [
-      {
-        "label": "mitochondria",
-        "source_kind": "organ"
-      }
-    ],
+    "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -116,14 +211,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly states 'For label-free (LFQ) AE-MS experiments, default search parameters were used with Label free quantitation set to LFQ'."
+          "reason": "PRIDE metadata explicitly states 'For label-free (LFQ) AE-MS experiments' and 'Label free quantitation set to LFQ'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_enrichment",
           "confidence": 1.0,
-          "reason": "Multiple mentions of affinity-enrichment mass spectrometry (AE-MS) using Flag-tags (COX4Flag, COA7Flag)."
+          "reason": "Multiple mentions of 'affinity-enrichment mass spectrometry analysis' and 'AE-MS' for interactome studies."
         },
         {
           "modifier_workflow_id": "chemical_crosslinking",
@@ -134,9 +229,9 @@
       "trigger_keywords": [
         "SILAC",
         "LFQ",
-        "affinity-enrichment mass spectrometry",
-        "chemical cross-linking proteomics",
-        "DDA"
+        "affinity-enrichment",
+        "AE-MS",
+        "chemical cross-linking"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -150,14 +245,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly states 'For label-free (LFQ) AE-MS experiments, default search parameters were used with Label free quantitation set to LFQ'."
+          "reason": "PRIDE metadata explicitly states 'For label-free (LFQ) AE-MS experiments' and 'Label free quantitation set to LFQ'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_enrichment",
           "confidence": 1.0,
-          "reason": "Multiple mentions of affinity-enrichment mass spectrometry (AE-MS) using Flag-tags (COX4Flag, COA7Flag)."
+          "reason": "Multiple mentions of 'affinity-enrichment mass spectrometry analysis' and 'AE-MS' for interactome studies."
         },
         {
           "modifier_workflow_id": "chemical_crosslinking",
@@ -168,9 +263,9 @@
       "trigger_keywords": [
         "SILAC",
         "LFQ",
-        "affinity-enrichment mass spectrometry",
-        "chemical cross-linking proteomics",
-        "DDA"
+        "affinity-enrichment",
+        "AE-MS",
+        "chemical cross-linking"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -200,6 +295,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:09:04Z"
+    "stage3_refreshed_at": "2026-07-13T05:40:24Z"
   }
 }

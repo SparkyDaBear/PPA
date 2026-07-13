@@ -3,24 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "NSAF",
+    "quantification_method": "Normalized Spectral Abundance Factors (NSAF)",
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
-    "cell_types": [
-      "neutrophil",
-      "epithelial cell",
-      "bacterial cell"
+    "treatment_categories": [
+      "disease or clinical state"
     ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "subproteome",
-    "sample_scope_label": "subproteome",
-    "sample_scope_curie": "PPA:0000195",
+    "sample_scope_label": "microbial enrichment",
+    "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Hallmarks of cystic fibrosis (CF) are increased viscosity of mucus and impaired mucociliary clearance within the airways due to mutations of the cystic fibrosis conductance regulator gene.",
+          "we used 21 CF sputum samples to develop a reliable, reproducible and widely applicable protocol"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,15 +44,28 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "non-enriched control"
+    ],
+    "case_arms": [
+      "enriched samples"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [
       "Each sample was measured twice, creating two technical replicates per sample."
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-enriched control",
+        "case_label": "enriched sample",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared a non-enriched control and the enriched sample using a state-of-the-art metaproteomics workflow"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -46,52 +75,16 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
-        "label": "Staphylococcus sp.",
+        "label": "microbial pathogens",
         "taxonomy_hint": null,
-        "confidence": "medium"
-      },
-      {
-        "label": "Haemophilus sp.",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      },
-      {
-        "label": "Burkholderia sp.",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      },
-      {
-        "label": "Pseudomonas sp.",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      },
-      {
-        "label": "Streptococcus sp.",
-        "taxonomy_hint": null,
-        "confidence": "medium"
+        "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "neutrophil",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "bacterial cell",
-        "rollup_category": "prokaryotic cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [
       {
@@ -101,12 +94,12 @@
     ],
     "sample_scope": {
       "category": "subproteome",
-      "label": "subproteome",
-      "curie": "PPA:0000195"
+      "label": "microbial enrichment",
+      "curie": null
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -118,10 +111,17 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "NSAF"
+      "Normalized Spectral Abundance Factors (NSAF)"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "metaproteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_metaproteomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -129,35 +129,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "DDA acquisition on Orbitrap Elite with label-free NSAF spectral counting quantification"
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (top 20 most abundant precursor ions) and label-free quantification based on Normalized Spectral Abundance Factors (NSAF)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "gel_based_fractionation",
-          "confidence": 0.7,
-          "reason": "SDS-PAGE separation into 20 gel slices prior to LC-MS/MS"
-        },
-        {
-          "modifier_workflow_id": "microbial_enrichment",
-          "confidence": 0.6,
-          "reason": "Differential centrifugation and filtration to enrich microbial cells"
+          "modifier_workflow_id": "metaproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes a metaproteomic analysis of microbial pathogens in CF sputum using patient-specific databases constructed from 16S sequencing."
         }
       ],
       "trigger_keywords": [
-        "Orbitrap Elite",
+        "metaproteomic",
         "NSAF",
-        "SDS-PAGE",
-        "Mascot",
-        "X! Tandem",
-        "dynamic exclusion",
-        "CID"
+        "patient-specific databases",
+        "spectral counting",
+        "microbial enrichment"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -165,30 +158,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "DDA acquisition on Orbitrap Elite with label-free NSAF spectral counting quantification"
+          "confidence": 1.0,
+          "reason": "The experiment used DDA (top 20 most abundant precursor ions) and label-free quantification based on Normalized Spectral Abundance Factors (NSAF)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "gel_based_fractionation",
-          "confidence": 0.7,
-          "reason": "SDS-PAGE separation into 20 gel slices prior to LC-MS/MS"
-        },
-        {
-          "modifier_workflow_id": "microbial_enrichment",
-          "confidence": 0.6,
-          "reason": "Differential centrifugation and filtration to enrich microbial cells"
+          "modifier_workflow_id": "metaproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly describes a metaproteomic analysis of microbial pathogens in CF sputum using patient-specific databases constructed from 16S sequencing."
         }
       ],
       "trigger_keywords": [
-        "Orbitrap Elite",
+        "metaproteomic",
         "NSAF",
-        "SDS-PAGE",
-        "Mascot",
-        "X! Tandem",
-        "dynamic exclusion",
-        "CID"
+        "patient-specific databases",
+        "spectral counting",
+        "microbial enrichment"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,6 +204,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T04:48:43Z"
+    "stage3_refreshed_at": "2026-07-13T08:26:35Z"
   }
 }

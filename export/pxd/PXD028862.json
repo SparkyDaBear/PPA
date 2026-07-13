@@ -8,63 +8,130 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "CD8 T cells",
-      "PBMC"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "B721.221"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic",
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "HLA mono-allelic B721.221 cells were retrovirally transduced to express single HLA alleles",
+          "The HLA mono-allelic B721.221 cells were then retrovirally transduced with plasmids coding for SARS-CoV-2 proteins (spike 1 (aa 1\u2013541), spike 2 (aa 490\u2013975), spike 3 (aa 888\u20131273), spike, nucleocapsid, membrane-T2A-envelope, and ORF3a; GenBank: MN908947.3)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "doxycycline",
+        "dose_or_concentration": "1 \u03bcg/mL",
+        "duration": "48 h",
+        "route_or_context": "induction of target protein expression in B721.221 cells",
+        "evidence": [
+          "expression of the target proteins was induced by culturing the cells in the presence of doxycycline (1 \u03bcg/mL; replenished every 24 h) for 48 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "non-transduced or non-induced B721.221 cells"
+    ],
+    "case_arms": [
+      "HLA mono-allelic B721.221 cells transduced with SARS-CoV-2 proteins"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Mock/Non-induced",
+        "case_label": "SARS-CoV-2 protein expressing",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "expression of the target proteins was induced by culturing the cells in the presence of doxycycline"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "B721.221",
+        "family": "HLA-1 null cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +139,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive instrument. While no specific labeling is mentioned, the goal is identification of eluted ligands (immunopeptidomics), typically processed as LFQ or simple identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 0.95,
+          "reason": "The experiment specifically describes the purification of HLA peptide complexes via immunoprecipitation (pan HLA class I antibody) and subsequent MS analysis of the eluted ligands."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA ligandome",
+        "eluted HLA ligands",
+        "immunoprecipitation",
+        "pan HLA class I antibody"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive instrument. While no specific labeling is mentioned, the goal is identification of eluted ligands (immunopeptidomics), typically processed as LFQ or simple identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 0.95,
+          "reason": "The experiment specifically describes the purification of HLA peptide complexes via immunoprecipitation (pan HLA class I antibody) and subsequent MS analysis of the eluted ligands."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA ligandome",
+        "eluted HLA ligands",
+        "immunoprecipitation",
+        "pan HLA class I antibody"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:20:29Z"
   }
 }

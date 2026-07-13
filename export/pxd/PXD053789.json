@@ -3,24 +3,42 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMTpro 16 plex reporter ions",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "synovial sarcoma"
+      "synovial sarcoma cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Among the 55 SS patients, 88 tumor samples had both whole transcriptomic data (WTS) and target gene DNA-seq data, of which 14 fresh frozen samples had proteomics data.",
+          "At the proteomic level, among the 13 viable samples, 2 were classified as SS subtype III, 7 as SS subtype I, and 4 as SS subtype II."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,37 +47,84 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "SS subtype I",
+      "SS subtype II",
+      "SS subtype III"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "TMTpro 16 plex reagent"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "SS subtype II",
+        "case_label": "SS subtype I",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Pairwise subtype differences at the protein level were estimated with DEqMS (v1.12.1)."
+        ]
+      },
+      {
+        "control_label": "SS subtype II",
+        "case_label": "SS subtype III",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Pairwise subtype differences at the protein level were estimated with DEqMS (v1.12.1)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "synovial sarcoma cells",
+        "rollup_category": "malignant cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "synovial sarcoma tumors",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMTpro 16 plex reporter ions"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -68,10 +133,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro 16 plex isobaric tags and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMTpro 16 plex",
+        "isobaric TMT-tags",
+        "data-dependent MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMTpro 16 plex isobaric tags and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "TMTpro 16 plex",
+        "isobaric TMT-tags",
+        "data-dependent MS/MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +191,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:28:54Z"
   }
 }

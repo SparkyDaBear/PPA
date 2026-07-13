@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "epithelial cell of prostate"
@@ -20,13 +19,32 @@
       "LNCaP",
       "LNCaP-LN3"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Based on a comparative global succinylome study in PC-3 and PC-3M cell lines",
+          "PC-3 and PC-3M cells were labeled with light (K0R0) and heavy (K8R10) SILAC medium, respectively.",
+          "The PC-3M cell line, which is a highly metastatic subline of PC-3 isolated from a PC-3-induced mouse tumor and shows increased migration compared to PC-3 cells, is used as a positive control."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -34,39 +52,105 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "PC-3"
+    ],
+    "case_arms": [
+      "PC-3M"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Biological replicates of two different samples were also prepared to minimize the impact of biological variation."
+    ],
+    "multiplex_channel_hints": [
+      "SILAC-based quantitative proteomics",
+      "PC-3 and PC-3M cells were labeled with light (K0R0) and heavy (K8R10) SILAC medium, respectively."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "PC-3",
+        "case_label": "PC-3M",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Based on a comparative global succinylome study in PC-3 and PC-3M cell lines",
+          "we quantified 2958 proteins and in total 194 (6.5%) of them were differentially expressed proteins (DEPs), which include 36 (1.2%) up-regulated and 158 (5.3%) down-regulated proteins in PC-3M cells compared to PC-3 cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell of prostate",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0002231"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "PC-3",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "PC-3M",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LNCaP",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LNCaP-LN3",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "lysine succinylation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +158,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of SILAC-based quantitative proteomics with DDA (top 20) on an LTQ-velos Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_succinylome",
+          "confidence": 1.0,
+          "reason": "Experiment specifically targets the 'global succinylome' using anti-succinyl-lysine antibody-conjugated agarose beads for enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "succinylome",
+        "anti-succinyl-lysine antibody",
+        "DDA",
+        "Ksu"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly stated use of SILAC-based quantitative proteomics with DDA (top 20) on an LTQ-velos Orbitrap."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_succinylome",
+          "confidence": 1.0,
+          "reason": "Experiment specifically targets the 'global succinylome' using anti-succinyl-lysine antibody-conjugated agarose beads for enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "succinylome",
+        "anti-succinyl-lysine antibody",
+        "DDA",
+        "Ksu"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +232,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:19:34Z"
   }
 }

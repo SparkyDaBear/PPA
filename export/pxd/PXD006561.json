@@ -3,69 +3,141 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "prostate cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "LNCaP",
       "LAPC4"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "CDK4/6 kinase inhibitors have shown great promise in clinical trials",
+          "new resistance models were generated from LNCaP and LAPC4 prostate cancer cells cells by prolonged culturing in presence of 0.5uM palbociclib",
+          "unravel the molecular underpinnings of acquired resistance to palbociclib"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "palbociclib",
+        "dose_or_concentration": "0.5uM",
+        "duration": "prolonged culturing",
+        "route_or_context": "LNCaP and LAPC4 prostate cancer cells",
+        "evidence": [
+          "new resistance models were generated from LNCaP and LAPC4 prostate cancer cells cells by prolonged culturing in presence of 0.5uM palbociclib"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "sensitive cells"
+    ],
+    "case_arms": [
+      "resistant cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Samples were run in technical duplicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "palbociclib sensitive",
+        "case_label": "palbociclib resistant",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "average fold change between palbociclib resistant LNCaP cell lines and sensitive cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "LNCaP",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LAPC4",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +145,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun phosphoproteomics using Q Exactive HF (DDA) and MaxQuant Andromeda; no mention of SILAC, TMT, or DIA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of phosphotyrosine antibody-based enrichment and titanium dioxide columns for pY and pST peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun phosphoproteomics",
+        "phosphotyrosine antibody-based enrichment",
+        "titanium dioxide columns",
+        "MaxQuant Andromeda"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun phosphoproteomics using Q Exactive HF (DDA) and MaxQuant Andromeda; no mention of SILAC, TMT, or DIA."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of phosphotyrosine antibody-based enrichment and titanium dioxide columns for pY and pST peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "shotgun phosphoproteomics",
+        "phosphotyrosine antibody-based enrichment",
+        "titanium dioxide columns",
+        "MaxQuant Andromeda"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +217,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:26:09Z"
   }
 }

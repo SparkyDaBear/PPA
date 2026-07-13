@@ -3,69 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "normalized spectral counts",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "macrophage foam cells",
-      "THP-1 monocytes"
+      "macrophage foam cell"
     ],
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "lipid droplet proteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "these cells were subsequently treated (or not) with chloroquine to inhibit autophagy",
+          "proteins that were abundant in the chloroquine treated samples versus all proteins identified by mass spectrometry",
+          "Files with the \"C\" suffix correspond to chloroquine treated samples."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "chloroquine",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": null,
+        "route_or_context": "incubation with agLDL (50 \u00b5g/mL) for 30 h followed by an equilibration period of 24 h with or without 10 \u00b5M chloroquine",
+        "evidence": [
+          "followed by an equilibration period of 24 h with or without 10 \u00b5M chloroquine (Sigma, C6628) in RPMI 1640 medium"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h equilibration"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "chloroquine-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Proteins were defined as abundant on LDs of chloroquine-treated cells if present in 2 or 3 replicates of the LD fraction of chloroquine-treated cells, but in 0 or 1 replicate in the LD fraction of untreated cells."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "chloroquine-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We computationally investigated the proteome of chloroquine-treated versus untreated cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage foam cell",
+        "rollup_category": "macrophage",
+        "ontology_curie": "CL:0000235"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "monocyte",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "lipid droplet proteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "normalized spectral counts"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "lipid droplet proteome",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +149,48 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used DDA (shotgun proteomics) on an Orbitrap Elite and performed quantification using normalized spectral counts, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "normalized spectral counts",
+        "shotgun proteomics",
+        "LTQ Velos Pro Orbitrap Elite"
+      ],
+      "raw_or_file_name_triggers": [
+        "C"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used DDA (shotgun proteomics) on an Orbitrap Elite and performed quantification using normalized spectral counts, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "normalized spectral counts",
+        "shotgun proteomics",
+        "LTQ Velos Pro Orbitrap Elite"
+      ],
+      "raw_or_file_name_triggers": [
+        "C"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +211,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:10:23Z"
   }
 }

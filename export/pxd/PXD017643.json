@@ -3,24 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "Isobaric labeling",
     "labeling_strategy": [
-      "iTRAQ",
-      "TMT"
+      "TMT",
+      "iTRAQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "Discovery proteomics compared 169 pooled CSF from MS subtypes and inflammatory/degenerative CNS diseases (NMO spectrum and Alzheimer disease) and healthy controls.",
+          "CSF samples were obtained... from patients with newly diagnosed, untreated RRMS... untreated PPMS... untreated SPMS, AD... NMOSD AQP4-IgG+... NMOSD AQP4-IgG- and healthy controls"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,38 +45,99 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "healthy controls",
+      "Alzheimer disease (AD)",
+      "NMOSD AQP4-IgG+",
+      "NMOSD AQP4-IgG-"
+    ],
+    "case_arms": [
+      "RRMS (relapse)",
+      "RRMS (remission)",
+      "PPMS",
+      "SPMS"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three technical replicates of the sample pools",
+      "every patient within a patient group was set as a Biological replicate"
+    ],
+    "multiplex_channel_hints": [
+      "labelled with one of the iTRAQ 8plex reagent labels",
+      "labelled with one of the TMT 11plex label"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "healthy controls",
+        "case_label": "MS subtypes",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Apolipoprotein C-I, apolipoprotein A-II, augurin, receptor-type tyrosine-protein phosphatase gamma, and trypsin-1 were upregulated in the CSF of MS subtypes compared to controls."
+        ]
+      },
+      {
+        "control_label": "relapsing MS",
+        "case_label": "SPMS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Apolipoprotein A-II was significantly upregulated in SPMS compared to relapsing MS, AQP4-IgG+ NMOSD and healthy controls"
+        ]
+      },
+      {
+        "control_label": "healthy controls",
+        "case_label": "AQP4-IgG+ NMOSD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Volcano maps of normalized proteins in different disease groups also indicated that AQP4-IgG+ NMOSD and SPMS had the highest amount of altered proteins compared to healthy controls"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "cerebrospinal fluid",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "iTRAQ"
+    ],
+    "quantification_strategy": [
+      "Isobaric labeling",
+      "Parallel Reaction Monitoring (PRM)"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -68,10 +146,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses iTRAQ 8plex for discovery and TMT 11plex for targeted quantification, both of which are isobaric labeling methods."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "iTRAQ 8plex",
+        "TMT 11plex",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses iTRAQ 8plex for discovery and TMT 11plex for targeted quantification, both of which are isobaric labeling methods."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "iTRAQ 8plex",
+        "TMT 11plex",
+        "isobaric"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +204,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:45:17Z"
   }
 }

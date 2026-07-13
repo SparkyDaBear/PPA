@@ -3,14 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cells"
@@ -20,53 +19,207 @@
       "T47D",
       "BT20"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "growth_factor_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "confidence": "high",
+        "evidence": [
+          "FGFR2b stimulated by its recycling ligand FGF10",
+          "cells were washed with PBS and either left untreated or treated with FGF10 (100 ng/mL) for 40 min"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "We transiently expressed (more than 80% of positive cells) Dynamin_K44A-eGFP (dominant negative Dynamin, DnDNM2) or eGFP-RAB11_S25N (dominant negative RAB11, DnRAB11), which are known to inhibit FGFR2b internalisation and recycling"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FGF10",
+        "dose_or_concentration": "100 ng/mL",
+        "duration": "40 min",
+        "route_or_context": "stimulation of FGFR2b",
+        "evidence": [
+          "treated with FGF10 (100 ng/mL) for 40 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DnDNM2 (Dynamin_K44A-eGFP)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient expression to inhibit internalisation",
+        "evidence": [
+          "transiently expressed... Dynamin_K44A-eGFP (dominant negative Dynamin, DnDNM2)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DnRAB11 (eGFP-RAB11_S25N)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transient expression to inhibit recycling",
+        "evidence": [
+          "transiently expressed... eGFP-RAB11_S25N (dominant negative RAB11, DnRAB11)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "40 min",
+      "120 min"
+    ],
+    "control_arms": [
+      "untreated",
+      "eGFP (control)",
+      "wtRAB11"
+    ],
+    "case_arms": [
+      "FGF10 stimulation",
+      "DnDNM2 expression",
+      "DnRAB11 expression"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "three replicates of at least one treatment",
+      "All experiments were repeated at least three times as independent biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "Label-free parameters were used for all the analysis"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "FGF10",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "distinguish sites globally phosphorylated upon FGF10 binding to FGFR2b from those sites specifically phosphorylated in the proximity of the recycling endosomes"
+        ]
+      },
+      {
+        "control_label": "wtRAB11/eGFP",
+        "case_label": "DnRAB11",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "examine the effect of FGFR2b trafficking impairment on the FGF10-stimulated phosphoproteome"
+        ]
+      },
+      {
+        "control_label": "wtRAB11/eGFP",
+        "case_label": "DnDNM2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "examine the effect of FGFR2b trafficking impairment on the FGF10-stimulated phosphoproteome"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": "CL:0000002"
+      },
+      {
+        "label": "T47D",
+        "family": null,
+        "ontology_curie": "CL:0000002"
+      },
+      {
+        "label": "BT20",
+        "family": null,
+        "ontology_curie": "CL:0000002"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "proximity-dependent biotinylation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +227,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantification (LFQ) with data-dependent acquisition (DDA) on a Q-Exactive HF instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of TiO2 beads for phosphorylated peptide enrichment across all datasets."
+        },
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "Use of APEX2-driven biotinylation and streptavidin pull-down to define the proximal proteome/phosphoproteome."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "TiO2 beads",
+        "APEX2",
+        "biotinylation",
+        "phosphoproteomics",
+        "data-dependent analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantification (LFQ) with data-dependent acquisition (DDA) on a Q-Exactive HF instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of TiO2 beads for phosphorylated peptide enrichment across all datasets."
+        },
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "Use of APEX2-driven biotinylation and streptavidin pull-down to define the proximal proteome/phosphoproteome."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "TiO2 beads",
+        "APEX2",
+        "biotinylation",
+        "phosphoproteomics",
+        "data-dependent analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +313,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:54:29Z"
   }
 }

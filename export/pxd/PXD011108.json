@@ -3,69 +3,146 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "mESCs",
-      "RPE-1"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "RPE-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "Cells were pretreated with 10 \u00b5M ATM inhibitor KU-55933 (Selleckchem) for 1 h prior to treatment with 5 \u00b5M camptothecin (Sigma) for 2 h."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "KU-55933 (ATM inhibitor)",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": "1 h",
+        "route_or_context": "pretreatment",
+        "evidence": [
+          "Cells were pretreated with 10 \u00b5M ATM inhibitor KU-55933 (Selleckchem) for 1 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "camptothecin (CPT)",
+        "dose_or_concentration": "5 \u00b5M",
+        "duration": "2 h",
+        "route_or_context": "treatment",
+        "evidence": [
+          "prior to treatment with 5 \u00b5M camptothecin (Sigma) for 2 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "1 h (pretreatment)",
+      "2 h (treatment)"
+    ],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "case_arms": [
+      "ATMi + CPT"
+    ],
+    "paired_design": false,
     "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "replicate_hints": [
+      "SILAC media containing either l-arginine and l-lysine, l-arginine [13C6] and l-lysine [2H4], or l-arginine [13C615N4] and l-lysine [13C6-15N2]"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated/baseline",
+        "case_label": "ATMi + CPT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "by carrying out SILAC mass-spectrometry analysis to identify ATM-dependent phosphorylation events upon TOP1i"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "RPE-1",
+        "family": "hTERT-immortalized",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +150,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of SILAC media (L-arginine and L-lysine variants) and data-dependent acquisition (DDA) mode on a Q Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performed 'Phosphoproteome analysis' using TiO2 spheres for the enrichment of phosphorylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TiO2",
+        "phosphorylated peptides",
+        "data-dependent mode",
+        "phosphoproteome analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of SILAC media (L-arginine and L-lysine variants) and data-dependent acquisition (DDA) mode on a Q Exactive Plus."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically performed 'Phosphoproteome analysis' using TiO2 spheres for the enrichment of phosphorylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TiO2",
+        "phosphorylated peptides",
+        "data-dependent mode",
+        "phosphoproteome analysis"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +224,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:51:59Z"
   }
 }

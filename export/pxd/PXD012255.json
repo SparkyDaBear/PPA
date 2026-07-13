@@ -5,11 +5,10 @@
     "acquisition_type": "DDA",
     "quantification_method": "Unknown",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "un-classified"
     ],
     "cell_types": [
       "colon carcinoma"
@@ -17,13 +16,27 @@
     "cell_lines": [
       "HCT116"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "in this work, we applied the SCX-RPLC-CZE-MS/MS system for large-scale phosphoproteomics of HCT116 colon cancer cells."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,8 +46,8 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
@@ -43,27 +56,59 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colon carcinoma",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colon carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +116,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used a Q-Exactive HF mass spectrometer with a data-dependent acquisition (DDA) method. No labeling (SILAC, isobaric, dimethyl) is mentioned; it is a label-free identification and characterization study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 1.0,
+          "reason": "The study is explicitly focused on large-scale phosphoproteomics, using TiO2 enrichment and phosphoRS/Andromeda for phosphosite localization probability."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "TiO2 beads",
+        "phosphopeptides",
+        "phosphoRS",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used a Q-Exactive HF mass spectrometer with a data-dependent acquisition (DDA) method. No labeling (SILAC, isobaric, dimethyl) is mentioned; it is a label-free identification and characterization study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 1.0,
+          "reason": "The study is explicitly focused on large-scale phosphoproteomics, using TiO2 enrichment and phosphoRS/Andromeda for phosphosite localization probability."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphoproteomics",
+        "TiO2 beads",
+        "phosphopeptides",
+        "phosphoRS",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +190,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:43:10Z"
   }
 }

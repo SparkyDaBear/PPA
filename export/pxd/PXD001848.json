@@ -3,31 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC quantitation",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "non-tumorigenic MCF-10A",
-      "breast cancer MCF-7",
-      "breast cancer MDA-MB-231"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "MCF-10A",
       "MCF-7",
       "MDA-MB-231"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "the non-tumorigenic MCF-10A breast cell line and the MCF-7 and MDA-MB-231 breast cancer cell lines",
+          "differential thermodynamic analysis of proteins in three well-established cell culture models of breast cancer",
+          "In one study protein stabilities in the heavy-labeled MCF-7 breast cancer cell line were compared to those in a non-tumorigenic MCF-10A cell line."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,38 +49,95 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "MCF-10A"
+    ],
+    "case_arms": [
+      "MCF-7",
+      "MDA-MB-231"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three biological replicates of each SILAC-SPROX experiment were performed."
+    ],
+    "multiplex_channel_hints": [
+      "SILAC quantitation",
+      "heavy-labeled MCF-7 breast cancer cell line",
+      "H/L ratios"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "MCF-10A",
+        "case_label": "MCF-7",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In one study protein stabilities in the heavy-labeled MCF-7 breast cancer cell line were compared to those in a non-tumorigenic MCF-10A cell line."
+        ]
+      },
+      {
+        "control_label": "MCF-7",
+        "case_label": "MDA-MB-231",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "In the second study protein stabilities in the heavy-labeled MCF-7 breast cancer cell line were compared to those in a highly invasive, triple negative... breast cancer cell line, MDA-MB-231."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "MCF-10A",
+        "family": "breast cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF-7",
+        "family": "breast cancer cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-231",
+        "family": "breast cancer cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC quantitation"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +146,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly states use of SILAC labeling (heavy lysine and arginine) and data-dependent MS/MS (DDA) on a Q-Exactive instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "sprox",
+          "confidence": 1.0,
+          "reason": "The experiment uses the SILAC-SPROX technique, which specifically measures methionine oxidation rates across a denaturant gradient to determine protein stability."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC-SPROX",
+        "denaturant-containing buffer",
+        "methionine oxidation",
+        "folding free energies"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly states use of SILAC labeling (heavy lysine and arginine) and data-dependent MS/MS (DDA) on a Q-Exactive instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "sprox",
+          "confidence": 1.0,
+          "reason": "The experiment uses the SILAC-SPROX technique, which specifically measures methionine oxidation rates across a denaturant gradient to determine protein stability."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC-SPROX",
+        "denaturant-containing buffer",
+        "methionine oxidation",
+        "folding free energies"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +218,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:25:13Z"
   }
 }

@@ -2,16 +2,14 @@
   "pxd": "PXD008296",
   "title": null,
   "summary": {
-    "acquisition_type": "Top-down",
-    "quantification_method": "Unknown",
+    "acquisition_type": "DDA",
+    "quantification_method": "relative abundance based on MS1 precursor intensity and MS2 peak magnitude",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "cell state or interaction comparison",
+      "disease or clinical state"
     ],
     "cell_types": [
       "breast epithelial cells"
@@ -20,53 +18,182 @@
       "MDA-MB-231",
       "MCF-10A"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "investigate the PTMs and proteoforms of histone H4 during cell cycle progression",
+          "fluctuations of the combinatorial PTM patterns of histone H4 in two breast cancer cell lines during cell cycle progression"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "The cell lines include: MCF10A, a precancerous breast epithelial cell line that is often used as a surrogate of normal breast epithelial cells; and a highly invasive breast cancer cell line MDA-MB-231."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "thymidine",
+        "dose_or_concentration": "2 mM",
+        "duration": null,
+        "route_or_context": "S phase block",
+        "evidence": [
+          "Two rounds of 2 mM thymidine (Sigma-Aldrich, St. Louis, MO, USA) were applied to the cell growth medium of each cell line to attain an S phase block"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nocodazole",
+        "dose_or_concentration": "100 nM",
+        "duration": null,
+        "route_or_context": "mitotic phase block",
+        "evidence": [
+          "one round of 100 nM nocodazole (Sigma-Aldrich, St. Louis, MO, USA) to achieve a mitotic phase block"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "asynchronous (G1 surrogate)",
+      "S phase",
+      "G2/M phase"
+    ],
+    "control_arms": [
+      "asynchronous cells",
+      "MCF10A"
+    ],
+    "case_arms": [
+      "S phase block",
+      "G2/M phase block",
+      "MDA-MB-231"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Two biological replicates of asynchronous cells and cells in S and G2/M phase for each cell line",
+      "subjected to 1\u20133 technical replicate runs"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "S phase",
+        "case_label": "G2/M phase",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "the abundance of S1 phosphorylation in both cell lines dramatically increases as the cell cycle traverses from S phase to G2/M phase"
+        ]
+      },
+      {
+        "control_label": "MCF10A",
+        "case_label": "MDA-MB-231",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Our statistical analysis reveals distinct proteoform abundance differences between the MCF10A and MDA-MB-231 cell lines."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "breast epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MDA-MB-231",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF-10A",
+        "family": "precancerous breast epithelial",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative abundance based on MS1 precursor intensity and MS2 peak magnitude"
+    ],
+    "proteomics_mode": "Middle-down",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "medium"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -74,10 +201,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used data-dependent tandem ETD product ion spectra (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "middle_down_proteoforms",
+          "confidence": 1.0,
+          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to characterize combinatorial PTMs (proteoforms)."
+        }
+      ],
+      "trigger_keywords": [
+        "middle-down",
+        "proteoforms",
+        "ETD",
+        "FT-ICR",
+        "combinatorial PTMs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition used data-dependent tandem ETD product ion spectra (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "middle_down_proteoforms",
+          "confidence": 1.0,
+          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to characterize combinatorial PTMs (proteoforms)."
+        }
+      ],
+      "trigger_keywords": [
+        "middle-down",
+        "proteoforms",
+        "ETD",
+        "FT-ICR",
+        "combinatorial PTMs"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,6 +275,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:37:22Z"
   }
 }

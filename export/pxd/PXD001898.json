@@ -3,27 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "intensity",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "un-classified"
     ],
     "cell_types": [
-      "B cells"
+      "B cell"
     ],
     "cell_lines": [
-      "B-LCL"
+      "B-cell line (B-LCL)"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
+        "confidence": "high",
+        "evidence": [
+          "we wished to determine the proportion of major histocompatibility complex (MHC) class I-associated peptides (MAPs) derived from non-canonical reading frames",
+          "we performed proteogenomic analyses of MAPs eluted from human B cells using high-throughput mass spectrometry to probe the six-frame translation of the B-cell transcriptome"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,7 +49,9 @@
     "case_arms": [],
     "paired_design": null,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "three to four biological replicates per subject"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -43,27 +59,59 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "B cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000236"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "B-cell line (B-LCL)",
+        "family": "lymphoblastoid cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "intensity"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +119,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses high-throughput MS (LTQ-Orbitrap Elite) with DDA-like precursor accumulation and reports abundance across replicates using intensity, though it is a non-canonical immunopeptidomics study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_six_frame",
+          "confidence": 1.0,
+          "reason": "The core of the study is 'proteogenomics' using 'six-frame translation of the B-cell transcriptome' and 'customized databases containing the six-frame translation of genomic or transcriptomic sequences'."
+        },
+        {
+          "modifier_workflow_id": "immunopeptidomics_no_enzyme",
+          "confidence": 1.0,
+          "reason": "The study analyzes MHC class I-associated peptides (MAPs) and explicitly states 'Searches were performed without enzyme specificity'."
+        }
+      ],
+      "trigger_keywords": [
+        "proteogenomic",
+        "six-frame translation",
+        "immunopeptidome",
+        "MHC class I-associated peptides",
+        "without enzyme specificity",
+        "non-canonical reading frames"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses high-throughput MS (LTQ-Orbitrap Elite) with DDA-like precursor accumulation and reports abundance across replicates using intensity, though it is a non-canonical immunopeptidomics study."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_six_frame",
+          "confidence": 1.0,
+          "reason": "The core of the study is 'proteogenomics' using 'six-frame translation of the B-cell transcriptome' and 'customized databases containing the six-frame translation of genomic or transcriptomic sequences'."
+        },
+        {
+          "modifier_workflow_id": "immunopeptidomics_no_enzyme",
+          "confidence": 1.0,
+          "reason": "The study analyzes MHC class I-associated peptides (MAPs) and explicitly states 'Searches were performed without enzyme specificity'."
+        }
+      ],
+      "trigger_keywords": [
+        "proteogenomic",
+        "six-frame translation",
+        "immunopeptidome",
+        "MHC class I-associated peptides",
+        "without enzyme specificity",
+        "non-canonical reading frames"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +205,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:52:27Z"
   }
 }

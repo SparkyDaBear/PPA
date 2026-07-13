@@ -3,24 +3,39 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "intensity-based",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [],
-    "cell_types": [
-      "HeLa S3"
+    "treatment_categories": [
+      "un-classified"
     ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa S3"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "This study evaluates and compares various cell lysis and protein digestion protocols for bottom-up proteomics using HeLa S3 cells.",
+          "Our goal was to determine what unique proteins, if any, were identified in each digestion method."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,37 +44,82 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "sonication",
+      "BeatBox",
+      "urea-based digestion",
+      "SDC-based digestion",
+      "EasyPep kit",
+      "S-Trap kit"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Each protocol had five replicates, all from the same cell pellet, for statistical analysis purposes."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "sonication",
+        "case_label": "BeatBox",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we generated a volcano plot using the abundances of proteins found in both sonication and BeatBox, in order to compare the log2 fold change after normalization."
+        ]
+      },
+      {
+        "control_label": "urea",
+        "case_label": "SDC",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "we performed a DE analysis with each digestion method compared to each other digestion method."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa S3",
+        "family": "HeLa",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "intensity-based"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -68,10 +128,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) and label-free quantification (LFQ) based on precursor intensity."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "intensity",
+        "label-free",
+        "bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (DDA) and label-free quantification (LFQ) based on precursor intensity."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent acquisition",
+        "intensity",
+        "label-free",
+        "bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +188,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:04:52Z"
   }
 }

@@ -9,6 +9,7 @@
       "Other"
     ],
     "treatment_categories": [
+      "disease or clinical state",
       "disease or clinical state"
     ],
     "cell_types": [],
@@ -24,17 +25,35 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "case_control_disease"
         ],
         "matched_definition": "Comparison between disease and matched control cohorts.",
         "confidence": "high",
         "evidence": [
           "quantitative proteomics map of 95 PTMs on multiple isoforms of Tau isolated from postmortem human tissue from 49 AD and 42 control subjects",
-          "compare insoluble Tau from AD and control subjects"
+          "Comparison across disease diagnosis, severity, or clinical response strata"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "Tau PTM Profiles Identify Patient Heterogeneity and Stages of Alzheimer\u2019s Disease",
+          "reflective of disease progression, and identifies critical targets at each stage of disease",
+          "assessed for Braak NFT stages"
         ]
       }
     ],
@@ -46,10 +65,12 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "control subjects"
+      "control subjects",
+      "asymptomatic (controls)"
     ],
     "case_arms": [
-      "AD patients"
+      "AD patients",
+      "clinical AD"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -58,17 +79,25 @@
       "analyzed in duplicates"
     ],
     "multiplex_channel_hints": [
-      "FLEXITau (full-length expressed stable isotope-labeled Tau)",
-      "Light-to-Heavy (L/H) ratio 1:1"
+      "heavy isotope (i.e., 13C and 15N) labeled lysine, arginine and aspartate",
+      "L/H ratio of peak intensities"
     ],
     "contrast_hints": [
       {
-        "control_label": "control",
+        "control_label": "Control",
         "case_label": "AD",
         "contrast_type": "pairwise",
         "evidence": [
-          "compare insoluble Tau from AD and control subjects",
-          "determine which of the robustly quantifiable post-translationally modified peptides are most important for separation of the AD and control groups"
+          "compare insoluble Tau from AD and control subjects"
+        ]
+      },
+      {
+        "control_label": "Early Stage (Braak 0-III)",
+        "case_label": "Late Stage (Braak V-VI)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "The Braak stage of cluster b is V, whereas the Braak stage of cluster c is VI",
+          "Cluster a, with the lowest average Braak stage of 0\u2013I"
         ]
       }
     ],
@@ -81,7 +110,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -118,7 +147,8 @@
     ],
     "quantification_strategy": [
       "Label-free quantification (LFQ)",
-      "Absolute quantification via internal standard (FLEXITau)"
+      "Absolute quantification via internal standard (FLEXITau)",
+      "Selected Reaction Monitoring (SRM)"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -153,38 +183,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "The text explicitly describes DDA (top 10/20 mode) and the use of MaxQuant's XIC-based label-free quantification (LFQ) algorithm."
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions 'positive DDA top 10/20 mode' and 'Label-free quantification was done using the XIC-based in-built label-free quantification (LFQ) algorithm integrated into MaxQuant'."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 10,
-          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'L/H ratios' in the FLEXITau method, though this is a targeted SRM approach rather than a global isobaric DDA workflow."
+          "confidence": 0.1,
+          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'FLEXITau' involves spiking in standards, but the primary discovery data is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphorylation",
-          "confidence": 100,
-          "reason": "Extensive mapping of 55 phosphorylation sites; search settings explicitly used 'phosphorylation emphasis'."
-        },
-        {
-          "modifier_workflow_id": "ubiquitination",
-          "confidence": 100,
-          "reason": "Explicit search for ubiquitination (GlyGly) as a variable modification and identification of 17 ubiquitin sites."
-        },
-        {
-          "modifier_workflow_id": "acetylation",
-          "confidence": 90,
-          "reason": "Explicit search for acetylation of K and N-termini; identification of 19 acetylation sites."
+          "modifier_workflow_id": "ptm_site_mapping",
+          "confidence": 0.95,
+          "reason": "The study is centered on a 'quantitative proteomics map of 95 PTMs' including phosphorylation, acetylation, and ubiquitination."
         }
       ],
       "trigger_keywords": [
         "DDA",
-        "label-free quantification",
         "LFQ",
+        "MaxQuant",
+        "PTM map",
         "phosphorylation",
-        "ubiquitination (GlyGly)",
+        "ubiquitination",
         "acetylation"
       ],
       "raw_or_file_name_triggers": []
@@ -193,38 +214,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "The text explicitly describes DDA (top 10/20 mode) and the use of MaxQuant's XIC-based label-free quantification (LFQ) algorithm."
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions 'positive DDA top 10/20 mode' and 'Label-free quantification was done using the XIC-based in-built label-free quantification (LFQ) algorithm integrated into MaxQuant'."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 10,
-          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'L/H ratios' in the FLEXITau method, though this is a targeted SRM approach rather than a global isobaric DDA workflow."
+          "confidence": 0.1,
+          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'FLEXITau' involves spiking in standards, but the primary discovery data is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphorylation",
-          "confidence": 100,
-          "reason": "Extensive mapping of 55 phosphorylation sites; search settings explicitly used 'phosphorylation emphasis'."
-        },
-        {
-          "modifier_workflow_id": "ubiquitination",
-          "confidence": 100,
-          "reason": "Explicit search for ubiquitination (GlyGly) as a variable modification and identification of 17 ubiquitin sites."
-        },
-        {
-          "modifier_workflow_id": "acetylation",
-          "confidence": 90,
-          "reason": "Explicit search for acetylation of K and N-termini; identification of 19 acetylation sites."
+          "modifier_workflow_id": "ptm_site_mapping",
+          "confidence": 0.95,
+          "reason": "The study is centered on a 'quantitative proteomics map of 95 PTMs' including phosphorylation, acetylation, and ubiquitination."
         }
       ],
       "trigger_keywords": [
         "DDA",
-        "label-free quantification",
         "LFQ",
+        "MaxQuant",
+        "PTM map",
         "phosphorylation",
-        "ubiquitination (GlyGly)",
+        "ubiquitination",
         "acetylation"
       ],
       "raw_or_file_name_triggers": []
@@ -255,6 +267,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:12:15Z"
+    "stage3_refreshed_at": "2026-07-13T07:30:31Z"
   }
 }

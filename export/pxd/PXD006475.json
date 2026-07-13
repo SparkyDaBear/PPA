@@ -3,66 +3,144 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "super-SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [
       "AML blasts"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "investigating phosphorylation-based signaling on a system-wide scale in AML cells allows for identification of markers enabling more accurate prediction of therapy response",
+          "identify differentially regulated phospho-sites when comparing responder and non-responder samples"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "quizartinib (AC220)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "phase II open-label study in patients with relapsed/refractory AML",
+        "evidence": [
+          "AC220 (quizartinib) is an example of a potent FLT3 inhibitor that was studied in a recent phase II open-label study in patients with relapsed/refractory AML."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "before treatment"
+    ],
+    "control_arms": [
+      "non-responder"
+    ],
+    "case_arms": [
+      "responder"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Twelve of the twenty-one samples were processed at the beginning of this study (training group)",
+      "Nine additional samples were processed toward the end of this study and were used for validating the phospho-signature (validation group)"
+    ],
+    "multiplex_channel_hints": [
+      "we used super-SILAC in combination with quantitative mass spectrometry"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-responder",
+        "case_label": "responder",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify differentially regulated phospho-sites when comparing responder and non-responder samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "AML blasts",
+        "rollup_category": "leukemic cells",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "bone marrow",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "super-SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +148,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses super-SILAC for quantitative mass spectrometry with data-dependent acquisition (DDA) on an LTQ-Orbitrap Velos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The protocol describes phosphopeptide capture using PHOS-Select iron affinity beads (IMAC)."
+        }
+      ],
+      "trigger_keywords": [
+        "super-SILAC",
+        "phospho-proteomes",
+        "IMAC",
+        "PHOS-Select",
+        "data dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses super-SILAC for quantitative mass spectrometry with data-dependent acquisition (DDA) on an LTQ-Orbitrap Velos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The protocol describes phosphopeptide capture using PHOS-Select iron affinity beads (IMAC)."
+        }
+      ],
+      "trigger_keywords": [
+        "super-SILAC",
+        "phospho-proteomes",
+        "IMAC",
+        "PHOS-Select",
+        "data dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +222,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:53:37Z"
   }
 }

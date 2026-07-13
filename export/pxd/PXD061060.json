@@ -3,69 +3,137 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Protein Abundance Index - PAI",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "macrophages"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293",
-      "iBMDM"
+      "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "confidence": "high",
+        "evidence": [
+          "HEK293 cells were transfected with MAVS-expressing plasmids for 24 h, followed by treatment with 10 \u03bcM DMF for 6 h.",
+          "MAVS succination sites were identified using mass spectrometry (MS).",
+          "mass spectrometry analysis of MAVS purified from DMF-treated cells revealed that cysteine residues C46 and C283 were modified"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dimethyl fumarate (DMF)",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "6 h",
+        "route_or_context": "HEK293 cells transfected with MAVS-expressing plasmids",
+        "evidence": [
+          "HEK293 cells were transfected with MAVS-expressing plasmids for 24 h, followed by treatment with 10 \u03bcM DMF for 6 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "6 h"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "DMF-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "All experiments were performed with a minimum of three independent replications."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "DMF-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "mass spectrometry analysis of MAVS purified from DMF-treated cells revealed that cysteine residues C46 and C283 were modified"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Protein Abundance Index - PAI"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "succination",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +141,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data acquired in data-dependent mode (DDA) using an Orbitrap Exploris 480. While PAI is mentioned in PRIDE metadata, the primary goal was site mapping of a single protein (MAVS) from an excised gel band."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "succination",
+          "confidence": 1.0,
+          "reason": "Explicit search for succinocysteine (S-(2-succinyl)-L-cysteine) as a variable modification to map MAVS succination sites."
+        }
+      ],
+      "trigger_keywords": [
+        "succinocysteine",
+        "succination",
+        "S-(2-succinyl)-L-cysteine",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data acquired in data-dependent mode (DDA) using an Orbitrap Exploris 480. While PAI is mentioned in PRIDE metadata, the primary goal was site mapping of a single protein (MAVS) from an excised gel band."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "succination",
+          "confidence": 1.0,
+          "reason": "Explicit search for succinocysteine (S-(2-succinyl)-L-cysteine) as a variable modification to map MAVS succination sites."
+        }
+      ],
+      "trigger_keywords": [
+        "succinocysteine",
+        "succination",
+        "S-(2-succinyl)-L-cysteine",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:11:09Z"
   }
 }

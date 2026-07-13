@@ -3,18 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment"
+      "un-classified"
     ],
     "cell_types": [
-      "T cell",
-      "B cell"
+      "B cell",
+      "T cell"
     ],
     "cell_lines": [
       "HeLa",
@@ -22,13 +20,28 @@
       "GR",
       "Jurkat"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "we compared HCD and EThcD on immunopeptidomes originating from three cell lines",
+          "The data reveal a detection-bias in solely by collision-induced dissociation/higher-energy collision dissociation probed immunopeptidomes, whereby using electron-transfer/higher-energy collision dissociation fragmentation expands the detectable immunopeptidomes"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -36,39 +49,107 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "HCD"
+    ],
+    "case_arms": [
+      "EThcD"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two technical replicates per measuring condition to ensure reproducibility"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "HCD",
+        "case_label": "EThcD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared HCD and EThcD on immunopeptidomes originating from three cell lines",
+          "EThcD fragmentation, independent of the method used, yielded a higher average Hyperscore for peptide identification when compared to HCD"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "B cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000236"
+      },
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cervical cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "JY",
+        "family": "B cell lymphoblastoid",
+        "ontology_curie": null
+      },
+      {
+        "label": "GR",
+        "family": "B-lymphoblastoid",
+        "ontology_curie": null
+      },
+      {
+        "label": "Jurkat",
+        "family": "T cell leukemia",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +157,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses Data-dependent acquisition (DDA) as specified in PRIDE metadata and describes a label-free identification-centric approach for immunopeptidomics."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ethcd_fragmentation",
+          "confidence": 1.0,
+          "reason": "The primary focus of the study is the implementation and efficiency of Electron-transfer/higher-energy collision dissociation (EThcD) to improve sequence coverage."
+        },
+        {
+          "modifier_workflow_id": "immunopeptidomics_nonspecific",
+          "confidence": 1.0,
+          "reason": "The study specifically analyzes HLA class I immunopeptidomes using a 'nonspecific HLA workflow' in FragPipe."
+        }
+      ],
+      "trigger_keywords": [
+        "EThcD",
+        "immunopeptidomes",
+        "nonspecific enzymatic digestion",
+        "HLA class I",
+        "dual fragmentation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses Data-dependent acquisition (DDA) as specified in PRIDE metadata and describes a label-free identification-centric approach for immunopeptidomics."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ethcd_fragmentation",
+          "confidence": 1.0,
+          "reason": "The primary focus of the study is the implementation and efficiency of Electron-transfer/higher-energy collision dissociation (EThcD) to improve sequence coverage."
+        },
+        {
+          "modifier_workflow_id": "immunopeptidomics_nonspecific",
+          "confidence": 1.0,
+          "reason": "The study specifically analyzes HLA class I immunopeptidomes using a 'nonspecific HLA workflow' in FragPipe."
+        }
+      ],
+      "trigger_keywords": [
+        "EThcD",
+        "immunopeptidomes",
+        "nonspecific enzymatic digestion",
+        "HLA class I",
+        "dual fragmentation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +241,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:02:42Z"
   }
 }

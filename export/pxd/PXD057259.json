@@ -3,32 +3,46 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "DIA fragment area",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "epithelial cells",
-      "mesenchymal-like cells",
-      "E/M hybrid cells"
+      "pancreatic cancer cells"
     ],
     "cell_lines": [
       "CAPAN-1",
-      "MIA PaCa-2",
       "PANC-1",
-      "MCF7 iZEB1"
+      "MIA PaCa-2"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we conducted a thorough characterization of all three cell lines using brightfield microscopy, ICC, flow cytometry, and proteomics to assess their epithelial or mesenchymal phenotype",
+          "Based on the molecular markers along with their morphology, we conclude that CAPAN-1 cells exhibit an epithelial phenotype, MIA PaCa-2 cells are mesenchymal-like, and PANC-1 cells are in transition between the two states, displaying an E/M hybrid phenotype."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -36,38 +50,97 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "CAPAN-1"
+    ],
+    "case_arms": [
+      "MIA PaCa-2",
+      "PANC-1"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The samples were prepared in quadruplicate for each cell line."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "CAPAN-1 (epithelial)",
+        "case_label": "MIA PaCa-2 (mesenchymal-like)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "An ANOVA as well as a pairwise comparison with a two-sample t-test (S0, FDR = 0.01, 1000 randomizations) between cell lines was performed"
+        ]
+      },
+      {
+        "control_label": "CAPAN-1 (epithelial)",
+        "case_label": "PANC-1 (hybrid)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "An ANOVA as well as a pairwise comparison with a two-sample t-test (S0, FDR = 0.01, 1000 randomizations) between cell lines was performed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "pancreatic cancer cells",
+        "rollup_category": "malignant cell",
+        "ontology_curie": "CL:0001064"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "CAPAN-1",
+        "family": "pancreatic cancer",
+        "ontology_curie": "CVCL_0237"
+      },
+      {
+        "label": "PANC-1",
+        "family": "pancreatic cancer",
+        "ontology_curie": "CVCL_0480"
+      },
+      {
+        "label": "MIA PaCa-2",
+        "family": "pancreatic cancer",
+        "ontology_curie": "CVCL_0428"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -76,10 +149,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in 'data-independent mode' and data was analyzed using 'DIA-NN' with 'PG.MaxLFQ protein group abundances'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent mode",
+        "DIA-NN",
+        "MaxLFQ",
+        "library-free search"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in 'data-independent mode' and data was analyzed using 'DIA-NN' with 'PG.MaxLFQ protein group abundances'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent mode",
+        "DIA-NN",
+        "MaxLFQ",
+        "library-free search"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +209,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:57:59Z"
   }
 }

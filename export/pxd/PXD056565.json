@@ -3,72 +3,141 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "lung adenocarcinoma"
+      "lung adenocarcinoma cells"
     ],
     "cell_lines": [
-      "A549",
-      "H1299",
-      "MCF7",
-      "HLE"
+      "H1299"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "H1299 cells were transfected with Vector and PSAT1 plasmids, respectively.",
+          "Mass spectrometry analysis between the H1299 cells transfected with Vector or Flag-PSAT1"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Flag-PSAT1 plasmid",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfection in H1299 cells",
+        "evidence": [
+          "H1299 cells were transfected with Vector and PSAT1 plasmids, respectively."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "Vector"
+    ],
+    "case_arms": [
+      "PSAT1"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Vector",
+        "case_label": "PSAT1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Mass spectrometry analysis between the H1299 cells transfected with Vector or Flag-PSAT1"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung adenocarcinoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H1299",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity proteomics",
+        "ontology_curie": "PRIDE:0000635",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +145,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA acquisition on Q-Exactive with no labeling mentioned in PRIDE metadata; affinity proteomics (IP) typically uses LFQ or spectral counting for relative abundance."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "PRIDE experiment type is 'Affinity proteomics' and text describes immunoprecipitation of PSAT1 to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "immunoprecipitation",
+        "Affinity proteomics",
+        "interacting protein"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "DDA acquisition on Q-Exactive with no labeling mentioned in PRIDE metadata; affinity proteomics (IP) typically uses LFQ or spectral counting for relative abundance."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.9,
+          "reason": "PRIDE experiment type is 'Affinity proteomics' and text describes immunoprecipitation of PSAT1 to identify interacting proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "immunoprecipitation",
+        "Affinity proteomics",
+        "interacting protein"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,6 +215,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:44:23Z"
   }
 }

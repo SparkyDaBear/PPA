@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "precursor intensity-based quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment"
+      "ligand-mediated stimulation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "macrophage-like cells"
@@ -16,53 +17,173 @@
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "confidence": "high",
+        "evidence": [
+          "to identify IFN-\u03b3-induced ADP-ribosylation substrates in macrophages",
+          "THP-1 cells were treated with IFN-\u03b3 (10 ng/mL, R&D Systems, Minneapolis, MN, Cat# 285-IF)",
+          "THP-1 cells were treated with or without IFN-\u03b3 (10 ng/mL) for 6 h"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "THP-1 cells were pretreated with 20 \u03bcM PJ34 (pan-ARTD/PARP inhibitor; EMD Biosciences, Burlington, MA, Cat# 528150, 5 mg) for 12 h, and then treated with IFN-\u03b3 (10 ng/mL) for 6 h."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IFN-\u03b3",
+        "dose_or_concentration": "10 ng/mL",
+        "duration": "6 h",
+        "route_or_context": "THP-1 human macrophage-like cells",
+        "evidence": [
+          "THP-1 cells were treated with IFN-\u03b3 (10 ng/mL, R&D Systems, Minneapolis, MN, Cat# 285-IF) for the indicated times below.",
+          "THP-1 cells were treated with or without IFN-\u03b3 (10 ng/mL) for 6 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PJ34",
+        "dose_or_concentration": "20 \u03bcM",
+        "duration": "12 h",
+        "route_or_context": "pretreatment before IFN-\u03b3 stimulation",
+        "evidence": [
+          "THP-1 cells were pretreated with 20 \u03bcM PJ34 (pan-ARTD/PARP inhibitor; EMD Biosciences, Burlington, MA, Cat# 528150, 5 mg) for 12 h, and then treated with IFN-\u03b3 (10 ng/mL) for 6 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "6 h"
+    ],
+    "control_arms": [
+      "unstimulated (control)",
+      "without IFN-\u03b3"
+    ],
+    "case_arms": [
+      "IFN-\u03b3-stimulated",
+      "IFN-\u03b3-activated",
+      "PJ34 pretreatment + IFN-\u03b3"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two sets of either control or IFN-\u03b3-stimulated cells",
+      "three sets (control or IFN-\u03b3) of IP experiments",
+      "each replicate was a pool of 15 10 cm-dishes of THP-1 cells"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Control",
+        "case_label": "IFN-\u03b3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the overlap between control and IFN-\u03b3 conditions",
+          "compare ADPr peptide abundances between control and IFN-\u03b3 for each replicate separately"
+        ]
+      },
+      {
+        "control_label": "IFN-\u03b3",
+        "case_label": "PJ34 + IFN-\u03b3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "added a third condition that included pretreatment of IFN-\u03b3-stimulated THP-1 cells with a pan-ARTD/PARP inhibitor (PJ34)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage-like cells",
+        "rollup_category": "macrophage",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "monocytic cell line",
+        "ontology_curie": "BTO:0001370"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor intensity-based quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ADP-ribosylation enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +191,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses data-dependent acquisition (DDA) with precursor intensity-based quantification (LFQ) for both Af1521 and 10H workflows."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "adpr_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets ADP-ribosylation using Af1521 macrodomain and 10H antibody enrichment, requiring specialized search parameters for the ADPr modification."
+        }
+      ],
+      "trigger_keywords": [
+        "ADP-ribosylation",
+        "Af1521",
+        "10H antibody",
+        "MARylated",
+        "product ion triggered",
+        "EThcD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses data-dependent acquisition (DDA) with precursor intensity-based quantification (LFQ) for both Af1521 and 10H workflows."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "adpr_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets ADP-ribosylation using Af1521 macrodomain and 10H antibody enrichment, requiring specialized search parameters for the ADPr modification."
+        }
+      ],
+      "trigger_keywords": [
+        "ADP-ribosylation",
+        "Af1521",
+        "10H antibody",
+        "MARylated",
+        "product ion triggered",
+        "EThcD"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +267,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:06:51Z"
   }
 }

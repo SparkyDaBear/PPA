@@ -3,62 +3,129 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "several case-control studies for VTE",
+          "Patient samples were classified as controls (n = 96), when a VTE diagnosis was excluded by diagnostic imaging, and/or Wells clinical criteria with a normal D-dimer test, or cases (n = 51) when VTE was confirmed by diagnostic imaging and anticoagulant treatment was initiated."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "acute",
+      "1\u20136 months after discontinuation of 6\u201312 months anticoagulant treatment"
+    ],
+    "control_arms": [
+      "controls",
+      "healthy controls"
+    ],
+    "case_arms": [
+      "cases",
+      "patients with confirmed VTE"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "IC-MS was performed in triplicate of pooled plasma"
+    ],
+    "multiplex_channel_hints": [
+      "multiplexed suspension bead arrays (SBA) with 756 individual HPA antibodies targeting the 408 proteins"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "controls",
+        "case_label": "VTE cases",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "higher relative plasma levels in cases vs. controls",
+          "mean absolute CFHR5 concentration was confirmed as higher in patients with confirmed VTE, compared to patients where VTE was ruled out"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood plasma",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "top3 method from the peptide intensities"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunocapture",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +133,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes 'DIA-MS analysis' using a Q Exactive HF, mzML conversion via msConvert, and searching with EncyclopeDIA against a Prosit-generated spectral library."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and text mention 'Shotgun proteomics' and 'IC-MS' (Immunocapture-MS) analyzed using Sequest/Proteome Discoverer and MaxQuant with label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunocapture",
+          "confidence": 0.9,
+          "reason": "The study utilizes 'Immunocapture mass spectrometry (IC-MS)' using specific antibodies (HPA059937, MAB3845) to enrich CFHR5 and SULF1 from plasma."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA-MS",
+        "EncyclopeDIA",
+        "Prosit",
+        "Immunocapture mass spectrometry",
+        "IC-MS",
+        "label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes 'DIA-MS analysis' using a Q Exactive HF, mzML conversion via msConvert, and searching with EncyclopeDIA against a Prosit-generated spectral library."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and text mention 'Shotgun proteomics' and 'IC-MS' (Immunocapture-MS) analyzed using Sequest/Proteome Discoverer and MaxQuant with label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunocapture",
+          "confidence": 0.9,
+          "reason": "The study utilizes 'Immunocapture mass spectrometry (IC-MS)' using specific antibodies (HPA059937, MAB3845) to enrich CFHR5 and SULF1 from plasma."
+        }
+      ],
+      "trigger_keywords": [
+        "DIA-MS",
+        "EncyclopeDIA",
+        "Prosit",
+        "Immunocapture mass spectrometry",
+        "IC-MS",
+        "label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:02:27Z"
   }
 }

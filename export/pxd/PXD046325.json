@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "Label-free quantification",
+    "quantification_method": "DIA-MS quantitative data matrix",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "breast cancer cell"
@@ -28,30 +29,67 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
         "matched_class_key": "whole_gene_knockout",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene disruption",
-          "whole-gene knockout"
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
         ],
         "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
         "confidence": "high",
         "evidence": [
           "the proteomic analysis of PIN1 KO in the MDA-MB-231 cell line showed that PIN1 KO had noticeable effects on cell cycle progression",
-          "PIN1 KO dramatically reduced cell viability in long-term clonogenic assays"
+          "Normalized counts of PIN1 KO versus WT cells were used for GSEA analysis"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "medium",
+        "evidence": [
+          "PIN1 inhibitors-induced PIN1 degradation was rescued by proteasome inhibitors",
+          "combined PIN1- and CDK4/6-inhibition reactivates APC/CCDH1 resulting in PIN1 degradation"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "PIN1 knockout",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "MDA-MB-231 cell line",
+        "agent": "Sulfopin",
+        "dose_or_concentration": "2, 4, 8, 10 \u03bcM",
+        "duration": "3 days",
+        "route_or_context": "in vitro",
         "evidence": [
-          "the proteomic analysis of PIN1 KO in the MDA-MB-231 cell line"
+          "Cells were treated with increasing concentration of Sulfopin (2, 4, 8, 10 \u03bcM) ... for 3 days."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Palbociclib",
+        "dose_or_concentration": "0.5, 1, 2, 4 \u03bcM",
+        "duration": "3 days",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "Cells were treated with increasing concentration of ... Palbociclib (0.5, 1, 2, 4 \u03bcM) for 3 days."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AApin (ATRA+ATO)",
+        "dose_or_concentration": "ATO (0.5, 1, 1.5, 2 \u03bcM) plus ATRA (5, 10, 15, 20 \u03bcM)",
+        "duration": "3 days",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "treated with increasing concentrations of AApin (ATO (0.5, 1, 1.5, 2 \u03bcM) plus ATRA (5, 10, 15, 20 \u03bcM) in 1:10 ratio) for 3 days."
         ]
       }
     ],
@@ -62,13 +100,15 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "WT"
+      "WT",
+      "GST"
     ],
     "case_arms": [
-      "PIN1 KO"
+      "PIN1 KO",
+      "GST-PIN1"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "All experiments were performed on biological replicates unless otherwise specified."
     ],
@@ -81,6 +121,14 @@
         "evidence": [
           "the proteomic analysis of PIN1 KO in the MDA-MB-231 cell line showed that PIN1 KO had noticeable effects on cell cycle progression"
         ]
+      },
+      {
+        "control_label": "GST",
+        "case_label": "GST-PIN1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "incubated with 1 \u03bcM GST or GST-PIN1 overnight at 4 \u00b0C"
+        ]
       }
     ],
     "source_sections": [
@@ -92,7 +140,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "human",
         "confidence": "high"
       }
     ],
@@ -135,8 +183,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification",
-      "directDIA algorithm"
+      "DIA-MS quantitative data matrix"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -145,12 +192,6 @@
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
         "confidence": "medium"
-      },
-      {
-        "ontology_label": "AP-MS",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -166,19 +207,19 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of data-independent acquisition (DIA) mass spectrometry and analysis via Spectronaut."
+          "reason": "The text explicitly states the use of data-independent acquisition (DIA) mass spectrometry and analysis via Spectronaut with the directDIA algorithm."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 0.8,
-          "reason": "PRIDE metadata mentions 'For phosphorylation quantification the phosphorylation (S/T/Y) was set as variable modification' and the study focuses heavily on CDH1 phosphorylation sites."
+          "reason": "The PRIDE metadata explicitly mentions 'For phosphorylation quantification the phosphorylation (S/T/Y) was set as variable modification' and the study focuses heavily on CDH1 phosphorylation sites."
         }
       ],
       "trigger_keywords": [
         "data-independent acquisition",
-        "DIA",
+        "DIA-MS",
         "Spectronaut",
         "directDIA"
       ],
@@ -189,28 +230,28 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of data-independent acquisition (DIA) mass spectrometry and analysis via Spectronaut."
+          "reason": "The text explicitly states the use of data-independent acquisition (DIA) mass spectrometry and analysis via Spectronaut with the directDIA algorithm."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 0.8,
-          "reason": "PRIDE metadata mentions 'For phosphorylation quantification the phosphorylation (S/T/Y) was set as variable modification' and the study focuses heavily on CDH1 phosphorylation sites."
+          "reason": "The PRIDE metadata explicitly mentions 'For phosphorylation quantification the phosphorylation (S/T/Y) was set as variable modification' and the study focuses heavily on CDH1 phosphorylation sites."
         }
       ],
       "trigger_keywords": [
         "data-independent acquisition",
-        "DIA",
+        "DIA-MS",
         "Spectronaut",
         "directDIA"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
+      "analyte_level": "site"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -233,6 +274,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:50:05Z"
+    "stage3_refreshed_at": "2026-07-13T07:59:25Z"
   }
 }

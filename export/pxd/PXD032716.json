@@ -26,9 +26,10 @@
         "ontology_label": "cell state or interaction comparison",
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
+        "matched_parent_class_key": "cell_state_interaction",
         "matched_class_key": "activation_or_differentiation_state",
         "matched_class_path": [
+          "cell_state_interaction",
           "activation_or_differentiation_state"
         ],
         "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
@@ -43,32 +44,41 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "nocodazole",
-        "dose_or_concentration": "0.5 \u00b5g/ml or 1 \u00b5g/ml",
-        "duration": null,
-        "route_or_context": "cell cycle synchronization",
+        "dose_or_concentration": "0.5 \u03bcg/ml",
+        "duration": "16 h",
+        "route_or_context": "mitotic synchronization",
         "evidence": [
-          "For mitotic samples, cells were synchronized by addition of 0.5 \u00b5g/ml nocodazole",
-          "For G1 samples, cells were synchronized by addition of 1 \u00b5g/ml nocodazole"
+          "For mitotic samples, cells were synchronized by addition of 0.5 \u03bcg/ml nocodazole 8 h after release, and harvested 16 h after nocodazole addition."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nocodazole",
+        "dose_or_concentration": "1 \u03bcg/ml",
+        "duration": "6 h",
+        "route_or_context": "G1 synchronization",
+        "evidence": [
+          "For G1 samples, cells were synchronized by addition of 1 \u03bcg/ml nocodazole 8 h after release from thymidine and then washed three times with PBS followed by addition of fresh medium and incubation for 6 h prior to harvesting."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "hydroxyurea",
         "dose_or_concentration": "1 mM",
-        "duration": null,
-        "route_or_context": "cell cycle synchronization",
+        "duration": "3 h",
+        "route_or_context": "S phase synchronization",
         "evidence": [
-          "For S phase samples, cells were synchronized by addition of 1 mM hydroxyurea"
+          "For S phase samples, cells were synchronized by addition of 1 mM hydroxyurea 8 h after release from thymidine and then washed three times with PBS followed by addition of fresh medium and incubation for 3 h prior to harvesting."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "thymidine",
         "dose_or_concentration": "2 mM",
-        "duration": null,
+        "duration": "16 h",
         "route_or_context": "pre-synchronization",
         "evidence": [
-          "cells were pre-synchronized with 2 mM thymidine 8 h after transfection"
+          "cells were pre-synchronized with 2 mM thymidine 8 h after transfection, and were released from the arrest by three washes with phosphate-buffered saline (PBS) followed by addition of fresh medium 16 h after thymine addition."
         ]
       }
     ],
@@ -78,18 +88,18 @@
   },
   "experimental_design": {
     "timepoints": [
-      "G1 phase",
+      "G1",
       "S phase",
-      "M phase (mitosis)",
+      "mitosis (M phase)",
       "unsynchronized"
     ],
     "control_arms": [
-      "unsynchronized samples"
+      "unsynchronized"
     ],
     "case_arms": [
-      "G1 samples",
-      "S phase samples",
-      "mitotic samples"
+      "G1",
+      "S phase",
+      "mitosis"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -99,17 +109,9 @@
       {
         "control_label": "unsynchronized",
         "case_label": "mitosis",
-        "contrast_type": "pairwise",
+        "contrast_type": "multi_group",
         "evidence": [
-          "we identified T33 and T317 phosphorylation in mitosis"
-        ]
-      },
-      {
-        "control_label": "unsynchronized",
-        "case_label": "G1",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "S58 and S70 were phosphorylated during G1"
+          "investigated the PTMs of Sam68 in HEK293 cells at different stages of the cell cycle by treating cells with either nocodazole (G1 and M phases) or hydroxyurea (S phase)."
         ]
       }
     ],
@@ -130,12 +132,12 @@
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": null,
+        "family": "HEK293",
         "ontology_curie": null
       },
       {
         "label": "HCT116",
-        "family": null,
+        "family": "HCT116",
         "ontology_curie": null
       }
     ],
@@ -182,23 +184,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition on Orbitrap Fusion with HCD fragmentation; no labeling (SILAC/Isobaric) mentioned. Samples were purified via FLAG-pulldown and gel-separated, suggesting a label-free approach for PTM mapping."
+          "confidence": 8,
+          "reason": "Data acquired using Orbitrap Fusion in top speed mode with HCD fragmentation and survey scans, typical of DDA. No labeling (SILAC/Isobaric) mentioned; quantification is implied by relative abundance across cell cycle stages."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.9,
-          "reason": "The primary goal is mapping serine/threonine phosphorylation sites (T33, T317, S18, S20, S58, S70) across cell cycle stages."
+          "confidence": 9,
+          "reason": "The experiment specifically maps serine/threonine phosphorylation sites using Flag-pulldown of Sam68 followed by LC-MS/MS."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "phospho-null",
-        "phospho-mimetic",
         "LC-MS/MS",
-        "HCD fragmentation"
+        "top speed mode",
+        "HCD fragmentation",
+        "Flag-Sam68 was pulled down"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -206,23 +208,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition on Orbitrap Fusion with HCD fragmentation; no labeling (SILAC/Isobaric) mentioned. Samples were purified via FLAG-pulldown and gel-separated, suggesting a label-free approach for PTM mapping."
+          "confidence": 8,
+          "reason": "Data acquired using Orbitrap Fusion in top speed mode with HCD fragmentation and survey scans, typical of DDA. No labeling (SILAC/Isobaric) mentioned; quantification is implied by relative abundance across cell cycle stages."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.9,
-          "reason": "The primary goal is mapping serine/threonine phosphorylation sites (T33, T317, S18, S20, S58, S70) across cell cycle stages."
+          "confidence": 9,
+          "reason": "The experiment specifically maps serine/threonine phosphorylation sites using Flag-pulldown of Sam68 followed by LC-MS/MS."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "phospho-null",
-        "phospho-mimetic",
         "LC-MS/MS",
-        "HCD fragmentation"
+        "top speed mode",
+        "HCD fragmentation",
+        "Flag-Sam68 was pulled down"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -252,6 +254,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:26:26Z"
+    "stage3_refreshed_at": "2026-07-13T04:23:34Z"
   }
 }

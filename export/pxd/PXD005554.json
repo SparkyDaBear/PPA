@@ -3,25 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "epithelial ovarian cancer cell",
-      "mammary gland"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "We illustrate this protocol with ECMs obtained from two pairs of tissues, which differ in ECM content and cellularity: triple-negative breast cancer and adjacent mammary tissue, and omental metastasis from high-grade serous ovarian cancer and normal omentum.",
+          "human triple-negative breast cancer samples and adjacent breast tissue, and omental metastases from high-grade serous ovarian cancer (HGSOC) and normal omentum"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -29,39 +44,102 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
+    "control_arms": [
+      "adjacent mammary tissue",
+      "normal omentum"
+    ],
+    "case_arms": [
+      "triple-negative breast cancer",
+      "omental metastasis from high-grade serous ovarian cancer"
+    ],
+    "paired_design": true,
     "factorial_design": null,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "n = 2 for each sample type"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "adjacent mammary tissue",
+        "case_label": "triple-negative breast cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "triple-negative breast cancer and adjacent mammary tissue"
+        ]
+      },
+      {
+        "control_label": "normal omentum",
+        "case_label": "omental metastasis from high-grade serous ovarian cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "omental metastasis from high-grade serous ovarian cancer and normal omentum"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "breast cancer",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "mammary tissue",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "omental metastasis",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "omentum",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting",
+      "precursor ion intensity"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Extracellular Matrix (ECM) enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +147,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) on a QExactive instrument using label-free quantification (LFQ) based on precursor ion intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation_brp_lc",
+          "confidence": 0.8,
+          "reason": "The study explicitly uses off-line high-pH reversed-phase (bRP-LC) fractionation to increase matrisome protein identification."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "precursor ion intensity",
+        "high-pH reversed-phase HPLC",
+        "bRP-LC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) on a QExactive instrument using label-free quantification (LFQ) based on precursor ion intensities."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation_brp_lc",
+          "confidence": 0.8,
+          "reason": "The study explicitly uses off-line high-pH reversed-phase (bRP-LC) fractionation to increase matrisome protein identification."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "precursor ion intensity",
+        "high-pH reversed-phase HPLC",
+        "bRP-LC"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +219,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:43:32Z"
   }
 }

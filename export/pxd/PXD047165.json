@@ -3,67 +3,154 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Intensity-based correlation analysis",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "embryonic stem cells"
+      "human embryonic stem cells"
     ],
     "cell_lines": [
       "WA17",
       "RUES"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "knockdown of ZZZ3 negatively impacts ribosome biogenesis, translation, and mTOR signaling",
+          "elucidated the impact of silencing the zinc finger ZZ-type containing 3 (ZZZ3) gene on the proliferation of ESCs",
+          "ZZZ3 knockdown (KD) led to a notable decrease in hESCs proliferation"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ZZZ3 shRNA",
+        "dose_or_concentration": null,
+        "duration": "96 h",
+        "route_or_context": "stable KD of ZZZ3 gene",
+        "evidence": [
+          "Three PB U6-promoter-driven shRNAs against ZZZ3 mRNA or scramble control were purchased from Vector Builder.",
+          "Silencing of ZZZ3 was achieved in the presence of doxycycline for 96 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "SCR",
+      "scramble control",
+      "control IgG"
+    ],
+    "case_arms": [
+      "ZZZ3 KD",
+      "ZZZ3-depleted"
+    ],
     "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "factorial_design": false,
+    "replicate_hints": [
+      "IP using anti-ZZZ3 antibody was performed in biological quadruplicate."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control IgG",
+        "case_label": "anti-ZZZ3 IP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Candidate ZZZ3 interactors were chosen based on statistically significant variances (p value <0.05 corrected using the Benjamini-Hochberg procedure) and fold change (FC) values of at least 2.5 compared to samples immunoprecipitated with control IgG."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "human embryonic stem cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "WA17",
+        "family": "human embryonic stem cells",
+        "ontology_curie": null
+      },
+      {
+        "label": "RUES",
+        "family": "human embryonic stem cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Intensity-based correlation analysis",
+      "Fold change compared to IgG control"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +158,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) with a top-12 method and label-free quantification (LFQ) was implied by the use of MaxQuant and Perseus for fold-change and p-value calculations without mention of labels."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as a co-immunoprecipitation (IP) assay to characterize the ZZZ3 interactome, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "interactome",
+        "DDA",
+        "top-12",
+        "MaxQuant",
+        "Affinity purification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) with a top-12 method and label-free quantification (LFQ) was implied by the use of MaxQuant and Perseus for fold-change and p-value calculations without mention of labels."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as a co-immunoprecipitation (IP) assay to characterize the ZZZ3 interactome, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+        }
+      ],
+      "trigger_keywords": [
+        "co-immunoprecipitation",
+        "interactome",
+        "DDA",
+        "top-12",
+        "MaxQuant",
+        "Affinity purification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +234,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:57:05Z"
   }
 }

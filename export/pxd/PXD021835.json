@@ -3,17 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion quantification",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "cell state or interaction comparison"
     ],
     "cell_types": [
-      "oral cancer cells"
+      "oral cancer cell"
     ],
     "cell_lines": [
       "SCC25",
@@ -22,12 +20,30 @@
       "VDH15"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we quantified nascent protein synthesis in all three subpopulations (CD44HCD36H, CD44HCD36L and CD44LCD36L) in tumoroids using a comparative quantitative proteomics approach",
+          "Translation proteomics of OSCC CD44/CD36 sorted subpopulations"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,38 +51,97 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "CD44LCD36L"
+    ],
+    "case_arms": [
+      "CD44HCD36H",
+      "CD44HCD36L"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "a minimum of three samples were used per experimental group and condition"
+    ],
+    "multiplex_channel_hints": [
+      "TMT labelling",
+      "TMT6"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "CD44LCD36L",
+        "case_label": "CD44HCD36H",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "we quantified nascent protein synthesis in all three subpopulations (CD44HCD36H, CD44HCD36L and CD44LCD36L)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "oral cancer cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "BTO:0001774"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SCC25",
+        "family": "squamous cell carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "FaDu",
+        "family": "squamous cell carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "VDH01",
+        "family": "patient-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "VDH15",
+        "family": "patient-derived",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +150,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT labeling and a QExactive HF mass spectrometer in DDA mode (top 20 most intense peptides isolated)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "meprod",
+          "confidence": 1.0,
+          "reason": "The text explicitly identifies the method as 'Multiplexed enhanced protein dynamics (mePROD) proteomics', which involves specific heavy/light digest strategies to measure nascent protein synthesis."
+        }
+      ],
+      "trigger_keywords": [
+        "mePROD",
+        "TMT",
+        "nascent protein synthesis",
+        "heavy digests",
+        "light peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses TMT labeling and a QExactive HF mass spectrometer in DDA mode (top 20 most intense peptides isolated)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "meprod",
+          "confidence": 1.0,
+          "reason": "The text explicitly identifies the method as 'Multiplexed enhanced protein dynamics (mePROD) proteomics', which involves specific heavy/light digest strategies to measure nascent protein synthesis."
+        }
+      ],
+      "trigger_keywords": [
+        "mePROD",
+        "TMT",
+        "nascent protein synthesis",
+        "heavy digests",
+        "light peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +224,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:51:44Z"
   }
 }

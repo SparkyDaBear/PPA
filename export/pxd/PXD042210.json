@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "H/L ratios",
+    "quantification_method": "SILAC H/L ratios",
     "labeling_strategy": [
       "SILAC",
       "LFQ"
@@ -12,13 +12,12 @@
       "molecular state comparison",
       "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "fibroblasts"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa S3",
       "HeLa Kyoto BAC",
-      "MCF-7"
+      "MCF-7",
+      "IMR90"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -31,11 +30,11 @@
         "ontology_label": "molecular state comparison",
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
-        "matched_parent_class_key": "ptm_or_activation_state",
+        "matched_parent_class_key": "molecular_state",
         "matched_class_key": "ptm_or_activation_state",
         "matched_class_path": [
-          "molecular state comparison",
-          "PTM or activation molecular state"
+          "molecular_state",
+          "ptm_or_activation_state"
         ],
         "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
         "confidence": "high",
@@ -47,16 +46,16 @@
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "spatial_region_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
         "matched_class_key": "spatial_region_comparison",
         "matched_class_path": [
-          "anatomical or spatial comparison",
-          "spatial region comparison"
+          "anatomical_spatial",
+          "spatial_region_comparison"
         ],
         "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
         "confidence": "medium",
         "evidence": [
-          "over 80 modified dinucleosomes representing promoter, enhancer and heterochromatin states"
+          "representing promoter, enhancer and heterochromatin states"
         ]
       }
     ],
@@ -65,10 +64,11 @@
         "relation_key": "has_treatment_agent",
         "agent": "modified dinucleosomes",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "SILAC nucleosome affinity purification (SNAP)",
+        "duration": "4 h",
+        "route_or_context": "HeLa S3 cell nuclear extracts",
         "evidence": [
-          "We performed over 80 affinity purification experiments with semisynthetic dinucleosomes containing modification signatures and DNA linkers representing promoter, enhancer or heterochromatin states"
+          "We performed over 80 affinity purification experiments with semisynthetic dinucleosomes containing modification signatures and DNA linkers representing promoter, enhancer or heterochromatin states",
+          "rotated with 0.5 mg HeLa S3 SILAC-labelled nuclear extract in 1 ml of SNAP buffer... for 4 h at 4 \u00b0C"
         ]
       }
     ],
@@ -85,7 +85,7 @@
       "modified dinucleosomes"
     ],
     "paired_design": false,
-    "factorial_design": true,
+    "factorial_design": false,
     "replicate_hints": [
       "forward and reverse SILAC nucleosome pull-down experiments",
       "two technical replicates"
@@ -100,15 +100,7 @@
         "case_label": "modified nucleosome",
         "contrast_type": "pairwise",
         "evidence": [
-          "The label swap enables unbiased identification of proteins that are reproducibly either recruited or excluded by the modification(s)."
-        ]
-      },
-      {
-        "control_label": "H3K4me1",
-        "case_label": "H3K4me3",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "a contrast between H3K4me3 and H3K4me1"
+          "comparing log2[H/L ratio] values between related nucleosomes that differ by only one single feature"
         ]
       }
     ],
@@ -125,13 +117,7 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "fibroblasts",
-        "rollup_category": "somatic cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HeLa S3",
@@ -145,7 +131,12 @@
       },
       {
         "label": "MCF-7",
-        "family": "MCF-7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "IMR90",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -170,7 +161,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "H/L ratios",
+      "SILAC H/L ratios",
       "MS1 intensity based label-free quantification"
     ],
     "proteomics_mode": "PTM-enriched",
@@ -201,19 +192,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The primary large-scale experiment (SNAP) explicitly uses SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
+          "reason": "The primary large-scale screen (SNAP) explicitly used SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Additional experiments including label-free nucleosome pull-downs, ChIP-MS, and INO80B-V5 IP-MS were performed using label-free quantification."
+          "reason": "Additional validation experiments, including label-free nucleosome pull-downs and ChIP-MS, were performed using label-free quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
+          "modifier_workflow_id": "modifier_site_centric_enrichment",
           "confidence": 0.9,
-          "reason": "Specialized histone analysis using propionylation and phenyl isocyanate derivatization to map PTMs."
+          "reason": "The experiment focuses on the recruitment of proteins to specific histone modification sites (e.g., H3K4me3, H3K27me3) and uses site-specific modified histones."
         }
       ],
       "trigger_keywords": [
@@ -221,9 +212,8 @@
         "SNAP",
         "label swap",
         "H/L ratios",
-        "label-free nucleosome pull-downs",
-        "ChIP-MS",
-        "propionylation"
+        "label-free nucleosome affinity purifications",
+        "ChIP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -232,19 +222,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The primary large-scale experiment (SNAP) explicitly uses SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
+          "reason": "The primary large-scale screen (SNAP) explicitly used SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Additional experiments including label-free nucleosome pull-downs, ChIP-MS, and INO80B-V5 IP-MS were performed using label-free quantification."
+          "reason": "Additional validation experiments, including label-free nucleosome pull-downs and ChIP-MS, were performed using label-free quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
+          "modifier_workflow_id": "modifier_site_centric_enrichment",
           "confidence": 0.9,
-          "reason": "Specialized histone analysis using propionylation and phenyl isocyanate derivatization to map PTMs."
+          "reason": "The experiment focuses on the recruitment of proteins to specific histone modification sites (e.g., H3K4me3, H3K27me3) and uses site-specific modified histones."
         }
       ],
       "trigger_keywords": [
@@ -252,16 +242,15 @@
         "SNAP",
         "label swap",
         "H/L ratios",
-        "label-free nucleosome pull-downs",
-        "ChIP-MS",
-        "propionylation"
+        "label-free nucleosome affinity purifications",
+        "ChIP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -284,6 +273,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:11:45Z"
+    "stage3_refreshed_at": "2026-07-13T04:12:16Z"
   }
 }

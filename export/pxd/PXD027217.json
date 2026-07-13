@@ -3,68 +3,207 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC ratios",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell of lung"
     ],
     "cell_lines": [
-      "H1299"
+      "H1299",
+      "KPC-PDAC"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "growth_factor_stimulation"
+        ],
+        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "confidence": "high",
+        "evidence": [
+          "activation of MET by the addition of HGF",
+          "Internalization of cell surface proteins was then triggered by increasing the temperature to 37\u2009\u00b0C in the presence or absence of HGF for 30\u2009min."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "substitution_variant",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain",
+          "substitution_variant"
+        ],
+        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "confidence": "high",
+        "evidence": [
+          "we generated two mutants of this receptor (NLS1 and NLS2), designed to disrupt key basic residues responsible for importin-\u03b1 recognition",
+          "H1299 cells expressing wild-type or NLS mutant EphA2-TurboID constructs were then incubated with biotin in the presence of HGF and the resulting biotinylated proximal proteome was then determined using MS-based proteomics."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Hepatocyte growth factor (HGF)",
+        "dose_or_concentration": "10 ng/ml",
+        "duration": "30 min",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "Internalization of cell surface proteins was then triggered by increasing the temperature to 37\u2009\u00b0C in the presence or absence of HGF for 30\u2009min.",
+          "HGF (10\u2009ng/ml, Preprotech)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EphA2 NLS mutants (NLS1, NLS2)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable expression in H1299 cells",
+        "evidence": [
+          "we generated two mutants of this receptor (NLS1 and NLS2), designed to disrupt key basic residues responsible for importin-\u03b1 recognition"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "30 min"
+    ],
+    "control_arms": [
+      "absence of HGF",
+      "wild-type EphA2 (WT)"
+    ],
+    "case_arms": [
+      "presence of HGF",
+      "NLS1 mutant",
+      "NLS2 mutant"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Immunoprecipitation were repeated five times for each condition"
+    ],
+    "multiplex_channel_hints": [
+      "H1299 cells were SILAC-labelled with heavy (Cambridge Isotope Laboratories) and light (Sigma) amino acids."
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "absence of HGF",
+        "case_label": "presence of HGF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Internalization of cell surface proteins was then triggered by increasing the temperature to 37\u2009\u00b0C in the presence or absence of HGF for 30\u2009min."
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "NLS1 or NLS2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "average of the log2-transformed LFQ intensities measured in each replicate from condition 1 (WT), subtracted from the counterpart average in condition 2 (either NLS1 or NLS2)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "mouse",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell of lung",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000082"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H1299",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "KPC-PDAC",
+        "family": "KPC",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SILAC ratios",
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +211,82 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The TurboID proximity interactome experiment explicitly uses label-free quantification (LFQ) with DDA acquisition on an Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "The plasma membrane to nucleus traffickome experiment explicitly uses SILAC labelling (heavy and light amino acids) with DDA acquisition on an Orbitrap Q-Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The use of TurboID for proximity-dependent biotinylation of proteins near EphA2."
+        },
+        {
+          "modifier_workflow_id": "surface_biotinylation",
+          "confidence": 1.0,
+          "reason": "The use of sulfo-NHS-SS-Biotin to label cell surface proteins for trafficking analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TurboID",
+        "SILAC",
+        "label-free quantification",
+        "LFQ",
+        "surface-biotinylated",
+        "proximity-labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The TurboID proximity interactome experiment explicitly uses label-free quantification (LFQ) with DDA acquisition on an Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.9,
+          "reason": "The plasma membrane to nucleus traffickome experiment explicitly uses SILAC labelling (heavy and light amino acids) with DDA acquisition on an Orbitrap Q-Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The use of TurboID for proximity-dependent biotinylation of proteins near EphA2."
+        },
+        {
+          "modifier_workflow_id": "surface_biotinylation",
+          "confidence": 1.0,
+          "reason": "The use of sulfo-NHS-SS-Biotin to label cell surface proteins for trafficking analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "TurboID",
+        "SILAC",
+        "label-free quantification",
+        "LFQ",
+        "surface-biotinylated",
+        "proximity-labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +307,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:56:36Z"
   }
 }

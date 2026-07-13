@@ -3,22 +3,41 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "In total, 70 NASH patients (22 early HCC, 15 advanced HCC, and 33 cirrhosis cases) were analyzed",
+          "Site-specific N-glycopeptides in serum Hp... to characterize glycopeptide markers for NASH-related HCCs.",
+          "Differential quantitation analysis revealed that five N-glycopeptides at sites N184 and N241 were significantly elevated during the progression from NASH cirrhosis to HCC"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -26,39 +45,91 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "NASH-related cirrhosis"
+    ],
+    "case_arms": [
+      "NASH-related HCC"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two replicates for each sample on an Orbitrap Fusion Lumos Tribrid Mass Spectrometer",
+      "each sample was analyzed with two injections"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantitation"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "NASH-related cirrhosis",
+        "case_label": "NASH-related HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential quantitation analysis revealed that five N-glycopeptides at sites N184 and N241 were significantly elevated during the progression from NASH cirrhosis to HCC"
+        ]
+      },
+      {
+        "control_label": "NASH-related cirrhosis",
+        "case_label": "early NASH HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the N-glycopeptides at sites N184 and N241 bearing a monofucosylated triantennary glycan A3G3F1S3 had the best diagnostic performance in detection of early NASH HCC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "serum",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantitation",
+      "relative quantitation"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +137,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "The study uses label-free quantitation (LFQ) based on XIC peak area integration of DDA (data-dependent) LC-MS/MS data."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_ethcd",
+          "confidence": 100,
+          "reason": "The experiment specifically targets N-glycopeptides using EThcD fragmentation to preserve labile PTMs and provide glycan/peptide structural information."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptides",
+        "EThcD-MS/MS",
+        "label-free quantitation",
+        "HILIC TopTips",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "The study uses label-free quantitation (LFQ) based on XIC peak area integration of DDA (data-dependent) LC-MS/MS data."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_ethcd",
+          "confidence": 100,
+          "reason": "The experiment specifically targets N-glycopeptides using EThcD fragmentation to preserve labile PTMs and provide glycan/peptide structural information."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycopeptides",
+        "EThcD-MS/MS",
+        "label-free quantitation",
+        "HILIC TopTips",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +211,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:15:35Z"
   }
 }

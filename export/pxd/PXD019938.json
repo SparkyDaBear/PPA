@@ -3,27 +3,38 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counts",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations"
+      "un-classified"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HEK293F"
+      "HEK293-F"
     ],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "To accomplish the task of characterizing site-specific glycosylation of the trimer Spike of SARS-CoV-2 and the host receptor ACE2, we began by expressing and purifying a stabilized, soluble trimer Spike glycoprotein mimetic immunogen (that we define here and forward as S,) and a soluble version of the ACE2 glycoprotein from a human cell line."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,8 +44,8 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
@@ -43,27 +54,58 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Severe acute respiratory syndrome coronavirus 2",
+        "taxonomy_hint": "NEWT:2697049",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293-F",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counts"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +113,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (Full MS and MS/MS scans) and quantitation is performed via spectral counting, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly focuses on site-specific N-linked and O-linked glycosylation, using specialized software like pGlyco and Byonic."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomics",
+        "N-linked glycopeptides",
+        "O-linked glycopeptides",
+        "spectral counts",
+        "pGlyco",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (Full MS and MS/MS scans) and quantitation is performed via spectral counting, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The study explicitly focuses on site-specific N-linked and O-linked glycosylation, using specialized software like pGlyco and Byonic."
+        }
+      ],
+      "trigger_keywords": [
+        "glycoproteomics",
+        "N-linked glycopeptides",
+        "O-linked glycopeptides",
+        "spectral counts",
+        "pGlyco",
+        "Byonic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +189,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:24:55Z"
   }
 }

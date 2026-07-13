@@ -3,67 +3,147 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "Hek293T",
       "Hek293 Flp-In T-Rex"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic",
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "Hek293T-RHBDL4-FLAG cells were grown for at least six doublings in medium supplemented with heavy amino acids",
+          "Generation of chromosomally tagged RHBDL4-FLAG Hek293T cells with a single FLAG before the stop codon in the last exon by using CRISPR/Cas12 mediated gene editing"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "RHBDL4-FLAG tag",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "chromosomal tagging via CRISPR/Cas12",
+        "evidence": [
+          "Generation of chromosomally tagged RHBDL4-FLAG Hek293T cells with a single FLAG before the stop codon in the last exon by using CRISPR/Cas12 mediated gene editing"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "parental Hek293T cells"
+    ],
+    "case_arms": [
+      "Hek293T-RHBDL4-FLAG cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The third replicate was performed with a label swap to minimize the experimental error.",
+      "averaged over all three biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC-coIP proteomics",
+      "heavy amino acids (13C615N4-L-Arg and 13C615N2-L-Lys)",
+      "parental Hek293T cells cultured in light-medium were used as control"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "parental Hek293T (light)",
+        "case_label": "Hek293T-RHBDL4-FLAG (heavy)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Hek293T-RHBDL4-FLAG cells were grown for at least six doublings in medium supplemented with heavy amino acids... whereas the parenteral Hek293T cells cultured in light-medium were used as control."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "Hek293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "Hek293 Flp-In T-Rex",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "heavy over light ratios"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +151,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC (heavy amino acids 13C615N4-L-Arg and 13C615N2-L-Lys) with a label swap in the third replicate, analyzed via DDA (data-dependent acquisition) on an LTQ Orbitrap/QExactive."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_apms",
+          "confidence": 1.0,
+          "reason": "The dataset is derived from affinity purification (anti-FLAG immunoprecipitation of RHBDL4-FLAG) to identify interaction partners."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "heavy amino acids",
+        "label swap",
+        "immunoprecipitation",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC (heavy amino acids 13C615N4-L-Arg and 13C615N2-L-Lys) with a label swap in the third replicate, analyzed via DDA (data-dependent acquisition) on an LTQ Orbitrap/QExactive."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_apms",
+          "confidence": 1.0,
+          "reason": "The dataset is derived from affinity purification (anti-FLAG immunoprecipitation of RHBDL4-FLAG) to identify interaction partners."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "heavy amino acids",
+        "label swap",
+        "immunoprecipitation",
+        "shotgun proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +225,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:28:56Z"
   }
 }

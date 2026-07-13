@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "SPS-MS3",
+    "quantification_method": "IS-PRM",
     "labeling_strategy": [
       "TMT"
     ],
@@ -28,31 +28,21 @@
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
         "matched_parent_class_key": "molecular_state",
-        "matched_class_key": null,
+        "matched_class_key": "ptm_or_activation_state",
         "matched_class_path": [
-          "molecular_state"
+          "molecular_state",
+          "ptm_or_activation_state"
         ],
-        "matched_definition": "Comparison based on molecular context such as mutation, PTM, or complex assembly state.",
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
         "confidence": "medium",
         "evidence": [
-          "we defined any minor isoform as an alternative isoform",
-          "we categorized the most abundant isoform as the major isoform. All other, lower expressed isoforms (at least at the RNA level) are considered minor isoforms."
+          "Alternative splicing is a major contributor of transcriptomic complexity, but the extent to which transcript isoforms are translated into stable, functional protein isoforms is unclear.",
+          "we defined any minor isoform as an alternative isoform.",
+          "The selected peptides, named AS192 peptides, consist of 192 peptides that correspond to 55 genes with one major isoform and at least one minor isoform represented"
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "BSA",
-        "dose_or_concentration": "0.1 amol/\u03bcL, 1 amol/\u03bcL, 10 amol/\u03bcL, and 100 amol/\u03bcL",
-        "duration": null,
-        "route_or_context": "spiked into 500 ng/\u03bcL Jurkat protein digest or HUVEC protein digest",
-        "evidence": [
-          "The BSA target concentrations were 0.1 amol/\u03bcL, 1 amol/\u03bcL, 10 amol/\u03bcL, and 100 amol/\u03bcL.",
-          "A series of TMTpro BSA targets were spiked into 500 ng/\u03bcL Jurkat protein digest or HUVEC protein digest"
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -60,48 +50,38 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "DDA mode",
       "major isoform"
     ],
     "case_arms": [
-      "Tomahto",
       "minor isoform"
     ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [
-      "analyzed samples in triplicate",
+      "analyzed samples in triplicate in a dilution series",
       "injected in triplicate"
     ],
     "multiplex_channel_hints": [
       "super heavy tandem mass tags (TMT)",
       "TMT-labeled WTC11 tryptic digest",
-      "shTMTpro-labeled AS192 trigger peptides",
-      "TMTpro-labeled WTC11 peptides"
+      "shTMTpro-labeled synthetic trigger AS192 peptides were spiked into TMTpro-labeled WTC11 peptide digest"
     ],
     "contrast_hints": [
-      {
-        "control_label": "DDA",
-        "case_label": "Tomahto",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Compared to DDA mode, Tomahto increased detectability of isoforms by 3.6-fold"
-        ]
-      },
       {
         "control_label": "major isoform",
         "case_label": "minor isoform",
         "contrast_type": "pairwise",
         "evidence": [
-          "Tomahto method detected 29% of minor isoforms and 55% of major isoforms, while DDA detected 6% of minor isoforms and 17% of major isoforms."
+          "we defined any minor isoform as an alternative isoform.",
+          "The selected peptides, named AS192 peptides, consist of 192 peptides that correspond to 55 genes with one major isoform and at least one minor isoform represented"
         ]
       },
       {
-        "control_label": "0.1 amol/\u03bcL",
-        "case_label": "100 amol/\u03bcL",
-        "contrast_type": "dose_response",
+        "control_label": "DDA",
+        "case_label": "Tomahto",
+        "contrast_type": "pairwise",
         "evidence": [
-          "analyzed samples in triplicate in a dilution series (0.1 to 100 amol on-column) of BSA target peptides"
+          "The IS-PRM method called Tomahto was tested versus DDA to demonstrate improved coverage of isoform-specific peptides."
         ]
       }
     ],
@@ -114,7 +94,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -152,8 +132,8 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "SPS-MS3",
-      "Internal Standard-Parallel Reaction Monitoring (IS-PRM)"
+      "IS-PRM",
+      "SPS-MS3"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -169,29 +149,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "The experiment uses TMTpro labeling for endogenous targets and DDA acquisition for benchmarking and comparison."
+          "confidence": 0.9,
+          "reason": "The experiment uses TMTpro labeling for endogenous targets and DDA mode for benchmarking and comparison."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.4,
-          "reason": "DDA was used as a baseline comparison, though samples were TMT labeled."
+          "reason": "DDA was used for initial identification and benchmarking, though TMT labeling was applied."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "tomahto_is_prm",
+          "modifier_workflow_id": "is_prm_tomahto",
           "confidence": 1.0,
-          "reason": "The primary method described is Tomahto, an Internal Standard Parallel Reaction Monitoring (IS-PRM) approach using shTMTpro triggers to prompt target MS2/MS3 scans."
+          "reason": "The core of the study is the 'Tomahto' IS-PRM method, which uses super-heavy TMTpro (shTMTpro) triggers to prompt MS2/MS3 acquisition of endogenous TMTpro targets."
         }
       ],
       "trigger_keywords": [
-        "Tomahto",
         "IS-PRM",
+        "Tomahto",
         "shTMTpro",
         "TMTpro",
         "internal standard parallel reaction monitoring",
-        "trigger peptides"
+        "trigger-based targeting"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -199,29 +179,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "The experiment uses TMTpro labeling for endogenous targets and DDA acquisition for benchmarking and comparison."
+          "confidence": 0.9,
+          "reason": "The experiment uses TMTpro labeling for endogenous targets and DDA mode for benchmarking and comparison."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.4,
-          "reason": "DDA was used as a baseline comparison, though samples were TMT labeled."
+          "reason": "DDA was used for initial identification and benchmarking, though TMT labeling was applied."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "tomahto_is_prm",
+          "modifier_workflow_id": "is_prm_tomahto",
           "confidence": 1.0,
-          "reason": "The primary method described is Tomahto, an Internal Standard Parallel Reaction Monitoring (IS-PRM) approach using shTMTpro triggers to prompt target MS2/MS3 scans."
+          "reason": "The core of the study is the 'Tomahto' IS-PRM method, which uses super-heavy TMTpro (shTMTpro) triggers to prompt MS2/MS3 acquisition of endogenous TMTpro targets."
         }
       ],
       "trigger_keywords": [
-        "Tomahto",
         "IS-PRM",
+        "Tomahto",
         "shTMTpro",
         "TMTpro",
         "internal standard parallel reaction monitoring",
-        "trigger peptides"
+        "trigger-based targeting"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,6 +231,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:05:13Z"
+    "stage3_refreshed_at": "2026-07-13T05:27:07Z"
   }
 }

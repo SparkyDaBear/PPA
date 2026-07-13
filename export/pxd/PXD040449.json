@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Isobaric labeling",
+    "quantification_method": "TMT reporter ion intensity",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "nutrient or metabolic perturbation"
+      "un-classified"
     ],
     "cell_types": [
       "T cell"
@@ -24,19 +24,18 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "nutrient or metabolic perturbation",
-        "ontology_curie": "PPA:0000012",
-        "category": "nutrient_metabolic",
-        "matched_parent_class_key": "metabolite_supplementation",
-        "matched_class_key": "metabolite_supplementation",
-        "matched_class_path": [
-          "nutrient or metabolic perturbation",
-          "metabolite_supplementation"
-        ],
-        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
-        "confidence": "medium",
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
         "evidence": [
-          "Four distinct artificial two-proteome mixtures were created as follows: A constant amount of human peptide solution (300 \u03bcl) was initially prepared for each mixture. Then, a comparatively small, variable amount of yeast peptide solution was added to each solution, namely 0, 18, 27, and 36 \u03bcl, respectively"
+          "we designed a controlled two-proteome experiment which allowed us to directly observe reporter ion interference",
+          "The experiment involved proteomes from human Jurkat E6-1 cells and the budding yeast strain W303-1A",
+          "Four distinct artificial two-proteome mixtures were created as follows: A constant amount of human peptide solution (300 \u03bcl) was initially prepared for each mixture. Then, a comparatively small, variable amount of yeast peptide solution was added to each solution"
         ]
       }
     ],
@@ -46,9 +45,9 @@
         "agent": "Saccharomyces cerevisiae yeast peptides",
         "dose_or_concentration": "0, 18, 27, and 36 \u03bcl",
         "duration": null,
-        "route_or_context": "added to constant amount of human peptide solution (300 \u03bcl)",
+        "route_or_context": "artificial two-proteome mixtures with human Jurkat E6-1 peptides",
         "evidence": [
-          "A constant amount of human peptide solution (300 \u03bcl) was initially prepared for each mixture. Then, a comparatively small, variable amount of yeast peptide solution was added to each solution, namely 0, 18, 27, and 36 \u03bcl, respectively"
+          "Four distinct artificial two-proteome mixtures were created as follows: A constant amount of human peptide solution (300 \u03bcl) was initially prepared for each mixture. Then, a comparatively small, variable amount of yeast peptide solution was added to each solution, namely 0, 18, 27, and 36 \u03bcl, respectively"
         ]
       }
     ],
@@ -59,12 +58,12 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "0 \u03bcl yeast peptide solution"
+      "0 \u03bcl yeast peptide mixture"
     ],
     "case_arms": [
-      "18 \u03bcl yeast peptide solution",
-      "27 \u03bcl yeast peptide solution",
-      "36 \u03bcl yeast peptide solution"
+      "18 \u03bcl yeast peptide mixture",
+      "27 \u03bcl yeast peptide mixture",
+      "36 \u03bcl yeast peptide mixture"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -74,7 +73,7 @@
     "multiplex_channel_hints": [
       "TMTpro 16plex",
       "Three reporter ion channels (128N, 129N, and 130N) were completely free of yeast peptides",
-      "TMT label 126C to interrogate the effect of hydrolyzed and quenched label"
+      "a thirteenth sample without peptides was labeled in parallel using TMT label 126C"
     ],
     "contrast_hints": [
       {
@@ -83,14 +82,6 @@
         "contrast_type": "dose_response",
         "evidence": [
           "resulting in theoretical fold changes of 1.33, 1.5, and 2.0"
-        ]
-      },
-      {
-        "control_label": "100:6 (channels 128C, 129C, 130C)",
-        "case_label": "100:9 (channels 131C, 132C, 133C)",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "We then conducted pairwise differential expression testing via the Limma-trend testing procedure between the two sample groups 100:9 (channels 131C, 132C, 133C) and 100:6 (channels 128C, 129C, 130C)"
         ]
       }
     ],
@@ -146,9 +137,8 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "Isobaric labeling",
+      "TMT reporter ion intensity",
       "MS2-based quantification",
-      "FAIMS-MS2",
       "FAIMS-MS3 RTS"
     ],
     "proteomics_mode": "PTM-enriched",
@@ -179,21 +169,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMTpro 16plex isobaric labeling for relative quantification."
+          "reason": "The experiment explicitly uses TMTpro 16plex isobaric labeling with DDA acquisition (top 20 method) on Q Exactive HF-X and Orbitrap Eclipse."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "faims",
-          "confidence": 0.8,
-          "reason": "The text describes measurements using FAIMS-MS2 and FAIMS-MS3 RTS to reduce ion interference."
+          "modifier_workflow_id": "ptm_phosphorylation",
+          "confidence": 0.9,
+          "reason": "Explicit mention of phosphorylated peptide enrichment using TiO2 and search for phospho (STY) modifications."
+        },
+        {
+          "modifier_workflow_id": "ptm_acetylation",
+          "confidence": 0.9,
+          "reason": "Explicit mention of acetyl-lysine enrichment using PTMScan Acetyl-Lysine Motif Kit and search for acetyl (K) modifications."
         }
       ],
       "trigger_keywords": [
         "TMTpro 16plex",
         "isobaric labeling",
-        "MS2-based quantification",
-        "FAIMS"
+        "TiO2",
+        "Acetyl-Lysine Motif Kit",
+        "MS2-based quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,21 +198,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMTpro 16plex isobaric labeling for relative quantification."
+          "reason": "The experiment explicitly uses TMTpro 16plex isobaric labeling with DDA acquisition (top 20 method) on Q Exactive HF-X and Orbitrap Eclipse."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "faims",
-          "confidence": 0.8,
-          "reason": "The text describes measurements using FAIMS-MS2 and FAIMS-MS3 RTS to reduce ion interference."
+          "modifier_workflow_id": "ptm_phosphorylation",
+          "confidence": 0.9,
+          "reason": "Explicit mention of phosphorylated peptide enrichment using TiO2 and search for phospho (STY) modifications."
+        },
+        {
+          "modifier_workflow_id": "ptm_acetylation",
+          "confidence": 0.9,
+          "reason": "Explicit mention of acetyl-lysine enrichment using PTMScan Acetyl-Lysine Motif Kit and search for acetyl (K) modifications."
         }
       ],
       "trigger_keywords": [
         "TMTpro 16plex",
         "isobaric labeling",
-        "MS2-based quantification",
-        "FAIMS"
+        "TiO2",
+        "Acetyl-Lysine Motif Kit",
+        "MS2-based quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -246,6 +248,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:43:07Z"
+    "stage3_refreshed_at": "2026-07-13T08:21:26Z"
   }
 }

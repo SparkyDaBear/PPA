@@ -3,31 +3,45 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "intensity-based comparison",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "human lung adenocarcinoma cells",
-      "human lung squamous carcinoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "H1975",
       "EBC-1",
       "CHO-K1",
       "Flp-In CHO"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "We purified the recombinant extracellular domain of human MET and determined the site-specific N-glycan structures and occupancy using mass spectrometry.",
+          "An N-glycomic analysis was then performed employing nanoflow liquid chromatography-electrospray ionization tandem mass spectrometry (nLC-ESI-MS/MS)."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -47,27 +61,74 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "CHO-K1",
+        "taxonomy_hint": "Cricetulus griseus",
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "H1975",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "EBC-1",
+        "family": "lung squamous carcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "CHO-K1",
+        "family": "Chinese Hamster Ovary",
+        "ontology_curie": null
+      },
+      {
+        "label": "Flp-In CHO",
+        "family": "Chinese Hamster Ovary",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "intensity-based comparison",
+      "precursor intensities"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +136,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) mode was used on an Orbitrap Q Exactive Plus, and precursor intensities were integrated for intensity-based comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycan_site_occupancy",
+          "confidence": 95,
+          "reason": "The primary goal of the MS analysis was to determine site-specific N-glycan structures and occupancy for 11 potential N-glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycosylation",
+        "glycan occupancy",
+        "glycopeptide",
+        "site-specific N-glycan structures"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) mode was used on an Orbitrap Q Exactive Plus, and precursor intensities were integrated for intensity-based comparison."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycan_site_occupancy",
+          "confidence": 95,
+          "reason": "The primary goal of the MS analysis was to determine site-specific N-glycan structures and occupancy for 11 potential N-glycosylation sites."
+        }
+      ],
+      "trigger_keywords": [
+        "N-glycosylation",
+        "glycan occupancy",
+        "glycopeptide",
+        "site-specific N-glycan structures"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +208,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:04:33Z"
   }
 }

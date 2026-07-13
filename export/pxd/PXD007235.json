@@ -3,20 +3,18 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "super-SILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "breast cancer primary cells",
-      "glioblastoma primary cells",
-      "ovarian cancer primary cells"
+      "epithelial tumor cells",
+      "neural stem and progenitor cells"
     ],
     "cell_lines": [
       "U118",
@@ -25,59 +23,310 @@
       "A2780",
       "Caov-3",
       "HEY",
+      "U138",
+      "U87",
+      "OVCAR3",
       "MCF10A",
       "DU4475",
       "HBL-100",
+      "MDA-MB-231",
+      "MDA-MB-468",
+      "MDA-MB-453",
+      "MDA-MB-361",
       "T47D",
-      "BT474"
+      "BT474",
+      "A172"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "high",
+        "evidence": [
+          "we investigated the effects of the adaptation to culture conditions on histone PTM patterns by profiling them in different culture models",
+          "revealing an extensive and systematic rewiring of histone marks in cell culture conditions",
+          "the epigenetic rewiring that we observed underlies a general phenomenon associated with transition to cell culture conditions"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "we downregulated NSD2, NSD3 and SETMAR, the methyltransferases specific for the deposition of H3K36 mono- and di-methylation, through lentivirus-mediated short hairpin RNA interference (shRNA) in 3D glioblastoma long-term primary cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shRNA (targeting NSD2, NSD3, SETMAR)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "lentivirus-mediated",
+        "evidence": [
+          "we downregulated NSD2, NSD3 and SETMAR... through lentivirus-mediated short hairpin RNA interference (shRNA)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "short-term",
+      "middle-term",
+      "long-term"
+    ],
+    "control_arms": [
+      "patient tumor tissues",
+      "frozen tumors",
+      "FFPE human tumor samples"
+    ],
+    "case_arms": [
+      "primary cultures",
+      "cell lines",
+      "xenografts"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The samples were analyzed in technical triplicates"
+    ],
+    "multiplex_channel_hints": [
+      "super-SILAC approach",
+      "L/H ratios"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "tumor tissue",
+        "case_label": "cell culture (primary/cell line)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "investigated the effects of the adaptation to culture conditions on histone PTM patterns by profiling them in different culture models"
+        ]
+      },
+      {
+        "control_label": "short-term culture",
+        "case_label": "long-term culture",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "most of them are instead time-dependent and appear only in long-term cultures"
+        ]
+      },
+      {
+        "control_label": "cell culture",
+        "case_label": "xenograft",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "such changes mostly revert in cell line- and primary cell-derived in vivo xenograft models"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial tumor cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "neural stem and progenitor cells",
+        "rollup_category": "stem cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U118",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "T98G",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "LN405",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "A2780",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "Caov-3",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEY",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "U138",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "U87",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "OVCAR3",
+        "family": "ovarian cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF10A",
+        "family": "breast",
+        "ontology_curie": null
+      },
+      {
+        "label": "DU4475",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HBL-100",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-231",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-468",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-453",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MDA-MB-361",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "T47D",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "BT474",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "A172",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "breast cancer specimens",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "glioblastoma tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "ovarian cancer samples",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "mouse brain",
+        "source_kind": "organ"
+      },
+      {
+        "label": "xenografts",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "super-SILAC",
+      "label-free quantitative analysis"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "histone enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -85,10 +334,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'super-SILAC' approach with heavy-labeled amino acids (Arg10) and DDA acquisition on a Q Exactive HF."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "A separate global proteome analysis was performed using 'quantitative label-free analysis' (MaxLFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 1.0,
+          "reason": "The experiment is specifically designed for histone PTM profiling, utilizing chemical alkylation (D6-acetic anhydride/propionic anhydride) to create 'Arg-C-like' digestion and targeting specific histone H3/H4 peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "super-SILAC",
+        "histone PTMs",
+        "D6-acetic anhydride",
+        "propionic anhydride",
+        "Arg-C-like digestion",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'super-SILAC' approach with heavy-labeled amino acids (Arg10) and DDA acquisition on a Q Exactive HF."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.7,
+          "reason": "A separate global proteome analysis was performed using 'quantitative label-free analysis' (MaxLFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 1.0,
+          "reason": "The experiment is specifically designed for histone PTM profiling, utilizing chemical alkylation (D6-acetic anhydride/propionic anhydride) to create 'Arg-C-like' digestion and targeting specific histone H3/H4 peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "super-SILAC",
+        "histone PTMs",
+        "D6-acetic anhydride",
+        "propionic anhydride",
+        "Arg-C-like digestion",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -109,6 +420,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:19:10Z"
   }
 }

@@ -3,66 +3,140 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "peak area",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "molecular state comparison"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "human p300BRPHZT",
-      "human CBPBRPHZT"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "180-bp nucleosomes reconstituted in the presence (H4K12ac+K16ac) or absence (unmod) of H4K12ac/K16ac were reacted with wild-type p300BRPHZT and acetyl-CoA",
+          "Comparison of acetylated peptide abundance in unmod and K12ac+K16ac over time was carried out"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "p300BRPHZT",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "in vitro acetyltransferase assay",
+        "evidence": [
+          "180-bp nucleosomes... were reacted with wild-type p300BRPHZT and acetyl-CoA"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-reaction",
+        "evidence": [
+          "The solution before or 1 or 3 min after the reaction was heat-denatured at 95 \u00b0C for 3 min and sampled."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "0 min",
+      "1 min",
+      "3 min"
+    ],
+    "control_arms": [
+      "unmod (unmodified nucleosome)"
+    ],
+    "case_arms": [
+      "H4K12ac+K16ac (H4acNuc)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Measurements were technically repeated three times"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unmod",
+        "case_label": "H4K12ac+K16ac",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "Comparison of acetylated peptide abundance in unmod and K12ac+K16ac over time was carried out"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "peak area"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +144,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (TOP10 method on Q Exactive) and performs relative quantification of acetylated peptides based on peak areas (label-free approach) across different conditions and time points."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.9,
+          "reason": "The primary focus of the MS analysis is the comprehensive detection and quantification of histone lysine acetylation (Kac) sites."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylated peptide abundance",
+        "peak area",
+        "TOP10 method",
+        "variable modifications = Acetyl (K)"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (TOP10 method on Q Exactive) and performs relative quantification of acetylated peptides based on peak areas (label-free approach) across different conditions and time points."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.9,
+          "reason": "The primary focus of the MS analysis is the comprehensive detection and quantification of histone lysine acetylation (Kac) sites."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylated peptide abundance",
+        "peak area",
+        "TOP10 method",
+        "variable modifications = Acetyl (K)"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,6 +216,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:33:41Z"
   }
 }

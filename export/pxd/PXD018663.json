@@ -3,67 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "relative quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations"
+      "radiation or photostress"
     ],
-    "cell_types": [
-      "non-small cell lung carcinoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "H1299"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation"
+        ],
+        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "confidence": "high",
+        "evidence": [
+          "We irradiated the cells, placed in a flask using a 60Co gamma-ray source with a dose rate of 1.04 Gy\u2219min\u22121, to stimulate phosphorylation within the cell culture."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "60Co gamma-ray source",
+        "dose_or_concentration": "1.04 Gy\u2219min\u22121",
+        "duration": null,
+        "route_or_context": "H1299 cell culture",
+        "evidence": [
+          "We irradiated the cells, placed in a flask using a 60Co gamma-ray source with a dose rate of 1.04 Gy\u2219min\u22121"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "1 hour",
+        "route_or_context": "post-irradiation cultivation",
+        "evidence": [
+          "After irradiation, we transferred the cells back into an incubator and cultivated further for one hour."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "1 hour post-irradiation"
+    ],
+    "control_arms": [
+      "purified sample"
+    ],
+    "case_arms": [
+      "fractionated sample"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "We analyzed both samples in three biological replicates."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "purified sample",
+        "case_label": "fractionated sample",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "LC\u2013MS/MS analysis confirmed the significant increase in the peptide (more than 2.5-fold) and phosphopeptide identification (more than 3-fold) in the fractionated sample compared to the purified one"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "H1299",
+        "family": "non-small cell lung carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "relative quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +149,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses a QExactive instrument with full MS scans and top-N precursor selection (DDA) for identification and relative quantification of phosphopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of TiO2 (Titansphere) microspheres for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptide enrichment",
+        "TiO2",
+        "phosphoproteomics",
+        "QExactive",
+        "top 12 or top 10 precursors"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses a QExactive instrument with full MS scans and top-N precursor selection (DDA) for identification and relative quantification of phosphopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of TiO2 (Titansphere) microspheres for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphopeptide enrichment",
+        "TiO2",
+        "phosphoproteomics",
+        "QExactive",
+        "top 12 or top 10 precursors"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +223,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:55:51Z"
   }
 }

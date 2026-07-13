@@ -3,25 +3,39 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "un-classified"
     ],
     "cell_types": [
       "endothelial cell of umbilical vein"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "confidence": "high",
+        "evidence": [
+          "In this study, next\u2010generation sequencing and high\u2010resolution mass spectrometry to profile the transcriptome and proteome of primary HUVECs is employed.",
+          "Our laboratory has previously described benefits of such approach by molecular profiling of tissues by integrated analysis of transcriptomics and proteomics in cells, tissues, and organisms. In this study, we have undertaken expression profiling of endothelial cells from primary cultures of HUVECs."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,9 +45,11 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Strong cation-exchange-based peptide fractions of HUVEC whole cell lysate protein digests were analyzed in duplicate on a Thermo Scientific Orbitrap Lumos instrument."
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -41,27 +57,65 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "endothelial cell of umbilical vein",
+        "rollup_category": "endothelial cell",
+        "ontology_curie": "CL:0002618"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "medium"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "medium"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +123,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos with iBAQ for abundance estimation, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses an integrated RNA-seq and proteomics approach to search against custom databases containing sample-specific single amino acid variants (SAAV), novel exon-exon junctions, and translated ORF databases."
+        }
+      ],
+      "trigger_keywords": [
+        "integrated transcriptomic and proteomic",
+        "proteogenomics",
+        "custom database",
+        "SAAV",
+        "exon-exon junction",
+        "iBAQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos with iBAQ for abundance estimation, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses an integrated RNA-seq and proteomics approach to search against custom databases containing sample-specific single amino acid variants (SAAV), novel exon-exon junctions, and translated ORF databases."
+        }
+      ],
+      "trigger_keywords": [
+        "integrated transcriptomic and proteomic",
+        "proteogenomics",
+        "custom database",
+        "SAAV",
+        "exon-exon junction",
+        "iBAQ"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +199,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:34:10Z"
   }
 }

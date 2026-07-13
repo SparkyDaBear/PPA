@@ -3,76 +3,145 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "prostate cancer cells",
       "epithelial cell"
     ],
     "cell_lines": [
-      "VCaP",
-      "LNCaP",
-      "HEK293",
-      "MDA PCa 2B",
-      "SK-N-DZ",
-      "Ramos",
-      "MCF-7",
-      "T-REx-293"
+      "VCaP"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "VCaP cells were treated with bavdegalutamide [10 nmol/L, i.e., 10-fold higher than half-maximal degradation concentration (DC50)] for 8 hours. Cell lysates were analyzed by label-free LC/MS-MS methodology.",
+          "Cells were either treated with 10nM A5110 or DMSO for 8 hours prior to harvest."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "bavdegalutamide (ARV-110)",
+        "dose_or_concentration": "10 nmol/L",
+        "duration": "8 hours",
+        "route_or_context": "VCaP cells",
+        "evidence": [
+          "VCaP cells were treated with bavdegalutamide [10 nmol/L, i.e., 10-fold higher than half-maximal degradation concentration (DC50)] for 8 hours."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "8 hours"
+    ],
+    "control_arms": [
+      "DMSO"
+    ],
+    "case_arms": [
+      "bavdegalutamide"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "label-free LC/MS-MS"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "bavdegalutamide",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Cells were either treated with 10nM A5110 or DMSO for 8 hours prior to harvest."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "VCaP",
+        "family": "prostate cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free",
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -80,10 +149,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free LC/MS-MS methodology' and the PRIDE metadata lists 'Bottom-up proteomics' and 'TIC' (Total Ion Current) as the quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptmscan",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states 'Peptides were prepared using the PTMScan Method (Cell Signaling Technology)' and the keywords include 'Ptmscan'."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "LC/MS-MS",
+        "PTMScan",
+        "Bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'label-free LC/MS-MS methodology' and the PRIDE metadata lists 'Bottom-up proteomics' and 'TIC' (Total Ion Current) as the quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptmscan",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states 'Peptides were prepared using the PTMScan Method (Cell Signaling Technology)' and the keywords include 'Ptmscan'."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free",
+        "LC/MS-MS",
+        "PTMScan",
+        "Bottom-up proteomics"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -104,6 +221,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:17:32Z"
   }
 }

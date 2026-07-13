@@ -3,68 +3,136 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Peptide counting",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "U2OS",
-      "MDA-MB-231 ROS8"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK 293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "insertion_variant",
+        "matched_class_path": [
+          "genetic",
+          "gene_modification_or_gain",
+          "insertion_variant"
+        ],
+        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "confidence": "high",
+        "evidence": [
+          "The purification samples (Flag-His only n = 1, and Flag-His-UFM1 n = 1) were subjected to SDS-PAGE",
+          "We transfected 293t cells with His-Flag plasmid or His-Flag-UFM1 plasmid seperately."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Flag-His-UFM1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfection in 293T cells",
+        "evidence": [
+          "We transfected 293t cells with His-Flag plasmid or His-Flag-UFM1 plasmid seperately."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "Flag-His"
+    ],
+    "case_arms": [
+      "Flag-His-UFM1"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Flag-His only n = 1",
+      "Flag-His-UFM1 n = 1"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Flag-His",
+        "case_label": "Flag-His-UFM1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The purification samples (Flag-His only n = 1, and Flag-His-UFM1 n = 1) were subjected to SDS-PAGE"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293T",
+        "family": "HEK 293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Peptide counting"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +140,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an LTQ Orbitrap Velos Pro (DDA) with Sequest for identification. While PRIDE mentions 'Peptide counting', the experimental design is a label-free comparison between a control (Flag-His) and a bait (Flag-His-UFM1) using gel-band excision."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ufmylation",
+          "confidence": 0.9,
+          "reason": "The primary goal of the MS analysis was to identify UFM1-modified substrates. The text explicitly discusses identifying ufmylated histone H4 and the use of His-UFM1 purification."
+        }
+      ],
+      "trigger_keywords": [
+        "ufmylation",
+        "UFM1 modified substrates",
+        "His-UFM1 purification",
+        "mono-ufmylated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment used an LTQ Orbitrap Velos Pro (DDA) with Sequest for identification. While PRIDE mentions 'Peptide counting', the experimental design is a label-free comparison between a control (Flag-His) and a bait (Flag-His-UFM1) using gel-band excision."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ufmylation",
+          "confidence": 0.9,
+          "reason": "The primary goal of the MS analysis was to identify UFM1-modified substrates. The text explicitly discusses identifying ufmylated histone H4 and the use of His-UFM1 purification."
+        }
+      ],
+      "trigger_keywords": [
+        "ufmylation",
+        "UFM1 modified substrates",
+        "His-UFM1 purification",
+        "mono-ufmylated"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +212,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:00:51Z"
   }
 }

@@ -3,68 +3,144 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
       "T cell"
     ],
     "cell_lines": [
-      "Jurkat"
+      "Jurkat T cells"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "metabolite_supplementation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "metabolite_supplementation"
+        ],
+        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
+        "confidence": "high",
+        "evidence": [
+          "For proteomic samples containing about 2 mg of total protein, Jurkat T cells were treated either with 5mM acetate in R10 medium or without acetate as the control."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sodium acetate",
+        "dose_or_concentration": "5 mM",
+        "duration": null,
+        "route_or_context": "in vitro Jurkat T cells",
+        "evidence": [
+          "Jurkat T cells were treated either with 5mM acetate in R10 medium or without acetate as the control."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "without acetate"
+    ],
+    "case_arms": [
+      "5mM acetate"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "control",
+        "case_label": "5mM acetate",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Jurkat T cells were treated either with 5mM acetate in R10 medium or without acetate as the control."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "mouse",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "T cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000084"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "Jurkat T cells",
+        "family": "T lymphocyte",
+        "ontology_curie": "BTO:0000661"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Spectrum counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +148,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used Orbitrap Fusion with DDA (most intense ions selected for CID) and label-free quantification (spectrum counting mentioned in PRIDE metadata)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 0.95,
+          "reason": "The study specifically targets protein acetylation, explicitly setting acetylation of lysine as a dynamic modification in the search parameters."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation of lysin",
+        "acetylated residue",
+        "dynamic modifications",
+        "spectrum counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used Orbitrap Fusion with DDA (most intense ions selected for CID) and label-free quantification (spectrum counting mentioned in PRIDE metadata)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 0.95,
+          "reason": "The study specifically targets protein acetylation, explicitly setting acetylation of lysine as a dynamic modification in the search parameters."
+        }
+      ],
+      "trigger_keywords": [
+        "acetylation of lysin",
+        "acetylated residue",
+        "dynamic modifications",
+        "spectrum counting"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,6 +220,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:50:47Z"
   }
 }

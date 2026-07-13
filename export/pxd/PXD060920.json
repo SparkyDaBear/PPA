@@ -3,71 +3,151 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [
-      "glioblastoma cells",
-      "GBM cellular model",
-      "patient derived cancer stem cells"
+      "glioblastoma"
     ],
     "cell_lines": [
       "U87-MG",
-      "U251",
-      "GBMSC83"
+      "U251"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome scope",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "gene_disruption",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption"
+        ],
+        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "confidence": "high",
+        "evidence": [
+          "we performed a deep mass spectrometry (MS)-based (phospho)proteomic analysis of U87-MG cells silenced (shC8#1) or not (shCTR) for Caspase-8 expression.",
+          "characterise the impact of knocking-down the caspase 8 gene in glioblastoma cells."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shC8#1 (Caspase-8 silencing)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "U87-MG glioblastoma cells",
+        "evidence": [
+          "U87-MG cells silenced (shC8#1) or not (shCTR) for Caspase-8 expression"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "shCTR"
+    ],
+    "case_arms": [
+      "shC8"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "MS analyses of three independent samples for each experiment were performed."
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification approach coupled with a data-independent acquisition (DIA) method"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "shCTR",
+        "case_label": "shC8",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify significantly modulated proteins and phosphopeptides between conditions, a Student t-test... was employed.",
+          "component 1 clearly segregated shCTR from shC8 cells at both the proteome and phosphoproteome levels"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "glioblastoma",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "U87-MG",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "U251",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome scope",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +155,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of a 'label-free quantification approach coupled with a data-independent acquisition (DIA) method' and analysis via Spectronaut."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment includes a phosphoproteomic analysis using Zr-IMAC beads for phosphorylated peptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "label-free quantification",
+        "Zr-IMAC",
+        "phosphoproteomic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of a 'label-free quantification approach coupled with a data-independent acquisition (DIA) method' and analysis via Spectronaut."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment includes a phosphoproteomic analysis using Zr-IMAC beads for phosphorylated peptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "label-free quantification",
+        "Zr-IMAC",
+        "phosphoproteomic"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,6 +229,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:35:53Z"
   }
 }

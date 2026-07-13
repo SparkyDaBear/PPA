@@ -3,64 +3,143 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "protein intensities",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Chemical/Drug Treatment"
+      "disease or clinical state"
     ],
     "cell_types": [
-      "rectal adenocarcinoma"
+      "tumor cells"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_response",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_response"
+        ],
+        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "confidence": "high",
+        "evidence": [
+          "classify the twenty-three patients in our cohort into three treatment response groups: non-responders (NR), partial responders (PR) and total responders (TR), and to compare the proteomes of these different groups."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "neoadjuvant radio-chemotherapy with 5-fluorouracil (5-FU)",
+        "dose_or_concentration": "1600 mg/m2 intravenous 5-FU",
+        "duration": "5 weeks",
+        "route_or_context": "intravenous",
+        "evidence": [
+          "The standard treatment for patients with locally advanced non-metastatic rectal cancer is neoadjuvant radio-chemotherapy (NRCT) with 5-fluorouracil (5-FU)",
+          "The concomitant chemotherapy was performed by 1600 mg/m2 intravenous 5-FU or oral capecitabine",
+          "The radiotherapy is composed by 45 Gy in 25 fractions, 5 days per week for 5 weeks"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "before NRCT"
+    ],
+    "control_arms": [
+      "total responders (TR)"
+    ],
+    "case_arms": [
+      "non-responders (NR)",
+      "partial responders (PR)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "distribution of protein intensities for each duplicate biopsy"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "total responders (TR)",
+        "case_label": "non-responders (NR)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "384 differentially abundant proteins between NR and PR, 248 between NR and TR and 417 between PR and TR"
+        ]
+      },
+      {
+        "control_label": "responders (PR + TR)",
+        "case_label": "non-responders (NR)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "NR versus PR + TR, (1) we found 282 differentially abundant proteins"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "tumor cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "rectal cancer biopsies",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "protein intensities"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +148,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used an OrbiTrap QExactive with a top-10 fragmentation strategy (DDA) and quantification was based on protein intensities (LFQ) processed via MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "protein intensities",
+        "MaxQuant",
+        "ten most intense peptide ions",
+        "full scan MS survey spectra"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used an OrbiTrap QExactive with a top-10 fragmentation strategy (DDA) and quantification was based on protein intensities (LFQ) processed via MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "protein intensities",
+        "MaxQuant",
+        "ten most intense peptide ions",
+        "full scan MS survey spectra"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,6 +208,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:52:42Z"
   }
 }

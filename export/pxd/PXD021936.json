@@ -3,14 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
       "colorectal cancer cells"
@@ -19,13 +17,31 @@
       "DLD1",
       "SW480"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "high",
+        "evidence": [
+          "By PtdIns(3,4,5)P3 affinity capture mass spectrometry done in the presence of SDS on CRC cell lines with PI3K\u00e2 nuclear localization, we identified 867 potential nuclear PtdIns(3,4,5)P3 effector proteins.",
+          "To characterise the nuclear PI(3,4,5)P3 interactome in DLD1 and SW480 cells, we performed affinity pull-down experiments on nuclear extracts"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,39 +49,91 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "blank ethanolamine-derivatized Affi-gel10 beads"
+    ],
+    "case_arms": [
+      "PtdIns(3,4,5)P3 Affi-Gel-10 beads"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Four independent biological replicates were analyzed for each PtdIns(3,4,5)P3 nuclear localization (PIP3nuc) DLD1 and SW480 cells."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "blank beads",
+        "case_label": "PtdIns(3,4,5)P3 beads",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the precleared fraction was incubated overnight at 4 \u00b0C with PtdIns(3,4,5)P3 Affi-Gel-10 or Affi-Gel-10 blank derivatized beads"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colorectal cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "DLD1",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SW480",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +141,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Elite. While no explicit label-free quantification (LFQ) software was mentioned for differential analysis, the use of biological replicates and MaxQuant suggests a standard DDA-LFQ approach for interactome identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_capture",
+          "confidence": 100,
+          "reason": "The experiment explicitly uses PtdIns(3,4,5)P3 affinity capture with Affi-Gel-10 beads to identify an interactome."
+        }
+      ],
+      "trigger_keywords": [
+        "affinity capture",
+        "interactome profiling",
+        "data-dependent mode",
+        "Affi-Gel-10"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Elite. While no explicit label-free quantification (LFQ) software was mentioned for differential analysis, the use of biological replicates and MaxQuant suggests a standard DDA-LFQ approach for interactome identification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_capture",
+          "confidence": 100,
+          "reason": "The experiment explicitly uses PtdIns(3,4,5)P3 affinity capture with Affi-Gel-10 beads to identify an interactome."
+        }
+      ],
+      "trigger_keywords": [
+        "affinity capture",
+        "interactome profiling",
+        "data-dependent mode",
+        "Affi-Gel-10"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +213,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:59:26Z"
   }
 }

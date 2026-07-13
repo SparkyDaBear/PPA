@@ -3,27 +3,59 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "cell state or interaction comparison"
     ],
-    "cell_types": [
-      "hippocampal tissue"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "U251"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "PHGDH was immunoprecipitated from hippocampal tissue of healthy and AD-affected males and females and analyzed by mass spectrometry.",
+          "Control (CTR) and Alzheimer's disease (AD) brain samples (hippocampus) (Table S1) were obtained"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "nLC-MS/MS analyses were performed for the identification of PTMs of PHGDH isolated from hippocampal samples of female and male healthy and AD-affected subjects"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -31,39 +63,103 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "healthy females (CTRF)",
+      "healthy males (CTRM)"
+    ],
+    "case_arms": [
+      "AD-affected females (ADF)",
+      "AD-affected males (ADM)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Three biological replicates for each of the four groups (female and male AD patients and female and male healthy subjects) were processed for the LC-ESI MS/MS."
+    ],
+    "multiplex_channel_hints": [
+      "Raw label-free MS/MS files"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "Healthy",
+        "case_label": "AD-affected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identifying PHGDH PTMs in hippocampal tissues of AD-affected and healthy individuals"
+        ]
+      },
+      {
+        "control_label": "Female",
+        "case_label": "Male",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "sex-specific differences in L-serine (L-Ser) metabolism play a key role in Alzheimer's disease (AD)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "U251",
+        "family": "glioblastoma",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "hippocampus",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +167,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "The experiment used an untargeted DDA approach (Orbitrap Fusion Tribrid) with label-free quantification (LFQ) as explicitly stated in the data processing protocol."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 95,
+          "reason": "The study specifically targets and identifies five phosphorylation sites (S55, T60, T78, S383, S473) using immunoprecipitation enrichment."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 95,
+          "reason": "The study specifically targets and identifies acetylation at K289 using immunoprecipitation enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "untargeted approach",
+        "label-free",
+        "immunoprecipitated",
+        "phosphorylation",
+        "acetylation",
+        "PRM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "The experiment used an untargeted DDA approach (Orbitrap Fusion Tribrid) with label-free quantification (LFQ) as explicitly stated in the data processing protocol."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 95,
+          "reason": "The study specifically targets and identifies five phosphorylation sites (S55, T60, T78, S383, S473) using immunoprecipitation enrichment."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 95,
+          "reason": "The study specifically targets and identifies acetylation at K289 using immunoprecipitation enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "untargeted approach",
+        "label-free",
+        "immunoprecipitated",
+        "phosphorylation",
+        "acetylation",
+        "PRM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,6 +253,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T07:36:14Z"
   }
 }

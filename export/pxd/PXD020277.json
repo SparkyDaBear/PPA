@@ -3,24 +3,40 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion intensities",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Disease"
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "liver"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "surfaceome scope",
+    "sample_scope_curie": "PPA:0000200",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease"
+        ],
+        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "confidence": "high",
+        "evidence": [
+          "precision N\u2010glycoproteomic analysis was performed on both ICC and HCC tumors as well as paracancer tissues",
+          "The paired paracancer tissues (ICCP and HCCP) were also included as controls to determine the site\u2010specific glycosylation changes in ICC and HCC tumors."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -28,39 +44,116 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "ICCP",
+      "HCCP",
+      "paracancer tissues"
+    ],
+    "case_arms": [
+      "ICC",
+      "HCC",
+      "ICC tumors",
+      "HCC tumors"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "12 tumor samples were collected from patients with ICC (n = 6) and HCC (n = 6), and their paired paracancer tissues (n = 12) were also collected",
+      "Each sample underwent triplicate LC-MS/MS runs"
+    ],
+    "multiplex_channel_hints": [
+      "labeled with the tandem mass tag (TMT) reagents",
+      "TMT channel of 129C (TMT\u2010129C): HCC paracancer; TMT\u2010130C: ICC paracancer; TMT\u2010130N: HCC tumor; TMT\u2010131: ICC tumor"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "ICCP",
+        "case_label": "ICC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared with paired paracancer samples, 37.9% and 10.6% of N\u2010glycopeptides changed in ICC and HCC, respectively"
+        ]
+      },
+      {
+        "control_label": "HCCP",
+        "case_label": "HCC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared with paired paracancer samples, 37.9% and 10.6% of N\u2010glycopeptides changed in ICC and HCC, respectively"
+        ]
+      },
+      {
+        "control_label": "HCC",
+        "case_label": "ICC",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A direct comparison between ICC and HCC showed that 21.1% of glycopeptides changed between ICC and HCC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "intrahepatic cholangiocarcinoma",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "hepatocellular carcinoma",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "paracancer tissues",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "liver",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "surfaceome scope",
+      "curie": "PPA:0000200"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion intensities"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -68,10 +161,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT (10-plex) labeling for quantification of both global proteins and glycopeptides using an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment focuses on site-specific N-glycoproteomics using MAX enrichment and a specialized structural sequencing algorithm (StrucGP)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "N-glycoproteomics",
+        "intact glycopeptide",
+        "MAX",
+        "StrucGP",
+        "site-specific N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses TMT (10-plex) labeling for quantification of both global proteins and glycopeptides using an Orbitrap Fusion Lumos."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment focuses on site-specific N-glycoproteomics using MAX enrichment and a specialized structural sequencing algorithm (StrucGP)."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "N-glycoproteomics",
+        "intact glycopeptide",
+        "MAX",
+        "StrucGP",
+        "site-specific N-glycosylation"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,6 +237,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T03:34:19Z"
   }
 }

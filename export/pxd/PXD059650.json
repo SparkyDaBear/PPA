@@ -8,11 +8,12 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK-293"
+      "HEK-293",
+      "SoluBL21(DE3)"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -22,28 +23,31 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
-        "category": "ligand_stimulation",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator"
+        ],
+        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
         "confidence": "medium",
         "evidence": [
-          "To evaluate the kinetics of tyrosine protein sulfation of the soluble calumenin species present, they were incubated at 30 \u00b0C in the presence of purified TPST1, TPST2, or a combination of TPST1 and TPST2 with the sulfate donor PAPS"
+          "they were incubated at 30 \u00b0C in the presence of purified TPST1, TPST2, or a combination of TPST1 and TPST2 with the sulfate donor PAPS (1 mM) and 5 mM MgCl2"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "TPST1, TPST2, and PAPS",
-        "dose_or_concentration": "1 mM PAPS, 5 mM MgCl2",
+        "agent": "TPST1, TPST2, PAPS",
+        "dose_or_concentration": "PAPS (1 mM), MgCl2 (5 mM)",
         "duration": "16 h",
-        "route_or_context": "in vitro sulfation assay",
+        "route_or_context": "in vitro sulfation of recombinant human calumenin",
         "evidence": [
-          "they were incubated at 30 \u00b0C in the presence of purified TPST1, TPST2, or a combination of TPST1 and TPST2 with the sulfate donor PAPS (1 mM) and 5 mM MgCl2",
+          "incubated at 30 \u00b0C in the presence of purified TPST1, TPST2, or a combination of TPST1 and TPST2 with the sulfate donor PAPS (1 mM) and 5 mM MgCl2",
           "Recombinant calumenin preincubated with TPST1/2 and PAPS for 16 h at 20 \u00b0C"
         ]
       }
@@ -60,9 +64,9 @@
       "nonsulfated human GST-full length calumenin"
     ],
     "case_arms": [
-      "TPST1-treated",
-      "TPST2-treated",
-      "TPST1/2-treated"
+      "TPST1-treated calumenin",
+      "TPST2-treated calumenin",
+      "TPST1/2-combination-treated calumenin"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -74,7 +78,7 @@
         "case_label": "TPST1/2 treated calumenin",
         "contrast_type": "pairwise",
         "evidence": [
-          "To evaluate the kinetics of tyrosine protein sulfation of the soluble calumenin species present, they were incubated at 30 \u00b0C in the presence of purified TPST1, TPST2, or a combination of TPST1 and TPST2 with the sulfate donor PAPS"
+          "To evaluate enzymatic Y sulfation of calumenin, we purified a nonsulfated human GST-full length calumenin fusion protein... We next subjected calumenin to in vitro sulfation using catalytically active TPST1 or TPST2 or a combination of the two enzymes"
         ]
       }
     ],
@@ -102,6 +106,11 @@
         "label": "HEK-293",
         "family": "human embryonic kidney",
         "ontology_curie": null
+      },
+      {
+        "label": "SoluBL21(DE3)",
+        "family": "E. coli",
+        "ontology_curie": null
       }
     ],
     "noncellular_sources": [],
@@ -112,7 +121,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -148,22 +157,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Q Exactive) and the primary goal is the identification and site-localization of a specific PTM (sulfation) rather than relative quantification between groups."
+          "reason": "The experiment uses DDA (Q Exactive) and focuses on PTM identification/site mapping without evidence of SILAC or isobaric labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_sulfation",
+          "modifier_workflow_id": "modifier_sulfation",
           "confidence": 1.0,
-          "reason": "The entire study is dedicated to identifying sulfotyrosine (sY) and distinguishing it from phosphotyrosine (pY)."
+          "reason": "The primary objective is the identification of tyrosine sulfation (sY), specifically distinguishing it from phosphorylation (pY) using mass error shifts and neutral loss patterns."
         }
       ],
       "trigger_keywords": [
         "sulfotyrosine",
         "sY",
         "sulfo (STY)",
-        "sulfation",
-        "neutral loss of the sulfate group"
+        "neutral loss of the sulfate group",
+        "sulfated peptidoforms"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -172,22 +181,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Q Exactive) and the primary goal is the identification and site-localization of a specific PTM (sulfation) rather than relative quantification between groups."
+          "reason": "The experiment uses DDA (Q Exactive) and focuses on PTM identification/site mapping without evidence of SILAC or isobaric labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_sulfation",
+          "modifier_workflow_id": "modifier_sulfation",
           "confidence": 1.0,
-          "reason": "The entire study is dedicated to identifying sulfotyrosine (sY) and distinguishing it from phosphotyrosine (pY)."
+          "reason": "The primary objective is the identification of tyrosine sulfation (sY), specifically distinguishing it from phosphorylation (pY) using mass error shifts and neutral loss patterns."
         }
       ],
       "trigger_keywords": [
         "sulfotyrosine",
         "sY",
         "sulfo (STY)",
-        "sulfation",
-        "neutral loss of the sulfate group"
+        "neutral loss of the sulfate group",
+        "sulfated peptidoforms"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -217,6 +226,6 @@
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
     "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:20:09Z"
+    "stage3_refreshed_at": "2026-07-13T04:29:22Z"
   }
 }

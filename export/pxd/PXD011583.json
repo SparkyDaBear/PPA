@@ -3,63 +3,155 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "Protein Abundance Index - PAI",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Post-Translational Modification Enrichment"
+      "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_or_differentiation_state"
+        ],
+        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "confidence": "medium",
+        "evidence": [
+          "we used mass spectrometry to analyze protein preparations of DnaK from M. tuberculosis expressed in two different expression systems (E. coli and P. pastoris)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Escherichia coli",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "expression system",
+        "evidence": [
+          "M. tuberculosis DnaK gene was inserted into the pET23(a)+ plasmid, and the protein was expressed and purified from an E. coli system"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Pichia pastoris",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "expression system",
+        "evidence": [
+          "Recombinant DnaK from M. tuberculosis (Gene ID: 885946) was expressed and purified in P. pastoris system"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "E. coli"
+    ],
+    "case_arms": [
+      "P. pastoris"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "E. coli",
+        "case_label": "P. pastoris",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparisons of DnaK structures in silico highlighted that electrostatic and topographical differences exist that are dependent upon the expression system."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "No",
+    "organisms": [
+      {
+        "label": "Mycobacterium tuberculosis",
+        "taxonomy_hint": "NEWT:537209",
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": "bacteria",
+        "confidence": "high"
+      },
+      {
+        "label": "Pichia pastoris",
+        "taxonomy_hint": "yeast",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Protein Abundance Index - PAI"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "medium"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "medium"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +159,80 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "DDA acquisition on Q-Exactive Orbitrap with label-free comparison of protein preparations from two different expression systems."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 95,
+          "reason": "Explicit focus on phosphorylation PTMs, including the use of alkaline phosphatase treatment to validate effects."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 90,
+          "reason": "Explicit search and identification of acetylation sites on lysine residues."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitination",
+          "confidence": 85,
+          "reason": "Explicit search for Gly-Gly modifications on lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphorylation",
+        "acetylation",
+        "Gly-Gly",
+        "alkaline phosphatase",
+        "PTM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "DDA acquisition on Q-Exactive Orbitrap with label-free comparison of protein preparations from two different expression systems."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 95,
+          "reason": "Explicit focus on phosphorylation PTMs, including the use of alkaline phosphatase treatment to validate effects."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 90,
+          "reason": "Explicit search and identification of acetylation sites on lysine residues."
+        },
+        {
+          "modifier_workflow_id": "modifier_ubiquitination",
+          "confidence": 85,
+          "reason": "Explicit search for Gly-Gly modifications on lysine residues."
+        }
+      ],
+      "trigger_keywords": [
+        "phosphorylation",
+        "acetylation",
+        "Gly-Gly",
+        "alkaline phosphatase",
+        "PTM"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -91,6 +253,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T02:36:22Z"
   }
 }

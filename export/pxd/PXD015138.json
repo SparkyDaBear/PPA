@@ -3,74 +3,132 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "label-free",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Viral Infection"
+      "radiation or photostress"
     ],
-    "cell_types": [
-      "human embryonal kidney cells",
-      "human osteosarcoma cells",
-      "cervical carcinoma cells",
-      "immortalized human retinal pigmented cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "293FT",
-      "U2OS",
-      "HeLa",
-      "RPE-1"
+      "293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation"
+        ],
+        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "confidence": "high",
+        "evidence": [
+          "X-ray irradiation of cells was performed with a YXLON.SMART 160E-1.5 device",
+          "mass spectrometric analysis of TOPBP1-associated proteins both in the presence and absence of DNA damage"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "X-ray irradiation",
+        "dose_or_concentration": "11.8 mGy per second",
+        "duration": null,
+        "route_or_context": "ionizing radiation",
+        "evidence": [
+          "X-ray irradiation of cells was performed with a YXLON.SMART 160E-1.5 device (150 kV, 6 mA; YXLON International SA) delivering 11.8 mGy per second."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "absence of DNA damage"
+    ],
+    "case_arms": [
+      "presence of DNA damage"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "absence of DNA damage",
+        "case_label": "presence of DNA damage",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "mass spectrometric analysis of TOPBP1-associated proteins both in the presence and absence of DNA damage"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "293T",
+        "family": "human embryonal kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +136,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Q-Exactive HF and analyzed data with MaxQuant, which is the standard for label-free quantification (LFQ) in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit mention of phosphopeptide enrichment using TiO2 columns and variable modification of phosphorylation (S, T, Y)."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition mode",
+        "TiO2 column",
+        "phosphorylation (S, T and Y)",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Q-Exactive HF and analyzed data with MaxQuant, which is the standard for label-free quantification (LFQ) in this context."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Explicit mention of phosphopeptide enrichment using TiO2 columns and variable modification of phosphorylation (S, T, Y)."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent acquisition mode",
+        "TiO2 column",
+        "phosphorylation (S, T and Y)",
+        "MaxQuant"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,6 +208,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T06:11:48Z"
   }
 }

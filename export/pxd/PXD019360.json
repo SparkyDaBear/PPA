@@ -3,62 +3,132 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "Peptide counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment"
+      "oxidative or redox modulation"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "secretome scope",
+    "sample_scope_curie": "PPA:0000198",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "oxidative or redox modulation",
+        "ontology_curie": "PPA:0000013",
+        "category": "redox",
+        "matched_parent_class_key": "oxidative_stress_induction",
+        "matched_class_key": "oxidative_stress_induction",
+        "matched_class_path": [
+          "oxidative_stress_induction"
+        ],
+        "matched_definition": "Redox perturbation caused by pro-oxidant treatment (for example H2O2 exposure).",
+        "confidence": "high",
+        "evidence": [
+          "Urinary proteins derived from 20 healthy individuals were modified by performic oxidation",
+          "Oxyblot confirms successful oxidation of urinary proteins by performic acid.",
+          "Performic oxidation is one of the classical methods used in several previous proteomics studies to simulate the oxidative stress condition by using a mild oxidizing substance."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "performic acid",
+        "dose_or_concentration": "1:20 v/v of 30% H2O2 in formic acid",
+        "duration": "3-h",
+        "route_or_context": "in vitro modification of lyophilized urinary proteins",
+        "evidence": [
+          "3\u00d7 volume of freshly prepared performic acid (1:20 v/v of 30% H2O2 [Thermo Fisher Scientific] in formic acid) was added. After 3-h incubation on ice"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "nonmodified"
+    ],
+    "case_arms": [
+      "modified"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three different pools of urine samples collected from 20 healthy individuals were made, and each pool was divided into two fractions (nonmodified and modified)"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "nonmodified urine",
+        "case_label": "modified urine",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Only the \u201cunambiguous\u201d ones were counted and compared between the nonmodified and modified urine samples."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "urine",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "secretome scope",
+      "curie": "PPA:0000198"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Peptide counting",
+      "relative spectral intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "oxidative modifications",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_redox",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -66,10 +136,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 85,
+          "reason": "Data acquired using LTQ-Orbitrap in data-dependent acquisition (DDA) top-12 mode. Quantification was performed using relative spectral intensities (extracted ion chromatograms) and peptide counting, which are characteristic of label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "oxidation_site_analysis",
+          "confidence": 95,
+          "reason": "The experiment specifically targets oxidative modifications (oxidation, dioxidation, trioxidation) on C, M, and W residues induced by performic acid."
+        }
+      ],
+      "trigger_keywords": [
+        "performic oxidation",
+        "oxidatively modified peptides",
+        "relative spectral intensity",
+        "peptide counting",
+        "DDA",
+        "top-12 mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 85,
+          "reason": "Data acquired using LTQ-Orbitrap in data-dependent acquisition (DDA) top-12 mode. Quantification was performed using relative spectral intensities (extracted ion chromatograms) and peptide counting, which are characteristic of label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "oxidation_site_analysis",
+          "confidence": 95,
+          "reason": "The experiment specifically targets oxidative modifications (oxidation, dioxidation, trioxidation) on C, M, and W residues induced by performic acid."
+        }
+      ],
+      "trigger_keywords": [
+        "performic oxidation",
+        "oxidatively modified peptides",
+        "relative spectral intensity",
+        "peptide counting",
+        "DDA",
+        "top-12 mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,6 +212,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T04:22:01Z"
   }
 }

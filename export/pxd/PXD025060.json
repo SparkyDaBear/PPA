@@ -3,64 +3,134 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "iBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "THP-1",
-      "HeLa",
-      "BJ foreskin fibroblasts",
-      "HS5 bone marrow stromal cells",
-      "A431",
-      "MV4;11",
-      "MM1.S",
-      "JJN-3",
-      "OPM2",
-      "MOLM-13",
-      "HL-60",
-      "OCI-AML3"
-    ],
-    "cell_lines": [
-      "THP-1",
-      "HeLa",
-      "BJ-T",
-      "HS5",
-      "A431",
-      "MV4;11",
-      "MM1.S",
-      "JJN-3",
-      "OPM2",
-      "MOLM-13",
-      "HL-60",
-      "OCI-AML3"
-    ],
-    "sample_scope": "whole cell lysate",
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "whole_gene_knockout",
+        "matched_class_path": [
+          "genetic",
+          "gene_disruption",
+          "whole_gene_knockout"
+        ],
+        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "confidence": "high",
+        "evidence": [
+          "stable knockout of INTS6",
+          "INTS6 deletion conferred a strong survival advantage",
+          "deletion of IntS6 in D. melanogaster-derived S2 cells"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "treated with DMSO or AZ5576 for 2 hours",
+          "Small molecule CDK9 inhibitors (CDK9i) (e.g., flavopiridol)",
+          "CDK9i-mediated loss of phosphorylation"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AZ5576",
+        "dose_or_concentration": "170nM",
+        "duration": "2 hours",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "treated with DMSO or AZ5576 for 2 hours",
+          "cultured for 16 hours with DMSO or AZ5576 (170nM)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "INTS6 knockout",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9",
+        "evidence": [
+          "stable knockout of INTS6",
+          "THP-1-Cas9 cells expressing FgH1t-UTG-sgSCR-GFP or FgH1tUTG-sgINTS6-A-GFP with stable knockout of INTS6"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "2 hours",
+      "6 hours"
+    ],
+    "control_arms": [
+      "sgSCR",
+      "DMSO"
+    ],
+    "case_arms": [
+      "sgINTS6-KO",
+      "AZ5576"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "4 biological replicates were used for each condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "sgSCR_UT",
+        "case_label": "sgSCR_CDK9i",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_CDK9i \u2013 SCR_UT < 0.3"
+        ]
+      },
+      {
+        "control_label": "sgSCR_UT",
+        "case_label": "sgINTS6-KO_UT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_UT \u2013 INTS6_KO_UT < 0.3"
+        ]
+      },
+      {
+        "control_label": "sgSCR_CDK9i",
+        "case_label": "sgINTS6-KO_CDK9i",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SCR_CDK9i \u2264 INTS6_KO_CDK9i"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -72,7 +142,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -82,11 +152,28 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "iBAQ"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -94,10 +181,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses data-dependent acquisition (DDA) on QExactive instruments and employs iBAQ for quantification, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.95,
+          "reason": "Explicit mention of 'Phospho-peptide mass spectrometry' using Fe(III)-NTA beads for enrichment and analysis of phosphorylation on Serine/Threonine/Tyrosine."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "Multiple IP-MS experiments described using antibodies against INTS6 and PP2A-C to identify interactomes."
+        }
+      ],
+      "trigger_keywords": [
+        "iBAQ",
+        "data-dependent mode",
+        "Fe(III)-NTA beads",
+        "phospho-peptides",
+        "Immunoprecipitation-mass spectrometry",
+        "IP-MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The study uses data-dependent acquisition (DDA) on QExactive instruments and employs iBAQ for quantification, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 0.95,
+          "reason": "Explicit mention of 'Phospho-peptide mass spectrometry' using Fe(III)-NTA beads for enrichment and analysis of phosphorylation on Serine/Threonine/Tyrosine."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "Multiple IP-MS experiments described using antibodies against INTS6 and PP2A-C to identify interactomes."
+        }
+      ],
+      "trigger_keywords": [
+        "iBAQ",
+        "data-dependent mode",
+        "Fe(III)-NTA beads",
+        "phospho-peptides",
+        "Immunoprecipitation-mass spectrometry",
+        "IP-MS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -118,6 +267,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T08:04:59Z"
   }
 }

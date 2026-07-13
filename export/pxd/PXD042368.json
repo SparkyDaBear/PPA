@@ -3,69 +3,212 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "H/L ratios",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment",
-      "Time-Course / Temporal Series"
+      "molecular state comparison",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "nuclear extract"
+    ],
     "cell_lines": [
       "HeLa S3",
+      "HeLa Kyoto BAC",
       "MCF-7",
       "IMR90"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_or_activation_state"
+        ],
+        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "confidence": "high",
+        "evidence": [
+          "we created a library of nucleosomes incorporating biologically relevant modification signatures, including mono- and tri-methylation of lysine 4 of histone H3 (H3K4me1/3), di- and tri-methylation of lysines 9 and 27 of histone H3 (H3K9me2/3 and H3K27me2/3), di- and tri-methylation of lysine 20 of histone H4 (H4K20me2/3), varying degrees of acetylation of lysines (Kac)",
+          "Systematically quantifying their binding to the different modification states enabled the discovery of co-regulated proteins"
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "spatial_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "spatial_region_comparison"
+        ],
+        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "confidence": "medium",
+        "evidence": [
+          "To investigate the effects of linker DNA on chromatin recognition by nuclear proteins, we performed an additional set of affinity purifications using dinucleosomes incorporating different DNA linkers",
+          "Examining the effect of the linker DNA length on protein binding to di-nucleosomes decorated with H3K9me3 and H3K27me3"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "modified dinucleosomes",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HeLa S3 cell nuclear extracts",
+        "evidence": [
+          "we performed over 80 affinity purification experiments with semisynthetic dinucleosomes containing modification signatures and DNA linkers representing promoter, enhancer or heterochromatin states"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "linker DNA length",
+        "dose_or_concentration": "35 bp, 40 bp, 45 bp, 50 bp, 55 bp, 200 bp",
+        "duration": null,
+        "route_or_context": "dinucleosomes",
+        "evidence": [
+          "different DNA linkers (35 bp, 40 bp, 45 bp, 50 bp and 55 bp linkers)",
+          "200 bp long SV40 promoter linker",
+          "200 bp long SV40 enhancer linker"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "unmodified control nucleosomes"
+    ],
+    "case_arms": [
+      "modified dinucleosomes",
+      "variable-linker nucleosomes"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "forward and reverse SILAC nucleosome pull-down experiments",
+      "two technical replicates"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC heavy/light (H/L) ratios",
+      "2-plex labelling (Arg0/Lys0 and Arg10/Lys8)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "unmodified nucleosome",
+        "case_label": "modified nucleosome",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing log2[H/L ratio] values between related nucleosomes that differ by only one single feature"
+        ]
+      },
+      {
+        "control_label": "50 bp linker",
+        "case_label": "variable linker length",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "log2[H3K27me3 with 55 bp linker] versus log2[H3K27me3 with 50 bp linker]"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "nuclear extract",
+        "rollup_category": "subcellular fraction",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa S3",
+        "family": "HeLa",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa Kyoto BAC",
+        "family": "HeLa",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF-7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "IMR90",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "H/L ratios",
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "low"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +216,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The primary large-scale dataset (SNAP) explicitly uses SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and text describe a specific subset of experiments (linker DNA length) using label-free MS quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment is centered on nucleosome affinity purification (SNAP) and ChIP-MS."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC nucleosome affinity purification",
+        "SNAP",
+        "label-free MS",
+        "H/L ratios",
+        "label swap"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The primary large-scale dataset (SNAP) explicitly uses SILAC nucleosome affinity purification with forward and reverse label swaps (H/L ratios)."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The PRIDE metadata and text describe a specific subset of experiments (linker DNA length) using label-free MS quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment is centered on nucleosome affinity purification (SNAP) and ChIP-MS."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC nucleosome affinity purification",
+        "SNAP",
+        "label-free MS",
+        "H/L ratios",
+        "label swap"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,6 +300,7 @@
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
     "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only"
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-07-13T05:22:50Z"
   }
 }
