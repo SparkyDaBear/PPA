@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from .chat import run_chat
+from .mcp_bridge import run_internal_mcp_chat_bridge
 from .schemas import ChatRequest, ChatResponse, SearchResponse
 from .search import run_federated_search
 from .settings import settings
@@ -25,6 +26,15 @@ def healthz() -> dict:
         'ok': True,
         'service': 'federated-search-api',
         'origins': settings.cors_origins,
+        'sources': {
+            'pride': settings.enable_pride,
+            'proteomexchange': settings.enable_proteomexchange,
+            'mcp': settings.enable_mcp_source,
+        },
+        'mcp': {
+            'bridge_url_configured': bool(settings.mcp_bridge_url),
+            'chat_bridge_url_configured': bool(settings.mcp_chat_bridge_url),
+        },
     }
 
 
@@ -42,3 +52,8 @@ async def search(
 @app.post('/v1/chat', response_model=ChatResponse)
 async def chat(payload: ChatRequest) -> ChatResponse:
     return await run_chat(payload)
+
+
+@app.post('/v1/mcp/chat-bridge')
+async def internal_mcp_chat_bridge(payload: ChatRequest) -> dict:
+    return await run_internal_mcp_chat_bridge(payload)

@@ -32,6 +32,8 @@ uvicorn app.main:app --host 0.0.0.0 --port 8787 --reload
 - `GET /v1/search?q=<query>&limit=40`
 - `POST /v1/chat`
 
+`/healthz` includes source enablement diagnostics so you can confirm whether MCP is active at runtime.
+
 Response shape:
 
 ```json
@@ -78,15 +80,29 @@ curl -s -X POST "http://127.0.0.1:8787/v1/chat" \
   -d '{"message":"Find TMT studies in whole cell samples","history":[],"limit":8}' | python -m json.tool
 ```
 
-The chat endpoint returns a fallback message if MCP chat is not configured yet.
+The chat endpoint is MCP-only. If MCP chat is unavailable, the API returns a failure message and warnings.
 
 ## MCP Chat Agent Path
 
 `POST /v1/chat` is designed for MCP-backed conversational retrieval.
 
-1. If `ENABLE_MCP_SOURCE=true` and `MCP_CHAT_BRIDGE_URL` (or `MCP_BRIDGE_URL`) is configured, the API forwards chat requests to your MCP bridge.
-2. If MCP chat is unavailable and `OPENAI_API_KEY` is configured, the API can provide a direct model fallback.
+1. If `MCP_CHAT_BRIDGE_URL` (or `MCP_BRIDGE_URL`) is configured, MCP source is auto-enabled by default.
+2. You can explicitly override with `ENABLE_MCP_SOURCE=true|false`.
 3. The response can include `citations` using the same schema as federated search results.
+
+### Single-Service MCP Setup
+
+If you do not run a separate MCP bridge service, this API now exposes an internal bridge endpoint at:
+
+- `/v1/mcp/chat-bridge`
+
+For a Render deployment at `https://ppa-gx72.onrender.com`, set:
+
+- `MCP_CHAT_BRIDGE_URL=https://ppa-gx72.onrender.com/v1/mcp/chat-bridge`
+
+Then enable MCP chat:
+
+- `ENABLE_MCP_SOURCE=true`
 
 Example request:
 

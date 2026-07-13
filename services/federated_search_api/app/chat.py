@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 import re
 
-from .clients import chat_mcp_bridge, chat_openai_fallback_grounded, search_ppa_local
+from .clients import chat_mcp_bridge, search_ppa_local
 from .schemas import ChatRequest, ChatResponse, SearchResult
 
 
@@ -69,26 +69,13 @@ async def run_chat(request: ChatRequest) -> ChatResponse:
 
     evidence_match = _evidence_is_constraint_match(request.message, citations)
 
-    # Optional model-provider fallback for chat if MCP bridge fails.
-    if not reply:
-        fallback = await chat_openai_fallback_grounded(
-            query=request.message,
-            citations=citations,
-            history=request.history,
-        )
-        fallback_reply = (fallback.get('reply') or '').strip()
-        if fallback_reply:
-            reply = fallback_reply
-            model = fallback.get('model')
-            warnings.extend(fallback.get('warnings', []))
-
     if not evidence_match:
         warnings.append('retrieved evidence does not fully satisfy all query constraints')
 
     if not reply:
         reply = (
-            'The MCP chat bridge is currently unavailable. You can still use /v1/search '
-            'for federated retrieval while chat connectivity is configured.'
+            'The MCP chat bridge is unavailable or returned an empty response. '
+            'Chat is MCP-only and does not use model fallback.'
         )
 
     return ChatResponse(
