@@ -184,7 +184,7 @@ export function initFederatedSearch(options: InitOptions) {
         },
         body: JSON.stringify({
           message,
-          limit: 8,
+          limit: 50,
           session_id: sessionId,
           history: chatHistory,
         }),

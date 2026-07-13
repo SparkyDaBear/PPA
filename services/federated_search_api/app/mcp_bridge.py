@@ -5,7 +5,7 @@ from .schemas import ChatRequest, SearchResult
 
 
 async def run_internal_mcp_chat_bridge(payload: ChatRequest) -> dict:
-    citations_result = await search_ppa_local(payload.message, limit=min(payload.limit, 12))
+    citations_result = await search_ppa_local(payload.message, limit=payload.limit)
     citations: list[SearchResult] = citations_result.results
     warnings = list(citations_result.warnings)
 

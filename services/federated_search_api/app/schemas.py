@@ -28,7 +28,7 @@ class ChatTurn(BaseModel):
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=8000)
     session_id: str | None = None
-    limit: int = Field(default=12, ge=1, le=50)
+    limit: int = Field(default=50, ge=1, le=200)
     history: list[ChatTurn] = Field(default_factory=list)
 
 

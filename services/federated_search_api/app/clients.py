@@ -333,7 +333,7 @@ async def chat_openai_fallback_grounded(
     endpoint = f"{settings.openai_base_url.rstrip('/')}/chat/completions"
 
     evidence_lines = []
-    for idx, citation in enumerate(citations[:12], start=1):
+    for idx, citation in enumerate(citations, start=1):
         evidence_lines.append(
             (
                 f"[{idx}] source={citation.source}; kind={citation.kind}; score={citation.score:.3f}; "
