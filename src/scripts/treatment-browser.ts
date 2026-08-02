@@ -24,6 +24,7 @@ function renderDetail(project: Project, baseUrl: string) {
   const summary = project.summary || {};
   const design = project.experimental_design || {};
   const attributes = (project.treatment_attributes || []).map((item) => [item.agent, item.dose_or_concentration, item.duration, item.route_or_context].filter(Boolean).join(' · ')).filter(Boolean);
+  const agents = [...new Set((project.treatment_attributes || []).map((item) => item.agent).filter(Boolean))];
   const evidence = (project.classification.evidence || []).slice(0, 2);
   const links = Object.entries(project.source_links || {}).filter(([, href]) => Boolean(href)).map(([name, href]) => `<a class="badge" href="${escapeHtml(href)}" target="_blank" rel="noreferrer">${escapeHtml(name.replace(/_url$/, '').replace(/_/g, ' '))}</a>`).join(' ');
   return `<p class="detail-kicker">${escapeHtml(project.classification.confidence || 'unrated')} confidence</p>
@@ -33,9 +34,10 @@ function renderDetail(project: Project, baseUrl: string) {
       <div><dt>Treatment class</dt><dd>${escapeHtml(project.classification.label)}</dd></div>
       <div><dt>Sample scope</dt><dd>${escapeHtml(summary.sample_scope_label || summary.sample_scope || 'Not reported')}</dd></div>
       <div><dt>Cell system</dt><dd>${escapeHtml(displayList(summary.cell_lines || summary.cell_types))}</dd></div>
+      <div><dt>Treatment agents</dt><dd>${escapeHtml(agents.join(', ') || 'Not reported')}</dd></div>
       <div><dt>Assay</dt><dd>${escapeHtml([summary.acquisition_type, displayList(summary.labeling_strategy)].filter((item) => item !== 'Not reported').join(' · ') || 'Not reported')}</dd></div>
-      <div><dt>Control arms</dt><dd>${escapeHtml(displayList(design.control_arms))}</dd></div>
-      <div><dt>Case arms</dt><dd>${escapeHtml(displayList(design.case_arms))}</dd></div>
+      <div><dt>Reference condition</dt><dd>${escapeHtml(displayList(design.control_arms))}</dd></div>
+      <div><dt>Experimental conditions</dt><dd>${escapeHtml(displayList(design.case_arms))}</dd></div>
     </dl>
     <section class="detail-block"><h4>Treatment attributes</h4><p>${escapeHtml(attributes.join('; ') || 'Not reported')}</p></section>
     <section class="detail-block"><h4>Evidence</h4>${evidence.length ? `<ul class="plain-list">${evidence.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<p>Not reported</p>'}</section>
