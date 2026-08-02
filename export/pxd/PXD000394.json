@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "disease or clinical state"
+      "disease or clinical state",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "fibroblast",
@@ -32,37 +32,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
-        "matched_class_path": [
-          "chemical_or_drug",
-          "small_molecule_inhibitor"
-        ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
-        "confidence": "high",
-        "evidence": [
-          "SupB15RT cells were grown with the addition of 1 \u03bcm imatinib to the medium",
-          "the analysis of the isogenic cells SupB15WT and SupB15RT (resistance to imatinib treatment)"
-        ]
-      },
-      {
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
-        "confidence": "medium",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
         "evidence": [
           "Applying the workflow to seven cancer cell lines and primary cells",
           "we analyzed seven primary and cancer cell lines"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "the analysis of the isogenic cells SupB15WT and SupB15RT (resistance to imatinib treatment)",
+          "SupB15RT cells were grown with the addition of 1 \u03bcm imatinib to the medium"
         ]
       }
     ],
@@ -72,7 +72,7 @@
         "agent": "imatinib",
         "dose_or_concentration": "1 \u03bcm",
         "duration": null,
-        "route_or_context": "medium",
+        "route_or_context": "addition to the medium",
         "evidence": [
           "SupB15RT cells were grown with the addition of 1 \u03bcm imatinib to the medium"
         ]
@@ -85,38 +85,34 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "SupB15WT",
-      "primary fibroblast cells"
+      "primary cells",
+      "SupB15WT"
     ],
     "case_arms": [
-      "SupB15RT",
-      "JY",
-      "HCT116",
-      "HCC1143",
-      "HCC1937",
-      "HB95"
+      "cancer cell lines",
+      "SupB15RT"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "HLA-I peptidomes were obtained from three to four biological replicates per cell line."
+      "HLA-I peptidomes were obtained from three to four biological replicates per cell line"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
+      {
+        "control_label": "primary cells",
+        "case_label": "cancer cell lines",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Applying the workflow to seven cancer cell lines and primary cells"
+        ]
+      },
       {
         "control_label": "SupB15WT",
         "case_label": "SupB15RT",
         "contrast_type": "pairwise",
         "evidence": [
-          "the analysis of the isogenic cells SupB15WT and SupB15RT (resistance to imatinib treatment)"
-        ]
-      },
-      {
-        "control_label": "primary cells",
-        "case_label": "cancer cell lines",
-        "contrast_type": "multi_group",
-        "evidence": [
-          "Applying the workflow to seven cancer cell lines and primary cells"
+          "analysis of the isogenic cells SupB15WT and SupB15RT (resistance to imatinib treatment)"
         ]
       }
     ],
@@ -129,19 +125,19 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "Somatic cell",
+        "rollup_category": "primary cell",
         "ontology_curie": "CL:0000057"
       },
       {
         "label": "B cell",
-        "rollup_category": "Immune cell",
+        "rollup_category": "immune cell",
         "ontology_curie": "CL:0000236"
       }
     ],
@@ -225,22 +221,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired using a data-dependent 'top 10' method on a Q Exactive; intensities were used for abundance estimation and reproducibility checks."
+          "confidence": 0.9,
+          "reason": "Data acquired using a data-dependent 'top 10' method on a Q Exactive; quantification is based on MS signals/intensities (LFQ-like) and peptide counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "unspecific_cleavage",
-          "confidence": 0.95,
-          "reason": "The enzyme specificity was explicitly set as 'unspecific' because HLA-I peptides do not follow sequence-specific protease rules (no Arg/Lys termination)."
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the HLA class I peptidome using immunoaffinity purification with W6/32 antibody and unspecific enzyme search settings."
         }
       ],
       "trigger_keywords": [
-        "unspecific",
         "HLA-I peptidome",
-        "no sequence specific proteases",
-        "data-dependent 'top 10'"
+        "unspecific enzyme",
+        "W6/32 antibody",
+        "immunopeptidomics",
+        "HLA-I sampling density"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -248,22 +245,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired using a data-dependent 'top 10' method on a Q Exactive; intensities were used for abundance estimation and reproducibility checks."
+          "confidence": 0.9,
+          "reason": "Data acquired using a data-dependent 'top 10' method on a Q Exactive; quantification is based on MS signals/intensities (LFQ-like) and peptide counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "unspecific_cleavage",
-          "confidence": 0.95,
-          "reason": "The enzyme specificity was explicitly set as 'unspecific' because HLA-I peptides do not follow sequence-specific protease rules (no Arg/Lys termination)."
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets the HLA class I peptidome using immunoaffinity purification with W6/32 antibody and unspecific enzyme search settings."
         }
       ],
       "trigger_keywords": [
-        "unspecific",
         "HLA-I peptidome",
-        "no sequence specific proteases",
-        "data-dependent 'top 10'"
+        "unspecific enzyme",
+        "W6/32 antibody",
+        "immunopeptidomics",
+        "HLA-I sampling density"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -291,8 +289,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:55:07Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

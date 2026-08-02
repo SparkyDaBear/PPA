@@ -3,11 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
+      "nutrient or metabolic perturbation",
       "ligand-mediated stimulation"
     ],
     "cell_types": [
@@ -24,17 +25,37 @@
   "treatment": {
     "primary_variables": [
       {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "serum_starvation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "serum_starvation"
+        ],
+        "matched_definition": "Removal or reduction of serum from growth medium as the primary comparison.",
+        "confidence": "high",
+        "evidence": [
+          "To induce cellular quiescence, cells were cultured in 0.1% serum for 3 d.",
+          "we triggered cellular quiescence in normal human diploid lung fetal fibroblast WI-38 cells by serum starvation"
+        ]
+      },
+      {
         "ontology_label": "ligand-mediated stimulation",
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
-        "confidence": "high",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "growth_factor_stimulation"
+        ],
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
+        "confidence": "medium",
         "evidence": [
-          "Quiescent WI-38 cells reenter the cell cycle upon serum stimulation",
-          "serum reactivation was performed by adding back the regular 10% serum growth medium"
+          "serum reactivation was performed by adding back the regular 10% serum growth medium.",
+          "Quiescent WI-38 cells reenter the cell cycle upon serum stimulation"
         ]
       }
     ],
@@ -42,16 +63,26 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "serum",
-        "dose_or_concentration": "10% FBS",
-        "duration": null,
-        "route_or_context": "serum reactivation",
+        "dose_or_concentration": "0.1% serum",
+        "duration": "3 d",
+        "route_or_context": "serum starvation to induce quiescence",
         "evidence": [
-          "serum reactivation was performed by adding back the regular 10% serum growth medium"
+          "To induce cellular quiescence, cells were cultured in 0.1% serum for 3 d."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "serum",
+        "dose_or_concentration": "10% serum",
+        "duration": null,
+        "route_or_context": "serum reactivation/stimulation",
+        "evidence": [
+          "serum reactivation was performed by adding back the regular 10% serum growth medium."
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "serum stimulation",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "post quiescence",
@@ -70,7 +101,8 @@
       "6 h"
     ],
     "control_arms": [
-      "quiescent"
+      "quiescent",
+      "asynchronous"
     ],
     "case_arms": [
       "serum-stimulated"
@@ -78,7 +110,7 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "three biological replicates"
+      "biological duplicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -88,6 +120,14 @@
         "contrast_type": "timecourse",
         "evidence": [
           "comparing different RNA-seq samples, including... quiescence to serum stimulation (SS) (Q to 3 h SS, Q to 6 h SS)"
+        ]
+      },
+      {
+        "control_label": "asynchronous",
+        "case_label": "quiescent",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing different RNA-seq samples, including asynchronous (A) to quiescence (Q)"
         ]
       }
     ],
@@ -100,14 +140,14 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "cell type",
+        "rollup_category": "somatic cell",
         "ontology_curie": "CL:0000057"
       }
     ],
@@ -135,16 +175,16 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "Unknown"
+      "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": null,
+        "ontology_curie": "PRIDE:0000433",
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -162,21 +202,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used an Orbitrap Fusion for DDA (full-scan mass spectra followed by HCD fragmentation) and identified proteins via streptavidin pulldown. No labeling (SILAC/Isobaric) is mentioned; quantification is implied by 'top hits' across biological replicates."
+          "reason": "The experiment uses a biotinylated RNA pulldown followed by SDS-PAGE and in-gel trypsin digestion, analyzed via DDA (Orbitrap Fusion). No labeling reagents (SILAC, TMT, dimethyl) are mentioned in the processing protocol."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_affinity_purification",
-          "confidence": 0.9,
-          "reason": "The experiment is explicitly described as a streptavidin pulldown using biotinylated RNA to identify interacting proteins."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "streptavidin pulldown",
-        "biotinylated",
-        "interactome",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "in-gel digested",
+        "trypsin",
+        "Orbitrap Fusion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,27 +219,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used an Orbitrap Fusion for DDA (full-scan mass spectra followed by HCD fragmentation) and identified proteins via streptavidin pulldown. No labeling (SILAC/Isobaric) is mentioned; quantification is implied by 'top hits' across biological replicates."
+          "reason": "The experiment uses a biotinylated RNA pulldown followed by SDS-PAGE and in-gel trypsin digestion, analyzed via DDA (Orbitrap Fusion). No labeling reagents (SILAC, TMT, dimethyl) are mentioned in the processing protocol."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_affinity_purification",
-          "confidence": 0.9,
-          "reason": "The experiment is explicitly described as a streptavidin pulldown using biotinylated RNA to identify interacting proteins."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "streptavidin pulldown",
-        "biotinylated",
-        "interactome",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "in-gel digested",
+        "trypsin",
+        "Orbitrap Fusion"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "unknown",
-      "pairwise_strategy": "all_pairs",
+      "pairwise_strategy": "unknown",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -227,8 +255,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:01:49Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

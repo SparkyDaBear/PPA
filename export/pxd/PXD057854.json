@@ -7,7 +7,9 @@
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "overexpression or transgene perturbation"
+    ],
     "cell_types": [],
     "cell_lines": [
       "HEK293 T-REx",
@@ -19,21 +21,134 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "We developed stable HEK T-REx 293 TetON cell lines that inducibly express the PRICKLE1-3 proteins fused N-terminally with modified BirA* ligase (miniTurboID) and the V5 tag."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PRICKLE1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inducible TetON expression",
+        "evidence": [
+          "inducibly express the PRICKLE1-3 proteins"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PRICKLE2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inducible TetON expression",
+        "evidence": [
+          "inducibly express the PRICKLE1-3 proteins"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PRICKLE3",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inducible TetON expression",
+        "evidence": [
+          "inducibly express the PRICKLE1-3 proteins"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_duration",
+        "agent": "doxycycline",
+        "dose_or_concentration": "1 \u00b5g/mL",
+        "duration": "overnight",
+        "route_or_context": "induction of protein expression",
+        "evidence": [
+          "To induce protein expression, cells were treated with 1 \u00b5g/mL doxycycline overnight."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "biotin",
+        "dose_or_concentration": "50 \u00b5M",
+        "duration": "6h",
+        "route_or_context": "stimulation for proximity labeling",
+        "evidence": [
+          "Following doxycycline induction, the cells were stimulated with biotin (50 \u00b5M; Santa Cruz Biotechnology) for 6\u2009h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "6h (biotin stimulation)"
+    ],
+    "control_arms": [
+      "miniTurboID-V5 control plasmid"
+    ],
+    "case_arms": [
+      "PRICKLE1-miniTurboID",
+      "PRICKLE2-miniTurboID",
+      "PRICKLE3-miniTurboID"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "we prepared five independent biological replicates for each POI"
+    ],
+    "multiplex_channel_hints": [
+      "Data were acquired in a data-independent acquisition mode (DIA)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "miniTurboID-V5",
+        "case_label": "PRICKLE1-miniTurboID",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "As a negative control, we used cells expressing only the miniTurboID-V5 construct, ensuring that any biotinylation observed was specific to PRICKLE fusion proteins"
+        ]
+      },
+      {
+        "control_label": "miniTurboID-V5",
+        "case_label": "PRICKLE2-miniTurboID",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "As a negative control, we used cells expressing only the miniTurboID-V5 construct"
+        ]
+      },
+      {
+        "control_label": "miniTurboID-V5",
+        "case_label": "PRICKLE3-miniTurboID",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "As a negative control, we used cells expressing only the miniTurboID-V5 construct"
+        ]
+      },
+      {
+        "control_label": "PRICKLE1",
+        "case_label": "PRICKLE3",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Notably, it showed that PRICKLE3 has the most distinct interactome, whereas PRICKLE1 and PRICKLE2 share similar interactors"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -78,7 +193,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -114,14 +229,14 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The experiment explicitly used data-independent acquisition (DIA) mode and reported MaxLFQ intensities from DIA-NN."
+          "reason": "The text explicitly states data were acquired in data-independent acquisition mode (DIA) and processed using DIA-NN to report MaxLFQ intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "proximity_biotinylation",
           "confidence": 1.0,
-          "reason": "The study used enhanced proximity biotinylation (miniTurboID) to capture interactomes, utilizing streptavidin beads for enrichment."
+          "reason": "The experiment uses miniTurboID enhanced proximity biotinylation to map interactomes, with streptavidin-coated beads used for enrichment."
         }
       ],
       "trigger_keywords": [
@@ -129,7 +244,8 @@
         "data-independent acquisition",
         "miniTurboID",
         "proximity-dependent biotinylation",
-        "MaxLFQ"
+        "MaxLFQ",
+        "DIA-NN"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -138,14 +254,14 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The experiment explicitly used data-independent acquisition (DIA) mode and reported MaxLFQ intensities from DIA-NN."
+          "reason": "The text explicitly states data were acquired in data-independent acquisition mode (DIA) and processed using DIA-NN to report MaxLFQ intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "proximity_biotinylation",
           "confidence": 1.0,
-          "reason": "The study used enhanced proximity biotinylation (miniTurboID) to capture interactomes, utilizing streptavidin beads for enrichment."
+          "reason": "The experiment uses miniTurboID enhanced proximity biotinylation to map interactomes, with streptavidin-coated beads used for enrichment."
         }
       ],
       "trigger_keywords": [
@@ -153,7 +269,8 @@
         "data-independent acquisition",
         "miniTurboID",
         "proximity-dependent biotinylation",
-        "MaxLFQ"
+        "MaxLFQ",
+        "DIA-NN"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,8 +298,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:35:17Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

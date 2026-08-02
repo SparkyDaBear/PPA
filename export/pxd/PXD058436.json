@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "intensity-based quantification",
+    "quantification_method": "FeatureFinder",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "anatomical or spatial comparison"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -24,34 +23,18 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "The first applications of MHCquant2 enabled (i) building a comprehensive benign reference repository, thereby allowing the refinement of non-mutated tumor-associated antigen definition, and (ii) the discovery of not yet described tumor antigens",
+          "Benign solid tissue samples for the benignMHCquant2 dataset were collected... Subjects included in this study were not diagnosed with any malignant disease.",
+          "To demonstrate the application potential of the MHCquant2 pipeline for antigen discovery in malignant disease, we combined our benignMHCquant2 dataset with previous benign immunopeptidome datasets... into a comprehensive benign reference",
           "we re-analyzed published immunopeptidomic acute myeloid leukemia (AML), chronic lymphatic leukemia (CLL), and ovarian carcinoma (OvCa) datasets and performed comparative analyses to exclude TAAs found in the benign reference"
-        ]
-      },
-      {
-        "ontology_label": "anatomical or spatial comparison",
-        "ontology_curie": "PPA:0000019",
-        "category": "anatomical_spatial",
-        "matched_parent_class_key": "inter_tissue_comparison",
-        "matched_class_key": "inter_tissue_comparison",
-        "matched_class_path": [
-          "anatomical or spatial comparison",
-          "inter-tissue comparison"
-        ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
-        "confidence": "high",
-        "evidence": [
-          "we generated a novel benign HLA class I and II immunopeptidome dataset from 92 human primary tissue samples (benignMHCquant2)",
-          "we identified 133,163 HLA class I binders and 204,291 HLA class II peptides in the benignMHCquant2 dataset across 23 different primary tissues"
         ]
       }
     ],
@@ -63,8 +46,8 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "benign reference",
-      "benignMHCquant2"
+      "benignMHCquant2",
+      "benign reference dataset"
     ],
     "case_arms": [
       "AML",
@@ -81,7 +64,7 @@
     "contrast_hints": [
       {
         "control_label": "benign reference",
-        "case_label": "tumor (AML, CLL, OvCa)",
+        "case_label": "tumor-associated antigens (TAA)",
         "contrast_type": "pairwise",
         "evidence": [
           "performed comparative analyses to exclude TAAs found in the benign reference and define novel TAAs identified by MHCquant2"
@@ -104,6 +87,10 @@
     "cell_types": [],
     "cell_lines": [],
     "noncellular_sources": [
+      {
+        "label": "benign solid tissue",
+        "source_kind": "tissue"
+      },
       {
         "label": "spleen",
         "source_kind": "organ"
@@ -208,7 +195,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "intensity-based quantification"
+      "FeatureFinder"
     ],
     "proteomics_mode": "Immunopeptidomics",
     "targets_and_enrichments": [
@@ -226,35 +213,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data was acquired using data-dependent acquisition (DDA) mode on a timsTOF Pro and quantified using OpenMS FeatureFinder, which is a label-free quantification (LFQ) approach."
+          "confidence": 10,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) mode on a timsTOF Pro and quantified using OpenMS FeatureFinder."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as immunopeptidomics, focusing on HLA-presented peptides with non-specific (no enzymatic restriction) digestion."
-        },
-        {
-          "modifier_workflow_id": "tims_pasef",
-          "confidence": 1.0,
-          "reason": "Data was acquired on a timsTOF Pro using PASEF ramps."
+          "modifier_workflow_id": "immunopeptidomics_non_specific",
+          "confidence": 10,
+          "reason": "Experiment specifically targets HLA-presented peptides using in silico digestion without enzymatic restriction (non-specific search)."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
         "HLA-presented peptides",
+        "in silico digested without enzymatic restriction",
         "timsTOF",
-        "DDA",
-        "non-specific",
-        "without enzymatic restriction",
-        "PASEF"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -262,30 +242,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data was acquired using data-dependent acquisition (DDA) mode on a timsTOF Pro and quantified using OpenMS FeatureFinder, which is a label-free quantification (LFQ) approach."
+          "confidence": 10,
+          "reason": "Data was acquired using data-dependent acquisition (DDA) mode on a timsTOF Pro and quantified using OpenMS FeatureFinder."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as immunopeptidomics, focusing on HLA-presented peptides with non-specific (no enzymatic restriction) digestion."
-        },
-        {
-          "modifier_workflow_id": "tims_pasef",
-          "confidence": 1.0,
-          "reason": "Data was acquired on a timsTOF Pro using PASEF ramps."
+          "modifier_workflow_id": "immunopeptidomics_non_specific",
+          "confidence": 10,
+          "reason": "Experiment specifically targets HLA-presented peptides using in silico digestion without enzymatic restriction (non-specific search)."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
         "HLA-presented peptides",
+        "in silico digested without enzymatic restriction",
         "timsTOF",
-        "DDA",
-        "non-specific",
-        "without enzymatic restriction",
-        "PASEF"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -313,8 +286,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T15:15:30Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

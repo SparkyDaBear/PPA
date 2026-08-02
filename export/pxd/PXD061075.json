@@ -8,8 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "molecular state comparison"
+      "cancer subtype comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -21,42 +20,36 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "cancer_subtype_comparison"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
-          "We compared the transcriptomic and proteomic profiles of five ccRCC PDX models established in our lab to those of the human ccRCC molecular subtypes",
-          "LC-MS/MS analysis was performed on tissue and serum samples from ten PDX mice derived from ccRCC tissues... as well as six control non-PDX serum samples, and 32 normal human kidney samples."
-        ]
-      },
-      {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
-        "matched_class_path": [
-          "molecular state comparison",
-          "mutation-defined molecular state"
-        ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
-        "confidence": "high",
-        "evidence": [
-          "we compared the levels of metabolites involved in glycolysis and KEGG pathways enriched in the two main ccRCC PDX subtypes",
-          "We performed GSEA to identify the pathways enriched in differentially expressed genes between 093/068/072 vs. 054/047",
-          "three PDX lines display significant differences in both protein and transcript expression that distinguishes the two major subtypes in human ccRCC"
+          "identify both similarities and distinctions between molecular profiles of PDX subtypes and corresponding ccRCC patient subtypes",
+          "we compared the transcriptomic and proteomic profiles of five ccRCC PDX models established in our lab to those of the human ccRCC molecular subtypes",
+          "identify molecular subtypes in ccRCC patients that the PDXs and XENs represent"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ccRCC PDX models",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "Patient-derived xenografts established from high-grade primary or metastatic ccRCC specimens",
+        "evidence": [
+          "we compared the transcriptomic and proteomic profiles of five ccRCC PDX models established in our lab to those of the human ccRCC molecular subtypes"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -64,27 +57,26 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "normal human kidney samples",
-      "control non-PDX serum samples"
+      "normal human kidney samples"
     ],
     "case_arms": [
       "ccRCC PDX models",
-      "ccRCC patient subtypes"
+      "XENs (xenografts derived from cells cultured from PDXs)"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "This included three biological replicates for each tissue xenograft from three RCC patients and one control.",
-      "All data was collected in triplicate."
+      "three biological replicates for each tissue xenograft from three RCC patients"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Type 1 PDX (093/068/072)",
-        "case_label": "Type 2 PDX (054/047)",
-        "contrast_type": "pairwise",
+        "control_label": "ccRCC Patient Subtype 1",
+        "case_label": "ccRCC Patient Subtype 2",
+        "contrast_type": "multi_group",
         "evidence": [
-          "We performed GSEA to identify the pathways enriched in differentially expressed genes between 093/068/072 vs. 054/047."
+          "differentially expressed genes between cluster 1 and 2",
+          "compared the levels of metabolites involved in glycolysis and KEGG pathways enriched in the two main ccRCC PDX subtypes"
         ]
       },
       {
@@ -92,7 +84,7 @@
         "case_label": "ccRCC PDX",
         "contrast_type": "pairwise",
         "evidence": [
-          "LC-MS/MS analysis was performed on tissue and serum samples from ten PDX mice derived from ccRCC tissues... as well as... 32 normal human kidney samples."
+          "LC-MS/MS analysis was performed on tissue and serum samples from ten PDX mice... as well as... 32 normal human kidney samples"
         ]
       }
     ],
@@ -105,12 +97,12 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "human",
         "confidence": "high"
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "NEWT:10090",
+        "taxonomy_hint": "mouse",
         "confidence": "high"
       }
     ],
@@ -162,22 +154,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'Label free' quantification. The text describes LC-MS/MS using an Orbitrap Tribrid Eclipse."
+          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'Label free' quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "xenograft_homology_filter",
-          "confidence": 0.95,
-          "reason": "The experiment uses PDX models (human tumor in mouse). The processing protocol describes a two-stage search (human then mouse) and explicitly discards peptides identified in both databases to focus on non-homologous human peptides."
+          "confidence": 0.9,
+          "reason": "The experiment uses PDX models (human tumor in mouse) and explicitly describes a two-stage search (human then mouse) and the discarding of peptides identified in both databases to focus on non-homologous peptides."
         }
       ],
       "trigger_keywords": [
         "two-stage search",
         "non-homologous peptides",
         "PDX",
-        "human and mouse database searches",
-        "Label free"
+        "human reference proteome",
+        "mouse reference proteome"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,22 +178,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'Label free' quantification. The text describes LC-MS/MS using an Orbitrap Tribrid Eclipse."
+          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'Label free' quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "xenograft_homology_filter",
-          "confidence": 0.95,
-          "reason": "The experiment uses PDX models (human tumor in mouse). The processing protocol describes a two-stage search (human then mouse) and explicitly discards peptides identified in both databases to focus on non-homologous human peptides."
+          "confidence": 0.9,
+          "reason": "The experiment uses PDX models (human tumor in mouse) and explicitly describes a two-stage search (human then mouse) and the discarding of peptides identified in both databases to focus on non-homologous peptides."
         }
       ],
       "trigger_keywords": [
         "two-stage search",
         "non-homologous peptides",
         "PDX",
-        "human and mouse database searches",
-        "Label free"
+        "human reference proteome",
+        "mouse reference proteome"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,8 +221,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:54:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -8,16 +8,17 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "epigenetic inhibitor treatment"
     ],
     "cell_types": [
       "breast epithelium"
     ],
     "cell_lines": [
       "MCF-7",
-      "BT474",
       "MDA-MB-231",
-      "MCF7/TamR1"
+      "MCF7/TamR1",
+      "BT474",
+      "HeLa"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -27,20 +28,20 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "epigenetic inhibitor treatment",
+        "ontology_curie": "PPA:0000026",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "epigenetic_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "epigenetic_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Treatment using a compound targeting chromatin, histone, DNA methylation, or epigenetic reader/writer/eraser machinery.",
         "confidence": "high",
         "evidence": [
           "a hybrid lysine-specific histone demethylase inhibitor, MC3324, displaying selective estrogen receptor down-regulator-like activities in BC, was used to highlight the interplay between epigenetic and ER\u03b1 signaling.",
-          "The lists of LSD1 and ER\u03b1 interactors under- and over-represented after MC3324 induction for 6 and 24 h obtained by immunoprecipitation and MS/MS analysis were compared"
+          "The gatekeeper mechanism here is modulation of the histone code, obtained using the lysine-specific histone demethylase (KDM) inhibitor MC3324"
         ]
       }
     ],
@@ -50,29 +51,20 @@
         "agent": "MC3324",
         "dose_or_concentration": "25 \u03bcM",
         "duration": null,
-        "route_or_context": "cell culture",
+        "route_or_context": "BC cell lines and ex vivo patient samples",
         "evidence": [
-          "MC3324... was used at a final concentration of 25 \u03bcM."
+          "MC3324... was dissolved in dimethyl sulfoxide (Sigma-Aldrich, USA) and used at a final concentration of 25 \u03bcM.",
+          "Ex vivo cells from BC biopsies before and after MC3324 treatment (25 \u03bcM, 24 h) were isolated"
         ]
       },
       {
         "relation_key": "has_timepoint",
         "agent": "MC3324",
         "dose_or_concentration": null,
-        "duration": "6 h",
-        "route_or_context": null,
+        "duration": null,
+        "route_or_context": "immunoprecipitation and MS/MS analysis",
         "evidence": [
-          "The lists of LSD1 and ER\u03b1 interactors under- and over-represented after MC3324 induction for 6 and 24 h obtained by immunoprecipitation and MS/MS analysis"
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": "MC3324",
-        "dose_or_concentration": null,
-        "duration": "24 h",
-        "route_or_context": null,
-        "evidence": [
-          "The lists of LSD1 and ER\u03b1 interactors under- and over-represented after MC3324 induction for 6 and 24 h obtained by immunoprecipitation and MS/MS analysis"
+          "The lists of LSD1 and ER\u03b1 interactors under- and over-represented after MC3324 induction for 6 and 24 h obtained by immunoprecipitation and MS/MS analysis were compared"
         ]
       }
     ],
@@ -134,11 +126,6 @@
         "ontology_curie": null
       },
       {
-        "label": "BT474",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
         "label": "MDA-MB-231",
         "family": "breast cancer",
         "ontology_curie": null
@@ -147,9 +134,24 @@
         "label": "MCF7/TamR1",
         "family": "breast cancer",
         "ontology_curie": null
+      },
+      {
+        "label": "BT474",
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": "cervical cancer",
+        "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "primary BC tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -157,7 +159,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -193,23 +195,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used a Q-Exactive Plus (DDA) with MaxQuant for analysis. No labeling (SILAC, TMT, dimethyl) is mentioned in the PRIDE metadata or methods; the use of 'triplicates' and 'under- and over-represented' interactors suggests label-free quantification (LFQ)."
+          "reason": "Data acquired via Q-Exactive (DDA) and processed with MaxQuant, which typically employs LFQ or intensity-based quantification for Co-IP experiments. No labeling (SILAC/Isobaric) is mentioned in the protocols."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ip_ms",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Co-Immunoprecipitation (Co-IP) of ER and LSD1 protein interaction networks."
+          "modifier_workflow_id": "modifier_ip_interactome",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as Co-Immunoprecipitation (Co-IP) of ER and LSD1 to assess protein interaction networks."
         }
       ],
       "trigger_keywords": [
         "Co-Immunoprecipitation",
         "Co-IP",
         "interactome",
-        "interactors",
         "pulldown",
-        "MaxQuant"
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,23 +219,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used a Q-Exactive Plus (DDA) with MaxQuant for analysis. No labeling (SILAC, TMT, dimethyl) is mentioned in the PRIDE metadata or methods; the use of 'triplicates' and 'under- and over-represented' interactors suggests label-free quantification (LFQ)."
+          "reason": "Data acquired via Q-Exactive (DDA) and processed with MaxQuant, which typically employs LFQ or intensity-based quantification for Co-IP experiments. No labeling (SILAC/Isobaric) is mentioned in the protocols."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ip_ms",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Co-Immunoprecipitation (Co-IP) of ER and LSD1 protein interaction networks."
+          "modifier_workflow_id": "modifier_ip_interactome",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as Co-Immunoprecipitation (Co-IP) of ER and LSD1 to assess protein interaction networks."
         }
       ],
       "trigger_keywords": [
         "Co-Immunoprecipitation",
         "Co-IP",
         "interactome",
-        "interactors",
         "pulldown",
-        "MaxQuant"
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -262,8 +262,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:32:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

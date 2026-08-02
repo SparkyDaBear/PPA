@@ -28,19 +28,17 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "genome_editing_perturbation",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene modification or gain of function",
-          "insertion_variant"
+          "genetic",
+          "genome_editing_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Genome editing event or engineered genotype that defines the biological comparison.",
         "confidence": "high",
         "evidence": [
           "CRISPR/dCAS9 gene expression modulation system was used to increase and decrease BMI1 expression in U87MG and LN428 cell lines respectively",
-          "a GFP tagged system where a dCAS9 is fused to the transcriptional activation domain (VP64) was used for activation (aCRISPR)",
-          "a mCHERRY tagged system where a dCAS9 is fused to the transcriptional inactivation domain (KRAB) for inactivation (iCRISPR)"
+          "a GFP tagged system where a dCAS9 is fused to the transcriptional activation domain (VP64) was used for activation (aCRISPR) and a mCHERRY tagged system where a dCAS9 is fused to the transcriptional inactivation domain (KRAB) for inactivation (iCRISPR)"
         ]
       }
     ],
@@ -50,7 +48,7 @@
         "agent": "BMI1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/dCAS9 modulation (aCRISPR/iCRISPR)",
+        "route_or_context": "CRISPR/dCAS9 gene expression modulation",
         "evidence": [
           "CRISPR/dCAS9 gene expression modulation system was used to increase and decrease BMI1 expression in U87MG and LN428 cell lines respectively"
         ]
@@ -64,7 +62,8 @@
     "timepoints": [],
     "control_arms": [
       "LN428iCRempty",
-      "U87MGaCRempty"
+      "U87MGaCRempty",
+      "mock-IP"
     ],
     "case_arms": [
       "LN428iCRBMI1",
@@ -79,19 +78,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "LN428iCRempty",
-        "case_label": "LN428iCRBMI1",
+        "control_label": "empty backbone",
+        "case_label": "BMI1 modulated",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparing LN428iCRBMI1 and U87MGaCRBMI1 over their matching empty backbones LN428iCRempty and U87MGaCRempty"
-        ]
-      },
-      {
-        "control_label": "U87MGaCRempty",
-        "case_label": "U87MGaCRBMI1",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "comparing LN428iCRBMI1 and U87MGaCRBMI1 over their matching empty backbones LN428iCRempty and U87MGaCRempty"
+          "calculated the fold-change of MS2 spectra intensity of BMI1-bound proteins comparing LN428iCRBMI1 and U87MGaCRBMI1 over their matching empty backbones LN428iCRempty and U87MGaCRempty"
         ]
       }
     ],
@@ -104,7 +95,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -135,7 +126,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -149,19 +140,13 @@
     "quantification_strategy": [
       "MS2 spectra intensity"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
-      },
-      {
-        "ontology_label": "ubiquitylome or diGly enrichment",
-        "ontology_curie": "PPA:0000294",
-        "workflow_modifier_hint": "mod_ubiquitin",
-        "confidence": "medium"
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -177,22 +162,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive Plus and label-free quantification (LFQ) based on MS2 spectra intensity."
+          "reason": "The experiment used a Q Exactive Plus in data-dependent mode (DDA) and PRIDE metadata explicitly lists 'Label free' quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ip_enrichment",
           "confidence": 1.0,
-          "reason": "The study explicitly uses both protein immunoprecipitation (IP-MS) and chromatin immunoprecipitation (ChIP-MS) to analyze interactomes."
+          "reason": "The study is centered on protein immunoprecipitation (IP-MS) and chromatin immunoprecipitation (ChIP-MS) using BMI1, RYBP, and H2AK119ub antibodies."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
-        "ChIP",
         "data-dependent mode",
-        "label free",
-        "MS2 spectra intensity"
+        "Label free",
+        "immunoprecipitation",
+        "ChIP-MS",
+        "IP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -201,22 +186,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive Plus and label-free quantification (LFQ) based on MS2 spectra intensity."
+          "reason": "The experiment used a Q Exactive Plus in data-dependent mode (DDA) and PRIDE metadata explicitly lists 'Label free' quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ip_enrichment",
           "confidence": 1.0,
-          "reason": "The study explicitly uses both protein immunoprecipitation (IP-MS) and chromatin immunoprecipitation (ChIP-MS) to analyze interactomes."
+          "reason": "The study is centered on protein immunoprecipitation (IP-MS) and chromatin immunoprecipitation (ChIP-MS) using BMI1, RYBP, and H2AK119ub antibodies."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
-        "ChIP",
         "data-dependent mode",
-        "label free",
-        "MS2 spectra intensity"
+        "Label free",
+        "immunoprecipitation",
+        "ChIP-MS",
+        "IP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -244,8 +229,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:55:59Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

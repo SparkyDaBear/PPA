@@ -8,7 +8,7 @@
       "Other"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "kinase inhibitor treatment"
     ],
     "cell_types": [
       "pancreatic ductal adenocarcinoma cells"
@@ -16,27 +16,26 @@
     "cell_lines": [
       "CFPAC1"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "purified protein or complex",
-    "sample_scope_curie": "PPA:0000196",
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "kinase inhibitor treatment",
+        "ontology_curie": "PPA:0000024",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "kinase_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "kinase_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Treatment using a compound that inhibits protein kinase activity or kinase signaling.",
         "confidence": "high",
         "evidence": [
-          "quantitative mass spectrometry\u2013based analysis of histone posttranslational modifications showed a significant reduction of acetylation at 3 hours after treatment",
           "MEK1/2 inhibition by trametinib",
           "the clinically approved MEK1/2 kinase inhibitor trametinib"
         ]
@@ -48,19 +47,9 @@
         "agent": "trametinib",
         "dose_or_concentration": "20 nM",
         "duration": null,
-        "route_or_context": "in vitro",
+        "route_or_context": "PDAC cells",
         "evidence": [
           "Trametinib (Selleckchem, S2673) was diluted in dimethyl sulfoxide (DMSO) and used at a concentration of 20 nM for all the experiments"
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": "trametinib",
-        "dose_or_concentration": null,
-        "duration": "3 hours",
-        "route_or_context": null,
-        "evidence": [
-          "quantitative mass spectrometry\u2013based analysis of histone posttranslational modifications showed a significant reduction of acetylation at 3 hours after treatment"
         ]
       }
     ],
@@ -70,10 +59,14 @@
   },
   "experimental_design": {
     "timepoints": [
-      "3 hours"
+      "3 hours",
+      "12 hours",
+      "24 hours",
+      "48 hours"
     ],
     "control_arms": [
-      "untreated"
+      "untreated",
+      "DMSO"
     ],
     "case_arms": [
       "trametinib"
@@ -81,18 +74,19 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "L/H ratios are reported in table S5"
+      "each for any replica"
     ],
     "multiplex_channel_hints": [
-      "Approximately 4 \u03bcg of histone octamer was mixed with an equal amount of heavy isotope\u2013labeled histones, which were used as an internal standard"
+      "heavy isotope\u2013labeled histones, which were used as an internal standard"
     ],
     "contrast_hints": [
       {
         "control_label": "untreated",
         "case_label": "trametinib",
-        "contrast_type": "pairwise",
+        "contrast_type": "timecourse",
         "evidence": [
-          "quantitative mass spectrometry\u2013based analysis of histone posttranslational modifications showed a significant reduction of acetylation at 3 hours after treatment"
+          "quantitative mass spectrometry\u2013based analysis of histone posttranslational modifications showed a significant reduction of acetylation at 3 hours after treatment",
+          "differentially enriched regions were detected for each time point versus control"
         ]
       }
     ],
@@ -105,7 +99,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -125,13 +119,13 @@
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "purified protein or complex",
-      "curie": "PPA:0000196"
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -149,9 +143,9 @@
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "histone posttranslational modification",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "mod_acetyl",
+        "ontology_label": "histone posttranslational modification analysis",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
         "confidence": "high"
       }
     ],
@@ -167,23 +161,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Shotgun proteomics using Q Exactive Plus with heavy isotope-labeled internal standards for relative quantification of histone modifications."
+          "confidence": 0.8,
+          "reason": "The experiment uses a Q Exactive Plus (DDA) and quantifies relative abundance using heavy isotope-labeled internal standards (L/H ratios), which is a form of label-free quantification relative to a standard."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
-          "confidence": 10,
-          "reason": "Experiment specifically targets histone post-translational modifications (PTMs) including acetylation and methylation, using specialized chemical derivatization (propionic anhydride and phenyl isocyanate)."
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 0.95,
+          "reason": "The assay is specifically for histone post-translational modifications, utilizing chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC)."
         }
       ],
       "trigger_keywords": [
-        "histone post-translational modification",
+        "histone posttranslational modification",
         "propionic anhydride",
         "phenyl isocyanate",
         "EpiProfile 2.0",
-        "heavy isotope-labeled histones"
+        "heavy isotope\u2013labeled histones"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -191,23 +185,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Shotgun proteomics using Q Exactive Plus with heavy isotope-labeled internal standards for relative quantification of histone modifications."
+          "confidence": 0.8,
+          "reason": "The experiment uses a Q Exactive Plus (DDA) and quantifies relative abundance using heavy isotope-labeled internal standards (L/H ratios), which is a form of label-free quantification relative to a standard."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
-          "confidence": 10,
-          "reason": "Experiment specifically targets histone post-translational modifications (PTMs) including acetylation and methylation, using specialized chemical derivatization (propionic anhydride and phenyl isocyanate)."
+          "modifier_workflow_id": "histone_ptm_specialized",
+          "confidence": 0.95,
+          "reason": "The assay is specifically for histone post-translational modifications, utilizing chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC)."
         }
       ],
       "trigger_keywords": [
-        "histone post-translational modification",
+        "histone posttranslational modification",
         "propionic anhydride",
         "phenyl isocyanate",
         "EpiProfile 2.0",
-        "heavy isotope-labeled histones"
+        "heavy isotope\u2013labeled histones"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -235,8 +229,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:39:42Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

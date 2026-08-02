@@ -3,11 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
+      "disease or clinical state",
       "disease or clinical state"
     ],
     "cell_types": [
@@ -35,31 +36,67 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "we investigated the N-glycosylation of sEVs released from small-cell lung carcinoma (SCLC) and non\u2013small-cell lung carcinoma (NSCLC) cells.",
           "Small-cell lung carcinomas (SCLCs) and non\u2013small-cell lung carcinomas (NSCLCs) are the two major lung cancer types classified based upon their histological properties."
         ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "we performed a comparative N-glycan analysis of sEVs released from four histologically distinct lung cancer types (SCLC and NSCLC [LUAD, SCC, and LCC] cells)"
+        ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "small-cell lung carcinoma",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines (LK-2 and SBC-3)",
+        "evidence": [
+          "Human SCLC cell lines (LK-2 and SBC-3) were purchased from the Japanese Collection of Research Bioresources Cell Bank"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "non\u2013small-cell lung carcinoma",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines (HCC827, H520, H446, SK-MES-1, H1299)",
+        "evidence": [
+          "Human LUAD (HCC827), SCC (H520, H446, and SK-MES-1), and LCC (H1299) cell lines were purchased from the American Type Culture Collection."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [
-      "SCLC-sEVs"
-    ],
+    "control_arms": [],
     "case_arms": [
-      "NSCLC-sEVs"
+      "SCLC",
+      "NSCLC"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -67,11 +104,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "SCLC-sEVs",
-        "case_label": "NSCLC-sEVs",
+        "control_label": "SCLC",
+        "case_label": "NSCLC",
         "contrast_type": "pairwise",
         "evidence": [
           "we investigated the N-glycosylation of sEVs released from small-cell lung carcinoma (SCLC) and non\u2013small-cell lung carcinoma (NSCLC) cells."
+        ]
+      },
+      {
+        "control_label": "SCLC",
+        "case_label": "NSCLC subtypes (LUAD, SCC, LCC)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "we performed a comparative N-glycan analysis of sEVs released from four histologically distinct lung cancer types (SCLC and NSCLC [LUAD, SCC, and LCC] cells)"
         ]
       }
     ],
@@ -140,7 +185,7 @@
     "noncellular_sources": [
       {
         "label": "small extracellular vesicles",
-        "source_kind": "extracellular vesicle source"
+        "source_kind": "other"
       }
     ],
     "sample_scope": {
@@ -186,22 +231,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (Top 10 method) was used on a Q-Exactive instrument. While no explicit label-free quantification software is mentioned, the experimental design is a comparative analysis of different cell lines (SCLC vs NSCLC) using shotgun proteomics."
+          "reason": "Data-dependent acquisition (Top 10 method) was used on a Q-Exactive instrument. While no explicit LFQ method is detailed, the comparative nature of the study suggests label-free quantification of enriched proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_lectin_enrichment",
-          "confidence": 0.9,
-          "reason": "The proteomics analysis was specifically performed on proteins pulled down using SSA-conjugated and WGA-conjugated lectin beads."
+          "modifier_workflow_id": "lectin_enrichment",
+          "confidence": 0.95,
+          "reason": "Proteins were specifically enriched using SSA-conjugated and WGA-conjugated agarose beads prior to MS analysis."
         }
       ],
       "trigger_keywords": [
-        "lectin pull-down",
-        "shotgun proteomics",
-        "data-dependent Top 10",
+        "lectin pull-down assay",
         "SSA-conjugated beads",
-        "WGA-conjugated beads"
+        "WGA-conjugated beads",
+        "data-dependent Top 10 method"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -210,22 +254,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (Top 10 method) was used on a Q-Exactive instrument. While no explicit label-free quantification software is mentioned, the experimental design is a comparative analysis of different cell lines (SCLC vs NSCLC) using shotgun proteomics."
+          "reason": "Data-dependent acquisition (Top 10 method) was used on a Q-Exactive instrument. While no explicit LFQ method is detailed, the comparative nature of the study suggests label-free quantification of enriched proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_lectin_enrichment",
-          "confidence": 0.9,
-          "reason": "The proteomics analysis was specifically performed on proteins pulled down using SSA-conjugated and WGA-conjugated lectin beads."
+          "modifier_workflow_id": "lectin_enrichment",
+          "confidence": 0.95,
+          "reason": "Proteins were specifically enriched using SSA-conjugated and WGA-conjugated agarose beads prior to MS analysis."
         }
       ],
       "trigger_keywords": [
-        "lectin pull-down",
-        "shotgun proteomics",
-        "data-dependent Top 10",
+        "lectin pull-down assay",
         "SSA-conjugated beads",
-        "WGA-conjugated beads"
+        "WGA-conjugated beads",
+        "data-dependent Top 10 method"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -253,8 +296,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:56:28Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

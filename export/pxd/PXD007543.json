@@ -8,9 +8,12 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "disease or clinical state"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "breast cancer cell"
+    ],
     "cell_lines": [
       "MCF7"
     ],
@@ -26,30 +29,46 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "crispr_knockout_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "crispr_knockout_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Knockout or gene disruption generated using CRISPR-based genome editing.",
         "confidence": "high",
         "evidence": [
-          "The CDH1 gene in MCF7 cells was CRISPR-Cas9 mutagenised",
-          "engineered model of E-cadherin loss",
-          "parental (CDH1 wild-type) and CDH1-defective cell lines"
+          "The CDH1 gene in MCF7 cells was CRISPR-Cas9 mutagenised using the Edit-R-CRISPR-CAS9-gene engineering kit",
+          "we used mass spectrometry to measure differential protein expression in a pair of isogenic breast cancer cell lines (MCF7) with CRISPR-Cas9 engineered CDH1 loss"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "characterize the expression of these protein complexes across 77 breast tumor proteomes",
+          "identify protein complexes differentially expressed in specific breast cancer subtypes"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CRISPR-Cas9",
+        "agent": "CDH1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CDH1 gene targeting in MCF7 cells",
+        "route_or_context": "CRISPR-Cas9 mutagenised MCF7 cell line",
         "evidence": [
-          "The CDH1 gene in MCF7 cells was CRISPR-Cas9 mutagenised using the Edit-R-CRISPR-CAS9-gene engineering kit"
+          "The CDH1 gene in MCF7 cells was CRISPR-Cas9 mutagenised",
+          "engineered model of E-cadherin loss"
         ]
       }
     ],
@@ -60,27 +79,35 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "parental (CDH1 wild-type)"
+      "parental (CDH1 wild-type)",
+      "MCF7 E-cadherin wild-type"
     ],
     "case_arms": [
-      "CDH1-defective cell lines"
+      "CDH1-defective cell lines",
+      "E-cadherin defective daughter cells"
     ],
-    "paired_design": false,
+    "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
       "three biological replicates of the parental (CDH1 wild-type) and CDH1-defective cell lines",
       "Two technical replicates were obtained for each biological replicate"
     ],
-    "multiplex_channel_hints": [
-      "Label free quantification"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "CDH1 wild-type",
         "case_label": "CDH1-defective",
         "contrast_type": "pairwise",
         "evidence": [
-          "differential protein expression in a pair of isogenic breast cancer cell lines (MCF7) with CRISPR-Cas9 engineered CDH1 loss"
+          "Proteomic profiles were generated for three biological replicates of the parental (CDH1 wild-type) and CDH1-defective cell lines."
+        ]
+      },
+      {
+        "control_label": "other subtypes",
+        "case_label": "specific breast cancer subtype",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "calculate the difference between the median expression of samples from a specific subtype and the median expression of samples from all other subtypes combined"
         ]
       }
     ],
@@ -97,7 +124,13 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [],
+    "cell_types": [
+      {
+        "label": "breast cancer cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [
       {
         "label": "MCF7",
@@ -107,7 +140,7 @@
     ],
     "noncellular_sources": [
       {
-        "label": "breast tumor",
+        "label": "breast tumors",
         "source_kind": "tissue"
       }
     ],
@@ -118,7 +151,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -141,10 +174,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label free quantification' was used with a Q-Exactive mass spectrometer in 'automatic data-dependent switching mode'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Label free quantification",
+        "LFQ",
+        "data-dependent switching mode",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states 'Label free quantification' was used with a Q-Exactive mass spectrometer in 'automatic data-dependent switching mode'."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "Label free quantification",
+        "LFQ",
+        "data-dependent switching mode",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -164,8 +233,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:59:20Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

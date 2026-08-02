@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -28,17 +29,35 @@
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "activation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
         "confidence": "medium",
         "evidence": [
           "monitor their spatiotemporal orchestration at replication forks",
           "detect all proteins required for BER on nascent DNA",
           "identify changes in protein assembly when the EdU segments are distanced from the forks"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "MPG knock out (KO) cell lines were generated using CRISPR technology",
+          "In absence of DNA damage, these cells grow similarly to the WT cells",
+          "the KO cells were delayed in entering S-phase compared to the WT cells"
         ]
       }
     ],
@@ -48,7 +67,7 @@
         "agent": "5-ethynyl-2\u2032-deoxyuridine (EdU)",
         "dose_or_concentration": "10 \u03bcM",
         "duration": "5\u201315 min",
-        "route_or_context": "pulse",
+        "route_or_context": "pulse samples",
         "evidence": [
           "HEK293 cells (3\u20134\u00b7108 cells per sample) were pulsed with medium containing 5-ethynyl-2\u2032-deoxyuridine (EdU) (10 \u03bcM, Life Technologies) for 5\u201315 min (pulse samples)."
         ]
@@ -58,9 +77,19 @@
         "agent": "thymidine",
         "dose_or_concentration": "10 \u03bcM",
         "duration": "30 or 90 min",
-        "route_or_context": "chase",
+        "route_or_context": "pulse-chase experiments",
         "evidence": [
           "For pulse-chase experiments, medium containing excess thymidine were added for 30 or 90 min after the EdU pulse (10 \u03bcM, Sigma-Aldrich)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MPG",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockout",
+        "evidence": [
+          "MPG knock out (KO) cell lines were generated using CRISPR technology."
         ]
       }
     ],
@@ -77,10 +106,12 @@
     ],
     "control_arms": [
       "DMSO (0.1%)",
-      "chase sample"
+      "chase sample",
+      "WT cells"
     ],
     "case_arms": [
-      "pulse samples"
+      "pulse samples",
+      "MPG KO cells"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -88,17 +119,22 @@
       "six biological replicates (two batches)",
       "five biological replicates"
     ],
-    "multiplex_channel_hints": [
-      "label free quantification (LFQ)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "chase",
         "case_label": "pulse",
         "contrast_type": "timecourse",
         "evidence": [
-          "Western blot analysis revealed a clear enrichment of POL\u03b4, LIG1, LIG3, XRCC1, POL\u03b2, FEN1 and UNG2 in EdU pulse samples compared to the chase sample",
-          "two-tailed Student's t-test between P_90C and 15P (replisome)"
+          "Western blot analysis revealed a clear enrichment of POL\u03b4, LIG1, LIG3, XRCC1, POL\u03b2, FEN1 and UNG2 in EdU pulse samples compared to the chase sample"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "MPG KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the KO cells were delayed in entering S-phase compared to the WT cells"
         ]
       }
     ],
@@ -178,7 +214,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions 'shotgun LC-MS/MS' using an Orbitrap Elite with 'label free quantification (LFQ)' processed via MaxQuant."
+          "reason": "Explicitly mentions 'label free quantification (LFQ)' using MaxQuant for shotgun LC-MS/MS analysis on an Orbitrap Elite."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -195,7 +231,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions 'shotgun LC-MS/MS' using an Orbitrap Elite with 'label free quantification (LFQ)' processed via MaxQuant."
+          "reason": "Explicitly mentions 'label free quantification (LFQ)' using MaxQuant for shotgun LC-MS/MS analysis on an Orbitrap Elite."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -231,8 +267,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:04:52Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

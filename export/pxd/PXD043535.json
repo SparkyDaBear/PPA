@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "disease or clinical state",
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,19 +27,48 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "An unbiased label-free quantitative proteome was employed in tumor tissues and corresponding normal liver tissues from six patients with HCC to identify vital players in the disease progression"
+          "An unbiased label-free quantitative proteome was employed in tumor tissues and corresponding normal liver tissues from six patients with HCC",
+          "TMA2 consisting of 58 HCC tumor and adjacent normal tissues"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "The immunoprecipitated products after elution by glycine (0.1M, pH 2.0) and neutralization by HEPES were analyzed by liquid chromatography-tandem mass spectrometry.",
+          "We performed immunoprecipitation of SmD2 protein in the HCCLM3 cell line to seek proteins that interact with SmD2 in hepatocellular carcinoma."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SmD2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "immunoprecipitation",
+        "evidence": [
+          "We performed immunoprecipitation of SmD2 protein in the HCCLM3 cell line to seek proteins that interact with SmD2 in hepatocellular carcinoma."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -52,7 +82,7 @@
       "tumor tissues"
     ],
     "paired_design": true,
-    "factorial_design": false,
+    "factorial_design": null,
     "replicate_hints": [
       "six patients with HCC"
     ],
@@ -119,12 +149,6 @@
         "ontology_curie": "PPA:0000295",
         "workflow_modifier_hint": "mod_acetyl",
         "confidence": "high"
-      },
-      {
-        "ontology_label": "AP-MS",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -139,22 +163,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The text explicitly describes 'Label-free quantitative proteomic analysis' using a timsTOF Pro in PASEF mode, which is a DDA-based acquisition."
+          "confidence": 90,
+          "reason": "The text explicitly describes 'Label-free quantitative proteomic analysis' using a timsTOF Pro in PASEF mode and MaxQuant for processing."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
-          "confidence": 0.95,
-          "reason": "The study focuses on SmD2 acetylation, uses anti-Ac-K antibodies for IP, and identifies acetylation sites (K8) via LC-MS/MS."
+          "confidence": 95,
+          "reason": "The study focuses on SmD2 acetylation, uses anti-Ac-K antibodies for IP, and identifies acetylated residues via LC-MS/MS."
         }
       ],
       "trigger_keywords": [
         "Label-free quantitative proteomic analysis",
         "timsTOF Pro",
         "PASEF",
-        "acetylation",
+        "MaxQuant",
+        "acetylated residue",
         "anti-Ac-K antibody"
       ],
       "raw_or_file_name_triggers": []
@@ -163,30 +188,31 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The text explicitly describes 'Label-free quantitative proteomic analysis' using a timsTOF Pro in PASEF mode, which is a DDA-based acquisition."
+          "confidence": 90,
+          "reason": "The text explicitly describes 'Label-free quantitative proteomic analysis' using a timsTOF Pro in PASEF mode and MaxQuant for processing."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
-          "confidence": 0.95,
-          "reason": "The study focuses on SmD2 acetylation, uses anti-Ac-K antibodies for IP, and identifies acetylation sites (K8) via LC-MS/MS."
+          "confidence": 95,
+          "reason": "The study focuses on SmD2 acetylation, uses anti-Ac-K antibodies for IP, and identifies acetylated residues via LC-MS/MS."
         }
       ],
       "trigger_keywords": [
         "Label-free quantitative proteomic analysis",
         "timsTOF Pro",
         "PASEF",
-        "acetylation",
+        "MaxQuant",
+        "acetylated residue",
         "anti-Ac-K antibody"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
+      "analyte_level": "site"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -207,8 +233,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:28:45Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

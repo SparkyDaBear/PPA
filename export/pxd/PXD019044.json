@@ -8,8 +8,8 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "nutrient or metabolic perturbation"
+      "nutrient or metabolic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "glioblastoma cells",
@@ -28,44 +28,54 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
-        "matched_class_path": [
-          "chemical_or_drug",
-          "small_molecule_inhibitor"
-        ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
-        "confidence": "high",
-        "evidence": [
-          "canavanine inhibited prosurvival kinases such as FAK, Akt and AMPK",
-          "combined treatment with canavanine and arginine deprivation"
-        ]
-      },
-      {
         "ontology_label": "nutrient or metabolic perturbation",
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
           "nutrient_metabolic",
-          "nutrient_deprivation"
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
           "arginine deprivation",
           "arginine-free medium (AFM)"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "medium",
+        "evidence": [
+          "canavanine, an arginine analogue of plant origin",
+          "canavanine inhibited prosurvival kinases such as FAK, Akt and AMPK"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "l-canavanine",
+        "agent": "arginine deprivation",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "arginine-free medium (AFM)",
+        "evidence": [
+          "arginine-free medium (AFM)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "canavanine",
         "dose_or_concentration": "50 \u00b5M",
         "duration": "24 h",
         "route_or_context": "arginine-free medium",
@@ -75,22 +85,12 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "l-canavanine",
+        "agent": "canavanine",
         "dose_or_concentration": "50 \u00b5M",
         "duration": "48 h",
         "route_or_context": "arginine-free medium",
         "evidence": [
           "AFM with 50 \u00b5M canavanine for 48 h"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "arginine",
-        "dose_or_concentration": "0.4 mmol/L",
-        "duration": null,
-        "route_or_context": "complete medium (CM)",
-        "evidence": [
-          "formulated DMEM (Sigma-Aldrich D9443) with or without 0.4 mmol/L arginine (complete medium (CM) and arginine-free medium (AFM), respectively)"
         ]
       }
     ],
@@ -123,16 +123,16 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "Complete Medium",
-        "case_label": "Arginine-free + Canavanine",
+        "control_label": "complete medium",
+        "case_label": "arginine-free medium + canavanine",
         "contrast_type": "pairwise",
         "evidence": [
-          "we compared the sequences of canavanine-containing peptides and all Arg/canavanine peptides"
+          "we examined, in detail, the combined effects of canavanine in arginine-free conditions"
         ]
       },
       {
-        "control_label": "Canavanine 24h",
-        "case_label": "Canavanine 48h",
+        "control_label": "24 h canavanine",
+        "case_label": "48 h canavanine",
         "contrast_type": "timecourse",
         "evidence": [
           "arginine-free medium with 50 \u00b5M canavanine for 24 h; (4) AFM with 50 \u00b5M canavanine for 48 h"
@@ -148,13 +148,13 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
-        "label": "Rattus norvegicus",
+        "label": "rat",
         "taxonomy_hint": null,
-        "confidence": "medium"
+        "confidence": "high"
       }
     ],
     "cell_types": [
@@ -207,7 +207,7 @@
     ],
     "quantification_strategy": [
       "SILAC",
-      "TIC"
+      "Top3 quantitation"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -224,21 +224,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling with 13C6,15N4-arginine and analysis via Orbitrap Fusion Lumos in DDA mode (Universal Method)."
+          "reason": "The experiment explicitly uses SILAC labeling with 13C6,15N4-arginine to distinguish between heavy Arg, light Arg, and canavanine incorporation."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "canavanine_incorporation",
           "confidence": 1.0,
-          "reason": "The primary goal of the proteomics experiment was to quantify the incorporation of the non-proteinogenic amino acid canavanine into proteins."
+          "reason": "The primary goal of the proteomics is to quantify the incorporation of the non-proteinogenic amino acid canavanine into proteins, which requires a user-defined mass shift."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "canavanine incorporation",
+        "canavanine",
         "13C6,15N4-arginine",
-        "proteomimetic"
+        "non-proteinogenic amino acid"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -247,21 +247,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling with 13C6,15N4-arginine and analysis via Orbitrap Fusion Lumos in DDA mode (Universal Method)."
+          "reason": "The experiment explicitly uses SILAC labeling with 13C6,15N4-arginine to distinguish between heavy Arg, light Arg, and canavanine incorporation."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "canavanine_incorporation",
           "confidence": 1.0,
-          "reason": "The primary goal of the proteomics experiment was to quantify the incorporation of the non-proteinogenic amino acid canavanine into proteins."
+          "reason": "The primary goal of the proteomics is to quantify the incorporation of the non-proteinogenic amino acid canavanine into proteins, which requires a user-defined mass shift."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "canavanine incorporation",
+        "canavanine",
         "13C6,15N4-arginine",
-        "proteomimetic"
+        "non-proteinogenic amino acid"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -289,8 +289,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:56:28Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,17 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Disease"
+      "case-control disease status"
     ],
     "cell_types": [
-      "colorectal cancer cells",
-      "normal human fetal small intestine cells"
+      "colon epithelial cells",
+      "adenocarcinoma cells"
     ],
     "cell_lines": [
       "COLO 205",
@@ -22,12 +21,29 @@
       "HIEC6"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "we conducted LC\u2013MS/MS analyses on the tryptic digests of colon epithelial cells from fetal small intestine (HIEC-6) and adenocarcinoma cells (HCT116, Colo205, and SW620)"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -35,38 +51,100 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "HIEC-6"
+    ],
+    "case_arms": [
+      "COLO 205",
+      "HCT 116",
+      "SW620"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "replicates of 2 \u00d7 108 cells were pelleted"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "HIEC-6",
+        "case_label": "colorectal cancer cell lines",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we conducted LC\u2013MS/MS analyses on the tryptic digests of colon epithelial cells from fetal small intestine (HIEC-6) and adenocarcinoma cells (HCT116, Colo205, and SW620)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colon epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "adenocarcinoma cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "COLO 205",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT 116",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SW620",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HIEC6",
+        "family": "normal human fetal small intestine",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -75,10 +153,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses data-dependent acquisition (DDA) on an Orbitrap Exploris 480. While the focus is on identification depth and mutation detection, the use of multiple cell lines and replicates implies a label-free quantification (LFQ) approach for comparing protein abundance/presence."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "faims_sift",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly integrates High Field Asymmetric Waveform Ion Mobility Spectrometry (FAIMS) and Segmented Ion Fractionation (SIFT) to resolve isobaric ions and increase sensitivity."
+        }
+      ],
+      "trigger_keywords": [
+        "FAIMS",
+        "segmented ion fractionation",
+        "SIFT",
+        "differential ion mobility",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses data-dependent acquisition (DDA) on an Orbitrap Exploris 480. While the focus is on identification depth and mutation detection, the use of multiple cell lines and replicates implies a label-free quantification (LFQ) approach for comparing protein abundance/presence."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "faims_sift",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly integrates High Field Asymmetric Waveform Ion Mobility Spectrometry (FAIMS) and Segmented Ion Fractionation (SIFT) to resolve isobaric ions and increase sensitivity."
+        }
+      ],
+      "trigger_keywords": [
+        "FAIMS",
+        "segmented ion fractionation",
+        "SIFT",
+        "differential ion mobility",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,7 +226,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

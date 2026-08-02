@@ -9,7 +9,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "anatomical or spatial comparison"
+      "anatomical or spatial comparison",
+      "molecular state comparison"
     ],
     "cell_types": [
       "epithelial cell"
@@ -28,18 +29,35 @@
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "inter_tissue_comparison",
-        "matched_class_key": "inter_tissue_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
-          "anatomical or spatial comparison",
-          "inter-tissue comparison"
+          "anatomical_spatial",
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
-          "Deep proteome profiling across twelve rat organs tissues by label-free quantitation using DIA compared to TMT-multiplexing",
+          "Deep proteome profiling across twelve rat organs tissues",
           "we recorded an organ-wide map of proteome expression across 12 rat tissues",
-          "we compared tandem mass tags (TMT11-plex) with DIA-based label-free quantification of 12 tissues covering the major mammalian organs from three individual male rats"
+          "quantify proteins and their post-translational modifications between cell states or cell types at a large scale"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "Rapid and sensitive phosphoproteomics with automated enrichment using Ti-IMAC magnetic beads",
+          "analyze the phosphoproteomes of the 12 organ tissues from the three individual rats"
         ]
       }
     ],
@@ -52,16 +70,16 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [
-      "spleen",
-      "heart",
       "duodenum",
+      "jejunum",
+      "ileum",
+      "heart",
       "kidney",
       "testis",
       "brain",
       "liver",
-      "jejunum",
       "pancreas",
-      "ileum",
+      "spleen",
       "lung",
       "thigh muscle"
     ],
@@ -73,16 +91,15 @@
     ],
     "multiplex_channel_hints": [
       "TMT-multiplexing",
-      "TMT11-plex",
-      "TMT 11-plex experiments"
+      "TMT11-plex"
     ],
     "contrast_hints": [
       {
-        "control_label": "inter-tissue",
-        "case_label": "multi-organ",
+        "control_label": "TMT-multiplexing",
+        "case_label": "DIA-LFQ",
         "contrast_type": "multi_group",
         "evidence": [
-          "recorded an organ-wide map of proteome expression across 12 rat tissues"
+          "compared tandem mass tags (TMT11-plex) with DIA-based label-free quantification of 12 tissues"
         ]
       }
     ],
@@ -95,19 +112,19 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "human",
         "confidence": "high"
       },
       {
         "label": "Rattus norvegicus",
-        "taxonomy_hint": "NEWT:10116",
+        "taxonomy_hint": "rat",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
+        "rollup_category": "epithelial",
         "ontology_curie": "CL:0000066"
       }
     ],
@@ -175,7 +192,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -189,7 +206,7 @@
     ],
     "quantification_strategy": [
       "label-free quantitation",
-      "TMT 11-plex"
+      "tandem mass tags"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -212,34 +229,39 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 10,
-          "reason": "Extensive use of DIA-FAIMS for label-free quantitation across rat tissues and HeLa cells."
+          "confidence": 0.9,
+          "reason": "Extensive use of DIA-FAIMS for label-free quantitation of HeLa and rat organ proteomes."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 9,
-          "reason": "TMT 11-plex experiments performed using DDA with Turbo-TMT acquisition."
+          "confidence": 0.8,
+          "reason": "TMT 11-plex labeling used for rat organ proteome profiling."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 7,
-          "reason": "DDA experiments performed for HeLa proteomes and spectral library generation."
+          "confidence": 0.7,
+          "reason": "DDA used for HeLa proteome and spectral library generation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 10,
-          "reason": "Specific automated phosphopeptide enrichment using Ti-IMAC beads followed by DIA (directDIA) and DDA analysis."
+          "modifier_workflow_id": "faims_interface",
+          "confidence": 0.95,
+          "reason": "FAIMS Pro interface used across DDA and DIA modes with specific compensation voltages (CVs)."
+        },
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.9,
+          "reason": "Automated Ti-IMAC magnetic bead enrichment for phosphoproteomics."
         }
       ],
       "trigger_keywords": [
         "DIA",
+        "DDA",
         "TMT",
         "FAIMS",
-        "label-free quantitation",
-        "phosphoproteomics",
         "Ti-IMAC",
+        "label-free quantitation",
         "Turbo-TMT"
       ],
       "raw_or_file_name_triggers": []
@@ -248,34 +270,39 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 10,
-          "reason": "Extensive use of DIA-FAIMS for label-free quantitation across rat tissues and HeLa cells."
+          "confidence": 0.9,
+          "reason": "Extensive use of DIA-FAIMS for label-free quantitation of HeLa and rat organ proteomes."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 9,
-          "reason": "TMT 11-plex experiments performed using DDA with Turbo-TMT acquisition."
+          "confidence": 0.8,
+          "reason": "TMT 11-plex labeling used for rat organ proteome profiling."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 7,
-          "reason": "DDA experiments performed for HeLa proteomes and spectral library generation."
+          "confidence": 0.7,
+          "reason": "DDA used for HeLa proteome and spectral library generation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 10,
-          "reason": "Specific automated phosphopeptide enrichment using Ti-IMAC beads followed by DIA (directDIA) and DDA analysis."
+          "modifier_workflow_id": "faims_interface",
+          "confidence": 0.95,
+          "reason": "FAIMS Pro interface used across DDA and DIA modes with specific compensation voltages (CVs)."
+        },
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.9,
+          "reason": "Automated Ti-IMAC magnetic bead enrichment for phosphoproteomics."
         }
       ],
       "trigger_keywords": [
         "DIA",
+        "DDA",
         "TMT",
         "FAIMS",
-        "label-free quantitation",
-        "phosphoproteomics",
         "Ti-IMAC",
+        "label-free quantitation",
         "Turbo-TMT"
       ],
       "raw_or_file_name_triggers": []
@@ -304,8 +331,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T05:53:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

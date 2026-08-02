@@ -3,15 +3,18 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT",
+    "quantification_method": "TMT 10plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "inter-tissue comparison"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      "THESC"
+    ],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
@@ -20,23 +23,51 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "inter-tissue comparison",
-        "ontology_curie": "PPA:0000019",
-        "category": "anatomical_spatial_comparison",
-        "matched_parent_class_key": "PPA:0000019",
-        "matched_class_key": "inter_tissue_comparison",
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "PPA:0000019",
-          "inter_tissue_comparison"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "Integration of fibroid (n\u2009=\u200950) and myometrium (n\u2009=\u200941, including 31 UF and 10 non-UF patients) identified 6 latent factors (Supplementary Fig. 4)."
+          "in this study, we applied multi-omic approach of endometrium, myometrium and fibroid tissues from 73 UF and 18 non-UF patients to investigate the molecular mechanism underlying UF pathology and associated HMB."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "organ_region_comparison"
+        ],
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
+        "confidence": "high",
+        "evidence": [
+          "Integrated analysis of fibroid (n = 50) and myometrium (n = 41, including 31 UF and 10 non-UF patients)",
+          "Tissues were analysed by RNA-sequencing and proteomics... encompassing fibroid, myometrium, and endometrium tissues from 91 patients."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "uterine fibroids",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "clinical disease state",
+        "evidence": [
+          "73 UF and 18 non-UF patients"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -44,28 +75,37 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
+      "non-UF patients",
       "myometrium"
     ],
     "case_arms": [
+      "UF patients",
       "fibroid"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "n = 50 fibroid samples",
-      "n = 41 myometrium samples"
+      "TMT 10plex labelling reaction"
     ],
     "multiplex_channel_hints": [
       "TMT 10plex",
-      "global pooled samples (1X Pool and 5X Pool)"
+      "TMT label reagents"
     ],
     "contrast_hints": [
+      {
+        "control_label": "non-UF",
+        "case_label": "UF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "73 UF and 18 non-UF patients"
+        ]
+      },
       {
         "control_label": "myometrium",
         "case_label": "fibroid",
         "contrast_type": "pairwise",
         "evidence": [
-          "Integration of fibroid (n\u2009=\u200950) and myometrium (n\u2009=\u200941, including 31 UF and 10 non-UF patients) identified 6 latent factors (Supplementary Fig. 4)."
+          "Integrated analysis of fibroid (n = 50) and myometrium (n = 41)"
         ]
       }
     ],
@@ -78,15 +118,29 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "THESC",
+        "family": "hTERT-immortalized human endometrial stromal cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [
       {
-        "label": "fibroid tissue",
+        "label": "uterine fibroid",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "myometrium",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "endometrium",
         "source_kind": "tissue"
       }
     ],
@@ -109,7 +163,7 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT"
+      "TMT 10plex"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -125,73 +179,33 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.95,
-          "reason": "TMT 10plex isobaric labeling with DDA acquisition on Q Exactive HF"
+          "confidence": 1.0,
+          "reason": "The text explicitly describes TMT 10plex labelling and data-dependent mode (DDA) acquisition on a Q Exactive HF mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "TMT_10plex_labeling",
-          "confidence": 0.9,
-          "reason": "Use of TMT 10plex isobaric labeling on peptide N-termini and lysine residues"
-        },
-        {
-          "modifier_workflow_id": "high_pH_reversed_phase_prefractionation",
-          "confidence": 0.8,
-          "reason": "Offline high-pH reversed-phase pre-fractionation concatenated into 10 fractions"
-        },
-        {
-          "modifier_workflow_id": "SMART_Digest_trypsin_digestion",
-          "confidence": 0.7,
-          "reason": "Automated high-temperature SMART Digest trypsin digestion"
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT 10plex",
-        "isobaric",
-        "DDA",
-        "Q Exactive",
-        "10plex"
+        "data-dependent mode",
+        "isobaric"
       ],
-      "raw_or_file_name_triggers": [
-        ".raw"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.95,
-          "reason": "TMT 10plex isobaric labeling with DDA acquisition on Q Exactive HF"
+          "confidence": 1.0,
+          "reason": "The text explicitly describes TMT 10plex labelling and data-dependent mode (DDA) acquisition on a Q Exactive HF mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "TMT_10plex_labeling",
-          "confidence": 0.9,
-          "reason": "Use of TMT 10plex isobaric labeling on peptide N-termini and lysine residues"
-        },
-        {
-          "modifier_workflow_id": "high_pH_reversed_phase_prefractionation",
-          "confidence": 0.8,
-          "reason": "Offline high-pH reversed-phase pre-fractionation concatenated into 10 fractions"
-        },
-        {
-          "modifier_workflow_id": "SMART_Digest_trypsin_digestion",
-          "confidence": 0.7,
-          "reason": "Automated high-temperature SMART Digest trypsin digestion"
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT 10plex",
-        "isobaric",
-        "DDA",
-        "Q Exactive",
-        "10plex"
+        "data-dependent mode",
+        "isobaric"
       ],
-      "raw_or_file_name_triggers": [
-        ".raw"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
@@ -217,8 +231,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T04:47:25Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

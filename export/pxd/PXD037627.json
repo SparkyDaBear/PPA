@@ -7,7 +7,9 @@
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "viral infection"
+    ],
     "cell_types": [
       "brain tumour cells"
     ],
@@ -20,21 +22,90 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "viral infection",
+        "ontology_curie": "PPA:0000085",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "Zika virus (ZIKV) infects and kills aggressive cancer cells with stem-like properties (CSCs) from both paediatric and adult brain tumours.",
+          "global proteome analysis of 24-hour ZIKV-infected USP7-ATRT cells",
+          "Performing immunopeptidomics, we assessed the class I and II HLA immunopeptidomes of Mock and ZIKV-infected USP7-ATRT cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Zika virus",
+        "dose_or_concentration": "MOI 2",
+        "duration": "24 hours",
+        "route_or_context": "USP7-ATRT cells",
+        "evidence": [
+          "50\u03bcg protein from Mock and 24-hour infected USP7-ATRT cells (MOI 2) was mixed",
+          "Brazilian ZIKV KU365771 stocks were established"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Zika virus",
+        "dose_or_concentration": "MOI 1",
+        "duration": "24 hours",
+        "route_or_context": "USP7-ATRT cells",
+        "evidence": [
+          "Frozen pellets of 1x108 Mock and ZIKV-infected USP7-ATRT cells (MOI 1) were re-suspended"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "Zika virus",
+        "dose_or_concentration": null,
+        "duration": "24 hours",
+        "route_or_context": "post-infection",
+        "evidence": [
+          "Twenty-four hours post-infection (hpi) cells were collected"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 hpi"
+    ],
+    "control_arms": [
+      "Mock"
+    ],
+    "case_arms": [
+      "ZIKV-infected"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The infection experiments were performed in triplicate for the global proteome and once for the immunopeptidome."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Mock",
+        "case_label": "ZIKV-infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the ZIKV-mCherry positive versus negative samples",
+          "enrichment analysis using the set of 329 proteins that were found to be elevated (p < 0.05) at 24-hour following ZIKV infection vs control"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -45,6 +116,11 @@
       {
         "label": "Homo sapiens",
         "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Zika virus",
+        "taxonomy_hint": "KU365779.1",
         "confidence": "high"
       }
     ],
@@ -85,7 +161,7 @@
       "Relative protein quantification using Peaks quantification module",
       "Log2(LFQ intensities)"
     ],
-    "proteomics_mode": "Immunopeptidomics",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "immunopeptidome enrichment",
@@ -101,29 +177,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "Global proteome used Top Speed DDA on Orbitrap Fusion with relative protein quantification (LFQ intensities) and histone ruler normalization."
+          "confidence": 0.9,
+          "reason": "The global proteome used DDA (Top Speed mode) and relative protein quantification via Peaks quantification module (LFQ intensities)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 100,
-          "reason": "Specific immunopeptidome analysis performed using pan-anti-HLA-I (W6/32) and pan-anti-HLA-II (HB145) antibody enrichment, followed by unspecific digest search."
+          "confidence": 1.0,
+          "reason": "Explicit use of HLA-I/II affinity purification (Protein-A sepharose beads with W6/32 and HB145 antibodies) to isolate surface-presented peptides."
         }
       ],
       "trigger_keywords": [
         "immunopeptidome",
         "HLA class I",
-        "unspecific digest",
-        "W6/32",
-        "HB145",
-        "global proteome"
+        "HLA-I",
+        "global proteome",
+        "unspecific digest"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -131,24 +206,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "Global proteome used Top Speed DDA on Orbitrap Fusion with relative protein quantification (LFQ intensities) and histone ruler normalization."
+          "confidence": 0.9,
+          "reason": "The global proteome used DDA (Top Speed mode) and relative protein quantification via Peaks quantification module (LFQ intensities)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 100,
-          "reason": "Specific immunopeptidome analysis performed using pan-anti-HLA-I (W6/32) and pan-anti-HLA-II (HB145) antibody enrichment, followed by unspecific digest search."
+          "confidence": 1.0,
+          "reason": "Explicit use of HLA-I/II affinity purification (Protein-A sepharose beads with W6/32 and HB145 antibodies) to isolate surface-presented peptides."
         }
       ],
       "trigger_keywords": [
         "immunopeptidome",
         "HLA class I",
-        "unspecific digest",
-        "W6/32",
-        "HB145",
-        "global proteome"
+        "HLA-I",
+        "global proteome",
+        "unspecific digest"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -176,8 +250,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:51:05Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

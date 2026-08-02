@@ -3,72 +3,133 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "liver cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HeLa",
-      "293T",
-      "293FT",
-      "AML12",
-      "U2OS"
+      "293T"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "ubiquitinated Flag-VPS34 was isolated by immunoprecipitation with anti-Flag M2 beads from 293T UBE3C knockout cells transfected with Flag-VPS34, His-ubiquitin, together with or without V5-UBE3C"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "V5-UBE3C",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfected into 293T UBE3C knockout cells",
+        "evidence": [
+          "ubiquitinated Flag-VPS34 was isolated by immunoprecipitation with anti-Flag M2 beads from 293T UBE3C knockout cells transfected with Flag-VPS34, His-ubiquitin, together with or without V5-UBE3C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "without V5-UBE3C"
+    ],
+    "case_arms": [
+      "with V5-UBE3C"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "UBE3C-absent",
+        "case_label": "UBE3C-present",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "together with or without V5-UBE3C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "293T",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "subproteome",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,10 +137,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on an LTQ Orbitrap Velos and explicitly mentions label-free quantification (LFQ) using the Minora Feature Detector node in Proteome Discoverer."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "The study focuses on ubiquitination sites and chain types, utilizing Lbpro* (Ub-clipping) to generate GG-modified peptides and explicitly searching for 'ubiquitinylation (K)' and 'ubiquitination signature dipeptidyl lysine' (diGly)."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free quantification",
+        "data-dependent mode",
+        "ubiquitinylation (K)",
+        "dipeptidyl lysine",
+        "Lbpro*",
+        "Ub-clipping"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment uses data-dependent acquisition (DDA) on an LTQ Orbitrap Velos and explicitly mentions label-free quantification (LFQ) using the Minora Feature Detector node in Proteome Discoverer."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ubiquitin_diGly",
+          "confidence": 1.0,
+          "reason": "The study focuses on ubiquitination sites and chain types, utilizing Lbpro* (Ub-clipping) to generate GG-modified peptides and explicitly searching for 'ubiquitinylation (K)' and 'ubiquitination signature dipeptidyl lysine' (diGly)."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free quantification",
+        "data-dependent mode",
+        "ubiquitinylation (K)",
+        "dipeptidyl lysine",
+        "Lbpro*",
+        "Ub-clipping"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -99,7 +212,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

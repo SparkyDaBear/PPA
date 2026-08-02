@@ -3,17 +3,20 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "relative abundance",
+    "quantification_method": "relative abundance normalized against total peptides",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "genetic perturbation",
-      "molecular state comparison"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "293T"
+      "293T",
+      "DLD1",
+      "Hela"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -26,44 +29,68 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "Flag-Aurora A was ectopically expressed in 293T and DLD1 cells."
+          "the relative abundance of S162 phosphopeptide was significantly reduced when Aurora-A was knocked down in DLD1 and Hela cells"
         ]
       },
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state_comparison",
-        "matched_class_key": "ptm_or_activation_state",
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
-          "molecular_state_comparison",
-          "ptm_or_activation_state"
+          "cell_state_interaction",
+          "cell_cycle_state_comparison"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
         "confidence": "high",
         "evidence": [
-          "The relative abundance of S162 phosphopeptide was significantly reduced when Aurora-A was knocked down in DLD1 and Hela cells",
-          "relative abundance of S162 phosphopeptide is significantly higher in S phase than in M phase of the cell cycle"
+          "MS analysis confirmed that the relative abundance of S162 phosphopeptide is significantly higher in S phase than in M phase of the cell cycle"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "Flag-Aurora A was ectopically expressed in 293T and DLD1 cells."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "Aurora-A",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown",
+        "evidence": [
+          "the relative abundance of S162 phosphopeptide was significantly reduced when Aurora-A was knocked down in DLD1 and Hela cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "Flag-Aurora A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "ectopic expression",
+        "route_or_context": "ectopically expressed",
         "evidence": [
           "Flag-Aurora A was ectopically expressed in 293T and DLD1 cells."
         ]
@@ -74,12 +101,17 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "S phase",
+      "M phase"
+    ],
     "control_arms": [
       "M phase"
     ],
     "case_arms": [
-      "S phase"
+      "Aurora-A knocked down",
+      "S phase",
+      "Flag-Aurora A ectopically expressed"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -89,11 +121,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "Control",
+        "case_label": "Aurora-A knockdown",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the relative abundance of S162 phosphopeptide was significantly reduced when Aurora-A was knocked down in DLD1 and Hela cells"
+        ]
+      },
+      {
         "control_label": "M phase",
         "case_label": "S phase",
         "contrast_type": "pairwise",
         "evidence": [
-          "relative abundance of S162 phosphopeptide is significantly higher in S phase than in M phase of the cell cycle"
+          "MS analysis confirmed that the relative abundance of S162 phosphopeptide is significantly higher in S phase than in M phase of the cell cycle"
         ]
       }
     ],
@@ -106,7 +146,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -114,6 +154,16 @@
     "cell_lines": [
       {
         "label": "293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "DLD1",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Hela",
         "family": null,
         "ontology_curie": null
       }
@@ -135,10 +185,10 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "relative abundance"
+      "relative abundance normalized against total peptides"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -146,6 +196,12 @@
         "ontology_label": "phosphoproteome enrichment",
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -161,22 +217,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a Q-Exactive mass spectrometer in data dependent scan mode (DDA) and performed relative abundance comparisons of phosphopeptides normalized against total peptides."
+          "confidence": 0.8,
+          "reason": "Data was acquired in data dependent scan mode (DDA) on a Q-Exactive. While no formal labeling is mentioned, the authors performed relative abundance comparisons of phosphopeptides normalized against total peptides for LDHB."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.8,
-          "reason": "The study specifically focuses on identifying and quantifying phosphorylation sites (e.g., LDHB S162) using IP-enriched proteins and subsequent MS analysis."
+          "confidence": 0.9,
+          "reason": "The experiment specifically aims to identify phosphorylation sites on LDHB, using IP enrichment and subsequent MS analysis to validate S162 phosphorylation."
         }
       ],
       "trigger_keywords": [
         "data dependent scan mode",
         "phosphorylation",
-        "relative abundance",
-        "phosphopeptide"
+        "phosphopeptide abundances",
+        "IP"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -184,22 +240,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a Q-Exactive mass spectrometer in data dependent scan mode (DDA) and performed relative abundance comparisons of phosphopeptides normalized against total peptides."
+          "confidence": 0.8,
+          "reason": "Data was acquired in data dependent scan mode (DDA) on a Q-Exactive. While no formal labeling is mentioned, the authors performed relative abundance comparisons of phosphopeptides normalized against total peptides for LDHB."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.8,
-          "reason": "The study specifically focuses on identifying and quantifying phosphorylation sites (e.g., LDHB S162) using IP-enriched proteins and subsequent MS analysis."
+          "confidence": 0.9,
+          "reason": "The experiment specifically aims to identify phosphorylation sites on LDHB, using IP enrichment and subsequent MS analysis to validate S162 phosphorylation."
         }
       ],
       "trigger_keywords": [
         "data dependent scan mode",
         "phosphorylation",
-        "relative abundance",
-        "phosphopeptide"
+        "phosphopeptide abundances",
+        "IP"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -227,8 +283,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:30:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

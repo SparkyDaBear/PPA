@@ -35,13 +35,13 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "Applying this workflow to a human cohort of non-alcoholic steatohepatitis (NASH) and liver cirrhosis revealed dramatic proteome changes",
@@ -52,31 +52,31 @@
         "ontology_label": "cell state or interaction comparison",
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_state_comparison",
         "matched_class_path": [
-          "cell state or interaction comparison",
-          "activation or differentiation state"
+          "cell_state_interaction",
+          "activation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
         "confidence": "high",
         "evidence": [
           "We also aimed to capture proteome dynamics during primary cell culture. Time course measurements revealed proteome shifts over time.",
           "the proteomic signatures of HSC activation largely overlapped with that of liver cirrhosis",
-          "we performed primary cell culture of hHEPs, hHSCs, and hLSECs and investigated their proteomic changes at day-1, day-3, and day-7."
+          "we observed an upregulation of the HSC activation marker \u03b1-SMA by 30% at day-7 compared to day-1"
         ]
       },
       {
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "inter_tissue_comparison",
-        "matched_class_key": "inter_tissue_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
-          "anatomical or spatial comparison",
-          "inter-tissue comparison"
+          "anatomical_spatial",
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
           "To capture the proteome differences between liver parenchyma and extrahepatic blood vessels, we characterized biopsies of the liver tissue, portal vein, and hepatic artery."
@@ -86,12 +86,12 @@
     "attributes": [
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "primary cell culture",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "primary cell culture",
+        "route_or_context": "in vitro culture of hHEPs, hHSCs, and hLSECs",
         "evidence": [
-          "investigated their proteomic changes at day-1, day-3, and day-7."
+          "investigated their proteomic changes at day-1, day-3, and day-7"
         ]
       }
     ],
@@ -116,17 +116,20 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "three biological replicates of at least one cell type",
-      "biological triplicates"
+      "biological triplicates",
+      "three biological replicates of at least one cell type"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "label-free quantification (LFQ)",
+      "single-shot DIA"
+    ],
     "contrast_hints": [
       {
         "control_label": "healthy control",
         "case_label": "liver cirrhosis",
         "contrast_type": "pairwise",
         "evidence": [
-          "differentially abundant proteins across the three groups of patient samples: NASH, healthy control, and patients with liver cirrhosis."
+          "differentially abundant proteins across the three groups of patient samples: NASH, healthy control, and patients with liver cirrhosis"
         ]
       },
       {
@@ -134,7 +137,7 @@
         "case_label": "NASH",
         "contrast_type": "pairwise",
         "evidence": [
-          "differentially abundant proteins across the three groups of patient samples: NASH, healthy control, and patients with liver cirrhosis."
+          "differentially abundant proteins across the three groups of patient samples: NASH, healthy control, and patients with liver cirrhosis"
         ]
       },
       {
@@ -142,7 +145,7 @@
         "case_label": "day-7",
         "contrast_type": "timecourse",
         "evidence": [
-          "investigated their proteomic changes at day-1, day-3, and day-7."
+          "investigated their proteomic changes at day-1, day-3, and day-7"
         ]
       }
     ],
@@ -155,7 +158,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -236,7 +239,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "MaxLFQ"
+      "MaxLFQ",
+      "label-free quantification"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -251,50 +255,62 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Fractionated samples were acquired using a Top15 DDA method and analyzed with MaxLFQ for label-free quantification."
-        },
-        {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "Patient samples and time-course primary cell culture were acquired using DIA mode and analyzed with Spectronaut."
+          "reason": "Clinical cohort and time-course experiments used DIA (Data-Independent Acquisition) with label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Initial deep proteome atlas and spectral library generation used DDA (Data-Dependent Acquisition) with MaxLFQ."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "faims_cv_switching",
+          "confidence": 0.9,
+          "reason": "Time-course experiment specifically used FAIMS Pro Interface with intra-analysis compensation voltage (CV)-switching (-40V, -55V, -70V)."
+        }
+      ],
       "trigger_keywords": [
-        "DDA",
         "DIA",
+        "DDA",
         "label-free quantification",
+        "FAIMS",
+        "CV-switching",
         "MaxLFQ",
-        "Spectronaut",
-        "fractionated",
-        "single-shot"
+        "PhiSDM"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Fractionated samples were acquired using a Top15 DDA method and analyzed with MaxLFQ for label-free quantification."
-        },
-        {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "Patient samples and time-course primary cell culture were acquired using DIA mode and analyzed with Spectronaut."
+          "reason": "Clinical cohort and time-course experiments used DIA (Data-Independent Acquisition) with label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Initial deep proteome atlas and spectral library generation used DDA (Data-Dependent Acquisition) with MaxLFQ."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "faims_cv_switching",
+          "confidence": 0.9,
+          "reason": "Time-course experiment specifically used FAIMS Pro Interface with intra-analysis compensation voltage (CV)-switching (-40V, -55V, -70V)."
+        }
+      ],
       "trigger_keywords": [
-        "DDA",
         "DIA",
+        "DDA",
         "label-free quantification",
+        "FAIMS",
+        "CV-switching",
         "MaxLFQ",
-        "Spectronaut",
-        "fractionated",
-        "single-shot"
+        "PhiSDM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -322,8 +338,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T05:56:36Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

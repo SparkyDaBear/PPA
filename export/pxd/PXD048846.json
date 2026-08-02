@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "molecular state comparison",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "B cell"
@@ -24,24 +25,62 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
-        "category": "disease",
-        "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
-          "disease",
-          "case_control_disease"
+          "molecular_state",
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "high",
         "evidence": [
-          "we performed an alternative splicing analysis in which normal human CD19+ B cells were compared with samples from patients with B-ALL",
-          "Immunoprecipitation of IgG (C1) and RNA polymerase II (A1) in NALM6 cells were used."
+          "we performed immunoprecipitation of RNA Pol II, followed by mass spectrometry",
+          "performed a reciprocal immunoprecipitation of SF3B1, followed by mass spectrometry in NALM6 cells treated with DMSO, EHT1610, and THAL-SNS-032",
+          "Disruption of SF3B1 binding with Pol II and its associated transcriptional elongation complex components, like SPT6, was observed in response to both EHT1610 and THAL-SNS-032 treatment when compared with DMSO"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "reciprocal immunoprecipitation of SF3B1, followed by mass spectrometry in NALM6 cells treated with DMSO, EHT1610, and THAL-SNS-032"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EHT1610",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "NALM6 cells",
+        "evidence": [
+          "reciprocal immunoprecipitation of SF3B1, followed by mass spectrometry in NALM6 cells treated with DMSO, EHT1610, and THAL-SNS-032"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "THAL-SNS-032",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "NALM6 cells",
+        "evidence": [
+          "reciprocal immunoprecipitation of SF3B1, followed by mass spectrometry in NALM6 cells treated with DMSO, EHT1610, and THAL-SNS-032"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -49,12 +88,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "IgG (C1)",
-      "normal human CD19+ B cells"
+      "DMSO"
     ],
     "case_arms": [
-      "RNA polymerase II (A1)",
-      "B-ALL cells"
+      "EHT1610",
+      "THAL-SNS-032"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -64,11 +102,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "IgG",
-        "case_label": "RNA Pol II",
+        "control_label": "DMSO",
+        "case_label": "EHT1610",
         "contrast_type": "pairwise",
         "evidence": [
-          "Immunoprecipitation of IgG (C1) and RNA polymerase II (A1) in NALM6 cells were used."
+          "Disruption of SF3B1 binding with Pol II and its associated transcriptional elongation complex components, like SPT6, was observed in response to both EHT1610 and THAL-SNS-032 treatment when compared with DMSO"
+        ]
+      },
+      {
+        "control_label": "DMSO",
+        "case_label": "THAL-SNS-032",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Disruption of SF3B1 binding with Pol II and its associated transcriptional elongation complex components, like SPT6, was observed in response to both EHT1610 and THAL-SNS-032 treatment when compared with DMSO"
         ]
       }
     ],
@@ -88,14 +134,14 @@
     "cell_types": [
       {
         "label": "B cell",
-        "rollup_category": "hematopoietic cell",
+        "rollup_category": "immune cell",
         "ontology_curie": "CL:0000236"
       }
     ],
     "cell_lines": [
       {
         "label": "NALM6",
-        "family": "B-ALL",
+        "family": "B-cell acute lymphoblastic leukemia",
         "ontology_curie": null
       }
     ],
@@ -143,18 +189,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data acquisition used an Orbitrap Fusion with a top-20 most abundant ions isolation strategy (DDA). Quantification was performed via spectral counting (SC), which is a label-free approach."
+          "reason": "The experiment used an Orbitrap Fusion with a top-20 MS/MS acquisition strategy (DDA) and employed spectral counting (SC) for relative quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "spectral counts",
         "top 20 most abundant ions",
-        "label-free"
+        "LC-MS/MS"
       ],
       "raw_or_file_name_triggers": [
-        "N6RPB1IgG_B1.raw",
-        "N6RPB1IgG_B3.raw"
+        "Crispigrp_032223_N6RPB1IgG_B1.raw",
+        "Crispigrp_032223_N6RPB1IgG_B2.raw",
+        "Crispigrp_032223_N6RPB1IgG_B3.raw",
+        "Crispigrp_032223_N6RPB1IgG_B4.raw",
+        "Crispigrp_032223_N6RPB1IgG_B5.raw"
       ]
     },
     "selection_hints": {
@@ -162,18 +211,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data acquisition used an Orbitrap Fusion with a top-20 most abundant ions isolation strategy (DDA). Quantification was performed via spectral counting (SC), which is a label-free approach."
+          "reason": "The experiment used an Orbitrap Fusion with a top-20 MS/MS acquisition strategy (DDA) and employed spectral counting (SC) for relative quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "spectral counts",
         "top 20 most abundant ions",
-        "label-free"
+        "LC-MS/MS"
       ],
       "raw_or_file_name_triggers": [
-        "N6RPB1IgG_B1.raw",
-        "N6RPB1IgG_B3.raw"
+        "Crispigrp_032223_N6RPB1IgG_B1.raw",
+        "Crispigrp_032223_N6RPB1IgG_B2.raw",
+        "Crispigrp_032223_N6RPB1IgG_B3.raw",
+        "Crispigrp_032223_N6RPB1IgG_B4.raw",
+        "Crispigrp_032223_N6RPB1IgG_B5.raw"
       ]
     },
     "differential_hints": {
@@ -200,8 +252,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:25:48Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

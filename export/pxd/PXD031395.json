@@ -3,65 +3,156 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Dimethyl"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "immunoprecipitations of tagged AdipoR2 and PAQR-2 expressed in HEK293 cells or whole C. elegans",
+          "worms carrying HA::PAQR-2, with a HA tag at the N-terminal end of the endogenous PAQR-2 locus",
+          "stable clones of HEK293 cells carrying a HA::AdipoR2 expression construct"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HA::PAQR-2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "C. elegans",
+        "evidence": [
+          "immunoprecipitations using an anti-HA antibody from lysates of worms carrying HA::PAQR-2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HA::AdipoR2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "stable clones of HEK293 cells carrying a HA::AdipoR2 expression construct"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "worms or cells that do not express HA-tagged proteins"
+    ],
+    "case_arms": [
+      "HA::PAQR-2",
+      "HA::AdipoR2"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Rd.1 PAQR-2, Rd.2 PAQR-2"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-tagged",
+        "case_label": "HA-tagged",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "proteins that were not present in worms or cells that do not express HA-tagged proteins"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Caenorhabditis elegans",
+        "taxonomy_hint": "NEWT:6239",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "HEK293",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "whole C. elegans",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -69,10 +160,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 85,
+          "reason": "Data-dependent acquisition (DDA) was used on QExactive HF and Orbitrap Fusion. The experiment is an immunoprecipitation (IP) based interactome study, which typically uses label-free quantification (LFQ) or simple identification to compare IP vs control."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "immunoprecipitations",
+        "coimmunoprecipitated proteins"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 85,
+          "reason": "Data-dependent acquisition (DDA) was used on QExactive HF and Orbitrap Fusion. The experiment is an immunoprecipitation (IP) based interactome study, which typically uses label-free quantification (LFQ) or simple identification to compare IP vs control."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "immunoprecipitations",
+        "coimmunoprecipitated proteins"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,7 +217,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

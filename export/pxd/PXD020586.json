@@ -8,7 +8,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "differentiation state comparison",
+      "case-control disease status"
     ],
     "cell_types": [
       "leukemic stem cells",
@@ -26,63 +27,79 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
+        "ontology_label": "differentiation state comparison",
+        "ontology_curie": "PPA:0000105",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "differentiation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
         "confidence": "high",
         "evidence": [
-          "Recapitulating these functional differences using our molecular data would provide proof-of-principle that our workflow is able to distinguish differentiation stages in a complex cellular hierarchy.",
+          "recapitulating these functional differences using our molecular data would provide proof-of-principle that our workflow is able to distinguish differentiation stages in a complex cellular hierarchy",
           "This model maintains the hierarchical nature of AML where a small population of self-renewing leukemic stem cells (LSC; CD34 + CD38\u2212) differentiate to progenitors (CD34 + CD38 + ), that are unable to sustain long-term self-renewal, and finally to terminally differentiated blasts (CD34-)."
+        ]
+      },
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "medium",
+        "evidence": [
+          "we use a primary Acute Myeloid Leukemia (AML) culture model, termed OCI-AML8227"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation": "has_treatment_agent",
+        "label": "treatment agent",
+        "definition": "Named intervention entity such as compound, cytokine, genotype, or stressor.",
+        "evidence": "supplemented with growth factors (Miltenyi Biotec, IL-3, IL-6 and G-CSF (10 ng/mL), h-SCF and FLt3-L (50 ng/mL), and TPO (25 ng/mL)"
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [
-      "leukemic stem cells (LSC)"
-    ],
-    "case_arms": [
-      "progenitors",
-      "blasts"
-    ],
+    "control_arms": [],
+    "case_arms": [],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [
-      "three technical replicates (three reporter channels) per differentiation stage"
-    ],
-    "multiplex_channel_hints": [
-      "16-plex TMTPro technology",
-      "14 single cells plus the equivalent of 200 booster channel cells",
-      "TMTPro-126 reagent (in 1 \u03bcl volume) in each well or in case of the reference channel with TMTPro-127N"
-    ],
+    "replicate_hints": [],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "LSC",
-        "case_label": "blasts",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "We compared blasts against the rest of the cells, which resulted in the identification of differentially expressed (DE) proteins for blasts and the combined group of LSC & progenitors"
-        ]
+        "contrast_type": "multigroup contrast",
+        "groups": [
+          "LSC",
+          "progenitors",
+          "blasts"
+        ],
+        "evidence": "We compared blasts against the rest of the cells, which resulted in the identification of differentially expressed (DE) proteins for blasts and the combined group of LSC & progenitors"
       },
       {
-        "control_label": "LSC",
-        "case_label": "progenitors",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "distinguish differentiation stages in a complex cellular hierarchy"
-        ]
+        "contrast_type": "kinetic or turnover contrast",
+        "groups": [
+          "Day 2",
+          "Day 4",
+          "Day 6",
+          "Day 10",
+          "Day 17"
+        ],
+        "evidence": "Cells were harvested after 2, 4, 6 days... Profiles and proliferation were reassessed again at Day 10 and Day 17."
       }
     ],
     "source_sections": [
@@ -101,24 +118,24 @@
     "cell_types": [
       {
         "label": "leukemic stem cells",
-        "rollup_category": "leukemia cell",
+        "rollup_category": "blood cell",
         "ontology_curie": null
       },
       {
         "label": "progenitors",
-        "rollup_category": "leukemia cell",
+        "rollup_category": "blood cell",
         "ontology_curie": null
       },
       {
         "label": "blasts",
-        "rollup_category": "leukemia cell",
+        "rollup_category": "blood cell",
         "ontology_curie": null
       }
     ],
     "cell_lines": [
       {
         "label": "OCI-AML8227",
-        "family": "Acute Myeloid Leukemia culture model",
+        "family": "Acute Myeloid Leukemia",
         "ontology_curie": null
       }
     ],
@@ -130,7 +147,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -143,7 +160,7 @@
     ],
     "quantification_strategy": [
       "TMTPro reporter ion quantification",
-      "isobaric carrier channel (booster)"
+      "isobaric labeling with carrier channel"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -160,22 +177,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMTPro reagents for multiplexing single cells and booster channels in a DDA (DD-MS2) acquisition mode."
+          "reason": "The experiment explicitly uses TMTPro 16-plex isobaric labeling for single-cell and bulk samples, acquired in DD-MS2 and DD-SPS-MS3 modes."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "single_cell_booster",
-          "confidence": 0.95,
-          "reason": "The study utilizes a specific single-cell proteomics strategy involving a 'carrier' or 'booster' channel (200-cell equivalent) to boost signal for peptide identification."
+          "confidence": 1.0,
+          "reason": "The workflow utilizes a 'booster channel' (200-cell equivalent) to increase peptide copies for identification in low-input single-cell channels."
         }
       ],
       "trigger_keywords": [
         "TMTPro",
+        "isobaric labeling",
         "single-cell proteomics",
         "booster channel",
-        "isobaric labeling",
-        "scMS"
+        "carrier channel",
+        "DD-MS2",
+        "DD-SPS-MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -184,22 +203,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMTPro reagents for multiplexing single cells and booster channels in a DDA (DD-MS2) acquisition mode."
+          "reason": "The experiment explicitly uses TMTPro 16-plex isobaric labeling for single-cell and bulk samples, acquired in DD-MS2 and DD-SPS-MS3 modes."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "single_cell_booster",
-          "confidence": 0.95,
-          "reason": "The study utilizes a specific single-cell proteomics strategy involving a 'carrier' or 'booster' channel (200-cell equivalent) to boost signal for peptide identification."
+          "confidence": 1.0,
+          "reason": "The workflow utilizes a 'booster channel' (200-cell equivalent) to increase peptide copies for identification in low-input single-cell channels."
         }
       ],
       "trigger_keywords": [
         "TMTPro",
+        "isobaric labeling",
         "single-cell proteomics",
         "booster channel",
-        "isobaric labeling",
-        "scMS"
+        "carrier channel",
+        "DD-MS2",
+        "DD-SPS-MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -227,8 +248,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:28:19Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

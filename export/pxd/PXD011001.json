@@ -8,10 +8,11 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "activation or differentiation state"
+      "differentiation state comparison"
     ],
     "cell_types": [
-      "mesenchymal stem cells"
+      "mesenchymal stem cells",
+      "osteoblasts"
     ],
     "cell_lines": [
       "hMSC-TERT"
@@ -24,16 +25,16 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "activation or differentiation state",
-        "ontology_curie": "PPA:0000020",
+        "ontology_label": "differentiation state comparison",
+        "ontology_curie": "PPA:0000105",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "differentiation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
         "confidence": "high",
         "evidence": [
           "delineate changes in human MSCs proteome and phosphoproteome during the first 24 h of their OB lineage commitment",
@@ -51,6 +52,16 @@
         "evidence": [
           "Cells were stimulated for 30 min, 1 h, 6 h, or 24 h"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CRT0066101",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": "30 min before the induction of OB differentiation",
+        "route_or_context": "PRKD1 inhibition",
+        "evidence": [
+          "For PRKD1 inhibition, CRT0066101 (Abcam) was added 30 min before the induction of OB differentiation at a final concentration of 10 \u00b5M."
+        ]
       }
     ],
     "source_sections": [
@@ -59,20 +70,19 @@
   },
   "experimental_design": {
     "timepoints": [
-      "unstimulated",
       "30 min",
       "1 h",
       "6 h",
       "24 h"
     ],
     "control_arms": [
-      "unstimulated"
+      "unstimulated cells"
     ],
     "case_arms": [
-      "30 min",
-      "1 h",
-      "6 h",
-      "24 h"
+      "30-min",
+      "1-h",
+      "6-h",
+      "24-h conditions"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -80,16 +90,16 @@
       "total of three biological replicates"
     ],
     "multiplex_channel_hints": [
-      "Two triple-encoding SILAC experiments",
+      "triple-encoding SILAC experiments",
       "L-arginine (Arg0) and L-lysine (Lys0) for the unstimulated cells, L-arginine-13C6 (Arg6) and L-lysine-2H4 (Lys4) for the 30-min and 1-h conditions, or L-arginine-13C615N4 (Arg10) and L-lysine-13C615N2 (Lys8) for the 6- and 24-h conditions"
     ],
     "contrast_hints": [
       {
         "control_label": "unstimulated",
-        "case_label": "OB differentiation (30min, 1h, 6h, 24h)",
+        "case_label": "OB differentiation",
         "contrast_type": "timecourse",
         "evidence": [
-          "delineate changes in human MSCs proteome and phosphoproteome during the first 24 h of their OB lineage commitment"
+          "SILAC-labeled hMSCs were either left unstimulated or induced to undergo OB differentiation for 30 min, 1, 6, or 24 h"
         ]
       }
     ],
@@ -102,7 +112,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -111,6 +121,11 @@
         "label": "mesenchymal stem cells",
         "rollup_category": "stem cell",
         "ontology_curie": "CL:0000034"
+      },
+      {
+        "label": "osteoblasts",
+        "rollup_category": "bone cell",
+        "ontology_curie": null
       }
     ],
     "cell_lines": [
@@ -128,7 +143,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -164,21 +179,27 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (Arg0/Lys0, Arg6/Lys4, Arg10/Lys8) and data-dependent acquisition (DDA) on LTQ-Orbitrap instruments."
+          "reason": "Explicitly mentions SILAC-based quantitative proteomic and phosphoproteomic analyses using data-dependent acquisition (DDA) on LTQ-Orbitrap instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.2,
+          "reason": "Proteome analysis was performed, but SILAC is the primary quantification method."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 phosphopeptide enrichment and analysis of 15,059 phosphorylation sites."
+          "reason": "Explicit use of TiO2 for phosphopeptide enrichment and delineation of phosphorylation events at a site-specific level."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "phosphoproteomic",
         "TiO2",
-        "data-dependent acquisition"
+        "data-dependent acquisition",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,21 +208,27 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (Arg0/Lys0, Arg6/Lys4, Arg10/Lys8) and data-dependent acquisition (DDA) on LTQ-Orbitrap instruments."
+          "reason": "Explicitly mentions SILAC-based quantitative proteomic and phosphoproteomic analyses using data-dependent acquisition (DDA) on LTQ-Orbitrap instruments."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.2,
+          "reason": "Proteome analysis was performed, but SILAC is the primary quantification method."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 phosphopeptide enrichment and analysis of 15,059 phosphorylation sites."
+          "reason": "Explicit use of TiO2 for phosphopeptide enrichment and delineation of phosphorylation events at a site-specific level."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "phosphoproteomic",
         "TiO2",
-        "data-dependent acquisition"
+        "data-dependent acquisition",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,8 +256,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:11:13Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

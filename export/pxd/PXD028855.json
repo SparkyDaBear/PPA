@@ -9,15 +9,16 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
       "stromal cell of bone marrow"
     ],
     "cell_lines": [
-      "HS-5"
+      "HS-5",
+      "NKtert"
     ],
-    "sample_scope": "subproteome",
+    "sample_scope": "secretome scope",
     "sample_scope_label": "secretome scope",
     "sample_scope_curie": "PPA:0000198",
     "instrument": null
@@ -25,34 +26,34 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "we generated LYN-knockout (LYNKO) single-cell clones of the human bone marrow derived stromal cell line HS-5 (Supplementary Fig. S1d, 1j i) by CRISPR/Cas9-induced frameshift mutation",
-          "2.5 \u00d7 106 label-free HS-5 cells (2 clones per genotype) were lysed at 4 \u00b0C in RIPA buffer",
-          "HS-5 LYNWT and LYNKO label-free cells (3 clones per genotype) were seeded in 15 cm dishes"
+          "we generated LYN-knockout (LYNKO) single-cell clones of the human bone marrow derived stromal cell line HS-5",
+          "LYNKO HS-5 cells (2 clones per genotype)",
+          "8x106 HS-5 LYNWT and LYNKO label-free cells (3 separate single cell clones per genotype)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "LYN kinase",
+        "agent": "LYN",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/Cas9 knockout in HS-5 stromal cells",
+        "route_or_context": "CRISPR/Cas9-induced frameshift mutation in HS-5 stromal cells",
         "evidence": [
-          "we generated LYN-knockout (LYNKO) single-cell clones of the human bone marrow derived stromal cell line HS-5... by CRISPR/Cas9-induced frameshift mutation"
+          "we generated LYN-knockout (LYNKO) single-cell clones of the human bone marrow derived stromal cell line HS-5",
+          "by CRISPR/Cas9-induced frameshift mutation"
         ]
       },
       {
@@ -60,7 +61,7 @@
         "agent": null,
         "dose_or_concentration": null,
         "duration": "24h",
-        "route_or_context": "secretome collection",
+        "route_or_context": "cultivation in serum- and Phenol-red free RPMI before supernatant harvest for secretome analysis",
         "evidence": [
           "Cells were cultivated 24h under these conditions, then supernatant was harvested."
         ]
@@ -84,19 +85,17 @@
     "factorial_design": false,
     "replicate_hints": [
       "2 clones per genotype",
-      "3 clones per genotype",
+      "3 separate single cell clones per genotype",
       "technical triplicates"
     ],
-    "multiplex_channel_hints": [
-      "SILAC-labeled phosphoproteome (LYNKO heavy-labeled and LYNWT light-labeled)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "LYNWT",
         "case_label": "LYNKO",
         "contrast_type": "pairwise",
         "evidence": [
-          "Differentially expressed proteins were identified using limma R package under the following condition (P: p-adjusted \u2264 0.1; 1 \u2264 log2-FC \u2264 \u22121 and S: p-adjusted \u2264 0.05; 1 \u2264 log2-FC \u2264 \u22121)."
+          "differentially expressed genes/proteins (LYNKO/LYNWT HS-5 cells)"
         ]
       }
     ],
@@ -110,6 +109,11 @@
       {
         "label": "Homo sapiens",
         "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
         "confidence": "high"
       }
     ],
@@ -125,11 +129,16 @@
         "label": "HS-5",
         "family": "bone marrow stromal cell line",
         "ontology_curie": "CVCL_3720"
+      },
+      {
+        "label": "NKtert",
+        "family": "stromal cell line",
+        "ontology_curie": "CVCL_4667"
       }
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "subproteome",
+      "category": "secretome scope",
       "label": "secretome scope",
       "curie": "PPA:0000198"
     },
@@ -173,28 +182,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and text explicitly state 'label-free protein quantitation' using 'MaxLFQ' and 'data-dependent acquisition mode' (DDA) for both global proteome (P) and secretome (S)."
+          "reason": "The global protein (P) and secretome (S) analyses explicitly use label-free protein quantitation (MaxLFQ) and data-dependent acquisition (DDA) on a Q Exactive HF/Plus Orbitrap."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "The pYome analysis explicitly uses SILAC labeling (LYNKO heavy-labeled and LYNWT light-labeled) with Lys+8/Arg+10."
+          "reason": "The tyrosine-specific phosphoproteome (pYome) uses SILAC labeling (heavy-labeled LYNKO and light-labeled LYNWT) with a 1:1 mixing ratio."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_tyrosine_enrichment",
           "confidence": 1.0,
-          "reason": "The pYome dataset used immuno-precipitation with PTMscan Phospho-Tyrosine Rabbit mAb (P-Tyr-1000) kit."
+          "reason": "The pYome analysis specifically uses immuno-precipitation with PTMscan Phospho-Tyrosine Rabbit mAb (P-Tyr-1000) kit for tyrosine-phosphorylated peptide enrichment."
         }
       ],
       "trigger_keywords": [
-        "label-free",
+        "label-free protein quantitation",
         "MaxLFQ",
         "SILAC",
-        "phospho-tyrosine",
-        "PTMscan",
-        "DDA"
+        "PTMscan Phospho-Tyrosine",
+        "immuno-precipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,35 +211,34 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and text explicitly state 'label-free protein quantitation' using 'MaxLFQ' and 'data-dependent acquisition mode' (DDA) for both global proteome (P) and secretome (S)."
+          "reason": "The global protein (P) and secretome (S) analyses explicitly use label-free protein quantitation (MaxLFQ) and data-dependent acquisition (DDA) on a Q Exactive HF/Plus Orbitrap."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "The pYome analysis explicitly uses SILAC labeling (LYNKO heavy-labeled and LYNWT light-labeled) with Lys+8/Arg+10."
+          "reason": "The tyrosine-specific phosphoproteome (pYome) uses SILAC labeling (heavy-labeled LYNKO and light-labeled LYNWT) with a 1:1 mixing ratio."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_tyrosine_enrichment",
           "confidence": 1.0,
-          "reason": "The pYome dataset used immuno-precipitation with PTMscan Phospho-Tyrosine Rabbit mAb (P-Tyr-1000) kit."
+          "reason": "The pYome analysis specifically uses immuno-precipitation with PTMscan Phospho-Tyrosine Rabbit mAb (P-Tyr-1000) kit for tyrosine-phosphorylated peptide enrichment."
         }
       ],
       "trigger_keywords": [
-        "label-free",
+        "label-free protein quantitation",
         "MaxLFQ",
         "SILAC",
-        "phospho-tyrosine",
-        "PTMscan",
-        "DDA"
+        "PTMscan Phospho-Tyrosine",
+        "immuno-precipitation"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -252,8 +259,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:16:37Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

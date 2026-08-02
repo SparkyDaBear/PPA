@@ -3,66 +3,205 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 precursor intensity",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Nutrient or Metabolic Perturbation",
-      "Time-Course / Temporal Series"
+      "molecular state comparison",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "Label-free qualitative acyl-proteomic analysis of recombinant GCDH",
+          "For assessment of glutarylated and deglutarylated GCDH, samples were resuspended in 22 \u03bcl of 0.1% formic acid and subjected to nanoLC-MS/MS analysis",
+          "Similar methods were used for direct comparison of PTMs resulting from glutaryl and succinyl-CoA reactions."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "The SIRT5KO mice (B6;129-Sirt5tm1Fwa/J, stock #012757) were obtained from Jackson Laboratory",
+          "we generated a Sirt5\u2212/\u2212 (SIRT5KO) cell line using the CRISPR-Cas9 system (Fig. 1A) in HEK293 T cells (SIRT5 crKO)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glutaryl-CoA",
+        "dose_or_concentration": "1.6 mM",
+        "duration": "15 h",
+        "route_or_context": "chemical acylation of recombinant human GCDH protein",
+        "evidence": [
+          "Glutaryl-GCDH (or succinyl-GCDH) was prepared by incubating the protein with excess glutaryl-CoA (or succinyl-CoA). Briefly, 20 \u03bcM GCDH was incubated with 1.6 mM glutaryl-CoA/succinyl-CoA, in acylation buffer (50 mM Hepes pH 8.0 and 150 mM NaCl) for 15 h at 25 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "succinyl-CoA",
+        "dose_or_concentration": "1.6 mM",
+        "duration": "15 h",
+        "route_or_context": "chemical acylation of recombinant human GCDH protein",
+        "evidence": [
+          "Glutaryl-GCDH (or succinyl-GCDH) was prepared by incubating the protein with excess glutaryl-CoA (or succinyl-CoA). Briefly, 20 \u03bcM GCDH was incubated with 1.6 mM glutaryl-CoA/succinyl-CoA, in acylation buffer (50 mM Hepes pH 8.0 and 150 mM NaCl) for 15 h at 25 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SIRT5",
+        "dose_or_concentration": "22.5 \u03bcg",
+        "duration": "3 h",
+        "route_or_context": "in vitro deacylation of modified GCDH",
+        "evidence": [
+          "For diacylation, recombinant 22.5 \u03bcg SIRT5 was incubated with glutaryl-GCDH or succinyl-GCDH (135 \u03bcg) in 5 mM Tris-HCl pH 9, 4 mM MgCl2, 5 mM NaCl, 0.5 mM DTT, and 1 mM NAD+, for 3 h at 37 \u00b0C."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "unmodified GCDH",
+      "SIRT5WT",
+      "SIRT5 crWT"
+    ],
+    "case_arms": [
+      "glutarylated GCDH",
+      "succinylated GCDH",
+      "deglutarylated GCDH",
+      "SIRT5KO",
+      "SIRT5 crKO"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Student\u2019s t test (n = 3) across conditions"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unmodified GCDH",
+        "case_label": "glutarylated GCDH",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Glutaryl-GCDH or succinyl-GCDH peptide relative abundance was measured and normalized to GCDH peptides measured from unmodified protein."
+        ]
+      },
+      {
+        "control_label": "glutarylated GCDH",
+        "case_label": "deglutarylated GCDH",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "six were significantly deglutarylated (p \u2264 0.05; Fig. 3C), with lysine 253 (K253) having the most statistically significant reduction (2.7-fold change) compared to glutarylated GCDH."
+        ]
+      },
+      {
+        "control_label": "unmodified GCDH",
+        "case_label": "succinylated GCDH",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Similar methods were used for direct comparison of PTMs resulting from glutaryl and succinyl-CoA reactions."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": "NEWT:562",
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 precursor intensity"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "SUMOylome or QQTGG enrichment",
+        "ontology_curie": "PPA:0000437",
+        "workflow_modifier_hint": "mod_sumo_qqtgg",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +209,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MS1 precursor intensity for label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_site_localization",
+          "confidence": 0.9,
+          "reason": "The analysis focuses on identifying and localizing specific glutarylation and succinylation sites on GCDH using ptmRS."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free qualitative acyl-proteomic analysis",
+        "data-dependent acquisition",
+        "MS1 precursor intensity",
+        "ptmRS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and MS1 precursor intensity for label-free quantification (LFQ)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ptm_site_localization",
+          "confidence": 0.9,
+          "reason": "The analysis focuses on identifying and localizing specific glutarylation and succinylation sites on GCDH using ptmRS."
+        }
+      ],
+      "trigger_keywords": [
+        "label-free qualitative acyl-proteomic analysis",
+        "data-dependent acquisition",
+        "MS1 precursor intensity",
+        "ptmRS"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,7 +280,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

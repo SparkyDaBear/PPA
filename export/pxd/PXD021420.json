@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation",
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "fibroblast"
@@ -25,34 +25,36 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "substitution_variant",
-        "matched_class_path": [
-          "genetic perturbation",
-          "gene modification or gain of function",
-          "substitution variant"
-        ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
-        "confidence": "high",
-        "evidence": [
-          "MEF stable cells, expressing control vector (pBabe) or SMURF2",
-          "Smurf2 mutant with an S384A substitution"
-        ]
-      },
-      {
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "dna_damage_chemical_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "dna_damage_chemical_treatment"
+        ],
+        "matched_definition": "Chemical treatment that induces DNA damage or replication stress.",
         "confidence": "high",
         "evidence": [
-          "were treated with 50 uM etoposide for 4 h"
+          "MEF stable cells, expressing control vector (pBabe) or SMURF2, were treated with 50 uM etoposide for 4 h."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "MEF stable cells, expressing control vector (pBabe) or SMURF2",
+          "mouse embryonic fibroblasts (MEFs) expressing the SMURF2 S384A mutant show a weakened ability to sustain the DSB response compared to those expressing wild type SMURF2"
         ]
       }
     ],
@@ -62,9 +64,19 @@
         "agent": "etoposide",
         "dose_or_concentration": "50 uM",
         "duration": "4 h",
-        "route_or_context": null,
+        "route_or_context": "MEF stable cells",
         "evidence": [
-          "were treated with 50 uM etoposide for 4 h"
+          "MEF stable cells, expressing control vector (pBabe) or SMURF2, were treated with 50 uM etoposide for 4 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SMURF2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable expression in MEFs",
+        "evidence": [
+          "MEF stable cells, expressing control vector (pBabe) or SMURF2"
         ]
       }
     ],
@@ -92,7 +104,7 @@
         "case_label": "SMURF2",
         "contrast_type": "pairwise",
         "evidence": [
-          "MEF stable cells, expressing control vector (pBabe) or SMURF2, were treated with 50 uM etoposide for 4 h. The cell lysates from two cell groups were subjected to FLAG IP"
+          "MEF stable cells, expressing control vector (pBabe) or SMURF2, were treated with 50 uM etoposide for 4 h."
         ]
       }
     ],
@@ -124,7 +136,7 @@
     "cell_lines": [
       {
         "label": "mouse embryonic fibroblasts (MEFs)",
-        "family": "MEF",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -148,15 +160,21 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Unknown"
+      "Label-free"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
         "ontology_curie": "PRIDE:0000433",
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -171,22 +189,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data acquired using Q Exactive HF with HCD fragmentation and dynamic exclusion, typical of DDA. No labeling (SILAC/TMT) mentioned; likely label-free quantification (LFQ) based on the comparison of two cell groups."
+          "confidence": 0.8,
+          "reason": "Data acquired using Q Exactive HF with HCD and dynamic exclusion (DDA). No labeling (SILAC/TMT) mentioned; likely label-free quantification of IP eluates."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 7,
-          "reason": "The study specifically focuses on phosphorylation of SMURF2 and includes phosphorylation as a dynamic modification in the search parameters."
+          "modifier_workflow_id": "phospho_site_enrichment",
+          "confidence": 0.7,
+          "reason": "The study specifically focuses on phosphorylation of SMURF2 and includes phosphorylation as a dynamic modification in the search."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "dynamic exclusion",
         "HCD",
-        "Q Exactive HF"
+        "dynamic exclusion",
+        "FLAG IP"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -194,22 +212,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data acquired using Q Exactive HF with HCD fragmentation and dynamic exclusion, typical of DDA. No labeling (SILAC/TMT) mentioned; likely label-free quantification (LFQ) based on the comparison of two cell groups."
+          "confidence": 0.8,
+          "reason": "Data acquired using Q Exactive HF with HCD and dynamic exclusion (DDA). No labeling (SILAC/TMT) mentioned; likely label-free quantification of IP eluates."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 7,
-          "reason": "The study specifically focuses on phosphorylation of SMURF2 and includes phosphorylation as a dynamic modification in the search parameters."
+          "modifier_workflow_id": "phospho_site_enrichment",
+          "confidence": 0.7,
+          "reason": "The study specifically focuses on phosphorylation of SMURF2 and includes phosphorylation as a dynamic modification in the search."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "dynamic exclusion",
         "HCD",
-        "Q Exactive HF"
+        "dynamic exclusion",
+        "FLAG IP"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,8 +255,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:43:40Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,16 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
-      "Rosetta (DE3)"
+      "E. coli Rosetta (DE3)"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "purified protein or complex",
@@ -22,33 +22,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
         "matched_class_path": [
-          "genetic",
-          "gene_disruption"
+          "molecular_state",
+          "ptm_state_biological_comparison"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
-          "CRISPR-Cas9 was used to construct knockout cell lines of LATS1/2 in EC.",
-          "The purified recombinant kinase-active His-LATS2 (480\u20131088 aa) or His-LATS1 (589\u20131130 aa) was mixed with purified recombinant GST-STAT1 fragments in the kinase buffer"
+          "Mass spectrometry analysis of phospho-peptides revealed that LATS2 phosphorylate residues S532 and S727 in STAT1",
+          "The purified recombinant kinase-active His-LATS2 (480\u20131088 aa) was mixed with purified recombinant GST-STAT1 fragments in the kinase buffer... and subjected to mass-spectrometric sequencing."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "LATS1/2 (recombinant kinase)",
+        "agent": "His-LATS2",
         "dose_or_concentration": null,
         "duration": "30 min",
         "route_or_context": "in vitro kinase assay",
         "evidence": [
-          "The purified recombinant kinase-active His-LATS2 (480\u20131088 aa) or His-LATS1 (589\u20131130 aa) was mixed with purified recombinant GST-STAT1 fragments in the kinase buffer",
-          "incubated at 30 \u00b0C for 30 min"
+          "The purified recombinant kinase-active His-LATS2 (480\u20131088 aa) was mixed with purified recombinant GST-STAT1 fragments in the kinase buffer... and incubated at 30 \u00b0C for 30 min."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "GST-STAT1",
+        "dose_or_concentration": null,
+        "duration": "30 min",
+        "route_or_context": "in vitro kinase assay substrate",
+        "evidence": [
+          "The purified recombinant kinase-active His-LATS2 (480\u20131088 aa) was mixed with purified recombinant GST-STAT1 fragments in the kinase buffer... and incubated at 30 \u00b0C for 30 min."
         ]
       }
     ],
@@ -64,8 +73,7 @@
       "GST alone"
     ],
     "case_arms": [
-      "His-LATS1",
-      "His-LATS2"
+      "His-LATS2 + GST-STAT1"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -73,11 +81,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "GST",
-        "case_label": "LATS1/2",
+        "control_label": "unphosphorylated STAT1",
+        "case_label": "LATS2-phosphorylated STAT1",
         "contrast_type": "pairwise",
         "evidence": [
-          "GST-STAT1 protein, but not GST alone, exhibited binding to His-LATS1 or LATS2"
+          "Mass spectrometry analysis of phospho-peptides revealed that LATS2 phosphorylate residues S532 and S727 in STAT1"
         ]
       }
     ],
@@ -107,7 +115,7 @@
     "cell_types": [],
     "cell_lines": [
       {
-        "label": "Rosetta (DE3)",
+        "label": "E. coli Rosetta (DE3)",
         "family": "Escherichia coli",
         "ontology_curie": null
       }
@@ -132,7 +140,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "label-free"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -156,21 +164,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive HF with gel-band excision (in-gel digestion) for site identification. No labeling (SILAC/TMT) mentioned in the MS protocol."
+          "reason": "The experiment used a Q Exactive HF (DDA) for shotgun proteomics of gel-band excised proteins from an in vitro kinase assay. No labeling (SILAC/TMT) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_discovery",
+          "modifier_workflow_id": "phospho_site_localization",
           "confidence": 0.95,
-          "reason": "Experiment specifically designed as an in vitro kinase assay to identify phosphorylation sites on STAT1 using ptmRS node in Protein Discoverer."
+          "reason": "The primary goal was identifying phosphorylation sites (S532, S727) on STAT1 using a ptmRS node for phospho-peptide analysis."
         }
       ],
       "trigger_keywords": [
         "in vitro kinase assays",
         "phospho-peptides",
         "ptmRS",
-        "phosphorylated residue"
+        "phosphorylation on serine, threonine and Tyrosine"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -179,21 +187,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive HF with gel-band excision (in-gel digestion) for site identification. No labeling (SILAC/TMT) mentioned in the MS protocol."
+          "reason": "The experiment used a Q Exactive HF (DDA) for shotgun proteomics of gel-band excised proteins from an in vitro kinase assay. No labeling (SILAC/TMT) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_discovery",
+          "modifier_workflow_id": "phospho_site_localization",
           "confidence": 0.95,
-          "reason": "Experiment specifically designed as an in vitro kinase assay to identify phosphorylation sites on STAT1 using ptmRS node in Protein Discoverer."
+          "reason": "The primary goal was identifying phosphorylation sites (S532, S727) on STAT1 using a ptmRS node for phospho-peptide analysis."
         }
       ],
       "trigger_keywords": [
         "in vitro kinase assays",
         "phospho-peptides",
         "ptmRS",
-        "phosphorylated residue"
+        "phosphorylation on serine, threonine and Tyrosine"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -221,8 +229,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:17:47Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,17 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "LFQ",
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation"
+      "ligand-mediated stimulation",
+      "nutrient or metabolic perturbation"
     ],
-    "cell_types": [
-      "pancreatic cancer cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T",
       "MIA PaCa-2"
@@ -35,11 +33,28 @@
           "ligand_stimulation",
           "growth_factor_stimulation"
         ],
-        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
         "confidence": "high",
         "evidence": [
           "treated with serum or EGF for 4 h",
-          "In the case of IP-Mass-based analysis of phosphorylated NDRG3 proteins, Flag-NDRG3 was transfected into MIA PaCa-2 cells. After 48 h of incubation, cells were starved for 12 h, and then treated with serum or EGF for 4 h."
+          "IP-Mass-based analysis of phosphorylated NDRG3 proteins using MIA PaCa-2 cells overexpressing Flag-NDRG3"
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "serum_starvation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "serum_starvation"
+        ],
+        "matched_definition": "Removal or reduction of serum from growth medium as the primary comparison.",
+        "confidence": "high",
+        "evidence": [
+          "cells were starved for 12 h",
+          "serum was starved for 12 hours"
         ]
       }
     ],
@@ -65,13 +80,13 @@
         ]
       },
       {
-        "relation_key": "has_timepoint",
-        "agent": null,
+        "relation_key": "has_treatment_duration",
+        "agent": "serum starvation",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "post-stimulation collection",
+        "duration": "12 h",
+        "route_or_context": "MIA PaCa-2 cells overexpressing Flag-NDRG3",
         "evidence": [
-          "treated with serum or EGF for 4 h"
+          "cells were starved for 12 h"
         ]
       }
     ],
@@ -81,7 +96,8 @@
   },
   "experimental_design": {
     "timepoints": [
-      "4 h"
+      "12 h (starvation)",
+      "4 h (stimulation)"
     ],
     "control_arms": [
       "serum starved"
@@ -90,27 +106,27 @@
       "serum treated",
       "EGF treated"
     ],
-    "paired_design": false,
-    "factorial_design": false,
+    "paired_design": null,
+    "factorial_design": null,
     "replicate_hints": [
       "One eluted sample per each experimental condition was used for IP-based Mass spectrometry analysis."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "starved",
-        "case_label": "EGF",
+        "control_label": "serum starved",
+        "case_label": "EGF treated",
         "contrast_type": "pairwise",
         "evidence": [
-          "cells were starved for 12 h, and then treated with serum or EGF for 4 h"
+          "treated with serum or EGF for 4 h"
         ]
       },
       {
-        "control_label": "starved",
-        "case_label": "serum",
+        "control_label": "serum starved",
+        "case_label": "serum treated",
         "contrast_type": "pairwise",
         "evidence": [
-          "cells were starved for 12 h, and then treated with serum or EGF for 4 h"
+          "treated with serum or EGF for 4 h"
         ]
       }
     ],
@@ -123,26 +139,20 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "human",
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "pancreatic cancer cell",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293T",
-        "family": "human embryonic kidney",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "MIA PaCa-2",
-        "family": "pancreatic cancer",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -163,8 +173,7 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ",
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
       "Label-free"
@@ -190,19 +199,18 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an Orbitrap Exploris 240 and LTQ, with MaxQuant and Proteome Discoverer for analysis. No labeling (SILAC/TMT) is mentioned for the MS datasets."
+          "confidence": 0.8,
+          "reason": "The experiment uses data-dependent acquisition (DDA) and MaxQuant/Perseus for analysis, which typically implies label-free quantification (LFQ) for IP-based proteomics."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 1.0,
-          "reason": "Explicit use of 'High-Select Fe-NTA Phosphopeptide Enrichment Kit' and search for phosphorylation of serine, threonine, and tyrosine."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of High-Select Fe-NTA Phosphopeptide Enrichment Kit and search for phosphorylation on S, T, and Y."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "phospho-peptide identification",
         "Fe-NTA Phosphopeptide Enrichment",
         "phosphorylation of serine, threonine, and tyrosine"
@@ -213,19 +221,18 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an Orbitrap Exploris 240 and LTQ, with MaxQuant and Proteome Discoverer for analysis. No labeling (SILAC/TMT) is mentioned for the MS datasets."
+          "confidence": 0.8,
+          "reason": "The experiment uses data-dependent acquisition (DDA) and MaxQuant/Perseus for analysis, which typically implies label-free quantification (LFQ) for IP-based proteomics."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 1.0,
-          "reason": "Explicit use of 'High-Select Fe-NTA Phosphopeptide Enrichment Kit' and search for phosphorylation of serine, threonine, and tyrosine."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.95,
+          "reason": "Explicit use of High-Select Fe-NTA Phosphopeptide Enrichment Kit and search for phosphorylation on S, T, and Y."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "phospho-peptide identification",
         "Fe-NTA Phosphopeptide Enrichment",
         "phosphorylation of serine, threonine, and tyrosine"
@@ -256,8 +263,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:54:40Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

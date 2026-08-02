@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -20,24 +20,46 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "We analyzed substantia nigra tissue from 51 subjects arranged into three groups: cases with Lewy body pathology, Lewy body-negative controls with matching neuronal loss, and controls with no neuronal loss.",
-          "The subjects were assigned to case and control groups based on the presence and absence of LB, correspondingly."
+          "We analyzed substantia nigra tissue from 51 subjects arranged into three groups: cases with Lewy body pathology, Lewy body-negative controls with matching neuronal loss, and controls with no neuronal loss."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Lewy body pathology",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "substantia nigra",
+        "evidence": [
+          "cases with Lewy body pathology",
+          "The key difference in the case/control pairs is the presence of LB in SN."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dopaminergic neuronal loss",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "substantia nigra",
+        "evidence": [
+          "Lewy body-negative controls with matching neuronal loss",
+          "controls with no neuronal loss"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -45,20 +67,18 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "LB-NL+ (Lewy body-negative controls with matching neuronal loss)",
-      "LB-NL- (controls with no neuronal loss)"
+      "LB-NL+",
+      "LB-NL-"
     ],
     "case_arms": [
-      "LB+NL+ (cases with Lewy body pathology and neuronal loss)"
+      "LB+NL+"
     ],
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
       "17 groups of 3"
     ],
-    "multiplex_channel_hints": [
-      "label-free liquid chromatography-tandem mass spectrometry (LC-MS/MS)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "LB-NL+",
@@ -73,7 +93,7 @@
         "case_label": "LB+NL+",
         "contrast_type": "pairwise",
         "evidence": [
-          "two major patterns of change in LB+NL+ or LB-NL+ subjects compared to LB-NL- controls."
+          "two major patterns of change in LB+NL+ or LB\u2212NL+ subjects compared to LB\u2212NL\u2212 controls."
         ]
       },
       {
@@ -81,7 +101,7 @@
         "case_label": "LB-NL+",
         "contrast_type": "pairwise",
         "evidence": [
-          "the LB-NL+ group had faster cognitive decline (Wilcoxon test p = 0.0411) compared to the LB-NL- group."
+          "two major patterns of change in LB+NL+ or LB\u2212NL+ subjects compared to LB\u2212NL\u2212 controls."
         ]
       }
     ],
@@ -103,7 +123,7 @@
     "noncellular_sources": [
       {
         "label": "substantia nigra",
-        "source_kind": "tissue"
+        "source_kind": "organ"
       }
     ],
     "sample_scope": {
@@ -113,7 +133,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -144,22 +164,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of 'label-free liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantification (LFQ) approach' using a Q Exactive mass spectrometer in data-dependent mode."
+          "reason": "Explicitly stated use of label-free liquid chromatography-tandem mass spectrometry (LC-MS/MS) and MaxQuant LFQ approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "open_search_ptm",
+          "modifier_workflow_id": "open_ptm_search",
           "confidence": 0.9,
-          "reason": "The authors performed an 'Open PTM search' using MSFragger to identify tentative modifications based on mass shifts."
+          "reason": "The authors performed an 'Open PTM search' using MSFragger to discover tentative PTMs based on mass shifts."
         }
       ],
       "trigger_keywords": [
         "label-free",
         "LFQ",
-        "datadependent mode",
-        "open search",
-        "MSFragger"
+        "shotgun",
+        "MaxQuant",
+        "MSFragger",
+        "open search"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -168,22 +189,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of 'label-free liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantification (LFQ) approach' using a Q Exactive mass spectrometer in data-dependent mode."
+          "reason": "Explicitly stated use of label-free liquid chromatography-tandem mass spectrometry (LC-MS/MS) and MaxQuant LFQ approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "open_search_ptm",
+          "modifier_workflow_id": "open_ptm_search",
           "confidence": 0.9,
-          "reason": "The authors performed an 'Open PTM search' using MSFragger to identify tentative modifications based on mass shifts."
+          "reason": "The authors performed an 'Open PTM search' using MSFragger to discover tentative PTMs based on mass shifts."
         }
       ],
       "trigger_keywords": [
         "label-free",
         "LFQ",
-        "datadependent mode",
-        "open search",
-        "MSFragger"
+        "shotgun",
+        "MaxQuant",
+        "MSFragger",
+        "open search"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,8 +233,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:56:00Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

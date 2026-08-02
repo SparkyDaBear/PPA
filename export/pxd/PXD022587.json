@@ -10,12 +10,13 @@
     ],
     "treatment_categories": [
       "nutrient or metabolic perturbation",
-      "chemical or drug treatment",
-      "temperature stress"
+      "small-molecule inhibitor treatment",
+      "heat stress"
     ],
     "cell_types": [],
     "cell_lines": [
-      "Neuro2a"
+      "Neuro2a",
+      "HCA2-hTert"
     ],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
@@ -29,38 +30,37 @@
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "metabolite_supplementation",
+        "matched_class_key": null,
         "matched_class_path": [
-          "nutrient_metabolic",
-          "metabolite_supplementation"
+          "nutrient_metabolic"
         ],
-        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
+        "matched_definition": "Change in nutrient availability, metabolite exposure, oxygen availability, carbon source, or metabolic flux state that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "A standard volume of lysate was distributed to aliquots of urea prepared at concentrations ranging from 0 to 6 M (in increments of 0.5 M)",
-          "In essence, lysate from light-isotope labeled cells was used as the \u201cnative\u201d control versus lysate from heavy-isotope labeled cells prepared with different concentrations of urea."
+          "we created denaturation curves of cell lysate with urea",
+          "aliquots of urea prepared at concentrations ranging from 0 to 6 M (in increments of 0.5 M)"
         ]
       },
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "we repeated the urea denaturation curve of lysate with cells grown in the absence and presence of the specific HSP70 inhibitor, VER155008",
-          "Culture media was then removed and replaced with fresh media containing VER155008 (Sigma) to a final concentration of 20 \u00b5M, or an equivalent amount of DMSO in the case of the vehicle control."
+          "repeated the urea denaturation curve of lysate with cells grown in the absence and presence of the specific HSP70 inhibitor, VER155008",
+          "Culture media was then removed and replaced with fresh media containing VER155008 (Sigma) to a final concentration of 20 \u00b5M"
         ]
       },
       {
-        "ontology_label": "temperature stress",
-        "ontology_curie": "PPA:0000022",
+        "ontology_label": "heat stress",
+        "ontology_curie": "PPA:0000117",
         "category": "temperature",
         "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
@@ -68,11 +68,11 @@
           "temperature",
           "heat_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature above baseline physiological or growth condition.",
         "confidence": "high",
         "evidence": [
           "TPE-MI reactivity was compared between reconstituted systems containing native versus thermally denatured MDH2",
-          "In the case of heat-denatured samples, MDH2 aliquots were heated to 42 \u00b0C for 10 min then returned to 37 \u00b0C"
+          "In the case of heat-denatured samples, MDH2 aliquots were heated to 42 \u00b0C for 10 min"
         ]
       }
     ],
@@ -104,9 +104,20 @@
         "agent": "heat",
         "dose_or_concentration": "42 \u00b0C",
         "duration": "10 min",
-        "route_or_context": "reconstituted MDH2 system",
+        "route_or_context": "reconstituted HSPA8 system (MDH2 client)",
         "evidence": [
           "MDH2 aliquots were heated to 42 \u00b0C for 10 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATP",
+        "dose_or_concentration": "2 mM",
+        "duration": "30 min",
+        "route_or_context": "reconstituted HSPA8 system",
+        "evidence": [
+          "in the absence or presence of 2 mM ATP",
+          "incubated at 37 \u00b0C for 30 min in a heating block"
         ]
       }
     ],
@@ -118,26 +129,25 @@
     "timepoints": [],
     "control_arms": [
       "0 M Urea",
-      "DMSO (vehicle control)",
-      "native MDH2",
-      "light-isotope labeled cells"
+      "DMSO",
+      "native MDH2"
     ],
     "case_arms": [
       "0.5-6 M Urea",
       "VER155008",
-      "thermally denatured MDH2",
-      "heavy-isotope labeled cells"
+      "thermally denatured MDH2"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "biological replicates (n = 3)",
       "two technical replicates"
     ],
     "multiplex_channel_hints": [
-      "SILAC (light and heavy)",
+      "SILAC (light or heavy)",
       "TMT 11-plex labeling",
-      "pooled control sample"
+      "pooled control sample",
+      "reference channel consisting of a pooled aliquot of all samples"
     ],
     "contrast_hints": [
       {
@@ -145,7 +155,8 @@
         "case_label": "0.5-6 M Urea",
         "contrast_type": "dose_response",
         "evidence": [
-          "urea prepared at concentrations ranging from 0 to 6 M (in increments of 0.5 M)"
+          "urea denaturation curve of mammalian cell lysate",
+          "aliquots of urea prepared at concentrations ranging from 0 to 6 M"
         ]
       },
       {
@@ -153,7 +164,7 @@
         "case_label": "VER155008",
         "contrast_type": "pairwise",
         "evidence": [
-          "containing VER155008 (Sigma) to a final concentration of 20 \u00b5M, or an equivalent amount of DMSO in the case of the vehicle control"
+          "compared the individual peptide abundances from control-derived lysate to VER155008-derived lysate"
         ]
       },
       {
@@ -186,13 +197,23 @@
         "label": "Sus scrofa domesticus",
         "taxonomy_hint": "domestic pig",
         "confidence": "medium"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": "bacteria",
+        "confidence": "medium"
       }
     ],
     "cell_types": [],
     "cell_lines": [
       {
         "label": "Neuro2a",
-        "family": "neuroblastoma",
+        "family": "mouse neuroblastoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCA2-hTert",
+        "family": "human cell line",
         "ontology_curie": null
       }
     ],
@@ -228,7 +249,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "cysteine reactivity labeling",
+        "ontology_label": "residue labeling",
         "ontology_curie": null,
         "workflow_modifier_hint": null,
         "confidence": "high"
@@ -247,19 +268,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "The main proteome-wide denaturation experiment used SILAC (light and heavy isotopes) for quantitation of reactivity."
+          "reason": "The primary proteome-wide urea denaturation experiment used SILAC (light vs heavy 13C L-lysine and 13C,15N L-arginine) for quantitation of reactivity."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.8,
-          "reason": "The reconstituted chaperone and HSP70 inhibition assays specifically used TMT 11-plex labeling."
+          "reason": "The reconstituted chaperone assays and HSP70 inhibition assays specifically used TMT 11-plex labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "site_centric_reactivity",
           "confidence": 0.9,
-          "reason": "The experiment specifically targets the reactivity of cysteine and methionine sidechains to probe protein foldedness."
+          "reason": "The experiment specifically targets the reactivity of cysteine and methionine sidechains to probe protein foldedness, requiring site-level analysis."
         }
       ],
       "trigger_keywords": [
@@ -267,8 +288,7 @@
         "TMT 11-plex",
         "TPE-MI",
         "cysteine reactivity",
-        "methionine exposure",
-        "urea denaturation curve"
+        "methionine exposure"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -277,19 +297,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.9,
-          "reason": "The main proteome-wide denaturation experiment used SILAC (light and heavy isotopes) for quantitation of reactivity."
+          "reason": "The primary proteome-wide urea denaturation experiment used SILAC (light vs heavy 13C L-lysine and 13C,15N L-arginine) for quantitation of reactivity."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.8,
-          "reason": "The reconstituted chaperone and HSP70 inhibition assays specifically used TMT 11-plex labeling."
+          "reason": "The reconstituted chaperone assays and HSP70 inhibition assays specifically used TMT 11-plex labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "site_centric_reactivity",
           "confidence": 0.9,
-          "reason": "The experiment specifically targets the reactivity of cysteine and methionine sidechains to probe protein foldedness."
+          "reason": "The experiment specifically targets the reactivity of cysteine and methionine sidechains to probe protein foldedness, requiring site-level analysis."
         }
       ],
       "trigger_keywords": [
@@ -297,8 +317,7 @@
         "TMT 11-plex",
         "TPE-MI",
         "cysteine reactivity",
-        "methionine exposure",
-        "urea denaturation curve"
+        "methionine exposure"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -326,8 +345,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:27:52Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

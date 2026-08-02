@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "AQUA",
+    "quantification_method": "PRM",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -17,9 +17,9 @@
       "HEK Flp-In 293 T-Rex",
       "HT1080"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
@@ -28,13 +28,13 @@
         "ontology_label": "ligand-mediated stimulation",
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
-        "matched_parent_class_key": "ligand_mediated_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
         "matched_class_key": "cytokine_stimulation",
         "matched_class_path": [
-          "ligand_mediated_stimulation",
+          "ligand_stimulation",
           "cytokine_stimulation"
         ],
-        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "matched_definition": "Stimulation using cytokines or immune signaling proteins.",
         "confidence": "high",
         "evidence": [
           "A549 cells stimulated for 10 min with the cytokine TNF\u03b1",
@@ -45,18 +45,17 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "CRISPR/Cas9-mediated gene KO of UBASH3B and WHIP",
-          "the composition of the TNF-RSC affinity purified from A549 UBASH3B KO cells did not significantly differ from the wild type (WT)"
+          "composition of the TNF-RSC affinity purified from A549 UBASH3B KO cells did not significantly differ from the wild type (WT)"
         ]
       }
     ],
@@ -76,9 +75,19 @@
         "agent": "TNF\u03b1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "time course analysis",
+        "route_or_context": "time course analysis of recruitment",
         "evidence": [
           "time points 0, 5, 10, and 15 min"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "USP21",
+        "dose_or_concentration": "0.5 \u03bcM",
+        "duration": null,
+        "route_or_context": "deubiquitylating enzyme treatment of isolated TNF-RSC",
+        "evidence": [
+          "elution of the TNF-RSC from the beads (5 mg/mL 3xFlag peptide [Biotrend]) was coupled in the latter condition with USP21 treatment (0.5 \u03bcM; Boston Biochem)"
         ]
       }
     ],
@@ -96,12 +105,13 @@
     "control_arms": [
       "Unstimulated",
       "His_TNF\u03b1",
-      "WT (Wild Type)"
+      "wild type (WT)"
     ],
     "case_arms": [
       "TNF\u03b1 stimulated",
       "UBASH3B KO",
-      "WHIP KO"
+      "WHIP KO",
+      "+DUB (USP21 treated)"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -120,11 +130,19 @@
         ]
       },
       {
-        "control_label": "WT",
+        "control_label": "wild type (WT)",
         "case_label": "UBASH3B KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "the composition of the TNF-RSC affinity purified from A549 UBASH3B KO cells did not significantly differ from the wild type (WT)"
+          "composition of the TNF-RSC affinity purified from A549 UBASH3B KO cells did not significantly differ from the wild type (WT)"
+        ]
+      },
+      {
+        "control_label": "-DUB",
+        "case_label": "+DUB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "separated the digested (+DUB) or undigested (\u2212DUB) isolated TNF-RSC by the nondenaturing BNPAGE"
         ]
       }
     ],
@@ -137,13 +155,13 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "human",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
         "label": "Escherichia coli",
-        "taxonomy_hint": "bacteria",
-        "confidence": "high"
+        "taxonomy_hint": "BL21",
+        "confidence": "medium"
       }
     ],
     "cell_types": [],
@@ -166,13 +184,13 @@
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -184,8 +202,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "AQUA",
       "PRM",
+      "AQUA",
       "iBAQ"
     ],
     "proteomics_mode": "Bottom-up",
@@ -210,19 +228,19 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Multiple datasets (PXD019837, PXD019878) used DDA-MS for interactome mapping and iBAQ quantification."
+          "reason": "Multiple datasets used DDA-MS for interactome mapping (TNF-RSC, UBASH3B, LUBAC) and iBAQ for stoichiometry."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
-          "reason": "Specific project (PXD019877) is explicitly titled 'Identification of TNF-RSC members in DIA'."
+          "confidence": 0.6,
+          "reason": "Orthogonal DIA-MS was used to confirm enrichment of proteins in the TNF-RSC."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm_aqua",
           "confidence": 0.95,
-          "reason": "Extensive use of Parallel Reaction Monitoring (PRM) with AQUA heavy peptide spike-ins for absolute quantification across multiple PRIDE projects (PXD019879, PXD019959)."
+          "reason": "Extensive use of Parallel Reaction Monitoring (PRM) with AQUA heavy peptide spike-ins for absolute quantification and copy number estimation."
         }
       ],
       "trigger_keywords": [
@@ -231,7 +249,7 @@
         "PRM",
         "AQUA",
         "iBAQ",
-        "spike-in"
+        "targeted MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,19 +258,19 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Multiple datasets (PXD019837, PXD019878) used DDA-MS for interactome mapping and iBAQ quantification."
+          "reason": "Multiple datasets used DDA-MS for interactome mapping (TNF-RSC, UBASH3B, LUBAC) and iBAQ for stoichiometry."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
-          "reason": "Specific project (PXD019877) is explicitly titled 'Identification of TNF-RSC members in DIA'."
+          "confidence": 0.6,
+          "reason": "Orthogonal DIA-MS was used to confirm enrichment of proteins in the TNF-RSC."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm_aqua",
           "confidence": 0.95,
-          "reason": "Extensive use of Parallel Reaction Monitoring (PRM) with AQUA heavy peptide spike-ins for absolute quantification across multiple PRIDE projects (PXD019879, PXD019959)."
+          "reason": "Extensive use of Parallel Reaction Monitoring (PRM) with AQUA heavy peptide spike-ins for absolute quantification and copy number estimation."
         }
       ],
       "trigger_keywords": [
@@ -261,13 +279,13 @@
         "PRM",
         "AQUA",
         "iBAQ",
-        "spike-in"
+        "targeted MS"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "isotope_ratio",
-      "pairwise_strategy": "time_anchored",
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -289,8 +307,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:54:20Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -8,7 +8,7 @@
       "TMT"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,40 +22,51 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "we immunoprecipitated C15orf57\u2013GFP (green fluorescent protein) complexes and analyzed them by MS",
-          "HeLa cells expressing sgRNAs targeting either safe loci or the TMEM189 or SPTLC2 loci"
+          "HeLa cells expressing sgRNAs targeting either safe loci or the TMEM189 or SPTLC2 loci",
+          "cells expressing sgRNAs targeting C15orf57, the transferrin receptor (TFRC) or a control locus",
+          "C15orf57\u2013GFP immunoprecipitates (IPs) were strongly enriched for all five members of the AP2 clathrin adapter complex"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "C15orf57-GFP",
+        "agent": "TMEM189",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "immunoprecipitation",
+        "route_or_context": "sgRNA targeting",
         "evidence": [
-          "we immunoprecipitated C15orf57\u2013GFP (green fluorescent protein) complexes and analyzed them by MS"
+          "HeLa cells expressing sgRNAs targeting either safe loci or the TMEM189 or SPTLC2 loci"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "TMEM189 sgRNA",
+        "agent": "C15orf57",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR knockout",
+        "route_or_context": "sgRNA targeting",
+        "evidence": [
+          "HeLa\u2013Cas9 cells expressing sgRNAs targeting C15orf57"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SPTLC2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "sgRNA targeting",
         "evidence": [
           "HeLa cells expressing sgRNAs targeting either safe loci or the TMEM189 or SPTLC2 loci"
         ]
@@ -68,14 +79,16 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "safe loci sgRNA",
+      "safe loci",
+      "control genomic locus",
+      "control sgRNAs",
       "GFP-tagged JTB",
-      "GFP alone"
+      "cells expressing GFP alone"
     ],
     "case_arms": [
-      "C15orf57-GFP",
-      "TMEM189 sgRNA",
-      "SPTLC2 sgRNA"
+      "TMEM189 knockout",
+      "C15orf57 knockout",
+      "SPTLC2 knockout"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -88,7 +101,7 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "control genomic locus / safe loci",
+        "control_label": "control locus",
         "case_label": "TMEM189 knockout",
         "contrast_type": "pairwise",
         "evidence": [
@@ -96,11 +109,11 @@
         ]
       },
       {
-        "control_label": "GFP alone / GFP-tagged JTB",
-        "case_label": "C15orf57-GFP",
+        "control_label": "control sgRNAs",
+        "case_label": "C15orf57 knockout",
         "contrast_type": "pairwise",
         "evidence": [
-          "P-values were generated from Student\u2019s t-tests between duplicate samples of indicated tagged genes and all 6 other samples analyzed in the same run (including duplicate samples derived from cells expressing GFP-tagged JTB (an unrelated gene), and from cells expressing GFP alone)."
+          "Cells expressing sgRNAs targeting either C15orf57 or TRFC exhibited reduced transferrin uptake compared with cells expressing control sgRNAs"
         ]
       }
     ],
@@ -169,22 +182,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and 'TMT10plex labelling' in the sample processing protocol. Data acquisition used 'one full MS scan... followed with MS2 using HCD', which is characteristic of DDA isobaric tagging."
-        }
-      ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_apms",
           "confidence": 0.9,
-          "reason": "The experiment is described as 'Affinity purification coupled with mass spectrometry proteomics' (PRIDE) and specifically involves 'immunoprecipitated C15orf57-GFP complexes' and 'GFP-TRAP MA beads'."
+          "reason": "Sample processing explicitly mentions TMT10plex labelling and the use of an Orbitrap Fusion mass spectrometer with HCD fragmentation."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The data processing protocol mentions that 'Protein quantification was based on the precursor ion peak intensity using the label free quantitation workflow', despite the mention of TMT labelling in sample prep."
         }
       ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT10plex",
-        "immunoprecipitated",
-        "GFP-TRAP",
-        "Affinity purification"
+        "Orbitrap Fusion",
+        "HCD",
+        "trypsin",
+        "immunoprecipitated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -192,22 +205,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and 'TMT10plex labelling' in the sample processing protocol. Data acquisition used 'one full MS scan... followed with MS2 using HCD', which is characteristic of DDA isobaric tagging."
-        }
-      ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_apms",
           "confidence": 0.9,
-          "reason": "The experiment is described as 'Affinity purification coupled with mass spectrometry proteomics' (PRIDE) and specifically involves 'immunoprecipitated C15orf57-GFP complexes' and 'GFP-TRAP MA beads'."
+          "reason": "Sample processing explicitly mentions TMT10plex labelling and the use of an Orbitrap Fusion mass spectrometer with HCD fragmentation."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The data processing protocol mentions that 'Protein quantification was based on the precursor ion peak intensity using the label free quantitation workflow', despite the mention of TMT labelling in sample prep."
         }
       ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT10plex",
-        "immunoprecipitated",
-        "GFP-TRAP",
-        "Affinity purification"
+        "Orbitrap Fusion",
+        "HCD",
+        "trypsin",
+        "immunoprecipitated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -235,8 +248,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:26:15Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

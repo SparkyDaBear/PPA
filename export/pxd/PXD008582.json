@@ -3,75 +3,253 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "kinase inhibitor treatment",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "metastatic colorectal cancer cells",
-      "circulating tumor cells"
+      "colorectal cancer cells"
     ],
     "cell_lines": [
       "HCT116",
-      "HT29",
       "SW620",
+      "HEK293T",
       "CPP19",
       "CPP30",
       "CTC44",
       "CTC45"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "kinase inhibitor treatment",
+        "ontology_curie": "PPA:0000024",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "kinase_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "kinase_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound that inhibits protein kinase activity or kinase signaling.",
+        "confidence": "high",
+        "evidence": [
+          "nilotinib, a clinically approved drug for chronic myeloid leukaemia, strongly inhibits human CRC cell invasion in vitro",
+          "Nilotinib acts by inhibiting the kinase activity of DDR1",
+          "DDR1 pharmacological inhibition by nilotinib inhibits the metastatic behaviour of CRC cells"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "ligand_stimulation"
+        ],
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
+        "confidence": "high",
+        "evidence": [
+          "cells stimulated with collagen I for 18 h",
+          "increased tyrosine phosphorylation upon collagen I stimulation"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nilotinib",
+        "dose_or_concentration": "100 nM",
+        "duration": "1 h",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "cells stimulated with collagen I and then incubated with nilotinib for 1 h before lysis to induce acute DDR1 inhibition",
+          "TKI nilotinib (100 nM) inhibits invasive activity"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "collagen I",
+        "dose_or_concentration": null,
+        "duration": "18 h",
+        "route_or_context": "stimulation",
+        "evidence": [
+          "cells stimulated with collagen I for 18 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nilotinib",
+        "dose_or_concentration": "50 mg/kg",
+        "duration": "4 weeks",
+        "route_or_context": "oral gavage or i.p. daily, 5 days/week",
+        "evidence": [
+          "A daily regimen of 50 mg/kg nilotinib... strongly inhibited liver metastasis formation in treated animals compared with untreated controls (vehicle)",
+          "After 4 weeks of treatment, liver was removed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "18 h",
+      "1 h"
+    ],
+    "control_arms": [
+      "unstimulated HCT116 cells",
+      "vehicle"
+    ],
+    "case_arms": [
+      "collagen I stimulated",
+      "nilotinib treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two technical replicates for each sample",
+      "two independent biological experiments",
+      "three biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "label-free mass spectrometry-based quantification"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "unstimulated",
+        "case_label": "collagen I stimulated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the phosphotyrosine profiles of unstimulated HCT116 cells, cells stimulated with collagen I for 18 h"
+        ]
+      },
+      {
+        "control_label": "collagen I stimulated",
+        "case_label": "collagen I + nilotinib",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the phosphotyrosine profiles of... cells stimulated with collagen I for 18 h... and cells stimulated with collagen I and then incubated with nilotinib for 1 h"
+        ]
+      },
+      {
+        "control_label": "vehicle",
+        "case_label": "nilotinib",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "phosphotyrosine profiles of metastatic nodules from animals treated or not with nilotinib"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "mouse",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "colorectal cancer cells",
+        "rollup_category": "tumor cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "SW620",
+        "family": "colorectal cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": "embryonic kidney",
+        "ontology_curie": null
+      },
+      {
+        "label": "CPP19",
+        "family": "patient-derived metastatic CRC",
+        "ontology_curie": null
+      },
+      {
+        "label": "CPP30",
+        "family": "patient-derived metastatic CRC",
+        "ontology_curie": null
+      },
+      {
+        "label": "CTC44",
+        "family": "patient-derived circulating tumor cell CRC",
+        "ontology_curie": null
+      },
+      {
+        "label": "CTC45",
+        "family": "patient-derived circulating tumor cell CRC",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "liver metastatic nodules",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free quantification"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -79,10 +257,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (Top 15 method) and label-free quantification (Progenesis LC-MS)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Specific use of PTMScan Phospho-Tyrosine Rabbit mAb (PTyr-1000) and additional IMAC-Select Affinity Gel for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "quantitative phosphoproteomics",
+        "label-free quantification",
+        "phospho-tyrosine",
+        "PTMScan",
+        "IMAC-Select"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used data-dependent acquisition (Top 15 method) and label-free quantification (Progenesis LC-MS)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_tyrosine_enrichment",
+          "confidence": 1.0,
+          "reason": "Specific use of PTMScan Phospho-Tyrosine Rabbit mAb (PTyr-1000) and additional IMAC-Select Affinity Gel for phosphopeptide enrichment."
+        }
+      ],
+      "trigger_keywords": [
+        "quantitative phosphoproteomics",
+        "label-free quantification",
+        "phospho-tyrosine",
+        "PTMScan",
+        "IMAC-Select"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,7 +330,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

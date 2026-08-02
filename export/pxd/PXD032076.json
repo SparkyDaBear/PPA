@@ -3,28 +3,58 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MS1 intensity based label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "anatomical or spatial comparison"
     ],
-    "cell_types": [
-      "preneoplastic lesions",
-      "normal tissue",
-      "primary tumor",
-      "lymph node"
-    ],
+    "cell_types": [],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "Comparisons between groups were made using linear mixed models.",
+          "differences between non-tumor and tumor tissue were identified."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "organ_region_comparison"
+        ],
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
+        "confidence": "high",
+        "evidence": [
+          "molecular characterization of paired PDAC samples (normal tissue-preneoplastic lesions-primary tumor-lymph node metastases)",
+          "A total of 52 primary tumors, 47 non-tumor tissues, 43 PanIN, and 31 lymph nodes were obtained for the proteomics analyses."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -32,38 +62,100 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "non-tumor tissue",
+      "normal tissue"
+    ],
+    "case_arms": [
+      "preneoplastic lesions (PanIN)",
+      "primary tumor",
+      "lymph node metastases"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-tumor tissue",
+        "case_label": "primary tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differences between non-tumor and tumor tissue were identified."
+        ]
+      },
+      {
+        "control_label": "PanIN",
+        "case_label": "primary tumor",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Mitochondria, pancreatic secretion, and translation node activity decreased in tumor samples compared to PanIN"
+        ]
+      },
+      {
+        "control_label": "primary tumor",
+        "case_label": "lymph node metastases",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Significant differences between tumors and lymph nodes and therefore, related to tumor progression were identified"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "primary tumors",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "normal tissue",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "preneoplastic lesions (PanIN)",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "lymph node metastases",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -72,10 +164,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in data-independent mode (DIA) for individual samples and used MS1 intensity based label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically for spectral library generation using pooled samples."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "label-free quantification",
+        "spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the mass spectrometer was operated in data-independent mode (DIA) for individual samples and used MS1 intensity based label-free quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically for spectral library generation using pooled samples."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-independent acquisition",
+        "DIA",
+        "label-free quantification",
+        "spectral library"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +233,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

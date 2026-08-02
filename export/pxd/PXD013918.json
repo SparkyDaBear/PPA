@@ -3,33 +3,47 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Oxidative or Redox Modulation",
-      "Genetic Perturbations"
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "U2OS",
-      "A549",
-      "HeLa"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "U-2OS",
       "HeLa",
       "A549",
-      "HEK293T"
+      "HEK293T",
+      "C2C12"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "Analyses of the baseline U2OS ADP-ribosylome using our established ADP-ribosylome proteomic workflow led to the identification of 97 unique ADP-ribosylated proteins",
+          "we identified the ADP-ribosylome of murine muscle tissues",
+          "Identification of ADP-ribosylated peptides from U2OS and mouse skeletal muscle was performed on an Orbitrap Fusion Tribrid mass spectrometer"
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -49,27 +63,83 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "NEWT:10090",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "U-2OS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "A549",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "C2C12",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "skeletal muscle",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "ADP-ribosylation enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_adpr",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +147,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (HCD-PP-EThcD) and identifies a list of modified proteins/peptides. While no explicit LFQ method is named, the use of 'MS-PSM counts' for relative abundance suggests a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "adpr_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of Af1521 macrodomain affinity enrichment for ADP-ribosylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "ADP-ribosylation",
+        "Af1521 macrodomain",
+        "HCD-PP-EThcD",
+        "ADP-ribosylome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (HCD-PP-EThcD) and identifies a list of modified proteins/peptides. While no explicit LFQ method is named, the use of 'MS-PSM counts' for relative abundance suggests a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "adpr_enrichment",
+          "confidence": 1.0,
+          "reason": "Explicit use of Af1521 macrodomain affinity enrichment for ADP-ribosylated peptides."
+        }
+      ],
+      "trigger_keywords": [
+        "ADP-ribosylation",
+        "Af1521 macrodomain",
+        "HCD-PP-EThcD",
+        "ADP-ribosylome"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,7 +218,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

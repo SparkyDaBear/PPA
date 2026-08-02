@@ -5,12 +5,12 @@
     "acquisition_type": "Targeted",
     "quantification_method": "Parallel Reaction Monitoring (PRM)",
     "labeling_strategy": [
-      "LFQ",
       "Other"
     ],
     "treatment_categories": [
-      "genetic perturbation",
-      "anatomical or spatial comparison"
+      "mutation or variant perturbation",
+      "anatomical or spatial comparison",
+      "disease stage or grade comparison"
     ],
     "cell_types": [
       "glioma cells"
@@ -26,22 +26,20 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "The R132H mutation in the metabolic enzyme isocitrate dehydrogenase 1 (IDH1) is the most important prognostic factor for the survival of glioma patients.",
-          "The mutation status of the gene encoding the IDH1 enzyme is an important prognostic factor for patient survival.",
-          "Comparing IDH1 mut and IDH1 wt primary cell cultures"
+          "We compared IDH1 wt tissues with the IDH1 mut tissues of all grades combined."
         ]
       },
       {
@@ -49,16 +47,32 @@
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
         "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "spatial_region_comparison",
+        "matched_class_key": null,
         "matched_class_path": [
-          "anatomical_spatial",
-          "spatial_region_comparison"
+          "anatomical_spatial"
         ],
-        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
         "confidence": "high",
         "evidence": [
           "we here compared surgically obtained snap-frozen glioma tissues with their corresponding primary glioma cell culture models",
           "the metabolic profiles of the cell cultures need to be compared with those of the corresponding glioma tissues."
+        ]
+      },
+      {
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_grade_comparison",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_grade_comparison"
+        ],
+        "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
+        "confidence": "high",
+        "evidence": [
+          "a comparison of low-grade and high-grade glioma tissues was included to determine the influence of tumor grade.",
+          "low-grade IDH1 mut astrocytomas (grade II) and high-grade IDH1 mut secondary glioblastomas (grade IV) were compared."
         ]
       }
     ],
@@ -81,12 +95,10 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "IDH1 wild-type (wt)",
-      "glioma tissues"
+      "IDH1 wild type (IDH1 wt)"
     ],
     "case_arms": [
-      "IDH1 R132H mutation (mut)",
-      "primary glioma cell cultures"
+      "IDH1 R132H mutation (IDH1 mut)"
     ],
     "paired_design": true,
     "factorial_design": false,
@@ -105,10 +117,18 @@
       },
       {
         "control_label": "glioma tissue",
-        "case_label": "primary cell culture",
+        "case_label": "primary glioma cell culture",
         "contrast_type": "pairwise",
         "evidence": [
           "compared surgically obtained snap-frozen glioma tissues with their corresponding primary glioma cell culture models"
+        ]
+      },
+      {
+        "control_label": "low-grade (grade II)",
+        "case_label": "high-grade (grade IV)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "low-grade IDH1 mut astrocytomas (grade II) and high-grade IDH1 mut secondary glioblastomas (grade IV) were compared."
         ]
       }
     ],
@@ -128,7 +148,7 @@
     "cell_types": [
       {
         "label": "glioma cells",
-        "rollup_category": "tumor cell",
+        "rollup_category": "tumor cells",
         "ontology_curie": null
       }
     ],
@@ -161,12 +181,12 @@
   "assay": {
     "acquisition_type": "Targeted",
     "labeling_strategy": [
-      "LFQ",
       "Other"
     ],
     "quantification_strategy": [
       "Parallel Reaction Monitoring (PRM)",
-      "Spectral counting"
+      "Relative abundance",
+      "Heavy labeled peptides (AQUA QuantPro)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -183,7 +203,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The 'Whole Proteome MS Measurements' section explicitly describes a data-dependent acquisition (DDA) method used for primary cell cultures, with normalization based on total spectral counts (label-free quantification)."
+          "reason": "The 'Whole Proteome MS Measurements' section explicitly describes a data-dependent acquisition (DDA) method for primary cell cultures, with normalization based on total spectral counts and subsequent analysis in Perseus."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -199,7 +219,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The 'Whole Proteome MS Measurements' section explicitly describes a data-dependent acquisition (DDA) method used for primary cell cultures, with normalization based on total spectral counts (label-free quantification)."
+          "reason": "The 'Whole Proteome MS Measurements' section explicitly describes a data-dependent acquisition (DDA) method for primary cell cultures, with normalization based on total spectral counts and subsequent analysis in Perseus."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -234,8 +254,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:02:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

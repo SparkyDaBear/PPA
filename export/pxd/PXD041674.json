@@ -11,7 +11,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation",
+      "molecular state comparison",
       "genetic perturbation"
     ],
     "cell_types": [],
@@ -27,47 +27,60 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
-        "category": "ligand_stimulation",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
-        "confidence": "medium",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "modified_biomolecule_input_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "modified_biomolecule_input_comparison"
+        ],
+        "matched_definition": "Comparison between modified and unmodified input molecules, ligands, substrates, biomaterials, or experimental inputs.",
+        "confidence": "high",
         "evidence": [
-          "DNA pull-downs using a concentration range of specific and control DNA baits are performed in SILAC-labeled nuclear extracts.",
-          "Binding specificity is determined by calculating SILAC ratios of peptides bound to either the motif of interest or the control motif."
+          "MS1-based quantification of the SILAC data revealed BANP as a specific binder for the unmethylated CGCG motif compared to a methylated version of the CGCG motif"
         ]
       },
       {
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
           "The human BEND3 coding sequence was fused to V5-miniTurbo and cloned into the pTwist CMV overexpression plasmid.",
-          "we performed proximity biotinylation experiments in HeLa cells using a BEND3-miniTurbo fusion construct"
+          "we performed proximity biotinylation experiments in HeLa cells using a BEND3-miniTurbo fusion construct",
+          "Pull-down experiments of biotinylated proteins were performed in triplicate with biotin-treated HeLa wild-type and transfected cells."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DNA oligonucleotides (specific motifs vs control)",
+        "agent": "DNA baits",
         "dose_or_concentration": "0.15 nM to 3 \u03bcM",
-        "duration": "2 h",
-        "route_or_context": "nuclear extract pull-down",
+        "duration": null,
+        "route_or_context": "DNA pull-downs in nuclear extracts",
         "evidence": [
-          "A dilution series was prepared consisting of ten DNA oligonucleotide concentrations (ranging from 0.15 nM to 3 \u03bcM)",
-          "Per pull-down, 100 \u03bcg of the nuclear extract or SILAC-labeled nuclear extract was added to the corresponding pull-downs and incubated for 2 h"
+          "DNA baits are prepared in a concentration range of ten 3-fold dilutions (from 0.15 nM to 3 \u03bcM)",
+          "DNA pull-downs using a concentration range of specific and control DNA baits are performed in SILAC-labeled nuclear extracts."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "BEND3-miniTurbo fusion construct",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfection of HeLa cells",
+        "evidence": [
+          "we performed proximity biotinylation experiments in HeLa cells using a BEND3-miniTurbo fusion construct"
         ]
       },
       {
@@ -75,7 +88,7 @@
         "agent": "biotin",
         "dose_or_concentration": "50 \u03bcM",
         "duration": "10 min",
-        "route_or_context": "proximity-labeling in HeLa cells",
+        "route_or_context": "preharvesting treatment for proximity labeling",
         "evidence": [
           "cells were treated with 50 \u03bcM biotin (B20656, Invitrogen) for 10 min preharvesting."
         ]
@@ -89,28 +102,31 @@
     "timepoints": [],
     "control_arms": [
       "negative control bait",
-      "wild-type HeLa cells"
+      "methylated version of the CGCG motif",
+      "HeLa wild-type"
     ],
     "case_arms": [
-      "specific DNA motif bait",
+      "specific DNA baits",
+      "unmethylated CGCG motif",
       "BEND3-miniTurbo transfected cells"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "DNA pull-downs were performed in duplicate",
-      "a label-swap experiment was performed for each replicate",
+      "a label-swap experiment is performed as a replicate measurement",
       "Pull-down experiments of biotinylated proteins were performed in triplicate"
     ],
     "multiplex_channel_hints": [
-      "SILAC-labeled nuclear extracts (light and heavy)",
+      "SILAC-labeled nuclear extracts",
       "isobaric 10-plex tandem mass tags (TMT)",
-      "higher-order multiplexing"
+      "higher-order multiplexing",
+      "combined SILAC/TMT labeling strategy"
     ],
     "contrast_hints": [
       {
         "control_label": "control DNA bait",
-        "case_label": "specific DNA motif bait",
+        "case_label": "specific DNA bait",
         "contrast_type": "dose_response",
         "evidence": [
           "Binding specificity is determined by calculating SILAC ratios of peptides bound to either the motif of interest or the control motif.",
@@ -118,8 +134,16 @@
         ]
       },
       {
-        "control_label": "wild-type HeLa",
-        "case_label": "BEND3-miniTurbo",
+        "control_label": "methylated CGCG motif",
+        "case_label": "unmethylated CGCG motif",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MS1-based quantification of the SILAC data revealed BANP as a specific binder for the unmethylated CGCG motif compared to a methylated version of the CGCG motif"
+        ]
+      },
+      {
+        "control_label": "HeLa wild-type",
+        "case_label": "BEND3-miniTurbo transfected",
         "contrast_type": "pairwise",
         "evidence": [
           "Pull-down experiments of biotinylated proteins were performed in triplicate with biotin-treated HeLa wild-type and transfected cells."
@@ -187,6 +211,12 @@
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_proximity_labeling",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "DNA pull-down",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -201,38 +231,38 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
-          "reason": "Extensive use of TMT 10-plex labeling for PAQMAN and PASMAN experiments."
+          "confidence": 1.0,
+          "reason": "Extensive use of TMT 10-plex labeling for affinity quantification (PAQMAN/PASMAN) and MS3-based quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.8,
-          "reason": "Use of SILAC-labeled nuclear extracts (light/heavy) to determine binding specificity."
+          "confidence": 0.9,
+          "reason": "Use of SILAC (Arg10, Lys8) for binding specificity measurements in PASMAN."
         },
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 0.7,
-          "reason": "Mention of dimethyl labeling on StageTips for some samples."
+          "reason": "Mention of dimethyl labeling on StageTips for some pull-down samples."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "Label-free LFQ workflow used for some pull-down samples."
+          "reason": "Label-free quantification used for proximity-labeling (miniTurbo) experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "higher_order_multiplexing_silac_tmt",
+          "modifier_workflow_id": "higher_order_multiplexing",
           "confidence": 1.0,
-          "reason": "The PASMAN method explicitly combines SILAC (MS1) and TMT (MS3) for simultaneous specificity and affinity quantification."
+          "reason": "The core of the PASMAN method is 'higher-order multiplexing', combining SILAC (MS1) and TMT (MS2/MS3) quantification."
         }
       ],
       "trigger_keywords": [
         "PASMAN",
         "PAQMAN",
         "higher-order multiplexing",
-        "SILAC/TMT",
         "TMT 10-plex",
+        "SILAC",
         "SPS MS3"
       ],
       "raw_or_file_name_triggers": []
@@ -241,38 +271,38 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
-          "reason": "Extensive use of TMT 10-plex labeling for PAQMAN and PASMAN experiments."
+          "confidence": 1.0,
+          "reason": "Extensive use of TMT 10-plex labeling for affinity quantification (PAQMAN/PASMAN) and MS3-based quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.8,
-          "reason": "Use of SILAC-labeled nuclear extracts (light/heavy) to determine binding specificity."
+          "confidence": 0.9,
+          "reason": "Use of SILAC (Arg10, Lys8) for binding specificity measurements in PASMAN."
         },
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 0.7,
-          "reason": "Mention of dimethyl labeling on StageTips for some samples."
+          "reason": "Mention of dimethyl labeling on StageTips for some pull-down samples."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "Label-free LFQ workflow used for some pull-down samples."
+          "reason": "Label-free quantification used for proximity-labeling (miniTurbo) experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "higher_order_multiplexing_silac_tmt",
+          "modifier_workflow_id": "higher_order_multiplexing",
           "confidence": 1.0,
-          "reason": "The PASMAN method explicitly combines SILAC (MS1) and TMT (MS3) for simultaneous specificity and affinity quantification."
+          "reason": "The core of the PASMAN method is 'higher-order multiplexing', combining SILAC (MS1) and TMT (MS2/MS3) quantification."
         }
       ],
       "trigger_keywords": [
         "PASMAN",
         "PAQMAN",
         "higher-order multiplexing",
-        "SILAC/TMT",
         "TMT 10-plex",
+        "SILAC",
         "SPS MS3"
       ],
       "raw_or_file_name_triggers": []
@@ -301,8 +331,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:49:39Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

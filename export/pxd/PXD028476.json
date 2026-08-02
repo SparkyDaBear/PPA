@@ -8,14 +8,16 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "infection exposure"
     ],
     "cell_types": [
       "sensory neurons",
       "Schwann cells"
     ],
     "cell_lines": [
-      "HEK293"
+      "HEK293",
+      "hiPSC"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -25,43 +27,60 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "52 patients with ZIKV-GBS were compared with 134 ZIKV-infected patients without GBS and 91 non-ZIKV controls.",
-          "Sera from ZIKV-exposed patients were diluted to 1:100 and added to live cocultures",
-          "Positive sera were taken forward for target identification by immunoprecipitation and mass spectrometry"
+          "Sera from a large cohort of patients with ZIKV-GBS and healthy and disease controls for nerve cell reactive immunoglobulins."
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "Zika virus (ZIKV) infection",
+          "ZIKV-infected patients without GBS and 91 non-ZIKV controls."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Zika virus (ZIKV)",
+        "agent": "Zika virus",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "infection",
+        "route_or_context": "prodromal infection",
         "evidence": [
-          "patients with ZIKV infection both with and without neurologic complications"
+          "Zika virus (ZIKV) infection",
+          "sharing a common prodromal infection"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Guillain-Barr\u00e9 syndrome (GBS)",
+        "agent": "Guillain-Barr\u00e9 syndrome",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "clinical complication",
+        "route_or_context": "inflammatory neuropathy",
         "evidence": [
-          "52 patients with ZIKV-GBS were compared with 134 ZIKV-infected patients without GBS"
+          "concurrence with the inflammatory neuropathy Guillain-Barr\u00e9 syndrome (GBS)"
         ]
       }
     ],
@@ -73,10 +92,12 @@
     "timepoints": [],
     "control_arms": [
       "ZIKV-infected patients without GBS",
-      "non-ZIKV controls"
+      "non-ZIKV controls",
+      "healthy controls",
+      "DENV-infected control (DENV-CON)"
     ],
     "case_arms": [
-      "ZIKV-GBS patients"
+      "ZIKV-GBS"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -90,15 +111,15 @@
         "case_label": "ZIKV-GBS",
         "contrast_type": "pairwise",
         "evidence": [
-          "52 patients with ZIKV-GBS were compared with 134 ZIKV-infected patients without GBS"
+          "IgG antibody reactivity against myelinating cocultures was significantly more common in the sera of patients with ZIKV-GBS (5/52; 9.6%) compared all controls (1/187; 0.5%)"
         ]
       },
       {
-        "control_label": "CON",
+        "control_label": "non-ZIKV controls",
         "case_label": "ZIKV-GBS",
         "contrast_type": "pairwise",
         "evidence": [
-          "52 patients with ZIKV-GBS were compared with ... 91 non-ZIKV controls."
+          "52 patients with ZIKV-GBS were compared with 134 ZIKV-infected patients without GBS and 91 non-ZIKV controls."
         ]
       }
     ],
@@ -137,11 +158,16 @@
         "label": "HEK293",
         "family": "human embryonic kidney",
         "ontology_curie": null
+      },
+      {
+        "label": "hiPSC",
+        "family": "induced pluripotent stem cell",
+        "ontology_curie": null
       }
     ],
     "noncellular_sources": [
       {
-        "label": "blood serum",
+        "label": "sera",
         "source_kind": "biofluid"
       }
     ],
@@ -165,13 +191,13 @@
     ],
     "quantification_strategy": [
       "TIC",
-      "raw abundance values"
+      "normalized abundance"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -189,21 +215,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent MS/MS (DDA) was used on a ThermoFisher Fusion Lumos, and protein enrichment was quantified using raw abundance values (TIC) and normalized in Progenesis QI/Perseus, characteristic of label-free quantification (LFQ)."
+          "reason": "The experiment used data-dependent MS/MS (DDA) on a Fusion Lumos and quantified protein enrichment using raw abundance values (TIC/LFQ-like) processed via Progenesis QI and Perseus."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment explicitly uses immunoprecipitation (IP) with protein G beads to isolate antigen-bound IgG antibodies from cell lysates."
+          "reason": "The study explicitly used immunoprecipitation (IP) with protein G beads to isolate antigen-bound IgG antibodies from serum-treated cultures."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "data-dependant MS/MS",
         "protein G bead IP",
-        "raw abundance values"
+        "raw abundance values",
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -212,21 +239,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent MS/MS (DDA) was used on a ThermoFisher Fusion Lumos, and protein enrichment was quantified using raw abundance values (TIC) and normalized in Progenesis QI/Perseus, characteristic of label-free quantification (LFQ)."
+          "reason": "The experiment used data-dependent MS/MS (DDA) on a Fusion Lumos and quantified protein enrichment using raw abundance values (TIC/LFQ-like) processed via Progenesis QI and Perseus."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment explicitly uses immunoprecipitation (IP) with protein G beads to isolate antigen-bound IgG antibodies from cell lysates."
+          "reason": "The study explicitly used immunoprecipitation (IP) with protein G beads to isolate antigen-bound IgG antibodies from serum-treated cultures."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "data-dependant MS/MS",
         "protein G bead IP",
-        "raw abundance values"
+        "raw abundance values",
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -254,8 +282,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:13:03Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

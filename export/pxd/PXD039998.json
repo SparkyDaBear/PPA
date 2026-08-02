@@ -3,12 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "pancreatic ductal adenocarcinoma cells"
@@ -31,17 +33,51 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": "small_molecule_inhibitor",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "chemical or drug treatment",
-          "small-molecule inhibitor treatment"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "we performed co-immunoprecipitation (Co-IP) mass spectrometry analysis of EP300-binding proteins in SW1990 cells in the absence or presence of RSL3 treatment."
+          "The genetic or pharmacological inhibition of EP300 suppressed the increased acetylation of HSPA5 by RSL3 and erastin",
+          "the EP300 inhibitor C646 reversed RLS3-induced ferroptosis."
         ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "we used specific shRNAs to inhibit EP300 expression in PANC1 and SW1990 cells.",
+          "the knockdown of EP300 decreased the sensitivity of PANC1 and SW1990 cells to RSL3-induced ferroptosis"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "ligand_stimulation"
+        ],
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
+        "confidence": "medium",
+        "evidence": [
+          "we performed co-immunoprecipitation (Co-IP) mass spectrometry analysis of EP300-binding proteins in SW1990 cells in the absence or presence of RSL3 treatment."
+        ],
+        "notes": "RSL3 and erastin are small molecules that induce ferroptosis; while they act as ligands/stimuli for the biological state of ferroptosis, they are not cytokines or growth factors. Mapped to parent as no specific child class for 'ferroptosis inducer' exists."
       }
     ],
     "attributes": [
@@ -49,10 +85,40 @@
         "relation_key": "has_treatment_agent",
         "agent": "RSL3",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "SW1990 cells",
+        "duration": "24 h",
+        "route_or_context": "PDAC cells",
         "evidence": [
-          "we performed co-immunoprecipitation (Co-IP) mass spectrometry analysis of EP300-binding proteins in SW1990 cells in the absence or presence of RSL3 treatment."
+          "cells were treated with RSL3 or erastin for 24 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "erastin",
+        "dose_or_concentration": null,
+        "duration": "24 h",
+        "route_or_context": "PDAC cells",
+        "evidence": [
+          "cells were treated with RSL3 or erastin for 24 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "C646",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "EP300 inhibitor",
+        "evidence": [
+          "the EP300 inhibitor C646 reversed RLS3-induced ferroptosis."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EP300 shRNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown",
+        "evidence": [
+          "we used specific shRNAs to inhibit EP300 expression in PANC1 and SW1990 cells."
         ]
       }
     ],
@@ -61,18 +127,25 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h"
+    ],
     "control_arms": [
       "absence of RSL3 treatment",
+      "control cDNA",
       "IgG-IP negative control group"
     ],
     "case_arms": [
-      "presence of RSL3 treatment",
-      "\u03b1EP300-IP group"
+      "RSL3 treatment",
+      "erastin treatment",
+      "EP300 knockdown",
+      "EP300 overexpression"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Data are presented as mean \u00b1 SD of three independent experiments"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -139,7 +212,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -151,15 +224,15 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification"
+      "label-free"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "acetylome enrichment",
         "ontology_curie": "PPA:0000295",
         "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -175,21 +248,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the data was analyzed for 'protein identification and quantification using PEAKS Studio 8.5'. No isobaric or SILAC labels are mentioned."
+          "reason": "DDA acquisition on Q Exactive with label-free comparison between IgG-IP and alphaEP300-IP groups."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
-          "confidence": 0.95,
-          "reason": "The study focuses on EP300-mediated acetylation of HSPA5, and the data processing protocol explicitly lists 'Acetylation (Protein N-term)' as a variable modification. The biological goal is to identify acetylated substrates."
+          "confidence": 0.8,
+          "reason": "The study specifically focuses on lysine acetylation (Kac) of HSPA5 and uses acetylation as a variable modification in the search."
         }
       ],
       "trigger_keywords": [
         "DDA",
         "acetylation",
         "Co-IP mass spectrometry",
-        "PEAKS Studio"
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -198,21 +271,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the data was analyzed for 'protein identification and quantification using PEAKS Studio 8.5'. No isobaric or SILAC labels are mentioned."
+          "reason": "DDA acquisition on Q Exactive with label-free comparison between IgG-IP and alphaEP300-IP groups."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
-          "confidence": 0.95,
-          "reason": "The study focuses on EP300-mediated acetylation of HSPA5, and the data processing protocol explicitly lists 'Acetylation (Protein N-term)' as a variable modification. The biological goal is to identify acetylated substrates."
+          "confidence": 0.8,
+          "reason": "The study specifically focuses on lysine acetylation (Kac) of HSPA5 and uses acetylation as a variable modification in the search."
         }
       ],
       "trigger_keywords": [
         "DDA",
         "acetylation",
         "Co-IP mass spectrometry",
-        "PEAKS Studio"
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,8 +313,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:23:53Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

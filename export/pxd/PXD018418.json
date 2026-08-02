@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "keratinocyte"
@@ -28,31 +29,57 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "We used CRISPR-Cas9 gene targeting to generate a library of 3D organotypic skin tissues that selectively differ in their capacity to produce glycan structures",
           "N/TERT-1 glycogenes KO library was generated using CRISPR/Cas9 technology by targeting particular glycogene exons",
           "isogenic N/TERT-1 organotypic 3D skin models with systematic abrogation of individual glycosylation pathways"
         ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "we treated organotypic cultures of WT N/TERT-1 cells with a cell-permeable sialylation inhibitor (Ac5SiaFEtoc)",
+          "Ac5SiaFEtoc is metabolized by cells into a global inhibitor of all sialyltransferase isoenzymes"
+        ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CRISPR-Cas9 gene knockout (multiple targets: UGCG, B4GALT5, ST3GAL5, MGAT1, MGAT4A, MGAT4B, MGAT5, C1GALT1, COSMC, GCNT1, POFUT1, POGLUT1)",
+        "agent": "CRISPR-Cas9",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "N/TERT-1 human keratinocytes",
+        "route_or_context": "gene targeting of glycosyltransferase genes",
         "evidence": [
-          "We used CRISPR-Cas9 gene targeting to inactivate non-redundant glycosyltransferase genes directing key steps in the biosynthesis of elaborated glycans on GSLs, N-glycans, and the most common types of O-glycans",
-          "Targeting distinct steps in N-glycan biosynthesis resulted in a loss of complex N-glycans and the presence of high-mannose structures in MGAT1KO cells"
+          "We used CRISPR-Cas9 gene targeting to generate a library of 3D organotypic skin tissues"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Ac5SiaFEtoc",
+        "dose_or_concentration": "1 \u00b5M",
+        "duration": "48 hours",
+        "route_or_context": "sialylation inhibitor",
+        "evidence": [
+          "culture medium was supplemented with 1 \u00b5M Ac5SiaFEtoc",
+          "cells were cultured for 48 hours before fixation"
         ]
       }
     ],
@@ -61,39 +88,49 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "day 9 of the air-lift interface"
+    ],
     "control_arms": [
       "wild-type (WT)",
-      "phenotypic control cell lines (silent mutations)"
+      "phenotypic control cell lines"
     ],
     "case_arms": [
       "UGCGKO",
       "B4GALT5KO",
       "ST3GAL5KO",
       "MGAT1KO",
+      "MGAT5KO",
       "MGAT4AKO",
       "MGAT4BKO",
-      "MGAT5KO",
       "C1GALT1KO",
-      "COSMCKO",
+      "C1GALT1C1KO",
       "GCNT1KO",
       "POFUT1KO",
-      "POGLUT1KO"
+      "POGLUT1KO",
+      "Ac5SiaFEtoc treated"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Two to five clones were selected for each gene with out of frame indel formation",
       "At least 3 independent experiments at different time points with two different clones of each knockout cell line were conducted"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "WT",
-        "case_label": "Glycosyltransferase KO",
-        "contrast_type": "multi_group",
+        "case_label": "UGCGKO",
+        "contrast_type": "pairwise",
         "evidence": [
-          "We used this library of glyco-engineered cells to build 3D organotypic skin models to probe the effects of the engineered changes in glycosylation capacity."
+          "compared the RNA-seq results in B4GALT5KO cells with WT cells"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "Ac5SiaFEtoc",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treatment of WT N/TERT-1 cells with Ac5SiaFEtoc phenocopied the large intracellular vacuoles seen in MGAT1KO cells"
         ]
       }
     ],
@@ -106,7 +143,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -168,23 +205,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Orbitrap Fusion Lumos) with a focus on identifying O-glycoproteins and sites. While no explicit labeling is mentioned, the goal is to identify a library of glycoproteins."
+          "reason": "DDA acquisition on Orbitrap Fusion Lumos with shotgun proteomics approach; no labeling mentioned for the O-glycoproteome analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_glycoproteomics",
-          "confidence": 1.0,
-          "reason": "Explicit use of LWAC (Jacalin-agarose lectin weak affinity chromatography) for O-GalNAc glycopeptide enrichment and neuraminidase treatment."
+          "modifier_workflow_id": "mod_glycopeptide_site_discovery",
+          "confidence": 0.9,
+          "reason": "Explicit use of Jacalin-agarose lectin weak affinity chromatography (LWAC) for O-GalNAc glycopeptide enrichment and search for HexNAc/Hex(1)HexNAc(1) modifications on S, T, Y."
         }
       ],
       "trigger_keywords": [
         "O-Glycoproteome",
         "LWAC",
         "Jacalin-agarose",
-        "neuraminidase",
-        "O-GalNAc",
-        "glycopeptides"
+        "glycopeptides",
+        "HexNAc"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -193,23 +229,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Orbitrap Fusion Lumos) with a focus on identifying O-glycoproteins and sites. While no explicit labeling is mentioned, the goal is to identify a library of glycoproteins."
+          "reason": "DDA acquisition on Orbitrap Fusion Lumos with shotgun proteomics approach; no labeling mentioned for the O-glycoproteome analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_glycoproteomics",
-          "confidence": 1.0,
-          "reason": "Explicit use of LWAC (Jacalin-agarose lectin weak affinity chromatography) for O-GalNAc glycopeptide enrichment and neuraminidase treatment."
+          "modifier_workflow_id": "mod_glycopeptide_site_discovery",
+          "confidence": 0.9,
+          "reason": "Explicit use of Jacalin-agarose lectin weak affinity chromatography (LWAC) for O-GalNAc glycopeptide enrichment and search for HexNAc/Hex(1)HexNAc(1) modifications on S, T, Y."
         }
       ],
       "trigger_keywords": [
         "O-Glycoproteome",
         "LWAC",
         "Jacalin-agarose",
-        "neuraminidase",
-        "O-GalNAc",
-        "glycopeptides"
+        "glycopeptides",
+        "HexNAc"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,8 +272,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:57:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Relative quantification via extracted ion chromatograms (XIC) of PRM transitions",
+    "quantification_method": "relative quantification",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -24,12 +24,12 @@
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
         "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_key": "ptm_state_biological_comparison",
         "matched_class_path": [
           "molecular_state",
-          "ptm_or_activation_state"
+          "ptm_state_biological_comparison"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
           "The glycosylation of FSH strongly affects the binding affinity to its receptor, hence significantly influencing the biological activity of the hormone.",
@@ -41,12 +41,22 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant standard human FSH (RHS_FSH)",
-        "dose_or_concentration": "30 \u00b1 g",
+        "agent": "recombinant standard human (RSH) FSH",
+        "dose_or_concentration": "30 g",
         "duration": null,
         "route_or_context": "positive control",
         "evidence": [
           "As a positive control, 30 g of recombinant standard FSH (RHS_FSH), provided from Merck KGaA, was digested following the same protocol described above."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "hFSH purified from serum",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "serum pool from 54 fertile women",
+        "evidence": [
+          "54 fertile women\u2019s serum samples (age range: 29 \u00b1 3)... were pooled and am hFSH immunopurification protocol was carried out."
         ]
       }
     ],
@@ -70,8 +80,8 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Recombinant FSH (RHS_FSH)",
-        "case_label": "Serum-purified FSH (IP_hFSH)",
+        "control_label": "RHS_FSH",
+        "case_label": "IP_hFSH",
         "contrast_type": "pairwise",
         "evidence": [
           "we compared RHS_FSH with hFSH from a pool of woman\u2019s sera."
@@ -118,7 +128,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Relative quantification via extracted ion chromatograms (XIC) of PRM transitions"
+      "relative quantification",
+      "extracting the chromatographic traces of selected fragments of glycopeptides"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -142,56 +153,60 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The study uses data-dependent acquisition (DDA) for initial discovery and library building, and PRM for targeted quantification, both of which are label-free."
+          "reason": "The study used data-dependent MS/MS (top ten acquisition) for initial discovery and identification of glycopeptides."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycopeptide_enrichment",
-          "confidence": 0.95,
-          "reason": "Explicit use of multi-lectin affinity columns (ConA, WGA, RCA) to enrich N-glycans prior to MS-PRM analysis."
+          "modifier_workflow_id": "glycan_enrichment",
+          "confidence": 1.0,
+          "reason": "Extensive use of immunopurification (anti-hFSH sepharose) and multi-lectin affinity chromatography (ConA, WGA, RCA) to enrich glycopeptides."
+        },
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The core of the study is a Parallel Reaction Monitoring (PRM) approach for targeted identification and relative quantification."
         }
       ],
       "trigger_keywords": [
-        "glycoforms",
         "PRM",
+        "glycoforms",
+        "glycopeptides",
         "immunopurification",
         "lectin affinity",
-        "N-glycan",
         "Byonic"
       ],
-      "raw_or_file_name_triggers": [
-        "IP_hFSH",
-        "RHS_FSH"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The study uses data-dependent acquisition (DDA) for initial discovery and library building, and PRM for targeted quantification, both of which are label-free."
+          "reason": "The study used data-dependent MS/MS (top ten acquisition) for initial discovery and identification of glycopeptides."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycopeptide_enrichment",
-          "confidence": 0.95,
-          "reason": "Explicit use of multi-lectin affinity columns (ConA, WGA, RCA) to enrich N-glycans prior to MS-PRM analysis."
+          "modifier_workflow_id": "glycan_enrichment",
+          "confidence": 1.0,
+          "reason": "Extensive use of immunopurification (anti-hFSH sepharose) and multi-lectin affinity chromatography (ConA, WGA, RCA) to enrich glycopeptides."
+        },
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The core of the study is a Parallel Reaction Monitoring (PRM) approach for targeted identification and relative quantification."
         }
       ],
       "trigger_keywords": [
-        "glycoforms",
         "PRM",
+        "glycoforms",
+        "glycopeptides",
         "immunopurification",
         "lectin affinity",
-        "N-glycan",
         "Byonic"
       ],
-      "raw_or_file_name_triggers": [
-        "IP_hFSH",
-        "RHS_FSH"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_site",
@@ -217,8 +232,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:37:41Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

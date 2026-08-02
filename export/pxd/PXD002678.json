@@ -3,14 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": null,
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "molecular state comparison"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "IgA plasma cell"
+    ],
     "cell_lines": [
       "HEK293A"
     ],
@@ -22,31 +24,31 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
-        "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "molecular_state",
+          "ptm_state_biological_comparison"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
-          "monoclonal antibodies generated from single IgA plasma cells of celiac disease lesions",
-          "human monoclonal antibodies (hmAbs) obtained by these two approaches were specific to gliadin antigens",
-          "A rotavirus specific hmAb (Rota-2B04) was used as negative control."
+          "The large majority of the identified hmAb-enriched gluten peptides had been deamidated by TG2",
+          "Reactivity to this motif was verified by ELISA which also revealed preferential reactivity to the deamidated versions of the peptides",
+          "an enrichment of deamidated peptides when comparing pre and post pull-down samples"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "transglutaminase 2 (TG2)",
+        "agent": "transglutaminase 2",
         "dose_or_concentration": "0.1 \u00b5g/\u00b5l",
         "duration": "60 min",
-        "route_or_context": "in vitro treatment of gliadin digest",
+        "route_or_context": "pooled fractions of gliadin digest",
         "evidence": [
           "The pooled fractions were treated with 0.1 \u00b5g/\u00b5l TG2 in 100 mM Tris-HCl pH 7.4 supplemented with 2 mM CaCl2 for 60 min at 37 \u00b0C"
         ]
@@ -59,7 +61,7 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "rotavirus-specific hmAb (Rota-2B04)"
+      "rotavirus specific hmAb (Rota-2B04)"
     ],
     "case_arms": [
       "gliadin-reactive hmAbs"
@@ -70,7 +72,7 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "rotavirus-specific hmAb",
+        "control_label": "negative control hmAb",
         "case_label": "gliadin-reactive hmAbs",
         "contrast_type": "pairwise",
         "evidence": [
@@ -104,7 +106,13 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [],
+    "cell_types": [
+      {
+        "label": "IgA plasma cell",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000987"
+      }
+    ],
     "cell_lines": [
       {
         "label": "HEK293A",
@@ -112,7 +120,12 @@
         "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "small intestine mucosa",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -120,7 +133,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -129,13 +142,15 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "quantification_strategy": [],
-    "proteomics_mode": "PTM-enriched",
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Peptidomics",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_label": "Affinity purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -154,21 +169,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive; pull-down enrichment suggests a comparative abundance analysis (pre vs post pull-down) although no formal labeling was used."
+          "reason": "Data was acquired using a Q Exactive in data-dependent acquisition (DDA) mode. While no formal LFQ method is detailed, the comparison of pre- and post-pull-down samples implies a relative abundance/enrichment analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "no_enzyme_digestion",
-          "confidence": 0.95,
-          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex proteolytic digests (PTCEC) and TG2-treated."
+          "confidence": 1.0,
+          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex gut-enzyme digests (pepsin, trypsin, chymotrypsin, elastase, carboxypeptidase) resulting in non-standard peptide lengths."
         }
       ],
       "trigger_keywords": [
         "enzyme specificity was set as none",
+        "data-dependent acquisition mode",
         "antibody pull-down",
-        "TG2-treated",
-        "data-dependent acquisition mode"
+        "TG2-treated gliadin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -177,21 +192,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive; pull-down enrichment suggests a comparative abundance analysis (pre vs post pull-down) although no formal labeling was used."
+          "reason": "Data was acquired using a Q Exactive in data-dependent acquisition (DDA) mode. While no formal LFQ method is detailed, the comparison of pre- and post-pull-down samples implies a relative abundance/enrichment analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "no_enzyme_digestion",
-          "confidence": 0.95,
-          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex proteolytic digests (PTCEC) and TG2-treated."
+          "confidence": 1.0,
+          "reason": "The search was explicitly performed with 'enzyme specificity set as none' because the samples were complex gut-enzyme digests (pepsin, trypsin, chymotrypsin, elastase, carboxypeptidase) resulting in non-standard peptide lengths."
         }
       ],
       "trigger_keywords": [
         "enzyme specificity was set as none",
+        "data-dependent acquisition mode",
         "antibody pull-down",
-        "TG2-treated",
-        "data-dependent acquisition mode"
+        "TG2-treated gliadin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,8 +234,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:44:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

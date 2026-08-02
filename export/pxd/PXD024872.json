@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free quantification",
+    "quantification_method": "label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,44 +23,61 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "global proteomics determined proteins that were significantly increased, and thus may be substrates targeted for degradation, in cells depleted of CTLH complex member RanBPM",
           "comparing the global proteomes of shControl and shRanBPM HeLa cells",
-          "RanBPM shRNA stable (shRanBPM)",
-          "CRISPR control and RMND5A KO HeLa cells"
+          "RanBPM knockdown cells",
+          "shRanBPM HeLa cells"
+        ]
+      },
+      {
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "RMND5A KO HeLa cells",
+          "reduced polyubiquitination was validated for PKM2 and LDHA in cells depleted of RanBPM and CTLH complex RING domain subunit RMND5A"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "shRanBPM",
+        "agent": "RanBPM",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "shRNA stable knockdown in HeLa cells",
+        "route_or_context": "shRNA stable knockdown",
         "evidence": [
-          "RanBPM shRNA stable (shRanBPM)"
+          "RanBPM shRNA stable (shRanBPM)",
+          "shRanBPM HeLa cells"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "RMND5A KO",
+        "agent": "RMND5A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR knockout in HeLa cells",
+        "route_or_context": "CRISPR knockout",
         "evidence": [
-          "CRISPR control and RMND5A KO HeLa cells"
+          "RMND5A KO HeLa cells"
         ]
       },
       {
@@ -67,9 +85,10 @@
         "agent": "MG132",
         "dose_or_concentration": "10 \u03bcM",
         "duration": "4 hours",
-        "route_or_context": "proteasome inhibition to stabilize ubiquitinated proteins for diGLY enrichment",
+        "route_or_context": "proteasome inhibition to stabilize ubiquitinated proteins",
         "evidence": [
-          "Cells were treated with 10 \u03bcM MG132 (EMD\u2010CalBiochem, San Diego, CA, USA) for 4 hours."
+          "Cells were treated with 10 \u00b0M MG132 (EMD\u2010Biachem, San Diego, CA, USA) for 4 hours.",
+          "HeLa cells at 75%\u201080% confluency were treated with 10 \u00b0M MG132 for 4 hours and processed exactly as described for global proteomics."
         ]
       }
     ],
@@ -81,7 +100,8 @@
     "timepoints": [],
     "control_arms": [
       "shControl",
-      "CRISPR control"
+      "CRISPR control",
+      "IgG negative control"
     ],
     "case_arms": [
       "shRanBPM",
@@ -90,7 +110,9 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "valid values in \u22654 samples (out of 5) in either control or knockdown for proteome"
+      "valid values in \u22654 samples (out of 5) in either control or knockdown for proteome",
+      "valid values in \u22653 (out of 4) samples in RanBPM interactome",
+      "valid values in \u22653 (out of 3) for diGLY"
     ],
     "multiplex_channel_hints": [
       "label-free proteomics"
@@ -109,7 +131,7 @@
         "case_label": "RMND5A KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "CRISPR control and RMND5A KO HeLa cells"
+          "reduced polyubiquitination was validated for PKM2 and LDHA in cells depleted of RanBPM and CTLH complex RING domain subunit RMND5A"
         ]
       }
     ],
@@ -122,7 +144,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -154,7 +176,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free quantification"
+      "label-free quantification (LFQ)"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -184,7 +206,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) with DDA acquisition (Top 20/Top 12 peptides selected for CID/HCD) for both global and diGLY-enriched proteomics."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with DDA acquisition (Top 20/Top 12 peptides selected for CID/HCD) for both global proteome and diGLY-enriched samples."
         }
       ],
       "modifier_candidates_ranked": [
@@ -207,7 +229,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) with DDA acquisition (Top 20/Top 12 peptides selected for CID/HCD) for both global and diGLY-enriched proteomics."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with DDA acquisition (Top 20/Top 12 peptides selected for CID/HCD) for both global proteome and diGLY-enriched samples."
         }
       ],
       "modifier_candidates_ranked": [
@@ -249,8 +271,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:42:00Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

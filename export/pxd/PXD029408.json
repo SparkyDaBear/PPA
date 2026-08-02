@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation",
+      "small-molecule inhibitor treatment"
     ],
     "cell_types": [
       "retinal pigment epithelial cell"
@@ -24,33 +25,61 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
           "we silenced CFH in hTERT-RPE1 cells to investigate the mechanism by which intracellular FH regulates RPE cell homeostasis",
           "Upon silencing of the CFH gene via RNAi to reduce FH protein levels in hTERT-RPE1 cells"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "mTOR inhibition via rapamycin can partially rescue these metabolic defects",
+          "we treated siNeg and siCFH RPE cells with rapamycin, a well-known inhibitor of mTORC1 activity"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "siRNA against CFH",
+        "agent": "siRNA specific for CFH",
         "dose_or_concentration": null,
         "duration": "24 h incubation",
         "route_or_context": "Lullaby transfection reagent",
         "evidence": [
           "Gene silencing was performed using Lullaby transfection reagent... using a equimolar mixture of three different double strand hairpin interference RNAs specific for CFH",
-          "After 24 h incubation (37 \u00b0C, 5% CO2), cells were switched to serum free medium (SFM) for 48 h."
+          "After 24 h incubation (37 \u00b0C, 5% CO2), cells were switched to serum free medium (SFM) for 48 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "rapamycin",
+        "dose_or_concentration": "200 nM",
+        "duration": "48 h",
+        "route_or_context": "resolved in DMSO",
+        "evidence": [
+          "a final rapamycin concentration of 200 nM was chosen for further experiments",
+          "cells were grown for a further 48 h in medium containing DMSO (as control) or rapamycin resolved in DMSO"
         ]
       }
     ],
@@ -60,30 +89,47 @@
   },
   "experimental_design": {
     "timepoints": [
-      "24 h incubation",
-      "48 h in SFM"
+      "24 h",
+      "48 h"
     ],
     "control_arms": [
       "siNeg",
-      "IgG control"
+      "DMSO"
     ],
     "case_arms": [
       "siCFH",
-      "anti-FH antibody IP"
+      "rapamycin"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": true,
+    "factorial_design": true,
     "replicate_hints": [
-      "at least two technical replicates per condition"
+      "at least duplicates in XFpSeahorse microplates",
+      "experimental values from 4\u20135 independent experiments"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "IgG control",
-        "case_label": "FH pulldown",
+        "control_label": "siNeg",
+        "case_label": "siCFH",
         "contrast_type": "pairwise",
         "evidence": [
-          "Analyses of the intracellular FH-interactome yielded a set of 101 identified proteins with significant enrichment in the FH pulldown samples in comparison to the IgG control samples"
+          "compare siNeg vs. siCFH conditions"
+        ]
+      },
+      {
+        "control_label": "siCFH",
+        "case_label": "siCFH + Rapa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare... siCFH vs. siCFH + Rapa conditions"
+        ]
+      },
+      {
+        "control_label": "siNeg",
+        "case_label": "siNeg + Rapa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare... siNeg vs. siNeg + Rapa conditions"
         ]
       }
     ],
@@ -96,7 +142,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -158,21 +204,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used label-free quantification (LFQ) based on MS1 intensities with DDA acquisition (top speed mode, HCD fragmentation) on an Orbitrap Fusion Tribrid."
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods section describes a DDA acquisition (top speed mode, HCD fragmentation) using MaxQuant for LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The proteomics data was generated via immunoprecipitation (IP) of FH compared to an IgG control to analyze the interactome."
+          "reason": "The experiment is explicitly described as an interactome analysis using immunoprecipitation (IP) followed by mass spectrometry."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "interactome",
         "label-free quantification",
-        "MS1 intensity based"
+        "top speed mode",
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,21 +228,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used label-free quantification (LFQ) based on MS1 intensities with DDA acquisition (top speed mode, HCD fragmentation) on an Orbitrap Fusion Tribrid."
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods section describes a DDA acquisition (top speed mode, HCD fragmentation) using MaxQuant for LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The proteomics data was generated via immunoprecipitation (IP) of FH compared to an IgG control to analyze the interactome."
+          "reason": "The experiment is explicitly described as an interactome analysis using immunoprecipitation (IP) followed by mass spectrometry."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "interactome",
         "label-free quantification",
-        "MS1 intensity based"
+        "top speed mode",
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,8 +271,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:09:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

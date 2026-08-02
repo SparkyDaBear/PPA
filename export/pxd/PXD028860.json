@@ -2,13 +2,13 @@
   "pxd": "PXD028860",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
+    "acquisition_type": "Unknown",
     "quantification_method": "peptide counts",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
       "embryonic stem cell",
@@ -28,43 +28,65 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "Acute protein degradation followed by time-series genomic binding quantitation",
-          "To degrade the target proteins, we first treated the degron-tagged mESCs with 1 \u03bcg/ml doxycycline (Sigma Aldrich, D9891) for 24 h, then added 500 \u03bcM indole acetic acid (IAA; Sigma Aldrich, 115148) for the indicated times",
-          "the double depletion of ZBTB21 and ZBTB7B further decreases the chromatin occupancy of cohesin"
+          "To degrade the target proteins, we first treated the degron-tagged mESCs with 1 \u03bcg/ml doxycycline (Sigma Aldrich, D98901) for 24 h, then added 500 \u03bcM indole acetic acid (IAA; Sigma Aldrich, 115148) for the indicated times",
+          "double degradation of ZBTB21 and ZBTB7B led to a further decrease in cohesin chromatin occupancy"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "ZBTB21",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "acute protein degradation via mAID-GFP degron system",
+        "evidence": [
+          "Acute protein degradation followed by time-series genomic binding quantitation",
+          "ZBTB21-degron mESCs were induced by doxycycline for 24 h, and treated with IAA for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ZBTB7B",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "acute protein degradation via mAID-GFP degron system",
+        "evidence": [
+          "double degradation of ZBTB21 and ZBTB7B led to a further decrease in cohesin chromatin occupancy",
+          "we generated a double degradation system to simultaneously deplete ZBTB21 and ZBTB7B"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
         "agent": "indole acetic acid (IAA)",
         "dose_or_concentration": "500 \u03bcM",
         "duration": null,
         "route_or_context": "degron-tagged mESCs",
         "evidence": [
-          "then added 500 \u03bcM indole acetic acid (IAA; Sigma Aldrich, 115148) for the indicated times for different analyses"
+          "then added 500 \u03bcM indole acetic acid (IAA; Sigma Aldrich, 115148) for the indicated times"
         ]
       },
       {
-        "relation_key": "has_treatment_agent",
+        "relation_key": "has_treatment_dose",
         "agent": "doxycycline",
         "dose_or_concentration": "1 \u03bcg/ml",
         "duration": "24 h",
         "route_or_context": "degron-tagged mESCs",
         "evidence": [
-          "we first treated the degron-tagged mESCs with 1 \u03bcg/ml doxycycline (Sigma Aldrich, D9891) for 24 h"
+          "we first treated the degron-tagged mESCs with 1 \u03bcg/ml doxycycline (Sigma Aldrich, D98901) for 24 h"
         ]
       }
     ],
@@ -75,11 +97,13 @@
   "experimental_design": {
     "timepoints": [
       "0 h",
-      "6 h"
+      "6 h",
+      "24 h"
     ],
     "control_arms": [
       "untreated",
-      "Anti-GFP"
+      "Anti-GFP",
+      "input samples"
     ],
     "case_arms": [
       "IAA-treated",
@@ -88,7 +112,7 @@
       "double degradation of ZBTB21 and ZBTB7B"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "The two replicates were filtered by IDR software"
     ],
@@ -104,10 +128,18 @@
       },
       {
         "control_label": "ZBTB21 depletion",
-        "case_label": "ZBTB21 and ZBTB7B double depletion",
-        "contrast_type": "pairwise",
+        "case_label": "double degradation of ZBTB21 and ZBTB7B",
+        "contrast_type": "multi_group",
         "evidence": [
           "double depletion caused a greater decrease in cohesin binding than the depletion of ZBTB21 alone"
+        ]
+      },
+      {
+        "control_label": "0 h",
+        "case_label": "6 h",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "differential peaks were more robust changes in 0\u20131, 0\u20136 and 1\u20136 h"
         ]
       }
     ],
@@ -178,15 +210,15 @@
     ]
   },
   "assay": {
-    "acquisition_type": "DDA",
+    "acquisition_type": "Unknown",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
       "peptide counts",
-      "PSM value"
+      "label-free"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "AP-MS",
@@ -208,21 +240,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly lists 'Label-free' and the methods describe a standard ChIP-MS approach using peptide counts/PSMs for quantification without mention of isotopic labels."
+          "reason": "PRIDE keywords explicitly state 'Label-free' and the methods describe ChIP-MS using peptide counts (PSMs) and log2 fold change comparisons without mention of isobaric or SILAC labeling."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_chip_ms",
-          "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'cohesin ChIP-MS' and 'ZBTB21 ChIP-MS' throughout the text and PRIDE metadata."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Label-free",
         "ChIP-MS",
         "peptide counts",
-        "PSM value"
+        "PSM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -231,21 +257,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly lists 'Label-free' and the methods describe a standard ChIP-MS approach using peptide counts/PSMs for quantification without mention of isotopic labels."
+          "reason": "PRIDE keywords explicitly state 'Label-free' and the methods describe ChIP-MS using peptide counts (PSMs) and log2 fold change comparisons without mention of isobaric or SILAC labeling."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "modifier_chip_ms",
-          "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'cohesin ChIP-MS' and 'ZBTB21 ChIP-MS' throughout the text and PRIDE metadata."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Label-free",
         "ChIP-MS",
         "peptide counts",
-        "PSM value"
+        "PSM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -273,8 +293,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:18:55Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

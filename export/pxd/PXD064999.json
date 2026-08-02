@@ -3,17 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation",
-      "genetic perturbation"
+      "genetic perturbation",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "dendritic cell",
-      "monocyte-derived dendritic cells"
+      "dendritic cell"
     ],
     "cell_lines": [
       "MCF-7"
@@ -26,34 +25,38 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
-        "category": "ligand_stimulation",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation induced by adding a ligand such as growth factor, cytokine, or hormone.",
-        "confidence": "high",
-        "evidence": [
-          "Six samples were pulsed with lysates from the MCF-7 breast cancer cell line, while eight samples were used as controls.",
-          "Pulsing DCs with MCF-7 extracts increased peptide overlap between donors"
-        ]
-      },
-      {
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "substitution_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "genetic",
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
-        "confidence": "medium",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
         "evidence": [
           "identify differences in the arrays of peptides binding distinct HLA-DRB1 allele combinations",
-          "presented peptide repertoires are strongly influenced by HLA-DR heterozygosity in an allele-specific manner."
+          "presented peptide repertoires are strongly influenced by HLA-DR heterozygosity in an allele-specific manner",
+          "the impact of HLA-II heterozygosity on the presentation of tumour-associated antigens"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
+        ],
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
+        "confidence": "high",
+        "evidence": [
+          "Six samples were pulsed with lysates from the MCF-7 breast cancer cell line, while eight samples were used as controls.",
+          "evaluate whether allele co-expression influences the presentation of potential tumour-related peptides identified upon pulsing."
         ]
       }
     ],
@@ -61,12 +64,12 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "MCF-7 tumour cell line lysates",
-        "dose_or_concentration": "90 \u03bcg/mL",
+        "dose_or_concentration": "90 \u00b5g/mL",
         "duration": "24 h",
-        "route_or_context": "MoDC pulsing",
+        "route_or_context": "pulsing of mature MoDCs",
         "evidence": [
-          "Six samples were pulsed with lysates from the MCF-7 breast cancer cell line",
-          "subjected to antigen pulsing for 24 h, using the complete extract obtained from 5 \u00d7 106 MCF-7 cells, corresponding to a final protein pulsing concentration of 90 \u03bcg/mL in the culture medium."
+          "pulsed with a protein extract from the MCF-7 tumour cell line",
+          "subjected to antigen pulsing for 24 h, using the complete extract obtained from 5 \u00d7 106 MCF-7 cells, corresponding to a final protein pulsing concentration of 90 \u00b5g/mL in the culture medium"
         ]
       }
     ],
@@ -83,22 +86,31 @@
       "C-DC"
     ],
     "case_arms": [
-      "pulsed MoDCs",
+      "lysate-pulsed MoDCs",
       "P-DC"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "14 random healthy donors"
+      "14 donors",
+      "Six samples were pulsed... while eight samples were used as controls"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "C-DC",
-        "case_label": "P-DC",
+        "control_label": "non-pulsed MoDCs (C-DC)",
+        "case_label": "MCF-7 lysate-pulsed MoDCs (P-DC)",
         "contrast_type": "pairwise",
         "evidence": [
-          "Six were pulsed with tumoral cell line MCF-7 cell lysates while the remaining eight were used as controls."
+          "Six samples were pulsed with lysates from the MCF-7 breast cancer cell line, while eight samples were used as controls."
+        ]
+      },
+      {
+        "control_label": "HLA-DRB1 allele X",
+        "case_label": "HLA-DRB1 allele Y",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "identify differences in the arrays of peptides binding distinct HLA-DRB1 allele combinations"
         ]
       }
     ],
@@ -120,11 +132,6 @@
         "label": "dendritic cell",
         "rollup_category": "immune cell",
         "ontology_curie": "CL:0000451"
-      },
-      {
-        "label": "monocyte-derived dendritic cells",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
       }
     ],
     "cell_lines": [
@@ -178,14 +185,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used Data-Dependent Acquisition (DDA) on an Orbitrap Fusion Lumos and LTQ Orbitrap XL. While no explicit label-free quantification (LFQ) software is mentioned, the analysis focuses on peptide presence/absence and counts across samples."
+          "reason": "Data was acquired in DDA mode using Orbitrap instruments. While no explicit quantification method is listed in PRIDE, the study performs comparative analysis of peptide repertoires and counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The study specifically analyzes the HLA-II immunopeptidome, utilizing immunoprecipitation of HLA-DR complexes and 'no enzyme' search parameters."
+          "reason": "The experiment specifically analyzes the HLA-II immunopeptidome, utilizing immunoprecipitation of HLA-DR complexes and 'no enzyme' search parameters."
         }
       ],
       "trigger_keywords": [
@@ -193,7 +200,7 @@
         "HLA-DR",
         "no enzyme",
         "non-specific cleavage",
-        "DDA"
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,14 +209,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used Data-Dependent Acquisition (DDA) on an Orbitrap Fusion Lumos and LTQ Orbitrap XL. While no explicit label-free quantification (LFQ) software is mentioned, the analysis focuses on peptide presence/absence and counts across samples."
+          "reason": "Data was acquired in DDA mode using Orbitrap instruments. While no explicit quantification method is listed in PRIDE, the study performs comparative analysis of peptide repertoires and counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The study specifically analyzes the HLA-II immunopeptidome, utilizing immunoprecipitation of HLA-DR complexes and 'no enzyme' search parameters."
+          "reason": "The experiment specifically analyzes the HLA-II immunopeptidome, utilizing immunoprecipitation of HLA-DR complexes and 'no enzyme' search parameters."
         }
       ],
       "trigger_keywords": [
@@ -217,7 +224,7 @@
         "HLA-DR",
         "no enzyme",
         "non-specific cleavage",
-        "DDA"
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -245,8 +252,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:52:42Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

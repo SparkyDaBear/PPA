@@ -3,68 +3,146 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Extracted ion chromatograms",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "breast cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "CAMA-1",
-      "T47D"
+      "HEK 293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "Gel lanes (WT and KD) were cut into different bands",
+          "Extracted ion chromatograms were obtained for each phosphopeptide in both the KD and WT kinase (CDK4) experiments."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CDK-4",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "wild-type (WT) vs kinase-dead (KD) comparison in in vitro kinase assay",
+        "evidence": [
+          "Gel lanes (WT and KD) were cut into different bands",
+          "Extracted ion chromatograms were obtained for each phosphopeptide in both the KD and WT kinase (CDK4) experiments."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "WT"
+    ],
+    "case_arms": [
+      "KD"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "WT",
+        "case_label": "KD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Gel lanes (WT and KD) were cut into different bands",
+          "Extracted ion chromatograms were obtained for each phosphopeptide in both the KD and WT kinase (CDK4) experiments."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Caenorhabditis elegans",
+        "taxonomy_hint": "NEWT:6239",
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK 293T",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Extracted ion chromatograms",
+      "Intensity summation of phosphopeptides",
+      "Normalization using non-phosphopeptides"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +150,66 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive and LTQ Orbitrap Velos. Quantification was performed by summing extracted ion chromatograms (XIC) of phosphopeptides, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 0.95,
+          "reason": "The experiment specifically targets phosphorylation sites using PhosphoRS 3.0 for localization and focuses on differentially phosphorylated residues."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "extracted ion chromatograms",
+        "phosphopeptide",
+        "PhosphoRS 3.0",
+        "phosphorylation (STY)"
+      ],
+      "raw_or_file_name_triggers": [
+        "WT",
+        "KD"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive and LTQ Orbitrap Velos. Quantification was performed by summing extracted ion chromatograms (XIC) of phosphopeptides, which is a label-free quantification (LFQ) approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 0.95,
+          "reason": "The experiment specifically targets phosphorylation sites using PhosphoRS 3.0 for localization and focuses on differentially phosphorylated residues."
+        }
+      ],
+      "trigger_keywords": [
+        "data-dependent mode",
+        "extracted ion chromatograms",
+        "phosphopeptide",
+        "PhosphoRS 3.0",
+        "phosphorylation (STY)"
+      ],
+      "raw_or_file_name_triggers": [
+        "WT",
+        "KD"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +229,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

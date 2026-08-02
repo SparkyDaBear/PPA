@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "spectral counting",
+    "quantification_method": "spectral abundance factor (SAF)",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -11,9 +11,7 @@
       "anatomical or spatial comparison",
       "genetic perturbation"
     ],
-    "cell_types": [
-      "HeLa cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
@@ -29,12 +27,12 @@
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
         "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "spatial_region_comparison",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
           "anatomical_spatial",
-          "spatial_region_comparison"
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
           "we carried out immunoprecipitations from HeLa cell cytoplasmic and nuclear extracts",
@@ -47,15 +45,16 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
-        "confidence": "medium",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
         "evidence": [
-          "we knocked down endogenous TAF8 in HeLa cells by RNA interference (RNAi) treatment for 48h and compared the nuclear/cytoplasmic distribution of TAF2 in TAF8 knockdown cells with control cells"
+          "we knocked down endogenous TAF8 in HeLa cells by RNA interference (RNAi) treatment for 48h",
+          "Short interfering RNA (siRNA) treatment leads to depletion of TAF2 in the nucleus and to an enrichment of TAF2 in the cytoplasm"
         ]
       }
     ],
@@ -67,7 +66,7 @@
         "duration": "48h",
         "route_or_context": "HeLa cells",
         "evidence": [
-          "siRNAs targeting TAF8... were transfected into HeLa cells",
+          "siRNAs targeting TAF8 (ON-TARGETplus SMARTpool siRNA J-015912-20, J015912-19, J015912-18, J015912-17S; Dharmacon; ThermoSientific) were transfected into HeLa cells",
           "knocked down endogenous TAF8 in HeLa cells by RNA interference (RNAi) treatment for 48h"
         ]
       }
@@ -81,12 +80,14 @@
       "48h"
     ],
     "control_arms": [
+      "non-targeting control",
       "nuclear extract",
-      "non-targeting control siRNA"
+      "7TAF complex"
     ],
     "case_arms": [
       "cytoplasmic extract",
-      "TAF8 knockdown"
+      "TAF8 knockdown",
+      "8TAF complex"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -100,12 +101,21 @@
         "case_label": "cytoplasmic fraction",
         "contrast_type": "pairwise",
         "evidence": [
-          "MudPIT analysis of proteins co-precipitated with TAF2 from the nuclear fraction revealed the full set of TFIID components... MudPIT analysis of TAF2-associated proteins from the cytoplasmic fraction identified only TAF8 and TAF10"
+          "MudPIT analysis of proteins co-precipitated with TAF2 from the nuclear fraction revealed the full set of TFIID components",
+          "MudPIT analysis of TAF2-associated proteins from the cytoplasmic fraction identified only TAF8 and TAF10"
         ]
       },
       {
-        "control_label": "control cells",
-        "case_label": "TAF8 knockdown cells",
+        "control_label": "7TAF complex",
+        "case_label": "8TAF complex",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we looked at the transition from 7TAF to 8TAF complexes on TAF2 binding by crosslinking and MS (CLMS) experiments"
+        ]
+      },
+      {
+        "control_label": "non-targeting control",
+        "case_label": "TAF8 knockdown",
         "contrast_type": "pairwise",
         "evidence": [
           "compared the nuclear/cytoplasmic distribution of TAF2 in TAF8 knockdown cells with control cells"
@@ -125,18 +135,12 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "HeLa cell",
-        "rollup_category": "cell line",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": "human",
-        "ontology_curie": null
+        "family": "Adenocarcinoma",
+        "ontology_curie": "CL:0000210"
       }
     ],
     "noncellular_sources": [],
@@ -147,7 +151,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -159,8 +163,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "spectral counting",
-      "normalized spectral abundance factor (SAF)"
+      "spectral abundance factor (SAF)",
+      "normalized spectral abundance factor"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -183,15 +187,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The experiment uses DDA (data-dependent acquisition) on an LTQ Orbitrap Velos. While primarily a cross-linking study, the MudPIT analysis for the other dataset (PXD001427) uses spectral abundance factors (SAF) for relative quantification, which is a form of label-free quantification."
+          "confidence": 0.8,
+          "reason": "The dataset uses DDA (data-dependent acquisition) on an LTQ Orbitrap Velos and reports relative abundance via normalized spectral abundance factor (SAF) for the MudPIT data."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_bs3",
+          "modifier_workflow_id": "clms_bs3",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of BS3 (Bis-sulfosuccinimidyl suberate) for chemical cross-linking mass spectrometry (CLMS) to map protein-protein interactions."
+          "reason": "Explicit use of BS3 (Bis-sulfosuccinimidyl suberate) for chemical cross-linking mass spectrometry (CLMS) to map protein-protein interactions in 7TAF and 8TAF complexes."
         }
       ],
       "trigger_keywords": [
@@ -207,15 +211,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The experiment uses DDA (data-dependent acquisition) on an LTQ Orbitrap Velos. While primarily a cross-linking study, the MudPIT analysis for the other dataset (PXD001427) uses spectral abundance factors (SAF) for relative quantification, which is a form of label-free quantification."
+          "confidence": 0.8,
+          "reason": "The dataset uses DDA (data-dependent acquisition) on an LTQ Orbitrap Velos and reports relative abundance via normalized spectral abundance factor (SAF) for the MudPIT data."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_bs3",
+          "modifier_workflow_id": "clms_bs3",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of BS3 (Bis-sulfosuccinimidyl suberate) for chemical cross-linking mass spectrometry (CLMS) to map protein-protein interactions."
+          "reason": "Explicit use of BS3 (Bis-sulfosuccinimidyl suberate) for chemical cross-linking mass spectrometry (CLMS) to map protein-protein interactions in 7TAF and 8TAF complexes."
         }
       ],
       "trigger_keywords": [
@@ -251,8 +255,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:32:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

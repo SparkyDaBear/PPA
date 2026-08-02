@@ -3,63 +3,162 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "case-control disease status",
+      "organ region comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "Plasma differences between healthy individuals and patients with OA were then screened using this assay.",
+          "In total 224 samples were used for analyzing plasma lubricin glycoforms and to determine the differences in the subgroups: OA (n = 183) and controls (n = 41)."
+        ]
+      },
+      {
+        "ontology_label": "organ region comparison",
+        "ontology_curie": "PPA:0000100",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "organ_region_comparison"
+        ],
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
+        "confidence": "high",
+        "evidence": [
+          "we used glycomics and glycoproteomics to characterize glycoproteoforms of OA lubricin in SF and plasma.",
+          "Synovial fluid and plasma glycosylation was compared (N = 19)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "osteoarthritis",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "disease state",
+        "evidence": [
+          "patients with OA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "controls",
+      "healthy volunteers"
+    ],
+    "case_arms": [
+      "OA patients"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "plasma samples were added in triplicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "controls",
+        "case_label": "OA patients",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Plasma differences between healthy individuals and patients with OA were then screened"
+        ]
+      },
+      {
+        "control_label": "plasma",
+        "case_label": "synovial fluid",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "characterize glycoproteoforms of OA lubricin in SF and plasma"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "plasma",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "synovial fluid",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +166,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse. While no internal standard is mentioned, the study compares relative intensities and abundance across SF and plasma."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_o_glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets O-glycosylation of lubricin using mucinase enrichment and ETD/EThcD fragmentation for site localization."
+        }
+      ],
+      "trigger_keywords": [
+        "O-glycosites",
+        "mucinase",
+        "ETD",
+        "EThcD",
+        "glycoproteomics",
+        "O-glycan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse. While no internal standard is mentioned, the study compares relative intensities and abundance across SF and plasma."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_o_glycoproteomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically targets O-glycosylation of lubricin using mucinase enrichment and ETD/EThcD fragmentation for site localization."
+        }
+      ],
+      "trigger_keywords": [
+        "O-glycosites",
+        "mucinase",
+        "ETD",
+        "EThcD",
+        "glycoproteomics",
+        "O-glycan"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,7 +241,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

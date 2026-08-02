@@ -2,31 +2,30 @@
   "pxd": "PXD058731",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "acquisition_type": "Unknown",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "Dimethyl"
     ],
-    "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Nutrient or Metabolic Perturbation",
-      "Time-Course / Temporal Series"
-    ],
+    "treatment_categories": [],
     "cell_types": [
-      "malignant cell"
+      "malignant cell",
+      "lung fibroblasts"
     ],
     "cell_lines": [
+      "IGR39",
       "IGR37",
       "WM266.4",
+      "WM115",
       "BXPC3",
       "CAPAN-2",
       "IMR90",
       "HEK293T"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
@@ -50,27 +49,110 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "malignant cell",
+        "rollup_category": "cancer cell",
+        "ontology_curie": "CL:0001064"
+      },
+      {
+        "label": "lung fibroblasts",
+        "rollup_category": "fibroblast",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "IGR39",
+        "family": "melanoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "IGR37",
+        "family": "melanoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "WM266.4",
+        "family": "melanoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "WM115",
+        "family": "melanoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "BXPC3",
+        "family": "PDAC",
+        "ontology_curie": null
+      },
+      {
+        "label": "CAPAN-2",
+        "family": "PDAC",
+        "ontology_curie": null
+      },
+      {
+        "label": "IMR90",
+        "family": "lung fibroblasts",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": "human embryonic Kidney",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "patient tumor biopsies",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "conditioned media",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ",
+      "Dimethyl"
+    ],
+    "quantification_strategy": [
+      "label-free quantification",
+      "reductive dimethylation"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "N-terminomics enrichment",
+        "ontology_curie": "PPA:0000296",
+        "workflow_modifier_hint": "mod_n_terminomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +160,104 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "Multiple datasets (secretome, global, membrane) explicitly used DDA mode with label-free quantification (MaxQuant/Andromeda)."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 90,
+          "reason": "Global and membrane proteomics also utilized DIA mode analyzed with Spectronaut."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 80,
+          "reason": "The N-TAILS degradomics experiment used differential reductive dimethylation labeling (light and heavy formaldehyde)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics_tails",
+          "confidence": 100,
+          "reason": "Explicit use of N-TAILS (Terminal Amine Isotopic Labeling of Substrates) to isolate and quantify neo-N-terminal peptides."
+        },
+        {
+          "modifier_workflow_id": "secretome_enrichment",
+          "confidence": 90,
+          "reason": "Specific preparation of conditioned media (secretome) using 10 kDa MWCO filters."
+        },
+        {
+          "modifier_workflow_id": "membrane_fractionation",
+          "confidence": 90,
+          "reason": "Use of Mem-per plus kit for membrane proteome isolation."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "DIA",
+        "N-TAILS",
+        "secretome",
+        "membrane proteome",
+        "dimethylation",
+        "neo-N-terminal"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 100,
+          "reason": "Multiple datasets (secretome, global, membrane) explicitly used DDA mode with label-free quantification (MaxQuant/Andromeda)."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 90,
+          "reason": "Global and membrane proteomics also utilized DIA mode analyzed with Spectronaut."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 80,
+          "reason": "The N-TAILS degradomics experiment used differential reductive dimethylation labeling (light and heavy formaldehyde)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "n_terminomics_tails",
+          "confidence": 100,
+          "reason": "Explicit use of N-TAILS (Terminal Amine Isotopic Labeling of Substrates) to isolate and quantify neo-N-terminal peptides."
+        },
+        {
+          "modifier_workflow_id": "secretome_enrichment",
+          "confidence": 90,
+          "reason": "Specific preparation of conditioned media (secretome) using 10 kDa MWCO filters."
+        },
+        {
+          "modifier_workflow_id": "membrane_fractionation",
+          "confidence": 90,
+          "reason": "Use of Mem-per plus kit for membrane proteome isolation."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "DIA",
+        "N-TAILS",
+        "secretome",
+        "membrane proteome",
+        "dimethylation",
+        "neo-N-terminal"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,7 +277,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

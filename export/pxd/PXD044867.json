@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counts",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Viral Infection"
+      "infection exposure"
     ],
     "cell_types": [
       "epithelial cell"
@@ -17,53 +16,131 @@
     "cell_lines": [
       "HCT116"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "The interactome of DDX5 in mock- and SINV-infected cells was determined by mass spectrometry.",
+          "we conducted a proteomic analysis to determine the interactome of DDX5 under both uninfected and SINV-infected conditions."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Sindbis virus",
+        "dose_or_concentration": "MOI of 0.1",
+        "duration": "24 h",
+        "route_or_context": "HCT116 cells",
+        "evidence": [
+          "We immunoprecipitated DDX5 from mock and SINV-infected HCT116 cells at a MOI of 0.1 for 24 h",
+          "Four millions of mock or SINV-GFP infected HCT116 cells (MOI 0.1, 24 hpi) were lysed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "24 hpi"
+    ],
+    "control_arms": [
+      "mock",
+      "uninfected"
+    ],
+    "case_arms": [
+      "SINV-infected"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "mock",
+        "case_label": "SINV-infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparison of the DDX5 enrichment profiles in mock and in SINV conditions showed that 156 human proteins overlapped"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HCT116",
+        "family": "human colorectal carcinoma",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counts"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +148,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive Plus) and label-free quantification via spectral counting (SpC) to compare interactomes across conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as an interactome study using immunoprecipitation (IP) of DDX5 and IgG controls."
+        }
+      ],
+      "trigger_keywords": [
+        "interactome",
+        "immunoprecipitated",
+        "spectral counts",
+        "SpC",
+        "DDX5-IP",
+        "IgG-IP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (Q-Exactive Plus) and label-free quantification via spectral counting (SpC) to compare interactomes across conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.95,
+          "reason": "The experiment is explicitly described as an interactome study using immunoprecipitation (IP) of DDX5 and IgG controls."
+        }
+      ],
+      "trigger_keywords": [
+        "interactome",
+        "immunoprecipitated",
+        "spectral counts",
+        "SpC",
+        "DDX5-IP",
+        "IgG-IP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,7 +223,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

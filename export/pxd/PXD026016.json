@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "cancer subtype comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -20,24 +21,52 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "a discovery phase, with a limited number of well-characterized CSF samples (n = 12) corresponding to patients with CNS infiltration (+LM) and negative patients without infiltration (\u2212LM), was performed by Liquid Chromatography-Tandem Mass Spectrometry (LC-MS/MS) in order to decipher differential protein profiles.",
-          "12 CSF samples were analyzed by LC-MS/MS; 7 of which taken from patients with CNS infiltration (+LM), and the remaining 5 from the patients without infiltration (\u2212LM)."
+          "a discovery phase, with a limited number of well-characterized CSF samples (n = 12) corresponding to patients with CNS infiltration (+LM) and negative patients without infiltration (\u2212LM)",
+          "Normal CSF samples (1 mL) were provided by Lee Biosolutions (Maryland Height, MO, USA). All of them were from donors which were negative for meningitis and other neurological diseases/disorders."
+        ]
+      },
+      {
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "within CSF + LM group, differential protein profiles were observed between leukemia and lymphoma",
+          "These samples came from patients with B- and T-cell lymphomas; and B- or T-cell or myeloid leukemias, classified into two main groups of study, lymphoma and leukemia."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "leptomeningeal metastasis",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cerebrospinal fluid",
+        "evidence": [
+          "leptomeningeal disease, a very destructive form of systemic cancer, was characterized from several proteomics points of view."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -45,28 +74,47 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "\u2212LM",
-      "non-infiltrated",
-      "healthy donors"
+      "CSF-LM",
+      "healthy donors",
+      "Normal CSF samples"
     ],
     "case_arms": [
-      "+LM",
-      "CNS infiltration"
+      "CSF+LM",
+      "lymphoma",
+      "leukemia"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "Blank wells (no sample) and pools were also included in the assay as technical replicates."
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "customized protein microarrays (266 antibodies (Abs) targeting 258 proteins)",
+      "Beads Suspension Microarrays (targeting 89 proteins with 129 Abs)"
+    ],
     "contrast_hints": [
       {
-        "control_label": "\u2212LM",
-        "case_label": "+LM",
+        "control_label": "CSF-LM",
+        "case_label": "CSF+LM",
         "contrast_type": "pairwise",
         "evidence": [
-          "differential protein profiles in CSF +/\u2212 LM or +/\u2212 infiltration",
-          "12 infiltrated (+LM) in comparison with 8 non-infiltrated or negative (\u2212LM)"
+          "differential protein profiles in CSF +/\u2212 LM or +/\u2212 infiltration"
+        ]
+      },
+      {
+        "control_label": "leukemia",
+        "case_label": "lymphoma",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "differential protein profiles were observed between leukemia and lymphoma"
+        ]
+      },
+      {
+        "control_label": "healthy donors",
+        "case_label": "patients with a pathology",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "systematic comparison between groups of samples was performed as previously described, starting with CSF from patients with a pathology in comparison with CSF from healthy donors"
         ]
       }
     ],
@@ -134,14 +182,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Velos. Quantification was performed using the exponentially modified protein abundance index (emPAI), which is a label-free relative quantification method based on peptide counts."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Velos. Quantification was performed using emPAI (exponentially modified protein abundance index), which is a label-free relative quantification method based on peptide counts."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "data-dependent automatic switch",
         "emPAI",
-        "LTQ-Orbitrap Velos"
+        "LTQ-Orbitrap Velos",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -150,14 +199,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Velos. Quantification was performed using the exponentially modified protein abundance index (emPAI), which is a label-free relative quantification method based on peptide counts."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ-Orbitrap Velos. Quantification was performed using emPAI (exponentially modified protein abundance index), which is a label-free relative quantification method based on peptide counts."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "data-dependent automatic switch",
         "emPAI",
-        "LTQ-Orbitrap Velos"
+        "LTQ-Orbitrap Velos",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,8 +235,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:51:55Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

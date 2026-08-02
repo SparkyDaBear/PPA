@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "temperature stress"
+      "temperature stress",
+      "genetic perturbation"
     ],
     "cell_types": [
       "B-lymphoblastoid"
@@ -35,35 +36,62 @@
           "temperature",
           "thermal_shift_or_gradient_exposure"
         ],
-        "matched_definition": "Perturbation using a temperature ramp, gradient, or shift series as the biological comparison factor.",
+        "matched_definition": "Temperature series, gradient, ramp, or shift used as a perturbation rather than only analytical TPP.",
         "confidence": "high",
         "evidence": [
-          "generate thermostability curves across entire immunopeptidomes",
           "incubated for 10 min in triplicate at different temperatures (37 \u00b0C, 40 \u00b0C, 43 \u00b0C, 46 \u00b0C, 50 \u00b0C, 53 \u00b0C, 56 \u00b0C, 60 \u00b0C, 63 \u00b0C, 66 \u00b0C, 70 \u00b0C or 73 \u00b0C)",
+          "generate thermal stability curves for naturally processed and presented immunopeptidomes",
           "the effect of heating of C1R-A*02:01 or C1R-B*07:02 cell lysates across the selected temperature range of 37\u201373 \u00b0C was investigated"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "C1R cell line modified to express high levels of either HLA-A*02:01 or HLA-B*07:02",
+          "C1R-A*02:01 is a transfectant cell line",
+          "C1R-B*07:02 is retrovirally transduced"
         ]
       }
     ],
     "attributes": [
       {
-        "relation_key": "has_treatment_duration",
-        "agent": "heat",
+        "relation_key": "has_treatment_agent",
+        "agent": "temperature",
         "dose_or_concentration": null,
         "duration": "10 min",
         "route_or_context": "cell lysates",
         "evidence": [
-          "incubated for 10 min in triplicate at different temperatures"
+          "incubated for 10 min in triplicate at different temperatures (37 \u00b0C, 40 \u00b0C, 43 \u00b0C, 46 \u00b0C, 50 \u00b0C, 53 \u00b0C, 56 \u00b0C, 60 \u00b0C, 63 \u00b0C, 66 \u00b0C, 70 \u00b0C or 73 \u00b0C)"
         ]
       },
       {
-        "relation_key": "has_timepoint",
-        "agent": "kinetic stability analysis",
+        "relation_key": "has_treatment_agent",
+        "agent": "HLA-A*02:01",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "time-dependent manner",
+        "route_or_context": "transfectant cell line",
         "evidence": [
-          "study the kinetic stability of pHLA complexes eluted from C1R-A*02:01 cells in a time rather than temperature-dependent manner",
-          "Assuming that all complexes are intact at the initial time point (0 hrs)"
+          "C1R-A*02:01 is a transfectant cell line"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HLA-B*07:02",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "retrovirally transduced",
+        "evidence": [
+          "C1R-B*07:02 is retrovirally transduced"
         ]
       }
     ],
@@ -72,9 +100,7 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "0 hrs"
-    ],
+    "timepoints": [],
     "control_arms": [
       "37 \u00b0C"
     ],
@@ -96,13 +122,11 @@
     "replicate_hints": [
       "incubated for 10 min in triplicate"
     ],
-    "multiplex_channel_hints": [
-      "DIA-MS"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "37 \u00b0C",
-        "case_label": "37-73 \u00b0C range",
+        "case_label": "thermal treatment (40-73 \u00b0C)",
         "contrast_type": "dose_response",
         "evidence": [
           "fold-changes in the median value of the normalized, outlier-corrected peak areas resulting from DIA analysis were computed using the lowest temperature point (37 \u00b0C) as reference"
@@ -190,7 +214,7 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The primary stability analysis explicitly uses a data-independent acquisition (DIA) strategy for quantitative measurements across temperature points."
+          "reason": "The primary stability analysis was performed using a quantitative data-independent acquisition-mass spectrometry (DIA-MS) strategy."
         },
         {
           "base_workflow_id": "base_dda_lfq",
@@ -200,23 +224,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "thermostability_profiling",
-          "confidence": 1.0,
-          "reason": "The experiment is designed to generate thermostability curves (melt curves) by measuring peptide abundance across a temperature gradient (37-73\u00b0C)."
-        },
-        {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The assay focuses on MHC-bound peptides (pHLA complexes) isolated via immunoprecipitation."
+          "reason": "The experiment is explicitly described as an immunopeptidomics workflow focusing on MHC-bound peptides (pHLA complexes)."
         }
       ],
       "trigger_keywords": [
         "DIA-MS",
-        "thermostability curves",
         "immunopeptidomics",
-        "pHLA stability",
+        "pHLA",
         "spectral library",
-        "melt curves"
+        "thermostability curves"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -225,7 +243,7 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The primary stability analysis explicitly uses a data-independent acquisition (DIA) strategy for quantitative measurements across temperature points."
+          "reason": "The primary stability analysis was performed using a quantitative data-independent acquisition-mass spectrometry (DIA-MS) strategy."
         },
         {
           "base_workflow_id": "base_dda_lfq",
@@ -235,23 +253,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "thermostability_profiling",
-          "confidence": 1.0,
-          "reason": "The experiment is designed to generate thermostability curves (melt curves) by measuring peptide abundance across a temperature gradient (37-73\u00b0C)."
-        },
-        {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The assay focuses on MHC-bound peptides (pHLA complexes) isolated via immunoprecipitation."
+          "reason": "The experiment is explicitly described as an immunopeptidomics workflow focusing on MHC-bound peptides (pHLA complexes)."
         }
       ],
       "trigger_keywords": [
         "DIA-MS",
-        "thermostability curves",
         "immunopeptidomics",
-        "pHLA stability",
+        "pHLA",
         "spectral library",
-        "melt curves"
+        "thermostability curves"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -279,8 +291,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:48:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

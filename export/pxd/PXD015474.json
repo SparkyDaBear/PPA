@@ -3,69 +3,250 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC-based relative quantification",
     "labeling_strategy": [
-      "SILAC",
-      "Other"
+      "SILAC"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations"
+      "infection exposure",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
       "A549",
-      "HEK293T"
+      "HEK293T",
+      "MDCK type II",
+      "DF-1"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "newly synthesized proteins",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "compare proteome dynamics upon infection of human cells with a human-adapted and a bird-adapted IAV strain",
+          "individual cell populations were infected with either Pan or Mal virus or left uninfected"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "we mutated eight nucleotides in the splice site region of the Pan wild-type strain to the corresponding nucleotides in the Mal strain using reverse genetics (\u201cPan-Av\u201d for a Pan strain with an avian splice site region)",
+          "comparing a wild-type human IAV isolate (A/Panama, heavy SILAC-labeled) to a mutant Panama virus with 8 point mutations in the 3' splice site region (A/Pan-AV, medium heavy labeled)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "A/Panama/2007/1999 (H3N2) (Pan)",
+        "dose_or_concentration": "3 PFU",
+        "duration": null,
+        "route_or_context": "human A549 cells",
+        "evidence": [
+          "infected with either Pan or Mal virus",
+          "multiplicity of infection (MOI) of 3 PFU"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "A/Mallard/439/2004 (H3N2) (Mal)",
+        "dose_or_concentration": "3 PFU",
+        "duration": null,
+        "route_or_context": "human A549 cells",
+        "evidence": [
+          "infected with either Pan or Mal virus",
+          "multiplicity of infection (MOI) of 3 PFU"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Pan-Av",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human A549 cells",
+        "evidence": [
+          "comparing a wild-type human IAV isolate (A/Panama, heavy SILAC-labeled) to a mutant Panama virus with 8 point mutations in the 3' splice site region (A/Pan-AV, medium heavy labeled)"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pulse labeling intervals",
+        "evidence": [
+          "pulse labeled with AHA for 4 h during different time intervals post infection (0\u20134, 4\u20138, 8\u201312, and 12\u201316 h)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0-4 h",
+      "4-8 h",
+      "8-12 h",
+      "12-16 h"
+    ],
+    "control_arms": [
+      "mock-infected"
+    ],
+    "case_arms": [
+      "Pan infection",
+      "Mal infection",
+      "Pan-Av infection"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "quantified 6029 proteins in at least two biological replicates"
+    ],
+    "multiplex_channel_hints": [
+      "heavy (R10K8, \u201cSILAC-H\u201d), medium (R6K4, \u201cSILAC-M\u201d), or light (R0K0, \u201cSILAC-L\u201d) arginine and lysine",
+      "three cell populations for every time interval were then lysed, combined"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "mock-infected",
+        "case_label": "Pan infection",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "SILAC ratios comparing infected and non-infected cells"
+        ]
+      },
+      {
+        "control_label": "mock-infected",
+        "case_label": "Mal infection",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "SILAC ratios comparing infected and non-infected cells"
+        ]
+      },
+      {
+        "control_label": "Pan infection",
+        "case_label": "Mal infection",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare proteome dynamics upon infection of human cells with a human-adapted and a bird-adapted IAV strain"
+        ]
+      },
+      {
+        "control_label": "Pan (wild-type)",
+        "case_label": "Pan-Av (mutant)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing a wild-type human IAV isolate (A/Panama, heavy SILAC-labeled) to a mutant Panama virus with 8 point mutations in the 3' splice site region (A/Pan-AV, medium heavy labeled)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Gallus gallus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell",
+        "rollup_category": "cell",
+        "ontology_curie": "CL:0000066"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "A549",
+        "family": "lung adenocarcinoma",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MDCK type II",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "DF-1",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "newly synthesized proteins",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC-based relative quantification",
+      "intensity-based absolute quantification (iBAQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Newly synthesized proteins enrichment",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_dynamic_silac",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +254,64 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (pSILAC and pAHA-SILAC) with heavy, medium, and light labels for quantitative proteomics using DDA (data-dependent mode) on Q-Exactive and Orbitrap Velos instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "aha_enrichment",
+          "confidence": 0.9,
+          "reason": "The pAHA-SILAC experiment uses azidohomoalanine (AHA) metabolic labeling and click chemistry (alkyne agarose resin) to enrich for newly synthesized proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "pSILAC",
+        "pAHA-SILAC",
+        "azidohomoalanine",
+        "AHA",
+        "click chemistry",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses SILAC (pSILAC and pAHA-SILAC) with heavy, medium, and light labels for quantitative proteomics using DDA (data-dependent mode) on Q-Exactive and Orbitrap Velos instruments."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "aha_enrichment",
+          "confidence": 0.9,
+          "reason": "The pAHA-SILAC experiment uses azidohomoalanine (AHA) metabolic labeling and click chemistry (alkyne agarose resin) to enrich for newly synthesized proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "pSILAC",
+        "pAHA-SILAC",
+        "azidohomoalanine",
+        "AHA",
+        "click chemistry",
+        "data-dependent mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,7 +331,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

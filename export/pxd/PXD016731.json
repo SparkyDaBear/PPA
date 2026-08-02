@@ -7,7 +7,10 @@
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "chemical or drug treatment",
+      "nutrient or metabolic perturbation"
+    ],
     "cell_types": [
       "ventricular cardiac fibroblasts"
     ],
@@ -18,21 +21,121 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "epigenetic_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "epigenetic_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound targeting chromatin, histone, DNA methylation, or epigenetic reader/writer/eraser machinery.",
+        "confidence": "high",
+        "evidence": [
+          "Rhein, a novel Histone Deacetylase (HDAC) inhibitor with antifibrotic potency in human myocardial fibrosis",
+          "Mechanistically, Rhein acts inhibitory on HDAC classes I/II as enzymatic inhibitor."
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "oxygen_availability_perturbation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "oxygen_availability_perturbation"
+        ],
+        "matched_definition": "Altered oxygen state such as hypoxia, normoxia, anoxia, or reoxygenation.",
+        "confidence": "high",
+        "evidence": [
+          "Primary human ventricular cardiac fibroblasts were subjected to hypoxia and characterized with proteomics",
+          "For normoxic control, cells were treated in parallel in a second incubator of the hypoxic workstation (21% O2, 74% N2, 5% CO2 and 37 \u00b0C)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Rhein",
+        "dose_or_concentration": "35 \u00b5M",
+        "duration": "96h",
+        "route_or_context": "added during normoxic or hypoxic treatment",
+        "evidence": [
+          "For Rhein treatment, 35 \u00b5M Rhein was added during normoxic or hypoxic treatment for a total incubation time of 96h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "hypoxia",
+        "dose_or_concentration": "0.5% O2",
+        "duration": "60h",
+        "route_or_context": "hypoxic workstation",
+        "evidence": [
+          "cells were subjected to the hypoxic workstation (Xvivo System (Biospherix, Parish, NY, USA) set to 0.5% O2, 5% CO2, 94.5% N2 and 37 \u00b0C)... After 60h, sub-confluent cells were washed"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "96h"
+    ],
+    "control_arms": [
+      "normoxic",
+      "normoxic without Rhein"
+    ],
+    "case_arms": [
+      "hypoxic",
+      "hypoxic with Rhein",
+      "normoxic with Rhein"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Primary HCF-v of 5 different healthy donors"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normoxic",
+        "case_label": "hypoxic",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The comparison of normoxic and hypoxic conditions (NvsH) revealed 638 differentially abundant proteins"
+        ]
+      },
+      {
+        "control_label": "normoxic with Rhein",
+        "case_label": "hypoxic with Rhein",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "619 were found in normoxic versus hypoxic cells both treated with Rhein (NRvsHR)"
+        ]
+      },
+      {
+        "control_label": "normoxic",
+        "case_label": "normoxic with Rhein",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "1,010 proteins in normoxic versus Rhein-treated normoxic cells (NvsNR)"
+        ]
+      },
+      {
+        "control_label": "hypoxic",
+        "case_label": "hypoxic with Rhein",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "overall 590 differentially abundant proteins with 74 solely observed in the comparison of hypoxic and Rhein-treated hypoxic cells (HvsHR)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -97,12 +200,12 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states that for quantification, DIA runs were analyzed via Spectronaut using a spectral library based on DDA runs."
+          "reason": "The text explicitly states that DIA runs were analyzed via Spectronaut using a self-performed spectral library based on DDA runs for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA runs were performed and analyzed using Proteome Discoverer for library generation."
+          "confidence": 0.7,
+          "reason": "DDA runs were performed and analyzed using Proteome Discoverer/Sequest HT to create the spectral library."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -110,9 +213,8 @@
         "DIA",
         "data-independent",
         "Spectronaut",
-        "DDA",
-        "data-dependent",
-        "spectral library"
+        "spectral library",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -121,12 +223,12 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states that for quantification, DIA runs were analyzed via Spectronaut using a spectral library based on DDA runs."
+          "reason": "The text explicitly states that DIA runs were analyzed via Spectronaut using a self-performed spectral library based on DDA runs for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA runs were performed and analyzed using Proteome Discoverer for library generation."
+          "confidence": 0.7,
+          "reason": "DDA runs were performed and analyzed using Proteome Discoverer/Sequest HT to create the spectral library."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -134,15 +236,14 @@
         "DIA",
         "data-independent",
         "Spectronaut",
-        "DDA",
-        "data-dependent",
-        "spectral library"
+        "spectral library",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "all_pairs",
+      "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -164,8 +265,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:46:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

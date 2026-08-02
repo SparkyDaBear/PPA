@@ -8,14 +8,14 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation",
+      "small-molecule inhibitor treatment"
     ],
-    "cell_types": [
-      "atypical teratoid/rhabdoid tumor cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "BT-12",
-      "CHLA-266"
+      "CHLA-266",
+      "HEK293T"
     ],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
@@ -25,33 +25,61 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "we conducted comprehensive analysis of the transcriptome and the proteome following transient KIF3A knockdown in BT-12 and CHLA-266 cells.",
-          "Transient knockdown of KIF3A was achieved using small interfering RNA (siRNA) pools (siPOOLs)."
+          "Transient knockdown of KIF3A was achieved using small interfering RNA (siRNA) pools (siPOOLs).",
+          "Stable knockdown of KIF3A was achieved using shRNA-based technology in BT-12 cells and CRISPRi-based technology in CHLA-266 cells."
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "Ciliobrevin D (CilioD) treatment",
+          "CilioD is a cell-permeable, reversible and specific blocker of AAA+ ATPase motor cytoplasmic dynein"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "KIF3A siRNA",
+        "agent": "KIF3A",
         "dose_or_concentration": null,
         "duration": "72 h",
-        "route_or_context": "transient knockdown in BT-12 and CHLA-266 cell lines",
+        "route_or_context": "siRNA, shRNA, CRISPRi",
         "evidence": [
-          "Cells were transfected with siPOOLs as described above for 72 h.",
-          "Transient knockdown of KIF3A was achieved using small interfering RNA (siRNA) pools (siPOOLs)."
+          "Transient knockdown of KIF3A was achieved using small interfering RNA (siRNA) pools (siPOOLs).",
+          "Cells were transfected with siPOOLs as described above for 72 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Ciliobrevin D",
+        "dose_or_concentration": "30 \u00b5M",
+        "duration": "24 h",
+        "route_or_context": "serum starvation",
+        "evidence": [
+          "30 \u00b5M of CilioD (Calbiochem, Darmstadt, Germany, #250401) dissolved in dimethylsulfoxide (DMSO, AppliChem, Darmstadt, Germany, #A3672) or DMSO as negative control were added.",
+          "all experiments that include CilioD treatment were performed under serum starvation conditions."
         ]
       }
     ],
@@ -61,18 +89,23 @@
   },
   "experimental_design": {
     "timepoints": [
+      "24 h",
       "72 h"
     ],
     "control_arms": [
-      "siCTRL"
+      "siCTRL",
+      "DMSO",
+      "shCTRL"
     ],
     "case_arms": [
-      "siKIF3A"
+      "siKIF3A",
+      "Ciliobrevin D",
+      "shKIF3A"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "at least three biologically independent experiments"
+      "Samples were quantified in triplets."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -81,7 +114,15 @@
         "case_label": "siKIF3A",
         "contrast_type": "pairwise",
         "evidence": [
-          "a total of 507 and 1861 differentially expressed genes, as well as 102 and 88 differentially expressed proteins were identified in BT-12 and CHLA-266 cells, respectively"
+          "comprehensive analysis of the transcriptome and the proteome following transient KIF3A knockdown in BT-12 and CHLA-266 cells."
+        ]
+      },
+      {
+        "control_label": "DMSO",
+        "case_label": "Ciliobrevin D",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "CilioD treatment widely phenocopied the results from the KIF3A knockdown experiments"
         ]
       }
     ],
@@ -94,17 +135,21 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "human",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Drosophila melanogaster",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "atypical teratoid/rhabdoid tumor cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "BT-12",
@@ -114,6 +159,11 @@
       {
         "label": "CHLA-266",
         "family": "AT/RT",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -125,7 +175,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -154,7 +204,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods describe a 'data dependent Top20' and 'Top10' acquisition strategy."
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods describe a data-dependent acquisition (Top20/Top10) on Orbitrap Elite/QExactive plus."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -171,7 +221,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods describe a 'data dependent Top20' and 'Top10' acquisition strategy."
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the methods describe a data-dependent acquisition (Top20/Top10) on Orbitrap Elite/QExactive plus."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -207,8 +257,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:52:47Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

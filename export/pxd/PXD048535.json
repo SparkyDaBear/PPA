@@ -3,40 +3,92 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "IBAQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Oxygen Tension"
+      "oxygen availability perturbation"
     ],
-    "cell_types": [
-      "human induced pluripotent stem cells"
-    ],
-    "cell_lines": [
-      "UKEi001-A"
-    ],
-    "sample_scope": "whole cell lysate",
+    "cell_types": [],
+    "cell_lines": [],
+    "sample_scope": "Unknown",
     "sample_scope_label": null,
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "oxygen availability perturbation",
+        "ontology_curie": "PPA:0000063",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "oxygen_availability_perturbation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "oxygen_availability_perturbation"
+        ],
+        "matched_definition": "Altered oxygen state such as hypoxia, normoxia, anoxia, or reoxygenation.",
+        "confidence": "high",
+        "evidence": [
+          "hiPSCs were either cultured under physioxic conditions at 37 \u00b0C, 5 % CO2 and 5 % O2 or under hyperoxic conditions at 37 \u00b0C, 5 % CO2 and 20 % O2.",
+          "In this manuscript, the term physioxia refers to hiPSC culture at 5 % O2 and hyperoxia refers to atmospheric oxygen levels (approximately 20 % O2)."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "oxygen",
+        "dose_or_concentration": "5 % O2",
+        "duration": null,
+        "route_or_context": "physioxic culture",
+        "evidence": [
+          "physioxia refers to hiPSC culture at 5 % O2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "oxygen",
+        "dose_or_concentration": "20 % O2",
+        "duration": null,
+        "route_or_context": "hyperoxic culture",
+        "evidence": [
+          "hyperoxia refers to atmospheric oxygen levels (approximately 20 % O2)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "hyperoxic"
+    ],
+    "case_arms": [
+      "physioxic"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "n = 4 per group",
+      "three independent hiPSC preparations"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "hyperoxic",
+        "case_label": "physioxic",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "experimental comparison between hyperoxic versus physioxic cultured hiPSCs",
+          "81 proteins were significantly higher and 660 were lower abundant in physioxic versus hyperoxic hiPSCs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -48,7 +100,7 @@
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
+      "category": "Unknown",
       "label": null,
       "curie": null
     },
@@ -58,11 +110,23 @@
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "IBAQ",
+      "Intensity-based absolute quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "complexome profiling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_complexome",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +134,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) and Intensity-based absolute quantification (IBAQ), which is a label-free quantification (LFQ) method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "complexome_profiling",
+          "confidence": 1.0,
+          "reason": "The study explicitly performs 'complexome profiling' using Blue Native Electrophoresis (BNE) where gel lanes were cut into 48 equal fractions for MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "complexome profiling",
+        "Blue native electrophoresis",
+        "BNE",
+        "IBAQ",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment used data-dependent acquisition (DDA) and Intensity-based absolute quantification (IBAQ), which is a label-free quantification (LFQ) method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "complexome_profiling",
+          "confidence": 1.0,
+          "reason": "The study explicitly performs 'complexome profiling' using Blue Native Electrophoresis (BNE) where gel lanes were cut into 48 equal fractions for MS analysis."
+        }
+      ],
+      "trigger_keywords": [
+        "complexome profiling",
+        "Blue native electrophoresis",
+        "BNE",
+        "IBAQ",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,7 +207,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

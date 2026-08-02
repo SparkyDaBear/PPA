@@ -3,11 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
+      "genetic perturbation",
       "genetic perturbation"
     ],
     "cell_types": [],
@@ -26,16 +27,33 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "crispr_knockout_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "crispr_knockout_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Knockout or gene disruption generated using CRISPR-based genome editing.",
         "confidence": "high",
         "evidence": [
           "combinatorial knockout (KO) and knockin (KI) of glycosylation genes to display subsets and distinct features of the glycome",
-          "gene engineering of HEK293 cells included designs for O-glycans designated Tn (KO C1GALT1), STn (KO COSMC/KI ST6GALNAC1), T (KO GCNT1, ST3GAL1/2, ST6GALNAC2/3/4), monosialyl-T (ST) (KO GCNT1, ST6GALNAC2/3/4), as well as DiST comprised of a mixture of mSTa and disialyl-T (dST) (KO GCNT1)"
+          "CRISPR/Cas9 KO was performed using the GlycoCRISPR resource containing validated gRNAs libraries for targeting of all human glycosyltransferases."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "used a GFP-tagged expression design containing representative TRs from different mucins to produce a library of the cell membrane and secreted mucin TR reporters",
+          "The transmembrane mucin TR reporters were designed by fusion of human MUC1 signal peptide... with 6xHis, Flag-tag, EGFP"
         ]
       }
     ],
@@ -45,9 +63,19 @@
         "agent": "CRISPR/Cas9",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "HEK293 cells",
+        "route_or_context": "targeting of all human glycosyltransferases",
         "evidence": [
           "CRISPR/Cas9 KO was performed using the GlycoCRISPR resource containing validated gRNAs libraries for targeting of all human glycosyltransferases."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "mucin TR reporters",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transiently expressed in engineered HEK293 cells",
+        "evidence": [
+          "Transmembrane GFP-tagged mucin TR reporters were transiently expressed in engineered HEK293 cells."
         ]
       }
     ],
@@ -60,18 +88,18 @@
       "24 h post-transfection"
     ],
     "control_arms": [
-      "HEK293WT"
+      "HEK293WT",
+      "GFP negative (not expressing)"
     ],
     "case_arms": [
       "HEK293KO C1GALT1",
-      "HEK293KO COSMC/KI ST6GALNAC1",
-      "HEK293KO GCNT1, ST3GAL1/2, ST6GALNAC2/3/4",
-      "HEK293KO GCNT1, ST6GALNAC2/3/4",
+      "HEK293KO COSMC",
       "HEK293KO GCNT1",
-      "HEK293KO COSMC, GALNT4"
+      "HEK293KO GCNT1, ST3GAL1/2, ST6GALNAC2/3/4",
+      "GFP positive (expressing mucin TR reporters)"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "isogenic clones"
     ],
@@ -83,6 +111,14 @@
         "contrast_type": "multi_group",
         "evidence": [
           "We compared the expression of TRs with core2 O-glycans (HEK293WT) and mSTa O-glycans (HEK293KO GCNT1, ST6GALNAC2/3/4)"
+        ]
+      },
+      {
+        "control_label": "GFP negative",
+        "case_label": "GFP positive",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Mean fluorescent intensity (MFI) of the binding of streptococcal adhesins to GFP positive (expressing mucin TR reporters) and negative (not expressing) populations was quantified"
         ]
       }
     ],
@@ -115,7 +151,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -151,21 +187,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "Bottom-up LC-MS/MS analysis was performed on MUC1 reporter using DDA (top 5 most abundant precursors) and HCD/ETD fragmentation."
+          "reason": "Bottom-up analysis of MUC1 reporter was performed using LC-MS/MS with DDA (top 5 most abundant precursors) and HCD/ETD fragmentation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_o_glycopeptide",
-          "confidence": 0.95,
-          "reason": "The experiment specifically targets O-glycopeptides from mucin TR domains, utilizing neuraminidase desialylation and specialized digestion (Lys-C and Endo-AspN)."
+          "modifier_workflow_id": "glycopeptide_bottom_up",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets O-glycopeptides from mucin TRs using specialized digestion (Lys-C and Endo-AspN) and glycan compositional analysis."
         }
       ],
       "trigger_keywords": [
         "O-glycopeptide",
-        "mucin TR",
-        "O-glycodomains",
-        "neuraminidase",
+        "bottom-up analysis",
+        "glycoproteomics",
+        "O-glycans",
         "Endo-AspN"
       ],
       "raw_or_file_name_triggers": []
@@ -175,28 +211,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "Bottom-up LC-MS/MS analysis was performed on MUC1 reporter using DDA (top 5 most abundant precursors) and HCD/ETD fragmentation."
+          "reason": "Bottom-up analysis of MUC1 reporter was performed using LC-MS/MS with DDA (top 5 most abundant precursors) and HCD/ETD fragmentation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_o_glycopeptide",
-          "confidence": 0.95,
-          "reason": "The experiment specifically targets O-glycopeptides from mucin TR domains, utilizing neuraminidase desialylation and specialized digestion (Lys-C and Endo-AspN)."
+          "modifier_workflow_id": "glycopeptide_bottom_up",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets O-glycopeptides from mucin TRs using specialized digestion (Lys-C and Endo-AspN) and glycan compositional analysis."
         }
       ],
       "trigger_keywords": [
         "O-glycopeptide",
-        "mucin TR",
-        "O-glycodomains",
-        "neuraminidase",
+        "bottom-up analysis",
+        "glycoproteomics",
+        "O-glycans",
         "Endo-AspN"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
-      "pairwise_strategy": "control_vs_case",
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
       "analyte_level": "site"
     },
     "source_sections": [
@@ -218,8 +254,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:33:45Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

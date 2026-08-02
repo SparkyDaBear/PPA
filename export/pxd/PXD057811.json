@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "molecular state comparison"
     ],
     "cell_types": [
       "epithelial cell"
@@ -24,33 +24,52 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
-          "genetic",
-          "gene_disruption"
+          "molecular_state",
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "high",
         "evidence": [
-          "For DUBR RNA knockdown, cells were seeded and allowed to grow overnight. The next day they were transfected with control (Qiagen, USA; 30300019-2), DUBR 1 (Qiagen; custom design, target sequence: 5\u2019- ACGGAGCAAATCGGAA \u2212 3\u2019) or DUBR 2 (Qiagen; custom design, target sequence: 5\u2019- CTGTTAGACTCATCGA \u2212 3\u2019) GapmeR",
-          "GapmeR-mediated knockdown was selected over other deletion or genetic mutation methods to ensure that results were dependent on specific depletion of the RNA transcript"
+          "we used the RNA antisense purification with mass spectrometry (RAP-MS) technique... to identify direct binding partners of the ncRNA",
+          "RAP-MS identifies direct and specific protein binding partners of an RNA by capturing UV254nm-crosslinked RNA-protein complexes from human cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DUBR GapmeR (ASO)",
+        "agent": "DUBR RNA",
         "dose_or_concentration": null,
-        "duration": "48 h",
-        "route_or_context": "HCT116 human colon carcinoma cells",
+        "duration": null,
+        "route_or_context": "RAP-MS capture probe",
         "evidence": [
-          "For DUBR RNA knockdown, cells were seeded and allowed to grow overnight. The next day they were transfected with control (Qiagen, USA; 30300019-2), DUBR 1 (Qiagen; custom design, target sequence: 5\u2019- ACGGAGCAAATCGGAA \u2212 3\u2019) or DUBR 2 (Qiagen; custom design, target sequence: 5\u2019- CTGTTAGACTCATCGA \u2212 3\u2019) GapmeR",
-          "HCT116 cells were treated with control or DUBR 1 GapmeR, and after 48 h, cells were trypsinized and pelleted."
+          "Capture probes against snRNA U1 and DUBR RNA were tested for recovery of target RNA"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "snRNA U1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "positive control capture probe",
+        "evidence": [
+          "Capture probes targeting the small nuclear RNA (snRNA) U1 were used as additional controls to identify common RNA binding proteins and splicing factors."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "luciferase mRNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "negative control capture probe",
+        "evidence": [
+          "Negative control probes for the RAP-MS experiment were biotinylated ssDNA capture probes complementary to firefly luciferase (Luc) mRNA."
         ]
       }
     ],
@@ -59,33 +78,25 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "24 hours",
-      "48 hours",
-      "72 hours"
-    ],
+    "timepoints": [],
     "control_arms": [
-      "control GapmeR"
+      "luciferase mRNA",
+      "snRNA U1"
     ],
     "case_arms": [
-      "DUBR 1 GapmeR",
-      "DUBR 2 GapmeR"
+      "DUBR RNA"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [
-      "ATAC-seq sample preparation was performed using the Active Motif ATAC-seq Kit (53150, Active Motif, USA) following provided protocol. DNA-seq libraries were pooled and then sent to the UCSD Institution for Genomic Medicine where the quality of the libraries was examined by Agilent BioAnalyzer, and sequencing was performed on a NovaSeq X Plus 10B platform with the run type of PE100. ATAC-seq data are available on the NCBI Sequence Read Archive associated with the BioProject PRJNA1186227.",
-      "RNA-seq was performed in biological triplicate to enable statistical analysis."
-    ],
+    "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "control GapmeR",
-        "case_label": "DUBR GapmeR",
+        "control_label": "luciferase mRNA",
+        "case_label": "DUBR RNA",
         "contrast_type": "pairwise",
         "evidence": [
-          "compared against control knockdown HCT116 cells, ATAC-seq results showed global changes",
-          "identified differential expression of RNA transcripts between the triplicate samples of control or DUBR 1 GapmeR treated cells."
+          "DUBR RAP-MS hits were filtered for proteins with at least two peptides and not found in snRNA U1 and luciferase mRNA RAP-MS hits."
         ]
       }
     ],
@@ -105,7 +116,7 @@
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
+        "rollup_category": "cell type",
         "ontology_curie": "CL:0000066"
       }
     ],
@@ -124,7 +135,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -160,7 +171,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses RAP-MS (affinity purification) with iBAQ quantification via MaxQuant on a QExactive instrument, which is a standard DDA label-free quantification (LFQ) approach."
+          "reason": "The experiment used RAP-MS (affinity purification) with a QExactive instrument and MaxQuant for iBAQ quantification, which is a standard label-free quantification (LFQ) approach for DDA data."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -177,7 +188,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses RAP-MS (affinity purification) with iBAQ quantification via MaxQuant on a QExactive instrument, which is a standard DDA label-free quantification (LFQ) approach."
+          "reason": "The experiment used RAP-MS (affinity purification) with a QExactive instrument and MaxQuant for iBAQ quantification, which is a standard label-free quantification (LFQ) approach for DDA data."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -213,8 +224,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:15:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,16 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "relative abundance based on precursor ion intensities",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "nutrient or metabolic perturbation",
-      "anatomical or spatial comparison"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
-      "insulin-secreting cells",
       "pancreatic islet cell",
       "type B pancreatic cell"
     ],
@@ -33,31 +31,14 @@
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "metabolite_supplementation",
+        "matched_class_key": null,
         "matched_class_path": [
-          "nutrient or metabolic perturbation",
-          "metabolite supplementation"
+          "nutrient_metabolic"
         ],
-        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
-        "confidence": "high",
-        "evidence": [
-          "To investigate the effect of glucose concentration on the GAG occupancy of CgA, INS-1 832/13 cells were exposed to low and high glucose concentrations."
-        ]
-      },
-      {
-        "ontology_label": "anatomical or spatial comparison",
-        "ontology_curie": "PPA:0000019",
-        "category": "anatomical_spatial",
-        "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "inter_tissue_comparison",
-        "matched_class_path": [
-          "anatomical or spatial comparison",
-          "inter-tissue comparison"
-        ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Change in nutrient availability, metabolite exposure, oxygen availability, carbon source, or metabolic flux state that defines the comparison.",
         "confidence": "medium",
         "evidence": [
-          "we have characterized the GAG structures of insulin-secreting cells of rat, mouse and human origin."
+          "To investigate the effect of glucose concentration on the GAG occupancy of CgA, INS-1 832/13 cells were exposed to low and high glucose concentrations."
         ]
       }
     ],
@@ -69,15 +50,15 @@
         "duration": null,
         "route_or_context": "cell culture media",
         "evidence": [
-          "followed by incubation with media with increasing concentrations of glucose; 3, 11.1, 17 and 25 mM."
+          "cells were incubated in media without glucose for 16 h, followed by incubation with media with increasing concentrations of glucose; 3, 11.1, 17 and 25 mM."
         ]
       },
       {
         "relation_key": "has_timepoint",
         "agent": "glucose",
         "dose_or_concentration": null,
-        "duration": "6, 24 or 48 h",
-        "route_or_context": null,
+        "duration": null,
+        "route_or_context": "after incubation",
         "evidence": [
           "After 6, 24 or 48 h, the media were collected"
         ]
@@ -94,12 +75,14 @@
       "48 h"
     ],
     "control_arms": [
-      "low glucose"
+      "11.1 mM glucose"
     ],
     "case_arms": [
-      "high glucose"
+      "3 mM glucose",
+      "17 mM glucose",
+      "25 mM glucose"
     ],
-    "paired_design": null,
+    "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
       "n = 4",
@@ -108,11 +91,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "low glucose",
-        "case_label": "high glucose",
+        "control_label": "11.1 mM glucose",
+        "case_label": "varying glucose concentrations",
         "contrast_type": "dose_response",
         "evidence": [
           "To investigate the effect of glucose concentration on the GAG occupancy of CgA, INS-1 832/13 cells were exposed to low and high glucose concentrations."
+        ]
+      },
+      {
+        "control_label": "6 h",
+        "case_label": "24 h / 48 h",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "there was an increase in occupancy after extended growth. Thus, the mean values of occupancy for the three time intervals over all four concentrations of glucose were 13.7 \u00b1 2.9% after 6 h (n = 8), 35.5 \u00b1 3.1% after 24 h (n = 4) and 38.0 \u00b1 5.6% after 48 h (n = 4)."
         ]
       }
     ],
@@ -140,11 +131,6 @@
       }
     ],
     "cell_types": [
-      {
-        "label": "insulin-secreting cells",
-        "rollup_category": "endocrine cell",
-        "ontology_curie": null
-      },
       {
         "label": "pancreatic islet cell",
         "rollup_category": "endocrine cell",
@@ -177,6 +163,10 @@
       {
         "label": "human pancreatic islets",
         "source_kind": "tissue"
+      },
+      {
+        "label": "culture media",
+        "source_kind": "biofluid"
       }
     ],
     "sample_scope": {
@@ -186,7 +176,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -198,7 +188,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "relative abundance based on precursor ion intensities"
+      "Label-free"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -222,24 +212,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used with HCD fragmentation; quantification was performed via relative abundance of precursor ions (LFQ-like approach)."
+          "reason": "Data-dependent acquisition (DDA) using HCD on an Orbitrap Fusion Tribrid; quantification is performed via relative abundance of precursor ions (LFQ-like) for occupancy estimation."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "glycoproteomics_gag",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets glycosaminoglycans (GAGs), using SAX enrichment and enzymatic depolymerization with ChABC and heparinases."
+          "reason": "Specific enrichment for GAG-glycopeptides using SAX-chromatography and enzymatic depolymerization with ChABC and heparinases II/III."
         }
       ],
       "trigger_keywords": [
-        "glycoproteomic approach",
         "GAG-glycopeptides",
         "SAX-chromatography",
         "ChABC",
         "heparinase II",
         "heparinase III",
-        "depolymerization"
+        "depolymerization",
+        "proteoglycan"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -248,24 +238,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used with HCD fragmentation; quantification was performed via relative abundance of precursor ions (LFQ-like approach)."
+          "reason": "Data-dependent acquisition (DDA) using HCD on an Orbitrap Fusion Tribrid; quantification is performed via relative abundance of precursor ions (LFQ-like) for occupancy estimation."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "glycoproteomics_gag",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets glycosaminoglycans (GAGs), using SAX enrichment and enzymatic depolymerization with ChABC and heparinases."
+          "reason": "Specific enrichment for GAG-glycopeptides using SAX-chromatography and enzymatic depolymerization with ChABC and heparinases II/III."
         }
       ],
       "trigger_keywords": [
-        "glycoproteomic approach",
         "GAG-glycopeptides",
         "SAX-chromatography",
         "ChABC",
         "heparinase II",
         "heparinase III",
-        "depolymerization"
+        "depolymerization",
+        "proteoglycan"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -293,8 +283,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:22:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

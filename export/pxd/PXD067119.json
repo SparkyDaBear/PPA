@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "disease or clinical state",
+      "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -24,19 +25,46 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "Subjects were considered healthy since they were from qualified plasma donor participants."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_state_comparison",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "activation_state_comparison"
+        ],
+        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
         "confidence": "medium",
         "evidence": [
-          "Subjects were selected from among regular plasma donors of Access Biologicals. 78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old). Subjects were considered healthy since they were from qualified plasma donor participants."
+          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old)."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "age",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "young (18\u201322 years old) and aged (55\u201365 years old)",
+        "evidence": [
+          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -44,25 +72,35 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "young (18\u201322 years old)"
+      "young"
     ],
     "case_arms": [
-      "aged (55\u201365 years old)"
+      "aged"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "At least three technical replicates of each of the undiluted samples, their two dilutions, and the buffer were tested by the proteomic platforms."
+      "At least three technical replicates of each of the undiluted samples",
+      "technical CV was calculated using duplicates of eight samples",
+      "technical CV was calculated using four samples with four technical replicates each"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "SomaScan 11K",
+      "SomaScan 7K",
+      "Olink Explore 3072",
+      "Olink Explore HT",
+      "NULISA",
+      "Seer Proteograph\u2122 XT",
+      "Biognosys TrueDiscovery\u2122",
+      "SureQuant\u2122"
+    ],
     "contrast_hints": [
       {
         "control_label": "young",
         "case_label": "aged",
         "contrast_type": "pairwise",
         "evidence": [
-          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old).",
-          "For testing of differential protein abundance, protein intensities for each protein were analyzed using a two-sample Student\u2019s t test."
+          "78 subjects (39 female and 39 male) were selected in two groups of young (18\u201322 years old) and aged (55\u201365 years old)."
         ]
       }
     ],
@@ -83,7 +121,7 @@
     "cell_lines": [],
     "noncellular_sources": [
       {
-        "label": "plasma",
+        "label": "blood plasma",
         "source_kind": "biofluid"
       }
     ],
@@ -113,7 +151,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "nanoparticle-based enrichment",
+        "ontology_label": "nanoparticle-based protein enrichment",
         "ontology_curie": null,
         "workflow_modifier_hint": null,
         "confidence": "high"
@@ -138,33 +176,34 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Multiple MS platforms (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification."
+          "reason": "Multiple MS platforms (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification (MaxLFQ mentioned for Seer)."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.4,
-          "reason": "The SureQuant workflow is targeted PRM, but the overall study is bottom-up proteomics."
+          "confidence": 0.3,
+          "reason": "Mention of a targeted MS workflow (SureQuant) which is not DIA, though the primary discovery datasets are DIA."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "nanoparticle_enrichment",
-          "confidence": 0.9,
-          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins."
+          "confidence": 1.0,
+          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins based on physicochemical properties."
         },
         {
-          "modifier_workflow_id": "hap_depletion",
-          "confidence": 0.9,
-          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (MARC14) for high-abundance protein depletion."
+          "modifier_workflow_id": "high_abundance_depletion",
+          "confidence": 1.0,
+          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (Agilent) for high-abundance protein depletion."
         }
       ],
       "trigger_keywords": [
         "DIA",
         "Data-Independent Acquisition",
-        "nanoparticle-based enrichment",
-        "high-abundance protein depletion",
-        "Seer Proteograph",
-        "Biognosys TrueDiscovery"
+        "nanoparticle",
+        "Proteograph",
+        "depletion",
+        "TrueDiscovery",
+        "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -173,33 +212,34 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Multiple MS platforms (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification."
+          "reason": "Multiple MS platforms (Seer Proteograph and Biognosys TrueDiscovery) explicitly used Data-Independent Acquisition (DIA) with label-free quantification (MaxLFQ mentioned for Seer)."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.4,
-          "reason": "The SureQuant workflow is targeted PRM, but the overall study is bottom-up proteomics."
+          "confidence": 0.3,
+          "reason": "Mention of a targeted MS workflow (SureQuant) which is not DIA, though the primary discovery datasets are DIA."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "nanoparticle_enrichment",
-          "confidence": 0.9,
-          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins."
+          "confidence": 1.0,
+          "reason": "The Seer Proteograph platform uses surface-modified magnetic nanoparticles to enrich proteins based on physicochemical properties."
         },
         {
-          "modifier_workflow_id": "hap_depletion",
-          "confidence": 0.9,
-          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (MARC14) for high-abundance protein depletion."
+          "modifier_workflow_id": "high_abundance_depletion",
+          "confidence": 1.0,
+          "reason": "The Biognosys TrueDiscovery platform used Multiple Affinity Removal Column Human 14 (Agilent) for high-abundance protein depletion."
         }
       ],
       "trigger_keywords": [
         "DIA",
         "Data-Independent Acquisition",
-        "nanoparticle-based enrichment",
-        "high-abundance protein depletion",
-        "Seer Proteograph",
-        "Biognosys TrueDiscovery"
+        "nanoparticle",
+        "Proteograph",
+        "depletion",
+        "TrueDiscovery",
+        "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -227,8 +267,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:33:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

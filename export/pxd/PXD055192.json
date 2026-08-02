@@ -2,13 +2,15 @@
   "pxd": "PXD055192",
   "title": null,
   "summary": {
-    "acquisition_type": "DIA",
-    "quantification_method": "Label-free quantification",
+    "acquisition_type": "DDA",
+    "quantification_method": "Spectral counting (SPC)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation",
+      "overexpression or transgene perturbation",
+      "mutation or variant perturbation"
     ],
     "cell_types": [
       "kidney cell"
@@ -31,20 +33,54 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_disruption"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
           "To validate RNAi downregulation of gene expression on protein level, we assessed protein abundance of targeted genes 72 h after DsiRNA transfection.",
           "For a small subset of the targeted interactors, we used full protein profiling by quantitative mass spectrometry to confirm alleviation of the protein abundance upon RNAi."
+        ]
+      },
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "we used a systematic AP-MS approach to determine the protein interaction network of human solute carriers. For this we isolated and analyzed over 400 SLC proteins",
+          "stably expressed under a doxycycline-inducible promoter in HEK 293 Jump In T-REx cells."
+        ]
+      },
+      {
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "To generate point mutations in the SLC16A6 coding sequence at the phospho-degron motif DSGVELT (239\u2013245)",
+          "The resulting plasmids containing S240A, S240D, T245E, and T245N modified SLC16A6 were recombined"
         ]
       }
     ],
@@ -54,10 +90,20 @@
         "agent": "DsiRNA",
         "dose_or_concentration": "10 nM",
         "duration": "72 h",
-        "route_or_context": "transfection in HEK 293 Jump In T-REx cells",
+        "route_or_context": "transfected using Lipofectamine RNAiMAx",
         "evidence": [
-          "cells were transfected with DsiRNA pools or control DsiRNA using OptiMEM (final concentration of 20% v/v) with DsiRNA (final concentration 10 nM)",
+          "transfected with DsiRNA pools or control DsiRNA using OptiMEM (final concentration of 20% v/v) with DsiRNA (final concentration 10 nM) and Lipofectamine RNAiMAx",
           "we assessed protein abundance of targeted genes 72 h after DsiRNA transfection."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Doxycycline",
+        "dose_or_concentration": "1 \u00b5g/mL",
+        "duration": "24 h",
+        "route_or_context": "induction of SLC expression",
+        "evidence": [
+          "SLC expression was induced by the addition of 1 \u00b5g/mL Doxycycline for 24 h."
         ]
       }
     ],
@@ -71,26 +117,36 @@
     ],
     "control_arms": [
       "non-targeting control",
-      "control DsiRNA"
+      "control DsiRNA",
+      "GFP controls"
     ],
     "case_arms": [
-      "ZPFL1 RNAi",
-      "LTN1 RNAi",
-      "NFXL1 RNAi"
+      "DsiRNA pools",
+      "SLC baits",
+      "SLC16A6 phosphomutants"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "seeded in 10 cm TC-treated plates in triplicates for each target gene pool and non-targeting control"
+      "biological duplicates with technical injections",
+      "triplicates for each target gene pool"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "non-targeting control",
-        "case_label": "target gene RNAi",
+        "case_label": "DsiRNA treatment",
         "contrast_type": "pairwise",
         "evidence": [
           "To validate that the RNAi targets were knocked down within each condition, the mean log2FC against the control treatment for each single protein was derived."
+        ]
+      },
+      {
+        "control_label": "SLC16A6WT",
+        "case_label": "SLC16A6 phosphomutants",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "For each phospho-mutant, the log2FC against the SLC16A6WT was derived."
         ]
       }
     ],
@@ -103,7 +159,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -171,15 +227,16 @@
     ]
   },
   "assay": {
-    "acquisition_type": "DIA",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification",
-      "integrated area"
+      "Spectral counting (SPC)",
+      "NSAF",
+      "Label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "AP-MS",
@@ -201,22 +258,22 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and methods explicitly state the use of Data-Independent Acquisition (DIA) for the full proteome profiling of RNAi-treated cells, processed with Spectronaut and label-free quantification."
+          "reason": "The PRIDE metadata and methods explicitly state the use of Data-independent acquisition (DIA) and label-free quantification (LFQ) for the RNAi validation proteome profiling."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The primary large-scale AP-MS dataset for the SLC interactome was acquired using Data-Dependent Acquisition (DDA) and processed with MSFragger/Philosopher."
+          "reason": "The main AP-MS interactome study used data-dependent acquisition (DDA) with spectral counting (SPC) and NSAF, which are LFQ-based approaches."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "DIA",
+        "data-independent acquisition",
         "DDA",
-        "AP-MS",
-        "label-free",
-        "Spectronaut",
-        "MSFragger"
+        "data-dependent acquisition",
+        "label free",
+        "AP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -225,22 +282,22 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and methods explicitly state the use of Data-Independent Acquisition (DIA) for the full proteome profiling of RNAi-treated cells, processed with Spectronaut and label-free quantification."
+          "reason": "The PRIDE metadata and methods explicitly state the use of Data-independent acquisition (DIA) and label-free quantification (LFQ) for the RNAi validation proteome profiling."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The primary large-scale AP-MS dataset for the SLC interactome was acquired using Data-Dependent Acquisition (DDA) and processed with MSFragger/Philosopher."
+          "reason": "The main AP-MS interactome study used data-dependent acquisition (DDA) with spectral counting (SPC) and NSAF, which are LFQ-based approaches."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "DIA",
+        "data-independent acquisition",
         "DDA",
-        "AP-MS",
-        "label-free",
-        "Spectronaut",
-        "MSFragger"
+        "data-dependent acquisition",
+        "label free",
+        "AP-MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -268,8 +325,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:05:35Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

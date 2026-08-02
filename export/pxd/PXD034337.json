@@ -3,19 +3,24 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
       "B cell"
     ],
     "cell_lines": [
       "RC-K8",
-      "L-428"
+      "L-428",
+      "Karpas1106P",
+      "Farage",
+      "U2940",
+      "MedB-1"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -25,32 +30,31 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
+          "In vitro, knockout of ZNF217 led to changes in chromatin accessibility",
           "RNA-seq of ZNF217KO versus ZNF217WT RC-K8 lymphoma cells discovered large changes of the transcriptome",
-          "Global proteome analysis of RC-K8 corresponded with the RNA-seq findings",
-          "We generated a large number of different ZNF217 knockout single cell clones by use of a CRISPR/Cas9-based genome editing protocol"
+          "Global proteome analysis of RC-K8 corresponded with the RNA-seq findings"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CRISPR/Cas9",
+        "agent": "ZNF217",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "ZNF217 knockout in RC-K8 lymphoma cells",
+        "route_or_context": "CRISPR/Cas9-based genome editing",
         "evidence": [
           "We generated a large number of different ZNF217 knockout single cell clones by use of a CRISPR/Cas9-based genome editing protocol"
         ]
@@ -74,7 +78,7 @@
       "single cell clones"
     ],
     "multiplex_channel_hints": [
-      "11-plex tandem mass tag (Fisher Scientific) reagents"
+      "11-plex tandem mass tag (TMT)"
     ],
     "contrast_hints": [
       {
@@ -82,8 +86,7 @@
         "case_label": "ZNF217KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "RNA-seq of ZNF217KO versus ZNF217WT RC-K8 lymphoma cells discovered large changes of the transcriptome",
-          "Global proteome analysis of RC-K8 corresponded with the RNA-seq findings"
+          "RNA-seq of ZNF217KO versus ZNF217WT RC-K8 lymphoma cells discovered large changes of the transcriptome"
         ]
       }
     ],
@@ -110,13 +113,33 @@
     "cell_lines": [
       {
         "label": "RC-K8",
-        "family": "lymphoma",
+        "family": "B-NHL",
         "ontology_curie": "CVCL_1883"
       },
       {
         "label": "L-428",
-        "family": "lymphoma",
+        "family": "HL",
         "ontology_curie": "CVCL_1361"
+      },
+      {
+        "label": "Karpas1106P",
+        "family": "B-NHL",
+        "ontology_curie": "CVCL_1821"
+      },
+      {
+        "label": "Farage",
+        "family": "B-NHL",
+        "ontology_curie": "CVCL_3302"
+      },
+      {
+        "label": "U2940",
+        "family": "B-NHL",
+        "ontology_curie": "CVCL_1897"
+      },
+      {
+        "label": "MedB-1",
+        "family": "B-NHL",
+        "ontology_curie": "CVCL_A649"
       }
     ],
     "noncellular_sources": [],
@@ -127,7 +150,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -136,11 +159,12 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "TMT"
-    ],
-    "quantification_strategy": [
       "TMT",
       "LFQ"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion quantification",
+      "LFQ normalization"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -154,7 +178,7 @@
         "ontology_label": "AP-MS",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "medium"
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -170,27 +194,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and sample processing explicitly state the use of 11-plex tandem mass tag (TMT) labeling and data-dependent acquisition (DDA) mode on a Q-Exactive Plus."
+          "reason": "The global proteome analysis explicitly used 11-plex tandem mass tag (TMT) labeling and data-dependent acquisition (DDA) mode on a Q-Exactive Plus."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The ZNF217 Pulldown samples were analyzed using LFQ normalization in MaxQuant."
+          "confidence": 0.8,
+          "reason": "The ZNF217 Pulldown samples were analyzed in data dependent mode and the data processing protocol explicitly mentions 'LFQ normalization were activated'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 1.0,
-          "reason": "Text explicitly mentions 'phospho-proteome analysis' and 'Phosphopeptide enrichment was performed using Fe(III)-IMAC cartridges'."
+          "modifier_workflow_id": "phosphoproteome",
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions 'phospho-proteome analysis' and 'Phosphopeptide enrichment was performed using Fe(III)-IMAC cartridges'."
         }
       ],
       "trigger_keywords": [
         "TMT",
-        "11-plex",
+        "11-plex tandem mass tag",
+        "data-dependent acquisition",
         "Fe(III)-IMAC",
         "phospho-proteome",
-        "data-dependent acquisition"
+        "LFQ normalization"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -199,27 +224,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and sample processing explicitly state the use of 11-plex tandem mass tag (TMT) labeling and data-dependent acquisition (DDA) mode on a Q-Exactive Plus."
+          "reason": "The global proteome analysis explicitly used 11-plex tandem mass tag (TMT) labeling and data-dependent acquisition (DDA) mode on a Q-Exactive Plus."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The ZNF217 Pulldown samples were analyzed using LFQ normalization in MaxQuant."
+          "confidence": 0.8,
+          "reason": "The ZNF217 Pulldown samples were analyzed in data dependent mode and the data processing protocol explicitly mentions 'LFQ normalization were activated'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 1.0,
-          "reason": "Text explicitly mentions 'phospho-proteome analysis' and 'Phosphopeptide enrichment was performed using Fe(III)-IMAC cartridges'."
+          "modifier_workflow_id": "phosphoproteome",
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions 'phospho-proteome analysis' and 'Phosphopeptide enrichment was performed using Fe(III)-IMAC cartridges'."
         }
       ],
       "trigger_keywords": [
         "TMT",
-        "11-plex",
+        "11-plex tandem mass tag",
+        "data-dependent acquisition",
         "Fe(III)-IMAC",
         "phospho-proteome",
-        "data-dependent acquisition"
+        "LFQ normalization"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -247,8 +273,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:44:11Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

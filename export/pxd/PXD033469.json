@@ -27,16 +27,16 @@
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
-        "matched_class_key": "cytokine_stimulation",
+        "matched_class_key": "interleukin_stimulation",
         "matched_class_path": [
           "ligand_stimulation",
-          "cytokine_stimulation"
+          "interleukin_stimulation"
         ],
-        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "matched_definition": "Stimulation using an interleukin ligand.",
         "confidence": "high",
         "evidence": [
           "Human primary chondrocytes treated with IL-1\u03b2 stimulation for 24 h were lysed with lysate to obtain protein mixtures",
-          "Chondrocytes stimulated with inflammatory cytokines (10 ng/mL IL-1\u03b2) for 4 h were collected for total RNA extraction"
+          "In some experiments, 10 ng/mL of IL-1\u03b2 (Sigma) or PBS was used to treat the cells."
         ]
       },
       {
@@ -44,15 +44,16 @@
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
         "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
           "molecular_state",
-          "ptm_or_activation_state"
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
-        "confidence": "medium",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
         "evidence": [
-          "biotin-labeled circNFKB1 probes targeting its back-splice and its antisense probes were purchased from GenePharma for RNA pulldown assays",
+          "biotin-labeled circNFKB1 probes targeting its back-splice and its antisense probes were purchased for RNA pulldown assays",
+          "the circRNA-protein complexes obtained from the RNA pulldown experiments were subjected to silver staining experiments to look for differential bands",
           "Differential bands specifically enriched by circNFKB1 were collected for mass spectrometry."
         ]
       }
@@ -60,10 +61,10 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "interleukin-1\u03b2 (IL-1\u03b2)",
+        "agent": "interleukin-1\u03b2",
         "dose_or_concentration": "10 ng/mL",
         "duration": "24 h",
-        "route_or_context": "in vitro human primary chondrocytes",
+        "route_or_context": "human primary chondrocytes",
         "evidence": [
           "Human primary chondrocytes treated with IL-1\u03b2 stimulation for 24 h were lysed with lysate to obtain protein mixtures",
           "10 ng/mL of IL-1\u03b2 (Sigma) or PBS was used to treat the cells."
@@ -71,12 +72,13 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "circNFKB1 biotinylated probe",
+        "agent": "circNFKB1",
         "dose_or_concentration": null,
-        "duration": "overnight",
-        "route_or_context": "RNA pulldown assay",
+        "duration": null,
+        "route_or_context": "biotinylated probes for RNA pulldown",
         "evidence": [
-          "Extracts were mixed with biotinylated probes and hybridized overnight in a 37 \u00b0C hybridization incubator for the probes to fully bind to the proteins."
+          "biotin-labeled circNFKB1 probes targeting its back-splice and its antisense probes were purchased for RNA pulldown assays",
+          "the biotinylated probes targeting the circNFKB1 reverse splice sequence bound to the differential bands were analyzed by mass spectrometry."
         ]
       }
     ],
@@ -89,21 +91,21 @@
       "24 h"
     ],
     "control_arms": [
+      "PBS",
       "antisense probes"
     ],
     "case_arms": [
+      "IL-1\u03b2 stimulation",
       "circNFKB1 probes"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [
-      "All experiments were repeated at least three times."
-    ],
+    "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "antisense probe",
-        "case_label": "circNFKB1 probe",
+        "control_label": "antisense probes",
+        "case_label": "circNFKB1 probes",
         "contrast_type": "pairwise",
         "evidence": [
           "Differential bands specifically enriched by circNFKB1 were collected for mass spectrometry."
@@ -131,7 +133,7 @@
     "cell_types": [
       {
         "label": "chondrocyte",
-        "rollup_category": "chondrocyte",
+        "rollup_category": "cell",
         "ontology_curie": "CL:0000138"
       }
     ],
@@ -166,7 +168,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "RNA-protein complex enrichment",
+        "ontology_label": "RNA pulldown",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -185,21 +187,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used a Q Exactive HF (DDA instrument) and identified proteins from silver-stained gel bands. No labeling (SILAC, TMT, dimethyl) is mentioned, suggesting label-free quantification of the enriched bands."
+          "reason": "The experiment used a Q Exactive HF (DDA instrument) and performed RNA pulldown followed by silver staining to identify differential bands, which is a typical label-free discovery approach for protein-RNA interactions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_rna_pulldown",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly describes an RNA pulldown assay using biotin-labeled circNFKB1 probes to capture interacting proteins."
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions that human chondrocytes were cross-linked with 3% formaldehyde before RNA pulldown, and PRIDE metadata lists the experiment type as 'Chemical cross-linking coupled with mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
         "RNA pulldown",
-        "biotin-labeled circNFKB1 probes",
+        "cross-linked",
+        "formaldehyde",
         "silver staining",
-        "differential bands"
+        "biotin-labeled circNFKB1 probes"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,21 +211,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used a Q Exactive HF (DDA instrument) and identified proteins from silver-stained gel bands. No labeling (SILAC, TMT, dimethyl) is mentioned, suggesting label-free quantification of the enriched bands."
+          "reason": "The experiment used a Q Exactive HF (DDA instrument) and performed RNA pulldown followed by silver staining to identify differential bands, which is a typical label-free discovery approach for protein-RNA interactions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_rna_pulldown",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly describes an RNA pulldown assay using biotin-labeled circNFKB1 probes to capture interacting proteins."
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "The text explicitly mentions that human chondrocytes were cross-linked with 3% formaldehyde before RNA pulldown, and PRIDE metadata lists the experiment type as 'Chemical cross-linking coupled with mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
         "RNA pulldown",
-        "biotin-labeled circNFKB1 probes",
+        "cross-linked",
+        "formaldehyde",
         "silver staining",
-        "differential bands"
+        "biotin-labeled circNFKB1 probes"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -250,8 +254,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:14:16Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

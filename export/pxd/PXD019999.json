@@ -16,10 +16,8 @@
     ],
     "cell_lines": [
       "HCT116",
-      "HCT116wt",
-      "HCT116\u0394p53",
-      "RKO",
-      "H1299"
+      "H1299",
+      "RKO"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -33,16 +31,17 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "The topoisomerase-1 inhibitor irinotecan induces acetylation of several lysine residues within p53.",
-          "Inhibition of histone deacetylases (HDACs) with the class I HDAC inhibitor entinostat synergistically triggers mitochondrial damage and apoptosis in irinotecan-treated p53-positive CRC cells."
+          "Inhibition of histone deacetylases (HDACs) with the class I HDAC inhibitor entinostat synergistically triggers mitochondrial damage and apoptosis in irinotecan-treated p53-positive CRC cells.",
+          "we analyzed the relevance of CBP/p300 with their novel inhibitor CPI-1612."
         ]
       },
       {
@@ -50,17 +49,17 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "We used wild-type p53 or p53-negative human CRC cells",
-          "HCT116wt/HCT116\u0394p53 cells"
+          "We used wild-type p53 or p53-negative human CRC cells, cells with acetylation-defective p53",
+          "We used wild-type p53-positive (HCT116wt) and p53-negative (HCT116\u0394p53) human CRC cell lines",
+          "stably reconstituted HCT116\u0394p53 cells with p536KR, which cannot be acetylated at its C terminus"
         ]
       }
     ],
@@ -83,8 +82,18 @@
         "duration": "up to 48 h",
         "route_or_context": "in vitro",
         "evidence": [
-          "1\u20132 \u00b5m entinostat",
+          "Cells were treated with 1\u20132 \u00b5m entinostat",
           "combinations for up to 48 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CPI-1612",
+        "dose_or_concentration": "25\u20131000 nm",
+        "duration": "up to 48 h",
+        "route_or_context": "in vitro",
+        "evidence": [
+          "Cells were treated with 25\u20131000 nm CPI-1612"
         ]
       }
     ],
@@ -99,15 +108,18 @@
     ],
     "control_arms": [
       "DMSO",
-      "HCT116\u0394p53"
+      "p53-negative (HCT116\u0394p53)",
+      "empty vector (EV)"
     ],
     "case_arms": [
       "irinotecan",
       "entinostat",
       "irinotecan plus entinostat",
-      "HCT116wt"
+      "CPI-1612",
+      "p53wt",
+      "p536KR"
     ],
-    "paired_design": false,
+    "paired_design": null,
     "factorial_design": true,
     "replicate_hints": [
       "PRM data were collected in triplicate."
@@ -140,7 +152,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -158,23 +170,13 @@
         "ontology_curie": null
       },
       {
-        "label": "HCT116wt",
-        "family": "colorectal cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "HCT116\u0394p53",
-        "family": "colorectal cancer",
+        "label": "H1299",
+        "family": "non-small-cell lung cancer",
         "ontology_curie": null
       },
       {
         "label": "RKO",
         "family": "colorectal cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "H1299",
-        "family": "non-small-cell lung cancer",
         "ontology_curie": null
       }
     ],
@@ -198,7 +200,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Parallel Reaction Monitoring (PRM)"
+      "Parallel Reaction Monitoring (PRM)",
+      "MS/MS-based quantitation"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -216,33 +219,33 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used Data-Dependent Acquisition (DDA) for initial library generation and subsequent Parallel Reaction Monitoring (PRM) for targeted quantification."
+          "reason": "The experiment uses Data-Dependent Acquisition (DDA) for initial library generation and subsequent Parallel Reaction Monitoring (PRM) for targeted quantification of p53 peptides."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "targeted_prm",
-          "confidence": 1.0,
-          "reason": "Explicit use of Parallel Reaction Monitoring (PRM) for the analysis and quantitation of acetylated p53 peptides."
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.95,
+          "reason": "The primary focus of the MS analysis is the acetylation of p53 lysine residues, specifically C-terminal sites like K382."
         },
         {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "p53 was purified via immunoprecipitation using Protein G Dynabeads and anti-p53 antibodies."
+          "modifier_workflow_id": "modifier_ptm_phosphorylation",
+          "confidence": 0.7,
+          "reason": "Phosphorylation of serine and threonine residues was specified as a variable modification in the Mascot search."
         }
       ],
       "trigger_keywords": [
         "Parallel reaction monitoring",
         "DDA",
-        "PRM",
-        "immunoprecipitation",
-        "targeted mass spectrometry"
+        "acetylation",
+        "phosphorylation",
+        "immunoprecipitation of p53"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,27 +254,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used Data-Dependent Acquisition (DDA) for initial library generation and subsequent Parallel Reaction Monitoring (PRM) for targeted quantification."
+          "reason": "The experiment uses Data-Dependent Acquisition (DDA) for initial library generation and subsequent Parallel Reaction Monitoring (PRM) for targeted quantification of p53 peptides."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "targeted_prm",
-          "confidence": 1.0,
-          "reason": "Explicit use of Parallel Reaction Monitoring (PRM) for the analysis and quantitation of acetylated p53 peptides."
+          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "confidence": 0.95,
+          "reason": "The primary focus of the MS analysis is the acetylation of p53 lysine residues, specifically C-terminal sites like K382."
         },
         {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "p53 was purified via immunoprecipitation using Protein G Dynabeads and anti-p53 antibodies."
+          "modifier_workflow_id": "modifier_ptm_phosphorylation",
+          "confidence": 0.7,
+          "reason": "Phosphorylation of serine and threonine residues was specified as a variable modification in the Mascot search."
         }
       ],
       "trigger_keywords": [
         "Parallel reaction monitoring",
         "DDA",
-        "PRM",
-        "immunoprecipitation",
-        "targeted mass spectrometry"
+        "acetylation",
+        "phosphorylation",
+        "immunoprecipitation of p53"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -299,8 +302,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:09:24Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

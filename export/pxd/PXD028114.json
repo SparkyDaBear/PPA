@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation",
+      "small-molecule inhibitor treatment"
     ],
     "cell_types": [
       "breast cancer cells"
@@ -26,20 +27,38 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_disruption"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "incubated with extracts collected from SIRT1 knock-down cells",
-          "the stability of the ATP6V1A transcript is significantly compromised in breast cancer cells when SIRT1 expression is low or knocked-down"
+          "the stability of the ATP6V1A transcript is significantly compromised in breast cancer cells when SIRT1 expression is low or knocked-down",
+          "using two different short hairpin RNAs (shRNAs) that target SIRT1",
+          "Knocking down IGF2BP2 in cells depleted of SIRT1"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "treating tumor-bearing MMTV-PYMT mice with EX-527, a small-molecule inhibitor of SIRT1 deacetylase activity",
+          "treating cells with EX-527 to inhibit SIRT1 deacetylase activity resulted in an accelerated decay of the RNA transcript encoding ATP6V1A"
         ]
       }
     ],
@@ -49,10 +68,29 @@
         "agent": "SIRT1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "shRNA knock-down",
+        "route_or_context": "shRNA knockdown",
         "evidence": [
-          "incubated with extracts collected from SIRT1 knock-down cells",
           "using two different short hairpin RNAs (shRNAs) that target SIRT1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IGF2BP2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown",
+        "evidence": [
+          "Knocking down IGF2BP2 in cells depleted of SIRT1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EX-527",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "small-molecule inhibitor of SIRT1 deacetylase activity",
+        "evidence": [
+          "treating tumor-bearing MMTV-PYMT mice with EX-527, a small-molecule inhibitor of SIRT1 deacetylase activity"
         ]
       }
     ],
@@ -63,22 +101,33 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "control cells"
+      "control mice",
+      "cells with sufficient levels of SIRT1"
     ],
     "case_arms": [
-      "SIRT1 knock-down cells"
+      "SIRT1 knock-down cells",
+      "SIRT1 inhibitor treated (EX-527)",
+      "IGF2BP2 knock-down cells"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Control",
+        "control_label": "SIRT1-expressing",
         "case_label": "SIRT1 knock-down",
         "contrast_type": "pairwise",
         "evidence": [
-          "incubated with extracts collected from SIRT1 knock-down cells"
+          "the stability of the ATP6V1A transcript is significantly compromised in breast cancer cells when SIRT1 expression is low or knocked-down"
+        ]
+      },
+      {
+        "control_label": "SIRT1 knock-down",
+        "case_label": "SIRT1 and IGF2BP2 double knock-down",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Knocking down IGF2BP2 in cells depleted of SIRT1 decreased the amount of exosomes they produced"
         ]
       }
     ],
@@ -105,12 +154,12 @@
     "cell_lines": [
       {
         "label": "MCF10A",
-        "family": "breast cancer progression series",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "MCF10CA1A",
-        "family": "breast cancer progression series",
+        "family": null,
         "ontology_curie": null
       },
       {
@@ -127,7 +176,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -162,23 +211,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
+          "confidence": 0.8,
+          "reason": "The experiment uses shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' using biotinylated RNA transcripts and streptavidin-coated beads."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Shotgun proteomics",
-        "Affinity purification",
         "Spectrum counting",
-        "biotinylated RNA transcripts",
-        "streptavidin-coated beads"
+        "nanoflow LC-MS/MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,23 +227,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
+          "confidence": 0.8,
+          "reason": "The experiment uses shotgun proteomics (DDA) with quantification based on spectrum counting (spectral counting is a form of label-free quantification)."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' using biotinylated RNA transcripts and streptavidin-coated beads."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Shotgun proteomics",
-        "Affinity purification",
         "Spectrum counting",
-        "biotinylated RNA transcripts",
-        "streptavidin-coated beads"
+        "nanoflow LC-MS/MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -230,8 +263,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:50:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

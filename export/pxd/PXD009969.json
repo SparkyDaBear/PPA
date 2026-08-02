@@ -8,7 +8,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [
       "pluripotent stem cell"
@@ -24,24 +25,53 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "simultaneously assessed all measurable components of these pathways in control, C9ALS and sALS iPSCs",
-          "Comparison between disease and matched control cohorts."
+          "assess genome-wide RNA stability in ALS patient-derived cells",
+          "cells derived from patients with C9orf72 ALS, sporadic ALS and healthy controls",
+          "simultaneously assessed all measurable components of these pathways in control, C9ALS and sALS iPSCs"
+        ]
+      },
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "This pattern is recapitulated by TDP-43 overexpression",
+          "we overexpressed TDP-43 fused to enhanced green fluorescent protein (TDP43-EGFP) or EGFP itself in control iPSCs"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TDP-43",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression via TDP43-EGFP transfection in control iPSCs",
+        "evidence": [
+          "we overexpressed TDP-43 fused to enhanced green fluorescent protein (TDP43-EGFP) or EGFP itself in control iPSCs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -49,24 +79,21 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "control iPSCs"
+      "healthy controls",
+      "EGFP"
     ],
     "case_arms": [
-      "C9ALS iPSCs",
-      "sALS iPSCs"
+      "C9ALS",
+      "sALS",
+      "TDP43-EGFP"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
+      "performed all analyses in duplicate",
       "C1, repl. 1",
       "C1, repl. 2",
-      "C1, repl. 3",
-      "C9A2, repl. 1",
-      "C9A2, repl. 2",
-      "C9A2, repl. 3",
-      "SA2, repl. 1",
-      "SA2, repl. 2",
-      "SA2, repl. 3"
+      "C1, repl. 3"
     ],
     "multiplex_channel_hints": [
       "tandem mass tag (TMT) labeling was performed using the TMT-10plex isobaric labeling kit",
@@ -78,7 +105,7 @@
         "case_label": "C9ALS iPSCs",
         "contrast_type": "pairwise",
         "evidence": [
-          "we identified 806 proteins that were significantly and consistently reduced \u226510% in C9ALS iPSCs"
+          "simultaneously assessed all measurable components of these pathways in control, C9ALS and sALS iPSCs"
         ]
       },
       {
@@ -86,7 +113,15 @@
         "case_label": "sALS iPSCs",
         "contrast_type": "pairwise",
         "evidence": [
-          "Unbiased assessment of proteins downregulated \u226510% in sALS iPSCs demonstrated enrichment for components of the oxidative phosphorylation pathway"
+          "simultaneously assessed all measurable components of these pathways in control, C9ALS and sALS iPSCs"
+        ]
+      },
+      {
+        "control_label": "EGFP",
+        "case_label": "TDP43-EGFP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared RNA stability in the two groups by BruChase-seq... TDP43-EGFP overexpression induced profound RNA destabilization"
         ]
       }
     ],
@@ -155,15 +190,22 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT-10plex isobaric labeling and data-dependent acquisition (DDA) with a multinotch-MS3 method."
+          "reason": "Explicit use of TMT-10plex isobaric labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ms3_quantification",
+          "confidence": 0.95,
+          "reason": "The authors explicitly employed a 'multinotch-MS3 method' to increase accuracy and confidence in protein abundance measures."
+        }
+      ],
       "trigger_keywords": [
         "TMT-10plex",
         "isobaric labeling",
         "multinotch-MS3",
-        "data-dependent"
+        "data-dependent",
+        "Orbitrap Fusion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -172,15 +214,22 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT-10plex isobaric labeling and data-dependent acquisition (DDA) with a multinotch-MS3 method."
+          "reason": "Explicit use of TMT-10plex isobaric labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ms3_quantification",
+          "confidence": 0.95,
+          "reason": "The authors explicitly employed a 'multinotch-MS3 method' to increase accuracy and confidence in protein abundance measures."
+        }
+      ],
       "trigger_keywords": [
         "TMT-10plex",
         "isobaric labeling",
         "multinotch-MS3",
-        "data-dependent"
+        "data-dependent",
+        "Orbitrap Fusion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,8 +257,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:00:10Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -8,7 +8,7 @@
       "TMT"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation"
     ],
     "cell_types": [
       "neuroblastoma"
@@ -24,42 +24,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "we performed RAP-MS experiment (Figure 2(d)) with ~240 million SH-SY5Y cells expressing the Tau minigene using oligo sets that target either the Tau minigene pre-mRNA or GAPDH mature mRNA (negative control).",
-          "To test the function of the 15 newly identified RBPs on Tau exon 10 splicing regulation, we knocked down each candidate gene using short-hairpin RNAs (shRNAs) in wild-type SH-SY5Y cells"
+          "we knocked down each candidate gene using short-hairpin RNAs (shRNAs) in wild-type SH-SY5Y cells",
+          "we induced hnRNPC knockdown using two independent shRNAs in SH-SY5Y cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Tau minigene pre-mRNA",
+        "agent": "shRNA",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "RAP-MS capture",
+        "duration": "48 hrs",
+        "route_or_context": "lentivirus infection in SH-SY5Y neuroblastoma cells",
         "evidence": [
-          "we designed probes targeting the Tau pre-mRNA around its exon 10 region and performed RAP-MS proteomic analysis in the neuroblastoma cell line SH-SY5Y."
+          "SH-SY5Y neuroblastoma cells were infected with lentivirus either expressing scramble-shRNA or candidates-shRNA followed by puromycin selection (2 \u00b5g/ml) for 48 hrs."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "GAPDH mature mRNA",
+        "agent": "hnRNPC",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "negative control pull-down",
+        "route_or_context": "knockdown via shRNA",
         "evidence": [
-          "half lysate used for Tau minigene pre-mRNA pull-down, the other half lysate used for GAPDH mature transcript control pull-down"
+          "we induced hnRNPC knockdown using two independent shRNAs in SH-SY5Y cells"
         ]
       }
     ],
@@ -68,28 +68,32 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "48 hrs"
+    ],
     "control_arms": [
-      "GAPDH mature mRNA pull-down"
+      "scramble-shRNA"
     ],
     "case_arms": [
-      "Tau minigene pre-mRNA pull-down"
+      "candidates-shRNA",
+      "hnRNPC knockdown"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "two RAP-MS runs with the Tau-targeting probes",
-      "selected proteins should present in both biological replicate of the Tau RAP-MS runs"
+      "two independent shRNAs",
+      "biological replicate of the Tau RAP-MS runs"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "TMT-6plex labeling"
+    ],
     "contrast_hints": [
       {
-        "control_label": "GAPDH pull-down",
-        "case_label": "Tau minigene pull-down",
+        "control_label": "scramble-shRNA",
+        "case_label": "candidates-shRNA",
         "contrast_type": "pairwise",
         "evidence": [
-          "we narrowed our results down to 16 RBPs that specifically interact with the Tau minigene pre-mRNA",
-          "the sum of the number of peptide spectrum matches (PSM) for each selected protein in the two Tau RAP-MS runs are at least two-fold higher compared to that in the two GAPDH negative control runs"
+          "SH-SY5Y neuroblastoma cells were infected with lentivirus either expressing scramble-shRNA or candidates-shRNA"
         ]
       }
     ],
@@ -142,10 +146,10 @@
     "quantification_strategy": [
       "TMT reporter ion intensities"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "RNA-protein interaction enrichment (RAP-MS)",
+        "ontology_label": "RNA antisense purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -162,56 +166,44 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'TMT-6plex labeling' and 'TMT reporter ion intensities' were used for quantification."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The publication text describes a RAP-MS experiment using a QExactive HF with a parent ion scan and selection of the 20 most intense peaks for MS/MS (DDA). Quantification was performed using PSM counts (spectral counting/LFQ approach) to compare Tau minigene vs GAPDH control."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The publication text describes a RAP-MS experiment using PSM counts for relative quantification between Tau and GAPDH runs, which is a label-free approach."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.4,
+          "reason": "The PRIDE metadata mentions TMT-6plex labeling, but the publication text describing the RAP-MS results (PXD012432) focuses on PSM counts for differential analysis. There is a discrepancy between the PRIDE project description (MSI-1 knockdown) and the publication text (Tau RAP-MS)."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "enrichment_rap_ms",
-          "confidence": 1.0,
-          "reason": "The publication describes 'RNA Antisense Purification with Mass Spectrometry (RAP-MS)' using biotinylated DNA probes to capture RNA-protein complexes."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "RAP-MS",
-        "TMT-6plex",
         "RNA antisense purification",
-        "biotinylated DNA oligonucleotide probes"
+        "PSM counts",
+        "QExactive HF"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_isobaric",
-          "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'TMT-6plex labeling' and 'TMT reporter ion intensities' were used for quantification."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The publication text describes a RAP-MS experiment using a QExactive HF with a parent ion scan and selection of the 20 most intense peaks for MS/MS (DDA). Quantification was performed using PSM counts (spectral counting/LFQ approach) to compare Tau minigene vs GAPDH control."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The publication text describes a RAP-MS experiment using PSM counts for relative quantification between Tau and GAPDH runs, which is a label-free approach."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.4,
+          "reason": "The PRIDE metadata mentions TMT-6plex labeling, but the publication text describing the RAP-MS results (PXD012432) focuses on PSM counts for differential analysis. There is a discrepancy between the PRIDE project description (MSI-1 knockdown) and the publication text (Tau RAP-MS)."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "enrichment_rap_ms",
-          "confidence": 1.0,
-          "reason": "The publication describes 'RNA Antisense Purification with Mass Spectrometry (RAP-MS)' using biotinylated DNA probes to capture RNA-protein complexes."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "RAP-MS",
-        "TMT-6plex",
         "RNA antisense purification",
-        "biotinylated DNA oligonucleotide probes"
+        "PSM counts",
+        "QExactive HF"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -239,8 +231,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:05:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

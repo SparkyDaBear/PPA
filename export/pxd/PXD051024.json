@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free quantification (LFQ)",
+    "quantification_method": "label-free quantitative (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -27,28 +27,30 @@
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "inter_tissue_comparison",
-        "matched_class_key": "inter_tissue_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
-          "inter_tissue_comparison"
+          "anatomical_spatial",
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
           "we investigate the lymph proteomic composition, uncovering that its composition varies according to the tissue of origin",
-          "we collected afferent lymph draining to the cervical and mesenteric lymph nodes"
+          "collected afferent lymph draining to the cervical and mesenteric lymph nodes"
         ]
       },
       {
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "case_control_disease"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "the lymph antigenic and inflammatory loads are analyzed in both mice and subjects with inflammatory bowel diseases",
@@ -59,11 +61,14 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
-        "confidence": "high",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "cytotoxic_or_poison_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "cytotoxic_or_poison_treatment"
+        ],
+        "matched_definition": "Chemical exposure to toxicants, poisons, or cytotoxic agents used as a primary biological comparison.",
+        "confidence": "medium",
         "evidence": [
           "healthy mice were fed DSS, a sulfated polysaccharide that causes ulcerative colitis-like pathologies as well as inflammation in the intestinal mucosa"
         ]
@@ -77,8 +82,18 @@
         "duration": "1 week",
         "route_or_context": "fed",
         "evidence": [
-          "healthy mice were fed DSS",
+          "disrupted gut barriers, caused by dextran sulfate sodium (DSS)-induced tissue damage",
           "following 1 week of DSS treatment"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "inflammatory bowel disease (IBD)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human subjects",
+        "evidence": [
+          "individuals with inflammatory bowel disease (IBD)"
         ]
       }
     ],
@@ -87,22 +102,19 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "1 week"
-    ],
+    "timepoints": [],
     "control_arms": [
       "healthy mice",
       "trauma lymph"
     ],
     "case_arms": [
-      "DSS-induced colitis mice",
-      "IBD patients"
+      "DSS-fed mice",
+      "IBD subjects"
     ],
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "n = 4 biological replicates for each sample set",
-      "n = 4 biological replicates each"
+      "n = 4 biological replicates for each sample set"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -141,12 +153,12 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "10090",
+        "taxonomy_hint": "mouse",
         "confidence": "high"
       }
     ],
@@ -162,6 +174,10 @@
       {
         "label": "lymph",
         "source_kind": "biofluid"
+      },
+      {
+        "label": "extracellular vesicles",
+        "source_kind": "other"
       }
     ],
     "sample_scope": {
@@ -183,9 +199,9 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification (LFQ)"
+      "label-free quantitative (LFQ)"
     ],
-    "proteomics_mode": "Immunopeptidomics",
+    "proteomics_mode": "Peptidomics",
     "targets_and_enrichments": [
       {
         "ontology_label": "immunopeptidome enrichment",
@@ -206,35 +222,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Multiple datasets (human EV, mouse lymph) explicitly used DDA with label-free quantification (LFQ) using PEAKS XPRO and DIA-NN."
+          "confidence": 10,
+          "reason": "Multiple datasets (human EV, mouse lymph) explicitly use DDA and label-free quantification (LFQ) using PEAKS XPRO and DIA-NN."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
+          "confidence": 8,
           "reason": "Mouse lymph samples were analyzed using diaPASEF on a timsTOF Pro2."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "peptidomics",
-          "confidence": 0.95,
-          "reason": "Explicit analysis of 'endogenous processed peptides (peptidome/degradome)' using 'no enzyme restriction' in search parameters for both human and mouse lymph."
+          "modifier_workflow_id": "peptidome_no_enzyme",
+          "confidence": 10,
+          "reason": "Explicit mention of 'no enzyme restriction' for endogenous processed peptides (peptidome/degradome) in both human and mouse lymph analysis."
         },
         {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 0.9,
-          "reason": "Isolation of I-Ab peptide complexes from dendritic cells using immunoaffinity columns (M5/114 antibody) followed by MS analysis."
+          "modifier_workflow_id": "mhc_ii_immunopeptidome",
+          "confidence": 9,
+          "reason": "Isolation of I-Ab peptide complexes from dendritic cells using immunoaffinity columns (M5/114 antibody) followed by elution and MS analysis."
         }
       ],
       "trigger_keywords": [
-        "peptidome",
-        "degradome",
-        "no enzyme restriction",
-        "I-Ab peptide complexes",
-        "immunopeptidome",
+        "label-free quantitative (LFQ)",
         "diaPASEF",
-        "LFQ"
+        "no enzyme restriction",
+        "endogenous processed peptides",
+        "I-Ab peptide complexes",
+        "immunopeptidome"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -242,35 +257,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Multiple datasets (human EV, mouse lymph) explicitly used DDA with label-free quantification (LFQ) using PEAKS XPRO and DIA-NN."
+          "confidence": 10,
+          "reason": "Multiple datasets (human EV, mouse lymph) explicitly use DDA and label-free quantification (LFQ) using PEAKS XPRO and DIA-NN."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
+          "confidence": 8,
           "reason": "Mouse lymph samples were analyzed using diaPASEF on a timsTOF Pro2."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "peptidomics",
-          "confidence": 0.95,
-          "reason": "Explicit analysis of 'endogenous processed peptides (peptidome/degradome)' using 'no enzyme restriction' in search parameters for both human and mouse lymph."
+          "modifier_workflow_id": "peptidome_no_enzyme",
+          "confidence": 10,
+          "reason": "Explicit mention of 'no enzyme restriction' for endogenous processed peptides (peptidome/degradome) in both human and mouse lymph analysis."
         },
         {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 0.9,
-          "reason": "Isolation of I-Ab peptide complexes from dendritic cells using immunoaffinity columns (M5/114 antibody) followed by MS analysis."
+          "modifier_workflow_id": "mhc_ii_immunopeptidome",
+          "confidence": 9,
+          "reason": "Isolation of I-Ab peptide complexes from dendritic cells using immunoaffinity columns (M5/114 antibody) followed by elution and MS analysis."
         }
       ],
       "trigger_keywords": [
-        "peptidome",
-        "degradome",
-        "no enzyme restriction",
-        "I-Ab peptide complexes",
-        "immunopeptidome",
+        "label-free quantitative (LFQ)",
         "diaPASEF",
-        "LFQ"
+        "no enzyme restriction",
+        "endogenous processed peptides",
+        "I-Ab peptide complexes",
+        "immunopeptidome"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -298,8 +312,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:39:11Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

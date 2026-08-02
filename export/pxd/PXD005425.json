@@ -27,16 +27,16 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "SUMO2 conjugates were purified from cells infected with lentiviruses expressing these shRNA constructs targeting RNF4",
-          "For the RNF4-knockdown results, the samples were annotated into three different groups: U2OS parental cell line, 10HIS-SUMO2-U2OS, and RNF4-knockdown treated cells."
+          "SUMO2 conjugates were purified from cells infected with lentiviruses expressing these shRNA constructs or a non-targeted control shRNA construct",
+          "the proteins were considered to be enriched after RNF4-knockdown when the average difference (log2) between the 10-HIS-SUMO2 RNF4-knockdown samples and the 10-HIS-SUMO2 U2OS samples was bigger than 1"
         ]
       },
       {
@@ -44,12 +44,12 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "proteasome_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "proteasome_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Treatment using a compound that inhibits proteasomal degradation or proteasome catalytic activity.",
         "confidence": "high",
         "evidence": [
           "Proteasome inhibitor MG132 10\u2009\u00b5M or DMSO was added to the cells for 5\u2009h and cells were harvested and lysed.",
@@ -60,22 +60,32 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "shRNA targeting RNF4",
+        "agent": "shRNA",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "lentiviral transduction",
         "evidence": [
-          "cells were either infected with shRNA viruses directed against RNF4... or control non-targeting shRNA SHC002 viruses"
+          "cells were either infected with shRNA viruses directed against RNF4, PIAS1, PIAS4, BRCA1, and BARD1 or control non-targeting shRNA SHC002 viruses"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "MG132",
-        "dose_or_concentration": "10 \u00b5M",
-        "duration": "5 h",
+        "dose_or_concentration": "10\u2009\u00b5M",
+        "duration": "5\u2009h",
         "route_or_context": "proteasome inhibition",
         "evidence": [
           "Proteasome inhibitor MG132 10\u2009\u00b5M or DMSO was added to the cells for 5\u2009h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "doxycycline",
+        "dose_or_concentration": "1\u2009\u00b5g/ml",
+        "duration": "24\u2009h",
+        "route_or_context": "TULIP construct expression induction",
+        "evidence": [
+          "TULIP construct expression was induced adding doxycycline 1\u2009\u00b5g/ml for 24\u2009h."
         ]
       }
     ],
@@ -85,37 +95,35 @@
   },
   "experimental_design": {
     "timepoints": [
-      "5 h (MG132 treatment)",
-      "24 h (doxycycline induction)"
+      "5 h",
+      "24 h"
     ],
     "control_arms": [
-      "U2OS parental cell line",
       "non-targeted control shRNA",
       "DMSO",
-      "TULIP negative controls (lacking Ubiquitin or diGly motif)"
+      "U2OS parental cell line"
     ],
     "case_arms": [
       "RNF4-knockdown",
-      "MG132 treated",
-      "RNF4-TULIP wild-type",
-      "RNF4-TULIP \u2206SIM mutant"
+      "MG132",
+      "RNF4-TULIP"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "five experimental conditions were performed in biological triplicate, and all samples were measured in technical triplicate",
-      "nine experimental conditions were measured in biological triplicate"
+      "biological triplicate",
+      "technical triplicate"
     ],
     "multiplex_channel_hints": [
-      "Label-Free Quantification was performed using the MaxLFQ approach"
+      "Label-Free Quantification"
     ],
     "contrast_hints": [
       {
-        "control_label": "10HIS-SUMO2-U2OS",
-        "case_label": "10-HIS-SUMO2 RNF4-knockdown",
+        "control_label": "non-targeted control shRNA",
+        "case_label": "RNF4-knockdown",
         "contrast_type": "pairwise",
         "evidence": [
-          "the average difference (log2) between the 10-HIS-SUMO2 RNF4-knockdown samples and the 10-HIS-SUMO2 U2OS samples was bigger than 1"
+          "SUMO2 conjugates were purified from cells infected with lentiviruses expressing these shRNA constructs or a non-targeted control shRNA construct"
         ]
       },
       {
@@ -123,7 +131,7 @@
         "case_label": "MG132",
         "contrast_type": "pairwise",
         "evidence": [
-          "inhibited the proteasome in order to prevent further degradation of ubiquitylated targets or used DMSO as control"
+          "Proteasome inhibitor MG132 10\u2009\u00b5M or DMSO was added to the cells for 5\u2009h"
         ]
       }
     ],
@@ -198,23 +206,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The authors explicitly state the use of 'data-dependent acquisition mode' and 'Label-Free Quantification (LFQ) using the MaxLFQ approach'."
+          "reason": "The text explicitly states 'Label-Free Quantification was performed using the MaxLFQ approach' and 'data-dependent acquisition mode with a top-10 method'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin_digly",
           "confidence": 0.9,
-          "reason": "The TULIP methodology is specifically designed to trap ubiquitin substrates, and the text mentions a negative control 'lacking the diGly motif' to prevent covalent binding, implying the target analysis relies on the diGly remnant."
+          "reason": "The TULIP methodology specifically uses ubiquitin fusions and mentions a negative control 'lacking the diGly motif' to prevent covalent binding, implying the search for diGly remnants on targets."
         },
         {
           "modifier_workflow_id": "modifier_sumo_qqtgg",
           "confidence": 0.8,
-          "reason": "The experiment involves the purification of SUMO2 conjugates and the identification of SUMOylated proteins."
+          "reason": "The experiment focuses on SUMOylation and the purification of SUMO2 conjugates; standard SUMO analysis typically requires the QQTGG remnant search."
         }
       ],
       "trigger_keywords": [
         "Label-Free Quantification",
+        "MaxLFQ",
         "data-dependent acquisition",
         "diGly motif",
         "SUMO2 conjugates",
@@ -227,23 +236,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The authors explicitly state the use of 'data-dependent acquisition mode' and 'Label-Free Quantification (LFQ) using the MaxLFQ approach'."
+          "reason": "The text explicitly states 'Label-Free Quantification was performed using the MaxLFQ approach' and 'data-dependent acquisition mode with a top-10 method'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin_digly",
           "confidence": 0.9,
-          "reason": "The TULIP methodology is specifically designed to trap ubiquitin substrates, and the text mentions a negative control 'lacking the diGly motif' to prevent covalent binding, implying the target analysis relies on the diGly remnant."
+          "reason": "The TULIP methodology specifically uses ubiquitin fusions and mentions a negative control 'lacking the diGly motif' to prevent covalent binding, implying the search for diGly remnants on targets."
         },
         {
           "modifier_workflow_id": "modifier_sumo_qqtgg",
           "confidence": 0.8,
-          "reason": "The experiment involves the purification of SUMO2 conjugates and the identification of SUMOylated proteins."
+          "reason": "The experiment focuses on SUMOylation and the purification of SUMO2 conjugates; standard SUMO analysis typically requires the QQTGG remnant search."
         }
       ],
       "trigger_keywords": [
         "Label-Free Quantification",
+        "MaxLFQ",
         "data-dependent acquisition",
         "diGly motif",
         "SUMO2 conjugates",
@@ -275,8 +285,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:01:48Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

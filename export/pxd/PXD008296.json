@@ -3,17 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "relative abundance based on MS1 precursor intensity and MS2 peak magnitude",
+    "quantification_method": "relative abundance comparisons",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison",
-      "disease or clinical state"
+      "cell cycle state comparison",
+      "case-control disease status"
     ],
-    "cell_types": [
-      "breast epithelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "MDA-MB-231",
       "MCF-10A"
@@ -26,35 +24,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
+        "ontology_label": "cell cycle state comparison",
+        "ontology_curie": "PPA:0000106",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "cell_cycle_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
         "confidence": "high",
         "evidence": [
           "investigate the PTMs and proteoforms of histone H4 during cell cycle progression",
-          "fluctuations of the combinatorial PTM patterns of histone H4 in two breast cancer cell lines during cell cycle progression"
+          "fluctuations of the combinatorial PTM patterns of histone H4 in two breast cancer cell lines during cell cycle progression",
+          "Two rounds of 2 mM thymidine (Sigma-Aldrich, St. Louis, MO, USA) were applied to the cell growth medium of each cell line to attain an S phase block and one round of 100 nM nocodazole (Sigma-Aldrich, St. Louis, MO, USA) to achieve a mitotic phase block."
         ]
       },
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
+          "Our statistical analysis reveals distinct proteoform abundance differences between the MCF10A and MDA-MB-231 cell lines.",
           "The cell lines include: MCF10A, a precancerous breast epithelial cell line that is often used as a surrogate of normal breast epithelial cells; and a highly invasive breast cancer cell line MDA-MB-231."
         ]
       }
@@ -65,7 +65,7 @@
         "agent": "thymidine",
         "dose_or_concentration": "2 mM",
         "duration": null,
-        "route_or_context": "S phase block",
+        "route_or_context": "cell growth medium",
         "evidence": [
           "Two rounds of 2 mM thymidine (Sigma-Aldrich, St. Louis, MO, USA) were applied to the cell growth medium of each cell line to attain an S phase block"
         ]
@@ -75,7 +75,7 @@
         "agent": "nocodazole",
         "dose_or_concentration": "100 nM",
         "duration": null,
-        "route_or_context": "mitotic phase block",
+        "route_or_context": "cell growth medium",
         "evidence": [
           "one round of 100 nM nocodazole (Sigma-Aldrich, St. Louis, MO, USA) to achieve a mitotic phase block"
         ]
@@ -87,9 +87,9 @@
   },
   "experimental_design": {
     "timepoints": [
-      "asynchronous (G1 surrogate)",
       "S phase",
-      "G2/M phase"
+      "G2/M phase",
+      "asynchronous"
     ],
     "control_arms": [
       "asynchronous cells",
@@ -109,11 +109,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "asynchronous",
+        "case_label": "S phase",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "abundance of S1 phosphorylation in both cell lines dramatically increases as the cell cycle traverses from S phase to G2/M phase"
+        ]
+      },
+      {
         "control_label": "S phase",
         "case_label": "G2/M phase",
-        "contrast_type": "timecourse",
+        "contrast_type": "pairwise",
         "evidence": [
-          "the abundance of S1 phosphorylation in both cell lines dramatically increases as the cell cycle traverses from S phase to G2/M phase"
+          "abundance of S1 phosphorylation in both cell lines dramatically increases as the cell cycle traverses from S phase to G2/M phase"
         ]
       },
       {
@@ -138,13 +146,7 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "breast epithelial cells",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "MDA-MB-231",
@@ -153,7 +155,7 @@
       },
       {
         "label": "MCF-10A",
-        "family": "precancerous breast epithelial",
+        "family": "breast epithelial",
         "ontology_curie": null
       }
     ],
@@ -165,7 +167,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -177,7 +179,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "relative abundance based on MS1 precursor intensity and MS2 peak magnitude"
+      "relative abundance comparisons",
+      "MS1 precursor intensity"
     ],
     "proteomics_mode": "Middle-down",
     "targets_and_enrichments": [
@@ -207,14 +210,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data acquisition used data-dependent tandem ETD product ion spectra (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
+          "reason": "Data acquisition used data-dependent tandem ETD (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "middle_down_proteoforms",
+          "modifier_workflow_id": "middle_down_proteoform",
           "confidence": 1.0,
-          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to characterize combinatorial PTMs (proteoforms)."
+          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to identify and quantify combinatorial proteoforms."
         }
       ],
       "trigger_keywords": [
@@ -222,7 +225,7 @@
         "proteoforms",
         "ETD",
         "FT-ICR",
-        "combinatorial PTMs"
+        "combinatorial PTM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -231,14 +234,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data acquisition used data-dependent tandem ETD product ion spectra (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
+          "reason": "Data acquisition used data-dependent tandem ETD (DDA) and relative abundance was determined by integrating MS1 precursor intensities (LFQ-like approach)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "middle_down_proteoforms",
+          "modifier_workflow_id": "middle_down_proteoform",
           "confidence": 1.0,
-          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to characterize combinatorial PTMs (proteoforms)."
+          "reason": "Explicitly described as a 'middle-down workflow' targeting the 23-amino acid N-terminal tail of histone H4 to identify and quantify combinatorial proteoforms."
         }
       ],
       "trigger_keywords": [
@@ -246,7 +249,7 @@
         "proteoforms",
         "ETD",
         "FT-ICR",
-        "combinatorial PTMs"
+        "combinatorial PTM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -274,8 +277,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:37:22Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

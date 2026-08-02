@@ -8,8 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "cell state or interaction comparison"
+      "small-molecule inhibitor treatment",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,16 +23,16 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "Depending on cell treatment (without or with phosphatase inhibitor okadaic acid), the overall occupancy was estimated around 12 Pi or 20 Pi.",
@@ -40,20 +40,20 @@
         ]
       },
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
-        "confidence": "medium",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
         "evidence": [
           "We compared the phosphorylation status of two differently phosphorylated Tau fractions expressed in eukaryotic Sf9 cells with unphosphorylated Tau from E. coli bacteria",
-          "The common control value is P0-Tau from E. coli (Fig. 3C), which remains without modification"
+          "Tau protein (clone htau40, largest isoform in human CNS, 441 residues, Uniprot ID P10636 isoform F) expressed in E. coli or Sf9 cells was prepared and purified"
         ]
       }
     ],
@@ -67,6 +67,16 @@
         "evidence": [
           "Sf9 cells were treated before harvesting for 1 h with 0.2 \u00b5m okadaic acid (a phosphatase inhibitor, Enzo Life Sciences)."
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "htau40",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "expressed in E. coli or Sf9 cells",
+        "evidence": [
+          "Tau protein (clone htau40, largest isoform in human CNS, 441 residues, Uniprot ID P10636 isoform F) expressed in E. coli or Sf9 cells was prepared and purified"
+        ]
       }
     ],
     "source_sections": [
@@ -74,15 +84,14 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "1 h"
-    ],
+    "timepoints": [],
     "control_arms": [
-      "Po-Tau (E. coli)",
-      "Pm-Tau (Sf9 without okadaic acid)"
+      "Po-Tau",
+      "unphosphorylated control Tau"
     ],
     "case_arms": [
-      "Ph-Tau (Sf9 with okadaic acid)"
+      "Pm-Tau",
+      "Ph-Tau"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -90,19 +99,27 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Pm-Tau",
-        "case_label": "Ph-Tau",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Depending on cell treatment (without or with phosphatase inhibitor okadaic acid), the overall occupancy was estimated around 12 Pi or 20 Pi."
-        ]
-      },
-      {
         "control_label": "Po-Tau",
         "case_label": "Pm-Tau",
         "contrast_type": "pairwise",
         "evidence": [
           "We compared the phosphorylation status of two differently phosphorylated Tau fractions expressed in eukaryotic Sf9 cells with unphosphorylated Tau from E. coli bacteria"
+        ]
+      },
+      {
+        "control_label": "Po-Tau",
+        "case_label": "Ph-Tau",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We compared the phosphorylation status of two differently phosphorylated Tau fractions expressed in eukaryotic Sf9 cells with unphosphorylated Tau from E. coli bacteria"
+        ]
+      },
+      {
+        "control_label": "Pm-Tau",
+        "case_label": "Ph-Tau",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Depending on cell treatment (without or with phosphatase inhibitor okadaic acid), the overall occupancy was estimated around 12 Pi or 20 Pi. Hence the fractions were termed P12 or P20, renamed in this paper to Pm and Ph to indicate medium versus high phosphorylation state"
         ]
       }
     ],
@@ -155,7 +172,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -196,16 +213,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.8,
-          "reason": "The study focuses specifically on phosphorylation site mapping and occupancy, identifying 51 P-sites."
+          "reason": "The study focuses heavily on phosphorylation site occupancy and mapping, identifying 51 P-sites, although the protein was purified as a whole rather than using TiO2/IMAC peptide enrichment."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
-        "TOP12",
         "Q Exactive",
-        "phosphorylation"
+        "TOP12",
+        "phosphorylation",
+        "Maxquant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,16 +237,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.8,
-          "reason": "The study focuses specifically on phosphorylation site mapping and occupancy, identifying 51 P-sites."
+          "reason": "The study focuses heavily on phosphorylation site occupancy and mapping, identifying 51 P-sites, although the protein was purified as a whole rather than using TiO2/IMAC peptide enrichment."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
-        "TOP12",
         "Q Exactive",
-        "phosphorylation"
+        "TOP12",
+        "phosphorylation",
+        "Maxquant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,8 +275,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:11:57Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

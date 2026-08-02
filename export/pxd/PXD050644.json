@@ -3,22 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "TMT reporter ions",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "TMT",
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation",
+      "molecular state comparison"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "MDA-MB-231",
-      "HEK cells"
+      "HEK"
     ],
-    "sample_scope": "secretome scope",
+    "sample_scope": "subproteome",
     "sample_scope_label": "secretome scope",
     "sample_scope_curie": "PPA:0000198",
     "instrument": null
@@ -26,45 +25,70 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "engineered cells deficient in COSMC using CRISPR/Cas9 genome editing",
-          "MDA-MB-231 wt and COSMC ko cells"
+          "MDA-MB-231 wt and COSMC ko cells (N = 2)",
+          "the loss of COSMC function leads to the expression of short glycans referred to as Tn antigens"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "incubated recombinant glycosylated and non-glycosylated versions of CD74 with human recombinant CTSS",
+          "one glycosylated version from HEK cells (Abcam, ab174039, Cambridge, UK) and a non-glycosylated variant from E. coli (Abcam, ab156328, Cambridge, UK)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant human MMP9",
-        "dose_or_concentration": "enzyme: protein ratio of 1:100 (w:w)",
-        "duration": "up to 16 h",
-        "route_or_context": "incubated with secretomes from wt and COSMC ko MDA-MB-231 cells",
+        "agent": "COSMC",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR/Cas9 genome editing",
         "evidence": [
-          "The MDA-MB-231 wt and COSMC ko secretomes were incubated with activated recombinant human MMP9 (R&D Systems, Minneapolis, USA) at an enzyme: protein ratio of 1:100 (w:w)",
-          "sampled at multiple time points (50 \u03bcg per time point) up to 16 h at 37\u00b0C"
+          "engineered cells deficient in COSMC using CRISPR/Cas9 genome editing"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant Cathepsin S (CTSS)",
-        "dose_or_concentration": "enzyme/protein ratio (m/m) of 1:100",
-        "duration": "4 h",
-        "route_or_context": "incubated with recombinant glycosylated and non-glycosylated versions of CD74",
+        "agent": "MMP9",
+        "dose_or_concentration": "1:100 (w:w)",
+        "duration": "up to 16 h",
+        "route_or_context": "incubated with activated recombinant human MMP9",
         "evidence": [
-          "incubated recombinant glycosylated and non-glycosylated versions of CD74 with human recombinant CTSS",
-          "at an enzyme/protein ratio (m/m) of 1:100 for 4 h in 100 mM HEPES, pH 7.8, at 37\u00b0C"
+          "The MDA-MB-231 wt and COSMC ko secretomes were incubated with activated recombinant human MMP9 (R&D Systems, Minneapolis, USA) at an enzyme: protein ratio of 1:100 (w:w) ... and sampled at multiple time points ... up to 16 h at 37\u00b0C."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Cathepsin S",
+        "dose_or_concentration": "1:100 (m/m)",
+        "duration": "4 h",
+        "route_or_context": "incubated with activated recombinant Cathepsin S",
+        "evidence": [
+          "incubated recombinant glycosylated and non-glycosylated versions of CD74 with human recombinant CTSS ... at an enzyme/protein ratio (m/m) of 1:100 for 4 h"
         ]
       }
     ],
@@ -93,8 +117,8 @@
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "N = 2",
-      "treated each time point of the MMP9 time-series experiment as a separate replicate (Figure 1b; wt1-8, ko1-8)"
+      "MDA-MB-231 wt and COSMC ko cells (N = 2)",
+      "we treated each time point of the MMP9 time-series experiment as a separate replicate"
     ],
     "multiplex_channel_hints": [
       "16plexTMT-TAILS workflow",
@@ -110,19 +134,19 @@
         ]
       },
       {
-        "control_label": "wt",
-        "case_label": "COSMC ko",
-        "contrast_type": "timecourse",
-        "evidence": [
-          "To compare time-dependent changes in abundances of neo-N termini in samples from both the wt and ko genotypes"
-        ]
-      },
-      {
         "control_label": "glycosylated CD74",
         "case_label": "non-glycosylated CD74",
         "contrast_type": "pairwise",
         "evidence": [
           "incubated recombinant glycosylated and non-glycosylated versions of CD74 with human recombinant CTSS"
+        ]
+      },
+      {
+        "control_label": "0 h",
+        "case_label": "1, 2, 4, 8, 12, 16 h",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "incubated them with activated human recombinant MMP9 for 1, 2, 4, 8, 12, and 16 h in comparison to controls at 0 and 16 h"
         ]
       }
     ],
@@ -139,27 +163,21 @@
         "confidence": "high"
       },
       {
-        "label": "Escherichia coli",
-        "taxonomy_hint": "Bacteria",
-        "confidence": "high"
+        "label": "Bacteria",
+        "taxonomy_hint": "2",
+        "confidence": "medium"
       }
     ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "MDA-MB-231",
-        "family": "breast adenocarcinoma",
+        "family": "breast cancer",
         "ontology_curie": null
       },
       {
-        "label": "HEK cells",
-        "family": "human embryonic kidney",
+        "label": "HEK",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -170,7 +188,7 @@
       }
     ],
     "sample_scope": {
-      "category": "secretome scope",
+      "category": "subproteome",
       "label": "secretome scope",
       "curie": "PPA:0000198"
     },
@@ -189,7 +207,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "TMT reporter ions",
+      "TMT reporter ion intensity",
       "MS1-based quantification (DIA)",
       "Parallel Reaction Monitoring (PRM)"
     ],
@@ -221,33 +239,34 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The primary degradomics experiment used 16plex TMT labeling with DDA acquisition on a Q Exactive HF-X."
+          "reason": "The primary degradomics experiment used a 16plex TMT-TAILS workflow with DDA acquisition."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "A complementary quantitative proteome analysis was performed using DIA on an Orbitrap Exploris 480."
+          "reason": "A complementary quantitative proteomics analysis was performed using data-independent acquisition (DIA) with Spectronaut."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "tails_n_terminomics",
+          "modifier_workflow_id": "tails_n_terminome",
           "confidence": 1.0,
-          "reason": "The study explicitly uses the Terminal Amine Isotopic Labeling of Substrates (TAILS) technology to enrich N-terminal peptides."
+          "reason": "Explicit use of Terminal Amine Isotopic Labelling of Substrates (TAILS) to enrich N-terminal peptides for degradomics."
         },
         {
-          "modifier_workflow_id": "o_glycoproteomics",
-          "confidence": 0.8,
-          "reason": "Specific glycoproteomics analysis was performed using Byonic with a predefined O-glycan database and ETD/CID fragmentation."
+          "modifier_workflow_id": "o_glycosylation",
+          "confidence": 0.9,
+          "reason": "The study specifically investigates O-GalNAc glycosylation and uses glycoproteomics with a predefined O-glycan database."
         }
       ],
       "trigger_keywords": [
-        "TAILS",
-        "TMT",
-        "N-terminome",
+        "TMT-TAILS",
+        "Terminal Amine Isotopic Labelling of Substrates",
         "DIA",
-        "O-glycosylation",
-        "neo-N termini"
+        "DirectDIA",
+        "O-GalNAc glycosylation",
+        "neo-N termini",
+        "degradomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,33 +275,34 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The primary degradomics experiment used 16plex TMT labeling with DDA acquisition on a Q Exactive HF-X."
+          "reason": "The primary degradomics experiment used a 16plex TMT-TAILS workflow with DDA acquisition."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.9,
-          "reason": "A complementary quantitative proteome analysis was performed using DIA on an Orbitrap Exploris 480."
+          "reason": "A complementary quantitative proteomics analysis was performed using data-independent acquisition (DIA) with Spectronaut."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "tails_n_terminomics",
+          "modifier_workflow_id": "tails_n_terminome",
           "confidence": 1.0,
-          "reason": "The study explicitly uses the Terminal Amine Isotopic Labeling of Substrates (TAILS) technology to enrich N-terminal peptides."
+          "reason": "Explicit use of Terminal Amine Isotopic Labelling of Substrates (TAILS) to enrich N-terminal peptides for degradomics."
         },
         {
-          "modifier_workflow_id": "o_glycoproteomics",
-          "confidence": 0.8,
-          "reason": "Specific glycoproteomics analysis was performed using Byonic with a predefined O-glycan database and ETD/CID fragmentation."
+          "modifier_workflow_id": "o_glycosylation",
+          "confidence": 0.9,
+          "reason": "The study specifically investigates O-GalNAc glycosylation and uses glycoproteomics with a predefined O-glycan database."
         }
       ],
       "trigger_keywords": [
-        "TAILS",
-        "TMT",
-        "N-terminome",
+        "TMT-TAILS",
+        "Terminal Amine Isotopic Labelling of Substrates",
         "DIA",
-        "O-glycosylation",
-        "neo-N termini"
+        "DirectDIA",
+        "O-GalNAc glycosylation",
+        "neo-N termini",
+        "degradomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -310,8 +330,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:26:47Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

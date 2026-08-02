@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "gastric cancer cells"
@@ -26,22 +27,38 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "the ST6GAL1 gene was silenced in the ErbB2-driven NCI-N87 GC cell line, using the CRISPR-Cas9 system",
           "ST6GAL1 knockout (K.O.) ErbB2-addicted GC cells displayed a reduced ErbB2 degradation rate"
         ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "chemical_or_drug"
+        ],
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "high",
+        "evidence": [
+          "sensitized ErbB2-dependent GC cells to trastuzumab-induced cytotoxicity",
+          "treatment with 10\u2009\u00b5g/mL trastuzumab induced significantly higher cell death in two ST6GAL1 K.O. clones"
+        ],
+        "notes": "Trastuzumab is a monoclonal antibody; while not a small molecule, it is the primary pharmacological agent used for the differential comparison in the proteomics/functional assays."
       }
     ],
     "attributes": [
@@ -54,6 +71,26 @@
         "evidence": [
           "the ST6GAL1 gene was silenced in the ErbB2-driven NCI-N87 GC cell line, using the CRISPR-Cas9 system"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "trastuzumab",
+        "dose_or_concentration": "10\u2009\u00b5g/mL",
+        "duration": null,
+        "route_or_context": "cell treatment",
+        "evidence": [
+          "treatment with 10\u2009\u00b5g/mL trastuzumab induced significantly higher cell death"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "trastuzumab",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell surface staining",
+        "evidence": [
+          "following a 12 and 24\u2009h treatment period with 10\u2009\u00b5g/mL trastuzumab"
+        ]
       }
     ],
     "source_sections": [
@@ -61,16 +98,22 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "12 h",
+      "24 h"
+    ],
     "control_arms": [
-      "WT"
+      "WT",
+      "untreated"
     ],
     "case_arms": [
-      "ST6GAL1 K.O."
+      "ST6GAL1 K.O.",
+      "trastuzumab-treated"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
+      "Three independent clones (C1-3) were selected",
       "first and second biological replicate"
     ],
     "multiplex_channel_hints": [],
@@ -81,6 +124,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "The overall glycomic profile of both WT and ST6GAL1 K.O. ErbB2 confirmed that the loss of ST6Gal1 function leads to no alterations in the relative amount of detected oligomannosidic species"
+        ]
+      },
+      {
+        "control_label": "WT + trastuzumab",
+        "case_label": "ST6GAL1 K.O. + trastuzumab",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated ST6GAL1 K.O. cells exhibited significantly higher levels of membrane-anchored ErbB2"
         ]
       }
     ],
@@ -93,7 +144,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -125,6 +176,10 @@
       {
         "label": "gastric tumor clinical specimens",
         "source_kind": "tissue"
+      },
+      {
+        "label": "gastric adenocarcinoma",
+        "source_kind": "tissue"
       }
     ],
     "sample_scope": {
@@ -134,7 +189,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -177,15 +232,15 @@
         {
           "modifier_workflow_id": "glycoproteomics",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets N-glycosylation using Byonic with a mammalian N-glycan database and oxonium ion triggers (m/z 204.087)."
+          "reason": "Explicit use of Byonic with 'N-glycan 309 mammalian no sodium' database and product ion triggers for HexNAc oxonium ions (m/z 204.087) to identify N-glycosylated peptides."
         }
       ],
       "trigger_keywords": [
         "glycoproteomic",
         "N-glycosylation",
-        "glycopeptide peak intensity",
         "Byonic",
-        "oxonium ion"
+        "HexNAc oxonium ion",
+        "glycopeptide peak intensity"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -201,15 +256,15 @@
         {
           "modifier_workflow_id": "glycoproteomics",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets N-glycosylation using Byonic with a mammalian N-glycan database and oxonium ion triggers (m/z 204.087)."
+          "reason": "Explicit use of Byonic with 'N-glycan 309 mammalian no sodium' database and product ion triggers for HexNAc oxonium ions (m/z 204.087) to identify N-glycosylated peptides."
         }
       ],
       "trigger_keywords": [
         "glycoproteomic",
         "N-glycosylation",
-        "glycopeptide peak intensity",
         "Byonic",
-        "oxonium ion"
+        "HexNAc oxonium ion",
+        "glycopeptide peak intensity"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,8 +292,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:31:28Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

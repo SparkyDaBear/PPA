@@ -2,69 +2,141 @@
   "pxd": "PXD010796",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "Unknown",
     "labeling_strategy": [
-      "Other"
+      "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "chromatin"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "chemical_or_drug"
+        ],
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "high",
+        "evidence": [
+          "optimized the use of cleavable disuccinimidyl sulfoxide (DSSO) cross-linker for labeling native protein complexes in live human cells",
+          "cross-linked by adding 1 \u00b5L of 50 mM DSSO dissolved in DMSO"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "disuccinimidyl sulfoxide (DSSO)",
+        "dose_or_concentration": "50 mM",
+        "duration": "1 h",
+        "route_or_context": "in situ (live human cells)",
+        "evidence": [
+          "50 \u00b5L of 50 mM DSSO dissolved in DMSO was added and cells were incubated for 1 h at 4 \u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "1 h"
+    ],
+    "control_arms": [
+      "mock-treated cells"
+    ],
+    "case_arms": [
+      "DSSO-labeled cells"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "across 3 biological replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "mock-treated",
+        "case_label": "DSSO-cross-linked",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "confirm the presence of protein complexes with reduced electrophoretic mobility upon DSSO cross-linking, as compared to mock-treated cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Bos taurus",
+        "taxonomy_hint": "9913",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Unknown"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Chemical cross-linking",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_complexome",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +144,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA-style acquisition (precursor selection for MS2/MS3) and does not mention SILAC, isobaric, or dimethyl labeling. While primarily an identification study, the base DDA routing is the closest fit."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "xl_ms_dsso",
+          "confidence": 1.0,
+          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide) cleavable cross-linker for protein-protein interaction mapping."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass spectrometry",
+        "XL-MS",
+        "DSSO",
+        "cleavable cross-linkers",
+        "cross-link peptide-spectra matching",
+        "XlinkX"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA-style acquisition (precursor selection for MS2/MS3) and does not mention SILAC, isobaric, or dimethyl labeling. While primarily an identification study, the base DDA routing is the closest fit."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "xl_ms_dsso",
+          "confidence": 1.0,
+          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide) cleavable cross-linker for protein-protein interaction mapping."
+        }
+      ],
+      "trigger_keywords": [
+        "cross-linking mass spectrometry",
+        "XL-MS",
+        "DSSO",
+        "cleavable cross-linkers",
+        "cross-link peptide-spectra matching",
+        "XlinkX"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +219,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

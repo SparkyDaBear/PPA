@@ -3,72 +3,193 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "MaxLFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment"
+      "molecular state comparison",
+      "genetic perturbation"
     ],
     "cell_types": [
-      "HeLa cells"
+      "nuclear extract"
     ],
     "cell_lines": [
-      "HEK293",
-      "MCF7",
-      "U2OS",
-      "RPE1",
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "phosphorylated but not the non-phosphorylated TRF2 peptide specifically pulled down TIN2, TPP1 and POT1",
+          "Peptide pull-downs of three independent experiments (3x Ctrl TRF2 peptide vs 3x phosphorylated peptide as a bait)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "HEK293 stably transfected with empty pBIOID2 or pBIOID2-PPM1D-D314A",
+          "U2OS-PPM1D-KO cells with a knock-out of PPM1D"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PPM1D-D314A",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stably transfected HEK293 cells",
+        "evidence": [
+          "HEK293 stably transfected with empty pBIOID2 or pBIOID2-PPM1D-D314A"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TRF2-pS410 peptide",
+        "dose_or_concentration": "20 mg",
+        "duration": null,
+        "route_or_context": "peptide pull down bait",
+        "evidence": [
+          "Biotin-Ahx-ISRLVLEEDpSQSTEPSAGLN-amide (TRF2-pS410) and Biotin-Ahx-ISRLVLEEDSQSTEPSAGLN-amide (TRF2-CTRL) peptides were synthesized",
+          "Dynabeads M-280 Streptavidin were incubated with peptides (20 mg)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "5 h"
+    ],
+    "control_arms": [
+      "empty pBIOID2",
+      "TRF2-CTRL peptide"
+    ],
+    "case_arms": [
+      "pBIOID2-PPM1D-D314A",
+      "TRF2-pS410 peptide"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Three biological replicates were analyzed",
+      "Three independent experiments were compared in one MS measurement"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantification (LFQ)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "TRF2ctrl",
+        "case_label": "TRF2phospho",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "sample groups assigned (TRF2_1A-C grouped as TRF2ctrl, TRF2ph_2A-C as TRF2phospho)",
+          "Volcano plot of TRF2phospho- TRF2ctrl was visualized"
+        ]
+      },
+      {
+        "control_label": "empty pBIOID2",
+        "case_label": "pBIOID2-PPM1D-D314A",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identified proteins forming a complex with PPM1D... established a stable HEK293 cell line expressing a phosphatase-dead PPM1D-D314A fused with a proximity-dependent biotin identification (BioID2) tag and control cells expressing empty BioID2"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "nuclear extract",
+        "rollup_category": "subcellular fraction",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": "cervical cancer",
+        "ontology_curie": "BTO:0000567"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MaxLFQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity biotinylation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -76,9 +197,55 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'DDA mode' and 'label-free quantification (LFQ) algorithm MaxLFQ'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "Experiment involves peptide pull-downs using biotinylated TRF2 peptides as bait and BioID2 proximity biotinylation."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "MaxLFQ",
+        "peptide pull-downs",
+        "proximity biotinylation"
+      ],
+      "file_naming_patterns": null
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata explicitly states 'DDA mode' and 'label-free quantification (LFQ) algorithm MaxLFQ'."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "Experiment involves peptide pull-downs using biotinylated TRF2 peptides as bait and BioID2 proximity biotinylation."
+        }
+      ],
+      "trigger_keywords": [
+        "DDA",
+        "label-free quantification",
+        "MaxLFQ",
+        "peptide pull-downs",
+        "proximity biotinylation"
+      ],
+      "file_naming_patterns": null
+    },
     "differential_hints": {},
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -99,7 +266,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

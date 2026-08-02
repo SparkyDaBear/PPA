@@ -8,7 +8,8 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -25,18 +26,34 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "substitution_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "genetic",
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "Mutating the arginine anchor on Cyclin B1 reduces its interaction with the APC/C and delays its degradation",
-          "We used CRISPR/Cas9D10A to introduce the 4E7E mutation into both alleles of Cyclin B1 in RPE-1 Cyclin B1-mEmerald+/+ cells"
+          "we used CRISPR/Cas9D10A to introduce the 4E7E mutation into both alleles of Cyclin B1 in RPE-1 Cyclin B1-mEmerald+/+ cells"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "To determine how this complex bound to nucleosomes, we used Cross-Linking mass spectrometry (XL-MS).",
+          "we identified two crosslinks from the APC/C to the NCP"
         ]
       }
     ],
@@ -46,9 +63,19 @@
         "agent": "Cyclin B1 4E7E mutation",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/Cas9 gene editing",
+        "route_or_context": "CRISPR/Cas9D10A gene editing",
         "evidence": [
-          "We used CRISPR/Cas9D10A to introduce the 4E7E mutation into both alleles of Cyclin B1"
+          "we used CRISPR/Cas9D10A to introduce the 4E7E mutation into both alleles of Cyclin B1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Nucleosome Core Particles (NCP)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "in vitro reconstitution for XL-MS",
+        "evidence": [
+          "0.43 \u00b5M NCP was mixed with 3.4 \u00b5M of the APC/C-CDC20-Cyclin B1NTD mix"
         ]
       }
     ],
@@ -59,11 +86,12 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "parental cells",
-      "p53\u2212/\u2212 clones"
+      "parental cell line",
+      "wild-type Cyclin B1"
     ],
     "case_arms": [
-      "Cyclin B14E7E clones"
+      "Cyclin B1 4E7E mutant",
+      "APC/C-CDC20-Cyclin B1NTD:NCP complex"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -77,8 +105,15 @@
         "case_label": "Cyclin B1 4E7E",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparing the degradation of endogenous Cyclin B1-mEmerald with that of ectopically expressed Cyclin B1-mScarlet variants",
-          "compare the degradation of endogenous Cyclin B1-mEmerald with that of ectopically expressed Cyclin B1-mScarlet variants... mutants preventing acidic patch binding\u2014Cyclin B13A5-mScarlet, Cyclin B1\u03942-9-mScarlet and Cyclin B14E7E-mScarlet\u2014were all degraded later"
+          "comparing the degradation of endogenous Cyclin B1-mEmerald with that of ectopically expressed Cyclin B1-mScarlet variants"
+        ]
+      },
+      {
+        "control_label": "APC/C-CDC20-Cyclin B1NTD",
+        "case_label": "APC/C-CDC20-Cyclin B1NTD:NCP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To determine how this complex bound to nucleosomes, we used Cross-Linking mass spectrometry (XL-MS)."
         ]
       }
     ],
@@ -111,7 +146,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -140,20 +175,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data was acquired using Orbitrap Ascend with top speed mode DDA (precursors 380-1400 m/z, charge states 3-8) and stepped HCD fragmentation."
+          "reason": "The experiment uses DDA (top speed mode, stepped HCD) and does not describe isobaric labeling in the text, despite a PRIDE tag for TMT which is contradicted by the detailed methods describing high-pH RP fractionation and standard DDA acquisition."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_xlms_dsso",
+          "modifier_workflow_id": "crosslinking_dx",
           "confidence": 1.0,
-          "reason": "Explicit use of DSSO crosslinker for XL-MS, searched with MS Annika for DSSO/+158.004 Da (K)."
+          "reason": "The experiment explicitly uses DSSO (disuccinimidyl sulfoxide) for cross-linking mass spectrometry (XL-MS) to identify interactions between APC/C and the nucleosome."
         }
       ],
       "trigger_keywords": [
         "Cross-Linking mass spectrometry",
+        "XL-MS",
         "DSSO",
-        "MS Annika",
         "crosslinked peptides"
       ],
       "raw_or_file_name_triggers": []
@@ -163,20 +198,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data was acquired using Orbitrap Ascend with top speed mode DDA (precursors 380-1400 m/z, charge states 3-8) and stepped HCD fragmentation."
+          "reason": "The experiment uses DDA (top speed mode, stepped HCD) and does not describe isobaric labeling in the text, despite a PRIDE tag for TMT which is contradicted by the detailed methods describing high-pH RP fractionation and standard DDA acquisition."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_xlms_dsso",
+          "modifier_workflow_id": "crosslinking_dx",
           "confidence": 1.0,
-          "reason": "Explicit use of DSSO crosslinker for XL-MS, searched with MS Annika for DSSO/+158.004 Da (K)."
+          "reason": "The experiment explicitly uses DSSO (disuccinimidyl sulfoxide) for cross-linking mass spectrometry (XL-MS) to identify interactions between APC/C and the nucleosome."
         }
       ],
       "trigger_keywords": [
         "Cross-Linking mass spectrometry",
+        "XL-MS",
         "DSSO",
-        "MS Annika",
         "crosslinked peptides"
       ],
       "raw_or_file_name_triggers": []
@@ -205,8 +240,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:31:20Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

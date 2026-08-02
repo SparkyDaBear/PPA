@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "spectral counting",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "cell cycle state comparison"
     ],
     "cell_types": [
       "epithelial cell"
@@ -25,20 +25,19 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
+        "ontology_label": "cell cycle state comparison",
+        "ontology_curie": "PPA:0000106",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "cell_cycle_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
         "confidence": "high",
         "evidence": [
-          "For the TurboID assay, cells were first synchronized either in mitosis with nocodazole or in G1/S by a double thymidine block",
-          "biotin-labeled proteins in the presence of the STAU155\u2013biotin ligase fusion protein for either 16 h in asynchronous hTERT-RPE1 cells (BioID2) or 3 h in cells synchronized in mitosis or in G1/S phase transition (TurboID)."
+          "cells were first synchronized either in mitosis with nocodazole or in G1/S by a double thymidine block as described before incubation with biotin."
         ]
       }
     ],
@@ -47,20 +46,20 @@
         "relation_key": "has_timepoint",
         "agent": "biotin",
         "dose_or_concentration": "50 \u03bcM",
-        "duration": "16 h",
-        "route_or_context": "BioID2",
+        "duration": "3 h",
+        "route_or_context": "TurboID assay",
         "evidence": [
-          "cells were incubated in the presence of 50 \u03bcM biotin (SIGMA\u2014St-Bruno, QC, Canada) for either 16 (BioID2) or 3 h (TurboID)."
+          "After puromycin selection, cells were incubated in the presence of 50 \u03bcM biotin (SIGMA\u2014Oakville, ON, Canada) for either 16 (BioID2) or 3 h (TurboID)."
         ]
       },
       {
         "relation_key": "has_timepoint",
         "agent": "biotin",
         "dose_or_concentration": "50 \u03bcM",
-        "duration": "3 h",
-        "route_or_context": "TurboID",
+        "duration": "16 h",
+        "route_or_context": "BioID2 assay",
         "evidence": [
-          "cells were incubated in the presence of 50 \u03bcM biotin (SIGMA\u2014St-Bruno, QC, Canada) for either 16 (BioID2) or 3 h (TurboID)."
+          "After puromycin selection, cells were incubated in the presence of 50 \u03bcM biotin (SIGMA\u2014Oakville, ON, Canada) for either 16 (BioID2) or 3 h (TurboID)."
         ]
       }
     ],
@@ -70,27 +69,27 @@
   },
   "experimental_design": {
     "timepoints": [
-      "16 h",
-      "3 h"
+      "3 h",
+      "16 h"
     ],
     "control_arms": [
-      "asynchronous cells",
-      "G1/S synchronized cells"
+      "controls"
     ],
     "case_arms": [
-      "mitosis synchronized cells"
+      "mitosis",
+      "G1/S phase transition"
     ],
-    "paired_design": false,
-    "factorial_design": false,
+    "paired_design": null,
+    "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "G1/S or asynchronous",
+        "control_label": "G1/S",
         "case_label": "mitosis",
         "contrast_type": "pairwise",
         "evidence": [
-          "CDC20 was found in its proximity in cells synchronized in mitosis, in agreement with previous data that STAU155 is a target of APC/C."
+          "cells were first synchronized either in mitosis with nocodazole or in G1/S by a double thymidine block as described before incubation with biotin."
         ]
       }
     ],
@@ -103,7 +102,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -134,7 +133,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -146,7 +145,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "spectral counting"
+      "Label-free quantification",
+      "Spectral counting"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -169,23 +169,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses a Q Exactive/Orbitrap Fusion mass spectrometer with a survey spectra (MS) and fragmentation of the most intense ions (MS/MS), which is characteristic of Data Dependent Acquisition (DDA). Quantification is based on spectral counts ('total spectrum enriched at least four times'), which is a form of label-free quantification (LFQ)."
+          "confidence": 0.8,
+          "reason": "The experiment uses proximity labeling (BioID2/TurboID) followed by streptavidin pull-down and DDA (Q Exactive/Orbitrap Fusion) with spectral counting/intensity-based enrichment comparison ('total spectrum enriched at least four times compared with controls')."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The study explicitly uses BioID2 and TurboID biotin ligase strategies to identify interacting proteins via streptavidin pull-down."
+          "confidence": 0.9,
+          "reason": "Explicit use of BioID2 and TurboID biotin ligases for proximity labeling of proteins."
         }
       ],
       "trigger_keywords": [
         "BioID2",
         "TurboID",
-        "biotin ligase",
+        "proximity labeling",
         "streptavidin-coated magnetic beads",
-        "total spectrum enriched"
+        "biotinylated proteins"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -193,28 +193,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses a Q Exactive/Orbitrap Fusion mass spectrometer with a survey spectra (MS) and fragmentation of the most intense ions (MS/MS), which is characteristic of Data Dependent Acquisition (DDA). Quantification is based on spectral counts ('total spectrum enriched at least four times'), which is a form of label-free quantification (LFQ)."
+          "confidence": 0.8,
+          "reason": "The experiment uses proximity labeling (BioID2/TurboID) followed by streptavidin pull-down and DDA (Q Exactive/Orbitrap Fusion) with spectral counting/intensity-based enrichment comparison ('total spectrum enriched at least four times compared with controls')."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The study explicitly uses BioID2 and TurboID biotin ligase strategies to identify interacting proteins via streptavidin pull-down."
+          "confidence": 0.9,
+          "reason": "Explicit use of BioID2 and TurboID biotin ligases for proximity labeling of proteins."
         }
       ],
       "trigger_keywords": [
         "BioID2",
         "TurboID",
-        "biotin ligase",
+        "proximity labeling",
         "streptavidin-coated magnetic beads",
-        "total spectrum enriched"
+        "biotinylated proteins"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "enrichment_score",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -237,8 +237,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:42:03Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

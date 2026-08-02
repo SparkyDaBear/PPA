@@ -3,69 +3,204 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT10-plex reporter ion quantification",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "K562",
-      "HeLa"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "K562",
-      "HeLa"
+      "HeLa",
+      "K562"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "cell_state_interaction"
+        ],
+        "matched_definition": "Comparison where activation, differentiation, cell cycle, senescence, death, transition, coculture, or interaction state defines the biological groups.",
+        "confidence": "medium",
+        "evidence": [
+          "quantitatively compare DIA-TMT proteome signatures across hundreds of samples independent of their biological origin to identify cell types",
+          "separates the cell lines with over 95% explained variance",
+          "distinguish cell types down to single protein knockouts"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "identify cell types and single protein knockouts",
+          "comprising three different single knockout (met6, his4, ura2) and wild-type yeast strains"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "K562",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human cell line",
+        "evidence": [
+          "Tryptic digests were obtained from Promega (K562, catalogue number: V6951)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HeLa",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human cell line",
+        "evidence": [
+          "Tryptic digests were obtained from ... Thermo Fisher (HeLa, catalogue number: 88328)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TKO11 yeast standard",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "yeast strains including single knockouts (met6, his4, ura2) and wild-type",
+        "evidence": [
+          "we generated DIA datasets using the yeast TKO11 standard",
+          "comprising three different single knockout (met6, his4, ura2) and wild-type yeast strains"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "total peptide input",
+        "dose_or_concentration": "0.5, 1, 5, and 10 ng",
+        "duration": null,
+        "route_or_context": "serial dilution",
+        "evidence": [
+          "TMT10-plex labeled HeLa and K562 dilution mixes ... at 0.5, 1, 5, and 10 ng peptide input"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "wild-type yeast strains"
+    ],
+    "case_arms": [
+      "K562",
+      "HeLa",
+      "met6 knockout",
+      "his4 knockout",
+      "ura2 knockout"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three technical replicates per peptide input",
+      "one technical replicate per mix"
+    ],
+    "multiplex_channel_hints": [
+      "TMT10-plex",
+      "Mix 1: K562 cell lysate channels: 126, 127N, 127C, 128N, 128C \u2013 HeLa cell lysate channels: 129N, 129C, 130N, 130C, 131"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "K562",
+        "case_label": "HeLa",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculate fold changes in protein abundance between clusters A and B",
+          "separates the cell lines with over 95% explained variance"
+        ]
+      },
+      {
+        "control_label": "wild-type yeast",
+        "case_label": "single protein knockout (met6, his4, ura2)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "discriminating between highly similar single protein knockout cell lines",
+          "comprising three different single knockout (met6, his4, ura2) and wild-type yeast strains"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": "NEWT:4932",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "K562",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DIA",
+    "labeling_strategy": [
+      "TMT"
+    ],
+    "quantification_strategy": [
+      "TMT10-plex reporter ion quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -74,10 +209,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly combines DIA (Data-Independent Acquisition) with TMT10-plex isobaric labeling to generate proteome signatures."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "DDA experiments were also performed using TMT10-plex for library generation and benchmarking."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA-TMT",
+        "isobaric labeling",
+        "TMT10-plex",
+        "Data-Independent Acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dia_isobaric",
+          "confidence": 1.0,
+          "reason": "The study explicitly combines DIA (Data-Independent Acquisition) with TMT10-plex isobaric labeling to generate proteome signatures."
+        },
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "DDA experiments were also performed using TMT10-plex for library generation and benchmarking."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "DIA-TMT",
+        "isobaric labeling",
+        "TMT10-plex",
+        "Data-Independent Acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -97,7 +278,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

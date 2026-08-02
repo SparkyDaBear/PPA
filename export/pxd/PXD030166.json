@@ -9,10 +9,12 @@
     ],
     "treatment_categories": [
       "chemical or drug treatment",
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
+      "HEK293",
       "HEK293T",
       "U2OS"
     ],
@@ -28,17 +30,16 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "dna_damage_chemical_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "dna_damage_chemical_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment that induces DNA damage or replication stress.",
         "confidence": "high",
         "evidence": [
-          "identify the proteins that aggregate in HEK293T cells treated with the chemotherapeutic agent camptothecin (CPT)",
-          "chemical inhibition of the checkpoint signaling kinase ATR also enhanced protein aggregation",
-          "chemical trapping of topoisomerases (TOPs) using chemotherapeutic TOP poisons leads to widespread protein aggregation"
+          "chemical trapping of topoisomerases (TOPs) using chemotherapeutic TOP poisons leads to widespread protein aggregation",
+          "transient treatment with either compound [camptothecin (CPT) and etoposide (Etop)] caused a particularly strong increase in protein aggregation"
         ]
       },
       {
@@ -46,49 +47,86 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "identify the proteins that aggregate in U2OS cells after a loss of the checkpoint kinase ATM",
+          "knocking out ATM in both U2OS and HEK293 results in an increase in protein aggregation",
           "U2OS and HEK293 ATM KO cells were generated using the ATM CRISPR/Cas9 KO"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "Transient chemical inhibition of ATM (48\u201372 hr prior to fractionation... resulted in an increase in aggregated proteins",
+          "chemical inhibition of the checkpoint signaling kinase ATR also enhanced protein aggregation"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "camptothecin (CPT)",
-        "dose_or_concentration": null,
+        "agent": "camptothecin",
+        "dose_or_concentration": "400 nM",
         "duration": "24 hours",
         "route_or_context": "HEK293T cells",
         "evidence": [
-          "cells were treated for 24 hours with vehicle (DMSO) or CPT"
+          "treated for 24 hours with vehicle (DMSO) or CPT",
+          "treated for 24 hr with CPT (400 nM)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "etoposide",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293T cells",
+        "evidence": [
+          "transient treatment with either compound [camptothecin (CPT) and etoposide (Etop)] caused a particularly strong increase in protein aggregation"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATM",
+        "dose_or_concentration": null,
+        "duration": "72 hours",
+        "route_or_context": "U2OS and HEK293 cells",
+        "evidence": [
+          "wild-type and ATM KO cells were grown for 72 hours and harvested"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATR inhibitor",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK293T cells",
+        "evidence": [
+          "chemical inhibition of the checkpoint signaling kinase ATR also enhanced protein aggregation"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": "camptothecin (CPT)",
+        "agent": "camptothecin",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "recovery period",
         "evidence": [
           "treated for 24 hours with vehicle (DMSO) or CPT, left to recover for 48 hours, and harvested"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "ATM knockout",
-        "dose_or_concentration": null,
-        "duration": "72 hours",
-        "route_or_context": "U2OS cells",
-        "evidence": [
-          "wild-type and ATM KO cells were grown for 72 hours and harvested"
         ]
       }
     ],
@@ -98,16 +136,18 @@
   },
   "experimental_design": {
     "timepoints": [
-      "24h treatment",
-      "48h recovery"
+      "24 hours treatment",
+      "48 hours recovery"
     ],
     "control_arms": [
       "DMSO",
-      "wild-type"
+      "wild-type",
+      "untreated"
     ],
     "case_arms": [
-      "CPT",
-      "ATM KO"
+      "CPT-treated",
+      "ATM KO",
+      "ATR-inhibited"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -115,9 +155,7 @@
       "independent replicates",
       "identified in >1 repeats of CPT-treated cells"
     ],
-    "multiplex_channel_hints": [
-      "label-free quantification (LFQ) proteomics"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "DMSO",
@@ -132,7 +170,8 @@
         "case_label": "ATM KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "identify the proteins that aggregate in U2OS cells after a loss of the checkpoint kinase ATM"
+          "investigate the aggregation caused by a loss of ATM... in U2OS cells",
+          "wild-type and ATM KO cells were grown for 72 hours and harvested"
         ]
       }
     ],
@@ -152,13 +191,18 @@
     "cell_types": [],
     "cell_lines": [
       {
+        "label": "HEK293",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
         "label": "HEK293T",
         "family": "HEK293",
         "ontology_curie": null
       },
       {
         "label": "U2OS",
-        "family": null,
+        "family": "U2OS",
         "ontology_curie": null
       }
     ],
@@ -206,7 +250,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'label-free quantification (LFQ) proteomics' and 'Data Dependent Acquisition (DDA)'."
+          "reason": "The text explicitly states 'label-free quantification (LFQ) proteomics' and 'Data Dependent Acquisition (DDA)' were used."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -223,7 +267,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'label-free quantification (LFQ) proteomics' and 'Data Dependent Acquisition (DDA)'."
+          "reason": "The text explicitly states 'label-free quantification (LFQ) proteomics' and 'Data Dependent Acquisition (DDA)' were used."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -259,8 +303,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:58:50Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

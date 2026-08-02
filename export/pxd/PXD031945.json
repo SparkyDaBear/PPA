@@ -3,19 +3,18 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "relative mass difference",
+    "quantification_method": "Relative mass difference (HDX)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "protein complex assembly state"
     ],
-    "cell_types": [
-      "memory B cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293F",
-      "HEK293T"
+      "HEK293T",
+      "HEK293T-ACE2"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -25,42 +24,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
+        "ontology_label": "protein complex assembly state",
+        "ontology_curie": "PPA:0000115",
         "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
-          "molecular state comparison",
-          "mutation-defined molecular state"
+          "molecular_state",
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "high",
         "evidence": [
           "HDX was performed on RBD with and without Fabs obtained from the digestion of CAB-F52 and CAB-I47",
-          "Bound states were analysed in comparison to Apo states"
+          "Apo state (unbound RBD) and epitope mapping (RBD bound to either one of the Fabs) samples were incubated"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CAB-F52 Fab",
-        "dose_or_concentration": "0.77 mg/mL",
+        "agent": "CAB-F52",
+        "dose_or_concentration": "0.77mg/mL",
         "duration": null,
         "route_or_context": "bound to RBD",
         "evidence": [
-          "HDX was performed on a RDB, 0.6 mg/\u00b5l with and without Fab 52 (077mg/mL)"
+          "HDX was performed on a RDB, 0.6 mg/\uf06dl with and without Fab 52 (077mg/mL)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CAB-I47 Fab",
+        "agent": "CAB-I47",
         "dose_or_concentration": "0.87 mg/mL",
         "duration": null,
         "route_or_context": "bound to RBD",
         "evidence": [
-          "HDX was performed on a RDB, 0.6 mg/\u00b5l with and without Fab 52 (077mg/mL) or Fab 47 (0.87 mg/mL)"
+          "HDX was performed on a RDB, 0.6 mg/\uf06dl with and without Fab 52 (077mg/mL) or Fab 47 (0.87 mg/mL)"
         ]
       },
       {
@@ -89,21 +88,19 @@
       "Apo state (unbound RBD)"
     ],
     "case_arms": [
-      "RBD bound to CAB-F52 Fab",
-      "RBD bound to CAB-I47 Fab"
+      "RBD bound to CAB-F52",
+      "RBD bound to CAB-I47"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "3 replicates were run for each state and timepoint"
     ],
-    "multiplex_channel_hints": [
-      "The analysis was performed in a single, continuous run"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "Apo RBD",
-        "case_label": "RBD + CAB-F52",
+        "case_label": "RBD-CAB-F52 complex",
         "contrast_type": "pairwise",
         "evidence": [
           "Bound states were analysed in comparison to Apo states"
@@ -111,7 +108,7 @@
       },
       {
         "control_label": "Apo RBD",
-        "case_label": "RBD + CAB-I47",
+        "case_label": "RBD-CAB-I47 complex",
         "contrast_type": "pairwise",
         "evidence": [
           "Bound states were analysed in comparison to Apo states"
@@ -131,13 +128,7 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "memory B cells",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293F",
@@ -146,6 +137,11 @@
       },
       {
         "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T-ACE2",
         "family": "HEK293",
         "ontology_curie": null
       }
@@ -170,7 +166,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "relative mass difference"
+      "Relative mass difference (HDX)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -186,23 +182,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The dataset uses data-dependent MS/MS for peptide identification and full scan spectra for HDX analysis, which is a common DDA-based approach, although the primary goal is HDX-MS rather than standard LFQ."
+          "confidence": 0.7,
+          "reason": "The experiment uses data-dependent MS/MS for peptide identification and compares relative mass shifts (deuterium uptake) between states, which is a form of label-free quantification of mass shifts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "hdx_ms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Hydrogen-Deuterium Exchange Mass Spectrometry (HDX-MS) to map antibody-antigen binding interfaces."
+          "reason": "The text explicitly describes 'Hydrogen\u2013deuterium exchange mass spectrometry (HDX-MS)' used for epitope mapping of RBD with and without Fabs."
         }
       ],
       "trigger_keywords": [
         "Hydrogen\u2013deuterium exchange mass spectrometry",
         "HDX-MS",
         "deuterium incorporation",
-        "pepsin digestion",
-        "HDExaminer"
+        "epitope mapping"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -210,30 +205,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The dataset uses data-dependent MS/MS for peptide identification and full scan spectra for HDX analysis, which is a common DDA-based approach, although the primary goal is HDX-MS rather than standard LFQ."
+          "confidence": 0.7,
+          "reason": "The experiment uses data-dependent MS/MS for peptide identification and compares relative mass shifts (deuterium uptake) between states, which is a form of label-free quantification of mass shifts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "hdx_ms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Hydrogen-Deuterium Exchange Mass Spectrometry (HDX-MS) to map antibody-antigen binding interfaces."
+          "reason": "The text explicitly describes 'Hydrogen\u2013deuterium exchange mass spectrometry (HDX-MS)' used for epitope mapping of RBD with and without Fabs."
         }
       ],
       "trigger_keywords": [
         "Hydrogen\u2013deuterium exchange mass spectrometry",
         "HDX-MS",
         "deuterium incorporation",
-        "pepsin digestion",
-        "HDExaminer"
+        "epitope mapping"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "peptide"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -254,8 +248,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:04:29Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

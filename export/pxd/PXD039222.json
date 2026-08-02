@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [
       "liver cancer cells"
@@ -24,31 +24,40 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "insertion_variant",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "After generating the stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty BirA vector",
-          "A stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty vector alone as control was used."
+          "A BioID assay combined with mass spectrometry was performed to identify \u03b1-catenin binding partners.",
+          "After generating the stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty BirA vector, cells were seeded on 15 cm dishes"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "\u03b1-catenin",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inducible overexpression of N-terminal tagged BirA CTNNA1",
+        "evidence": [
+          "After generating the stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty BirA vector"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "Doxycycline",
         "dose_or_concentration": "1 \u00b5g/ml",
         "duration": "48 h",
-        "route_or_context": "inducible overexpression",
+        "route_or_context": "induction of fusion protein expression",
         "evidence": [
           "treated with 1 \u00b5g/ml Doxycycline for 48 h"
         ]
@@ -69,12 +78,15 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "48 h (Doxycycline)",
+      "24 h (Biotin)"
+    ],
     "control_arms": [
       "empty BirA vector"
     ],
     "case_arms": [
-      "BirA CTNNA1"
+      "inducible overexpression of N-terminal tagged BirA CTNNA1"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -83,10 +95,10 @@
     "contrast_hints": [
       {
         "control_label": "empty BirA vector",
-        "case_label": "BirA CTNNA1",
+        "case_label": "BirA CTNNA1 overexpression",
         "contrast_type": "pairwise",
         "evidence": [
-          "A stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty vector alone as control was used."
+          "After generating the stable cell lines with inducible overexpression of N-terminal tagged BirA CTNNA1 and the empty BirA vector"
         ]
       }
     ],
@@ -106,14 +118,14 @@
     "cell_types": [
       {
         "label": "liver cancer cells",
-        "rollup_category": "tumor cell",
+        "rollup_category": "cancer cell",
         "ontology_curie": null
       }
     ],
     "cell_lines": [
       {
         "label": "HLF",
-        "family": "hepatocyte-derived",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -125,7 +137,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -138,12 +150,12 @@
     ],
     "quantification_strategy": [
       "iBaq",
-      "Quantitative normalized ratios"
+      "LFW"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "proximity-dependent labeling",
+        "ontology_label": "proximity labeling",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_proximity_labeling",
         "confidence": "high"
@@ -162,22 +174,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant for processing, with iBaq and LFW values used for quantification, which is characteristic of label-free quantification (LFQ)."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap QE HF and performed quantification using MaxQuant's LFQ/iBaq approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "bioid_proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The study explicitly describes a BioID assay using BirA-tagged alpha-catenin and biotinylation of interaction partners."
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 0.95,
+          "reason": "The study explicitly describes a BioID assay using N-terminal tagged BirA CTNNA1 for proximity-dependent biotinylation."
         }
       ],
       "trigger_keywords": [
         "BioID",
-        "BirA",
+        "biotin ligase BirA",
         "biotinylated proteins",
-        "proximity-dependent labeling",
-        "data-dependent acquisition mode"
+        "data-dependent acquisition mode",
+        "iBaq"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,22 +198,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant for processing, with iBaq and LFW values used for quantification, which is characteristic of label-free quantification (LFQ)."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap QE HF and performed quantification using MaxQuant's LFQ/iBaq approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "bioid_proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The study explicitly describes a BioID assay using BirA-tagged alpha-catenin and biotinylation of interaction partners."
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 0.95,
+          "reason": "The study explicitly describes a BioID assay using N-terminal tagged BirA CTNNA1 for proximity-dependent biotinylation."
         }
       ],
       "trigger_keywords": [
         "BioID",
-        "BirA",
+        "biotin ligase BirA",
         "biotinylated proteins",
-        "proximity-dependent labeling",
-        "data-dependent acquisition mode"
+        "data-dependent acquisition mode",
+        "iBaq"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,8 +241,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:50:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

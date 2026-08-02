@@ -28,12 +28,12 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "OECM-1 cells were treated with cetuximab (500 \u03bcg/mL) for 30 passages over more than 2 months",
@@ -46,8 +46,8 @@
         "relation_key": "has_treatment_agent",
         "agent": "cetuximab",
         "dose_or_concentration": "500 \u03bcg/mL",
-        "duration": "30 passages over more than 2 months",
-        "route_or_context": "cell culture",
+        "duration": "30 passages",
+        "route_or_context": "HNSCC cell lines (OECM-1)",
         "evidence": [
           "OECM-1 cells were treated with cetuximab (500 \u03bcg/mL) for 30 passages over more than 2 months"
         ]
@@ -61,7 +61,8 @@
     "timepoints": [
       "early cetuximab exposure (\u22648 passages)",
       "mid-passages (8\u201312 passages)",
-      "late passages (\u226518 passages)"
+      "late passages (\u226518 passages)",
+      "30 passages"
     ],
     "control_arms": [
       "parental wild-type cell lines",
@@ -70,23 +71,29 @@
     "case_arms": [
       "cetuximab-resistant cell lines",
       "p8",
-      "p12",
       "p18"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Statistical analyses were based on at least three independent biological replicates to ensure reliability of the findings."
+      "Statistical analyses were based on at least three independent biological replicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "parental",
-        "case_label": "cetuximab-resistant",
+        "control_label": "parental cells",
+        "case_label": "cetuximab-resistant cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The CRS was further validated using sequencing data from cetuximab-resistant patient-derived xenografts (PDXs) (n = 4 resistant PDXs, n = 12 sensitive PDXs)"
+        ]
+      },
+      {
+        "control_label": "early passages",
+        "case_label": "late passages",
         "contrast_type": "timecourse",
         "evidence": [
-          "samples from different passages were collected for RNA sequencing (Table S3) and proteomic analysis (Table S4)",
-          "Gene Ontology analysis comparing p8 vs. p0 highlighted the enrichment of type I IFN signaling"
+          "Time-course RNA sequencing revealed a dynamic pattern of cellular adaptation"
         ]
       }
     ],
@@ -99,7 +106,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -113,7 +120,7 @@
     "cell_lines": [
       {
         "label": "OECM-1",
-        "family": "HNSCC",
+        "family": null,
         "ontology_curie": "CVCL_6782"
       }
     ],
@@ -162,21 +169,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'Protein identification and label-free quantification' and describes a DDA acquisition (top 20 most abundant precursor ions selected for fragmentation)."
+          "reason": "The PRIDE metadata explicitly states 'Protein identification and label-free quantification' and describes a DDA acquisition (top 20 most abundant precursor ions selected for fragmentation)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
           "confidence": 0.9,
-          "reason": "The core finding of the study is the identification of a previously unrecognized acetylation site at Lys637 of STAT1 via unbiased mass spectrometric analysis."
+          "reason": "The study focuses on STAT1 lysine 637 acetylation, and the data processing protocol mentions 'acetyl (protein N-terminal)' as a variable modification, though the biological focus is on internal lysine acetylation."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "data-dependent MS/MS",
         "acetylation",
-        "Lys637"
+        "STAT1 lysine 637"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,28 +192,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'Protein identification and label-free quantification' and describes a DDA acquisition (top 20 most abundant precursor ions selected for fragmentation)."
+          "reason": "The PRIDE metadata explicitly states 'Protein identification and label-free quantification' and describes a DDA acquisition (top 20 most abundant precursor ions selected for fragmentation)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_acetylation",
           "confidence": 0.9,
-          "reason": "The core finding of the study is the identification of a previously unrecognized acetylation site at Lys637 of STAT1 via unbiased mass spectrometric analysis."
+          "reason": "The study focuses on STAT1 lysine 637 acetylation, and the data processing protocol mentions 'acetyl (protein N-terminal)' as a variable modification, though the biological focus is on internal lysine acetylation."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "data-dependent MS/MS",
         "acetylation",
-        "Lys637"
+        "STAT1 lysine 637"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "time_anchored",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -227,8 +234,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:03:22Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

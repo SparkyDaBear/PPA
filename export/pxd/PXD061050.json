@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation",
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -16,43 +17,68 @@
       "143B",
       "293T-X"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "we conducted proteomics analysis on whole-cell samples from RTN4IP1 WT and KO cells",
           "isolated mitochondria from WT and RTN4IP1 KO samples",
-          "CRISPR-Cas9 mediated knock-outs were performed by transducing HeLa cells with LentiCRISPRV2 lentivirus expressing sgRNAs targeting the gene of interest"
+          "For the RTN4IP1, HIBCH, ACADS1, and ACAD8 loss of function, CRISPR-Cas9 mediated knock-outs were performed"
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "deprivation_or_starvation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "deprivation_or_starvation"
+        ],
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
+        "confidence": "high",
+        "evidence": [
+          "ECHS1 KO cells cultured in a medium lacking BCAAs exhibited elevated levels of oxygen consumption",
+          "ECHS1 KO cells cultured without valine showed a significant restoration in their oxygen consumption levels"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "RTN4IP1 knockout",
+        "agent": "RTN4IP1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/Cas9",
+        "route_or_context": "CRISPR-Cas9 knockout",
         "evidence": [
-          "whole-cell proteomic analysis... from RTN4IP1 WT and KO cells",
-          "isolated mitochondria from WT and RTN4IP1 KO samples"
+          "proteomics analysis on whole-cell samples from RTN4IP1 WT and KO cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "valine",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "deprivation/restriction",
+        "evidence": [
+          "This deleterious phenotype can be rescued by restricting valine intake or catabolism in ECHS1-deficient cells."
         ]
       }
     ],
@@ -61,29 +87,42 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "t0h",
+      "t24h",
+      "t48h",
+      "t1week",
+      "t2weeks"
+    ],
     "control_arms": [
-      "WT"
+      "WT",
+      "glucose-rich medium"
     ],
     "case_arms": [
-      "RTN4IP1 KO"
+      "RTN4IP1 KO",
+      "galactose-based screenings"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "Three wells per condition were loaded"
+      "The measures obtained from Hela and 143B cells were considered as replicates to ensure the robustness and reproducibility of the results."
     ],
-    "multiplex_channel_hints": [
-      "label-free quantitative proteomics"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "WT",
+        "control_label": "RTN4IP1 WT",
         "case_label": "RTN4IP1 KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "we conducted proteomics analysis on whole-cell samples from RTN4IP1 WT and KO cells",
-          "comparison of the BN-PAGE migration profiles using isolated mitochondria from WT and RTN4IP1 KO samples"
+          "we conducted proteomics analysis on whole-cell samples from RTN4IP1 WT and KO cells"
+        ]
+      },
+      {
+        "control_label": "glucose",
+        "case_label": "galactose",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "calculate the difference in abundance of each sgRNA between galactose and glucose conditions (gal/glu ratio)"
         ]
       }
     ],
@@ -96,7 +135,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -104,25 +143,25 @@
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": null,
+        "family": "cervical cancer",
         "ontology_curie": null
       },
       {
         "label": "143B",
-        "family": null,
+        "family": "osteosarcoma",
         "ontology_curie": null
       },
       {
         "label": "293T-X",
-        "family": null,
+        "family": "embryonic kidney",
         "ontology_curie": null
       }
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
+      "category": "whole cell lysate",
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
     "linkage_hints": {
       "biosample_accessions": [],
@@ -163,20 +202,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The whole-cell proteomic analysis explicitly states 'label-free quantitative proteomics' using 'DDA mode' on an Orbitrap Exploris 240."
+          "reason": "The whole-cell proteomic analysis explicitly used label-free quantitative proteomics in DDA mode on an Orbitrap Exploris 240."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.8,
-          "reason": "The complexome profiling (Blue-DiS proteomics) used 'data-independent scanning (DiS) method' and 'DIA-NN 1.8.1' for identification and quantification."
+          "reason": "The complexome profiling (Blue-DiS proteomics) used data-independent scanning (DiS) and was analyzed with DIA-NN."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "complexome_profiling",
+          "confidence": 0.9,
+          "reason": "The study performed complexome profiling by slicing BN-PAGE gels into 11 bands for MS analysis to track CI assembly modules."
+        }
+      ],
       "trigger_keywords": [
         "label-free quantitative proteomics",
         "DDA mode",
         "data-independent scanning (DiS)",
-        "DIA-NN"
+        "complexome profiling",
+        "BN-PAGE migration profiles"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,20 +231,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The whole-cell proteomic analysis explicitly states 'label-free quantitative proteomics' using 'DDA mode' on an Orbitrap Exploris 240."
+          "reason": "The whole-cell proteomic analysis explicitly used label-free quantitative proteomics in DDA mode on an Orbitrap Exploris 240."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 0.8,
-          "reason": "The complexome profiling (Blue-DiS proteomics) used 'data-independent scanning (DiS) method' and 'DIA-NN 1.8.1' for identification and quantification."
+          "reason": "The complexome profiling (Blue-DiS proteomics) used data-independent scanning (DiS) and was analyzed with DIA-NN."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "complexome_profiling",
+          "confidence": 0.9,
+          "reason": "The study performed complexome profiling by slicing BN-PAGE gels into 11 bands for MS analysis to track CI assembly modules."
+        }
+      ],
       "trigger_keywords": [
         "label-free quantitative proteomics",
         "DDA mode",
         "data-independent scanning (DiS)",
-        "DIA-NN"
+        "complexome profiling",
+        "BN-PAGE migration profiles"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -226,8 +279,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:01:36Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

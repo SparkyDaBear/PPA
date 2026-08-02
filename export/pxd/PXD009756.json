@@ -7,7 +7,10 @@
     "labeling_strategy": [
       "Unknown"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "protein complex assembly state",
+      "mutation or variant perturbation"
+    ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
@@ -16,21 +19,123 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "protein complex assembly state",
+        "ontology_curie": "PPA:0000115",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "We generated complexes between the chaperones (Hsp70 or Hsp90), the cochaperone CHIP and, as substrate, a p53 variant containing the GST protein (p53-TMGST).",
+          "The 3D structures of the two complexes, obtained using a combination of cryoelectron microscopy and crosslinking mass spectrometry",
+          "To better define the interaction between Hsp70 and CHIP before analysing the ternary complex, we first generated and characterised the Hsp70:CHIP complex."
+        ]
+      },
+      {
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "we generated Hsp70 and Hsp90 variants (Hsp70s and Hsp90s, respectively) in which the central residues of the C-terminal disordered regions were removed",
+          "The substrate ubiquitination assays showed that the shorter Hsp variants had less activity than the wild-type controls"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Hsp70",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "complex assembly",
+        "evidence": [
+          "We generated complexes between the chaperones (Hsp70 or Hsp90), the cochaperone CHIP and, as substrate, a p53 variant containing the GST protein (p53-TMGST)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Hsp90",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "complex assembly",
+        "evidence": [
+          "We generated complexes between the chaperones (Hsp70 or Hsp90), the cochaperone CHIP and, as substrate, a p53 variant containing the GST protein (p53-TMGST)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CHIP",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "complex assembly",
+        "evidence": [
+          "We generated complexes between the chaperones (Hsp70 or Hsp90), the cochaperone CHIP and, as substrate, a p53 variant containing the GST protein (p53-TMGST)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "p53-TMGST",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "substrate in complex assembly",
+        "evidence": [
+          "We generated complexes between the chaperones (Hsp70 or Hsp90), the cochaperone CHIP and, as substrate, a p53 variant containing the GST protein (p53-TMGST)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "absence of the chaperones",
+      "wild-type controls"
+    ],
+    "case_arms": [
+      "Hsp70:p53-TMGST:CHIP",
+      "Hsp90:p53-TMGST:CHIP",
+      "Hsp70s",
+      "Hsp90s"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "absence of chaperones",
+        "case_label": "ternary complexes",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Both ternary complexes (Hsp70:p53-TMGST:CHIP and Hsp90:p53-TMGST:CHIP) ubiquitinated the substrate at a higher efficiency than in the absence of the chaperones."
+        ]
+      },
+      {
+        "control_label": "wild-type Hsp",
+        "case_label": "shorter Hsp variants",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The substrate ubiquitination assays showed that the shorter Hsp variants had less activity than the wild-type controls"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -82,15 +187,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data was acquired in data-dependent mode (DDA) using an Orbitrap Fusion Lumos and AB Sciex 5600 TOF. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos; no isobaric or SILAC labeling is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_xlms",
+          "modifier_workflow_id": "xl_ms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as crosslinking mass spectrometry (XL-MS) using DTSSP and DSSO reagents to determine 3D structures."
+          "reason": "The experiment is explicitly defined as chemical cross-linking mass spectrometry (XL-MS) using DTSSP and DSSO reagents."
         }
       ],
       "trigger_keywords": [
@@ -98,7 +203,6 @@
         "XL-MS",
         "DTSSP",
         "DSSO",
-        "crosslinked peptides",
         "XLinkx"
       ],
       "raw_or_file_name_triggers": []
@@ -107,15 +211,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data was acquired in data-dependent mode (DDA) using an Orbitrap Fusion Lumos and AB Sciex 5600 TOF. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos; no isobaric or SILAC labeling is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_xlms",
+          "modifier_workflow_id": "xl_ms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as crosslinking mass spectrometry (XL-MS) using DTSSP and DSSO reagents to determine 3D structures."
+          "reason": "The experiment is explicitly defined as chemical cross-linking mass spectrometry (XL-MS) using DTSSP and DSSO reagents."
         }
       ],
       "trigger_keywords": [
@@ -123,7 +227,6 @@
         "XL-MS",
         "DTSSP",
         "DSSO",
-        "crosslinked peptides",
         "XLinkx"
       ],
       "raw_or_file_name_triggers": []
@@ -152,8 +255,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:59:36Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

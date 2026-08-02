@@ -7,7 +7,11 @@
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "infection exposure",
+      "chemical or drug treatment",
+      "genetic perturbation"
+    ],
     "cell_types": [
       "monocyte-derived macrophages"
     ],
@@ -21,21 +25,135 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "bacterial_infection",
+        "matched_class_path": [
+          "infection",
+          "bacterial_infection"
+        ],
+        "matched_definition": "Infection or exposure to bacteria or bacterial challenge that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "identify proteins interacting with ectopically expressed TFEB in uninfected cells vs S. Typhimurium-infected or torin-1-treated cells."
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "identify proteins interacting with ectopically expressed TFEB in uninfected cells vs S. Typhimurium-infected or torin-1-treated cells."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "performed label-free proteomics on enriched mitochondria from shCTRL and shTFEB to determine the altered expression of mitochondrial proteins."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "S. Typhimurium",
+        "dose_or_concentration": "MOI 100",
+        "duration": null,
+        "route_or_context": "infection",
+        "evidence": [
+          "infected with S. Typhimurium (SL1344) (MOI 100)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "torin-1",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": null,
+        "route_or_context": "mTOR inhibition",
+        "evidence": [
+          "torin-1 (10 \u03bcM) (4247/10, R&D and Tocris)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "TFEB",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "shRNA knockdown",
+        "evidence": [
+          "Stable TFEB knockdown was achieved by transfecting TFEB-specific shRNA"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "uninfected cells",
+      "shCTRL"
+    ],
+    "case_arms": [
+      "S. Typhimurium-infected cells",
+      "torin-1-treated cells",
+      "shTFEB"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "TFEB-Flag IP for immunoblot and mass spectrometry was performed in triplicates for each condition"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "S. Typhimurium-infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify proteins interacting with ectopically expressed TFEB in uninfected cells vs S. Typhimurium-infected"
+        ]
+      },
+      {
+        "control_label": "uninfected",
+        "case_label": "torin-1-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identify proteins interacting with ectopically expressed TFEB in uninfected cells vs ... torin-1-treated cells"
+        ]
+      },
+      {
+        "control_label": "shCTRL",
+        "case_label": "shTFEB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "performed label-free proteomics on enriched mitochondria from shCTRL and shTFEB"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -45,7 +163,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -59,12 +177,12 @@
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": "cervical cancer",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "HEK293T",
-        "family": "embryonic kidney",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -76,7 +194,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -123,14 +241,21 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "Specific experiment described for 'TFEB phosphorylation detection' using pulled down endogenous TFEB and analysis of phosphorylation sites."
+          "reason": "Specific analysis for TFEB phosphorylation sites was performed using pulled-down endogenous TFEB and higher MS2 resolution settings."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "TFEB-FLAG immunoprecipitation (IP) was performed using Anti-FLAG M2 Magnetic Beads for interactome analysis."
         }
       ],
       "trigger_keywords": [
         "MaxLFQ",
         "data-dependent mode",
+        "Top10",
+        "immunoprecipitation",
         "phosphorylation sites",
         "label-free proteomics"
       ],
@@ -146,14 +271,21 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "Specific experiment described for 'TFEB phosphorylation detection' using pulled down endogenous TFEB and analysis of phosphorylation sites."
+          "reason": "Specific analysis for TFEB phosphorylation sites was performed using pulled-down endogenous TFEB and higher MS2 resolution settings."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "TFEB-FLAG immunoprecipitation (IP) was performed using Anti-FLAG M2 Magnetic Beads for interactome analysis."
         }
       ],
       "trigger_keywords": [
         "MaxLFQ",
         "data-dependent mode",
+        "Top10",
+        "immunoprecipitation",
         "phosphorylation sites",
         "label-free proteomics"
       ],
@@ -183,8 +315,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:29:04Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

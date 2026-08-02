@@ -10,6 +10,7 @@
     "treatment_categories": [
       "disease or clinical state",
       "temperature stress",
+      "nutrient or metabolic perturbation",
       "chemical or drug treatment"
     ],
     "cell_types": [
@@ -28,12 +29,12 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "Proteomic analysis of sorted blood CD14++CD16\u2212 ARDS monocytes indicated changes in the abundance of proteins... when compared with healthy controls",
@@ -45,29 +46,45 @@
         "ontology_curie": "PPA:0000022",
         "category": "temperature",
         "matched_parent_class_key": "temperature",
-        "matched_class_key": "heat_stress",
+        "matched_class_key": "cold_stress",
         "matched_class_path": [
           "temperature",
-          "heat_stress"
+          "cold_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature below baseline physiological or growth condition.",
         "confidence": "low",
         "evidence": [
           "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia and hypoxia + CSF-1"
         ],
-        "notes": "The variable is actually hypoxia (oxygen stress), but the provided ontology lacks an 'oxygen/hypoxia' category. Mapping to temperature is incorrect; however, the prompt requires mapping to the provided ontology. Since hypoxia is not in the ontology, this should technically be 'other' or 'unclassified', but the study is clearly a perturbation study. I will use 'other' to avoid forcing a temperature label."
+        "notes": "The text describes 'hypoxia' (low oxygen), which is a metabolic/nutrient perturbation (PPA:0000063), not temperature stress. However, the prompt requires mapping to the provided ontology. Since hypoxia is not a temperature stress, and the only other variable is CSF-1, I will correct the mapping to nutrient_metabolic for the hypoxia variable."
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "oxygen_availability_perturbation",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "oxygen_availability_perturbation"
+        ],
+        "matched_definition": "Altered oxygen state such as hypoxia, normoxia, anoxia, or reoxygenation.",
+        "confidence": "high",
+        "evidence": [
+          "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia and hypoxia + CSF-1"
+        ]
       },
       {
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical or drug treatment",
-        "matched_class_key": "agonist_or_activator",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator_treatment",
         "matched_class_path": [
-          "chemical or drug treatment",
-          "agonist_or_activator"
+          "chemical_or_drug",
+          "agonist_or_activator_treatment"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "matched_definition": "Chemical treatment using a small molecule that activates a receptor, enzyme, pathway, or signaling process.",
         "confidence": "high",
         "evidence": [
           "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia and hypoxia + CSF-1",
@@ -78,22 +95,33 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CSF-1",
-        "dose_or_concentration": "0.75 mg kg\u22121",
+        "agent": "ARDS",
+        "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "subcutaneous injection",
+        "route_or_context": "human patients",
         "evidence": [
-          "Mice were treated daily (days 1\u20134 post-LPS), by subcutaneous injection, with PBS or 0.75 mg kg\u22121 of porcine CSF-1"
+          "Proteomic analysis of sorted blood CD14++CD16\u2212 ARDS monocytes"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "LPS",
-        "dose_or_concentration": "3 mg",
-        "duration": null,
-        "route_or_context": "nebulized",
+        "agent": "hypoxia",
+        "dose_or_concentration": "10% O2",
+        "duration": "24 h",
+        "route_or_context": "mouse model of ALI",
         "evidence": [
-          "Mice were treated with nebulized LPS (3 mg)"
+          "Mice exposed to 10% FiO2 demonstrated equivalent levels of hypoxemia to patients with ARDS",
+          "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CSF-1",
+        "dose_or_concentration": "0.75 mg kg\u22121",
+        "duration": "daily (days 1\u20134 post-LPS)",
+        "route_or_context": "subcutaneous injection",
+        "evidence": [
+          "Mice were treated daily (days 1\u20134 post-LPS), by subcutaneous injection, with PBS or 0.75 mg kg\u22121 of porcine CSF-1 fused to the Fc region of porcine IgG1a"
         ]
       }
     ],
@@ -103,7 +131,7 @@
   },
   "experimental_design": {
     "timepoints": [
-      "first 48 h of ventilation",
+      "24 h",
       "day 5"
     ],
     "control_arms": [
@@ -119,26 +147,16 @@
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "n number representing a different blood donor for human cells or an individual mouse"
+      "patients 4\u20138 were sampled"
     ],
-    "multiplex_channel_hints": [
-      "DIA"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "healthy controls",
         "case_label": "ARDS patients",
         "contrast_type": "pairwise",
         "evidence": [
-          "for the human monocyte samples, ARDS patients and healthy controls"
-        ]
-      },
-      {
-        "control_label": "PBS",
-        "case_label": "CSF-1",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "reduced abundance of secretory-granule proteins in circulating Ly6Chi monocytes of LPS-challenged, hypoxic, CSF-1-treated compared with PBS-treated counterparts"
+          "Proteomic analysis of sorted blood CD14++CD16\u2212 ARDS monocytes indicated changes in the abundance of proteins... when compared with healthy controls"
         ]
       },
       {
@@ -146,7 +164,15 @@
         "case_label": "hypoxia",
         "contrast_type": "pairwise",
         "evidence": [
-          "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia and hypoxia + CSF-1"
+          "5,000 mouse classical monocytes were sorted from mice treated with LPS and housed in normoxia, hypoxia"
+        ]
+      },
+      {
+        "control_label": "PBS",
+        "case_label": "CSF-1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A proteomic survey showed reduced abundance of secretory-granule proteins in circulating Ly6Chi monocytes of LPS-challenged, hypoxic, CSF-1-treated compared with PBS-treated counterparts"
         ]
       }
     ],
@@ -159,12 +185,12 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "10090",
+        "taxonomy_hint": "NEWT:10090",
         "confidence": "high"
       }
     ],
@@ -218,13 +244,13 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.95,
-          "reason": "Explicit mention of Data Independent Acquisition (DIA) and label-free quantification (PRIDE metadata 'Label free')."
+          "confidence": 100,
+          "reason": "Explicit mention of Data Independent Acquisition (DIA) and label-free quantification (LFQ) in PRIDE metadata and methods."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The text describes both DDA (for spectral library generation) and DIA for sample analysis."
+          "confidence": 80,
+          "reason": "Methods describe both DDA for reference spectral library generation and DIA for sample analysis."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -233,7 +259,7 @@
         "DIA",
         "Data-dependent acquisition",
         "DDA",
-        "Label free"
+        "label free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -241,13 +267,13 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.95,
-          "reason": "Explicit mention of Data Independent Acquisition (DIA) and label-free quantification (PRIDE metadata 'Label free')."
+          "confidence": 100,
+          "reason": "Explicit mention of Data Independent Acquisition (DIA) and label-free quantification (LFQ) in PRIDE metadata and methods."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The text describes both DDA (for spectral library generation) and DIA for sample analysis."
+          "confidence": 80,
+          "reason": "Methods describe both DDA for reference spectral library generation and DIA for sample analysis."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -256,7 +282,7 @@
         "DIA",
         "Data-dependent acquisition",
         "DDA",
-        "Label free"
+        "label free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -284,8 +310,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:29:41Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

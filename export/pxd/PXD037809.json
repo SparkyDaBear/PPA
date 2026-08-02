@@ -3,66 +3,232 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "disease or clinical state",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
-      "adipose tissue"
+      "pancreatic \u03b2-cells",
+      "adipocytes"
     ],
-    "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "cell_lines": [
+      "MIN6"
+    ],
+    "sample_scope": "extracellular vesicle scope",
+    "sample_scope_label": "extracellular vesicle scope",
+    "sample_scope_curie": "PPA:0000199",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "AdEVs isolated from obese and insulin resistant, but not lean mice",
+          "compare yields, purity and size distribution of the resulting vesicle populations... from lean and diet-induced obese (DIO) mice",
+          "analyzed the protein cargoes of SEC-isolated AdEVs for differences in protein abundances between lean and DIO mice"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "ligand_stimulation"
+        ],
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
+        "confidence": "medium",
+        "evidence": [
+          "MIN6 cells treated with PBS or AdEVs from lean and obese mice",
+          "phosphoproteome analyses were conducted for MIN6 cells treated with PBS or AdEVs from DIO mice following glucose stimulation"
+        ],
+        "notes": "AdEVs (extracellular vesicles) act as the stimulating agent delivering protein cargo; no more specific ligand class from the ontology fits 'extracellular vesicle' better than the parent ligand stimulation category."
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AdEVs from lean mice",
+        "dose_or_concentration": null,
+        "duration": "6hrs",
+        "route_or_context": "in vitro MIN6 cells",
+        "evidence": [
+          "MIN6 cells treated with PBS or AdEVs from lean and obese mice",
+          "Following 6hrs of exposure with AdEVs"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AdEVs from DIO mice",
+        "dose_or_concentration": null,
+        "duration": "6hrs",
+        "route_or_context": "in vitro MIN6 cells",
+        "evidence": [
+          "MIN6 cells treated with PBS or AdEVs from lean and obese mice",
+          "Following 6hrs of exposure with AdEVs"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glucose",
+        "dose_or_concentration": "16.7 mM",
+        "duration": "15 min",
+        "route_or_context": "glucose bolus",
+        "evidence": [
+          "phosphoproteome analysis of MIN6 cells incubated for 6 hrs (low glucose) with vehicle or AdEVs followed by a 15 min high-glucose bolus"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "6hrs",
+      "15 min"
+    ],
+    "control_arms": [
+      "lean mice",
+      "PBS",
+      "vehicle"
+    ],
+    "case_arms": [
+      "DIO mice",
+      "AdEVs from lean mice",
+      "AdEVs from DIO mice"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "biological replicate"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC-labeling",
+      "heavy 13C615N4 arginine (Arg10) and 13C615N2 lysine (Lys8)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "lean AdEVs",
+        "case_label": "DIO AdEVs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "analyzed the protein cargoes of SEC-isolated AdEVs for differences in protein abundances between lean and DIO mice"
+        ]
+      },
+      {
+        "control_label": "PBS/Vehicle",
+        "case_label": "AdEV treatment",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MIN6 cells treated with PBS or AdEVs from lean and obese mice"
+        ]
+      },
+      {
+        "control_label": "low glucose",
+        "case_label": "high glucose",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparative analysis of the \u201clight\u201d DIO AdEV phosphoproteome at low and high glucose conditions"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "NEWT:10090",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "pancreatic \u03b2-cells",
+        "rollup_category": "cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "adipocytes",
+        "rollup_category": "cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "MIN6",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "extracellular vesicles",
+        "source_kind": "other"
+      },
+      {
+        "label": "white adipose tissue",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
-      "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "category": "extracellular vesicle scope",
+      "label": "extracellular vesicle scope",
+      "curie": "PPA:0000199"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "Label-free quantitation (LFQ)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +236,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicit mention of SILAC labeling of MIN6 cells (Arg10, Lys8) and use of SILAC for distinguishing host from AdEV proteins."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly states 'Label free quantitation (LFQ) were enabled' for some analyses, and the study compares lean vs obese AdEVs."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of phosphoproteomics, TiO2 enrichment, and 'EasyPhos workflow' to analyze phosphosite dynamics."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteome",
+        "LFQ",
+        "TiO2 beads",
+        "EasyPhos"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicit mention of SILAC labeling of MIN6 cells (Arg10, Lys8) and use of SILAC for distinguishing host from AdEV proteins."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly states 'Label free quantitation (LFQ) were enabled' for some analyses, and the study compares lean vs obese AdEVs."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 1.0,
+          "reason": "Extensive use of phosphoproteomics, TiO2 enrichment, and 'EasyPhos workflow' to analyze phosphosite dynamics."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteome",
+        "LFQ",
+        "TiO2 beads",
+        "EasyPhos"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,7 +319,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

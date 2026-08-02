@@ -8,7 +8,7 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "infection exposure"
+      "immune receptor ligand stimulation"
     ],
     "cell_types": [
       "monocyte"
@@ -24,33 +24,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "infection exposure",
-        "ontology_curie": "PPA:0000017",
-        "category": "infection",
-        "matched_parent_class_key": "infection",
-        "matched_class_key": "pathogen_mimic_stimulation",
+        "ontology_label": "immune receptor ligand stimulation",
+        "ontology_curie": "PPA:0000047",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
         "matched_class_path": [
-          "infection",
-          "pathogen_mimic_stimulation"
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
         ],
-        "matched_definition": "Stimulation using pathogen-associated molecules (for example LPS, poly(I:C)).",
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
         "confidence": "high",
         "evidence": [
           "we compared the HMGB1 interactomes in resting and LPS-stressed monocytic THP-1 cells using BioID-based proximity proteomics",
-          "heavy-labeled cells were stimulated with LPS (100 ng/ml, 127K, Sigma Aldrich) for 1 h before biotin was added",
-          "Cells cultured with light amino acids were used as a control and only treated with biotin."
+          "reveal the interactors of HMGB1 during homeostasis and following TLR4-induced cell stress by LPS"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Lipopolysaccharide (LPS)",
+        "agent": "LPS",
         "dose_or_concentration": "100 ng/ml",
         "duration": "1 h",
-        "route_or_context": "THP-1 cells",
+        "route_or_context": "stimulation of heavy-labeled THP-1 cells",
         "evidence": [
-          "heavy-labeled cells were stimulated with LPS (100 ng/ml, 127K, Sigma Aldrich) for 1 h before biotin was added"
+          "heavy-labeled cells were stimulated with LPS (100 ng/ml, 127K, Sigma Aldrich) for 1 h"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "24 h",
+        "route_or_context": "biotinylation period",
+        "evidence": [
+          "before biotin was added (50 mM, Sigma Aldrich, 24 h)"
         ]
       }
     ],
@@ -60,7 +69,8 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 h"
+      "1 h (LPS stimulation)",
+      "24 h (biotinylation)"
     ],
     "control_arms": [
       "resting",
@@ -74,13 +84,13 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "The conditions were set up in three separate T-175 flasks (n = 3).",
-      "hits obtained in only one of the three data sets were excluded."
+      "The conditions were set up in three separate T-175 flasks (n = 3)",
+      "experiments were performed in parallel to avoid batch differences"
     ],
     "multiplex_channel_hints": [
-      "SILAC labeling of THP-1 cells",
+      "SILAC labeling",
       "light media contained L-Arginine and L-Lysine and heavy media contained 13C615N2 L-Lysine and 13C615N2 L-Arginine",
-      "the lysates containing heavy and light proteins were pooled (1:1)"
+      "pooled lysate (1:1)"
     ],
     "contrast_hints": [
       {
@@ -88,7 +98,7 @@
         "case_label": "LPS-stressed",
         "contrast_type": "pairwise",
         "evidence": [
-          "we compared the HMGB1 interactomes in resting and LPS-stressed monocytic THP-1 cells using BioID-based proximity proteomics"
+          "we compared the HMGB1 interactomes in resting and LPS-stressed monocytic THP-1 cells"
         ]
       }
     ],
@@ -115,7 +125,7 @@
     "cell_lines": [
       {
         "label": "THP-1",
-        "family": "human acute leukemia-derived monocyte",
+        "family": "acute leukemia-derived monocyte",
         "ontology_curie": null
       }
     ],
@@ -141,7 +151,7 @@
     "quantification_strategy": [
       "pairwise protein ratio"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "proximity labeling",
@@ -163,22 +173,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling (heavy/light media) and DDA acquisition (survey MS spectra and HCD MS/MS) for relative quantification of the HMGB1 interactome."
+          "reason": "The text explicitly describes the use of SILAC (Stable Isotope Labeling by Amino acids in Cell culture) with light and heavy media (13C615N2 L-Lysine and 13C615N2 L-Arginine) and the use of an Orbitrap Fusion mass spectrometer for survey MS spectra and HCD MS/MS."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
+          "modifier_workflow_id": "proximity_labeling_biotid",
           "confidence": 1.0,
-          "reason": "Experiment uses BioID-based proximity proteomics with streptavidin pull-down of biotinylated proteins."
+          "reason": "The experiment uses BioID-based proximity proteomics with MycBioID2-HMGB1 and streptavidin-activated beads for pull-down of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "BioID",
-        "proximity proteomics",
+        "BioID-based proximity proteomics",
         "biotinylated proteins",
-        "streptavidin-activated beads"
+        "streptavidin-activated beads",
+        "heavy-labeled cells"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,22 +197,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling (heavy/light media) and DDA acquisition (survey MS spectra and HCD MS/MS) for relative quantification of the HMGB1 interactome."
+          "reason": "The text explicitly describes the use of SILAC (Stable Isotope Labeling by Amino acids in Cell culture) with light and heavy media (13C615N2 L-Lysine and 13C615N2 L-Arginine) and the use of an Orbitrap Fusion mass spectrometer for survey MS spectra and HCD MS/MS."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
+          "modifier_workflow_id": "proximity_labeling_biotid",
           "confidence": 1.0,
-          "reason": "Experiment uses BioID-based proximity proteomics with streptavidin pull-down of biotinylated proteins."
+          "reason": "The experiment uses BioID-based proximity proteomics with MycBioID2-HMGB1 and streptavidin-activated beads for pull-down of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "BioID",
-        "proximity proteomics",
+        "BioID-based proximity proteomics",
         "biotinylated proteins",
-        "streptavidin-activated beads"
+        "streptavidin-activated beads",
+        "heavy-labeled cells"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -230,8 +240,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:18:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

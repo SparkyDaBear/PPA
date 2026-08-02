@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "LFQ intensity",
+    "quantification_method": "LFQ intensity (sum of the integrated area of the extracted ion chromatogram (XIC) for each peptide assigned to the protein)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [
       "erythroid progenitor"
@@ -28,16 +29,34 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "we performed affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation and label-free quantification by high-resolution mass spectrometry (IP-MS, Supplementary Fig. 2a).",
-          "we evaluated the proteins physically neighboring MTA2 in its intracellular milieu by proximity labeling (Supplementary Fig. 2b-c)."
+          "we evaluated the proteins physically neighboring MTA2 in its intracellular milieu by proximity labeling (Supplementary Fig. 2b-c).",
+          "MTA2 biallelic deleted HUDEP-2 cells (MTA2\u2212/\u2212) were transduced with 5 \u03bcl of concentrated lentivirus."
+        ]
+      },
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "medium",
+        "evidence": [
+          "We expressed several FLAG epitope tagged constructs of GATAD2A in HUDEP-2 cells",
+          "The truncated GATAD2A segment co-sedimented with low molecular weight forms of CHD4 but not the NuRD complex."
         ]
       }
     ],
@@ -47,10 +66,9 @@
         "agent": "MTA2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "affinity purification / proximity labeling",
+        "route_or_context": "biallelic deletion",
         "evidence": [
-          "we performed affinity purification of proteins physically associated with MTA2",
-          "we evaluated the proteins physically neighboring MTA2 in its intracellular milieu by proximity labeling"
+          "MTA2 biallelic deleted HUDEP-2 cells (MTA2\u2212/\u2212)"
         ]
       },
       {
@@ -58,9 +76,20 @@
         "agent": "CHD4",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "affinity purification",
+        "route_or_context": "immunoprecipitation",
         "evidence": [
-          "we performed affinity purification of proteins physically associated with MTA2 and CHD4"
+          "we performed affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "GATAD2A AA335\u2013486 segment",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "ectopic expression",
+        "evidence": [
+          "We expressed several FLAG epitope tagged constructs of GATAD2A in HUDEP-2 cells",
+          "the GATAD2A AA335\u2013486 segment encompassing the GATA ZF domain"
         ]
       }
     ],
@@ -70,10 +99,13 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "wild type HUDEP-2 cells",
+      "NLS-BioID2 control plasmid"
+    ],
     "case_arms": [
-      "MTA2-associated proteins",
-      "CHD4-associated proteins"
+      "MTA2 biallelic deleted HUDEP-2 cells",
+      "GATAD2A AA335\u2013486 expressing cells"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -85,11 +117,19 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "non-interacting proteins",
-        "case_label": "NuRD subcomplex members",
-        "contrast_type": "multi_group",
+        "control_label": "Wild type",
+        "case_label": "MTA2 knockout",
+        "contrast_type": "pairwise",
         "evidence": [
-          "We found 31 proteins at the intersection of all 3 MS experiments (Fig. 2e). With respect to NuRD, the shared proteins included 7 NuRD subunits"
+          "MTA2 biallelic deleted HUDEP-2 cells (MTA2\u2212/\u2212) were transduced"
+        ]
+      },
+      {
+        "control_label": "Wild type",
+        "case_label": "GATAD2A AA335-486 overexpression",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We expressed several FLAG epitope tagged constructs of GATAD2A in HUDEP-2 cells"
         ]
       }
     ],
@@ -140,7 +180,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "LFQ intensity",
+      "LFQ intensity (sum of the integrated area of the extracted ion chromatogram (XIC) for each peptide assigned to the protein)",
       "Spectrum counting"
     ],
     "proteomics_mode": "Bottom-up",
@@ -171,22 +211,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'label-free quantification by high-resolution mass spectrometry (IP-MS)' and 'protein abundance was quantified based on LFQ intensity'."
+          "reason": "The text explicitly states 'label-free quantification by high-resolution mass spectrometry' and 'protein abundance was quantified based on LFQ intensity'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "mod_affinity_purification",
+          "modifier_workflow_id": "modifier_affinity_purification",
           "confidence": 1.0,
-          "reason": "The experiment uses 'affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation' and 'proximity labeling mass spectrometry proteomics'."
+          "reason": "The experiment used 'affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation' and 'proximity labeling mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ intensity",
         "immunoprecipitation",
+        "affinity purification",
         "proximity labeling",
-        "IP-MS"
+        "BioID2"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -195,22 +236,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'label-free quantification by high-resolution mass spectrometry (IP-MS)' and 'protein abundance was quantified based on LFQ intensity'."
+          "reason": "The text explicitly states 'label-free quantification by high-resolution mass spectrometry' and 'protein abundance was quantified based on LFQ intensity'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "mod_affinity_purification",
+          "modifier_workflow_id": "modifier_affinity_purification",
           "confidence": 1.0,
-          "reason": "The experiment uses 'affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation' and 'proximity labeling mass spectrometry proteomics'."
+          "reason": "The experiment used 'affinity purification of proteins physically associated with MTA2 and CHD4 using immunoprecipitation' and 'proximity labeling mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ intensity",
         "immunoprecipitation",
+        "affinity purification",
         "proximity labeling",
-        "IP-MS"
+        "BioID2"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -238,8 +280,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:30:51Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

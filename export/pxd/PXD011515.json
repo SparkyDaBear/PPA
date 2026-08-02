@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "disease or clinical state",
+      "infection exposure"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -24,20 +25,58 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "medium",
         "evidence": [
           "analyzed 212 fecal samples from 56 hospitalized acute leukemia patients with multidrug-resistant Enterobactericeae (MRE) gut colonization",
+          "scientists have begun characterizing the microbiome of the human gut in healthy and diseased states"
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "bacterial_infection",
+        "matched_class_path": [
+          "infection",
+          "bacterial_infection"
+        ],
+        "matched_definition": "Infection or exposure to bacteria or bacterial challenge that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "acute leukemia patients with multidrug-resistant Enterobactericeae (MRE) gut colonization",
           "the first metaproteomic study of the gut microbiome in leukemia patients colonized with multidrug-resistant Enterobacteriaceae (MRE)"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "multidrug-resistant Enterobacteriaceae",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "gut colonization",
+        "evidence": [
+          "acute leukemia patients with multidrug-resistant Enterobactericeae (MRE) gut colonization"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "acute leukemia",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "hospitalized patients",
+        "evidence": [
+          "analyzed 212 fecal samples from 56 hospitalized acute leukemia patients"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -46,32 +85,33 @@
     "timepoints": [
       "weekly intervals"
     ],
-    "control_arms": [],
+    "control_arms": [
+      "healthy"
+    ],
     "case_arms": [
       "MRE colonized acute leukemia patients"
     ],
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "Collecting multiple samples per patient"
+      "longitudinal measurements of individual patients"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "baseline/healthy",
-        "case_label": "MRE colonized acute leukemia",
-        "contrast_type": "unknown",
+        "control_label": "healthy",
+        "case_label": "acute leukemia patients with MRE colonization",
+        "contrast_type": "pairwise",
         "evidence": [
-          "scientists have begun characterizing the microbiome of the human gut in healthy and diseased states",
-          "the first metaproteomic study of the gut microbiome in leukemia patients colonized with multidrug-resistant Enterobacteriaceae (MRE)"
+          "characterizing the microbiome of the human gut in healthy and diseased states"
         ]
       },
       {
-        "control_label": "early timepoint",
-        "case_label": "late timepoint",
+        "control_label": "baseline",
+        "case_label": "longitudinal timepoints",
         "contrast_type": "timecourse",
         "evidence": [
-          "The longitudinal data collected for several patients also allowed us to assess how their metaproteome changed over time."
+          "longitudinal data collected for several patients also allowed us to assess how their metaproteome changed over time"
         ]
       }
     ],
@@ -113,7 +153,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -148,16 +188,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While spectral counting was used for quantification, the lack of labeling (SILAC/Isobaric) suggests a label-free approach."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While the original study used spectral counting, the raw data is suitable for label-free quantification (LFQ) reanalysis."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "metaproteomics",
-        "data-dependent acquisition",
         "DDA",
-        "spectral counts"
+        "spectral counts",
+        "sample-specific databases"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -165,16 +205,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While spectral counting was used for quantification, the lack of labeling (SILAC/Isobaric) suggests a label-free approach."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF. While the original study used spectral counting, the raw data is suitable for label-free quantification (LFQ) reanalysis."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "metaproteomics",
-        "data-dependent acquisition",
         "DDA",
-        "spectral counts"
+        "spectral counts",
+        "sample-specific databases"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,8 +242,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:17:40Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations"
+      "infection exposure",
+      "genetic perturbation"
     ],
     "cell_types": [
       "macrophage"
@@ -18,52 +18,182 @@
       "THP-1"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "bacterial_infection",
+        "matched_class_path": [
+          "infection",
+          "bacterial_infection"
+        ],
+        "matched_definition": "Infection or exposure to bacteria or bacterial challenge that defines the comparison.",
+        "confidence": "medium",
+        "evidence": [
+          "Leishmania donovani, an intracellular protozoan parasite, is the causative agent of visceral leishmaniasis",
+          "dTHP-1 cells were infected with stationary-phase L. donovani promastigotes"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "siRNA-mediated knockdown of Ago1 in THP-1 cells",
+          "downregulated host Ago1 using three unique Ago1-targeting siRNAs"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Leishmania donovani",
+        "dose_or_concentration": "MOI of 20:1",
+        "duration": "24 h",
+        "route_or_context": "in vitro infection of dTHP-1 macrophages",
+        "evidence": [
+          "Leishmania donovani Sudan strain 2S",
+          "stationary phase promastigotes were used at an MOI of 20:1",
+          "dTHP-1 cells were infected with stationary-phase L. donovani promastigotes at an MOI of 20:1 for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Ago1 siRNA",
+        "dose_or_concentration": "50 pmol/well",
+        "duration": "52 h",
+        "route_or_context": "transfected using HiPerFect transfection reagent",
+        "evidence": [
+          "Three siRNAs targeting human Ago1 (SR308857)",
+          "Cells were transfected for 52 h with non-specific or Ago1 siRNA (50 pmol/well) using HiPerFect transfection reagent"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "24 h",
+      "48 h"
+    ],
+    "control_arms": [
+      "non-infected",
+      "scrambled siRNA"
+    ],
+    "case_arms": [
+      "Leishmania-infected",
+      "Ago1 siRNA-transfected"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "identified in at least two of the three replicates"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC (stable isotope labeling using amino acids in cell culture)",
+      "\u201clight\u201d (L) cell population",
+      "\u201cmedium\u201d (M) cell population",
+      "\u201cheavy\u201d (H) cell population"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-infected",
+        "case_label": "Leishmania-infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the log2(M/L) ratios to zero, which represents no change in response to Leishmania infection"
+        ]
+      },
+      {
+        "control_label": "Leishmania-infected (scrambled siRNA)",
+        "case_label": "Leishmania-infected (Ago1 siRNA)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "determine which of the differentially expressed proteins in Leishmania-infected macrophages are dependent on host Ago1",
+          "log2H/M < 0"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Leishmania donovani",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "macrophage",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000235"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "human leukemia monocytic cells",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +201,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of SILAC (stable isotope labeling using amino acids in cell culture) for quantitative proteomic analysis and describes the light, medium, and heavy labeling schemes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The study describes a specific 'Ago proteins Affinity Purification by Peptide' (Ago-APP) using GST-T6B affinity beads to capture Ago-containing complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "stable isotope labeling using amino acids in cell culture",
+        "affinity purification",
+        "GST-T6B affinity beads",
+        "Ago-APP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly states the use of SILAC (stable isotope labeling using amino acids in cell culture) for quantitative proteomic analysis and describes the light, medium, and heavy labeling schemes."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The study describes a specific 'Ago proteins Affinity Purification by Peptide' (Ago-APP) using GST-T6B affinity beads to capture Ago-containing complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "stable isotope labeling using amino acids in cell culture",
+        "affinity purification",
+        "GST-T6B affinity beads",
+        "Ago-APP"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,7 +274,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

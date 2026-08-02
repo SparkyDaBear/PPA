@@ -3,13 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "iBAQ",
+    "quantification_method": "Intensity-based quantification (iBAQ and LFQ)",
     "labeling_strategy": [
       "LFQ",
       "SILAC"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "chemical or drug treatment",
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
       "embryonic stem cell"
@@ -26,29 +27,67 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
         "matched_class_path": [
-          "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "chemical_or_drug"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "medium",
+        "evidence": [
+          "we here introduce a method to render streptavidin resistant to cleavage by trypsin and LysC",
+          "comparing enrichment efficiency between wtS and prS beads"
+        ],
+        "notes": "The primary comparison in the method-development part of the study is between wild-type streptavidin (wtS) and chemically modified protease-resistant streptavidin (prS). Since the modification is a chemical process applied to the beads, it is mapped to the broad chemical/drug category."
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "nutrient_metabolic"
+        ],
+        "matched_definition": "Change in nutrient availability, metabolite exposure, oxygen availability, carbon source, or metabolic flux state that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells, which resemble the pre- and post-implantation inner cell mass (ICM) of embryos, respectively."
-        ]
+          "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells"
+        ],
+        "notes": "The comparison between '2i' (inhibitor cocktail) and 'serum' growth conditions in mESCs represents a metabolic/nutrient state perturbation."
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "protease-resistant streptavidin (prS)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "on-bead chemical modification",
+        "evidence": [
+          "we here introduce a method to render streptavidin resistant to cleavage by trypsin and LysC",
+          "The resulting protease-resistant streptavidin (prS) beads allow for direct on-bead digestion"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "wild-type streptavidin (wtS)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "control beads",
+        "evidence": [
+          "comparing enrichment efficiency between wtS and prS beads"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "2i",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "mES cell culture condition",
+        "route_or_context": "mESC growth condition",
         "evidence": [
           "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells"
         ]
@@ -58,7 +97,7 @@
         "agent": "serum",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "mES cell culture condition",
+        "route_or_context": "mESC growth condition",
         "evidence": [
           "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells"
         ]
@@ -71,37 +110,39 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "normal IgG",
-      "serum"
+      "wtS beads",
+      "serum condition",
+      "normal IgG"
     ],
     "case_arms": [
-      "2i"
+      "prS beads",
+      "2i condition"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Two biological replicates were carried out for serum and 2i conditions with SILAC label swap"
+      "Two biological replicates were carried out for serum and 2i conditions with SILAC label swap",
+      "Three biological replicates were performed"
     ],
     "multiplex_channel_hints": [
       "triple SILAC experiment",
-      "forward labeling (2i heavy, serum light, 2i medium normal IgG control)",
-      "reverse labeling (2i light, serum heavy, 2i medium normal IgG)"
+      "forward labeling (2i heavy, serum light, 2i medium normal IgG control) and reverse labeling (2i light, serum heavy, 2i medium normal IgG)"
     ],
     "contrast_hints": [
+      {
+        "control_label": "wtS",
+        "case_label": "prS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing enrichment efficiency between wtS and prS beads"
+        ]
+      },
       {
         "control_label": "serum",
         "case_label": "2i",
         "contrast_type": "pairwise",
         "evidence": [
           "compare proteins co-localized with PRC2 on chromatin in 2i and serum conditions of mouse embryonic stem (mES) cells"
-        ]
-      },
-      {
-        "control_label": "normal IgG",
-        "case_label": "Suz12 ChIP-SICAP",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "We used normal IgG as the negative control of ChIP-SICAP in the medium channel to evaluate the background proteins"
         ]
       }
     ],
@@ -133,12 +174,12 @@
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": "cervical cancer",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "A549",
-        "family": "lung cancer",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -150,7 +191,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -163,22 +204,21 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "iBAQ",
-      "LFQ",
+      "Intensity-based quantification (iBAQ and LFQ)",
       "SILAC ratio"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "proximity labeling",
+        "ontology_label": "Affinity purification",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       },
       {
-        "ontology_label": "affinity purification",
+        "ontology_label": "proximity labeling",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
+        "workflow_modifier_hint": "mod_proximity_labeling",
         "confidence": "high"
       }
     ],
@@ -208,8 +248,7 @@
         "SILAC",
         "LFQ",
         "iBAQ",
-        "data-dependent acquisition mode",
-        "DDA"
+        "data-dependent acquisition mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -231,8 +270,7 @@
         "SILAC",
         "LFQ",
         "iBAQ",
-        "data-dependent acquisition mode",
-        "DDA"
+        "data-dependent acquisition mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -260,8 +298,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:02:59Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

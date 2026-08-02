@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "cancer subtype comparison"
     ],
     "cell_types": [
       "prostate cancer cells"
@@ -25,24 +25,45 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "cancer_subtype_comparison",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "cancer_subtype_comparison"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
-          "enriching a ssODN-library for sequences that can distinguish between exosomes excreted by two subtypes of cancer cells originating from the same lineage",
+          "distinguish between exosomes excreted by two subtypes of cancer cells originating from the same lineage",
           "The two prostate cancer subtypes, \u2018vertebral cancer of the prostate\u2019 (VCaP) and \u2018lymph node cancer of the prostate\u2019 (LNCaP)"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "VCaP",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "prostate cancer cell line exosomes",
+        "evidence": [
+          "exosomes secreted by VCaP prostate cancer cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "LNCaP",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "prostate cancer cell line exosomes",
+        "evidence": [
+          "exosomes derived from LNCaP prostate cancer cells"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -50,26 +71,39 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "LNCaP"
+      "LNCaP",
+      "Sequence 7RC",
+      "no ssODN control"
     ],
     "case_arms": [
-      "VCaP"
+      "VCaP",
+      "Sequence 7"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "We compared two replicates of the same exosome preparations from VCaP and from LNCaP cells",
+      "two replicates of the same exosome preparations from VCaP and from LNCaP cells",
       "three samples of exosomes from independent batches of VCaP cells and three samples of exosomes from independent batches of LNCaP cells"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "unique indexing primers for multiplex analysis by NGS on an Illumina HiSeq2500"
+    ],
     "contrast_hints": [
       {
         "control_label": "LNCaP",
         "case_label": "VCaP",
         "contrast_type": "pairwise",
         "evidence": [
-          "distinguish between exosomes excreted by two subtypes of cancer cells originating from the same lineage",
-          "The two prostate cancer subtypes, \u2018vertebral cancer of the prostate\u2019 (VCaP) and \u2018lymph node cancer of the prostate\u2019 (LNCaP)"
+          "discriminate VCaP from LNCaP prostate cancer cell exosomes",
+          "differential analysis of exosomes from these two PC sub-types"
+        ]
+      },
+      {
+        "control_label": "Sequence 7RC / no ssODN",
+        "case_label": "Sequence 7",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Proteins detected with a fold-change ratio of the average precursor ion area intensity of Sequence 7/Sequence 7RC, or Sequence 7/no ssODN bead control >2.5"
         ]
       }
     ],
@@ -118,7 +152,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -135,7 +169,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "aptamer-mediated affinity purification",
+        "ontology_label": "AP-MS",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -154,20 +188,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF, and quantification was performed using precursor ion area intensities (label-free approach) to compare Sequence 7 vs controls."
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive HF and performed label-free quantification based on precursor ion area intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses biotinylated ssODN (Sequence 7) immobilized on streptavidin beads to pull down target complexes from exosomes."
+          "reason": "The proteomics dataset was generated using aptamer-mediated affinity purification (Sequence 7) compared against controls (Sequence 7RC and no ssODN)."
         }
       ],
       "trigger_keywords": [
-        "data-dependent acquisition",
-        "affinity purification",
+        "data-dependent acquisition mode",
         "precursor ion area intensity",
+        "affinity purification",
         "pull-down bait"
       ],
       "raw_or_file_name_triggers": []
@@ -177,20 +211,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF, and quantification was performed using precursor ion area intensities (label-free approach) to compare Sequence 7 vs controls."
+          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive HF and performed label-free quantification based on precursor ion area intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses biotinylated ssODN (Sequence 7) immobilized on streptavidin beads to pull down target complexes from exosomes."
+          "reason": "The proteomics dataset was generated using aptamer-mediated affinity purification (Sequence 7) compared against controls (Sequence 7RC and no ssODN)."
         }
       ],
       "trigger_keywords": [
-        "data-dependent acquisition",
-        "affinity purification",
+        "data-dependent acquisition mode",
         "precursor ion area intensity",
+        "affinity purification",
         "pull-down bait"
       ],
       "raw_or_file_name_triggers": []
@@ -219,8 +253,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:11:17Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

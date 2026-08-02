@@ -8,11 +8,11 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "cancer subtype comparison",
+      "case-control disease status"
     ],
     "cell_types": [
-      "breast cancer cell lines",
-      "normal breast epithelial cells"
+      "breast epithelial cells"
     ],
     "cell_lines": [
       "MDAMB231",
@@ -34,25 +34,75 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "cancer_subtype_comparison",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "cancer_subtype_comparison"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
-          "we profiled the proteomes of extracellular vesicles secreted by (breast) cancer cell lines with a special emphasis on the TNBC and HER2 subtypes.",
+          "proteome profiles of EVs secreted by different breast cancer cell lines are highly indicative of their respective molecular subtypes",
+          "we focus on defining EV subtype-specific signatures that could play a role in non-invasive diagnostic testing",
+          "we isolated EVs secreted from nine different breast cancer cell lines; one low-grade luminal-type non-metastatic breast cancer cell line (MCF7), four triple negative (Hs578T, BT549, MDA-MB-231, LM2), and four HER2 positive/ER negative (HCC1954, HCC1419, JIMT1, SKBR3)"
+        ]
+      },
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
           "EVs derived from a cell line considered as resembling normal breast epithelial cells (MCF10A) were studied as a benign control",
-          "verify the presence of the selected markers in the corresponding whole-cell proteomes."
+          "we included in our comparative analysis serum-derived EVs from five healthy donors"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "triple-negative breast cancer (TNBC)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines and patient serum",
+        "evidence": [
+          "four triple negative (Hs578T, BT549, MDA-MB-231, LM2)",
+          "frozen serum samples from female patients diagnosed with triple-negative breast cancer"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HER2-positive breast cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell lines and patient serum",
+        "evidence": [
+          "four HER2 positive/ER negative (HCC1954, HCC1419, JIMT1, SKBR3)",
+          "frozen serum samples from female patients diagnosed with HER2-positive breast cancer"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "luminal-type breast cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "cell line",
+        "evidence": [
+          "one low-grade luminal-type non-metastatic breast cancer cell line (MCF7)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -60,36 +110,38 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "MCF10A (benign control)"
+      "MCF10A",
+      "healthy donors"
     ],
     "case_arms": [
-      "TNBC (Triple-Negative Breast Cancer)",
+      "TNBC",
       "HER2-positive",
-      "Luminal-type (MCF7)"
+      "luminal-type"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "isolated EVs (n = 4)",
-      "biological replicates of EV proteomes cluster tightly together",
-      "n = 4"
+      "five individuals"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "label-free quantification"
+    ],
     "contrast_hints": [
-      {
-        "control_label": "MCF10A",
-        "case_label": "Breast Cancer Subtypes",
-        "contrast_type": "multi_group",
-        "evidence": [
-          "EVs derived from a cell line considered as resembling normal breast epithelial cells (MCF10A) were studied as a benign control"
-        ]
-      },
       {
         "control_label": "HER2-positive",
         "case_label": "TNBC",
         "contrast_type": "pairwise",
         "evidence": [
-          "define signatures presenting differential protein abundance in EVs derived from either TNBC or HER2-positive breast cancer cells."
+          "define signatures presenting differential protein abundance in EVs derived from either TNBC or HER2-positive breast cancer cells"
+        ]
+      },
+      {
+        "control_label": "healthy",
+        "case_label": "breast cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we included in our comparative analysis serum-derived EVs from five healthy donors"
         ]
       }
     ],
@@ -108,12 +160,7 @@
     ],
     "cell_types": [
       {
-        "label": "breast cancer cell lines",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "normal breast epithelial cells",
+        "label": "breast epithelial cells",
         "rollup_category": "epithelial cell",
         "ontology_curie": null
       }
@@ -219,14 +266,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of label-free quantification (LFQ) and data-dependent acquisition (DDA) mode on a Q-Exactive HF."
+          "reason": "Explicitly stated use of label-free quantification (LFQ) and data-dependent acquisition (DDA) mode on an Orbitrap Q-Exactive HF."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Detailed description of phosphopeptide enrichment using Fe(III)-IMAC cartridges and specific search parameters for phosphorylation."
+          "reason": "Detailed description of phosphopeptide enrichment using Fe(III)-IMAC cartridges and subsequent MS analysis for the phosphoproteome."
         }
       ],
       "trigger_keywords": [
@@ -242,14 +289,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly stated use of label-free quantification (LFQ) and data-dependent acquisition (DDA) mode on a Q-Exactive HF."
+          "reason": "Explicitly stated use of label-free quantification (LFQ) and data-dependent acquisition (DDA) mode on an Orbitrap Q-Exactive HF."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Detailed description of phosphopeptide enrichment using Fe(III)-IMAC cartridges and specific search parameters for phosphorylation."
+          "reason": "Detailed description of phosphopeptide enrichment using Fe(III)-IMAC cartridges and subsequent MS analysis for the phosphoproteome."
         }
       ],
       "trigger_keywords": [
@@ -284,8 +331,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:48:07Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

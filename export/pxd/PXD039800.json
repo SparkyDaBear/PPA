@@ -33,23 +33,31 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "a cancer-derived point mutation on the OGA\u2019s noncatalytic stalk domain aberrantly modulates OGA interactome and substrate deglycosylation",
-          "we inducibly express a single copy of Flag-tagged wild-type OGA or mutant (Flag-OGA WT/mutant) at the same genomic locus in human embryonic kidney 293 cells (T-REx-293)",
-          "S652 residue of OGA (with S652F mutation found in both colon and uterine carcinoma...)",
-          "another predicted protein-interacting residue R586 on the back surface of OGA stalk domain was mutated to Ala (R586A)"
+          "we exploited the Flp\u2013FRT technique to inducibly express a single copy of Flag-tagged wild-type OGA or mutant (Flag-OGA WT/mutant)",
+          "the S652 residue of OGA (with S652F mutation found in both colon and uterine carcinoma, and a similar mutation S652Y found in liver cancer) is of particular interest",
+          "another predicted protein-interacting residue R586 on the back surface of OGA stalk domain was mutated to Ala (R586A) for analysis in parallel"
         ]
       }
     ],
     "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "OGA WT",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "inducible expression in T-REx-293 cells",
+        "evidence": [
+          "inducibly express a single copy of Flag-tagged wild-type OGA"
+        ]
+      },
       {
         "relation_key": "has_treatment_agent",
         "agent": "OGA S652F",
@@ -57,8 +65,7 @@
         "duration": null,
         "route_or_context": "inducible expression in T-REx-293 cells",
         "evidence": [
-          "T-REx-293 cells with inducible Flag-tagged WT OGA or mutants",
-          "S652F mutant significantly increased cell growth"
+          "the S652 residue of OGA (with S652F mutation found in both colon and uterine carcinoma...)"
         ]
       },
       {
@@ -68,7 +75,7 @@
         "duration": null,
         "route_or_context": "inducible expression in T-REx-293 cells",
         "evidence": [
-          "another predicted protein-interacting residue R586 on the back surface of OGA stalk domain was mutated to Ala (R586A)"
+          "another predicted protein-interacting residue R586 on the back surface of OGA stalk domain was mutated to Ala (R586A) for analysis in parallel"
         ]
       }
     ],
@@ -78,14 +85,14 @@
   },
   "experimental_design": {
     "timepoints": [
-      "24 h"
+      "8 h of dox induction"
     ],
     "control_arms": [
-      "WT OGA"
+      "OGA WT"
     ],
     "case_arms": [
-      "S652F",
-      "R586A"
+      "OGA S652F",
+      "OGA R586A"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -93,20 +100,20 @@
       "Technical replicates and biological triplicates were applied for MS analysis."
     ],
     "multiplex_channel_hints": [
-      "dimethyl labeling (OGA WT, L(light); R586A, M(median); S652F (H(heavy)))"
+      "dimethyl labeled (OGA WT, L(light); R586A, M(median); S652F (H(heavy)))"
     ],
     "contrast_hints": [
       {
-        "control_label": "WT OGA",
-        "case_label": "S652F",
+        "control_label": "OGA WT",
+        "case_label": "OGA S652F",
         "contrast_type": "pairwise",
         "evidence": [
           "Compared to WT OGA cells, the expression of S652F or R586A mutant significantly increased cell growth"
         ]
       },
       {
-        "control_label": "WT OGA",
-        "case_label": "R586A",
+        "control_label": "OGA WT",
+        "case_label": "OGA R586A",
         "contrast_type": "pairwise",
         "evidence": [
           "Compared to WT OGA cells, the expression of S652F or R586A mutant significantly increased cell growth"
@@ -129,7 +136,7 @@
     "cell_types": [
       {
         "label": "kidney cell",
-        "rollup_category": "kidney cell",
+        "rollup_category": "cell",
         "ontology_curie": "CL:1000497"
       }
     ],
@@ -173,7 +180,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -203,10 +210,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata and methods explicitly state the use of dimethyl labeling (Light, Medium, Heavy) for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "General shotgun proteomics approach mentioned, but dimethyl is the specific quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 0.9,
+          "reason": "The study uses GalNAz metabolic labeling and click chemistry with biotin probes to enrich O-GlcNAcylated peptides (O-GlcNAcome analysis)."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "O-GlcNAcome",
+        "GalNAz",
+        "click chemistry",
+        "biotin-conjugated peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 1.0,
+          "reason": "PRIDE metadata and methods explicitly state the use of dimethyl labeling (Light, Medium, Heavy) for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "General shotgun proteomics approach mentioned, but dimethyl is the specific quantification method."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_glcnac_enrichment",
+          "confidence": 0.9,
+          "reason": "The study uses GalNAz metabolic labeling and click chemistry with biotin probes to enrich O-GlcNAcylated peptides (O-GlcNAcome analysis)."
+        }
+      ],
+      "trigger_keywords": [
+        "dimethyl labeling",
+        "O-GlcNAcome",
+        "GalNAz",
+        "click chemistry",
+        "biotin-conjugated peptides"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -226,8 +293,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:33:13Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

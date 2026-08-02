@@ -3,13 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "disease or clinical state"
+      "case-control disease status",
+      "disease stage or grade comparison",
+      "organ region comparison"
     ],
     "cell_types": [
       "ependymal cells"
@@ -23,51 +24,58 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "To identify EPN-associated antigens, a comparative HLA class I ligandome profiling of the EPN cohort was performed against a benign reference database."
+          "comparative HLA class I ligandome profiling of the EPN cohort was performed against a benign reference database",
+          "Comparative profiling with immunopeptidomes of benign tissue reference database and glioblastoma (GBM) revealed a panel of tumor-associated peptides"
         ]
       },
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "disease_stage_or_response",
+        "matched_class_key": "disease_stage_or_grade_comparison",
         "matched_class_path": [
           "disease",
-          "disease_stage_or_response"
+          "disease_stage_or_grade_comparison"
         ],
-        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
         "confidence": "high",
         "evidence": [
-          "Comparative analysis of the two datasets revealed shared and unique HLA-presented antigens in both tumors... EPN sample EPN-021 was the first progressive tumor of this patient, the second progression (EPN-022) was surgically resected 13 months later",
-          "we outlined immunopeptidomic alterations in different ependymoma subgroups and progressive ependymoma."
+          "Comparison of HLA class I immunopeptidomes from EPNs of different CNS WHO grades on source protein level revealed shared and exclusive antigens for all two subgroups",
+          "outlined immunopeptidomic alterations in different ependymoma subgroups and progressive ependymoma"
         ]
-      }
-    ],
-    "attributes": [
+      },
       {
-        "relation_key": "has_treatment_agent",
-        "agent": "carboplatin and etoposide",
-        "dose_or_concentration": null,
-        "duration": "6 cycles",
-        "route_or_context": "chemotherapy treatment",
+        "ontology_label": "organ region comparison",
+        "ontology_curie": "PPA:0000100",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "organ_region_comparison"
+        ],
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
+        "confidence": "high",
         "evidence": [
-          "the second progression (EPN-022) was surgically resected 13 months later after 6 cycles of chemotherapy treatment with carboplatin and etoposide."
+          "comparative immunopeptidome analysis of ependymoma tumor classification according to their localization",
+          "The tumors of the present ependymoma cohort were further divided according to their localization into 12 spinal, 8 infratentorial, and 2 supratentorial tumors."
         ]
       }
     ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -79,37 +87,36 @@
     ],
     "control_arms": [
       "benign reference database",
+      "benign tissue reference",
       "glioblastoma (GBM)"
     ],
     "case_arms": [
       "ependymoma (EPN)"
     ],
     "paired_design": true,
-    "factorial_design": false,
-    "replicate_hints": [
-      "22 EPN tissue samples derived from 21 different donor patients"
-    ],
+    "factorial_design": null,
+    "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "benign tissue",
+        "control_label": "benign reference",
         "case_label": "ependymoma",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparative HLA class I ligandome profiling of the EPN cohort was performed against a benign reference database."
+          "comparative HLA class I ligandome profiling of the EPN cohort was performed against a benign reference database"
         ]
       },
       {
-        "control_label": "first progression (EPN-021)",
-        "case_label": "second progression (EPN-022)",
+        "control_label": "EPN-021 (first progression)",
+        "case_label": "EPN-022 (second progression)",
         "contrast_type": "timecourse",
         "evidence": [
           "investigation of potential changes on the immunopeptidomic level that emerge in relapsing tumors over time"
         ]
       },
       {
-        "control_label": "glioblastoma (GBM)",
-        "case_label": "ependymoma (EPN)",
+        "control_label": "GBM",
+        "case_label": "EPN",
         "contrast_type": "pairwise",
         "evidence": [
           "Comparative analysis between the immunopeptidome of the EPNs (n = 22) and a previously published GBM (n = 9) dataset"
@@ -132,7 +139,7 @@
     "cell_types": [
       {
         "label": "ependymal cells",
-        "rollup_category": "tumor cell",
+        "rollup_category": "epithelial cell",
         "ontology_curie": null
       }
     ],
@@ -186,23 +193,16 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used Data-dependent acquisition (DDA) on an LTQ Orbitrap XL. While explicit quantification methods aren't listed in PRIDE, the study performs comparative profiling and overlap analysis of peptide presence across samples, which is typical for label-free (LFQ) immunopeptidomics."
+          "reason": "The experiment used Data-dependent acquisition (DDA) on an LTQ Orbitrap XL. While no internal standard is mentioned, the comparative profiling against a benign reference database and the use of 'representation frequencies' suggests a label-free approach for peptide identification and relative abundance."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The study explicitly describes the isolation of HLA class I and II presented peptides using immunoaffinity purification (W6/32, T\u00fc-39, L243 antibodies) and search parameters specifically for HLA ligands (length 8-25 aa, no cleavage specificity)."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "immunopeptidomic",
         "HLA class I",
         "HLA class II",
         "immunoaffinity purification",
-        "HLA ligands",
-        "no cleavage specificity"
+        "Data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,23 +211,16 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used Data-dependent acquisition (DDA) on an LTQ Orbitrap XL. While explicit quantification methods aren't listed in PRIDE, the study performs comparative profiling and overlap analysis of peptide presence across samples, which is typical for label-free (LFQ) immunopeptidomics."
+          "reason": "The experiment used Data-dependent acquisition (DDA) on an LTQ Orbitrap XL. While no internal standard is mentioned, the comparative profiling against a benign reference database and the use of 'representation frequencies' suggests a label-free approach for peptide identification and relative abundance."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The study explicitly describes the isolation of HLA class I and II presented peptides using immunoaffinity purification (W6/32, T\u00fc-39, L243 antibodies) and search parameters specifically for HLA ligands (length 8-25 aa, no cleavage specificity)."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "immunopeptidomic",
         "HLA class I",
         "HLA class II",
         "immunoaffinity purification",
-        "HLA ligands",
-        "no cleavage specificity"
+        "Data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -255,8 +248,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:05:35Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

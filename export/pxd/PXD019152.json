@@ -8,7 +8,8 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation",
+      "proteasome inhibitor treatment"
     ],
     "cell_types": [
       "fibroblast"
@@ -26,33 +27,59 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "we used CRISPR technology to generate MRC5VA cells in which the DDI2 gene was knocked out (DDI2 KO)",
           "Ubiquitylated proteins purified from DDI2 KO cells and the total \u201cubiquitylome\u201d in WT cells were compared."
+        ]
+      },
+      {
+        "ontology_label": "proteasome inhibitor treatment",
+        "ontology_curie": "PPA:0000025",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "proteasome_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "proteasome_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound that inhibits proteasomal degradation or proteasome catalytic activity.",
+        "confidence": "high",
+        "evidence": [
+          "DDI2 KO cells are hypersensitive to pharmacological proteasome inhibition",
+          "treated with proteasome inhibitor PS-341 compared to parental cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DDI2 knockout",
+        "agent": "DDI2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-mediated gene knockout in MRC5VA and U266B cells",
+        "route_or_context": "CRISPR knockout",
         "evidence": [
           "we used CRISPR technology to generate MRC5VA cells in which the DDI2 gene was knocked out (DDI2 KO)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PS-341",
+        "dose_or_concentration": "5 nM",
+        "duration": "16 h",
+        "route_or_context": "proteasome inhibitor treatment",
+        "evidence": [
+          "treated with 5 nM PS-341 (Bortezomib) in RPMI-1640 medium for 16 h"
         ]
       }
     ],
@@ -61,21 +88,25 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "16 h"
+    ],
     "control_arms": [
-      "WT"
+      "WT",
+      "parental cells",
+      "DMSO"
     ],
     "case_arms": [
       "DDI2 KO"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "independent biological replicate"
     ],
     "multiplex_channel_hints": [
       "SILAC",
-      "heavy or light using stable isotope labeling with amino acids in cell culture"
+      "heavy or light"
     ],
     "contrast_hints": [
       {
@@ -84,6 +115,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "Ubiquitylated proteins purified from DDI2 KO cells and the total \u201cubiquitylome\u201d in WT cells were compared."
+        ]
+      },
+      {
+        "control_label": "parental cells",
+        "case_label": "DDI2 KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "had significant problems recovering from treatment with proteasome inhibitor PS-341 compared to parental cells"
         ]
       }
     ],
@@ -96,24 +135,14 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
-      },
-      {
-        "label": "E. coli",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      },
-      {
-        "label": "Leishmania major",
-        "taxonomy_hint": null,
-        "confidence": "medium"
       }
     ],
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "somatic cell",
+        "rollup_category": "cell type",
         "ontology_curie": "CL:0000057"
       }
     ],
@@ -142,7 +171,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": true
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -178,58 +207,58 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_silac",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The text explicitly mentions SILAC labeling (heavy/light) for the DDI2-binding protein mass spectrometry experiments."
+          "reason": "The PRIDE metadata and text describe a data-dependent acquisition (DDA) method using a Q Exactive HF-X and MaxQuant for label-free quantification (LFQ) of the ubiquitylome."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_silac",
           "confidence": 0.7,
-          "reason": "The UbiSite analysis and PRIDE metadata indicate label-free quantification for the ubiquitylome comparison."
+          "reason": "The text explicitly mentions 'SILAC Mass Spec experiments' where cells were labeled heavy or light to determine protein ratios."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
+          "modifier_workflow_id": "ubiquitin_diglycine",
           "confidence": 1.0,
-          "reason": "The experiment uses the UbiSite approach and explicitly searches for 'di-Glycine on lysine residues' to map ubiquitylation sites."
+          "reason": "The experiment uses the 'UbiSite approach' and explicitly searches for 'di-Glycine on lysine residues' to map ubiquitylation sites."
         }
       ],
       "trigger_keywords": [
-        "SILAC",
         "UbiSite",
-        "di-Glycine",
+        "di-Glycine on lysine",
         "ubiquitylome",
-        "di-Glycine on lysine residues"
+        "SILAC",
+        "Data Dependent Acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_silac",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The text explicitly mentions SILAC labeling (heavy/light) for the DDI2-binding protein mass spectrometry experiments."
+          "reason": "The PRIDE metadata and text describe a data-dependent acquisition (DDA) method using a Q Exactive HF-X and MaxQuant for label-free quantification (LFQ) of the ubiquitylome."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_silac",
           "confidence": 0.7,
-          "reason": "The UbiSite analysis and PRIDE metadata indicate label-free quantification for the ubiquitylome comparison."
+          "reason": "The text explicitly mentions 'SILAC Mass Spec experiments' where cells were labeled heavy or light to determine protein ratios."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
+          "modifier_workflow_id": "ubiquitin_diglycine",
           "confidence": 1.0,
-          "reason": "The experiment uses the UbiSite approach and explicitly searches for 'di-Glycine on lysine residues' to map ubiquitylation sites."
+          "reason": "The experiment uses the 'UbiSite approach' and explicitly searches for 'di-Glycine on lysine residues' to map ubiquitylation sites."
         }
       ],
       "trigger_keywords": [
-        "SILAC",
         "UbiSite",
-        "di-Glycine",
+        "di-Glycine on lysine",
         "ubiquitylome",
-        "di-Glycine on lysine residues"
+        "SILAC",
+        "Data Dependent Acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -257,8 +286,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:31:14Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

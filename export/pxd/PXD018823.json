@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "fibroblast"
@@ -30,27 +31,43 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "The bi-allelic BLM knockout cell line KSVS1452 (BLMKO) was derived from GM00637 (WT) by bi-allelic disruption of BLM exon 8 by CRISPR/Cas9.",
           "Data sets were sorted to only include entries without identified peptides in eluates from IgG immunoprecipitations and in KSVS1452 (BLMKO)."
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "cell_cycle_state_comparison",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "cell_cycle_state_comparison"
+        ],
+        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
+        "confidence": "high",
+        "evidence": [
+          "we have analyzed the composition of the BLM complex during unperturbed S-phase",
+          "We synchronized GM00637 cells (BLM+/+) at the G1/S boundary by double thymidine block, released them into S phase for 3 h, immunoprecipitated endogenous BLM from nuclear extracts and identified co-immunoprecipitates by mass spectrometry."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CRISPR/Cas9 BLM knockout",
+        "agent": "BLM",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "bi-allelic disruption of BLM exon 8",
+        "route_or_context": "knockout",
         "evidence": [
           "The bi-allelic BLM knockout cell line KSVS1452 (BLMKO) was derived from GM00637 (WT) by bi-allelic disruption of BLM exon 8 by CRISPR/Cas9."
         ]
@@ -62,13 +79,15 @@
   },
   "experimental_design": {
     "timepoints": [
-      "mid-S-phase"
+      "mid-S-phase",
+      "G1/S boundary"
     ],
     "control_arms": [
-      "GM00637 (BLM+/+)"
+      "KSVS1452 (BLMKO)",
+      "IgG immunoprecipitations"
     ],
     "case_arms": [
-      "KSVS1452 (BLMKO)"
+      "GM00637 (BLM+/+)"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -78,8 +97,8 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "BLM+/+",
-        "case_label": "BLMKO",
+        "control_label": "BLMKO",
+        "case_label": "BLM+/+",
         "contrast_type": "pairwise",
         "evidence": [
           "Data sets were sorted to only include entries without identified peptides in eluates from IgG immunoprecipitations and in KSVS1452 (BLMKO)."
@@ -102,14 +121,14 @@
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "cell type",
+        "rollup_category": "somatic cell",
         "ontology_curie": "CL:0000057"
       }
     ],
     "cell_lines": [
       {
         "label": "GM00637",
-        "family": "SV40-transformed human skin fibroblast",
+        "family": "human skin fibroblast",
         "ontology_curie": null
       },
       {
@@ -119,7 +138,7 @@
       },
       {
         "label": "KSVS1454",
-        "family": "BLM knockout/+",
+        "family": "BLM knockout/complemented",
         "ontology_curie": null
       }
     ],
@@ -167,15 +186,16 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive Plus (DDA) with MaxQuant analysis. While PRIDE mentions 'Peptide counting', the experimental design (IP vs IgG and WT vs KO) typically follows a label-free quantification (LFQ) or spectral counting approach for complex composition analysis."
+          "reason": "The experiment uses a Q Exactive Plus (DDA instrument) and MaxQuant for analysis. While PRIDE metadata mentions 'Peptide counting', the overall setup is a standard shotgun proteomics approach for complex composition analysis."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "co-immunoprecipitation",
-        "MaxQuant",
         "Q Exactive Plus",
-        "shotgun proteomics"
+        "MaxQuant",
+        "FASP",
+        "trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -184,15 +204,16 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive Plus (DDA) with MaxQuant analysis. While PRIDE mentions 'Peptide counting', the experimental design (IP vs IgG and WT vs KO) typically follows a label-free quantification (LFQ) or spectral counting approach for complex composition analysis."
+          "reason": "The experiment uses a Q Exactive Plus (DDA instrument) and MaxQuant for analysis. While PRIDE metadata mentions 'Peptide counting', the overall setup is a standard shotgun proteomics approach for complex composition analysis."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "co-immunoprecipitation",
-        "MaxQuant",
         "Q Exactive Plus",
-        "shotgun proteomics"
+        "MaxQuant",
+        "FASP",
+        "trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -220,8 +241,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:42:20Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

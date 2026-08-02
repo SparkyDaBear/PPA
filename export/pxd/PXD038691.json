@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "intensity distribution",
+    "quantification_method": "intensity ranks",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
+      "case-control disease status",
       "cell state or interaction comparison"
     ],
     "cell_types": [
@@ -25,20 +25,20 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "Curated AML/LSC immunopeptidomes were compared with a benign immunopeptidome dataset",
-          "comparative profiling of AML and benign immunopeptidome datasets were performed"
+          "Curated AML/LSC immunopeptidomes were compared with a benign immunopeptidome dataset, which comprises among others PBMCs, CD34+-enriched HSPCs, and various solid organ tissues",
+          "comparative profiling of AML and benign immunopeptidome datasets"
         ]
       },
       {
@@ -46,12 +46,12 @@
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "activation_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "activation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
         "confidence": "high",
         "evidence": [
           "we characterized the antigenic landscape of LSCs and AML bulk cells using mass spectrometry\u2013based immunopeptidomics",
@@ -59,16 +59,37 @@
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "acute myeloid leukemia",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "patient diagnosis or relapse",
+        "evidence": [
+          "PBMCs or bone marrow mononuclear cells from patients with AML (Supplementary Table S3) at the time of diagnosis, at relapse (n = 52), or in molecular remission (n = 8)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "leukemia stem and progenitor cells (LSC)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "sorted CD34+CD38- cells",
+        "evidence": [
+          "To investigate the immunopeptidomic landscape of primary LSCs (phenotypically defined as CD34+CD38\u2212 cells throughout this study), we isolated them from peripheral blood mononuclear cells (PBMC) of patients with AML."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [
-      "at the time of diagnosis",
+      "time of diagnosis",
       "at relapse",
-      "in molecular remission"
+      "molecular remission"
     ],
     "control_arms": [
       "benign immunopeptidome dataset",
@@ -76,8 +97,8 @@
       "patients with nonhematologic malignancies"
     ],
     "case_arms": [
-      "LSCs (CD34+CD38-)",
-      "AML bulk cells (unsorted PBMCs)"
+      "AML bulk cells",
+      "LSCs (CD34+CD38-)"
     ],
     "paired_design": true,
     "factorial_design": false,
@@ -87,11 +108,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "benign",
-        "case_label": "AML",
+        "control_label": "benign tissues",
+        "case_label": "AML/LSC",
         "contrast_type": "pairwise",
         "evidence": [
-          "Curated AML/LSC immunopeptidomes were compared with a benign immunopeptidome dataset"
+          "identify AML/LSC-associated antigens absent from benign tissues"
         ]
       },
       {
@@ -99,7 +120,7 @@
         "case_label": "LSCs",
         "contrast_type": "pairwise",
         "evidence": [
-          "we characterized the antigenic landscape of LSCs and AML bulk cells using mass spectrometry\u2013based immunopeptidomics"
+          "LSC- and corresponding AML bulk cell\u2013derived immunopeptidomes revealed an overlap of HLA-presented peptides"
         ]
       }
     ],
@@ -134,16 +155,7 @@
       }
     ],
     "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "bone marrow",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "peripheral blood",
-        "source_kind": "biofluid"
-      }
-    ],
+    "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -163,8 +175,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "intensity distribution",
-      "PSM counts"
+      "intensity ranks",
+      "spectral correlation"
     ],
     "proteomics_mode": "Immunopeptidomics",
     "targets_and_enrichments": [
@@ -187,23 +199,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used data dependent acquisition (DDA) mode on an Orbitrap Fusion Lumos. While no formal labeling is mentioned, the study performs comparative profiling and intensity ranking, suggesting label-free quantification (LFQ) or spectral counting."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While not explicitly using a labeling reagent, the study performs comparative profiling and intensity ranking (quartiles), suggesting label-free quantification (LFQ) or spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'mass spectrometry\u2013based immunopeptidomics' focusing on HLA class I and II ligands."
+          "confidence": 10,
+          "reason": "The experiment is explicitly described as 'mass spectrometry\u2013based immunopeptidomics' focusing on HLA class I and II ligands, requiring non-enzymatic search and specific peptide length constraints."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
-        "HLA-restricted peptides",
-        "without enzymatic restriction",
         "HLA class I",
-        "HLA class II"
+        "HLA class II",
+        "without enzymatic restriction",
+        "non-patient\u2013individual mutFASTA",
+        "cryptic peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,28 +224,29 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used data dependent acquisition (DDA) mode on an Orbitrap Fusion Lumos. While no formal labeling is mentioned, the study performs comparative profiling and intensity ranking, suggesting label-free quantification (LFQ) or spectral counting."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While not explicitly using a labeling reagent, the study performs comparative profiling and intensity ranking (quartiles), suggesting label-free quantification (LFQ) or spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'mass spectrometry\u2013based immunopeptidomics' focusing on HLA class I and II ligands."
+          "confidence": 10,
+          "reason": "The experiment is explicitly described as 'mass spectrometry\u2013based immunopeptidomics' focusing on HLA class I and II ligands, requiring non-enzymatic search and specific peptide length constraints."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
-        "HLA-restricted peptides",
-        "without enzymatic restriction",
         "HLA class I",
-        "HLA class II"
+        "HLA class II",
+        "without enzymatic restriction",
+        "non-patient\u2013individual mutFASTA",
+        "cryptic peptides"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_peptide",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "peptide"
     },
@@ -255,8 +269,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:07:52Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

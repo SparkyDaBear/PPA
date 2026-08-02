@@ -3,18 +3,20 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "mutation or variant perturbation",
+      "oxidative stress",
+      "cytokine stimulation"
     ],
     "cell_types": [
       "motor neuron"
     ],
     "cell_lines": [
-      "ALS6 patient-derived induced pluripotent stem cells"
+      "induced pluripotent stem cells"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -24,50 +26,134 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "ALS6 patient-derived induced pluripotent stem cells (hIPSCs) to study the effect of the ALS6 FUSR521H mutation on the translation machinery in motor neurons (MNs).",
-          "The most common FUS mutation affects arginine 521 (R to H, C, or G)."
+          "we generated IPSC lines from 2 ALS6 patients carrying the FUSR521H mutation alongside with 2 IPSC lines from phenotypically healthy relatives not carrying the mutation (from now on referred to as \u201ccontrol\u201d)."
+        ]
+      },
+      {
+        "ontology_label": "oxidative stress",
+        "ontology_curie": "PPA:0000065",
+        "category": "redox",
+        "matched_parent_class_key": "redox",
+        "matched_class_key": "oxidative_stress",
+        "matched_class_path": [
+          "redox",
+          "oxidative_stress"
+        ],
+        "matched_definition": "Exposure or condition increasing reactive oxygen species or oxidative damage.",
+        "confidence": "high",
+        "evidence": [
+          "cells were treated with sodium arsenite (SA), a well-known inducer of oxidative stress through the generation of reactive oxygen species (ROS)."
+        ]
+      },
+      {
+        "ontology_label": "cytokine stimulation",
+        "ontology_curie": "PPA:0000037",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation using cytokines or immune signaling proteins.",
+        "confidence": "high",
+        "evidence": [
+          "we supplemented SA-treated FUSR521H MNs with IFN\u03b3",
+          "Treatment with IFNy improves translation rates and mitigates apoptosis caused by oxidative injury."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FUSR521H mutation",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "patient-derived induced pluripotent stem cells (hIPSCs)",
+        "evidence": [
+          "we used ALS6 patient-derived induced pluripotent stem cells (hIPSCs) to study the effect of the ALS6 FUSR521H mutation on the translation machinery in motor neurons (MNs)."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sodium arsenite",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "inducer of oxidative stress",
+        "evidence": [
+          "cells were treated with sodium arsenite (SA), a well-known inducer of oxidative stress",
+          "treated with SA (5 \u03bcM) (Sigma), IFN\u03b3 (50 ng/mL) (Peprotech), or a combination for 24 h prior to measurements."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IFN\u03b3",
+        "dose_or_concentration": "50 ng/mL",
+        "duration": "24 h",
+        "route_or_context": "supplementation to FUSR521H MN-cultures",
+        "evidence": [
+          "supplementation of IFN\u03b3 to FUSR521H MN-cultures reduces oxidative stress-induced apoptosis",
+          "treated with SA (5 \u03bcM) (Sigma), IFN\u03b3 (50 ng/mL) (Peprotech), or a combination for 24 h prior to measurements."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h"
+    ],
     "control_arms": [
-      "control MNs"
+      "control",
+      "healthy relatives"
     ],
     "case_arms": [
-      "FUSR521H MNs"
+      "FUSR521H",
+      "ALS6 patient-derived"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "Experiments were performed in at least biological triplicates as stated in the figures."
+      "Experiments were performed in at least biological triplicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "control",
-        "case_label": "FUSR521H",
+        "control_label": "control MNs",
+        "case_label": "FUSR521H MNs",
         "contrast_type": "pairwise",
         "evidence": [
-          "we compared (mutant) FUS interactors between control and FUSR521H MNs."
+          "we compared cell viability and apoptosis rates between control and FUSR521H IPSCs, neural progenitor cells, and mature MNs"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "SA-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared the transcriptomes of FUSR521H and control MNs, either or not treated with SA"
+        ]
+      },
+      {
+        "control_label": "SA-treated FUSR521H MNs",
+        "case_label": "IFN\u03b3 + SA-treated FUSR521H MNs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we supplemented SA-treated FUSR521H MNs with IFN\u03b3 and found that this indeed increased viability of FUSR521H MNs"
         ]
       }
     ],
@@ -80,7 +166,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -93,8 +179,8 @@
     ],
     "cell_lines": [
       {
-        "label": "ALS6 patient-derived induced pluripotent stem cells",
-        "family": "iPSC",
+        "label": "induced pluripotent stem cells",
+        "family": "hIPSCs",
         "ontology_curie": null
       }
     ],
@@ -106,7 +192,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -118,7 +204,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free quantification"
+      "LFQ"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -142,22 +228,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'data-dependent top-15 method' and 'Quantification was based on the LFQ label-free method'."
+          "reason": "The text explicitly states the use of a 'data-dependent top-15 method' and that 'Quantification was based on the LFQ label-free method'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_coip",
           "confidence": 1.0,
-          "reason": "The proteomics experiment was performed on co-immunoprecipitated (co-IPed) endogenous FUS proteins."
+          "reason": "The proteomics experiment was specifically performed on proteins co-immunoprecipitated (co-IPed) using FUS antibodies."
         }
       ],
       "trigger_keywords": [
-        "LFQ",
-        "label-free",
-        "data-dependent",
         "co-immunoprecipitated",
-        "co-IP"
+        "LFQ",
+        "data-dependent top-15",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -166,22 +251,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'data-dependent top-15 method' and 'Quantification was based on the LFQ label-free method'."
+          "reason": "The text explicitly states the use of a 'data-dependent top-15 method' and that 'Quantification was based on the LFQ label-free method'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_coip",
           "confidence": 1.0,
-          "reason": "The proteomics experiment was performed on co-immunoprecipitated (co-IPed) endogenous FUS proteins."
+          "reason": "The proteomics experiment was specifically performed on proteins co-immunoprecipitated (co-IPed) using FUS antibodies."
         }
       ],
       "trigger_keywords": [
-        "LFQ",
-        "label-free",
-        "data-dependent",
         "co-immunoprecipitated",
-        "co-IP"
+        "LFQ",
+        "data-dependent top-15",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -209,8 +293,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:27:08Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

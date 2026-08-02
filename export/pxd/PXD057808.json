@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "un-classified"
+      "molecular state comparison",
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,34 +23,90 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "un-classified",
-        "ontology_curie": null,
-        "category": "unclassified",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": null,
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
-          "This study provides a biochemical and biophysical analysis of Mannitou Fab",
-          "we report the production and purification of the recombinant antigen-binding fragment (Fab) of Mannitou IgM (Mannitou Fab) and employ a combination of biochemical and biophysical approaches to obtain its initial structural characterization."
+          "The results underscore the critical role of glycosylation in modulating the oligomerization behaviour of Fab and preventing inappropriate intermolecular interactions",
+          "identify the impact of glycosylation on their structural properties",
+          "The AlphaFold3 model of Mannitou Fab could be predicted with high confidence... However, the fit to the data was moderate... This discrepancy likely arose because the models lacked N-linked glycosylation"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "revealed two distinct oligomeric states consistent with a predominant monomeric form and a minor dimeric form",
+          "establish that Mannitou Fab indeed adopts monomeric and dimeric forms in solution",
+          "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glycosylation",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "N-glycosylated at Asn164 of the heavy chain",
+        "evidence": [
+          "Mannitou Fab is N-glycosylated at Asn164 of the heavy chain via HexNAc(5)Hex(6)Fuc(1\u20133) as revealed by mass spectrometry."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "non-glycosylated model"
+    ],
+    "case_arms": [
+      "glycosylated Mannitou Fab",
+      "monomeric form (peak A)",
+      "dimeric form (peak B)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "non-glycosylated",
+        "case_label": "glycosylated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The ensemble of glycosylated Mannitou Fab models showed a significant improvement (\u03c72 = 2.92) over the non-glycosylated Fab model"
+        ]
+      },
+      {
+        "control_label": "monomer",
+        "case_label": "dimer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "revealed two distinct oligomeric states consistent with a predominant monomeric form and a minor dimeric form"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -63,8 +120,8 @@
         "confidence": "high"
       },
       {
-        "label": "mouse",
-        "taxonomy_hint": "murine",
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
         "confidence": "medium"
       }
     ],
@@ -84,7 +141,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -119,23 +176,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Bottom-up proteomics using trypsin digestion and Orbitrap Q-Exactive Plus (DDA) was performed for protein identity and glycosylation status. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 80,
+          "reason": "Bottom-up proteomics using Orbitrap Q-Exactive Plus with trypsin digestion; no labeling (SILAC/TMT) mentioned, suggesting label-free approach for identity and glycosylation status."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycoproteomics",
-          "confidence": 0.95,
-          "reason": "Explicit mention of 'glycoproteomics analysis', 'glycopeptides', and use of Byonic for identifying complex N-linked glycans."
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 95,
+          "reason": "Explicit use of Byonic for glycopeptide analysis and identification of complex N-linked glycans at Asn164."
         }
       ],
       "trigger_keywords": [
         "glycoproteomics",
-        "glycopeptides",
         "Byonic",
         "N-glycosylated",
-        "trypsin digestion"
+        "glycopeptide"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -143,23 +199,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Bottom-up proteomics using trypsin digestion and Orbitrap Q-Exactive Plus (DDA) was performed for protein identity and glycosylation status. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 80,
+          "reason": "Bottom-up proteomics using Orbitrap Q-Exactive Plus with trypsin digestion; no labeling (SILAC/TMT) mentioned, suggesting label-free approach for identity and glycosylation status."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycoproteomics",
-          "confidence": 0.95,
-          "reason": "Explicit mention of 'glycoproteomics analysis', 'glycopeptides', and use of Byonic for identifying complex N-linked glycans."
+          "modifier_workflow_id": "glycopeptide_analysis",
+          "confidence": 95,
+          "reason": "Explicit use of Byonic for glycopeptide analysis and identification of complex N-linked glycans at Asn164."
         }
       ],
       "trigger_keywords": [
         "glycoproteomics",
-        "glycopeptides",
         "Byonic",
         "N-glycosylated",
-        "trypsin digestion"
+        "glycopeptide"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,8 +242,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:09:33Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

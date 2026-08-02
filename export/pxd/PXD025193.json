@@ -3,68 +3,150 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "hormone stimulation"
     ],
     "cell_types": [
-      "castration resistant prostate cancer cells"
+      "prostate cancer cells"
     ],
     "cell_lines": [
       "VCaP"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "hormone stimulation",
+        "ontology_curie": "PPA:0000046",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "hormone_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "hormone_stimulation"
+        ],
+        "matched_definition": "Stimulation using endocrine or paracrine hormones.",
+        "confidence": "high",
+        "evidence": [
+          "VCaP cells exposed to R1881 (a synthetic AR agonist), or vehicle",
+          "adding 10 nM R1881 to heavy-labeled (Arg10, Lys8) cells and ethanol (vehicle) to light-labeled (Arg0, Lys0) cells for 1 h"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "R1881",
+        "dose_or_concentration": "10 nM",
+        "duration": "1 h",
+        "route_or_context": "VCaP cells",
+        "evidence": [
+          "adding 10 nM R1881 to heavy-labeled (Arg10, Lys8) cells and ethanol (vehicle) to light-labeled (Arg0, Lys0) cells for 1 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "1 h"
+    ],
+    "control_arms": [
+      "ethanol (vehicle)"
+    ],
+    "case_arms": [
+      "R1881"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "two replicates of AR pulldown"
+    ],
+    "multiplex_channel_hints": [
+      "differential SILAC-labeling",
+      "heavy-labeled (Arg10, Lys8)",
+      "light-labeled (Arg0, Lys0)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "vehicle",
+        "case_label": "R1881",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "VCaP cells exposed to R1881 (a synthetic AR agonist), or vehicle"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "prostate cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "VCaP",
+        "family": "castration resistant prostate cancer (CRPC)",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC",
+      "LFQ",
+      "iBAQ"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +154,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC-labeled VCaP cells (heavy: Arg10, Lys8; light: Arg0, Lys0) and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "SILAC",
+        "heavy-labeled",
+        "light-labeled",
+        "data dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses SILAC-labeled VCaP cells (heavy: Arg10, Lys8; light: Arg0, Lys0) and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "SILAC",
+        "heavy-labeled",
+        "light-labeled",
+        "data dependent acquisition mode"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +213,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

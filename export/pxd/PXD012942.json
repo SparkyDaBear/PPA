@@ -17,9 +17,9 @@
       "MDA-MB-231",
       "SUM159-M1a"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "surfaceome scope",
-    "sample_scope_curie": "PPA:0000200",
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
@@ -29,45 +29,60 @@
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "co_culture_or_interaction_state",
+        "matched_class_key": "epithelial_mesenchymal_transition_state",
         "matched_class_path": [
           "cell_state_interaction",
-          "co_culture_or_interaction_state"
+          "epithelial_mesenchymal_transition_state"
         ],
-        "matched_definition": "Comparison between monoculture and interaction-enabled conditions.",
+        "matched_definition": "Comparison involving EMT, MET, or transition/intermediate epithelial-mesenchymal states.",
         "confidence": "high",
         "evidence": [
-          "N-glycoproteins were then isolated from MDA-MB-231 and SUM159-M1a cells",
-          "The 361 N-glycosylated proteins shared between the MDA-MB-231 and M1a cells were cross-referenced"
+          "E-selectin binding induces a non-canonical MET-like shift in cancer cells.",
+          " la-selectin-induced MET did not affect the RNA expression of the master transcriptional regulators of EMT"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "E-selectin",
+        "dose_or_concentration": "10 \u03bcg/mL",
+        "duration": "24 h",
+        "route_or_context": "coated plates",
+        "evidence": [
+          "BM2 and M1a cells were seeded over 6 cm tissue culture-treated plates coated with E-selectin-IgG or control IgG (10 \u03bcg/mL) for 12 h at 37\u00b0C.",
+          "Microarray and gene set enrichment analysis (GSEA) performed on cells seeded for 24 h on either E-selectin- or IgG-coated plates"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h",
+      "48 h"
+    ],
     "control_arms": [
-      "MDA-MB-231"
+      "IgG-coated plates"
     ],
     "case_arms": [
-      "SUM159-M1a"
+      "E-selectin-coated plates"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "detected in either all four samples or detected in both samples from one cell line"
+      "All flow cytometry experiments were repeated a minimum of three times."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "MDA-MB-231",
-        "case_label": "SUM159-M1a",
+        "control_label": "IgG",
+        "case_label": "E-selectin",
         "contrast_type": "pairwise",
         "evidence": [
-          "The 361 N-glycosylated proteins shared between the MDA-MB-231 and M1a cells were cross-referenced"
+          "Log2-transformed data was subtracted (Log2(E-selectin)-Log2(IgG))"
         ]
       }
     ],
@@ -80,7 +95,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -105,13 +120,13 @@
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "subproteome",
-      "label": "surfaceome scope",
-      "curie": "PPA:0000200"
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -123,8 +138,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "MS1 intensity based label-free quantification",
-      "peptide peaks areas from MS1 extracted ion chromatograms"
+      "MS1 intensity based label-free quantification"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -148,22 +162,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'label-free LC-MS/MS'."
+          "reason": "PRIDE metadata explicitly states 'label-free LC-MS/MS' and 'MS1 intensity based label-free quantification method'. The use of MaxQuant and Skyline for peak area calculation confirms a DDA LFQ approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycoprotein_enrichment",
+          "modifier_workflow_id": "n_glycoprotein_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment uses a specialized N-glycoprotein capture protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, and PNGase F digestion to release N-glycopeptides."
+          "reason": "The experiment uses a specialized solid-phase N-glycoprotein enrichment protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, streptavidin resin isolation, and PNGase F digestion to release N-glycopeptides."
         }
       ],
       "trigger_keywords": [
-        "N-glycoprotein capture",
+        "N-glycoprotein enrichment",
         "PNGase F",
-        "label-free",
         "alkoxyamine-biotinylation",
-        "N-glycopeptide release"
+        "label-free LC-MS/MS",
+        "MS1 intensity based label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -172,22 +186,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'label-free LC-MS/MS'."
+          "reason": "PRIDE metadata explicitly states 'label-free LC-MS/MS' and 'MS1 intensity based label-free quantification method'. The use of MaxQuant and Skyline for peak area calculation confirms a DDA LFQ approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycoprotein_enrichment",
+          "modifier_workflow_id": "n_glycoprotein_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment uses a specialized N-glycoprotein capture protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, and PNGase F digestion to release N-glycopeptides."
+          "reason": "The experiment uses a specialized solid-phase N-glycoprotein enrichment protocol involving sodium metaperiodate oxidation, alkoxyamine-biotinylation, streptavidin resin isolation, and PNGase F digestion to release N-glycopeptides."
         }
       ],
       "trigger_keywords": [
-        "N-glycoprotein capture",
+        "N-glycoprotein enrichment",
         "PNGase F",
-        "label-free",
         "alkoxyamine-biotinylation",
-        "N-glycopeptide release"
+        "label-free LC-MS/MS",
+        "MS1 intensity based label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -215,8 +229,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:10:21Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

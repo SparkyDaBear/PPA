@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,34 +22,43 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
-          "genetic",
-          "gene_disruption"
+          "molecular_state",
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "high",
         "evidence": [
-          "depletion of Repo-Man alters the peripheral localization of a subset of these regions",
-          "Repo-Man RNAi leads to decreased levels of H3K27me2/3 and H3K9me3"
+          "GST-tagged C terminus Repo-Man or GST alone were used as baits to isolate HeLa nucleosomes with high affinity for Repo-Man",
+          "The mass spectrometry data analyses of two independent repeats show that Repo-Man binds preferentially to chromatin containing the H2A variant H2AZ and the H3 variants H3.2 or H3.3."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Repo-Man siRNA",
-        "dose_or_concentration": "50 nM",
-        "duration": "48 h",
-        "route_or_context": "HeLa cells",
+        "agent": "GST:Repo-ManCTerm",
+        "dose_or_concentration": "1 micromolar",
+        "duration": null,
+        "route_or_context": "bait for nucleosome isolation",
         "evidence": [
-          "Transfections were performed using Polyplus jetPRIME (PEQLAB, Southampton, UK) with the indicated siRNA oligos and analysed at 48\u2009h after transfection",
-          "50\u2009nM of siRNA oligonucleotides",
-          "The siRNA oligonucleotides against Repo-Man (CDCA2)"
+          "GST-tagged C terminus Repo-Man or GST alone were used as baits to isolate HeLa nucleosomes",
+          "One micromolar of protein was processed onto the histone peptide array"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "GST alone",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "control bait",
+        "evidence": [
+          "GST-tagged C terminus Repo-Man or GST alone were used as baits to isolate HeLa nucleosomes"
         ]
       }
     ],
@@ -58,15 +67,11 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "48 h"
-    ],
+    "timepoints": [],
     "control_arms": [
-      "control siRNA",
       "GST alone"
     ],
     "case_arms": [
-      "Repo-Man siRNA",
       "GST:Repo-ManCTerm"
     ],
     "paired_design": false,
@@ -82,14 +87,6 @@
         "contrast_type": "pairwise",
         "evidence": [
           "Histone variants peptide counts mentioned in the text (H2AZ) or represented in Fig. 5a were over-represented in the GST:Repo-ManCTerm (at least 3-fold) when compared with GST alone."
-        ]
-      },
-      {
-        "control_label": "Control siRNA",
-        "case_label": "Repo-Man siRNA",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Repo-Man RNAi leads to decreased levels of H3K27me2/3 and H3K9me3"
         ]
       }
     ],
@@ -110,7 +107,7 @@
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": null,
+        "family": "adenocarcinoma",
         "ontology_curie": null
       }
     ],
@@ -134,7 +131,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free"
+      "label-free quantification",
+      "peptide counts"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -157,23 +155,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses DDA (LTQ-Orbitrap/Q Exactive) and compares peptide counts/abundance between GST:Repo-Man and GST alone without evidence of isotopic labeling."
+          "confidence": 0.8,
+          "reason": "Data was acquired using LTQ-Orbitrap and Q Exactive (DDA) and processed with MaxQuant. While no explicit LFQ method is named, the comparison of peptide counts (3-fold over-representation) between GST:Repo-Man and GST alone indicates a label-free quantification approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_analysis",
           "confidence": 0.95,
-          "reason": "The MS analysis specifically targets excised histone gel bands to identify PTMs (methylation, acetylation, phosphorylation) and histone variants (H2AZ, H3.3)."
+          "reason": "The experiment specifically targets excised histone gel bands to analyze a wide array of histone post-translational modifications (PTMs) including methylation, acetylation, and phosphorylation."
         }
       ],
       "trigger_keywords": [
         "histone PTM",
         "excised gel bands",
-        "histone variants",
-        "methylation of lysine",
-        "methylation of arginine"
+        "MaxQuant",
+        "Andromeda"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,23 +178,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses DDA (LTQ-Orbitrap/Q Exactive) and compares peptide counts/abundance between GST:Repo-Man and GST alone without evidence of isotopic labeling."
+          "confidence": 0.8,
+          "reason": "Data was acquired using LTQ-Orbitrap and Q Exactive (DDA) and processed with MaxQuant. While no explicit LFQ method is named, the comparison of peptide counts (3-fold over-representation) between GST:Repo-Man and GST alone indicates a label-free quantification approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_analysis",
           "confidence": 0.95,
-          "reason": "The MS analysis specifically targets excised histone gel bands to identify PTMs (methylation, acetylation, phosphorylation) and histone variants (H2AZ, H3.3)."
+          "reason": "The experiment specifically targets excised histone gel bands to analyze a wide array of histone post-translational modifications (PTMs) including methylation, acetylation, and phosphorylation."
         }
       ],
       "trigger_keywords": [
         "histone PTM",
         "excised gel bands",
-        "histone variants",
-        "methylation of lysine",
-        "methylation of arginine"
+        "MaxQuant",
+        "Andromeda"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -225,8 +221,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:26:17Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

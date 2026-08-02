@@ -3,74 +3,257 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "LFQ normalization",
     "labeling_strategy": [
-      "LFQ",
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Viral Infection",
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment"
+      "infection exposure",
+      "ligand-mediated stimulation"
     ],
-    "cell_types": [
-      "Unknown"
-    ],
+    "cell_types": [],
     "cell_lines": [
+      "BHK-21",
+      "Vero",
       "A549",
       "HEK-293T",
       "U2OS",
-      "BHK-21",
-      "Vero",
-      "Huh-7"
+      "Huh-7",
+      "MDCK",
+      "DBT-9"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "We investigated the infection of human cells using Chikungunya virus (CHIKV) and Influenza A virus",
+          "VIR-CLASP and mass spectrometry identified of hundreds of proteins that directly bind CHIKV and IAV."
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "cytokine_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "cytokine_stimulation"
+        ],
+        "matched_definition": "Stimulation using cytokines or immune signaling proteins.",
+        "confidence": "high",
+        "evidence": [
+          "including proteins that bind to CHIKV RNA following pretreatment of cells with interferon or under na\u00efve conditions.",
+          "For pretreatment with interferon, IFN was added to the media 16 hr before viral infection."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Chikungunya virus (CHIKV)",
+        "dose_or_concentration": "1000 MOI",
+        "duration": null,
+        "route_or_context": "infection of human cells",
+        "evidence": [
+          "cells were infected with 1000 MOI of non-labeled or 4SU-labeled virus"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Influenza A virus (IAV)",
+        "dose_or_concentration": "1000 PFU",
+        "duration": null,
+        "route_or_context": "infection of human cells",
+        "evidence": [
+          "A549 cells were infected with 1000 PFU of IAV"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "interferon (IFN)",
+        "dose_or_concentration": "500 U/mL",
+        "duration": "16 hr",
+        "route_or_context": "pretreatment before viral infection",
+        "evidence": [
+          "IFN was added to the media 16 hr before viral infection.",
+          "with or without IFN (500 U/mL) was added to the cells and incubated for 16-hr before irradiation."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-infection",
+        "evidence": [
+          "we performed VIR-CLASP on 4SU-labeled CHIKV at 0.2, 1, and 3 hpi"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "0.2 hpi",
+      "1 hpi",
+      "3 hpi"
+    ],
+    "control_arms": [
+      "unlabeled CHIKV",
+      "na\u00efve conditions",
+      "-4SU samples",
+      "-IFN"
+    ],
+    "case_arms": [
+      "4SU-labeled CHIKV",
+      "IFN-treated cells",
+      "+4SU samples",
+      "+IFN"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "two replicates performed for +4SU and -4SU each"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "-4SU",
+        "case_label": "+4SU",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we computed peptide intensity ratios between +4SU and -4SU samples"
+        ]
+      },
+      {
+        "control_label": "na\u00efve",
+        "case_label": "IFN-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "including proteins that bind to CHIKV RNA following pretreatment of cells with interferon or under na\u00efve conditions."
+        ]
+      },
+      {
+        "control_label": "0.2 hpi",
+        "case_label": "3 hpi",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "we performed VIR-CLASP on 4SU-labeled CHIKV at 0.2, 1, and 3 hpi"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mesocricetus auratus",
+        "taxonomy_hint": "golden hamster",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "BHK-21",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Vero",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "A549",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK-293T",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "U2OS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Huh-7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MDCK",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "DBT-9",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "LFQ normalization",
+      "peptide intensity ratios"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "RNA-protein interaction enrichment",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +261,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q Exactive Plus mass spectrometer with a data-dependent method (DDA) and MaxQuant LFQ normalization for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent method",
+        "LFQ normalization",
+        "MaxQuant",
+        "Q Exactive Plus"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The experiment used a Q Exactive Plus mass spectrometer with a data-dependent method (DDA) and MaxQuant LFQ normalization for quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "data-dependent method",
+        "LFQ normalization",
+        "MaxQuant",
+        "Q Exactive Plus"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,7 +320,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

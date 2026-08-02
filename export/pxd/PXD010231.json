@@ -9,7 +9,8 @@
     ],
     "treatment_categories": [
       "temperature stress",
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -27,34 +28,53 @@
         "ontology_label": "temperature stress",
         "ontology_curie": "PPA:0000022",
         "category": "temperature",
-        "matched_parent_class_key": "temperature_stress",
+        "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
         "matched_class_path": [
-          "temperature_stress",
+          "temperature",
           "heat_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature above baseline physiological or growth condition.",
         "confidence": "high",
         "evidence": [
           "All heat shock experiments were performed at 43\u00b0C and 5% CO2 for 75 min.",
-          "we used quantitative proteomics to study SUMO2 target-protein dynamics before, during, and after HS"
+          "we examined the effects of this chaperone depletion on the dynamics of SUMO2/3 conjugation both during and after HS in HEK293T-REx cells."
         ]
       },
       {
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "gene_modification_or_gain",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_modification_or_gain"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that modifies sequence or increases expression/activity.",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
           "chronic inhibition of HSF1 via Dox-induced expression of dn-cHSF1",
           "cells depleted of proteostasis network components via chronic heat shock factor 1 inhibition"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "Similar results were obtained upon inhibiting HSP90",
+          "Using STA-9090 to inhibit HSP90",
+          "Proteasome inhibition likewise prolonged SUMO2/3 conjugation",
+          "using two commercially available proteasome inhibitors, MG-132 and bortezomib"
         ]
       }
     ],
@@ -72,12 +92,32 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "dn-cHSF1",
-        "dose_or_concentration": "Dox-inducible",
+        "dose_or_concentration": null,
         "duration": "48 hr",
-        "route_or_context": "chronic HSF1 inhibition",
+        "route_or_context": "Dox-inducible expression",
         "evidence": [
-          "Chronic expression of dn-cHSF1 results in reduced steady-state levels of key proteostasis network components",
+          "chronic inhibition of HSF1 via Dox-induced expression of dn-cHSF1",
           "Cells were subsequently treated with either Dox or DMSO for 48 hr prior to HS."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "STA-9090",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HSP90 inhibition",
+        "evidence": [
+          "Using STA-9090 to inhibit HSP90"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "bortezomib",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "proteasome inhibition",
+        "evidence": [
+          "using two commercially available proteasome inhibitors, MG-132 and bortezomib"
         ]
       },
       {
@@ -97,17 +137,19 @@
   },
   "experimental_design": {
     "timepoints": [
-      "before HS",
-      "immediately post-HS",
-      "4 hr post-HS"
+      "immediately post-heat shock",
+      "4 hr post-heat shock"
     ],
     "control_arms": [
       "vehicle-treated",
-      "Dox-inducible GFP control cells"
+      "Dox-inducible GFP control cells",
+      "no heat shock controls"
     ],
     "case_arms": [
       "Dox-treated (dn-cHSF1)",
-      "heat shock"
+      "heat shock",
+      "HSP90 inhibition",
+      "proteasome inhibition"
     ],
     "paired_design": false,
     "factorial_design": true,
@@ -120,7 +162,7 @@
     "contrast_hints": [
       {
         "control_label": "no heat shock",
-        "case_label": "post-heat shock",
+        "case_label": "immediately post-heat shock",
         "contrast_type": "pairwise",
         "evidence": [
           "Heat shock-responsive SUMOylation of proteins was defined by a \u2265 2-fold increase in abundance post-heat shock compared to no heat shock controls"
@@ -135,8 +177,8 @@
         ]
       },
       {
-        "control_label": "immediately post-HS",
-        "case_label": "4 hr post-HS",
+        "control_label": "immediately post-heat shock",
+        "case_label": "4 hr post-heat shock",
         "contrast_type": "timecourse",
         "evidence": [
           "Proteins that recovered to normal SUMOylation levels post-heat shock were selected based on a \u2265 2-fold decrease 4 hr post-heat shock compared to immediately post-heat shock"
@@ -219,27 +261,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'Label-free quantification (LFQ)' and 'nanoLC-MS/MS on a Q-Exactive Orbitrap' (DDA instrument) processed with MaxQuant."
+          "reason": "The text explicitly mentions 'Label-free quantification (LFQ)' enabled in MaxQuant and the use of a Q-Exactive Orbitrap for nanoLC-MS/MS."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_sumo",
-          "confidence": 1.0,
-          "reason": "The experiment specifically purifies SUMOylated proteins using His10-SUMO2 and focuses on identifying SUMOylation targets."
-        },
-        {
-          "modifier_workflow_id": "modifier_ubiquitin",
+          "modifier_workflow_id": "sumo_remnant",
           "confidence": 0.9,
-          "reason": "The experiment also purifies ubiquitinated proteins using His10-Ub and analyzes co-modified Ub/SUMO proteins."
+          "reason": "The experiment specifically purifies His10-SUMO2 substrates and analyzes SUMOylation targets using mass spectrometry."
         }
       ],
       "trigger_keywords": [
         "SUMOylation",
         "His10-SUMO2",
-        "His10-Ub",
         "LFQ",
-        "Ni-NTA"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -248,34 +284,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'Label-free quantification (LFQ)' and 'nanoLC-MS/MS on a Q-Exactive Orbitrap' (DDA instrument) processed with MaxQuant."
+          "reason": "The text explicitly mentions 'Label-free quantification (LFQ)' enabled in MaxQuant and the use of a Q-Exactive Orbitrap for nanoLC-MS/MS."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_sumo",
-          "confidence": 1.0,
-          "reason": "The experiment specifically purifies SUMOylated proteins using His10-SUMO2 and focuses on identifying SUMOylation targets."
-        },
-        {
-          "modifier_workflow_id": "modifier_ubiquitin",
+          "modifier_workflow_id": "sumo_remnant",
           "confidence": 0.9,
-          "reason": "The experiment also purifies ubiquitinated proteins using His10-Ub and analyzes co-modified Ub/SUMO proteins."
+          "reason": "The experiment specifically purifies His10-SUMO2 substrates and analyzes SUMOylation targets using mass spectrometry."
         }
       ],
       "trigger_keywords": [
         "SUMOylation",
         "His10-SUMO2",
-        "His10-Ub",
         "LFQ",
-        "Ni-NTA"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -296,8 +326,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:46:18Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -8,14 +8,13 @@
       "TMT"
     ],
     "treatment_categories": [
+      "disease or clinical state",
       "molecular state comparison"
     ],
     "cell_types": [
       "epithelial cell"
     ],
-    "cell_lines": [
-      "HK2"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
@@ -24,19 +23,35 @@
   "treatment": {
     "primary_variables": [
       {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues",
+          "A significant increase of KIFC1 expression was observed in tumor tissues relative to healthy tissues"
+        ]
+      },
+      {
         "ontology_label": "molecular state comparison",
         "ontology_curie": "PPA:0000021",
         "category": "molecular_state",
         "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
           "molecular_state",
-          "ptm_or_activation_state"
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "medium",
         "evidence": [
-          "The phosphopeptides were loaded onto a self-packed column using buffer A for the phosphoproteomic study.",
           "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
         ]
       }
@@ -47,9 +62,9 @@
         "agent": "KIFC1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "co-immunoprecipitation",
+        "route_or_context": "expression levels (high vs low)",
         "evidence": [
-          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+          "we analyzed the genes significantly different between the KIFC1 high and low expression groups."
         ]
       }
     ],
@@ -59,9 +74,14 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "normal tissues",
+      "healthy tissues",
+      "KIFC1 low 25% group"
+    ],
     "case_arms": [
-      "KIFC1-interacting proteins"
+      "RCC tissues",
+      "KIFC1 top 25% group"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -71,11 +91,19 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "non-interacting proteins",
-        "case_label": "KIFC1-interacting proteins",
+        "control_label": "normal tissues",
+        "case_label": "RCC tissues",
         "contrast_type": "pairwise",
         "evidence": [
-          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+          "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues"
+        ]
+      },
+      {
+        "control_label": "KIFC1 low 25% group",
+        "case_label": "KIFC1 top 25% group",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "441 significantly upregulated genes were identified in the KIFC1 top 25% group compared to the KIFC1 low 25% group"
         ]
       }
     ],
@@ -88,30 +116,19 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "human",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "cell type",
+        "rollup_category": "epithelial cell",
         "ontology_curie": "CL:0000066"
       }
     ],
-    "cell_lines": [
-      {
-        "label": "HK2",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "renal clear cell carcinoma",
-        "source_kind": "tissue"
-      }
-    ],
+    "cell_lines": [],
+    "noncellular_sources": [],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -155,21 +172,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the LC-MS/MS section describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the text describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Standard DDA was used, but TMT is explicitly specified in metadata."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 0.95,
-          "reason": "Both the publication methods and PRIDE sample processing protocol explicitly state 'The phosphopeptides were loaded' and 'for the phosphoproteomic study'."
+          "reason": "Both the publication text ('The phosphopeptides were loaded onto a self-packed column') and PRIDE metadata ('The phosphoproteomic study was conducted') explicitly state this was a phosphoproteomic analysis."
         }
       ],
       "trigger_keywords": [
-        "phosphopeptides",
         "TMT",
+        "phosphopeptides",
+        "phosphoproteomic",
         "DDA",
-        "phosphoproteomic study"
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -178,21 +201,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.9,
-          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the LC-MS/MS section describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+          "reason": "PRIDE metadata explicitly lists 'TMT' as the quantification method and the text describes a DDA acquisition (top 15 MS/MS scans) on a Q Exactive HF-X."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Standard DDA was used, but TMT is explicitly specified in metadata."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 0.95,
-          "reason": "Both the publication methods and PRIDE sample processing protocol explicitly state 'The phosphopeptides were loaded' and 'for the phosphoproteomic study'."
+          "reason": "Both the publication text ('The phosphopeptides were loaded onto a self-packed column') and PRIDE metadata ('The phosphoproteomic study was conducted') explicitly state this was a phosphoproteomic analysis."
         }
       ],
       "trigger_keywords": [
-        "phosphopeptides",
         "TMT",
+        "phosphopeptides",
+        "phosphoproteomic",
         "DDA",
-        "phosphoproteomic study"
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -220,8 +249,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:38:11Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

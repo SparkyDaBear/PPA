@@ -26,10 +26,12 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": null,
+        "matched_parent_class_key": "unclassified",
         "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": null,
+        "matched_class_path": [
+          "unclassified"
+        ],
+        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
         "confidence": "high",
         "evidence": [
           "Guzman et al. characterize the performance of the Orbitrap Astral Zoom MS for high-throughput proteomics and benchmark its performance with that of the previous-generation Orbitrap Astral MS."
@@ -43,16 +45,29 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "control_arms": [
+      "Orbitrap Astral MS"
+    ],
+    "case_arms": [
+      "Orbitrap Astral Zoom MS"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "each one with n = 4 experimental replicates",
-      "analyzed in quadruplicates"
+      "each condition (each one with n = 4 experimental replicates)",
+      "each condition including N experimental replicates"
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Orbitrap Astral MS",
+        "case_label": "Orbitrap Astral Zoom MS",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "benchmark its performance with that of the previous-generation Orbitrap Astral MS"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -62,30 +77,30 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
-        "label": "yeast",
-        "taxonomy_hint": null,
-        "confidence": "high"
+        "label": "Saccharomyces cerevisiae",
+        "taxonomy_hint": "yeast",
+        "confidence": "medium"
       },
       {
         "label": "Escherichia coli",
-        "taxonomy_hint": null,
-        "confidence": "high"
+        "taxonomy_hint": "E. coli",
+        "confidence": "medium"
       }
     ],
     "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": null,
+        "family": "human cell line",
         "ontology_curie": null
       },
       {
         "label": "HeLa",
-        "family": null,
+        "family": "human cell line",
         "ontology_curie": null
       }
     ],
@@ -113,14 +128,7 @@
       "MaxLFQ"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
-      {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "low"
-      }
-    ],
+    "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -133,20 +141,20 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly uses data-independent acquisition (DIA) and label-free quantification (LFQ) for the majority of the benchmarking and cell line profiling."
+          "confidence": 100,
+          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and the MaxLFQ algorithm."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The text describes DDA experiments using eDR mode for precursor identification and spectral library generation."
+          "confidence": 60,
+          "reason": "DDA experiments were performed for benchmarking and eDR mode evaluation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_localization",
-          "confidence": 0.8,
-          "reason": "The study specifically identifies and localizes >2000 phosphosites using a site localization probability threshold of >= 0.75."
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 80,
+          "reason": "The authors performed a phosphopeptide search identifying >2000 phosphosites using a specific phosphopeptide library."
         }
       ],
       "trigger_keywords": [
@@ -163,20 +171,20 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly uses data-independent acquisition (DIA) and label-free quantification (LFQ) for the majority of the benchmarking and cell line profiling."
+          "confidence": 100,
+          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and the MaxLFQ algorithm."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The text describes DDA experiments using eDR mode for precursor identification and spectral library generation."
+          "confidence": 60,
+          "reason": "DDA experiments were performed for benchmarking and eDR mode evaluation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_localization",
-          "confidence": 0.8,
-          "reason": "The study specifically identifies and localizes >2000 phosphosites using a site localization probability threshold of >= 0.75."
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 80,
+          "reason": "The authors performed a phosphopeptide search identifying >2000 phosphosites using a specific phosphopeptide library."
         }
       ],
       "trigger_keywords": [
@@ -191,7 +199,7 @@
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "all_pairs",
+      "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -213,8 +221,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:56:00Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

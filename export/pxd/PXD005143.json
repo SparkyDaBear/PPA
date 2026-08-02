@@ -2,22 +2,24 @@
   "pxd": "PXD005143",
   "title": null,
   "summary": {
-    "acquisition_type": "DDA",
-    "quantification_method": "iTRAQ",
+    "acquisition_type": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "iTRAQ",
       "LFQ"
     ],
     "treatment_categories": [
-      "un-classified"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
       "T cell",
       "macrophage",
-      "B-cell"
+      "blood platelet"
     ],
     "cell_lines": [
-      "breast cancer cell"
+      "breast cancer cell",
+      "B-cell cell lines",
+      "T cell cell lines"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -27,17 +29,21 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "un-classified",
-        "ontology_curie": null,
-        "category": "unclassified",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": null,
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "organ_region_comparison"
+        ],
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
-          "In this study, we collected the human glycosite-containing peptides identified through their de-glycosylated forms by mass spectrometry from over 100 publications and unpublished datasets generated from our laboratory.",
-          "A database resource termed N-GlycositeAtlas was created and further used for the distribution analyses of glycoproteins among different human cells, tissues and body fluids."
+          "distribution analyses of glycoproteins among different human cells, tissues and body fluids",
+          "investigated the distribution of identified glycoproteins across different human tissues and body fluids",
+          "compared the glycoprotein contents between serum and eight different tissues"
         ]
       }
     ],
@@ -49,15 +55,55 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "prostate",
+      "liver",
+      "ovary",
+      "breast",
+      "pancreas",
+      "colon",
+      "lung",
+      "bladder",
+      "urine",
+      "serum",
+      "saliva",
+      "cerebrospinal fluid (CSF)",
+      "platelets",
+      "T cell cell lines",
+      "B-cell cell lines"
+    ],
     "paired_design": null,
     "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [
-      "iTRAQ-labeled samples",
-      "iTRAQ-4plex (peptide N-terminal) and iTRAQ-4plex (K)"
+      "iTRAQ-4plex"
     ],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "serum",
+        "case_label": "tissues",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "compared the glycoprotein contents between serum and eight different tissues"
+        ]
+      },
+      {
+        "control_label": "urine",
+        "case_label": "tissues",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "urinary glycoproteins were also compared with glycoproteins from eight different tissues"
+        ]
+      },
+      {
+        "control_label": "serum",
+        "case_label": "urine",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "also compared the glycoproteins between urine and serum"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -67,7 +113,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -83,9 +129,9 @@
         "ontology_curie": "CL:0000235"
       },
       {
-        "label": "B-cell",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
+        "label": "blood platelet",
+        "rollup_category": "blood cell",
+        "ontology_curie": "BTO:0000132"
       }
     ],
     "cell_lines": [
@@ -93,6 +139,16 @@
         "label": "breast cancer cell",
         "family": "cancer cell line",
         "ontology_curie": "BTO:0000150"
+      },
+      {
+        "label": "B-cell cell lines",
+        "family": "lymphocyte cell line",
+        "ontology_curie": null
+      },
+      {
+        "label": "T cell cell lines",
+        "family": "lymphocyte cell line",
+        "ontology_curie": null
       }
     ],
     "noncellular_sources": [
@@ -147,10 +203,6 @@
       {
         "label": "cerebrospinal fluid",
         "source_kind": "biofluid"
-      },
-      {
-        "label": "platelets",
-        "source_kind": "other"
       }
     ],
     "sample_scope": {
@@ -167,7 +219,7 @@
     ]
   },
   "assay": {
-    "acquisition_type": "DDA",
+    "acquisition_type": "Unknown",
     "labeling_strategy": [
       "iTRAQ",
       "LFQ"
@@ -196,66 +248,64 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The study describes shotgun proteomics using DDA instruments (LTQ, Q-TOF, Orbitrap Velos, Q-Exactive) and mentions spectrum counting for quantification."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly lists iTRAQ as a quantification method and the text mentions iTRAQ-4plex labeling for some datasets."
         },
         {
-          "base_workflow_id": "base_dda_isobaric",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "Explicit mention of iTRAQ-labeled samples and iTRAQ-4plex modifications."
+          "reason": "The study aggregates many datasets, some of which use spectrum counting (PRIDE metadata) or are not labeled, fitting a general DDA LFQ profile."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "deglycosylation_deamidation",
-          "confidence": 1.0,
-          "reason": "The entire dataset is based on identifying glycosites via their de-glycosylated forms (PNGase F treatment) resulting in deamidation of asparagine."
+          "modifier_workflow_id": "deglycosylation_site_mapping",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets N-glycosylation sites by analyzing de-glycosylated peptides (PNGase F treatment) and searching for the resulting deamidation at the N-X-S/T motif."
         }
       ],
       "trigger_keywords": [
         "de-glycosylated",
         "deamidation",
-        "PNGase F",
         "N-X-S/T motif",
-        "iTRAQ",
-        "spectrum counting"
+        "iTRAQ-4plex",
+        "PNGase F"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The study describes shotgun proteomics using DDA instruments (LTQ, Q-TOF, Orbitrap Velos, Q-Exactive) and mentions spectrum counting for quantification."
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 0.8,
+          "reason": "PRIDE metadata explicitly lists iTRAQ as a quantification method and the text mentions iTRAQ-4plex labeling for some datasets."
         },
         {
-          "base_workflow_id": "base_dda_isobaric",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "Explicit mention of iTRAQ-labeled samples and iTRAQ-4plex modifications."
+          "reason": "The study aggregates many datasets, some of which use spectrum counting (PRIDE metadata) or are not labeled, fitting a general DDA LFQ profile."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "deglycosylation_deamidation",
-          "confidence": 1.0,
-          "reason": "The entire dataset is based on identifying glycosites via their de-glycosylated forms (PNGase F treatment) resulting in deamidation of asparagine."
+          "modifier_workflow_id": "deglycosylation_site_mapping",
+          "confidence": 0.9,
+          "reason": "The experiment specifically targets N-glycosylation sites by analyzing de-glycosylated peptides (PNGase F treatment) and searching for the resulting deamidation at the N-X-S/T motif."
         }
       ],
       "trigger_keywords": [
         "de-glycosylated",
         "deamidation",
-        "PNGase F",
         "N-X-S/T motif",
-        "iTRAQ",
-        "spectrum counting"
+        "iTRAQ-4plex",
+        "PNGase F"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_site",
-      "pairwise_strategy": "control_vs_case",
+      "pairwise_strategy": "all_pairs",
       "analyte_level": "site"
     },
     "source_sections": [
@@ -277,8 +327,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:01:34Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

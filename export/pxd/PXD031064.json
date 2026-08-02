@@ -8,7 +8,8 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
       "keratinocyte"
@@ -28,28 +29,56 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "we screened S1P interactors by Co-IP and liquid chromatography-tandem mass spectrometry (LC\u2013MS/MS)",
-          "MBTPS1-KO HaCaT (an immortalized human keratinocyte cell line)"
+          "we constructed and crossed mice containing a loxP-flanked Mbtps1 gene (Mbtps1 loxp/loxp mice) with K14 cre mice to generate mice specifically lacking Mbtps1 in the skin (Mbtps1 conditional knockout (cKO) mice).",
+          "MBTPS1-KO HaCaT cells (an immortalized human keratinocyte cell line)",
+          "The knockout efficiency of S1P was verified by immunoblotting."
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "supplementation_or_repletion",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "supplementation_or_repletion"
+        ],
+        "matched_definition": "Addition or restoration of nutrients, metabolites, or cofactors.",
+        "confidence": "high",
+        "evidence": [
+          "For the riboflavin supplementation experiment, MBTPS1-KO cells were initially cultured in DMEM for 24 h, and supplemented with 0, 2.5, 5, or 10 \u00b5M riboflavin for 3 days before harvesting."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "MBTPS1 knockout",
+        "agent": "MBTPS1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "HaCaT cells",
+        "route_or_context": "CRISPR/Cas9 knockout in HaCaT cells; Cre-loxp conditional knockout in mouse skin",
         "evidence": [
-          "MBTPS1-KO HaCaT (an immortalized human keratinocyte cell line)"
+          "transfected with targeted CRISPR/Cas9 plasmids",
+          "generate mice lacking Mbtps1 in the skin using the Cre-loxp recombinase system"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "riboflavin",
+        "dose_or_concentration": "0, 2.5, 5, or 10 \u00b5M",
+        "duration": "3 days",
+        "route_or_context": "supplementation in MBTPS1-KO HaCaT cells",
+        "evidence": [
+          "supplemented with 0, 2.5, 5, or 10 \u00b5M riboflavin for 3 days before harvesting."
         ]
       }
     ],
@@ -58,24 +87,42 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "3 days"
+    ],
     "control_arms": [
-      "Ctrl"
+      "Ctrl",
+      "Mbtps1 loxp/loxp mice",
+      "0 \u00b5M riboflavin"
     ],
     "case_arms": [
-      "MBTPS1-KO"
+      "MBTPS1-KO HaCaT cells",
+      "Mbtps1-cKO mice",
+      "2.5 \u00b5M riboflavin",
+      "5 \u00b5M riboflavin",
+      "10 \u00b5M riboflavin"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "samples (n) represent a random selection of a bigger cohort"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Ctrl",
+        "control_label": "Control",
         "case_label": "MBTPS1-KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "we screened S1P interactors by Co-IP and liquid chromatography-tandem mass spectrometry (LC\u2013MS/MS)"
+          "Control (Ctrl) or MBTPS1-KO HaCaT (an immortalized human keratinocyte cell line) cells were treated"
+        ]
+      },
+      {
+        "control_label": "0 \u00b5M riboflavin",
+        "case_label": "riboflavin supplementation",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "supplemented with 0, 2.5, 5, or 10 \u00b5M riboflavin for 3 days before harvesting."
         ]
       }
     ],
@@ -95,7 +142,7 @@
     "cell_types": [
       {
         "label": "keratinocyte",
-        "rollup_category": "epithelial cell",
+        "rollup_category": "skin cell",
         "ontology_curie": null
       }
     ],
@@ -114,7 +161,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -148,15 +195,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment is described as a Co-IP followed by LC-MS/MS to identify interactors (affinity purification). No labeling (SILAC, TMT, dimethyl) is mentioned in the text or PRIDE metadata."
+          "reason": "The experiment uses LC-MS/MS on proteins enriched via Co-IP/Protein G beads followed by in-gel trypsin digestion. While no explicit labeling is mentioned, the goal was to screen interactors, typically handled by DDA. The PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Co-IP",
         "LC-MS/MS",
-        "affinity purification",
-        "interactors"
+        "in-gel trypsin digestion",
+        "Affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -165,21 +212,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment is described as a Co-IP followed by LC-MS/MS to identify interactors (affinity purification). No labeling (SILAC, TMT, dimethyl) is mentioned in the text or PRIDE metadata."
+          "reason": "The experiment uses LC-MS/MS on proteins enriched via Co-IP/Protein G beads followed by in-gel trypsin digestion. While no explicit labeling is mentioned, the goal was to screen interactors, typically handled by DDA. The PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Co-IP",
         "LC-MS/MS",
-        "affinity purification",
-        "interactors"
+        "in-gel trypsin digestion",
+        "Affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "control_vs_case",
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "unknown",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -201,8 +248,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:18:05Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

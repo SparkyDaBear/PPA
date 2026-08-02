@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "radiation or photostress"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -27,18 +28,34 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "Generation of ARID1A-knockout cells",
-          "Two separate CRISPR guide RNA sequences... targeting the exon1 of ARID1A open reading frame were designed",
-          "Using ARID1A knockout AID-DIvA cells (ARID1A-KO cells; Supplementary Figure S1F)"
+          "Using ARID1A knockout AID-DIvA cells (ARID1A-KO cells; Supplementary Figure S1F)",
+          "By comparing ARID1A-KO to WT cells"
+        ]
+      },
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation_exposure",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation_exposure"
+        ],
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
+        "confidence": "high",
+        "evidence": [
+          "Irradiation was done with the GammaCell 40 from Theatronics.",
+          "increased expression of immunomodulatory cytokines and chemokines upon ionizing radiation (IR) treatment."
         ]
       }
     ],
@@ -48,10 +65,20 @@
         "agent": "ARID1A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-Cas9 knockout",
+        "route_or_context": "knockout",
         "evidence": [
-          "Generation of ARID1A-knockout cells",
-          "electroporation of the Cas9:crRNA:tracrRNA complex to the cells and knockout clones were established"
+          "Generation of ARID1A-knockout cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ionizing radiation",
+        "dose_or_concentration": "4 Gy",
+        "duration": null,
+        "route_or_context": "IR treatment",
+        "evidence": [
+          "were irradiated with 4 Gy",
+          "upon ionizing radiation (IR) treatment"
         ]
       }
     ],
@@ -60,37 +87,49 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "T0",
+      "T4",
+      "1 h",
+      "18 h",
+      "2 h",
+      "4 h",
+      "12 h",
+      "24 h"
+    ],
     "control_arms": [
       "WT",
       "anti-IgG"
     ],
     "case_arms": [
-      "ARID1A-KO"
+      "ARID1A-KO",
+      "ARID1A-depleted"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "n = 2 biological replicates"
+      "n = 2 biological replicates",
+      "n = 4 replicates",
+      "n = 3 replicates each"
     ],
     "multiplex_channel_hints": [
       "Label-Free Quantification (LFQ)"
     ],
     "contrast_hints": [
       {
-        "control_label": "anti-IgG",
-        "case_label": "ARID1A-IP",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Using anti-IgG as control, we set a cutoff for Log2fold changes >2"
-        ]
-      },
-      {
         "control_label": "WT",
         "case_label": "ARID1A-KO",
         "contrast_type": "pairwise",
         "evidence": [
           "By comparing ARID1A-KO to WT cells"
+        ]
+      },
+      {
+        "control_label": "anti-IgG",
+        "case_label": "anti-ARID1A",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using anti-IgG as control, we set a cutoff for Log2fold changes >2"
         ]
       }
     ],
@@ -103,7 +142,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -117,7 +156,7 @@
       {
         "label": "MDA-MB-231",
         "family": null,
-        "ontology_curie": null
+        "ontology_curie": "CVCL_0062"
       }
     ],
     "noncellular_sources": [],
@@ -170,9 +209,9 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "The experiment is described as an immunoprecipitation (IP) of ARID1A using anti-ARID1A or anti-IgG antibodies, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+          "reason": "The experiment is described as 'Nuclear lysate extraction and immunoprecipitation (IP)' and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
@@ -180,7 +219,7 @@
         "Label-Free Quantification",
         "LFQ",
         "immunoprecipitation",
-        "anti-ARID1A"
+        "Maxquant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -194,9 +233,9 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "The experiment is described as an immunoprecipitation (IP) of ARID1A using anti-ARID1A or anti-IgG antibodies, and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
+          "reason": "The experiment is described as 'Nuclear lysate extraction and immunoprecipitation (IP)' and PRIDE metadata lists 'Affinity purification coupled with mass spectrometry proteomics'."
         }
       ],
       "trigger_keywords": [
@@ -204,7 +243,7 @@
         "Label-Free Quantification",
         "LFQ",
         "immunoprecipitation",
-        "anti-ARID1A"
+        "Maxquant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -232,8 +271,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:32:07Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

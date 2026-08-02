@@ -5,7 +5,8 @@
     "acquisition_type": "DDA",
     "quantification_method": "TMT reporter ion quantification",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "iTRAQ"
     ],
     "treatment_categories": [
       "chemical or drug treatment",
@@ -35,16 +36,15 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5 and 37 \u00b0C for 0 or 60 min",
-          "The without/with pepstatin A ratios were calculated for the two time points"
+          "analyzed by TAILS the secreted proteome in supernatants of MDA-MB-231 cell and HMF co-cultures after incubation at acidic pH in the presence or absence of pepstatin A, an aspartic protease inhibitor."
         ]
       },
       {
@@ -52,16 +52,15 @@
         "ontology_curie": "PPA:0000014",
         "category": "ph_ionic_osmotic",
         "matched_parent_class_key": "ph_ionic_osmotic",
-        "matched_class_key": "ph_shift",
+        "matched_class_key": "acidification_or_alkalinization",
         "matched_class_path": [
           "ph_ionic_osmotic",
-          "ph_shift"
+          "acidification_or_alkalinization"
         ],
-        "matched_definition": "Acidic or alkaline perturbation affecting cellular processes.",
+        "matched_definition": "Change in pH that defines the primary comparison.",
         "confidence": "high",
         "evidence": [
-          "analyzed by TAILS the secreted proteome in supernatants of MDA-MB-231 cell and HMF co-cultures after incubation at acidic pH",
-          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5"
+          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5 and 37 \u00b0C for 0 or 60 min."
         ]
       }
     ],
@@ -70,20 +69,20 @@
         "relation_key": "has_treatment_agent",
         "agent": "pepstatin A",
         "dose_or_concentration": "12.5 \u00b5M",
-        "duration": "60 min",
+        "duration": null,
         "route_or_context": "cleavage buffer",
         "evidence": [
-          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5 and 37 \u00b0C for 0 or 60 min"
+          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5 and 37 \u00b0C for 0 or 60 min."
         ]
       },
       {
         "relation_key": "has_timepoint",
         "agent": null,
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "incubation",
+        "duration": "60 min",
+        "route_or_context": null,
         "evidence": [
-          "0 or 60 min"
+          "incubated in cleavage buffer with or without pepstatin A (12.5 \u00b5M) at pH 5.5 and 37 \u00b0C for 0 or 60 min."
         ]
       }
     ],
@@ -97,10 +96,12 @@
       "60 min"
     ],
     "control_arms": [
-      "with pepstatin A"
+      "with pepstatin A",
+      "0 min"
     ],
     "case_arms": [
-      "without pepstatin A"
+      "without pepstatin A",
+      "60 min"
     ],
     "paired_design": false,
     "factorial_design": true,
@@ -108,8 +109,7 @@
       "analyzed by LC-MS/MS on a Q-Exactive HF mass spectrometer (three replicates)"
     ],
     "multiplex_channel_hints": [
-      "labeled with one TMT label (126, 127N, 127C, 128N; TMT 10-plex kit 90110 from Thermo Scientific)",
-      "0 min (126 / 127N) and 60 min (127C / 128N)"
+      "labeled with one TMT label (126, 127N, 127C, 128N; TMT 10-plex kit 90110 from Thermo Scientific)"
     ],
     "contrast_hints": [
       {
@@ -117,7 +117,7 @@
         "case_label": "without pepstatin A",
         "contrast_type": "pairwise",
         "evidence": [
-          "The without/with pepstatin A ratios were calculated for the two time points"
+          "A 2-fold change of the ratio between the without pepstatin A/with pepstatin A conditions after 60 min of incubation was used as cutoff"
         ]
       },
       {
@@ -125,7 +125,7 @@
         "case_label": "60 min",
         "contrast_type": "timecourse",
         "evidence": [
-          "the four samples (60 \u00b5g of total protein per condition: with/without pepstatin A and 0/60-min incubation)"
+          "the ratios at 60 min were normalized to the ratios at 0 min"
         ]
       }
     ],
@@ -150,7 +150,7 @@
     "cell_types": [
       {
         "label": "breast fibroblasts",
-        "rollup_category": "stromal cell",
+        "rollup_category": "fibroblast",
         "ontology_curie": null
       },
       {
@@ -213,10 +213,12 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "iTRAQ"
     ],
     "quantification_strategy": [
-      "TMT reporter ion quantification"
+      "TMT reporter ion quantification",
+      "iTRAQ reporter ion quantification"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -240,23 +242,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT 10-plex labeling and iTRAQ labeling for quantification."
+          "reason": "The experiment explicitly uses TMT (10-plex kit) and iTRAQ labeling for quantification, analyzed on a Q-Exactive HF mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "tails_degradomics",
           "confidence": 1.0,
-          "reason": "The study explicitly uses N-Terminal Amine Isotopic Labeling of Substrates (TAILS) and ATOMS for N-terminal peptide enrichment to identify cleavage sites."
+          "reason": "The study explicitly uses N-Terminal Amine Isotopic Labeling of Substrates (TAILS) and ATOMS to identify neo-N-termini and cleavage sites."
         }
       ],
       "trigger_keywords": [
         "TAILS",
+        "degradome analysis",
         "N-Terminal Amine Isotopic Labeling of Substrates",
         "ATOMS",
-        "degradome analysis",
-        "N-terminal peptide enrichment",
-        "HPG-ALD polymer"
+        "neo-N termini",
+        "TMT",
+        "iTRAQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -265,23 +268,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT 10-plex labeling and iTRAQ labeling for quantification."
+          "reason": "The experiment explicitly uses TMT (10-plex kit) and iTRAQ labeling for quantification, analyzed on a Q-Exactive HF mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "tails_degradomics",
           "confidence": 1.0,
-          "reason": "The study explicitly uses N-Terminal Amine Isotopic Labeling of Substrates (TAILS) and ATOMS for N-terminal peptide enrichment to identify cleavage sites."
+          "reason": "The study explicitly uses N-Terminal Amine Isotopic Labeling of Substrates (TAILS) and ATOMS to identify neo-N-termini and cleavage sites."
         }
       ],
       "trigger_keywords": [
         "TAILS",
+        "degradome analysis",
         "N-Terminal Amine Isotopic Labeling of Substrates",
         "ATOMS",
-        "degradome analysis",
-        "N-terminal peptide enrichment",
-        "HPG-ALD polymer"
+        "neo-N termini",
+        "TMT",
+        "iTRAQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -309,8 +313,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:21:56Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -13,11 +13,11 @@
     ],
     "cell_types": [],
     "cell_lines": [
-      "MCF10A",
       "MDA-MB-231",
       "MDA-MB-468",
       "MDA-MB-453",
-      "MDA-MB-361"
+      "MDA-MB-361",
+      "MCF10A"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "purified protein or complex",
@@ -31,12 +31,12 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "disease_stage_or_response",
+        "matched_class_key": "cancer_subtype_comparison",
         "matched_class_path": [
           "disease",
-          "disease_stage_or_response"
+          "cancer_subtype_comparison"
         ],
-        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
           "revealing significant changes in histone H3 methylation patterns among Luminal A-like and Triple Negative disease subtypes",
@@ -48,19 +48,30 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "medium",
         "evidence": [
-          "To verify that the hPTMs found in the FFPE samples are representative of the real epigenetic status of the tissue, for each sample we used as control histones purified through a standard protocol from frozen cells derived exactly from the same tissue"
+          "accurately dissecting hPTM patterns in normal and diseased tissues"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "breast cancer subtypes",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "human breast cancer FFPE samples",
+        "evidence": [
+          "we analyzed breast cancer samples, revealing significant changes in histone H3 methylation patterns among Luminal A-like and Triple Negative disease subtypes"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -68,11 +79,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "frozen tissues",
+      "fresh frozen samples",
       "Luminal A-like"
     ],
     "case_arms": [
-      "FFPE tissues",
+      "formalin-fixed paraffin-embedded (FFPE) samples",
       "Triple Negative"
     ],
     "paired_design": true,
@@ -82,12 +93,13 @@
       "FFPE and frozen samples from human breast cancer biopsies 1\u20133 were acquired in triplicate"
     ],
     "multiplex_channel_hints": [
-      "super-SILAC mix that can be spiked into breast cancer samples",
-      "L/H ratios that are a measure of the abundance of the peptides in each breast cancer primary specimen (light channel), compared with the super-SILAC mix (heavy channel)"
+      "super-SILAC approach",
+      "L/H ratios",
+      "heavy-labeled breast cancer cell line samples"
     ],
     "contrast_hints": [
       {
-        "control_label": "frozen",
+        "control_label": "fresh frozen",
         "case_label": "FFPE",
         "contrast_type": "pairwise",
         "evidence": [
@@ -112,40 +124,40 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "human",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "mouse",
+        "taxonomy_hint": "NEWT:10090",
         "confidence": "high"
       }
     ],
     "cell_types": [],
     "cell_lines": [
       {
-        "label": "MCF10A",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
         "label": "MDA-MB-231",
-        "family": null,
+        "family": "breast cancer",
         "ontology_curie": null
       },
       {
         "label": "MDA-MB-468",
-        "family": null,
+        "family": "breast cancer",
         "ontology_curie": null
       },
       {
         "label": "MDA-MB-453",
-        "family": null,
+        "family": "breast cancer",
         "ontology_curie": null
       },
       {
         "label": "MDA-MB-361",
-        "family": null,
+        "family": "breast cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF10A",
+        "family": "normal breast",
         "ontology_curie": null
       }
     ],
@@ -155,11 +167,11 @@
         "source_kind": "tissue"
       },
       {
-        "label": "spleen",
+        "label": "mouse spleen",
         "source_kind": "organ"
       },
       {
-        "label": "liver",
+        "label": "mouse liver",
         "source_kind": "organ"
       }
     ],
@@ -170,7 +182,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -183,7 +195,7 @@
     ],
     "quantification_strategy": [
       "super-SILAC",
-      "relative abundance (%RA)",
+      "Relative Abundance (%RA)",
       "L/H ratios"
     ],
     "proteomics_mode": "PTM-enriched",
@@ -192,7 +204,7 @@
         "ontology_label": "acetylome enrichment",
         "ontology_curie": "PPA:0000295",
         "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -208,28 +220,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a 'super-SILAC approach' with heavy-labeled internal standards (Arg10) and DDA acquisition on Q Exactive and LTQ-Velos instruments."
-        },
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Initial validation of FFPE vs frozen mouse tissues used relative abundance (%RA) based on XIC areas without SILAC."
+          "reason": "Explicit use of super-SILAC approach with heavy-labeled internal standards (Arg10) and DDA acquisition on Q Exactive."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_enrichment",
-          "confidence": 1.0,
-          "reason": "The experiment is specifically designed for histone PTM profiling, utilizing SDS-PAGE to isolate histone H3 and H4 bands prior to in-gel digestion."
+          "modifier_workflow_id": "histone_ptm",
+          "confidence": 0.9,
+          "reason": "Experiment specifically targets histone post-translational modifications (hPTMs) using Arg-C like digestion and focused search for lysine methylation/acetylation."
         }
       ],
       "trigger_keywords": [
         "super-SILAC",
         "hPTM",
         "histone",
-        "FFPE",
-        "DDA",
-        "Arg-C like"
+        "Arg-C",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -238,28 +244,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a 'super-SILAC approach' with heavy-labeled internal standards (Arg10) and DDA acquisition on Q Exactive and LTQ-Velos instruments."
-        },
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Initial validation of FFPE vs frozen mouse tissues used relative abundance (%RA) based on XIC areas without SILAC."
+          "reason": "Explicit use of super-SILAC approach with heavy-labeled internal standards (Arg10) and DDA acquisition on Q Exactive."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_enrichment",
-          "confidence": 1.0,
-          "reason": "The experiment is specifically designed for histone PTM profiling, utilizing SDS-PAGE to isolate histone H3 and H4 bands prior to in-gel digestion."
+          "modifier_workflow_id": "histone_ptm",
+          "confidence": 0.9,
+          "reason": "Experiment specifically targets histone post-translational modifications (hPTMs) using Arg-C like digestion and focused search for lysine methylation/acetylation."
         }
       ],
       "trigger_keywords": [
         "super-SILAC",
         "hPTM",
         "histone",
-        "FFPE",
-        "DDA",
-        "Arg-C like"
+        "Arg-C",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -287,8 +287,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:55:12Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

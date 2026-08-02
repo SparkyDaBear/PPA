@@ -3,20 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "SRM",
     "labeling_strategy": [
-      "LFQ",
-      "Other"
+      "Unknown"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "overexpression or transgene perturbation",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "primary cortical neurons"
     ],
     "cell_lines": [
       "iHEK-Tau",
-      "Tau biosensor cells"
+      "tau biosensor cells"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -26,40 +27,104 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "K63-linked, but not K48-linked, ubiquitinated TauO accumulated at higher levels in AD brains compared with age-matched controls.",
-          "Using mass spectrometry analyses, we identified 11 ubiquitinated sites on AD brain-derived TauO (AD TauO).",
-          "Postmortem brain tissue samples from AD and control subjects were obtained"
+          "Using tauopathy cellular, animal models and postmortem brain tissues from patients with AD and age-matched nondemented control cases"
+        ]
+      },
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "we performed the overexpression of wild-type (WT), K63, or K48 ubiquitin chains (Fig. 4A) in iHEK-Tau cells.",
+          "Cells were transiently transfected with an empirical concentration (250 ng) of HA-tagged ubiquitin plasmids (WT, K48, K48R, K63, K63R) for 24 h"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "ligand_stimulation"
+        ],
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
+        "confidence": "medium",
+        "evidence": [
+          "For oligomeric tau treatment, cells were incubated with 0.1 \u03bcM AD brain-derived tau oligomers (AD TauO) for 3 h."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AD brain-derived tau oligomers (AD TauO)",
+        "dose_or_concentration": "0.1 \u03bcM",
+        "duration": "3 h",
+        "route_or_context": "iHEK-Tau cells",
+        "evidence": [
+          "cells were incubated with 0.1 \u03bcM AD brain-derived tau oligomers (AD TauO) for 3 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HA-tagged ubiquitin plasmids (WT, K48, K48R, K63, K63R)",
+        "dose_or_concentration": "250 ng",
+        "duration": "24 h",
+        "route_or_context": "transient transfection in iHEK-Tau cells",
+        "evidence": [
+          "Cells were transiently transfected with an empirical concentration (250 ng) of HA-tagged ubiquitin plasmids (WT, K48, K48R, K63, K63R) for 24 h"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "3 h",
+      "24 h"
+    ],
     "control_arms": [
-      "age-matched controls"
+      "age-matched controls",
+      "untreated (UT)",
+      "vehicle-treated group"
     ],
     "case_arms": [
-      "AD brains"
+      "AD brains",
+      "AD TauO-treated",
+      "K63 ubiquitin overexpressing",
+      "K48 ubiquitin overexpressing",
+      "WT ubiquitin overexpressing"
     ],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "Each condition for this assay was performed in triplicates.",
+      "All experiments were repeated at least three times."
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -68,6 +133,22 @@
         "contrast_type": "pairwise",
         "evidence": [
           "K63-linked, but not K48-linked, ubiquitinated TauO accumulated at higher levels in AD brains compared with age-matched controls."
+        ]
+      },
+      {
+        "control_label": "untreated (UT)",
+        "case_label": "AD TauO-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A higher quantity of ubiquitinated tau in AD TauO-treated group was observed compared with untreated (UT)"
+        ]
+      },
+      {
+        "control_label": "WT ubiquitin",
+        "case_label": "K63 ubiquitin",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "K63 ubiquitin overexpressing cells had greater amount of tau release compared with WT, K48 ubiquitin, and untreated cells"
         ]
       }
     ],
@@ -80,11 +161,11 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
-        "label": "mouse",
+        "label": "Mus musculus",
         "taxonomy_hint": null,
         "confidence": "medium"
       }
@@ -103,7 +184,7 @@
         "ontology_curie": null
       },
       {
-        "label": "Tau biosensor cells",
+        "label": "tau biosensor cells",
         "family": null,
         "ontology_curie": null
       }
@@ -121,7 +202,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -130,12 +211,11 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ",
-      "Other"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "Label-free",
-      "Stable isotope dilution-SRM-MS"
+      "SRM",
+      "Stable isotope dilution"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -159,21 +239,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 8,
-          "reason": "The study uses LC-MS/MS (Q Exactive) with MaxQuant for site identification and relative quantification of ubiquitinated sites on Tau."
+          "reason": "The study uses LC-MS/MS (Q Exactive) with MaxQuant for site identification. While SRM is used for specific linkage quantification, the primary discovery phase for the 11 ubiquitination sites is described as shotgun proteomics (DDA)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ubiquitin_diGly",
           "confidence": 10,
-          "reason": "Explicit mention of 'ubiquitination of lysine as variable modifications' and 'two glycine residues remained on the lysine residues of tau' (diGly remnant)."
+          "reason": "Explicit mention of 'ubiquitination of lysine as variable modifications' and 'two glycine residues remained on the lysine residues of tau' after trypsin digestion, which is the signature diGly remnant."
         }
       ],
       "trigger_keywords": [
         "ubiquitination",
         "dipeptidyl lysine",
-        "diGly",
-        "MaxQuant"
+        "two glycine residues remained",
+        "diGly"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -182,21 +262,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 8,
-          "reason": "The study uses LC-MS/MS (Q Exactive) with MaxQuant for site identification and relative quantification of ubiquitinated sites on Tau."
+          "reason": "The study uses LC-MS/MS (Q Exactive) with MaxQuant for site identification. While SRM is used for specific linkage quantification, the primary discovery phase for the 11 ubiquitination sites is described as shotgun proteomics (DDA)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ubiquitin_diGly",
           "confidence": 10,
-          "reason": "Explicit mention of 'ubiquitination of lysine as variable modifications' and 'two glycine residues remained on the lysine residues of tau' (diGly remnant)."
+          "reason": "Explicit mention of 'ubiquitination of lysine as variable modifications' and 'two glycine residues remained on the lysine residues of tau' after trypsin digestion, which is the signature diGly remnant."
         }
       ],
       "trigger_keywords": [
         "ubiquitination",
         "dipeptidyl lysine",
-        "diGly",
-        "MaxQuant"
+        "two glycine residues remained",
+        "diGly"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -224,8 +304,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:01:48Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

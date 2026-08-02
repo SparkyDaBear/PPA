@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Intensity-based (MaxQuant)",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
       "genetic perturbation",
+      "ligand-mediated stimulation",
       "ligand-mediated stimulation"
     ],
     "cell_types": [
@@ -17,6 +18,7 @@
     "cell_lines": [
       "MCF10A",
       "MCF10A-KRAS",
+      "MCF10A-empty vector",
       "H2122",
       "H2444",
       "H1792",
@@ -38,13 +40,12 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "The MCF10A isogenic cell line stably transfected with a vector containing the activated G12V mutation in the KRAS gene (MCF10A-KRAS) and a control vector for wild type (MCF10A-empty vector)",
@@ -61,16 +62,43 @@
           "ligand_stimulation",
           "growth_factor_stimulation"
         ],
-        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
         "confidence": "high",
         "evidence": [
           "HeLa cells were stimulated with 50 ng/mL of EGF (AF-100-15, PeproTech) for 10 min",
+          "the best mAb to a given peptide and/or modification site was evaluated for detection of endogenous signal from cell line lysates by peptide immunoaffinity enrichment and targeted mass spectrometry (immuno-MRM).",
+          "The detection of endogenous peptides by immuno-MRM was tested in digested protein lysates from a combination of the following cell lines... (5) EGF-stimulated HeLa"
+        ]
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "insulin_or_igf_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "insulin_or_igf_stimulation"
+        ],
+        "matched_definition": "Stimulation using insulin or insulin-like growth factor signaling ligands.",
+        "confidence": "high",
+        "evidence": [
           "HEK293 cells were treated with 100 nM of insulin (I6634, Sigma) for 10 min",
-          "The detection of endogenous peptides by immuno-MRM was tested in digested protein lysates from... (5) EGF-stimulated HeLa; and (6) insulin-stimulated HEK293."
+          "The detection of endogenous peptides by immuno-MRM was tested in digested protein lysates from a combination of the following cell lines... (6) insulin-stimulated HEK293"
         ]
       }
     ],
     "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "G12V mutation in the KRAS gene",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stably transfected MCF10A isogenic cell line",
+        "evidence": [
+          "The MCF10A isogenic cell line stably transfected with a vector containing the activated G12V mutation in the KRAS gene (MCF10A-KRAS)"
+        ]
+      },
       {
         "relation_key": "has_treatment_agent",
         "agent": "EGF",
@@ -102,7 +130,7 @@
     ],
     "control_arms": [
       "MCF10A-empty vector",
-      "no mAb (negative control)"
+      "negative control capture (no mAb)"
     ],
     "case_arms": [
       "MCF10A-KRAS",
@@ -155,6 +183,11 @@
       },
       {
         "label": "MCF10A-KRAS",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MCF10A-empty vector",
         "family": null,
         "ontology_curie": null
       },
@@ -219,8 +252,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Intensity-based (MaxQuant)",
-      "Peak area ratio (light:heavy) for screening"
+      "label-free",
+      "peak area ratio (light:heavy) for screening"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -232,7 +265,7 @@
       },
       {
         "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": null,
+        "ontology_curie": "PRIDE:0000433",
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -249,15 +282,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The IP-MS experiments used a Q-Exactive in data-dependent mode (DDA) with MaxQuant for analysis, and the goal was to detect endogenous peptides/proteins in cell lysates."
+          "confidence": 80,
+          "reason": "The IP-MS experiments used a Q-Exactive in data-dependent acquisition (DDA) mode with MaxQuant for analysis, which typically follows a label-free quantification (LFQ) approach for intensity-based protein identification in pull-downs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.8,
-          "reason": "The study specifically targets 27 phosphopeptides and uses phosphorylated serine, threonine, and tyrosine as variable modifications."
+          "modifier_workflow_id": "modifier_phosphoproteomics",
+          "confidence": 70,
+          "reason": "The study specifically targets 27 phosphopeptides and uses phosphorylated serine, threonine, and tyrosine as variable modifications in the search."
         }
       ],
       "trigger_keywords": [
@@ -272,15 +305,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The IP-MS experiments used a Q-Exactive in data-dependent mode (DDA) with MaxQuant for analysis, and the goal was to detect endogenous peptides/proteins in cell lysates."
+          "confidence": 80,
+          "reason": "The IP-MS experiments used a Q-Exactive in data-dependent acquisition (DDA) mode with MaxQuant for analysis, which typically follows a label-free quantification (LFQ) approach for intensity-based protein identification in pull-downs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.8,
-          "reason": "The study specifically targets 27 phosphopeptides and uses phosphorylated serine, threonine, and tyrosine as variable modifications."
+          "modifier_workflow_id": "modifier_phosphoproteomics",
+          "confidence": 70,
+          "reason": "The study specifically targets 27 phosphopeptides and uses phosphorylated serine, threonine, and tyrosine as variable modifications in the search."
         }
       ],
       "trigger_keywords": [
@@ -315,8 +348,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:33:35Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

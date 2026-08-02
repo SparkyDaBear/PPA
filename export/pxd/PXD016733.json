@@ -3,18 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Intensity-based absolute quantification (IBAQ)",
+    "quantification_method": "IBAQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation",
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [
       "blood cell"
     ],
     "cell_lines": [
-      "HAP1"
+      "HAP1",
+      "HeLa",
+      "Plat-E"
     ],
     "sample_scope": "subproteome",
     "sample_scope_label": "organelle-enriched scope",
@@ -24,52 +27,79 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "We obtained single and double knockout (DKO) human cells of MIC26 and MIC27",
           "HAP1 WT, MIC26 KO, MIC27 KO, and DKO cells were obtained and custom-made by Horizon (UK) using the CRISPR-Cas method."
+        ]
+      },
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "overexpression of cardiolipin synthase in DKO restores the stability of RCs/SC",
+          "we stably overexpressed cardiolipin synthase (CRLS1) in DKO cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "MIC26 knockout",
+        "agent": "MIC26",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-Cas",
+        "route_or_context": "knockout",
         "evidence": [
           "MIC26 KO cells contain a 1-bp insertion in exon 3"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "MIC27 knockout",
+        "agent": "MIC27",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-Cas",
+        "route_or_context": "knockout",
         "evidence": [
           "MIC27 KO cells contain an 8-bp deletion in exon 3"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "MIC26/MIC27 double knockout",
+        "agent": "MIC26 and MIC27",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-Cas",
+        "route_or_context": "double knockout",
         "evidence": [
-          "DKO cells lacking MIC26 and MIC27 were obtained by targeting MIC27 using CRISPR-Cas that causes a 160-bp deletion in the exon 3 of MIC27 in MIC26 KO cells."
+          "DKO cells lacking MIC26 and MIC27"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "cardiolipin synthase (CRLS1)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression in DKO cells",
+        "evidence": [
+          "we stably overexpressed cardiolipin synthase (CRLS1) in DKO cells"
         ]
       }
     ],
@@ -88,10 +118,8 @@
       "DKO"
     ],
     "paired_design": false,
-    "factorial_design": false,
-    "replicate_hints": [
-      "Averaged subunit quantification values were used for complex reference profiles."
-    ],
+    "factorial_design": true,
+    "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -116,6 +144,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "comparing the complexome profiles of mitochondria isolated from SKOs and DKO cells with the controls"
+        ]
+      },
+      {
+        "control_label": "DKO",
+        "case_label": "DKO + CRLS1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Stable overexpression of CRLS1 in DKO cells could restore the stability of the RCs and SCs compared with the DKO cells with empty vector."
         ]
       }
     ],
@@ -144,9 +180,24 @@
         "label": "HAP1",
         "family": null,
         "ontology_curie": null
+      },
+      {
+        "label": "HeLa",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "Plat-E",
+        "family": null,
+        "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "mitochondria",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
       "label": "organelle-enriched scope",
@@ -166,7 +217,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Intensity-based absolute quantification (IBAQ)"
+      "IBAQ"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -190,14 +241,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'MS data were recorded by data dependent acquisition' and uses 'Intensity-based absolute quantification (IBAQ)' via MaxQuant, which is a standard label-free quantification (LFQ) approach."
+          "reason": "Data acquisition was explicitly recorded as 'data dependent acquisition' (DDA) and quantification used 'Intensity-based absolute quantification (IBAQ)' via MaxQuant, which is a label-free quantification (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "complexome_profiling",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'complexome profiling' using Blue Native electrophoresis (BNE) where gel lanes were cut into fractions for MS analysis."
+          "reason": "The experiment is explicitly described as 'complexome profiling' using Blue Native Electrophoresis (BNE) where gel lanes were cut into fractions for MS analysis."
         }
       ],
       "trigger_keywords": [
@@ -213,14 +264,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'MS data were recorded by data dependent acquisition' and uses 'Intensity-based absolute quantification (IBAQ)' via MaxQuant, which is a standard label-free quantification (LFQ) approach."
+          "reason": "Data acquisition was explicitly recorded as 'data dependent acquisition' (DDA) and quantification used 'Intensity-based absolute quantification (IBAQ)' via MaxQuant, which is a label-free quantification (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "complexome_profiling",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'complexome profiling' using Blue Native electrophoresis (BNE) where gel lanes were cut into fractions for MS analysis."
+          "reason": "The experiment is explicitly described as 'complexome profiling' using Blue Native Electrophoresis (BNE) where gel lanes were cut into fractions for MS analysis."
         }
       ],
       "trigger_keywords": [
@@ -255,8 +306,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:50:45Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

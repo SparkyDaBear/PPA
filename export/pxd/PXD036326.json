@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "cell cycle state comparison"
     ],
     "cell_types": [
       "endothelial cell of umbilical vein"
@@ -24,21 +24,21 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
+        "ontology_label": "cell cycle state comparison",
+        "ontology_curie": "PPA:0000106",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "cell_cycle_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
         "confidence": "high",
         "evidence": [
-          "HUVEC-FUCCI were FACS-isolated into S/G2/M (green), early G1 (negative), and late G1 (red) populations",
-          "Mass spectrometry analysis was performed on protein lysates",
-          "we found cell cycle proteins to be differentially expressed, as expected, among these populations"
+          "HUVEC-FUCCI were FACS-isolated into three different cell cycle states.",
+          "Mass spectrometry analysis was performed on protein lysates... we found cell cycle proteins to be differentially expressed, as expected, among these populations",
+          "FACS-isolated HUVEC-FUCCI into S/G2/M (green), early G1 (negative), and late G1 (red) populations"
         ]
       }
     ],
@@ -49,12 +49,11 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [
-      "early G1 (negative)"
-    ],
+    "control_arms": [],
     "case_arms": [
-      "late G1 (red)",
-      "S/G2/M (green)"
+      "S/G2/M",
+      "early G1",
+      "late G1"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -66,17 +65,17 @@
       {
         "control_label": "early G1",
         "case_label": "late G1",
-        "contrast_type": "pairwise",
+        "contrast_type": "multi_group",
         "evidence": [
-          "we found cell cycle proteins to be differentially expressed, as expected, among these populations"
+          "differentially expressed proteins among the three cell cycles"
         ]
       },
       {
         "control_label": "early G1",
         "case_label": "S/G2/M",
-        "contrast_type": "pairwise",
+        "contrast_type": "multi_group",
         "evidence": [
-          "we found cell cycle proteins to be differentially expressed, as expected, among these populations"
+          "differentially expressed proteins among the three cell cycles"
         ]
       }
     ],
@@ -115,7 +114,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -129,7 +128,8 @@
     "quantification_strategy": [
       "relative quantitation",
       "summed abundances",
-      "pairwise ratio"
+      "pairwise ratio",
+      "ANOVA"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -145,22 +145,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative quantitation performed via Minora Feature Detector and summed abundances (label-free quantification)."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative quantitation performed via summed abundances (label-free approach) using Minora Feature Detector."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 0.7,
-          "reason": "Phosphorylation on S,T,Y was explicitly listed as a variable modification and Halt Phosphatase Inhibitor Cocktail was used during lysis."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.4,
+          "reason": "Phosphorylation was listed as a variable modification and Halt Phosphatase Inhibitor Cocktail was used, though no explicit enrichment step (like TiO2/IMAC) is mentioned; it may be global proteomics with phosphorylation search."
         }
       ],
       "trigger_keywords": [
         "data-dependent MS/MS",
         "relative quantitation",
         "summed abundances",
-        "phosphorylation on S,T,Y"
+        "Minora Feature Detector"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -168,22 +168,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative quantitation performed via Minora Feature Detector and summed abundances (label-free quantification)."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Eclipse with relative quantitation performed via summed abundances (label-free approach) using Minora Feature Detector."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 0.7,
-          "reason": "Phosphorylation on S,T,Y was explicitly listed as a variable modification and Halt Phosphatase Inhibitor Cocktail was used during lysis."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.4,
+          "reason": "Phosphorylation was listed as a variable modification and Halt Phosphatase Inhibitor Cocktail was used, though no explicit enrichment step (like TiO2/IMAC) is mentioned; it may be global proteomics with phosphorylation search."
         }
       ],
       "trigger_keywords": [
         "data-dependent MS/MS",
         "relative quantitation",
         "summed abundances",
-        "phosphorylation on S,T,Y"
+        "Minora Feature Detector"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,8 +211,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:21:29Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

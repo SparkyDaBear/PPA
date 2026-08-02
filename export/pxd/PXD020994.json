@@ -35,16 +35,15 @@
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
-        "matched_class_key": "cytokine_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
         "matched_class_path": [
           "ligand_stimulation",
-          "cytokine_stimulation"
+          "immune_receptor_ligand_stimulation"
         ],
-        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
         "confidence": "high",
         "evidence": [
           "We identify an inflammatory \u201ccytokine-storm\u201d, a cocktail of interferon gamma, interleukin 1\u03b2, and poly(I:C), induced diastolic dysfunction.",
-          "we measured the global phosphoproteome in hCOs.",
           "CS treatment induced 91 phosphosites that were consistently elevated (Figure 2B)."
         ]
       }
@@ -52,12 +51,35 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "interferon gamma, interleukin 1\u03b2, and poly(I:C)",
-        "dose_or_concentration": null,
+        "agent": "interferon gamma",
+        "dose_or_concentration": "100 ng/ml",
         "duration": null,
         "route_or_context": "human cardiac organoids (hCOs)",
         "evidence": [
-          "We identify an inflammatory \u201ccytokine-storm\u201d, a cocktail of interferon gamma, interleukin 1\u03b2, and poly(I:C), induced diastolic dysfunction."
+          "100 ng/ml IFN-\u03b3",
+          "a cocktail of interferon gamma, interleukin 1\u03b2, and poly(I:C)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "interleukin 1\u03b2",
+        "dose_or_concentration": "10 ng/ml",
+        "duration": null,
+        "route_or_context": "human cardiac organoids (hCOs)",
+        "evidence": [
+          "10 ng/ml IL-1\u03b2",
+          "a cocktail of interferon gamma, interleukin 1\u03b2, and poly(I:C)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "poly(I:C)",
+        "dose_or_concentration": "10 \u03bcg/ml",
+        "duration": null,
+        "route_or_context": "human cardiac organoids (hCOs)",
+        "evidence": [
+          "10 \u03bcg/ml poly(I:C) (HMW, Invivogen)",
+          "a cocktail of interferon gamma, interleukin 1\u03b2, and poly(I:C)"
         ]
       }
     ],
@@ -66,12 +88,15 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "0 h"
+    ],
     "control_arms": [
-      "CTRL"
+      "baseline (time 0 h)",
+      "control"
     ],
     "case_arms": [
-      "CS"
+      "cardiac cytokine storm (CS)"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -103,7 +128,7 @@
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "10090",
+        "taxonomy_hint": null,
         "confidence": "high"
       }
     ],
@@ -115,17 +140,17 @@
       },
       {
         "label": "endothelial cells",
-        "rollup_category": "vascular cell",
+        "rollup_category": "heart cell",
         "ontology_curie": null
       },
       {
         "label": "fibroblasts",
-        "rollup_category": "stromal cell",
+        "rollup_category": "heart cell",
         "ontology_curie": null
       },
       {
         "label": "pericytes",
-        "rollup_category": "vascular cell",
+        "rollup_category": "heart cell",
         "ontology_curie": null
       },
       {
@@ -156,7 +181,12 @@
         "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "human cardiac organoids",
+        "source_kind": "other"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
       "label": "phosphoproteome",
@@ -164,7 +194,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -200,21 +230,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'Shotgun proteomics'. The methods section describes a DDA acquisition (full scan followed by up to ten MS2 scans) using a Q Exactive HF-X."
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'Shotgun proteomics'. Text describes DDA acquisition (full scan followed by top ten MS2 scans) and MaxQuant processing."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'phosphoproteomics' using the 'EasyPhos workflow' with 'Phospho(STY)' as a variable modification."
+          "reason": "Experiment specifically targets the phosphoproteome using the 'EasyPhos workflow' and 'Phospho(STY)' variable modifications."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
         "EasyPhos",
-        "Phospho(STY)",
-        "label-free quantification"
+        "label-free quantification",
+        "DDA",
+        "Phospho(STY)"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,21 +254,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'Shotgun proteomics'. The methods section describes a DDA acquisition (full scan followed by up to ten MS2 scans) using a Q Exactive HF-X."
+          "reason": "PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and 'Shotgun proteomics'. Text describes DDA acquisition (full scan followed by top ten MS2 scans) and MaxQuant processing."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as 'phosphoproteomics' using the 'EasyPhos workflow' with 'Phospho(STY)' as a variable modification."
+          "reason": "Experiment specifically targets the phosphoproteome using the 'EasyPhos workflow' and 'Phospho(STY)' variable modifications."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
         "EasyPhos",
-        "Phospho(STY)",
-        "label-free quantification"
+        "label-free quantification",
+        "DDA",
+        "Phospho(STY)"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -265,8 +297,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:22:36Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

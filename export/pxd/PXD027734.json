@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "nutrient or metabolic perturbation"
+      "nutrient or metabolic perturbation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "hepatocyte"
@@ -28,40 +29,56 @@
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
           "nutrient_metabolic",
-          "nutrient_deprivation"
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
           "starvation leads to robust nuclear p53 stabilization",
-          "intracellular biotinylation was induced by changing cell culture media to either GM or SM",
-          "For starvation, GM was removed, cells were washed with phosphate buffered saline (PBS; gibco, 10001-015), and treated in HBSS (gibco, 14175-053) containing 1 g/l glucose supplemented with 10 mM HEPES (gibco, 1560-080) (\u201cstarvation medium\u201d, SM)."
+          "p53 signaling networks under nutrient stress",
+          "changing cell culture media to either growth medium (GM) or starvation medium (SM)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "HepG2 p53 knockout cell lines (HepG2 p53KO) were generated using p53 CRISPR/Cas9 KO plasmid"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "starvation medium (SM)",
+        "agent": "starvation medium",
         "dose_or_concentration": "1 g/l glucose",
         "duration": "2 h",
-        "route_or_context": "cell culture medium replacement",
+        "route_or_context": "HepG2 p53KO cells",
         "evidence": [
-          "treated in HBSS (gibco, 14175-053) containing 1 g/l glucose supplemented with 10 mM HEPES (gibco, 1560-080) (\u201cstarvation medium\u201d, SM).",
-          "After 2 h of biotin labeling, samples were harvested"
+          "treated in HBSS (gibco, 14175-053) containing 1 g/l glucose supplemented with 10 mM HEPES (\u201cstarvation medium\u201d, SM)",
+          "subjected the cells to either growth medium or starvation medium for 2 h"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "growth medium (GM)",
+        "agent": "growth medium",
         "dose_or_concentration": "4.5 g/l glucose",
         "duration": "2 h",
-        "route_or_context": "cell culture medium",
+        "route_or_context": "HepG2 p53KO cells",
         "evidence": [
-          "maintained in DMEM (gibco, 41966-029) containing 4.5 g/l glucose supplemented with 10% (v/v) heat inactivated fetal bovine serum (FBS; HyCloneTM, SV30160.03)",
+          "maintained in DMEM (gibco, 41966-029) containing 4.5 g/l glucose supplemented with 10% (v/v) heat inactivated fetal bovine serum (FBS; HyCloneTM, SV30160.03) and 1% Penicilin/Streptamycin (gibco, 15140-122) (\u201cgrowth medium\u201d, GM)",
           "subjected the cells to either growth medium or starvation medium for 2 h"
         ]
       }
@@ -75,28 +92,36 @@
       "2 h"
     ],
     "control_arms": [
-      "GM_p53",
-      "GM_EGFP"
+      "growth medium (GM)",
+      "V5-EGFP-miniTurbo-NES"
     ],
     "case_arms": [
-      "SM_p53",
-      "SM_EGFP"
+      "starvation medium (SM)",
+      "V5-p53-miniTurbo-NES"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "Each group was analyzed in 3 biological replicates (GM_p53, SM_p53, GM_EGFP, SM_EGFP; 12 samples total)."
+      "Each group was analyzed in 3 biological replicates"
     ],
     "multiplex_channel_hints": [
       "Label-Free Quantification"
     ],
     "contrast_hints": [
       {
-        "control_label": "growth medium (GM)",
-        "case_label": "starvation medium (SM)",
+        "control_label": "GM_p53",
+        "case_label": "SM_p53",
         "contrast_type": "pairwise",
         "evidence": [
           "Volcano bots were generated with Perseus 1.4.16 using the setting t-test, GM_p53 vs SM_p53, FDR0.05."
+        ]
+      },
+      {
+        "control_label": "EGFP control",
+        "case_label": "p53 group",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "hierarchical clustering identified three clusters with proteins specifically enriched in the p53 group over the EGFP control"
         ]
       }
     ],
@@ -135,7 +160,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -150,12 +175,18 @@
       "iBAQ",
       "Label-Free Quantification"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "proximity labeling",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -172,22 +203,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480 in DDA mode (most intense precursor ions selected for tandem MS)."
+          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480, utilizing iBAQ and Match Between Runs in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "biotinylation_enrichment",
+          "modifier_workflow_id": "modifier_biotinylation",
           "confidence": 1.0,
-          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with streptavidin affinity purification to enrich biotinylated proteins."
+          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a second MaxQuant search specifically for biotinylated peptides on K or N-term."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity-biotinylation",
-        "streptavidin beads",
         "Label-Free Quantification",
-        "miniTurbo"
+        "iBAQ",
+        "streptavidin beads"
       ],
       "raw_or_file_name_triggers": [
         "Biotin (K)Sites.txt"
@@ -198,22 +229,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480 in DDA mode (most intense precursor ions selected for tandem MS)."
+          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480, utilizing iBAQ and Match Between Runs in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "biotinylation_enrichment",
+          "modifier_workflow_id": "modifier_biotinylation",
           "confidence": 1.0,
-          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with streptavidin affinity purification to enrich biotinylated proteins."
+          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a second MaxQuant search specifically for biotinylated peptides on K or N-term."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity-biotinylation",
-        "streptavidin beads",
         "Label-Free Quantification",
-        "miniTurbo"
+        "iBAQ",
+        "streptavidin beads"
       ],
       "raw_or_file_name_triggers": [
         "Biotin (K)Sites.txt"
@@ -243,8 +274,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:08:48Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -29,17 +29,16 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "analyzed na\u00efve spleens from WT and legumain-deficient (Lgmn\u2212/\u2212) mice",
-          "In murine spleen, legumain KO led to altered proteolysis and neutrophil proteins."
+          "legumain KO led to altered proteolysis and neutrophil proteins"
         ]
       },
       {
@@ -47,20 +46,30 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "benchmarked our FAIMS-facilitated N-terminomics method in mouse macrophages treated with the legumain inhibitor SD-134",
-          "The legumain-specific inhibitor SD-134 was used to inhibit legumain in RAW264.7 cells."
+          "RAW264.7 cells were treated with DMSO or 10 \u03bcM SD-134"
         ]
       }
     ],
     "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Lgmn\u2212/\u2212",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "murine spleen",
+        "evidence": [
+          "analyzed na\u00efve spleens from WT and legumain-deficient (Lgmn\u2212/\u2212) mice"
+        ]
+      },
       {
         "relation_key": "has_treatment_agent",
         "agent": "SD-134",
@@ -68,17 +77,7 @@
         "duration": "16 h",
         "route_or_context": "RAW264.7 cells",
         "evidence": [
-          "addition of vehicle or SD-134 (10 \u03bcM added from a 10 mM stock; 0.1% final DMSO concentration). After 16 h, cells were harvested and used for MS analysis"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "Lgmn\u2212/\u2212 (legumain knockout)",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "murine spleen",
-        "evidence": [
-          "analyzed na\u00efve spleens from WT and legumain-deficient (Lgmn\u2212/\u2212) mice"
+          "addition of vehicle or SD-134 (10 \u03bcM added from a 10 mM stock; 0.1% final DMSO concentration). After 16 h, cells were harvested"
         ]
       }
     ],
@@ -104,16 +103,14 @@
       "n = 4/group",
       "four biological replicates per group (WT and Lgmn\u2212/\u2212, n = 4)"
     ],
-    "multiplex_channel_hints": [
-      "dimethylation-based N-termini labeling"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "WT",
         "case_label": "Lgmn\u2212/\u2212",
         "contrast_type": "pairwise",
         "evidence": [
-          "235 cleavage events enriched in WT compared to legumain-deficient spleens."
+          "compared the dimethylated N-termini observed between WT and Lgmn\u2212/\u2212 na\u00efve mouse spleens"
         ]
       },
       {
@@ -170,7 +167,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -204,58 +201,72 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_dimethyl",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly describes protein dimethylation using formaldehyde and sodium cyanoborohydride followed by DDA acquisition."
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via IonQuant/MaxLFQ."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Label-free quantification (LFQ) was performed using IonQuant and MaxLFQ values were extracted."
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "Proteins were dimethylated using formaldehyde and sodium cyanoborohydride to label N-termini."
         }
       ],
       "modifier_candidates_ranked": [
         {
+          "modifier_workflow_id": "n_terminomics",
+          "confidence": 1.0,
+          "reason": "The entire study is focused on N-terminomics, specifically identifying neo-N-termini and using semi-tryptic searches to find cleavage sites."
+        },
+        {
           "modifier_workflow_id": "faims_fractionation",
           "confidence": 1.0,
-          "reason": "The study specifically developed and benchmarked a FAIMS-facilitated N-terminomics approach using six different compensation voltages (CVs)."
+          "reason": "High-field asymmetric waveform ion mobility spectrometry (FAIMS) was used for gas-phase fractionation across multiple compensation voltages (CVs)."
         }
       ],
       "trigger_keywords": [
-        "dimethylation",
-        "FAIMS",
         "N-terminomics",
+        "FAIMS",
+        "dimethylation",
+        "neo-N-termini",
         "semi-tryptic",
-        "neo-N-termini"
+        "label-free quantification",
+        "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_dimethyl",
+          "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly describes protein dimethylation using formaldehyde and sodium cyanoborohydride followed by DDA acquisition."
+          "reason": "The study explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via IonQuant/MaxLFQ."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Label-free quantification (LFQ) was performed using IonQuant and MaxLFQ values were extracted."
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.9,
+          "reason": "Proteins were dimethylated using formaldehyde and sodium cyanoborohydride to label N-termini."
         }
       ],
       "modifier_candidates_ranked": [
         {
+          "modifier_workflow_id": "n_terminomics",
+          "confidence": 1.0,
+          "reason": "The entire study is focused on N-terminomics, specifically identifying neo-N-termini and using semi-tryptic searches to find cleavage sites."
+        },
+        {
           "modifier_workflow_id": "faims_fractionation",
           "confidence": 1.0,
-          "reason": "The study specifically developed and benchmarked a FAIMS-facilitated N-terminomics approach using six different compensation voltages (CVs)."
+          "reason": "High-field asymmetric waveform ion mobility spectrometry (FAIMS) was used for gas-phase fractionation across multiple compensation voltages (CVs)."
         }
       ],
       "trigger_keywords": [
-        "dimethylation",
-        "FAIMS",
         "N-terminomics",
+        "FAIMS",
+        "dimethylation",
+        "neo-N-termini",
         "semi-tryptic",
-        "neo-N-termini"
+        "label-free quantification",
+        "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -283,8 +294,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:56:04Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

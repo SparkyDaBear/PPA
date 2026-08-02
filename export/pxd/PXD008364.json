@@ -8,7 +8,9 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "embryonic kidney fibroblasts"
@@ -28,15 +30,47 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "matched_class_key": null,
         "matched_class_path": [
-          "chemical_or_drug",
-          "agonist_or_activator"
+          "chemical_or_drug"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "medium",
+        "evidence": [
+          "treated these with recombinant type I IFN or lipofectamine-complexed poly(I:C)"
+        ],
+        "notes": "The proteomics experiment uses IFN and poly(I:C) as stimulants to mimic viral infection; while these are ligands, they are administered as exogenous chemical/protein treatments to the cell culture."
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
+        ],
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
         "confidence": "high",
         "evidence": [
-          "We transiently expressed a plasmid encoding FLAG-tagged human LGP2 or a control plasmid in HEK293 embryonic kidney fibroblasts and treated these with recombinant type I IFN or lipofectamine-complexed poly(I:C), a dsRNA analogue, in order to mimic a state of viral infection"
+          "treated these with recombinant type I IFN or lipofectamine-complexed poly(I:C), a dsRNA analogue, in order to mimic a state of viral infection"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "We transiently expressed a plasmid encoding FLAG-tagged human LGP2 or a control plasmid in HEK293 embryonic kidney fibroblasts"
         ]
       }
     ],
@@ -44,21 +78,33 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "recombinant type I IFN",
-        "dose_or_concentration": null,
+        "dose_or_concentration": "200 U/ml",
         "duration": null,
-        "route_or_context": "HEK293 embryonic kidney fibroblasts",
+        "route_or_context": "HEK293 cells",
         "evidence": [
-          "treated these with recombinant type I IFN"
+          "treated these with recombinant type I IFN",
+          "Universal type I IFN alpha (PBL Assay Science) was used at 200 U/ml."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "lipofectamine-complexed poly(I:C)",
+        "agent": "poly(I:C)",
+        "dose_or_concentration": "1 \u03bcg/ml",
+        "duration": null,
+        "route_or_context": "lipofectamine-complexed",
+        "evidence": [
+          "treated these with... lipofectamine-complexed poly(I:C), a dsRNA analogue",
+          "Poly(I:C) (Amersham) was used at 1 \u03bcg/ml either uncomplexed or complexed with Lipofectamine 2000"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FLAG-tagged human LGP2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "HEK293 embryonic kidney fibroblasts",
+        "route_or_context": "transient plasmid expression",
         "evidence": [
-          "treated these with... lipofectamine-complexed poly(I:C), a dsRNA analogue"
+          "We transiently expressed a plasmid encoding FLAG-tagged human LGP2"
         ]
       }
     ],
@@ -72,10 +118,12 @@
       "control plasmid"
     ],
     "case_arms": [
-      "FLAG-tagged human LGP2"
+      "FLAG-tagged human LGP2",
+      "type I IFN treated",
+      "poly(I:C) treated"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -85,6 +133,22 @@
         "contrast_type": "pairwise",
         "evidence": [
           "We transiently expressed a plasmid encoding FLAG-tagged human LGP2 or a control plasmid"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "type I IFN",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated these with recombinant type I IFN"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "poly(I:C)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated these with... lipofectamine-complexed poly(I:C)"
         ]
       }
     ],
@@ -135,13 +199,14 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "iBAQ"
+      "iBAQ",
+      "TIC"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "Affinity purification",
-        "ontology_curie": null,
+        "ontology_curie": "PRIDE:0000433",
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -159,22 +224,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used LTQ-Orbitrap XL (DDA) and iBAQ for protein quantification, which is a label-free quantification (LFQ) approach."
+          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and performed protein quantification using iBAQ (Intensity-based absolute quantification) via MaxQuant, which is a standard label-free quantification approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' using FLAG-tagged LGP2 immunoprecipitation."
+          "reason": "The experiment is explicitly described as a proteomics-based approach to identify binding partners using FLAG immunoprecipitation (IP) of LGP2."
         }
       ],
       "trigger_keywords": [
         "FLAG immunoprecipitation",
         "iBAQ",
+        "MaxQuant",
         "LTQ-Orbitrap XL",
-        "in-gel digested",
-        "Affinity purification"
+        "binding partners"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -183,22 +248,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used LTQ-Orbitrap XL (DDA) and iBAQ for protein quantification, which is a label-free quantification (LFQ) approach."
+          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and performed protein quantification using iBAQ (Intensity-based absolute quantification) via MaxQuant, which is a standard label-free quantification approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' using FLAG-tagged LGP2 immunoprecipitation."
+          "reason": "The experiment is explicitly described as a proteomics-based approach to identify binding partners using FLAG immunoprecipitation (IP) of LGP2."
         }
       ],
       "trigger_keywords": [
         "FLAG immunoprecipitation",
         "iBAQ",
+        "MaxQuant",
         "LTQ-Orbitrap XL",
-        "in-gel digested",
-        "Affinity purification"
+        "binding partners"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -226,8 +291,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:13:11Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,68 +3,201 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293T",
-      "U2OS",
-      "HCT116"
+      "HEK293T T-REx"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "HEK293T cells stably transduced with pHAGE-MCM8IP-FLAG-HA or pHAGE-GFP-FLAG-HA",
+          "HEK293T T-REx cells expressing pHAGE-TREX-BioID-RPA1 or the BioID-alone control",
+          "HEK293T T-REx cells expressing pHAGE-TREX-BioID-MCM8IP, pHAGE-TREX-MCM8IP-BioID, or the BioID-alone control"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "dna_damage_chemical_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "dna_damage_chemical_treatment"
+        ],
+        "matched_definition": "Chemical treatment that induces DNA damage or replication stress.",
+        "confidence": "high",
+        "evidence": [
+          "Cells were then treated with DNA damaging agents or left untreated in media supplemented with 50 \u00b5M biotin",
+          "relative to BirA* alone, BirA*\u2013RPA1 was able to capture interactions with known RPA1 partners, such as RPA2 and SMARCAL1, which were further enhanced with HU treatment",
+          "identify RPA1 interactors by mass spectrometry, HEK293T T-REx cells expressing pHAGE-TREX-BioID-RPA1 or the BioID-alone control were grown to near confluency in three 15\u00a0cm dishes and labeled and harvested as described above."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "hydroxyurea",
+        "dose_or_concentration": "1 mM",
+        "duration": "24 hrs",
+        "route_or_context": "HEK293T T-REx cells",
+        "evidence": [
+          "labeled (50 \u00b5M biotin) with 1 mM hydroxyurea for 24 hrs"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "BirA*-RPA1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transduced HEK293T T-REx cells",
+        "evidence": [
+          "HEK293T T-REx cells expressing pHAGE-TREX-BioID-RPA1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "BirA*-MCM8IP",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transduced HEK293T T-REx cells",
+        "evidence": [
+          "HEK293T T-REx cells expressing pHAGE-TREX-BioID-MCM8IP, pHAGE-TREX-MCM8IP-BioID"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 hrs"
+    ],
+    "control_arms": [
+      "BirA*-alone",
+      "GFP-HA"
+    ],
+    "case_arms": [
+      "BirA*-RPA1",
+      "BirA*-MCM8IP",
+      "MCM8IP-BirA*",
+      "MCM8IP-HA"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Each sample was analyzed twice by mass spectrometry (technical duplicate)",
+      "grown to near confluency in three 15 cm dishes"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "BirA* alone",
+        "case_label": "BirA*-RPA1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identified proteins (1% FDR, minimum of two unique peptides) were considered putative RPA interactors if total spectral counts were at least 3-fold enriched in BirA*\u2013RPA1 relative to BirA* alone"
+        ]
+      },
+      {
+        "control_label": "BirA* alone or GFP-HA",
+        "case_label": "BirA*-MCM8IP",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "identified proteins (1% FDR, minimum of two unique peptides in each of two technical replicates) were considered hits if the average total spectral count of two technical replicates was at least 5-fold enriched in BirA*\u2013MCM8IP, MCM8IP\u2013BirA*, or MCM8IP-HA relative to their respective controls (BirA* alone or GFP-HA)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "human",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      },
+      {
+        "label": "HEK293T T-REx",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": true
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "spectral counting"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity-dependent labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +205,78 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (TopN/Top Speed) and spectral counting for quantification, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid",
+          "confidence": 1.0,
+          "reason": "Explicit use of BioID (BirA*) proximity-dependent labeling for RPA1 and MCM8IP interactors."
+        },
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.9,
+          "reason": "Use of anti-HA agarose beads for immunoprecipitation of MCM8IP-HA."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "BirA*",
+        "spectral counting",
+        "streptavidin-coated magnetic beads",
+        "immunoprecipitation"
+      ],
+      "raw_or_file_name_triggers": [
+        "BirA*",
+        "MCM8IP-HA",
+        "GFP-HA"
+      ]
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.9,
+          "reason": "The experiment uses DDA (TopN/Top Speed) and spectral counting for quantification, which is a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "bioid",
+          "confidence": 1.0,
+          "reason": "Explicit use of BioID (BirA*) proximity-dependent labeling for RPA1 and MCM8IP interactors."
+        },
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.9,
+          "reason": "Use of anti-HA agarose beads for immunoprecipitation of MCM8IP-HA."
+        }
+      ],
+      "trigger_keywords": [
+        "BioID",
+        "BirA*",
+        "spectral counting",
+        "streptavidin-coated magnetic beads",
+        "immunoprecipitation"
+      ],
+      "raw_or_file_name_triggers": [
+        "BirA*",
+        "MCM8IP-HA",
+        "GFP-HA"
+      ]
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +296,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

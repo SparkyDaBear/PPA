@@ -3,12 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": null,
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "mutation or variant perturbation",
+      "chemical or drug treatment",
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,33 +25,84 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "we transfected cells with FLAG-YEATS2 or FLAG-YEATS2-T604A plasmids",
-          "the T604A mutation significantly downregulated O-GlcNAcylation levels"
+          "transfected cells with FLAG-YEATS2 or FLAG-YEATS2-T604A plasmids",
+          "the T604A mutation, which abolishes its O-GlcNAcylation, caused a significant decrease of YEATS2 in the chromatin fraction"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "We treated cells with the OGA inhibitor, Thiamet-G (TMG), together with glucose (abbreviated at TMG + Glu), to increase the levels of protein O-GlcNAcylation."
+        ]
+      },
+      {
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "supplementation_or_repletion",
+        "matched_class_path": [
+          "nutrient_metabolic",
+          "supplementation_or_repletion"
+        ],
+        "matched_definition": "Addition or restoration of nutrients, metabolites, or cofactors.",
+        "confidence": "medium",
+        "evidence": [
+          "glucose (Glu) was used at 30 mM for 3 h."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "Thiamet-G",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "24 h",
+        "route_or_context": "OGA inhibitor",
+        "evidence": [
+          "TMG (OGA inhibitor) was used at 5 \u03bcM for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glucose",
+        "dose_or_concentration": "30 mM",
+        "duration": "3 h",
+        "route_or_context": null,
+        "evidence": [
+          "glucose (Glu) was used at 30 mM for 3 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "YEATS2-T604A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "plasmid transfection",
+        "route_or_context": "mutation of Thr604 to Alanine",
         "evidence": [
-          "we transfected cells with FLAG-YEATS2 or FLAG-YEATS2-T604A plasmids"
+          "the T604A mutation, which abolishes its O-GlcNAcylation"
         ]
       }
     ],
@@ -58,12 +111,17 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "3 h",
+      "24 h"
+    ],
     "control_arms": [
-      "FLAG-YEATS2 (WT)"
+      "FLAG-YEATS2-WT",
+      "control"
     ],
     "case_arms": [
-      "FLAG-YEATS2-T604A"
+      "FLAG-YEATS2-T604A",
+      "TMG + Glu"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -77,7 +135,15 @@
         "case_label": "YEATS2-T604A",
         "contrast_type": "pairwise",
         "evidence": [
-          "we transfected cells with FLAG-YEATS2 or FLAG-YEATS2-T604A plasmids and treated cells with TMG and glucose. We observed that mutations at Thr604 (T604A) greatly diminished RL2 signals"
+          "the T604A mutation, which abolishes its O-GlcNAcylation, caused a significant decrease of YEATS2 in the chromatin fraction"
+        ]
+      },
+      {
+        "control_label": "control",
+        "case_label": "TMG + Glu",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the level of YEATS2 on chromatin was significantly increased in the TMG plus Glu-treated lane compared with the control"
         ]
       }
     ],
@@ -126,9 +192,7 @@
     "labeling_strategy": [
       "Unknown"
     ],
-    "quantification_strategy": [
-      "Unknown"
-    ],
+    "quantification_strategy": [],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
@@ -151,14 +215,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used data-dependent acquisition (DDA) and bottom-up proteomics. While no specific LFQ method is detailed, it is the standard base for DDA without labeling."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an LTQ Orbitrap Elite. While no explicit label-free quantification (LFQ) method is detailed, the DDA mode and bottom-up approach are standard for this setup."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_glcnac",
+          "modifier_workflow_id": "mod_glcnac",
           "confidence": 1.0,
-          "reason": "The study specifically targets O-GlcNAcylation, using ETD MS and searching for HexNAc modifications on Ser/Thr."
+          "reason": "The study specifically targets O-GlcNAcylation using ETD MS and explicitly lists HexNAc as a variable modification."
         }
       ],
       "trigger_keywords": [
@@ -174,14 +238,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used data-dependent acquisition (DDA) and bottom-up proteomics. While no specific LFQ method is detailed, it is the standard base for DDA without labeling."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an LTQ Orbitrap Elite. While no explicit label-free quantification (LFQ) method is detailed, the DDA mode and bottom-up approach are standard for this setup."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_glcnac",
+          "modifier_workflow_id": "mod_glcnac",
           "confidence": 1.0,
-          "reason": "The study specifically targets O-GlcNAcylation, using ETD MS and searching for HexNAc modifications on Ser/Thr."
+          "reason": "The study specifically targets O-GlcNAcylation using ETD MS and explicitly lists HexNAc as a variable modification."
         }
       ],
       "trigger_keywords": [
@@ -216,8 +280,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:43:37Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

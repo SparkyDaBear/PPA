@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "genetic perturbation"
+      "case-control disease status",
+      "knockdown or interference perturbation"
     ],
     "cell_types": [
       "CD8+ T cells"
@@ -27,34 +27,35 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "We analyzed HLA-presented peptides by MS-based ligandomics of 55 ccRCC tumors (cohort 1), paired non-tumor renal tissues, and 158 benign tissues from other organs."
         ]
       },
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
+          "EGLN3 knockdown was performed using the siGENOME siRNA pool 112399",
           "Analysis of cellular metabolites by untargeted metabolomics furthermore revealed differentially regulated metabolites in EGLN3 knockdown and control cells."
         ]
       }
@@ -62,13 +63,14 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "siRNA (EGLN3 knockdown)",
+        "agent": "siGENOME siRNA pool 112399",
         "dose_or_concentration": "25 nM",
         "duration": "72 h",
         "route_or_context": "786-O kidney carcinoma cell line",
         "evidence": [
+          "EGLN3 knockdown was performed using the siGENOME siRNA pool 112399",
           "transfected the following day at a confluency of ~ 60% with a final concentration of 25 nM siRNA",
-          "Cells were seeded and transfected in T25 cell culture flasks and harvested 72 h after transfection."
+          "For metabolomics analysis, the 786-O kidney carcinoma cell line was used. Cells were seeded and transfected in T25 cell culture flasks and harvested 72 h after transfection."
         ]
       }
     ],
@@ -83,25 +85,26 @@
     "control_arms": [
       "paired non-tumor renal tissues",
       "benign tissues from other organs",
-      "non-targeting siRNA transfected control cells"
+      "siGENOME Non-targeting siRNA Pool #1 (Ctr. 1)",
+      "ON-TARGETplus Non-targeting Pool (Ctr. 2)"
     ],
     "case_arms": [
       "ccRCC tumors",
-      "EGLN3 knockdown cells"
+      "EGLN3 knockdown"
     ],
     "paired_design": true,
-    "factorial_design": false,
+    "factorial_design": null,
     "replicate_hints": [
       "Five technical replicates were measured per sample."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "non-tumor renal tissues",
+        "control_label": "non-tumor tissues",
         "case_label": "ccRCC tumors",
         "contrast_type": "pairwise",
         "evidence": [
-          "We analyzed HLA-presented peptides by MS-based ligandomics of 55 ccRCC tumors (cohort 1), paired non-tumor renal tissues"
+          "To identify ccRCC-specific peptides, a library of HLA class I and II ligands from 158 tissues of healthy organs and leukocyte preparations served as a control pool to exclude globally presented peptides"
         ]
       },
       {
@@ -109,7 +112,7 @@
         "case_label": "EGLN3 knockdown",
         "contrast_type": "pairwise",
         "evidence": [
-          "differentially regulated metabolites in EGLN3 knockdown and control cells"
+          "Analysis of cellular metabolites by untargeted metabolomics furthermore revealed differentially regulated metabolites in EGLN3 knockdown and control cells."
         ]
       }
     ],
@@ -207,14 +210,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "Shotgun proteomics (DDA) used for HLA ligandomics; while no explicit labeling is mentioned, the comparison of tumor vs non-tumor across many samples typically follows an LFQ-like approach in immunopeptidomics."
+          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) with technical replicates and a comparative design (tumor vs non-tumor), though it is a non-enzymatic ligandomics search."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as HLA ligandomics/immunopeptidomics using immunoaffinity purification of HLA class I and II complexes."
+          "reason": "Explicitly described as HLA ligandomics/immunopeptidomics using immunoaffinity purification of HLA class I and II complexes."
         }
       ],
       "trigger_keywords": [
@@ -222,8 +225,7 @@
         "immunopeptidomics",
         "HLA-presented peptides",
         "immunoaffinity purification",
-        "HLA class I",
-        "HLA class II"
+        "non-restricted to enzymatic specificity"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -232,14 +234,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.7,
-          "reason": "Shotgun proteomics (DDA) used for HLA ligandomics; while no explicit labeling is mentioned, the comparison of tumor vs non-tumor across many samples typically follows an LFQ-like approach in immunopeptidomics."
+          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) with technical replicates and a comparative design (tumor vs non-tumor), though it is a non-enzymatic ligandomics search."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as HLA ligandomics/immunopeptidomics using immunoaffinity purification of HLA class I and II complexes."
+          "reason": "Explicitly described as HLA ligandomics/immunopeptidomics using immunoaffinity purification of HLA class I and II complexes."
         }
       ],
       "trigger_keywords": [
@@ -247,13 +249,12 @@
         "immunopeptidomics",
         "HLA-presented peptides",
         "immunoaffinity purification",
-        "HLA class I",
-        "HLA class II"
+        "non-restricted to enzymatic specificity"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "unknown",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "peptide"
     },
@@ -276,8 +277,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:04:56Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

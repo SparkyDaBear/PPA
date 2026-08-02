@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "knockdown or interference perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -24,32 +24,54 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "molecular_state",
-          "ptm_or_activation_state"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
-        "confidence": "medium",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
         "evidence": [
-          "To further explore the functions of menin in breast cancer, we analyzed the interactome landscape of menin in Hs 578T cells using the IP coupled LC/MS/MS approach.",
-          "For each cell line, IP against DDX5 protein was compared to control IP consisting of similar workflow excepted that no antibody was added to the lysate (Control beads)."
+          "The depletion of menin by an antisense oligonucleotide (ASO) inhibits cell proliferation",
+          "ASO-based menin silencing also delays the tumor progression of TNBC xenografts.",
+          "menin knockdown induced by ASO21"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "rabbit anti-menin polyclonal antibody",
-        "dose_or_concentration": "5 \u03bcg",
-        "duration": "overnight",
-        "route_or_context": "Immunoprecipitation (IP)",
+        "agent": "ASO21",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfected twice with ASOs at 24 h and 48 h after cell seeding",
         "evidence": [
-          "incubated with 5 \u03bcg of the rabbit anti-menin polyclonal antibody (Bethyl Laboratories Inc., Montgomery, TX, USA) overnight at 4 \u00b0C."
+          "ASO21 was the most efficient ASO for silencing menin",
+          "Hs 578T cells at 50\u201360% density were transfected twice with ASOs at 24 h and 48 h after cell seeding"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "ASO21",
+        "dose_or_concentration": "100 nM, 200 nM, 300 nM and 400 nM",
+        "duration": null,
+        "route_or_context": "in vitro cell viability assay",
+        "evidence": [
+          "transfected the day after with menin-ASO or control-ASO at 100 nM, 200 nM, 300 nM and 400 nM"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_duration",
+        "agent": "ASO21",
+        "dose_or_concentration": null,
+        "duration": "72 h",
+        "route_or_context": "Western blot analysis",
+        "evidence": [
+          "For Western blot analysis, the transfected cells were harvested 72 h after the second ASO transfection."
         ]
       }
     ],
@@ -58,28 +80,40 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "72 h"
+    ],
     "control_arms": [
-      "Control IP (no antibody/Control beads)"
+      "control-ASO",
+      "scramble control",
+      "untreated"
     ],
     "case_arms": [
-      "IP against menin"
+      "menin-ASO",
+      "ASO21"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
+      "Each assay was performed in triplicate.",
       "Analysis was done on biological triplicates, each injected three times on mass spectrometers."
     ],
-    "multiplex_channel_hints": [
-      "Relative intensity-based label-free quantification (LFQ)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Control IP",
-        "case_label": "Menin IP",
+        "control_label": "control-ASO",
+        "case_label": "ASO21",
         "contrast_type": "pairwise",
         "evidence": [
-          "For each cell line, IP against DDX5 protein was compared to control IP consisting of similar workflow excepted that no antibody was added to the lysate (Control beads)."
+          "Hs 578T cells were treated with ASO21 or control-ASO (scrambled, SCR) at various concentrations"
+        ]
+      },
+      {
+        "control_label": "control-ASO",
+        "case_label": "ASO21",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "ASO21 downregulated menin in a dose-dependent manner"
         ]
       }
     ],
@@ -118,7 +152,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -132,7 +166,7 @@
     "quantification_strategy": [
       "Relative intensity-based label-free quantification (LFQ)"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
@@ -154,14 +188,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data dependent acquisition (DDA) mode and MaxLFQ for relative intensity-based label-free quantification."
+          "reason": "The experiment used data-dependent acquisition (DDA) mode on a Q Exactive Plus and processed relative intensity-based label-free quantification (LFQ) using MaxLFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The experiment is an Affinity Purification-Mass Spectrometry (AP-MS) study using an anti-menin antibody to identify the interactome."
+          "reason": "The experiment is explicitly described as an interactome study using Affinity Purification-Mass Spectrometry (AP-MS) via immunoprecipitation (IP) with anti-menin antibodies."
         }
       ],
       "trigger_keywords": [
@@ -169,8 +203,8 @@
         "LFQ",
         "data dependent acquisition",
         "IP coupled MS",
-        "AP-MS",
-        "interactome"
+        "interactome",
+        "Affinity Purification-Mass Spectrometry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -179,14 +213,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data dependent acquisition (DDA) mode and MaxLFQ for relative intensity-based label-free quantification."
+          "reason": "The experiment used data-dependent acquisition (DDA) mode on a Q Exactive Plus and processed relative intensity-based label-free quantification (LFQ) using MaxLFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The experiment is an Affinity Purification-Mass Spectrometry (AP-MS) study using an anti-menin antibody to identify the interactome."
+          "reason": "The experiment is explicitly described as an interactome study using Affinity Purification-Mass Spectrometry (AP-MS) via immunoprecipitation (IP) with anti-menin antibodies."
         }
       ],
       "trigger_keywords": [
@@ -194,8 +228,8 @@
         "LFQ",
         "data dependent acquisition",
         "IP coupled MS",
-        "AP-MS",
-        "interactome"
+        "interactome",
+        "Affinity Purification-Mass Spectrometry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,8 +257,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:30:51Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -1,79 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import { getOntology, getProjectIndex, getRelease } from '../lib/site-data';
 
-const [release, ontology, projectIndex] = await Promise.all([
-  getRelease(),
-  getOntology(),
-  getProjectIndex(),
-]);
-
-const branches = Object.keys(ontology.branches || {});
-const projects = projectIndex.projects || [];
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="PPA Curator Workbench">
-  <section class="hero-panel">
+<BaseLayout title="Treatment Explorer · Proteomics Perturbation Atlas">
+  <section class="explorer-header">
     <div>
-      <p class="hero-kicker">Scientific atlas</p>
-      <h2>Ontology and PRIDE metadata, rendered from curated public exports.</h2>
+      <p class="hero-kicker">Proteomics Perturbation Atlas</p>
+      <h2>Treatment Explorer</h2>
+      <p class="lede">Choose a broad perturbation category, then a specific treatment class to browse its annotated studies.</p>
     </div>
-    <div class="hero-badges">
-      <span class="badge">Astro static site</span>
-      <span class="badge">Links-only evidence policy</span>
-    </div>
+    <p id="browser-total" class="explorer-total" aria-live="polite">Loading treatment annotations...</p>
   </section>
 
-  <section class="metrics-grid">
-    <article class="metric-card">
-      <p class="metric-label">Ontology Terms</p>
-      <p class="metric-value">{release.term_count}</p>
-    </article>
-    <article class="metric-card">
-      <p class="metric-label">Public Projects</p>
-      <p class="metric-value">{projects.length}</p>
-    </article>
-    <article class="metric-card">
-      <p class="metric-label">Schema Version</p>
-      <p class="metric-value">{release.schema_version}</p>
-    </article>
-  </section>
-
-  <div class="content-grid">
-    <section class="panel">
-      <SectionHeading kicker="Ontology branches" title="Branch structure" description="Browse the public ontology by major metadata branch." />
-      <div class="pill-list">
-        {branches.map((branch) => <span class="pill">{branch.replace(/_/g, ' ')}</span>)}
-      </div>
-    </section>
-
-    <section class="panel">
-      <SectionHeading kicker="Current scope" title="Public export boundary" description="The public site only exposes normalized metadata and outbound source links." />
-      <ul class="plain-list">
-        <li>Ontology terms and branch hierarchy</li>
-        <li>Per-PXD normalized metadata summaries</li>
-        <li>Stage 4 workflow summary fields</li>
-        <li>Outbound PRIDE and literature links</li>
-      </ul>
-    </section>
-  </div>
-
-  <section class="panel" style="margin-top: 18px;">
-    <SectionHeading kicker="Release" title="Export metadata" />
-    <div class="content-grid">
-      <div>
-        <p class="detail-label">Generated</p>
-        <p class="lede">{release.generated_at}</p>
-      </div>
-      <div>
-        <p class="detail-label">Evidence policy</p>
-        <p class="lede">{release.public_evidence_policy}</p>
-      </div>
+  <section id="treatment-browser" class="treatment-explorer" aria-label="Treatment ontology explorer" data-url={`${base}export/treatment_browser.json`} data-base={base}>
+    <div class="treatment-column">
+      <div class="explorer-section-heading"><p class="detail-kicker">Level 1</p><h3>Treatment categories</h3></div>
+      <div id="treatment-l1" class="treatment-l1-list" aria-live="polite"></div>
+    </div>
+    <div class="treatment-column treatment-l2-column">
+      <div class="explorer-section-heading"><p class="detail-kicker">Level 2</p><h3 id="treatment-l2-title">Choose a category</h3></div>
+      <div id="treatment-l2" class="treatment-l2-list" aria-live="polite"></div>
     </div>
   </section>
 
-  <footer class="page-footer">
-    {projects.length} projects are available in the public export.
-  </footer>
+  <section class="treatment-results" aria-label="Annotated project results">
+    <header class="results-header">
+      <div><p class="detail-kicker">Studies</p><h3 id="results-title">Select a treatment class</h3><p id="results-definition" class="row-meta">The selected Level 2 class will show its normalized project metadata here.</p></div>
+      <p id="results-count" class="explorer-total"></p>
+    </header>
+    <label class="search-field results-filter"><span>Filter studies</span><input id="treatment-project-filter" type="search" placeholder="PXD, title, treatment agent, cell system, or assay" disabled /></label>
+    <div class="treatment-results-layout">
+      <div id="treatment-projects" class="treatment-project-list" aria-live="polite"></div>
+      <aside id="treatment-project-detail" class="treatment-project-detail" aria-live="polite"><p class="detail-kicker">Project metadata</p><h3>Select a study</h3><p class="row-meta">Choose a project to inspect its treatment context, experimental design, and source links.</p></aside>
+    </div>
+  </section>
+
+  <script>
+    import { initTreatmentBrowser } from '../scripts/treatment-browser';
+    const browser = document.getElementById('treatment-browser');
+    initTreatmentBrowser({
+      dataUrl: browser?.dataset.url || '/export/treatment_browser.json',
+      baseUrl: browser?.dataset.base || '/',
+    });
+  </script>
 </BaseLayout>

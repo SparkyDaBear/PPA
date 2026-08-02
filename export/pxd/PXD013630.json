@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -13,7 +13,7 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
+    "sample_scope": "extracellular vesicle scope",
     "sample_scope_label": "extracellular vesicle scope",
     "sample_scope_curie": "PPA:0000199",
     "instrument": null
@@ -25,13 +25,12 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "pEVs were collected from fibrinogen knockout (Fib\u2212/\u2212) mice and wild-type littermate (Fib+/+) controls"
@@ -42,15 +41,16 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "we performed a proteomic analysis of pEVs from nondiseased subjects and patients with relapsing-remitting MS (RRMS)."
+          "Plasma samples were obtained from a total of three patients with MS and three healthy, nondiseased controls",
+          "LC-tandem mass spectrometry of the pEVs also identified fibrinogen in human pEVs... comparing RRMS with control pEV samples"
         ]
       }
     ],
@@ -64,6 +64,17 @@
         "evidence": [
           "Proteomic analysis identified a causal role for fibrinogen in pEVs inducing the unique clinical and immunological phenotype"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "pEVs",
+        "dose_or_concentration": "1.46 mL (blood volume of one mouse)",
+        "duration": null,
+        "route_or_context": "injected into mice with active EAE",
+        "evidence": [
+          "Injected isolated pEVs into any single recipient were equal to the blood volume of one mouse\u2019s (1.46 mL) whole blood.",
+          "MOG35\u201355 EAE immunized mice received a single injection of pEVs at the time of peak clinical disability"
+        ]
       }
     ],
     "source_sections": [
@@ -72,22 +83,27 @@
   },
   "experimental_design": {
     "timepoints": [
-      "peak clinical disability"
+      "peak clinical disability",
+      "first-relapse event"
     ],
     "control_arms": [
-      "Fib+/+ pEVs",
-      "nondiseased subjects"
+      "vehicle",
+      "Fib+/+ (wild-type littermate)",
+      "healthy, nondiseased controls"
     ],
     "case_arms": [
-      "Fib\u2212/\u2212 pEVs",
+      "pEV-injected",
+      "Fib\u2212/\u2212 (fibrinogen knockout)",
       "relapsing-remitting MS (RRMS) patients"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "three patients with MS and three healthy, nondiseased controls"
+      "n = 4"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "barcoded with Cell-ID Pd barcoding kit"
+    ],
     "contrast_hints": [
       {
         "control_label": "Fib+/+ pEVs",
@@ -98,11 +114,19 @@
         ]
       },
       {
-        "control_label": "nondiseased subjects",
+        "control_label": "healthy controls",
         "case_label": "RRMS patients",
         "contrast_type": "pairwise",
         "evidence": [
-          "we performed a proteomic analysis of pEVs from nondiseased subjects and patients with relapsing-remitting MS (RRMS)."
+          "comparing RRMS with control pEV samples"
+        ]
+      },
+      {
+        "control_label": "vehicle",
+        "case_label": "pEV-injected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Spinal cords were obtained from vehicle or pEV-injected MOG35\u201355 EAE mice"
         ]
       }
     ],
@@ -133,7 +157,7 @@
       }
     ],
     "sample_scope": {
-      "category": "subproteome",
+      "category": "extracellular vesicle scope",
       "label": "extracellular vesicle scope",
       "curie": "PPA:0000199"
     },
@@ -168,16 +192,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The data was acquired on a Q Exactive Plus using DDA (MS/MS acquired in centroid mode with dynamic exclusion). While the PRIDE 'experimentTypes' mentions 'Top-down proteomics', the 'sampleProcessingProtocol' explicitly describes a standard bottom-up workflow: urea denaturation, reduction (DTT), alkylation (iodoacetamide), and sequential digestion with LysC and Trypsin."
+          "reason": "Data acquired on Q Exactive Plus using DDA (MS/MS collected per MS scan) with no mention of isobaric labels, SILAC, or DIA. While 'quantitative' is not explicitly detailed in the PRIDE protocol, the study compares RRMS vs control and Fib-/- vs Fib+/+ pEVs."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "LC-MS/MS",
-        "trypsin",
-        "LysC",
+        "LC-tandem mass spectrometry",
         "Q Exactive Plus",
-        "dynamic exclusion"
+        "tryptic peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,16 +208,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The data was acquired on a Q Exactive Plus using DDA (MS/MS acquired in centroid mode with dynamic exclusion). While the PRIDE 'experimentTypes' mentions 'Top-down proteomics', the 'sampleProcessingProtocol' explicitly describes a standard bottom-up workflow: urea denaturation, reduction (DTT), alkylation (iodoacetamide), and sequential digestion with LysC and Trypsin."
+          "reason": "Data acquired on Q Exactive Plus using DDA (MS/MS collected per MS scan) with no mention of isobaric labels, SILAC, or DIA. While 'quantitative' is not explicitly detailed in the PRIDE protocol, the study compares RRMS vs control and Fib-/- vs Fib+/+ pEVs."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "LC-MS/MS",
-        "trypsin",
-        "LysC",
+        "LC-tandem mass spectrometry",
         "Q Exactive Plus",
-        "dynamic exclusion"
+        "tryptic peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,8 +243,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:42:25Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

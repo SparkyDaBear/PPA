@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
       "ovarian epithelial cells"
@@ -26,20 +27,38 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "To obtain a broader view of the proteome of ovarian cancer cells compared to ovarian epithelial cells",
+          "The T1074 ovarian cancer cell line was immortalized by SV40 virus and originally derived from normal human ovarian surface epithelial cells.",
           "We selected the PEO-4 cell line possessing high-grade serous histology, the SKOV-3 clear cell carcinoma cell line, and the T1074 ovarian epithelial cell line, originally derived from normal human ovarian surface epithelial cells, serving as a non-tumorous control."
+        ]
+      },
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "subcellular_spatial_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "subcellular_spatial_comparison"
+        ],
+        "matched_definition": "Comparison among spatially resolved cellular compartments when the spatial state is the biological variable.",
+        "confidence": "high",
+        "evidence": [
+          "We show high variation in protein expression levels of RefProts and AltProts in different subcellular compartments.",
+          "The Subcellular Protein Fractionation Kit for Cultured Cells (Thermo Fisher Scientific) was used to isolate five distinct protein cell compartments: cytoplasmic, membrane, nuclear, chromatin-bound and cytoskeletal proteins."
         ]
       }
     ],
@@ -60,19 +79,17 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Three million cells of each cell line in triplicate",
-      "proteins needed to be identified in 70% of the replicates from at least one cell line"
+      "four replicates of three million cells from each cell line",
+      "Three million cells of each cell line in triplicate"
     ],
-    "multiplex_channel_hints": [
-      "Label-free quantification (LFQ)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "T1074",
         "case_label": "PEO-4",
         "contrast_type": "pairwise",
         "evidence": [
-          "When comparing both cancerous cell lines to T1074 cells, significant downregulation of AltProts was observed in all five compartments."
+          "To obtain a broader view of the proteome of ovarian cancer cells compared to ovarian epithelial cells"
         ]
       },
       {
@@ -80,15 +97,15 @@
         "case_label": "SKOV-3",
         "contrast_type": "pairwise",
         "evidence": [
-          "When comparing both cancerous cell lines to T1074 cells, significant downregulation of AltProts was observed in all five compartments."
+          "To obtain a broader view of the proteome of ovarian cancer cells compared to ovarian epithelial cells"
         ]
       },
       {
-        "control_label": "PEO-4",
-        "case_label": "SKOV-3",
-        "contrast_type": "pairwise",
+        "control_label": "T1074",
+        "case_label": "Ovarian Cancer Cells",
+        "contrast_type": "multi_group",
         "evidence": [
-          "632 genes were upregulated and 6608 downregulated between the two cancer cell lines."
+          "An ANOVA multiple-sample test was performed using a Benjamini-Hochberg FDR q-value cutoff of 0.05."
         ]
       }
     ],
@@ -101,7 +118,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -155,7 +172,7 @@
     "targets_and_enrichments": [
       {
         "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
-        "ontology_curie": null,
+        "ontology_curie": "PRIDE:0000430",
         "workflow_modifier_hint": "mod_complexome",
         "confidence": "high"
       }
@@ -173,30 +190,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) based on MS1 intensity with a QExactive mass spectrometer."
+          "reason": "Explicitly mentions label-free quantification (LFQ) using MS1 intensity based method on a Q Exactive mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_dsso",
+          "modifier_workflow_id": "crosslinking_ms",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses DSSO (disuccinimidyl sulfoxide) for chemical protein cross-linking (XL-MS)."
-        },
-        {
-          "modifier_workflow_id": "proteogenomics_custom_db",
-          "confidence": 1.0,
-          "reason": "The study uses a specialized proteogenomic approach with custom databases (OpenCustomDB) derived from RNA-seq to identify AltProts and variants."
+          "reason": "The experiment explicitly uses DSSO for chemical protein cross-linking (XL-MS) to identify AltProt-RefProt interactions."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ",
-        "DSSO",
         "cross-linking-MS",
         "XL-MS",
-        "proteogenomics",
-        "AltProts",
-        "OpenCustomDB"
+        "DSSO",
+        "proteogenomic",
+        "AltProts"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -205,30 +216,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) based on MS1 intensity with a QExactive mass spectrometer."
+          "reason": "Explicitly mentions label-free quantification (LFQ) using MS1 intensity based method on a Q Exactive mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_dsso",
+          "modifier_workflow_id": "crosslinking_ms",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses DSSO (disuccinimidyl sulfoxide) for chemical protein cross-linking (XL-MS)."
-        },
-        {
-          "modifier_workflow_id": "proteogenomics_custom_db",
-          "confidence": 1.0,
-          "reason": "The study uses a specialized proteogenomic approach with custom databases (OpenCustomDB) derived from RNA-seq to identify AltProts and variants."
+          "reason": "The experiment explicitly uses DSSO for chemical protein cross-linking (XL-MS) to identify AltProt-RefProt interactions."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ",
-        "DSSO",
         "cross-linking-MS",
         "XL-MS",
-        "proteogenomics",
-        "AltProts",
-        "OpenCustomDB"
+        "DSSO",
+        "proteogenomic",
+        "AltProts"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,8 +261,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:55:57Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "small-molecule inhibitor treatment",
+      "mutation or variant perturbation"
     ],
     "cell_types": [
       "lung cancer cells"
@@ -25,20 +26,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "Inhibition of Aurora A with a selective inhibitor, MLN8237 (Fig. 2C), significantly reduced the phosphorylation of PKM2 T45 in H1299 cells",
           "the H1299 cells were treated with DMSO or 100nM MLN8237"
+        ]
+      },
+      {
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "Replacing the endogenous PKM2 with a nonphosphorylated PKM2 T45A mutant inhibited glycolysis",
+          "H1299 cells that had endogenous WT PKM2 depleted and expressed either shRNA-resistant Flag-PKM2 WT or Flag-PKM2 T45A"
         ]
       }
     ],
@@ -52,6 +70,16 @@
         "evidence": [
           "the H1299 cells were treated with DMSO or 100nM MLN8237"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PKM2 T45A mutant",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "Replacing the endogenous PKM2",
+        "evidence": [
+          "Replacing the endogenous PKM2 with a nonphosphorylated PKM2 T45A mutant inhibited glycolysis"
+        ]
       }
     ],
     "source_sections": [
@@ -61,14 +89,18 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "DMSO"
+      "DMSO",
+      "PKM2 WT"
     ],
     "case_arms": [
-      "MLN8237"
+      "MLN8237",
+      "PKM2 T45A"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "cells were seeded in triplicate"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -77,6 +109,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "the H1299 cells were treated with DMSO or 100nM MLN8237"
+        ]
+      },
+      {
+        "control_label": "PKM2 WT",
+        "case_label": "PKM2 T45A",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "expressed either shRNA-resistant Flag-PKM2 WT or Flag-PKM2 T45A"
         ]
       }
     ],
@@ -129,10 +169,10 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "Unknown"
+      "Label-free"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -156,22 +196,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Orbitrap Exploris 480 (DDA) with label-free comparison between DMSO and MLN8237 treated samples."
+          "reason": "The experiment uses shotgun proteomics (DDA) on excised gel bands and immunoprecipitated proteins, with a focus on identifying and comparing phosphorylation sites (T45) across conditions (DMSO vs MLN8237)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "The experiment specifically aims to identify phosphorylation sites (T45) on PKM2 using variable phosphorylation modifications in the search."
+          "reason": "The study specifically targets phosphorylation sites on PKM2 using in vitro kinase assays and IP-MS, explicitly searching for S/T phosphorylation."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "phosphoproteomics",
-        "pFind",
-        "variable modification",
-        "S/T, +79.9663Da"
+        "in vitro kinase assay",
+        "phospho-site",
+        "pFind Studio 3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -180,22 +219,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Orbitrap Exploris 480 (DDA) with label-free comparison between DMSO and MLN8237 treated samples."
+          "reason": "The experiment uses shotgun proteomics (DDA) on excised gel bands and immunoprecipitated proteins, with a focus on identifying and comparing phosphorylation sites (T45) across conditions (DMSO vs MLN8237)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "The experiment specifically aims to identify phosphorylation sites (T45) on PKM2 using variable phosphorylation modifications in the search."
+          "reason": "The study specifically targets phosphorylation sites on PKM2 using in vitro kinase assays and IP-MS, explicitly searching for S/T phosphorylation."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "phosphoproteomics",
-        "pFind",
-        "variable modification",
-        "S/T, +79.9663Da"
+        "in vitro kinase assay",
+        "phospho-site",
+        "pFind Studio 3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,8 +261,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:37:48Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

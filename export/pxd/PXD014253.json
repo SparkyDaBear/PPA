@@ -8,8 +8,8 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison",
-      "molecular state comparison"
+      "anatomical or spatial comparison",
+      "genetic perturbation"
     ],
     "cell_types": [
       "dendritic cells",
@@ -26,48 +26,73 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
-        "matched_class_key": "activation_or_differentiation_state",
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": null,
         "matched_class_path": [
-          "activation_or_differentiation_state"
+          "anatomical_spatial"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
-        "confidence": "high",
+        "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
+        "confidence": "medium",
         "evidence": [
           "To study whether similar conserved residues are present in different cell types, potentially harbouring different proteolytic enzymes, the ligandomes of HLA-DRB1*03:01/HLA-DRB\u2009>\u20091 derived from two different cell types (dendritic cells and EBV-transformed B cells) were identified with mass spectrometry"
         ]
       },
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
-          "mutation_defined_state"
+          "genetic",
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "Furthermore, the terminal conservations of these ligandomes were compared to the N- and C-terminal conservations of the ligandome acquired from dendritic cells homozygous for HLA-DRB1*04:01."
+          "the terminal conservations of these ligandomes were compared to the N- and C-terminal conservations of the ligandome acquired from dendritic cells homozygous for HLA-DRB1*04:01"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "LPS",
+        "dose_or_concentration": "100 ng/ml",
+        "duration": "24 h",
+        "route_or_context": "maturation of dendritic cells",
+        "evidence": [
+          "The iDC were matured by incubating 0.5\u2009\u00d7\u2009106 DC/well in a 24-well plate with LPS (100 ng/ml) and IFN-\u03b3 (1000 U/ml) for 24 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "IFN-\u03b3",
+        "dose_or_concentration": "1000 U/ml",
+        "duration": "24 h",
+        "route_or_context": "maturation of dendritic cells",
+        "evidence": [
+          "The iDC were matured by incubating 0.5\u2009\u00d7\u2009106 DC/well in a 24-well plate with LPS (100 ng/ml) and IFN-\u03b3 (1000 U/ml) for 24 h."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h"
+    ],
     "control_arms": [],
     "case_arms": [
       "dendritic cells",
       "EBV-transformed B cells",
-      "HLA-DRB1*04:01 homozygous dendritic cells"
+      "HLA-DRB1*03:01",
+      "HLA-DRB1*04:01"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -77,16 +102,16 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "EBV-transformed B cells",
+        "control_label": "B cells",
         "case_label": "dendritic cells",
         "contrast_type": "pairwise",
         "evidence": [
-          "To study whether similar conserved residues are present in different cell types... the ligandomes of HLA-DRB1*03:01/HLA-DRB\u2009>\u20091 derived from two different cell types (dendritic cells and EBV-transformed B cells) were identified"
+          "To study whether similar conserved residues are present in different cell types... the ligandomes... derived from two different cell types (dendritic cells and EBV-transformed B cells) were identified"
         ]
       },
       {
-        "control_label": "HLA-DRB1*03:01 dendritic cells",
-        "case_label": "HLA-DRB1*04:01 dendritic cells",
+        "control_label": "HLA-DRB1*03:01",
+        "case_label": "HLA-DRB1*04:01",
         "contrast_type": "pairwise",
         "evidence": [
           "the terminal conservations of these ligandomes were compared to the N- and C-terminal conservations of the ligandome acquired from dendritic cells homozygous for HLA-DRB1*04:01"
@@ -163,21 +188,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used DDA (top 10-mode) on a Q-Exactive mass spectrometer with no mentioned isotopic labeling (SILAC, TMT, etc.), making it a label-free discovery-style identification run."
+          "confidence": 0.7,
+          "reason": "Data acquired via Q-Exactive in top 10-mode (DDA). While no explicit quantification method is listed in PRIDE, the study analyzes peptide frequencies and distributions, typical of label-free ligandome profiling."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically isolates HLA-class II molecules using affinity purification (B8.11.2 antibody) to analyze the eluted ligandome."
+        }
+      ],
       "trigger_keywords": [
-        "ligandome",
-        "no enzyme was specified",
-        "HLA-eluted peptides",
-        "top 10-mode"
+        "ligandomes",
+        "HLA-class II",
+        "peptide elution",
+        "immunopeptidomics",
+        "peptide-binding core"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,16 +217,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used DDA (top 10-mode) on a Q-Exactive mass spectrometer with no mentioned isotopic labeling (SILAC, TMT, etc.), making it a label-free discovery-style identification run."
+          "confidence": 0.7,
+          "reason": "Data acquired via Q-Exactive in top 10-mode (DDA). While no explicit quantification method is listed in PRIDE, the study analyzes peptide frequencies and distributions, typical of label-free ligandome profiling."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment specifically isolates HLA-class II molecules using affinity purification (B8.11.2 antibody) to analyze the eluted ligandome."
+        }
+      ],
       "trigger_keywords": [
-        "ligandome",
-        "no enzyme was specified",
-        "HLA-eluted peptides",
-        "top 10-mode"
+        "ligandomes",
+        "HLA-class II",
+        "peptide elution",
+        "immunopeptidomics",
+        "peptide-binding core"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -222,8 +261,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:08:10Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

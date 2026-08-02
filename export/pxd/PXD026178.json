@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -12,13 +12,13 @@
       "disease or clinical state"
     ],
     "cell_types": [
+      "platelet",
       "erythrocytes",
       "macrophages",
       "monocytes",
       "dendritic cells",
       "eosinophils",
       "neutrophils",
-      "platelets",
       "hematopoietic stem cells",
       "natural killers cells",
       "T-cells",
@@ -44,35 +44,35 @@
         "ontology_label": "cell state or interaction comparison",
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
-          "activation_or_differentiation_state"
+          "cell_state_interaction",
+          "differentiation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
         "confidence": "high",
         "evidence": [
-          "expressed from 1690 human genes across 21 cell types and plasma from human blood and bone marrow",
           "proteoforms better describe protein-level biology and are more specific indicators of differentiation than their corresponding proteins",
-          "Quantitative comparison of proteoforms using label-free TDP was applied to compare pools of B cells (CD19+) against T cells (CD3+) from the same donor",
-          "We also compared five B cell subtypes from a single donor sorted by FACS, including pre-B-I, pre-B-II, and pre-B-III from bone marrow and memory and na\u00efve B cells from blood"
+          "comparing pools of B cells (CD19+) against T cells (CD3+) from the same donor",
+          "compared five B cell subtypes from a single donor sorted by FACS, including pre-B-I, pre-B-II, and pre-B-III from bone marrow and memory and na\u00efve B cells from blood"
         ]
       },
       {
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "case_control_disease"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "identifying cell and proteoform signatures that distinguish normal graft function from acute rejection and other causes of graft dysfunction",
-          "Patients were initially divided into three groups: transplant excellent (TX representing IQ and healthy graft function; n = 25), acute dysfunction no rejection (ADNR, representing nonrejection causes of graft injury; n = 25), and AR (n = 25)",
-          "Figure 4 shows the results for AR versus non-AR (TX+ADNR) and TX versus non-TX (AR+ADNR)"
+          "Patients were initially divided into three groups: transplant excellent (TX representing IQ and healthy graft function, n = 25), acute dysfunction no rejection (ADNR, representing nonrejection causes of graft injury, n = 25), and AR (n = 25)."
         ]
       }
     ],
@@ -84,14 +84,13 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "TX",
-      "non-AR (TX+ADNR)"
+      "transplant excellent (TX)",
+      "T cells (CD3+)"
     ],
     "case_arms": [
-      "AR",
-      "non-TX (AR+ADNR)",
-      "B cells",
-      "T cells",
+      "acute rejection (AR)",
+      "acute dysfunction no rejection (ADNR)",
+      "B cells (CD19+)",
       "pre-B-I",
       "pre-B-II",
       "pre-B-III",
@@ -101,23 +100,20 @@
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "cohort of 75 LTRs",
-      "new cohort of 59 patient PBMCs"
+      "n = 25"
     ],
-    "multiplex_channel_hints": [
-      "label-free TDP"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "T cells",
-        "case_label": "B cells",
+        "control_label": "T cells (CD3+)",
+        "case_label": "B cells (CD19+)",
         "contrast_type": "pairwise",
         "evidence": [
           "compare pools of B cells (CD19+) against T cells (CD3+) from the same donor"
         ]
       },
       {
-        "control_label": "non-AR",
+        "control_label": "TX+ADNR",
         "case_label": "AR",
         "contrast_type": "pairwise",
         "evidence": [
@@ -126,7 +122,7 @@
       },
       {
         "control_label": "TX",
-        "case_label": "non-TX",
+        "case_label": "AR+ADNR",
         "contrast_type": "pairwise",
         "evidence": [
           "Figure 4 shows the results for ... TX versus non-TX (AR+ADNR)"
@@ -137,7 +133,7 @@
         "case_label": "memory B cells",
         "contrast_type": "pairwise",
         "evidence": [
-          "proteoform PFR1464 from thymosin beta-4 (Fig. 3F) was elevated by ~10-fold in na\u00efve B cells relative to memory cells"
+          "10 proteoforms with increased relative abundance in na\u00efve B cells, with 50 elevated in memory B cells"
         ]
       }
     ],
@@ -150,11 +146,16 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
+      {
+        "label": "platelet",
+        "rollup_category": "hematopoietic cell",
+        "ontology_curie": "CL:0000233"
+      },
       {
         "label": "erythrocytes",
         "rollup_category": "hematopoietic cell",
@@ -162,92 +163,87 @@
       },
       {
         "label": "macrophages",
-        "rollup_category": "myeloid cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "monocytes",
-        "rollup_category": "myeloid cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "dendritic cells",
-        "rollup_category": "myeloid cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "eosinophils",
-        "rollup_category": "myeloid cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "neutrophils",
-        "rollup_category": "myeloid cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
-        "label": "platelets",
-        "rollup_category": "hematopoietic cell",
-        "ontology_curie": "CL:0000233"
-      },
-      {
         "label": "hematopoietic stem cells",
-        "rollup_category": "stem cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "natural killers cells",
-        "rollup_category": "lymphocyte",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "T-cells",
-        "rollup_category": "lymphocyte",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "naive T-cells",
-        "rollup_category": "lymphocyte",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "regulatory T-cells",
-        "rollup_category": "lymphocyte",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "pre-BI cells",
-        "rollup_category": "B-cell precursor",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "BII-cells",
-        "rollup_category": "B-cell precursor",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "BIII-cells",
-        "rollup_category": "B-cell precursor",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "immature B-cells",
-        "rollup_category": "B-cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "naive B-cells",
-        "rollup_category": "B-cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "memory B-cell",
-        "rollup_category": "B-cell",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "PBMCs",
-        "rollup_category": "mixed leukocyte population",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       }
     ],
@@ -259,7 +255,7 @@
       },
       {
         "label": "blood",
-        "source_kind": "biofluid"
+        "source_kind": "tissue"
       },
       {
         "label": "bone marrow",
@@ -273,7 +269,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -309,34 +305,48 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.4,
-          "reason": "Label-free quantification is mentioned, but the experiment is Top-Down Proteomics (TDP), which is not a standard bottom-up DDA/DIA workflow."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses label-free quantitative top-down proteomics (TDP) with spectral counting and intact proteoform quantification."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_proteomics",
+          "confidence": 1.0,
+          "reason": "Explicitly stated multiple times as 'top-down proteomics (TDP)' to capture intact proteoforms rather than peptides."
+        }
+      ],
       "trigger_keywords": [
         "top-down proteomics",
         "TDP",
-        "proteoform",
-        "intact proteoform quantification"
+        "proteoforms",
+        "intact proteoform quantification",
+        "label-free TDP"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.4,
-          "reason": "Label-free quantification is mentioned, but the experiment is Top-Down Proteomics (TDP), which is not a standard bottom-up DDA/DIA workflow."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The study uses label-free quantitative top-down proteomics (TDP) with spectral counting and intact proteoform quantification."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_proteomics",
+          "confidence": 1.0,
+          "reason": "Explicitly stated multiple times as 'top-down proteomics (TDP)' to capture intact proteoforms rather than peptides."
+        }
+      ],
       "trigger_keywords": [
         "top-down proteomics",
         "TDP",
-        "proteoform",
-        "intact proteoform quantification"
+        "proteoforms",
+        "intact proteoform quantification",
+        "label-free TDP"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -364,8 +374,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:27:20Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

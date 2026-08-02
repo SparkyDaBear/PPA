@@ -28,27 +28,48 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "By performing a controlled comparative analysis between full-length TNK2 and its truncated counterpart",
-          "we generated a full-length (FL) TNK2 construct fused with BirA* at C-terminal of TNK2",
-          "We also generated a TNK2 C-terminal deletion BirA* fusion construct (\u0394C) consisting of the N-terminal moiety of TNK2 (1 \u2013 444 AA), with the deletion of the C terminal moiety of TNK2 (\u0394C)"
+          "Using whole cell lysates derived from SILAC-labeled breast cancer cells (HCC1395) expressing either \u0394C mutant (Light) or wild-type (Heavy) TNK2-BirA*"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "full-length TNK2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "expressed in HCC1395 triple negative breast cancer cells",
+        "evidence": [
+          "full-length (FL) or N-terminal half (\u0394C) of TNK2 (1-444 AA) sequence were cloned in-frame on the N-terminus of BioID-HA",
+          "HCC1395 triple negative breast cancer cells were transfected with pBABE-FL-BirA*"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "truncated TNK2 (\u0394C)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "expressed in HCC1395 triple negative breast cancer cells",
+        "evidence": [
+          "full-length (FL) or N-terminal half (\u0394C) of TNK2 (1-444 AA) sequence were cloned in-frame on the N-terminus of BioID-HA",
+          "HCC1395 triple negative breast cancer cells were transfected with pBABE-\u0394C-BirA*"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "biotin",
         "dose_or_concentration": "50 mM",
         "duration": "overnight",
-        "route_or_context": "cell culture media",
+        "route_or_context": "added to growth medium",
         "evidence": [
           "Cells expressing TNK2 FL-BirA* and TNK2 \u0394C-BirA* were cultured overnight with 50 mM biotin."
         ]
@@ -63,10 +84,10 @@
       "overnight"
     ],
     "control_arms": [
-      "TNK2 \u0394C-BirA*"
+      "truncated TNK2 (\u0394C)"
     ],
     "case_arms": [
-      "TNK2 FL-BirA*"
+      "full-length TNK2 (FL)"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -76,17 +97,17 @@
     ],
     "multiplex_channel_hints": [
       "Two-state SILAC",
-      "cells expressing mutant TNK2 \u0394C-BirA* were labeled as \u201clight\u201d",
-      "Cell expressing TNK2 FL-BirA* were labeled as \u201cheavy\u201d"
+      "labeled as \u201clight\u201d by culturing in media supplemented with light lysine (K0) and light arginine (R0)",
+      "labeled as \u201cheavy\u201d by culturing in media supplemented with 13C6, 15N2-Lysine (K8) and 13C6, 15N4-Arginine (R10)"
     ],
     "contrast_hints": [
       {
-        "control_label": "TNK2 \u0394C-BirA*",
-        "case_label": "TNK2 FL-BirA*",
+        "control_label": "truncated TNK2 (\u0394C)",
+        "case_label": "full-length TNK2 (FL)",
         "contrast_type": "pairwise",
         "evidence": [
           "By performing a controlled comparative analysis between full-length TNK2 and its truncated counterpart",
-          "we examined the set of biotinylated sites and proteins that showed a higher abundance (>= 2 fold) in cells expressing full-length TNK2 (FL-TNK2) relative to cells expressing a truncated version of the protein (\u0394C-TNK2)."
+          "biotinylated proteins with higher biotinylation (>=2 fold) in FL-TNK2 cells than in \u0394C-TNK2 cells are likely the bona fide TNK2 associated proteins"
         ]
       }
     ],
@@ -99,7 +120,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -125,7 +146,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -143,7 +164,7 @@
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "proximity labeling",
+        "ontology_label": "proximity-dependent biotinylation",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_proximity_labeling",
         "confidence": "high"
@@ -162,21 +183,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses two-state SILAC (light K0R0 vs heavy K8R10) and data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos."
+          "reason": "Explicit use of two-state SILAC (light K0R0 vs heavy K8R10) with DDA acquisition on Orbitrap Fusion Lumos."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "biotinylation_site_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment uses BioID for proximity labeling and the BioSITe method for anti-biotin antibody-based enrichment of biotinylated peptides to identify specific biotinylation sites."
+          "reason": "Use of BioSITe method involving anti-biotin antibody enrichment of peptides to identify specific biotinylation sites."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "BioID",
         "BioSITe",
-        "biotinylation of lysine",
+        "biotinylation site identification",
         "anti-biotin antibody"
       ],
       "raw_or_file_name_triggers": []
@@ -186,21 +207,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses two-state SILAC (light K0R0 vs heavy K8R10) and data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos."
+          "reason": "Explicit use of two-state SILAC (light K0R0 vs heavy K8R10) with DDA acquisition on Orbitrap Fusion Lumos."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "biotinylation_site_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment uses BioID for proximity labeling and the BioSITe method for anti-biotin antibody-based enrichment of biotinylated peptides to identify specific biotinylation sites."
+          "reason": "Use of BioSITe method involving anti-biotin antibody enrichment of peptides to identify specific biotinylation sites."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "BioID",
         "BioSITe",
-        "biotinylation of lysine",
+        "biotinylation site identification",
         "anti-biotin antibody"
       ],
       "raw_or_file_name_triggers": []
@@ -229,8 +250,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:51:23Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

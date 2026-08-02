@@ -3,16 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT isobaric labeling",
+    "quantification_method": "TMT 11-plex",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "treatment response state"
     ],
     "cell_types": [
-      "T cells",
-      "peripheral blood mononuclear cell"
+      "T cells"
     ],
     "cell_lines": [
       "93VU147T"
@@ -25,30 +25,82 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "disease_stage_or_response",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "disease_stage_or_response"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "we compared the proteome and phosphoproteome of recurrent and non-recurrent tumors by quantitative mass spectrometry.",
+          "we compared the proteome and phosphoproteome of recurrent and non-recurrent tumors",
+          "We also included 5 normal tonsil tissue samples (C) as controls in the MS analysis."
+        ]
+      },
+      {
+        "ontology_label": "treatment response state",
+        "ontology_curie": "PPA:0000096",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "treatment_response_state",
+        "matched_class_path": [
+          "disease",
+          "treatment_response_state"
+        ],
+        "matched_definition": "Clinical comparison between responders, nonresponders, resistant, relapsed, sensitive, or remission states.",
+        "confidence": "high",
+        "evidence": [
+          "compared the proteome and phosphoproteome of recurrent and non-recurrent tumors",
           "The 15 tumor samples used in the MS analysis included those from 8 patients that were tumor-free and 7 with recurring tumors."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "cisplatin",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "chemotherapy",
+        "evidence": [
+          "the patients received cisplatin or radiation treatment until no evidence of disease was observed."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "radiation",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "radiotherapy",
+        "evidence": [
+          "the patients received cisplatin or radiation treatment until no evidence of disease was observed."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sodium pervanadate",
+        "dose_or_concentration": null,
+        "duration": "15 min",
+        "route_or_context": "booster channel for phosphotyrosine detection",
+        "evidence": [
+          "Both 83VU137T cells and T cells were treated with sodium pervanadate",
+          "The solution then was incubated at room temperature for 15 min."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "before any treatment",
+      "after the treatment was discontinued"
+    ],
     "control_arms": [
       "non-recurrent tumors",
       "normal tonsil tissue samples"
@@ -72,15 +124,15 @@
         "case_label": "recurrent",
         "contrast_type": "pairwise",
         "evidence": [
-          "Unpaired 2-sided t-tests were conducted between the non-recurrence and recurrence groups using Perseus."
+          "compared the proteome and phosphoproteome of recurrent and non-recurrent tumors"
         ]
       },
       {
-        "control_label": "tonsil control",
+        "control_label": "normal tonsil",
         "case_label": "tumor",
         "contrast_type": "pairwise",
         "evidence": [
-          "Remarkable differences in specific Fges were found not only between the tumor and tonsil control groups, but also between the no-recurrence and recurrence groups"
+          "We also included 5 normal tonsil tissue samples (C) as controls in the MS analysis."
         ]
       }
     ],
@@ -93,7 +145,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -102,11 +154,6 @@
         "label": "T cells",
         "rollup_category": "immune cell",
         "ontology_curie": null
-      },
-      {
-        "label": "peripheral blood mononuclear cell",
-        "rollup_category": "immune cell",
-        "ontology_curie": "CL:2000001"
       }
     ],
     "cell_lines": [
@@ -133,7 +180,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -145,7 +192,7 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT isobaric labeling"
+      "TMT 11-plex"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -169,25 +216,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses 11-plex TMT isobaric labelling and data-dependent acquisition (DDA) on a Q-Exactive Plus mass spectrometer."
+          "reason": "Explicit use of 11-plex TMT isobaric labelling and data-dependent acquisition (DDA) on a Q-Exactive Plus."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho",
           "confidence": 1.0,
-          "reason": "The study performs extensive phosphoproteome analysis using both Ti4+-IMAC (pSer/pThr) and SH2 Superbinder (pTyr) enrichment."
+          "reason": "Extensive phosphoproteome analysis using both Ti4+-IMAC (pSer/pThr) and SH2 Superbinder (pTyr) enrichment."
         }
       ],
       "trigger_keywords": [
         "TMT",
+        "11-plex",
         "isobaric labelling",
         "DDA",
         "phosphoproteome",
         "IMAC",
-        "SH2 superbinder",
-        "pTyr",
-        "pSer/pThr"
+        "SH2 superbinder"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -196,25 +242,24 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses 11-plex TMT isobaric labelling and data-dependent acquisition (DDA) on a Q-Exactive Plus mass spectrometer."
+          "reason": "Explicit use of 11-plex TMT isobaric labelling and data-dependent acquisition (DDA) on a Q-Exactive Plus."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho",
           "confidence": 1.0,
-          "reason": "The study performs extensive phosphoproteome analysis using both Ti4+-IMAC (pSer/pThr) and SH2 Superbinder (pTyr) enrichment."
+          "reason": "Extensive phosphoproteome analysis using both Ti4+-IMAC (pSer/pThr) and SH2 Superbinder (pTyr) enrichment."
         }
       ],
       "trigger_keywords": [
         "TMT",
+        "11-plex",
         "isobaric labelling",
         "DDA",
         "phosphoproteome",
         "IMAC",
-        "SH2 superbinder",
-        "pTyr",
-        "pSer/pThr"
+        "SH2 superbinder"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -242,8 +287,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:05:52Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

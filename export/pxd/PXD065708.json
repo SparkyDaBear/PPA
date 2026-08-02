@@ -9,7 +9,8 @@
     ],
     "treatment_categories": [
       "chemical or drug treatment",
-      "genetic perturbation"
+      "genetic perturbation",
+      "disease or clinical state"
     ],
     "cell_types": [
       "blood cell"
@@ -18,8 +19,7 @@
       "HEL",
       "K562",
       "HEK-293T",
-      "Ba/F3",
-      "UKE-1"
+      "Ba/F3"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -33,16 +33,16 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "we discovered WWQ-03-012 as a potent inhibitor of DESI2 enzymatic activity",
-          "proteomic analyses following treatment with WWQ-03-012 or DESI2 knockdown"
+          "pharmacologically inhibiting DESI2 promotes the ubiquitin-mediated degradation of JAK2-V617F"
         ]
       },
       {
@@ -50,16 +50,33 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "proteomic analysis following DESI2 KD",
-          "Genetic depletion of DESI2 suppresses both JAK2 mutant cell growth"
+          "we introduced DESI2-silencing shRNA constructs into HEL (JAK2-V617F) cells",
+          "shRNA-mediated knockdown (KD) of DESI2 reduced JAK2-V617F protein levels"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "DESI2 protein is specifically and highly expressed in JAK2-mutant-driven cell lines and MPN primary clinical samples",
+          "we analyzed normal bone marrow and primary MPN patient samples expressing wild-type JAK2 or JAK2-V617F"
         ]
       }
     ],
@@ -67,21 +84,31 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "WWQ-03-012",
-        "dose_or_concentration": null,
+        "dose_or_concentration": "12.5 mg kg\u22121",
         "duration": null,
-        "route_or_context": "human HEL cells",
+        "route_or_context": "i.p. BID",
         "evidence": [
-          "LC-MS-Based Quantitative Proteomic Profiling Reveals WWQ-03-012-Induced Alterations in Protein Expression of Human HEL Cells"
+          "WWQ-03-012 (12.5 mg kg\u22121 in HKI Solution, i.p. BID)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "shRNA (DESI2 knockdown)",
+        "agent": "shDESI2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "human HEL cells",
+        "route_or_context": "lentiviral transduction",
         "evidence": [
-          "proteomic analysis following DESI2 KD"
+          "we introduced DESI2-silencing shRNA constructs into HEL (JAK2-V617F) cells via lentiviral transduction"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Ruxolitinib",
+        "dose_or_concentration": "50 mg kg\u22121",
+        "duration": null,
+        "route_or_context": "i.p. QD",
+        "evidence": [
+          "Ruxolitinib (50 mg kg\u22121 in HKI Solution, i.p. QD)"
         ]
       }
     ],
@@ -90,36 +117,54 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h",
+      "48 h",
+      "72 h"
+    ],
     "control_arms": [
-      "untreated control",
-      "SCR (scrambled control)"
+      "SCR",
+      "Vehicle",
+      "WT JAK2",
+      "healthy donors"
     ],
     "case_arms": [
-      "WWQ-03-012 treated",
-      "DESI2 KD (knockdown)"
+      "WWQ-03-012",
+      "DESI2 KD",
+      "JAK2-V617F"
     ],
     "paired_design": false,
-    "factorial_design": false,
-    "replicate_hints": [],
+    "factorial_design": true,
+    "replicate_hints": [
+      "n = 6/group",
+      "n = 5/group"
+    ],
     "multiplex_channel_hints": [
       "iTRAQ"
     ],
     "contrast_hints": [
       {
-        "control_label": "Control",
-        "case_label": "WWQ-03-012",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "proteomic analyses following treatment with WWQ-03-012"
-        ]
-      },
-      {
         "control_label": "SCR",
         "case_label": "DESI2 KD",
         "contrast_type": "pairwise",
         "evidence": [
-          "proteomic analysis following DESI2 KD"
+          "shRNA-mediated knockdown (KD) of DESI2 reduced JAK2-V617F protein levels, while the scrambled control (SCR) construct had no effect"
+        ]
+      },
+      {
+        "control_label": "Vehicle",
+        "case_label": "WWQ-03-012",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "tumor growth was significantly slower in the WWQ-03-012 (12.5 mg kg\u22121, BID) treated mice compared to their littermate control (Vehicle)"
+        ]
+      },
+      {
+        "control_label": "WT JAK2",
+        "case_label": "JAK2-V617F",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "DESI2 protein is specifically and highly expressed in JAK2-mutant-driven cell lines and MPN primary clinical samples"
         ]
       }
     ],
@@ -134,11 +179,6 @@
         "label": "Homo sapiens",
         "taxonomy_hint": "9606",
         "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
       }
     ],
     "cell_types": [
@@ -151,27 +191,22 @@
     "cell_lines": [
       {
         "label": "HEL",
-        "family": null,
+        "family": "human AML",
         "ontology_curie": null
       },
       {
         "label": "K562",
-        "family": null,
+        "family": "human AML",
         "ontology_curie": null
       },
       {
         "label": "HEK-293T",
-        "family": null,
+        "family": "human embryonic kidney",
         "ontology_curie": null
       },
       {
         "label": "Ba/F3",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "UKE-1",
-        "family": null,
+        "family": "murine pro-B",
         "ontology_curie": null
       }
     ],
@@ -183,7 +218,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -224,28 +259,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
+          "confidence": 0.8,
           "reason": "PRIDE metadata explicitly states 'Data-Dependent Acquisition (DDA)' and 'relative quantitative analysis'. While PRIDE tags mention iTRAQ, the detailed protocol describes a standard DDA approach with Proteome Discoverer for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin",
-          "confidence": 0.8,
+          "confidence": 0.9,
           "reason": "The study focuses heavily on deubiquitination and ubiquitination of JAK2 at K962, using mass spectrometry to identify these sites."
         },
         {
           "modifier_workflow_id": "modifier_sumo",
-          "confidence": 0.8,
-          "reason": "The study focuses on deSUMOylation and SUMOylation of JAK2 at K962, explicitly using LC-MS to identify these modifications."
+          "confidence": 0.9,
+          "reason": "The study focuses on deSUMOylation and SUMOylation of JAK2 at K962, explicitly mentioning the use of LC-MS to identify these sites."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "deSUMOylation",
         "deubiquitination",
         "K962",
-        "ubiquitination"
+        "DDA",
+        "relative quantitative"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -253,28 +288,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
+          "confidence": 0.8,
           "reason": "PRIDE metadata explicitly states 'Data-Dependent Acquisition (DDA)' and 'relative quantitative analysis'. While PRIDE tags mention iTRAQ, the detailed protocol describes a standard DDA approach with Proteome Discoverer for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin",
-          "confidence": 0.8,
+          "confidence": 0.9,
           "reason": "The study focuses heavily on deubiquitination and ubiquitination of JAK2 at K962, using mass spectrometry to identify these sites."
         },
         {
           "modifier_workflow_id": "modifier_sumo",
-          "confidence": 0.8,
-          "reason": "The study focuses on deSUMOylation and SUMOylation of JAK2 at K962, explicitly using LC-MS to identify these modifications."
+          "confidence": 0.9,
+          "reason": "The study focuses on deSUMOylation and SUMOylation of JAK2 at K962, explicitly mentioning the use of LC-MS to identify these sites."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "deSUMOylation",
         "deubiquitination",
         "K962",
-        "ubiquitination"
+        "DDA",
+        "relative quantitative"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -302,8 +337,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:04:09Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

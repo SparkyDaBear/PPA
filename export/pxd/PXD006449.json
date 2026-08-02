@@ -18,8 +18,8 @@
       "MCF7"
     ],
     "sample_scope": "subproteome",
-    "sample_scope_label": "phospho-peptide enrichment",
-    "sample_scope_curie": "PPA:0000195",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
@@ -29,16 +29,16 @@
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
           "nutrient_metabolic",
-          "nutrient_deprivation"
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
-          "we applied these two perturbations; glutamine deprivation and mitochondrial inhibition by oligomycin.",
-          "one media (glutamine deprivation) is chosen because MCF7 cells rely on glutamine as the main source of energy"
+          "to study the regulation of breast cancer cells, we applied these two perturbations; glutamine deprivation",
+          "Minimum Essential Medium (MEM) with glucose and without glutamine (MEM-Gln)"
         ]
       },
       {
@@ -46,38 +46,49 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "we applied these two perturbations; glutamine deprivation and mitochondrial inhibition by oligomycin.",
-          "MEM with glucose, glutamine and supplemented with Oligomycin \u2013 an inhibitor of ATP synthase that inhibits cell respiration (MEM+Oli)."
+          "mitochondrial inhibition by oligomycin",
+          "MEM with glucose, glutamine and supplemented with Oligomycin \u2013 an inhibitor of ATP synthase that inhibits cell respiration (MEM+Oli)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Oligomycin",
-        "dose_or_concentration": "1 \u00b5M",
+        "agent": "glutamine deprivation",
+        "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "in vitro growth medium",
+        "route_or_context": "growth medium",
         "evidence": [
-          "with or without oligomycin (1 \u00b5M)."
+          "we applied these two perturbations; glutamine deprivation"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "glutamine deprivation",
-        "dose_or_concentration": "0 mM",
+        "agent": "oligomycin",
+        "dose_or_concentration": "1 \u00b5M",
         "duration": null,
-        "route_or_context": "MEM-Gln growth condition",
+        "route_or_context": "growth medium",
         "evidence": [
-          "For the MEM-Gln systems the replaced growth medium did not contain glutamine"
+          "mitochondrial inhibition by oligomycin",
+          "with or without oligomycin (1 \u00b5M)"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "after tracer introduction",
+        "evidence": [
+          "The cells were counted at 0 h, 8 h and 24 h after tracer introduction"
         ]
       }
     ],
@@ -87,8 +98,9 @@
   },
   "experimental_design": {
     "timepoints": [
-      "8h",
-      "24h"
+      "0 h",
+      "8 h",
+      "24 h"
     ],
     "control_arms": [
       "MEM"
@@ -112,7 +124,7 @@
         "case_label": "MEM-Gln",
         "contrast_type": "pairwise",
         "evidence": [
-          "decrease in the fluxes of glycolysis... when the cells are at MEM-Gln growth condition compared to MEM."
+          "decrease in the fluxes of glycolysis... when the cells are at MEM-Gln growth condition compared to MEM"
         ]
       },
       {
@@ -120,7 +132,7 @@
         "case_label": "MEM+Oli",
         "contrast_type": "pairwise",
         "evidence": [
-          "in the MEM+Oli growth condition, increased glycolysis, lactic acid fermentation and pyruvate cycle are observed compared to the MEM growth condition"
+          "in the MEM+Oli growth condition, increased glycolysis... are observed compared to the MEM growth condition"
         ]
       }
     ],
@@ -133,7 +145,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -154,8 +166,8 @@
     "noncellular_sources": [],
     "sample_scope": {
       "category": "subproteome",
-      "label": "phospho-peptide enrichment",
-      "curie": "PPA:0000195"
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
     "linkage_hints": {
       "biosample_accessions": [],
@@ -195,34 +207,52 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC internal standards (13C615N2-lysine and 13C615N4-arginine) and quantification method listed as SILAC in PRIDE metadata."
+          "reason": "The study explicitly uses SILAC with heavy labeled MCF7 cells as an internal standard (Lys8 and Arg10) and Q-Exactive MS for data acquisition."
         }
       ],
-      "modifier_candidates": [
+      "modifier_candidates_ranked": [
         {
-          "modifier_id": "phospho_enrichment",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Explicit use of IMAC for phospho-peptide enrichment."
+          "reason": "The experiment includes a dedicated phosphoproteomics arm using IMAC enrichment for phospho-peptide analysis."
         }
-      ]
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "IMAC",
+        "phospho-proteomic",
+        "heavy labeled MCF7"
+      ],
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC internal standards (13C615N2-lysine and 13C615N4-arginine) and quantification method listed as SILAC in PRIDE metadata."
+          "reason": "The study explicitly uses SILAC with heavy labeled MCF7 cells as an internal standard (Lys8 and Arg10) and Q-Exactive MS for data acquisition."
         }
       ],
-      "modifier_candidates": [
+      "modifier_candidates_ranked": [
         {
-          "modifier_id": "phospho_enrichment",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Explicit use of IMAC for phospho-peptide enrichment."
+          "reason": "The experiment includes a dedicated phosphoproteomics arm using IMAC enrichment for phospho-peptide analysis."
         }
-      ]
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "IMAC",
+        "phospho-proteomic",
+        "heavy labeled MCF7"
+      ],
+      "raw_or_file_name_triggers": []
     },
-    "differential_hints": {},
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -242,8 +272,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:35:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

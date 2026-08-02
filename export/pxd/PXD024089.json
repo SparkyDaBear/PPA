@@ -3,11 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MS2 peak areas",
+    "quantification_method": "SIS-spiked",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "disease or clinical state",
+      "infection exposure"
+    ],
     "cell_types": [],
     "cell_lines": [
       "HEK293T",
@@ -20,21 +23,108 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "We obtained blood samples (n = 474) from hospitalized COVID-19 patients (n = 123), non-COVID-19 ICU sepsis patients (n = 25) and healthy controls (n = 30).",
+          "Baseline plasma samples from COVID-19 ICU patients (KCH cohort, n = 12) were compared to plasma samples from COVID-19-negative sepsis ICU patients (sepsis, n = 12) and patients prior to undergoing elective cardiac surgery (controls, n = 30)"
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "SARS-CoV-2 RNA was detected in plasma or serum (RNAemia) of COVID-19 ICU patients",
+          "COVID-19 ICU patients who tested positive (n = 15) or negative (n = 55) for RNAemia within the first six days in ICU"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SARS-CoV-2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "RNAemia (circulating viral RNA)",
+        "evidence": [
+          "Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) RNA was detected in plasma or serum (RNAemia) of COVID-19 ICU patients"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "within 24 h of admission to ICU",
+      "week 1",
+      "week 2",
+      "before discharge"
+    ],
+    "control_arms": [
+      "healthy controls",
+      "non-COVID-19 ICU sepsis patients",
+      "patients before elective cardiac surgery"
+    ],
+    "case_arms": [
+      "COVID-19 ICU patients",
+      "hospitalized, non-ICU COVID-19 patients"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "serial blood sampling was performed within 24 h of admission to ICU and thereafter three measurements were taken"
+    ],
+    "multiplex_channel_hints": [
+      "DIA\u2013MS analysis"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "non-COVID-19 controls",
+        "case_label": "COVID-19 ICU patients",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Baseline plasma samples from COVID-19 ICU patients (KCH cohort, n = 12) were compared to plasma samples from COVID-19-negative sepsis ICU patients (sepsis, n = 12) and patients prior to undergoing elective cardiac surgery (controls, n = 30)"
+        ]
+      },
+      {
+        "control_label": "RNAemia negative",
+        "case_label": "RNAemia positive",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "COVID-19 ICU patients who tested positive (n = 15) or negative (n = 55) for RNAemia within the first six days in ICU"
+        ]
+      },
+      {
+        "control_label": "survivors",
+        "case_label": "non-survivors",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A comparison of the trajectories of individual proteins between patients who survived and died is shown"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -62,7 +152,7 @@
       },
       {
         "label": "HeLa",
-        "family": "HeLa",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -92,11 +182,11 @@
   "assay": {
     "acquisition_type": "DIA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "MS2 peak areas",
-      "SIS spike-in (PQ500)",
+      "SIS-spiked",
+      "peak areas",
       "light/heavy peptide abundance ratio"
     ],
     "proteomics_mode": "Bottom-up",
@@ -120,30 +210,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
-          "reason": "The primary clinical cohort analysis explicitly used a data-independent acquisition (DIA-MS) approach with Spectronaut."
+          "confidence": 100,
+          "reason": "The primary clinical cohort analysis explicitly used Data-Independent Acquisition (DIA-MS) with Spectronaut and PQ500 SIS mix for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The SARS-CoV-2 spike pulldown experiments used data-dependent acquisition (DDA-MS) analyzed with Proteome Discoverer."
+          "confidence": 60,
+          "reason": "A separate set of experiments (SARS-CoV-2 spike protein pulldown) used Data-Dependent Acquisition (DDA-MS) analyzed via Proteome Discoverer/Mascot."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "sis_spike_in",
-          "confidence": 0.9,
-          "reason": "The DIA-MS analysis used a PQ500 SIS mix (stable isotope-labelled standard) spike-in for quantification."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "DIA\u2013MS",
-        "data-independent acquisition",
-        "DDA\u2013MS",
-        "data-dependent acquisition",
-        "PQ500 SIS mix",
+        "DIA-MS",
+        "Data-independent acquisition",
         "Spectronaut",
-        "Proteome Discoverer"
+        "PQ500 SIS mix",
+        "DDA-MS",
+        "Data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -151,30 +234,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
-          "reason": "The primary clinical cohort analysis explicitly used a data-independent acquisition (DIA-MS) approach with Spectronaut."
+          "confidence": 100,
+          "reason": "The primary clinical cohort analysis explicitly used Data-Independent Acquisition (DIA-MS) with Spectronaut and PQ500 SIS mix for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "The SARS-CoV-2 spike pulldown experiments used data-dependent acquisition (DDA-MS) analyzed with Proteome Discoverer."
+          "confidence": 60,
+          "reason": "A separate set of experiments (SARS-CoV-2 spike protein pulldown) used Data-Dependent Acquisition (DDA-MS) analyzed via Proteome Discoverer/Mascot."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "sis_spike_in",
-          "confidence": 0.9,
-          "reason": "The DIA-MS analysis used a PQ500 SIS mix (stable isotope-labelled standard) spike-in for quantification."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "DIA\u2013MS",
-        "data-independent acquisition",
-        "DDA\u2013MS",
-        "data-dependent acquisition",
-        "PQ500 SIS mix",
+        "DIA-MS",
+        "Data-independent acquisition",
         "Spectronaut",
-        "Proteome Discoverer"
+        "PQ500 SIS mix",
+        "DDA-MS",
+        "Data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,8 +278,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:47:45Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

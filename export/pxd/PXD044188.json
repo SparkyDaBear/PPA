@@ -3,39 +3,71 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "TIC",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "pH, ionic, or osmotic perturbation"
     ],
     "cell_types": [
-      "monocytes"
+      "monocyte"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "organelle-enriched scope",
+    "sample_scope_curie": "PPA:0000201",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "pH, ionic, or osmotic perturbation",
+        "ontology_curie": "PPA:0000014",
+        "category": "ph_ionic_osmotic",
+        "matched_parent_class_key": "ph_ionic_osmotic",
+        "matched_class_key": "calcium_or_divalent_ion_perturbation",
+        "matched_class_path": [
+          "ph_ionic_osmotic",
+          "calcium_or_divalent_ion_perturbation"
+        ],
+        "matched_definition": "Change in calcium, magnesium, zinc, iron, or other ion availability or signaling.",
+        "confidence": "high",
+        "evidence": [
+          "monocytes from three healthy donors were incubated in calcium, fractionated and assessed for proteins in the isolated organelle fractions by mass spectrometry",
+          "5 \u00d7 107 positively isolated monocytes from three healthy donors were incubated in 5 mM calcium in Hank's Balanced Salt Solution (HBSS) for 3 h at 37\u00b0C"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "calcium",
+        "dose_or_concentration": "5 mM",
+        "duration": "3 h",
+        "route_or_context": "Hank's Balanced Salt Solution (HBSS)",
+        "evidence": [
+          "5 \u00d7 107 positively isolated monocytes from three healthy donors were incubated in 5 mM calcium in Hank's Balanced Salt Solution (HBSS) for 3 h at 37\u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "3 h"
+    ],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "calcium-incubated monocytes"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "three healthy donors"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
     "source_sections": [
@@ -43,27 +75,58 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "monocyte",
+        "rollup_category": "immune cell",
+        "ontology_curie": "CL:0000576"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "blood",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "organelle-enriched scope",
+      "curie": "PPA:0000201"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "citrullination",
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "Unknown",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +134,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion Lumos with TIC quantification mentioned in PRIDE metadata; no evidence of SILAC, isobaric, or DIA acquisition."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "citrullination",
+          "confidence": 1.0,
+          "reason": "The primary goal of the experiment is to identify citrullinated proteins; specifically mentions filtering for citrullination of arginines."
+        }
+      ],
+      "trigger_keywords": [
+        "citrullination",
+        "deiminated arginine",
+        "citrulline residues",
+        "deamidation at arginine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion Lumos with TIC quantification mentioned in PRIDE metadata; no evidence of SILAC, isobaric, or DIA acquisition."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "citrullination",
+          "confidence": 1.0,
+          "reason": "The primary goal of the experiment is to identify citrullinated proteins; specifically mentions filtering for citrullination of arginines."
+        }
+      ],
+      "trigger_keywords": [
+        "citrullination",
+        "deiminated arginine",
+        "citrulline residues",
+        "deamidation at arginine"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "all_pairs",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,7 +205,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

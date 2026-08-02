@@ -3,12 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT reporter ion intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
+      "SILAC",
       "TMT",
-      "SILAC"
+      "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "chemical or drug treatment"
+    ],
     "cell_types": [],
     "cell_lines": [
       "HEK293",
@@ -21,21 +24,88 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "Using the cytostatic agent nocodazole, we identify RNA-binding changes between arrested and released cells",
+          "U2OS cells were arrested with nocodazole and dynamic changes in RNA-binding were determined following a short (6 h) and long recovery (23 h)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nocodazole",
+        "dose_or_concentration": "1 \u03bcg/ml",
+        "duration": "16-18 h",
+        "route_or_context": "direct addition of 1 \u03bcg/ml of nocodazole (Sigma-Aldrich) to the cell culture media",
+        "evidence": [
+          "direct addition of 1 \u03bcg/ml of nocodazole (Sigma-Aldrich) to the cell culture media",
+          "16-18 h post treatment, synchronised cells were washed twice in PBS"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "nocodazole",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-release",
+        "evidence": [
+          "For the post-release 6 h and 23 h timepoints",
+          "released from nocodazole arrest for 20 min before being crosslinked"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "0 h",
+      "6 h",
+      "23 h"
+    ],
+    "control_arms": [
+      "non-treated",
+      "released cells"
+    ],
+    "case_arms": [
+      "nocodazole arrest"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "single dish per replica and condition",
+      "n=5"
+    ],
+    "multiplex_channel_hints": [
+      "TMT-11plex",
+      "TMT-10plex",
+      "SILAC"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "released cells",
+        "case_label": "nocodazole arrest",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "identify RNA-binding changes between arrested and released cells",
+          "dynamic changes in RNA-binding were determined following a short (6 h) and long recovery (23 h)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -89,20 +159,21 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
+      "SILAC",
       "TMT",
-      "SILAC"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "TMT reporter ion intensity",
-      "SILAC ratio",
+      "SILAC",
+      "TMT",
       "Label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
+    "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
         "ontology_label": "RNA-binding protein enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
+        "ontology_curie": "Unknown",
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -118,34 +189,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
+          "confidence": 1.0,
           "reason": "Explicit use of TMT-11plex and TMT-10plex labeling with SPS-MS3 acquisition."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.9,
-          "reason": "Explicit use of SILAC labeling (Arg10-Lys8) for relative abundance calculations."
+          "confidence": 1.0,
+          "reason": "Explicit use of SILAC labeling (Arg10-Lys8) for crosslink-testing experiments."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
+          "confidence": 0.8,
           "reason": "Mention of label-free quantification for crude fractionation experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "site_centric_enrichment",
-          "confidence": 0.8,
-          "reason": "Specific 'Direct assessment of RNA crosslinking site' experiments using sequential Lys-C/Trypsin digestion and TiO2 enrichment."
+          "confidence": 0.9,
+          "reason": "Specific 'Direct assessment of RNA crosslinking site' workflow using TiO2 enrichment and sequential Lys-C/Trypsin digestion to map binding sites."
         }
       ],
       "trigger_keywords": [
         "TMT-11plex",
         "TMT-10plex",
-        "SILAC",
         "SPS-MS3",
+        "SILAC",
         "OOPS",
-        "RNA-crosslinking site"
+        "RNA crosslinking site assessment"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -153,34 +224,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
+          "confidence": 1.0,
           "reason": "Explicit use of TMT-11plex and TMT-10plex labeling with SPS-MS3 acquisition."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.9,
-          "reason": "Explicit use of SILAC labeling (Arg10-Lys8) for relative abundance calculations."
+          "confidence": 1.0,
+          "reason": "Explicit use of SILAC labeling (Arg10-Lys8) for crosslink-testing experiments."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
+          "confidence": 0.8,
           "reason": "Mention of label-free quantification for crude fractionation experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "site_centric_enrichment",
-          "confidence": 0.8,
-          "reason": "Specific 'Direct assessment of RNA crosslinking site' experiments using sequential Lys-C/Trypsin digestion and TiO2 enrichment."
+          "confidence": 0.9,
+          "reason": "Specific 'Direct assessment of RNA crosslinking site' workflow using TiO2 enrichment and sequential Lys-C/Trypsin digestion to map binding sites."
         }
       ],
       "trigger_keywords": [
         "TMT-11plex",
         "TMT-10plex",
-        "SILAC",
         "SPS-MS3",
+        "SILAC",
         "OOPS",
-        "RNA-crosslinking site"
+        "RNA crosslinking site assessment"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,8 +279,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:24:13Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

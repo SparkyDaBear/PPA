@@ -7,7 +7,10 @@
     "labeling_strategy": [
       "LFQ"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "infection exposure",
+      "genetic perturbation"
+    ],
     "cell_types": [],
     "cell_lines": [
       "A549"
@@ -18,21 +21,117 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3 were mock-infected or infected with DV-2 (MOI=3)."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DV-2",
+        "dose_or_concentration": "MOI=3",
+        "duration": "48 h",
+        "route_or_context": "A549 cells",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3 were mock-infected or infected with DV-2 (MOI=3). 48 h later cells were scraped into 1 ml of lysis buffer"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATL-2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "constitutively expressing",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ATL-3",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "constitutively expressing",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "48 h"
+    ],
+    "control_arms": [
+      "mock-infected",
+      "pWPI-nHA only (NT)",
+      "HA-tagged Calnexin"
+    ],
+    "case_arms": [
+      "DV-2 infected",
+      "HA-tagged ATL-2",
+      "HA-tagged ATL-3"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "4 independent affinity purifications were performed for each bait",
+      "4 independent samples were prepared for each cell line"
+    ],
+    "multiplex_channel_hints": [
+      "label-free quantitation"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "mock-infected",
+        "case_label": "DV-2 infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3 were mock-infected or infected with DV-2 (MOI=3)."
+        ]
+      },
+      {
+        "control_label": "HA-tagged Calnexin",
+        "case_label": "HA-tagged ATL-2/3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A549 cells constitutively expressing only the HA tag (pWPI-nHA only; NT), or HA-tagged Calnexin, ATL-2 or ATL-3"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -50,7 +149,7 @@
     "cell_lines": [
       {
         "label": "A549",
-        "family": null,
+        "family": "lung carcinoma",
         "ontology_curie": null
       }
     ],
@@ -80,7 +179,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "affinity purification",
+        "ontology_label": "AP-MS",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -93,10 +192,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicit mention of 'label-free quantitation algorithm' and 'label-free quantification (LFQ) protein intensity values' using an Orbitrap XL instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantitation",
+        "LFQ",
+        "iBAQ",
+        "Orbitrap XL"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "Explicit mention of 'label-free quantitation algorithm' and 'label-free quantification (LFQ) protein intensity values' using an Orbitrap XL instrument."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantitation",
+        "LFQ",
+        "iBAQ",
+        "Orbitrap XL"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -116,8 +251,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:32:18Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

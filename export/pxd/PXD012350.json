@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "immune receptor ligand stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -24,20 +25,36 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "ontology_label": "immune receptor ligand stimulation",
+        "ontology_curie": "PPA:0000047",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
         "matched_class_path": [
-          "chemical_or_drug",
-          "agonist_or_activator"
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
         "confidence": "high",
         "evidence": [
-          "we synthesized a series of peptidoglycan metabolite photoaffinity reporters and evaluated their crosslinking to NOD1 and NOD2 in mammalian cells",
-          "the active MDP photoaffinity reporter selectively crosslinked Arf GTPases in NOD2-expressing cells"
+          "The peptidoglycan fragments \u03b3-D-glutamyl-meso-diaminopimelic acid (iE-DAP) and muramyl-dipeptide (MDP) are microbial-specific metabolites that activate intracellular pattern recognition receptors and stimulate immune signaling pathways."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "we generated Arf6-KO HEK293T cells by CRISPR-Cas9 gene editing",
+          "primary bone marrow-derived macrophages from wild-type (Nod2+/+) but not Nod2\u2212/\u2212 mice"
         ]
       }
     ],
@@ -49,7 +66,7 @@
         "duration": "16 hours",
         "route_or_context": "HEK293T cells transfected with HA-NOD2",
         "evidence": [
-          "cells were incubated with 20 \u03bcM x-alk-MDP-L,D 2 or 20 \u03bcM x-alk-MDP-D,L 3, and the cells were incubated for 16 hours."
+          "cells were incubated with 20 \u03bcM x-alk-MDP-L,D 2... and the cells were incubated for 16 hours."
         ]
       },
       {
@@ -59,7 +76,17 @@
         "duration": "16 hours",
         "route_or_context": "HEK293T cells transfected with HA-NOD2",
         "evidence": [
-          "cells were incubated with 20 \u03bcM x-alk-MDP-L,D 2 or 20 \u03bcM x-alk-MDP-D,L 3, and the cells were incubated for 16 hours."
+          "cells were incubated with... 20 \u03bcM x-alk-MDP-D,L 3, and the cells were incubated for 16 hours."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "x-alk-iE-DAP",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "NOD1-expressing HEK293T cells",
+        "evidence": [
+          "NOD1-expressing HEK293T cells treated with x-alk-iE-DAP were then subjected to in-cell UV-crosslinking"
         ]
       }
     ],
@@ -76,7 +103,7 @@
       "inactive D,L-diastereomer (x-alk-MDP-D,L)"
     ],
     "case_arms": [
-      "active L,D-diastereomer (x-alk-MDP-L,D) with UV-crosslinking"
+      "UV-irradiated x-alk-MDP-L,D"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -139,7 +166,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -175,21 +202,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly lists 'Label free' quantification and the data processing protocol mentions 'label-free quantitation' using MaxQuant."
+          "reason": "The PRIDE metadata explicitly states 'Label free' quantification and the use of 'top-8-HCD-mode' on an Orbitrap Q Exactive Plus, which is characteristic of DDA LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "chemical_crosslinking",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as using photoaffinity reporters for photocrosslinking and is tagged as 'Chemical cross-linking coupled with mass spectrometry proteomics' in PRIDE."
+          "modifier_workflow_id": "modifier_photoaffinity_crosslinking",
+          "confidence": 0.9,
+          "reason": "The experiment uses photoaffinity reporters (diazirine/alkyne) to covalently crosslink metabolites to proteins, followed by click chemistry and streptavidin purification."
         }
       ],
       "trigger_keywords": [
+        "photoaffinity",
+        "crosslinking",
         "label-free quantitation",
-        "photoaffinity reporters",
-        "photocrosslinking",
-        "chemical cross-linking"
+        "diazirine",
+        "alkyne tag",
+        "click chemistry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -198,21 +227,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly lists 'Label free' quantification and the data processing protocol mentions 'label-free quantitation' using MaxQuant."
+          "reason": "The PRIDE metadata explicitly states 'Label free' quantification and the use of 'top-8-HCD-mode' on an Orbitrap Q Exactive Plus, which is characteristic of DDA LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "chemical_crosslinking",
-          "confidence": 1.0,
-          "reason": "The experiment is explicitly described as using photoaffinity reporters for photocrosslinking and is tagged as 'Chemical cross-linking coupled with mass spectrometry proteomics' in PRIDE."
+          "modifier_workflow_id": "modifier_photoaffinity_crosslinking",
+          "confidence": 0.9,
+          "reason": "The experiment uses photoaffinity reporters (diazirine/alkyne) to covalently crosslink metabolites to proteins, followed by click chemistry and streptavidin purification."
         }
       ],
       "trigger_keywords": [
+        "photoaffinity",
+        "crosslinking",
         "label-free quantitation",
-        "photoaffinity reporters",
-        "photocrosslinking",
-        "chemical cross-linking"
+        "diazirine",
+        "alkyne tag",
+        "click chemistry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,8 +271,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:25:14Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "cell state or interaction comparison",
+      "genetic perturbation"
     ],
     "cell_types": [
       "beta cell"
@@ -25,20 +26,36 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "activation_state_comparison",
         "matched_class_path": [
-          "molecular_state",
-          "ptm_or_activation_state"
+          "cell_state_interaction",
+          "activation_state_comparison"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
-        "confidence": "medium",
+        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
+        "confidence": "high",
         "evidence": [
-          "Proteomics was performed using affinity purification mass spectrometry",
-          "Cells were processed for immunoprecipitation and incubated with antibodies against NNAT (ab27266, Abcam, 1:500) prior to mass spectrometry analysis"
+          "verified the presence of NNAT+ and NNAT\u2212 beta cells",
+          "Collection of FACS-purified NNAT+ and NNAT\u2212 beta cells"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "Animals deleted for the de novo methyltransferase, DNMT3A from the pancreatic progenitor stage were used to explore control of promoter methylation."
         ]
       }
     ],
@@ -48,9 +65,20 @@
         "agent": "NNAT",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "affinity purification",
+        "route_or_context": "FACS-purified beta cell subpopulations",
         "evidence": [
-          "Cells were processed for immunoprecipitation and incubated with antibodies against NNAT (ab27266, Abcam, 1:500) prior to mass spectrometry analysis"
+          "verified the presence of NNAT+ and NNAT\u2212 beta cells",
+          "Collection of FACS-purified NNAT+ and NNAT\u2212 beta cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DNMT3A",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "conditional deletion at the pancreatic progenitor stage (using Pdx1-Cre)",
+        "evidence": [
+          "Animals deleted for the de novo methyltransferase, DNMT3A from the pancreatic progenitor stage were used to explore control of promoter methylation."
         ]
       }
     ],
@@ -59,14 +87,42 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "timepoints": [
+      "embryonic (E17.5)",
+      "adult"
+    ],
+    "control_arms": [
+      "NNAT\u2212 beta cells",
+      "control mice"
+    ],
+    "case_arms": [
+      "NNAT+ beta cells",
+      "deletion of DNMT3A"
+    ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "n=8 mice"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "NNAT\u2212 beta cells",
+        "case_label": "NNAT+ beta cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Collection of FACS-purified NNAT+ and NNAT\u2212 beta cells and subsequent bisulphite sequencing analysis"
+        ]
+      },
+      {
+        "control_label": "control mice",
+        "case_label": "DNMT3A deletion",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "NNAT staining in control mice at postnatal (P) day 6 demonstrated expression in a subpopulation of beta cells whereas deletion of DNMT3A resulted in a loss of this heterogenous expression"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -100,12 +156,12 @@
     "cell_lines": [
       {
         "label": "EndoC-\u03b2H1",
-        "family": "human beta cell",
+        "family": "human beta cell line",
         "ontology_curie": null
       },
       {
         "label": "INS1E",
-        "family": "rat beta cell",
+        "family": "rat beta cell line",
         "ontology_curie": null
       }
     ],
@@ -153,21 +209,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'label-free quantification was enabled with an LFQ minimum ratio count of 2'."
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' (DDA) and 'label-free quantification was enabled with an LFQ minimum ratio count of 2'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "Methods section states 'Proteomics was performed using affinity purification mass spectrometry' and 'Cells were processed for immunoprecipitation and incubated with antibodies against NNAT'."
+          "reason": "The publication methods state 'Proteomics was performed using affinity purification mass spectrometry' and 'Cells were processed for immunoprecipitation and incubated with antibodies against NNAT'."
         }
       ],
       "trigger_keywords": [
-        "affinity purification",
-        "immunoprecipitation",
         "label-free quantification",
-        "DDA"
+        "DDA",
+        "affinity purification",
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -176,21 +232,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' and 'label-free quantification was enabled with an LFQ minimum ratio count of 2'."
+          "reason": "PRIDE metadata explicitly states 'Data-dependent acquisition' (DDA) and 'label-free quantification was enabled with an LFQ minimum ratio count of 2'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "Methods section states 'Proteomics was performed using affinity purification mass spectrometry' and 'Cells were processed for immunoprecipitation and incubated with antibodies against NNAT'."
+          "reason": "The publication methods state 'Proteomics was performed using affinity purification mass spectrometry' and 'Cells were processed for immunoprecipitation and incubated with antibodies against NNAT'."
         }
       ],
       "trigger_keywords": [
-        "affinity purification",
-        "immunoprecipitation",
         "label-free quantification",
-        "DDA"
+        "DDA",
+        "affinity purification",
+        "immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,8 +274,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:23:25Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

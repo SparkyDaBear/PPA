@@ -28,16 +28,18 @@
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
         "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "spatial_region_comparison",
+        "matched_class_key": "subcellular_spatial_comparison",
         "matched_class_path": [
           "anatomical_spatial",
-          "spatial_region_comparison"
+          "subcellular_spatial_comparison"
         ],
-        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "matched_definition": "Comparison among spatially resolved cellular compartments when the spatial state is the biological variable.",
         "confidence": "high",
         "evidence": [
-          "we characterized the redox state of GSH in the Golgi apparatus using a combination of microscopy and proteomics methods",
-          "To obtain RGS (eq. (7)), we quantified the degree of cysteine glutathionylation of sCGrx1p ([sCGrx1pSH]:[sCGrx1pSSG]) in the Golgi by a targeted proteomics approach"
+          "Characterization of the glutathione redox state in the Golgi apparatus",
+          "we first developed genetic and chemigenetic tools specifically tailored to study GSH in the Golgi",
+          "the Golgi is an oxidizing organelle",
+          "this figure contrasts with substantially higher concentrations in the ER (9 \u00b1 5 mM), nuclei (14 \u00b1 7 mM), or mitochondria (4.8 \u00b1 0.7 mM)"
         ]
       },
       {
@@ -45,19 +47,30 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "medium",
         "evidence": [
           "we determined the redox state and absolute concentrations of the GSH/GSSG pair in the Golgi of HeLa (cancerous) and HEK293 (non-cancerous) cells."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "iodoacetamide (IAA)",
+        "dose_or_concentration": "0.1 mM",
+        "duration": "20 min",
+        "route_or_context": "on ice",
+        "evidence": [
+          "Cells were then washed 2x with ice-cold HBSS, 0.1 mM iodoacetamide (IAA) and incubated in the same buffer for 20 min on ice in order to alkylate the reduced sCGrx1p protein."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -65,14 +78,16 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "HEK293"
+      "HEK293 (non-cancerous)"
     ],
     "case_arms": [
-      "HeLa"
+      "HeLa (cancerous)"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "three biological replicates on different days"
+    ],
     "multiplex_channel_hints": [
       "light and heavy iodoacetamide labeling (L- and H-IAA, respectively)"
     ],
@@ -133,14 +148,14 @@
     ],
     "quantification_strategy": [
       "Parallel Reaction Monitoring (PRM)",
-      "Isotopic labeling (light and heavy iodoacetamide)"
+      "Isotopic labeling (light and heavy IAA)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "redox-state sensing via sCGrx1p",
+        "ontology_label": "immunoprecipitation",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_redox",
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -151,29 +166,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The experiment uses a targeted PRM approach for a specific sensor protein, but the data is bottom-up. Standard LFQ-style processing is the closest base, though the acquisition is targeted."
+          "confidence": 0.7,
+          "reason": "The experiment uses Parallel Reaction Monitoring (PRM) for targeted quantification of specific peptides, which is a specialized DDA-like targeted approach. While not a global LFQ, the data structure is based on peptide-level intensity ratios."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "dimethyl",
-          "confidence": 0.3,
-          "reason": "The study uses a dual-labeling strategy with light and heavy iodoacetamide (L-IAA and H-IAA) to distinguish between pre-existing and newly reduced thiols, which mimics the logic of dimethyl or isobaric labeling for ratio calculation."
+          "modifier_workflow_id": "isotope_labeling_heavy_iaa",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses a dual-labeling strategy with light-IAA (L-IAA) and heavy-IAA (H-IAA) to distinguish between pre-existing free thiols and those released from glutathionylated states."
         }
       ],
       "trigger_keywords": [
         "Parallel Reaction Monitoring",
         "PRM",
-        "light and heavy iodoacetamide",
+        "light and heavy iodoacetamide labeling",
         "L-IAA",
-        "H-IAA",
-        "sCGrx1p"
+        "H-IAA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,31 +195,30 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "The experiment uses a targeted PRM approach for a specific sensor protein, but the data is bottom-up. Standard LFQ-style processing is the closest base, though the acquisition is targeted."
+          "confidence": 0.7,
+          "reason": "The experiment uses Parallel Reaction Monitoring (PRM) for targeted quantification of specific peptides, which is a specialized DDA-like targeted approach. While not a global LFQ, the data structure is based on peptide-level intensity ratios."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "dimethyl",
-          "confidence": 0.3,
-          "reason": "The study uses a dual-labeling strategy with light and heavy iodoacetamide (L-IAA and H-IAA) to distinguish between pre-existing and newly reduced thiols, which mimics the logic of dimethyl or isobaric labeling for ratio calculation."
+          "modifier_workflow_id": "isotope_labeling_heavy_iaa",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses a dual-labeling strategy with light-IAA (L-IAA) and heavy-IAA (H-IAA) to distinguish between pre-existing free thiols and those released from glutathionylated states."
         }
       ],
       "trigger_keywords": [
         "Parallel Reaction Monitoring",
         "PRM",
-        "light and heavy iodoacetamide",
+        "light and heavy iodoacetamide labeling",
         "L-IAA",
-        "H-IAA",
-        "sCGrx1p"
+        "H-IAA"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "isotope_ratio",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "peptide"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -226,8 +239,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:14:50Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

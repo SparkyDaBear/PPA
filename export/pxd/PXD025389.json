@@ -3,73 +3,241 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Growth Factor or Cytokine Stimulation",
-      "Disease"
+      "chemical or drug treatment",
+      "genetic perturbation",
+      "disease or clinical state"
     ],
     "cell_types": [
       "lung cancer cells"
     ],
     "cell_lines": [
-      "NCI-H1581",
-      "NCI-H520",
       "DMS114",
+      "NCI-H1581",
       "NCI-H1703",
-      "LK-2"
+      "LK-2",
+      "NCI-H520",
+      "HCC-15"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "quantitative phosphoproteomic mass-spectrometric comparison (LC-MS/MS) of the sensitive NCI-H1581 and the resistant NCI-H520 cell lines under treatment with DMSO and AZD4547"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "we analyzed the phosphoproteome of NCI-H1581 as a sensitive parental cell line, NCI-H1581 mutant-AKT as a genetically induced resistant cell line"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "medium",
+        "evidence": [
+          "compared the two lung cancer cell lines NCI-H1581 and NCI-H520, both of which harbor an FGFR1 gene amplification"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AZD4547",
+        "dose_or_concentration": "0.5 \u00b5M",
+        "duration": "3 h",
+        "route_or_context": "cell culture",
+        "evidence": [
+          "\u2018heavy\u2019 SILAC-labelled cells were treated with 0.5\u2009\u00b5M AZD4547 (FGFR1 inhibitor) for 3\u2009h before cell lysis"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "pcDNA3-Myr-AKT1",
+        "dose_or_concentration": "2.5 \u00b5g",
+        "duration": null,
+        "route_or_context": "transfection",
+        "evidence": [
+          "transfected the two sensitive cell lines (NCI-H1581 and LK2) with myristoylated AKT (pcDNA3-Myr-AKT1)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "3 h"
+    ],
+    "control_arms": [
+      "DMSO",
+      "NCI-H1581 (sensitive)",
+      "empty pcDNA3 vector"
+    ],
+    "case_arms": [
+      "AZD4547",
+      "NCI-H520 (resistant)",
+      "NCI-H1581 mutant-AKT",
+      "H1581-C9R",
+      "H1581-C11R"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "biological (n = 2) and technical (n = 2) replicates"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC multiplicity was set to triple labeling (Lys+0/Arg+0, Lys+4/Arg+6, Lys+8/Arg+10)"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "DMSO",
+        "case_label": "AZD4547",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the ratios of protein phosphorylation in AZD4547-treated cells and DMSO-treated cells"
+        ]
+      },
+      {
+        "control_label": "NCI-H1581",
+        "case_label": "NCI-H520",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison (LC-MS/MS) of the sensitive NCI-H1581 and the resistant NCI-H520 cell lines"
+        ]
+      },
+      {
+        "control_label": "NCI-H1581",
+        "case_label": "NCI-H1581 mutant-AKT",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "analyzed the phosphoproteome of NCI-H1581 as a sensitive parental cell line, NCI-H1581 mutant-AKT as a genetically induced resistant cell line"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "lung cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "DMS114",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "NCI-H1581",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "NCI-H1703",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "LK-2",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "NCI-H520",
+        "family": "lung cancer",
+        "ontology_curie": null
+      },
+      {
+        "label": "HCC-15",
+        "family": "lung cancer",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "subproteome",
+      "label": "phosphoproteome",
+      "curie": "PPA:0000195"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "SILAC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -77,10 +245,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly states use of SILAC metabolic labeling with triple labeling (Lys+0/Arg+0, Lys+4/Arg+6, Lys+8/Arg+10) and data-dependent acquisition (DDA) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Experiment uses two distinct phosphoproteomic enrichment strategies: TiO2 (GPome) and pY-antibody immunoprecipitation (pYome)."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomic",
+        "titanium dioxide",
+        "pYome",
+        "GPome",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "Explicitly states use of SILAC metabolic labeling with triple labeling (Lys+0/Arg+0, Lys+4/Arg+6, Lys+8/Arg+10) and data-dependent acquisition (DDA) on a Q Exactive HF."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "Experiment uses two distinct phosphoproteomic enrichment strategies: TiO2 (GPome) and pY-antibody immunoprecipitation (pYome)."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "phosphoproteomic",
+        "titanium dioxide",
+        "pYome",
+        "GPome",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -100,7 +320,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

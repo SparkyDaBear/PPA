@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "overexpression or transgene perturbation",
+      "mutation or variant perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,28 +23,44 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "insertion_variant",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "we performed proximity labeling using an engineered biotin ligase (BioID2) fused to nsp1 in HEK293 cells",
+          "Cells in each plate were transfected with 4.8 \u03bcg of respective DNA to express BioID2-fused nsp1 protein",
           "Duplicate experiments were performed to compare proteins biotinylated with nsp1-BioID2 from both SARS coronaviruses (SARS-CoV and SARS-CoV2) to proteins identified in the BioID2-hemagglutinin (HA) control."
+        ]
+      },
+      {
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "the interactions with transcription termination factors are primarily governed by the C-terminal region of nsp1 and are disrupted by the mutation of amino acids K164 and H165",
+          "Using BioID2-mediated biotinylation followed by Western blot, we examined the proximity-dependent interaction of several pre-mRNA processing proteins and SG-associated factors with nsp1 mutants"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "nsp1-BioID2 (SARS-CoV and SARS-CoV-2)",
+        "agent": "nsp1-BioID2",
         "dose_or_concentration": null,
         "duration": "16 h",
         "route_or_context": "HEK293 cells",
@@ -61,6 +78,16 @@
         "evidence": [
           "compare proteins biotinylated with nsp1-BioID2 from both SARS coronaviruses (SARS-CoV and SARS-CoV2) to proteins identified in the BioID2-hemagglutinin (HA) control."
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sodium arsenite",
+        "dose_or_concentration": "0.5 mM",
+        "duration": "30, 60, and 120 min",
+        "route_or_context": "oxidative stress induction",
+        "evidence": [
+          "cells were subjected to 30, 60, and 120 min of oxidative stress using 0.5 mM NaAsO2."
+        ]
       }
     ],
     "source_sections": [
@@ -69,31 +96,32 @@
   },
   "experimental_design": {
     "timepoints": [
-      "16 h (biotin incubation)"
+      "30 min",
+      "60 min",
+      "120 min"
     ],
     "control_arms": [
       "BioID2-HA"
     ],
     "case_arms": [
       "SARS-CoV nsp1-BioID2",
-      "SARS-CoV-2 nsp1-BioID2"
+      "SARS-CoV-2 nsp1-BioID2",
+      "nsp1 mutants (K164A, H165A)"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "Duplicate experiments were performed",
-      "Biotinylated proteins were filtered to retain those quantified in all biological replicates"
+      "filtered to retain those quantified in all biological replicates"
     ],
-    "multiplex_channel_hints": [
-      "label-free quantitation"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "BioID2-HA",
         "case_label": "nsp1-BioID2",
         "contrast_type": "pairwise",
         "evidence": [
-          "a two-sample and two-sided Student's t test was performed to compare nsp1-BioID to BioID-HA"
+          "a two-sample and two-sided Student's t test was performed to compare nsp1-BioID to BioID-HA."
         ]
       },
       {
@@ -114,7 +142,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -170,22 +198,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant label-free quantitation (LFQ) algorithm."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos and quantified proteins using the MaxQuant label-free quantitation (LFQ) algorithm."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_enrichment",
           "confidence": 1.0,
-          "reason": "The study used BioID2 proximity-dependent biotinylation followed by streptavidin bead pull-down for affinity enrichment."
+          "reason": "The study explicitly uses BioID2 proximity-dependent biotinylation followed by streptavidin bead pull-down to enrich for interacting proteins."
         }
       ],
       "trigger_keywords": [
-        "proximity-dependent biotinylation",
         "BioID2",
+        "proximity-dependent biotinylation",
         "streptavidin beads",
         "label-free quantitation",
-        "data-dependent mode"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -194,22 +222,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant label-free quantitation (LFQ) algorithm."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion Lumos and quantified proteins using the MaxQuant label-free quantitation (LFQ) algorithm."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "affinity_enrichment",
           "confidence": 1.0,
-          "reason": "The study used BioID2 proximity-dependent biotinylation followed by streptavidin bead pull-down for affinity enrichment."
+          "reason": "The study explicitly uses BioID2 proximity-dependent biotinylation followed by streptavidin bead pull-down to enrich for interacting proteins."
         }
       ],
       "trigger_keywords": [
-        "proximity-dependent biotinylation",
         "BioID2",
+        "proximity-dependent biotinylation",
         "streptavidin beads",
         "label-free quantitation",
-        "data-dependent mode"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,8 +265,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:47:56Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

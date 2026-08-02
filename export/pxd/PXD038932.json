@@ -3,63 +3,137 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Targeted peak area",
+    "quantification_method": "Peak area",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Disease"
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "Unknown",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "chemical_or_drug"
+        ],
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "high",
+        "evidence": [
+          "Recombinant EPO (rEPO) is used illicitly in sports to improve performance",
+          "the detection of rEPO glycopeptide... in human urine samples",
+          "the target glycopeptide was not detected in negative control urine"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "recombinant erythropoietin (rEPO)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "doping analysis in human urine",
+        "evidence": [
+          "detecting target glycopeptides at low concentrations, particularly 500 pg/mL (range, 0\u2013800 ng/mL), in urine samples",
+          "detection of the target rEPO glycopeptide using three other rEPO products"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "negative urine samples",
+      "negative control urine"
+    ],
+    "case_arms": [
+      "spiked urine samples",
+      "rEPO products (BRP, AROPOTIN, ESPOGEN, EPOKINE)"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Seven replicates were prepared for each concentration",
+      "Five replicate urine samples were prepared for each concentration"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "negative urine",
+        "case_label": "rEPO spiked urine",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The target glycopeptide was not detected in negative control urine",
+          "Five urine samples spiked to a concentration of 10 ng/mL and five negative urine samples obtained from different athletes were analyzed alternately."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "urine",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
-      "category": "Unknown",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Targeted",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Peak area",
+      "Signal-to-noise ratio"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -67,10 +141,62 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a bottom-up approach with DDA (full ms/ddms2) and t-SIM for target detection, focusing on relative abundance/presence of specific glycopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_profiling",
+          "confidence": 1.0,
+          "reason": "The entire study is dedicated to profiling site-specific N-glycosylation and sialylated glycopeptides using Byonic and pGlyco software."
+        }
+      ],
+      "trigger_keywords": [
+        "sialylated glycopeptides",
+        "N-glycosylation",
+        "tetra-sialic acid",
+        "Byonic",
+        "pGlyco",
+        "TiO2 enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses a bottom-up approach with DDA (full ms/ddms2) and t-SIM for target detection, focusing on relative abundance/presence of specific glycopeptides."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "glycopeptide_profiling",
+          "confidence": 1.0,
+          "reason": "The entire study is dedicated to profiling site-specific N-glycosylation and sialylated glycopeptides using Byonic and pGlyco software."
+        }
+      ],
+      "trigger_keywords": [
+        "sialylated glycopeptides",
+        "N-glycosylation",
+        "tetra-sialic acid",
+        "Byonic",
+        "pGlyco",
+        "TiO2 enrichment"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -90,7 +216,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

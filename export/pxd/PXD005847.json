@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "disease stage or grade comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -20,24 +21,73 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "Differences in the proteomes between the three conditions (normal, SS, NASH) were assessed using label-free quantitative analysis.",
-          "From a cohort of morbidly obese females who were diagnosed with simple steatosis (SS), NASH, or normal liver histology, we selected five matched individuals from each condition for a preliminary pilot HDL proteome analysis."
+          "Comparing the HDL proteome between normal, SS and NASH subjects, we detected nominally significant quantitative differences in HDL proteins."
+        ]
+      },
+      {
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_grade_comparison",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_grade_comparison"
+        ],
+        "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
+        "confidence": "high",
+        "evidence": [
+          "the three conditions (normal, SS, NASH)",
+          "severity of the liver pathology may significantly impact the anti-thrombotic functions of HDL particles",
+          "When we compared HDL protein abundances between SS and NASH, 7 proteins were nominally significantly changed"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "non-alcoholic fatty liver disease",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "morbidly obese females",
+        "evidence": [
+          "patients with non-alcoholic fatty liver disease (NAFLD), including individuals with non-alcoholic steatohepatitis (NASH)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "simple steatosis",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "morbidly obese females",
+        "evidence": [
+          "diagnosed with simple steatosis (SS)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "non-alcoholic steatohepatitis",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "morbidly obese females",
+        "evidence": [
+          "diagnosed with... NASH"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -45,33 +95,30 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "normal"
+      "normal",
+      "normal liver histology"
     ],
     "case_arms": [
-      "simple steatosis (SS)",
-      "non-alcoholic steatohepatitis (NASH)"
+      "SS",
+      "NASH",
+      "NAFLD"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Each HDL-containing fraction from an individual serum sample was injected three times as technical replicates to maximize protein identifications."
+      "Each HDL-containing fraction from an individual serum sample was injected three times as technical replicates",
+      "3 technical MS replicates per sample"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "label-free quantitative analysis"
+    ],
     "contrast_hints": [
       {
         "control_label": "normal",
-        "case_label": "SS",
+        "case_label": "NAFLD (SS plus NASH)",
         "contrast_type": "pairwise",
         "evidence": [
-          "Differences in the proteomes between the three conditions (normal, SS, NASH) were assessed"
-        ]
-      },
-      {
-        "control_label": "normal",
-        "case_label": "NASH",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Differences in the proteomes between the three conditions (normal, SS, NASH) were assessed"
+          "the comparison of protein abundances of HDL particles between normal and NAFLD (SS plus NASH) identified 20 proteins that were significantly altered"
         ]
       },
       {
@@ -80,6 +127,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "When we compared HDL protein abundances between SS and NASH, 7 proteins were nominally significantly changed"
+        ]
+      },
+      {
+        "control_label": "normal",
+        "case_label": "SS/NASH",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "Differences in the proteomes between the three conditions (normal, SS, NASH) were assessed"
         ]
       }
     ],
@@ -142,46 +197,10 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
-    "workflow_hints": {
-      "base_candidates_ranked": [
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantitative analysis (MaxLFQ) and data-dependent acquisition (DDA) scans of the twenty most intense ions."
-        }
-      ],
-      "modifier_candidates_ranked": [],
-      "trigger_keywords": [
-        "label-free quantitative analysis",
-        "MaxLFQ",
-        "data dependent scans",
-        "DDA"
-      ],
-      "raw_or_file_name_triggers": []
-    },
-    "selection_hints": {
-      "base_candidates_ranked": [
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantitative analysis (MaxLFQ) and data-dependent acquisition (DDA) scans of the twenty most intense ions."
-        }
-      ],
-      "modifier_candidates_ranked": [],
-      "trigger_keywords": [
-        "label-free quantitative analysis",
-        "MaxLFQ",
-        "data dependent scans",
-        "DDA"
-      ],
-      "raw_or_file_name_triggers": []
-    },
-    "differential_hints": {
-      "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
-    },
+    "reanalysis_compatibility": null,
+    "workflow_hints": {},
+    "selection_hints": {},
+    "differential_hints": {},
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -201,8 +220,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:58:42Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

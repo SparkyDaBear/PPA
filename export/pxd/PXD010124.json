@@ -8,8 +8,9 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation",
-      "molecular state comparison"
+      "knockout or deletion perturbation",
+      "mutation or variant perturbation",
+      "proteasome inhibitor treatment"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,47 +27,79 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "we systematically deleted each component using CRISPR-Cas9, removing all paralogs of each subunit family",
-          "In order to generate the heatmap reflecting the impact of subunit loss (Figure 7B), a normalization ratio was calculated by dividing the total number of mSWI/SNF subunit peptides captured across all fractions in each experiment by the mean peptide total across all experiments."
+          "we systematically deleted each component using CRISPR-Cas9",
+          "Generation of HEK293T mSWI/SNF subunit knockout cell lines",
+          "the effect of individual subunit deletions and mutations",
+          "In order to generate the heatmap reflecting the impact of subunit loss (Figure 7B)"
         ]
       },
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "mutation_defined_state",
-        "matched_class_key": "mutation_defined_state",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
-          "mutation_defined_state"
+          "genetic",
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Comparison between samples grouped by specific molecular variants.",
-        "confidence": "medium",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
         "evidence": [
-          "We define the full spectrum of endogenous combinatorial possibilities and the effect of individual subunit deletions and mutations, including recurrent, previously uncharacterized missense and nonsense mutations, on complex architecture."
+          "the effect of individual subunit deletions and mutations, including recurrent, previously uncharacterized missense and nonsense mutations",
+          "the G2087R mutation did not result in loss of interaction with BAF complexes",
+          "ARID1A Y2254* resulted in complete loss of interaction between ARID1A and BAF complexes"
+        ]
+      },
+      {
+        "ontology_label": "proteasome inhibitor treatment",
+        "ontology_curie": "PPA:0000025",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "proteasome_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "proteasome_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound that inhibits proteasomal degradation or proteasome catalytic activity.",
+        "confidence": "high",
+        "evidence": [
+          "treated with MG132 at 20uM for 8 hours",
+          "which further increased upon treatment with MG132, suggesting proteasome-mediated degradation"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "CRISPR-Cas9 knockout",
+        "agent": "CRISPR-Cas9",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "HEK293T cells",
+        "route_or_context": "HEK293T cell lines",
         "evidence": [
           "CRISPR-Cas9 KO constructs were purchased from Santa Cruz Biotechnology (SCBT) and transfected into HEK293T cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MG132",
+        "dose_or_concentration": "20uM",
+        "duration": "8 hours",
+        "route_or_context": "Immunoprecipitation under denaturing conditions",
+        "evidence": [
+          "treated with MG132 at 20uM for 8 hours"
         ]
       }
     ],
@@ -77,15 +110,13 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
+      "wild-type",
       "WT"
     ],
     "case_arms": [
-      "DSMARCC",
-      "DSMARCD",
-      "DSMARCE1",
-      "DSMARCB1",
-      "DARID1",
-      "DSMARCA2/4"
+      "subunit knockout",
+      "subunit mutation",
+      "MG132 treated"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -93,11 +124,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "WT",
+        "control_label": "wild-type",
         "case_label": "subunit knockout",
         "contrast_type": "pairwise",
         "evidence": [
-          "yielding the proportion of normalized peptides in the mutant condition over the wild-type condition"
+          "the proportion of normalized peptides in the mutant condition over the wild-type condition"
+        ]
+      },
+      {
+        "control_label": "wild-type",
+        "case_label": "disease-associated mutation",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "the effect of individual subunit deletions and mutations... on complex architecture"
         ]
       }
     ],
@@ -150,7 +189,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -163,12 +202,12 @@
     ],
     "quantification_strategy": [
       "spectral counting",
-      "relative abundance based on peptide counts"
+      "relative abundance based on total peptide counts"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "AP-MS",
+        "ontology_label": "affinity purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -186,24 +225,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The study uses DDA (LTQ Orbitrap Elite) and quantifies via spectral counting (total peptide counts) for elution profiles."
+          "confidence": 8,
+          "reason": "The experiment uses DDA (LTQ Orbitrap Elite) and reports spectral counts for quantification across glycerol gradient fractions."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "cxms_bs3",
-          "confidence": 1.0,
-          "reason": "Explicit use of BS3 (bis(sulfosuccinimidyl)suberate) cross-linking mass spectrometry with specialized search tools pLink and Nexus."
+          "confidence": 10,
+          "reason": "Explicit use of BS3 cross-linker for cross-linking mass spectrometry (CX-MS) to map subunit architecture."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
         "CX-MS",
         "BS3",
+        "spectral counts",
         "pLink",
-        "Nexus",
-        "crosslinked peptide"
+        "Nexus"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,24 +250,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The study uses DDA (LTQ Orbitrap Elite) and quantifies via spectral counting (total peptide counts) for elution profiles."
+          "confidence": 8,
+          "reason": "The experiment uses DDA (LTQ Orbitrap Elite) and reports spectral counts for quantification across glycerol gradient fractions."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "cxms_bs3",
-          "confidence": 1.0,
-          "reason": "Explicit use of BS3 (bis(sulfosuccinimidyl)suberate) cross-linking mass spectrometry with specialized search tools pLink and Nexus."
+          "confidence": 10,
+          "reason": "Explicit use of BS3 cross-linker for cross-linking mass spectrometry (CX-MS) to map subunit architecture."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
         "CX-MS",
         "BS3",
+        "spectral counts",
         "pLink",
-        "Nexus",
-        "crosslinked peptide"
+        "Nexus"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,8 +295,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:25:58Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

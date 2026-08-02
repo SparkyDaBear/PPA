@@ -8,13 +8,13 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "radiation or photostress"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
-      "AID-DIvA",
       "U2OS",
       "MDA-MB-231"
     ],
@@ -30,30 +30,56 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "Generation of ARID1A-knockout cells",
-          "Two separate CRISPR guide RNA sequences... targeting the exon1 of ARID1A open reading frame were designed",
-          "Using ARID1A knockout AID-DIvA cells (ARID1A-KO cells; Supplementary Figure S1F)"
+          "Using ARID1A knockout AID-DIvA cells (ARID1A-KO cells; Supplementary Figure S1F)",
+          "Two separate CRISPR guide RNA sequences... targeting the exon1 of ARID1A open reading frame were designed... and knockout clones were established"
+        ]
+      },
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation_exposure",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation_exposure"
+        ],
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
+        "confidence": "high",
+        "evidence": [
+          "ARID1A depletion resulted in enhanced accumulation of micronuclei, activation of cGAS-STING pathway, and an increased expression of immunomodulatory cytokines upon ionizing radiation.",
+          "Irradiation was done with the GammaCell 40 from Theatronics."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "ARID1A knockout",
+        "agent": "ARID1A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR-Cas9",
+        "route_or_context": "CRISPR-Cas9 knockout",
         "evidence": [
-          "electroporation of the Cas9:crRNA:tracrRNA complex to the cells and knockout clones were established"
+          "Two separate CRISPR guide RNA sequences... targeting the exon1 of ARID1A open reading frame were designed"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ionizing radiation",
+        "dose_or_concentration": "4 Gy",
+        "duration": null,
+        "route_or_context": "GammaCell 40",
+        "evidence": [
+          "were irradiated with 4 Gy",
+          "Irradiation was done with the GammaCell 40 from Theatronics."
         ]
       }
     ],
@@ -62,17 +88,24 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "T0",
+      "T4",
+      "12 h"
+    ],
     "control_arms": [
-      "WT"
+      "WT",
+      "anti-IgG"
     ],
     "case_arms": [
       "ARID1A-KO"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "n = 4 replicates"
+      "n = 2 biological replicates",
+      "n = 4 replicates",
+      "n = 3 replicates each"
     ],
     "multiplex_channel_hints": [
       "Label-Free Quantification (LFQ)"
@@ -85,6 +118,14 @@
         "evidence": [
           "By comparing ARID1A-KO to WT cells"
         ]
+      },
+      {
+        "control_label": "anti-IgG",
+        "case_label": "anti-ARID1A",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Using anti-IgG as control, we set a cutoff for Log2fold changes >2"
+        ]
       }
     ],
     "source_sections": [
@@ -96,7 +137,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -109,18 +150,13 @@
     ],
     "cell_lines": [
       {
-        "label": "AID-DIvA",
-        "family": "U2OS",
-        "ontology_curie": null
-      },
-      {
         "label": "U2OS",
-        "family": null,
+        "family": "osteosarcoma",
         "ontology_curie": null
       },
       {
         "label": "MDA-MB-231",
-        "family": null,
+        "family": "breast cancer",
         "ontology_curie": "CVCL_0062"
       }
     ],
@@ -150,7 +186,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "AP-MS",
+        "ontology_label": "affinity purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -169,7 +205,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment explicitly used data-dependent acquisition (DDA) and Label-Free Quantification (LFQ) as processed by MaxQuant."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion and employed Label-Free Quantification (LFQ) as processed by MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -186,7 +222,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment explicitly used data-dependent acquisition (DDA) and Label-Free Quantification (LFQ) as processed by MaxQuant."
+          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion and employed Label-Free Quantification (LFQ) as processed by MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -222,8 +258,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:02:41Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

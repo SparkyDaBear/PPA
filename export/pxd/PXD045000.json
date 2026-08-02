@@ -3,75 +3,153 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "viral infection"
     ],
-    "cell_types": [
-      "CD8+ T cells",
-      "peripheral blood mononuclear cells (PBMCs)",
-      "tonsil tissue",
-      "lung tissue",
-      "spleen tissue",
-      "lymph node tissue"
-    ],
+    "cell_types": [],
     "cell_lines": [
+      "C1R",
       "C1R.B*07:02",
       "C1R.B*08:01",
       "C1R.B*35:01"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "viral infection",
+        "ontology_curie": "PPA:0000085",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "C1R were infected at MOI5 for 12hrs",
+          "Analysis of peptide presentation by Human Leukocyte Antigen (HLA) class I of influenza B infected C1R cells"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Influenza B virus (B/Malaysia/2506/04)",
+        "dose_or_concentration": "MOI5",
+        "duration": "12hrs",
+        "route_or_context": "C1R cell lines",
+        "evidence": [
+          "C1R were infected at MOI5 for 12hrs",
+          "C1R.B*07:02, C1R.B*08:01 and C1R.B*35:01 cells were infected Influenza B virus (B/Malaysia/2506/04)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "12hrs"
+    ],
+    "control_arms": [
+      "uninfected"
+    ],
+    "case_arms": [
+      "infected"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "uninfected",
+        "case_label": "infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Peptide assignments mapping to the influenza proteome or 6 frame genome translation were excluded if identified in both uninfected and infected samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "C1R",
+        "family": "C1R",
+        "ontology_curie": null
+      },
+      {
+        "label": "C1R.B*07:02",
+        "family": "C1R",
+        "ontology_curie": null
+      },
+      {
+        "label": "C1R.B*08:01",
+        "family": "C1R",
+        "ontology_curie": null
+      },
+      {
+        "label": "C1R.B*35:01",
+        "family": "C1R",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Immunopeptidomics",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "immunopeptidome enrichment",
+        "ontology_curie": "PPA:0000298",
+        "workflow_modifier_hint": "mod_immunopeptidomics",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -79,10 +157,60 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition is explicitly described as DDA on a Q-Exactive Plus. While no formal LFQ method is detailed, the immunopeptidomics approach typically uses label-free intensity or spectral counting for relative abundance."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly defined as immunopeptidomics using pan-HLA class I antibody (W6/32) to isolate HLA-peptide complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA class I complexes",
+        "W6/32",
+        "unspecific digest",
+        "no enzyme"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data acquisition is explicitly described as DDA on a Q-Exactive Plus. While no formal LFQ method is detailed, the immunopeptidomics approach typically uses label-free intensity or spectral counting for relative abundance."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "immunopeptidomics",
+          "confidence": 1.0,
+          "reason": "The experiment is explicitly defined as immunopeptidomics using pan-HLA class I antibody (W6/32) to isolate HLA-peptide complexes."
+        }
+      ],
+      "trigger_keywords": [
+        "immunopeptidomics",
+        "HLA class I complexes",
+        "W6/32",
+        "unspecific digest",
+        "no enzyme"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_peptide",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "peptide"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -102,7 +230,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

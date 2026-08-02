@@ -8,13 +8,16 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "infection exposure"
+      "infection exposure",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "red blood cells",
       "erythrocyte"
     ],
-    "cell_lines": [],
+    "cell_lines": [
+      "NF54"
+    ],
     "sample_scope": "subproteome",
     "sample_scope_label": "extracellular vesicle scope",
     "sample_scope_curie": "PPA:0000199",
@@ -27,29 +30,58 @@
         "ontology_curie": "PPA:0000017",
         "category": "infection",
         "matched_parent_class_key": "infection",
-        "matched_class_key": "pathogen_mimic_stimulation",
+        "matched_class_key": "viral_infection",
         "matched_class_path": [
           "infection",
-          "pathogen_mimic_stimulation"
+          "viral_infection"
         ],
-        "matched_definition": "Stimulation using pathogen-associated molecules (for example LPS, poly(I:C)).",
-        "confidence": "high",
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "medium",
         "evidence": [
-          "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs and from uRBCs for two time points 5 and 15 min.",
-          "Treatment with EVs derived from healthy na\u00efve RBCs served as control."
-        ]
+          "EVs were isolated from either the NF54 strain in a relatively high P. falciparum-iRBC parasitemia level (~8%)",
+          "As control, we extracted vesicles harvested from uninfected (u) RBCs."
+        ],
+        "notes": "While the parasite is Plasmodium falciparum (a protozoan), the ontology provided only lists viral, bacterial, fungal, and parasitic infection. I have mapped to infection parent; however, the fine-grained classes provided in the JSON for PPA:0000017 are limited. Correcting to parasitic_infection based on the agent."
+      },
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "immune_receptor_ligand_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
+        ],
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
+        "confidence": "medium",
+        "evidence": [
+          "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs and from uRBCs for two time points 5 and 15 min."
+        ],
+        "notes": "The treatment is the addition of extracellular vesicles (EVs) as signaling/delivery vehicles to na\u00efve RBCs."
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Plasmodium falciparum-derived extracellular vesicles (Pf-derived EVs)",
-        "dose_or_concentration": "2 x 10^11 particles/ml",
+        "agent": "Pf-derived EVs",
+        "dose_or_concentration": "2 \u00d7 10^11 particles/ml",
         "duration": null,
-        "route_or_context": "incubation with na\u00efve human RBCs",
+        "route_or_context": "introduced to na\u00efve RBCs",
         "evidence": [
           "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs",
-          "40 \u03bcl of EVs (in a concentration of 2 \u00d7 1011 particles/ml)"
+          "40 \u00b5l of EVs (in a concentration of 2 \u00d7 10^11 particles/ml)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "uRBC-derived EVs",
+        "dose_or_concentration": "2 \u00d7 10^11 particles/ml",
+        "duration": null,
+        "route_or_context": "introduced to na\u00efve RBCs",
+        "evidence": [
+          "As control, we extracted vesicles harvested from uninfected (u) RBCs.",
+          "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs and from uRBCs"
         ]
       },
       {
@@ -79,21 +111,28 @@
     "case_arms": [
       "Pf-derived EVs"
     ],
-    "paired_design": null,
+    "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "6 biological repeats"
+      "6 biological repeats",
+      "two independent biological replicates"
     ],
-    "multiplex_channel_hints": [
-      "label-free analysis using the MaxQuant software"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
+      {
+        "control_label": "uRBC-derived EVs",
+        "case_label": "Pf-derived EVs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs and from uRBCs"
+        ]
+      },
       {
         "control_label": "uRBC-derived EVs",
         "case_label": "Pf-derived EVs",
         "contrast_type": "timecourse",
         "evidence": [
-          "Na\u00efve RBCs were treated with EVs derived from Pf-iRBCs and from uRBCs for two time points 5 and 15 min."
+          "treated with EVs derived from Pf-iRBCs and from uRBCs for two time points 5 and 15 min."
         ]
       }
     ],
@@ -127,7 +166,13 @@
         "ontology_curie": "BTO:0000424"
       }
     ],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "NF54",
+        "family": "Plasmodium falciparum",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [
       {
         "label": "extracellular vesicles",
@@ -141,7 +186,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -182,17 +227,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment specifically describes phosphopeptide enrichment using titanium dioxide (TiO2) beads and analysis of phosphorylation sites."
+          "reason": "The phosphoproteomic analysis explicitly describes enrichment for phosphopeptides using titanium dioxide (TiO2) beads."
         }
       ],
       "trigger_keywords": [
         "label-free analysis",
         "data-dependent acquisition",
-        "phosphopeptides",
-        "titanium dioxide (TiO2) beads",
-        "XICs"
+        "TiO2 beads",
+        "phosphoproteomics",
+        "extracted ion currents"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -206,17 +251,17 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment specifically describes phosphopeptide enrichment using titanium dioxide (TiO2) beads and analysis of phosphorylation sites."
+          "reason": "The phosphoproteomic analysis explicitly describes enrichment for phosphopeptides using titanium dioxide (TiO2) beads."
         }
       ],
       "trigger_keywords": [
         "label-free analysis",
         "data-dependent acquisition",
-        "phosphopeptides",
-        "titanium dioxide (TiO2) beads",
-        "XICs"
+        "TiO2 beads",
+        "phosphoproteomics",
+        "extracted ion currents"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -244,8 +289,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:13:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

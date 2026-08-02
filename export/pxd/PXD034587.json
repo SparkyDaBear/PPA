@@ -8,14 +8,15 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "infection exposure"
     ],
     "cell_types": [
       "fibroblast"
     ],
     "cell_lines": [
-      "HFFs",
-      "Kasumi-3"
+      "Kasumi-3",
+      "HFFs"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -29,28 +30,66 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "we modified the HCMV Toledo bacterial artificial chromosome (BAC) strain (GenBank AC146905.1) by recombineering and generated a mutant virus without expression of each lncRNA (hereafter referred to as lncRNA-Mut)",
-          "For RNA1.2 and RNA2.7, the genomic region of each lncRNA was completely deleted."
+          "generated a mutant virus without expression of each lncRNA (hereafter referred to as lncRNA-Mut)",
+          "For RNA1.2 and RNA2.7, the lncRNA sequences were completely replaced with the cassette.",
+          "For RNA4.9, the lncRNA sequences, excluding oriLyt, were also replaced with the cassette."
+        ]
+      },
+      {
+        "ontology_label": "infection exposure",
+        "ontology_curie": "PPA:0000017",
+        "category": "infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
+        "matched_class_path": [
+          "infection",
+          "viral_infection"
+        ],
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
+        "confidence": "high",
+        "evidence": [
+          "HFFs were infected with HCMV Toledo",
+          "Kasumi-3 cells were infected with HCMV Toledo"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "lncRNA-Mut (RNA1.2, RNA2.7, RNA4.9)",
-        "dose_or_concentration": null,
+        "agent": "HCMV Toledo",
+        "dose_or_concentration": "MOI of 3",
         "duration": null,
-        "route_or_context": "HCMV Toledo BAC modification",
+        "route_or_context": "lytic infection in HFFs",
         "evidence": [
-          "generated a mutant virus without expression of each lncRNA (hereafter referred to as lncRNA-Mut)"
+          "HFFs were infected with HCMV Toledo at an MOI of 3"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HCMV Toledo",
+        "dose_or_concentration": "MOI of 1",
+        "duration": null,
+        "route_or_context": "latent infection in Kasumi-3 cells",
+        "evidence": [
+          "Kasumi-3 cells were infected with HCMV Toledo at an MOI of 1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "phorbol 12-myristate 13-acetate (PMA)",
+        "dose_or_concentration": "20 nM",
+        "duration": "2 days",
+        "route_or_context": "reactivation of latent HCMV infection",
+        "evidence": [
+          "cells were treated with 20 nM phorbol 12-myristate 13-acetate (PMA) or DMSO for an additional 2 days"
         ]
       }
     ],
@@ -60,46 +99,50 @@
   },
   "experimental_design": {
     "timepoints": [
-      "3 d post-infection"
+      "3 d post-infection",
+      "8 days post-infection",
+      "8 + 2 days post-infection"
     ],
     "control_arms": [
-      "WT",
-      "lncRNA-Rev",
-      "no probe",
-      "antisense probe"
+      "WT virus",
+      "DMSO",
+      "No probe",
+      "antisense-lncRNA targeting probes"
     ],
     "case_arms": [
-      "1.2-Mut",
-      "2.7-Mut",
-      "4.9-Mut",
-      "5.0-Mut",
+      "lncRNA-Mut (1.2-Mut, 2.7-Mut, 4.9-Mut, 5.0-Mut)",
+      "PMA",
       "sense-lncRNA targeting probes"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "The two technical replicates were aggregated"
+      "two independent replicates"
     ],
-    "multiplex_channel_hints": [
-      "label-free quantification"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "no probe / antisense probe",
-        "case_label": "sense-lncRNA targeting probes",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "we identified a list of proteins that were specifically enriched in the target experiment and thus represented candidate HCMV lncRNA regulators",
-          "The \"no probe\" experiments controlled for technical interactors... The \"antisense probe\" experiments represented possible RNA-binding proteins retrieved from non-specific RNA targets."
-        ]
-      },
-      {
-        "control_label": "WT",
+        "control_label": "WT virus",
         "case_label": "lncRNA-Mut",
         "contrast_type": "pairwise",
         "evidence": [
-          "compare the expression of HCMV lncRNAs to that of viral mRNAs",
-          "examine the effects of HCMV lncRNA defects on productive lytic replication"
+          "compare the expression of HCMV lncRNAs... in the lncRNA-Mut virus compared to levels in WT"
+        ]
+      },
+      {
+        "control_label": "No probe / antisense probe",
+        "case_label": "sense-lncRNA targeting probe",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "data from the \"no probe\" and \"antisense probe\" experiments were used to account for various technical factors"
+        ]
+      },
+      {
+        "control_label": "latency",
+        "case_label": "reactivation",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "most viral genes... were upregulated in reactivation than latency"
         ]
       }
     ],
@@ -112,26 +155,31 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Human cytomegalovirus",
+        "taxonomy_hint": null,
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "cell type",
+        "rollup_category": "somatic cell",
         "ontology_curie": "CL:0000057"
       }
     ],
     "cell_lines": [
       {
-        "label": "HFFs",
-        "family": "human foreskin fibroblasts",
+        "label": "Kasumi-3",
+        "family": "myeloid progenitor cell line",
         "ontology_curie": null
       },
       {
-        "label": "Kasumi-3",
-        "family": "myeloid progenitor cell line",
+        "label": "HFFs",
+        "family": "primary human foreskin fibroblasts",
         "ontology_curie": null
       }
     ],
@@ -179,22 +227,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and text explicitly state 'Label-Free Quantification' (LFQ) and 'Shotgun proteomics' using an Orbitrap Fusion Lumos (DDA)."
+          "reason": "The study explicitly states the use of LC-MS/MS on an Orbitrap Fusion Lumos with MaxQuant for label-free quantification (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_rap_ms",
           "confidence": 0.9,
-          "reason": "The experiment uses a modified RNA antisense purification coupled with mass spectrometry (RAP-MS) to identify lncRNA-binding proteins."
+          "reason": "The experiment uses a modified RNA antisense purification coupled with mass spectrometry (RAP-MS) approach to identify the lncRNA interactome."
         }
       ],
       "trigger_keywords": [
-        "Label-Free Quantification",
-        "RAP-MS",
-        "modified RAP",
+        "label-free quantification",
         "MaxQuant",
-        "Orbitrap Fusion Lumos"
+        "RAP-MS",
+        "Orbitrap Fusion Lumos",
+        "on-bead peptide digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,22 +251,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata and text explicitly state 'Label-Free Quantification' (LFQ) and 'Shotgun proteomics' using an Orbitrap Fusion Lumos (DDA)."
+          "reason": "The study explicitly states the use of LC-MS/MS on an Orbitrap Fusion Lumos with MaxQuant for label-free quantification (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_rap_ms",
           "confidence": 0.9,
-          "reason": "The experiment uses a modified RNA antisense purification coupled with mass spectrometry (RAP-MS) to identify lncRNA-binding proteins."
+          "reason": "The experiment uses a modified RNA antisense purification coupled with mass spectrometry (RAP-MS) approach to identify the lncRNA interactome."
         }
       ],
       "trigger_keywords": [
-        "Label-Free Quantification",
-        "RAP-MS",
-        "modified RAP",
+        "label-free quantification",
         "MaxQuant",
-        "Orbitrap Fusion Lumos"
+        "RAP-MS",
+        "Orbitrap Fusion Lumos",
+        "on-bead peptide digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -246,8 +294,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:04:42Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

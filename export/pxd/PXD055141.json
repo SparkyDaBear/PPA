@@ -2,9 +2,11 @@
   "pxd": "PXD055141",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": null,
-    "labeling_strategy": [],
+    "acquisition_type": "DDA",
+    "quantification_method": "MS1 intensity based label-free quantification",
+    "labeling_strategy": [
+      "LFQ"
+    ],
     "treatment_categories": [
       "genetic perturbation",
       "genetic perturbation"
@@ -35,17 +37,17 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "To generate point mutations in the SLC16A6 coding sequence at the phospho-degron motif DSGVELT (239\u2013245), mutagenesis primers were designed",
-          "The resulting plasmids containing S240A, S240D, T245E, and T245N modified SLC16A6 were recombined in a Gateway LR reaction"
+          "To generate point mutations in the SLC16A6 coding sequence at the phospho-degron motif DSGVELT (239\u2013245)",
+          "The resulting plasmids containing S240A, S240D, T245E, and T245N modified SLC16A6 were recombined in a Gateway LR reaction to express doxycycline-inducible SLC16A6-strepII-HA for validation experiments.",
+          "By comparing the interactome of the phospho-mutants against that of WT SLC16A6, we validated that the binding of phospho-dead mutants to SCF (SKP1-CUL1-F-box protein) E3 ubiquitin-protein ligase complex members was reduced"
         ]
       },
       {
@@ -53,33 +55,89 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Target knows the problem but not solutions. Ad agitates the problem.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "By genetic loss-of-function analysis, we found dozens of interactors that led to a change in protein stability of the interacting transporter",
-          "For RNAi-mediated depletion, cells were first seeded on tissue culture-treated six-well plates"
+          "We employed a functional assessment based on RNA interference of interactors in combination with measurement of protein stability and localization.",
+          "By genetic loss-of-function analysis, we found dozens of interactors that led to a change in protein stability of the interacting transporter"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SLC16A6 phospho-mutants",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "point mutations S240A, S240D, T245E, and T245N",
+        "evidence": [
+          "The resulting plasmids containing S240A, S240D, T245E, and T245N modified SLC16A6 were recombined in a Gateway LR reaction"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "RNA interference",
+        "dose_or_concentration": "10 nM",
+        "duration": "48 h",
+        "route_or_context": "DsiRNA transfection",
+        "evidence": [
+          "A transfection mix of 400 \u03bcL OptiMEM with 1 \u03bcL DsiRNA... and 4 \u03bcL Lipofectamine RNAiMAX Transfection Reagent... and incubation for 48 h.",
+          "transfected 72 h before harvesting with DsiRNAs at final concentrations of 10 nM"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "24 h",
+      "48 h",
+      "72 h"
+    ],
+    "control_arms": [
+      "SLC16A6WT",
+      "GFP controls",
+      "control RNAi"
+    ],
+    "case_arms": [
+      "SLC16A6 S240A",
+      "SLC16A6 S240D",
+      "SLC16A6 T245E",
+      "SLC16A6 T245N",
+      "interactor RNAi"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "biological duplicates with technical injections",
+      "n = 3 biologically independent replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "SLC16A6WT",
+        "case_label": "SLC16A6 phospho-mutants",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "By comparing the interactome of the phospho-mutants against that of WT SLC16A6"
+        ]
+      },
+      {
+        "control_label": "control RNAi",
+        "case_label": "interactor RNAi",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing GFP:RFP ratios between control and interactor RNAi"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -89,7 +147,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -155,18 +213,31 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "MS1 intensity based label-free quantification",
+      "Spectrum counting",
+      "Freequant"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -179,15 +250,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 10,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) and label-free quantification (LFQ) based on MS1 intensities (Freequant) and spectral counting (SPC)."
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via MS1 intensity (Freequant) and spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ap_ms",
-          "confidence": 10,
-          "reason": "The study is explicitly described as a large-scale affinity purification coupled to mass spectrometry (AP-MS) project."
+          "confidence": 1.0,
+          "reason": "The study is a systematic affinity purification mass spectrometry (AP-MS) analysis of SLC transporter interactomes."
         }
       ],
       "trigger_keywords": [
@@ -195,7 +266,7 @@
         "DDA",
         "label-free quantification",
         "spectral counts",
-        "bait-prey matrix"
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,15 +274,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 10,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) and label-free quantification (LFQ) based on MS1 intensities (Freequant) and spectral counting (SPC)."
+          "confidence": 1.0,
+          "reason": "The experiment explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via MS1 intensity (Freequant) and spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ap_ms",
-          "confidence": 10,
-          "reason": "The study is explicitly described as a large-scale affinity purification coupled to mass spectrometry (AP-MS) project."
+          "confidence": 1.0,
+          "reason": "The study is a systematic affinity purification mass spectrometry (AP-MS) analysis of SLC transporter interactomes."
         }
       ],
       "trigger_keywords": [
@@ -219,7 +290,7 @@
         "DDA",
         "label-free quantification",
         "spectral counts",
-        "bait-prey matrix"
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -247,8 +318,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:29:09Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

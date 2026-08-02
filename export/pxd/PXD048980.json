@@ -8,7 +8,8 @@
       "Dimethyl"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "mutation or variant perturbation",
+      "molecular state comparison"
     ],
     "cell_types": [
       "T cell"
@@ -24,21 +25,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "We used whole exome/genome sequencing to discover 20 patients from 18 unrelated families of different ancestries worldwide, who had previously unreported or extremely rare heterozygous missense variants in GNAI2",
-          "For these experiments, we used G\u03b1i2-Thr182Ala bound to GTP\u03b3S as the bait protein"
+          "We investigated germline mutations in GNAI2, which encodes G\u03b1i2",
+          "We tested the function of purified recombinant G\u03b1i2 variant proteins and compared their ability to bind and hydrolyze GTP with non-mutated WT G\u03b1i2"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "we investigated G\u03b1i2-interacting proteins by performing affinity pulldown followed by quantitative mass-spectrometry",
+          "Using this approach, we identified both well-known and previously reported interactors of G\u03b1i2 as well as 128 previously unreported interactors including RASA2"
         ]
       }
     ],
@@ -48,7 +65,7 @@
         "agent": "G\u03b1i2-Thr182Ala",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "affinity pulldown bait",
+        "route": null,
         "evidence": [
           "For these experiments, we used G\u03b1i2-Thr182Ala bound to GTP\u03b3S as the bait protein"
         ]
@@ -58,10 +75,20 @@
         "agent": "GTP\u03b3S",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "nucleotide loading to lock active state",
+        "route": null,
         "evidence": [
           "G\u03b1i2-Thr182Ala bound to GTP\u03b3S as the bait protein",
-          "GST- or GST-G\u03b1i2 (WT)-bound resin preloaded with GDP or non-hydrolyzeable GTP\u03b3S (which \u201clocks\u201d G\u03b1i2 into its active form)"
+          "preloaded with GDP or non-hydrolyzeable GTP\u03b3S (which \u201clocks\u201d G\u03b1i2 into its active form)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "WT G\u03b1i2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route": null,
+        "evidence": [
+          "Recombinant GST-fused human wildtype (WT) G\u03b1i2 proteins were expressed in bacteria"
         ]
       }
     ],
@@ -71,31 +98,13 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [
-      "GST",
-      "GST-G\u03b1i2 (WT)"
-    ],
-    "case_arms": [
-      "GST-G\u03b1i2(Thr182Ala)"
-    ],
+    "control_arms": [],
+    "case_arms": [],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [
-      "reductive dimethylation",
-      "labeled with different isotopes"
-    ],
-    "contrast_hints": [
-      {
-        "control_label": "WT G\u03b1i2",
-        "case_label": "Mutant G\u03b1i2 (Thr182Ala)",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "We identified well-known and previously reported interactors of G\u03b1i2... and previously unappreciated interacting proteins (including RASA2, PP2A-A\u03b1, PP2A-C\u03b1)",
-          "Interactions of RASA2 with multiple different activating mutant G\u03b1i2 proteins were stronger than with WT G\u03b1i2"
-        ]
-      }
-    ],
+    "multiplex_channel_hints": [],
+    "contrast_hints": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -111,7 +120,7 @@
       {
         "label": "Escherichia coli",
         "taxonomy_hint": "NEWT:562",
-        "confidence": "medium"
+        "confidence": "high"
       }
     ],
     "cell_types": [
@@ -172,14 +181,21 @@
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Dimethyl Labeling' as the quantification method and 'Data-dependent acquisition' as the experiment type. The methods section confirms 'reductive dimethylation' was used."
+          "reason": "PRIDE metadata explicitly lists 'Dimethyl Labeling' as the quantification method and 'Data-dependent acquisition' as the experiment type. The text specifies 'reductive dimethylation' was used."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment is described as an 'affinity pulldown' using GST-fused G\u03b1i2 proteins as bait to identify interacting proteins."
+        }
+      ],
       "trigger_keywords": [
         "reductive dimethylation",
-        "Dimethyl Labeling",
-        "Data-dependent acquisition"
+        "affinity pulldown",
+        "GST-fused",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -188,14 +204,21 @@
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Dimethyl Labeling' as the quantification method and 'Data-dependent acquisition' as the experiment type. The methods section confirms 'reductive dimethylation' was used."
+          "reason": "PRIDE metadata explicitly lists 'Dimethyl Labeling' as the quantification method and 'Data-dependent acquisition' as the experiment type. The text specifies 'reductive dimethylation' was used."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The experiment is described as an 'affinity pulldown' using GST-fused G\u03b1i2 proteins as bait to identify interacting proteins."
+        }
+      ],
       "trigger_keywords": [
         "reductive dimethylation",
-        "Dimethyl Labeling",
-        "Data-dependent acquisition"
+        "affinity pulldown",
+        "GST-fused",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,8 +246,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:59:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

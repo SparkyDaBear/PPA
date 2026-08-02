@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "mutation or variant perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,35 +23,54 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "the polyglutamine expanded mutant than wildtype exon 1",
           "comparing purified HTT and HTT-HAP40 samples",
-          "HTT-HAP40 samples (HTTQ23-HAP40, HTTQ54-HAP40, HTT \u0394exon 1-HAP40)"
+          "HTT-HAP40 samples containing either a pathological HD HTT with 54 glutamines (Q54) or an HTT with a partially deleted exon 1 (\u0394exon 1; comprising residues 80\u20133144, missing N17, polyglutamine and proline-rich domain)",
+          "comparing the canonical Q23 complex"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "polyglutamine expansion (Q54 vs Q23)",
+        "agent": "HTT Q23",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "recombinant protein complex",
+        "route_or_context": "wild-type",
         "evidence": [
-          "pathological HD HTT with 54 glutamines (Q54) or an HTT with a partially deleted exon 1 (\u0394exon 1)",
           "WT HTT (23 glutamines; Q23)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HTT Q54",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "pathological HD mutant",
+        "evidence": [
+          "pathological HD HTT with 54 glutamines (Q54)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HTT \u0394exon 1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "partially deleted exon 1",
+        "evidence": [
+          "HTT with a partially deleted exon 1 (\u0394exon 1; comprising residues 80\u20133144, missing N17, polyglutamine and proline-rich domain)"
         ]
       }
     ],
@@ -62,11 +81,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "HTT-Q23-HAP40"
+      "HTT Q23"
     ],
     "case_arms": [
-      "HTT-Q54-HAP40",
-      "HTT-\u0394exon 1-HAP40"
+      "HTT Q54",
+      "HTT \u0394exon 1"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -76,19 +95,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "HTT-Q23-HAP40",
-        "case_label": "HTT-Q54-HAP40",
+        "control_label": "HTT Q23",
+        "case_label": "HTT Q54",
         "contrast_type": "pairwise",
         "evidence": [
-          "the expanded Q54 forms of exon 1 appear to sample different conformational space than unexpanded Q23"
+          "the polyglutamine expanded mutant than wildtype exon 1"
         ]
       },
       {
-        "control_label": "HTT-Q23-HAP40",
-        "case_label": "HTT-\u0394exon 1-HAP40",
+        "control_label": "HTT Q23",
+        "case_label": "HTT \u0394exon 1",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparison of the Q23, Q54 and \u0394exon 1 HTT-HAP40 samples"
+          "comparing the canonical Q23 complex"
         ]
       }
     ],
@@ -131,7 +150,7 @@
     "noncellular_sources": [
       {
         "label": "liver",
-        "source_kind": "organ"
+        "source_kind": "tissue"
       }
     ],
     "sample_scope": {
@@ -176,23 +195,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 80,
-          "reason": "The experiment uses DDA (full-scan MS and fragmentation of charged states 3-8) and focuses on identifying cross-links across different protein variants (Q23, Q54, Delta exon 1) without explicit isobaric or SILAC labeling."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (full-scan MS followed by fragmentation of charged states 3-8) and focuses on identifying cross-links across different protein variants (Q23, Q54, \u0394exon 1) without explicit labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_xlms",
-          "confidence": 100,
-          "reason": "Explicit use of PhoX cross-linker and analysis via XlinkX node in Proteome Discoverer to identify cross-linked peptides."
+          "modifier_workflow_id": "crosslinking_phox",
+          "confidence": 1.0,
+          "reason": "Explicit use of PhoX cross-linker and analysis via XlinkX node in Proteome Discoverer."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
-        "XL-MS",
         "PhoX",
         "XlinkX",
-        "cross-linked peptides"
+        "IMAC enrichment of cross-linked peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -200,23 +218,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 80,
-          "reason": "The experiment uses DDA (full-scan MS and fragmentation of charged states 3-8) and focuses on identifying cross-links across different protein variants (Q23, Q54, Delta exon 1) without explicit isobaric or SILAC labeling."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (full-scan MS followed by fragmentation of charged states 3-8) and focuses on identifying cross-links across different protein variants (Q23, Q54, \u0394exon 1) without explicit labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_xlms",
-          "confidence": 100,
-          "reason": "Explicit use of PhoX cross-linker and analysis via XlinkX node in Proteome Discoverer to identify cross-linked peptides."
+          "modifier_workflow_id": "crosslinking_phox",
+          "confidence": 1.0,
+          "reason": "Explicit use of PhoX cross-linker and analysis via XlinkX node in Proteome Discoverer."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
-        "XL-MS",
         "PhoX",
         "XlinkX",
-        "cross-linked peptides"
+        "IMAC enrichment of cross-linked peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -244,8 +261,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:19:37Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

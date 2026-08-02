@@ -9,15 +9,17 @@
     ],
     "treatment_categories": [
       "genetic perturbation",
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "molecular state comparison"
     ],
     "cell_types": [
       "induced pluripotent stem cells",
+      "epithelial cells",
       "embryonic fibroblasts"
     ],
     "cell_lines": [
       "HEK293",
-      "hTERT-RPE-1",
+      "RPE-1",
       "CHP-212",
       "HAP1"
     ],
@@ -33,16 +35,16 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "DSCC1 disruption in these cells led to destabilization of the other two members of the RFCCTF18 complex",
+          "DSCC1-KD iPS",
           "RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells"
         ]
       },
@@ -51,20 +53,51 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "we used a potent and selective SIRT1 inhibitor (SIRT1i; EX 527, selisistat)",
-          "analysed RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells in the presence or absence of SIRT1i"
+          "SIRT1i treatment",
+          "RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells in the presence or absence of SIRT1i"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
+        "matched_class_path": [
+          "molecular_state",
+          "ptm_state_biological_comparison"
+        ],
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "confidence": "high",
+        "evidence": [
+          "performed acetylation analyses on chromatin fractions using mass spectrometry (MS)",
+          "Acetyl-enriched peptides were fractionated",
+          "reveal over 20 proteins that are selectively modified by SIRT1i in the DSCC1/TP53-double-KO background"
         ]
       }
     ],
     "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "DSCC1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown/knockout in human iPS and RPE-1 cells",
+        "evidence": [
+          "DSCC1 disruption in these cells",
+          "DSCC1-KD iPS",
+          "RPE-1 TP53/DSCC1-double-KO cells"
+        ]
+      },
       {
         "relation_key": "has_treatment_agent",
         "agent": "EX 527 (selisistat)",
@@ -78,13 +111,12 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DSCC1",
+        "agent": "TP53",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "knockout/knockdown",
+        "route_or_context": "knockout in RPE-1 cells",
         "evidence": [
-          "DSCC1 disruption in these cells led to destabilization",
-          "RPE-1 TP53/DSCC1-double-KO cells"
+          "RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells"
         ]
       }
     ],
@@ -99,35 +131,23 @@
       "DMSO",
       "RPE-1 TP53-KO"
     ],
-    "case_arms": [
-      "SIRT1i",
-      "RPE-1 TP53/DSCC1-double-KO"
-    ],
+    "case_arms": [],
     "paired_design": false,
     "factorial_design": true,
-    "replicate_hints": [
-      "biological replicate"
-    ],
-    "multiplex_channel_hints": [
-      "TMT10plex",
-      "TMTpro"
-    ],
+    "replicate_hints": [],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "RPE-1 TP53-KO",
-        "case_label": "RPE-1 TP53/DSCC1-double-KO",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "analysed RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells"
-        ]
+        "contrast_type": "multigroup contrast",
+        "control_group": "RPE-1 TP53-KO",
+        "perturbed_group": "RPE-1 TP53/DSCC1-double-KO",
+        "evidence": "analysed RPE-1 TP53-KO and RPE-1 TP53/DSCC1-double-KO cells in the presence or absence of SIRT1i"
       },
       {
-        "control_label": "DMSO",
-        "case_label": "SIRT1i",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "in the presence or absence of SIRT1i"
-        ]
+        "contrast_type": "simple pairwise contrast",
+        "control_group": "DMSO",
+        "perturbed_group": "SIRT1i",
+        "evidence": "SIRT1-KO and WT HEK293 cells with or without SIRT1i"
       }
     ],
     "source_sections": [
@@ -139,7 +159,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
@@ -155,6 +175,11 @@
         "ontology_curie": null
       },
       {
+        "label": "epithelial cells",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": null
+      },
+      {
         "label": "embryonic fibroblasts",
         "rollup_category": "fibroblast",
         "ontology_curie": null
@@ -163,12 +188,12 @@
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": "HEK293",
+        "family": "human embryonic kidney",
         "ontology_curie": null
       },
       {
-        "label": "hTERT-RPE-1",
-        "family": "RPE-1",
+        "label": "RPE-1",
+        "family": "retinal pigment epithelial",
         "ontology_curie": null
       },
       {
@@ -190,7 +215,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -227,22 +252,22 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT10plex and TMTpro multiplexing reagents with MS3-level quantification (SPS-MS3)."
+          "reason": "The experiment explicitly uses TMT10plex and TMTpro labeling with MS3-level quantification (SPS-MS3) on an Orbitrap Fusion/Ascend instrument."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ptm_acetylation",
           "confidence": 1.0,
-          "reason": "Specific enrichment of acetylated peptides using PTMScan HS Acetyl-Lysine Motif (Ac-K) Kit."
+          "reason": "Specific enrichment of acetylated peptides was performed using the PTMScan HS Acetyl-Lysine Motif (Ac-K) Kit."
         }
       ],
       "trigger_keywords": [
         "TMT10plex",
         "TMTpro",
         "SPS-MS3",
-        "acetylated peptides",
-        "PTMScan HS Acetyl-Lysine Motif"
+        "PTMScan HS Acetyl-Lysine Motif",
+        "acetyl-enriched"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,22 +276,22 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT10plex and TMTpro multiplexing reagents with MS3-level quantification (SPS-MS3)."
+          "reason": "The experiment explicitly uses TMT10plex and TMTpro labeling with MS3-level quantification (SPS-MS3) on an Orbitrap Fusion/Ascend instrument."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ptm_acetylation",
           "confidence": 1.0,
-          "reason": "Specific enrichment of acetylated peptides using PTMScan HS Acetyl-Lysine Motif (Ac-K) Kit."
+          "reason": "Specific enrichment of acetylated peptides was performed using the PTMScan HS Acetyl-Lysine Motif (Ac-K) Kit."
         }
       ],
       "trigger_keywords": [
         "TMT10plex",
         "TMTpro",
         "SPS-MS3",
-        "acetylated peptides",
-        "PTMScan HS Acetyl-Lysine Motif"
+        "PTMScan HS Acetyl-Lysine Motif",
+        "acetyl-enriched"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -294,8 +319,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:10:17Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,14 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT-10 plex",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "TMT",
       "LFQ",
       "Other"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "disease or clinical state"
     ],
     "cell_types": [
       "dermal fibroblasts"
@@ -31,17 +32,34 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
           "OTULIN haploinsufficiency underlies life-threatening staphylococcal disease",
-          "The disorder is phenocopied in patients with the 5p- (Cri-du-Chat) chromosomal deletion syndrome.",
-          "OTULIN haploinsufficiency led to an accumulation of aggregates containing linear ubiquitin (M1-Ub) in immortalized fibroblasts from patients"
+          "we identified six very rare variants in seven patients from six kindreds",
+          "Comparison between the patient and healthy control"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "The proteome of the resting PDFs from the patients displayed a continuous cellular phenotype, consistent with the transcriptome",
+          "Comparison between the patient and healthy control"
         ]
       }
     ],
@@ -53,8 +71,17 @@
         "duration": null,
         "route_or_context": "primary dermal fibroblasts (PDFs)",
         "evidence": [
-          "global proteomics analyses of PDFs",
-          "The proteome of the resting PDFs from the patients displayed a continuous cellular phenotype"
+          "OTULIN haploinsufficiency causes an accumulation of linear ubiquitin in dermal fibroblasts"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "\u03b1-toxin",
+        "dose_or_concentration": "1.1 \u03bcg/mL",
+        "duration": null,
+        "route_or_context": "PDFs",
+        "evidence": [
+          "PDFs were treated... with 1.1 \u03bcg/mL \u03b1-toxin"
         ]
       }
     ],
@@ -64,40 +91,42 @@
   },
   "experimental_design": {
     "timepoints": [
-      "resting"
+      "resting",
+      "baseline"
     ],
     "control_arms": [
-      "healthy controls"
+      "healthy controls",
+      "isotype control"
     ],
     "case_arms": [
-      "OTULIN-haploinsufficient patients",
-      "recessive OTULIN deficiency (ORAS)",
+      "patients with OTULIN haploinsufficiency",
+      "OTULIN-deficient sample",
       "isogenic OTULIN-knockout PDF cell line"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "TMT-10 plex reagent"
+      "nine studied in replicate"
     ],
     "multiplex_channel_hints": [
-      "TMT-10 plex",
-      "normalizer channel"
+      "TMT-10 plex reagent",
+      "normalizer channel was labeled with the 11th plex"
     ],
     "contrast_hints": [
       {
-        "control_label": "healthy controls",
-        "case_label": "OTULIN-haploinsufficient",
+        "control_label": "healthy control",
+        "case_label": "OTULIN haploinsufficiency",
         "contrast_type": "pairwise",
         "evidence": [
-          "The proteome of the resting PDFs from the patients displayed a continuous cellular phenotype... relative to cells from healthy controls"
+          "The proteome of the resting PDFs from the patients displayed a continuous cellular phenotype, consistent with the transcriptome"
         ]
       },
       {
-        "control_label": "healthy controls",
-        "case_label": "recessive OTULIN deficiency",
+        "control_label": "healthy control",
+        "case_label": "OTULIN-deficient",
         "contrast_type": "pairwise",
         "evidence": [
-          "We analyzed caveolin-1 immunopurification products (IPs) from PDF whole-cell lysates (WCLs) from one healthy control and one patient with recessive OTULIN deficiency"
+          "gelsolin was detected in the OTULIN-deficient sample only"
         ]
       }
     ],
@@ -155,7 +184,7 @@
       "Other"
     ],
     "quantification_strategy": [
-      "TMT-10 plex",
+      "TMT",
       "AQUA",
       "Label-free"
     ],
@@ -166,12 +195,6 @@
         "ontology_curie": "PPA:0000294",
         "workflow_modifier_hint": "mod_ubiquitin",
         "confidence": "high"
-      },
-      {
-        "ontology_label": "SUMOylome or QQTGG enrichment",
-        "ontology_curie": "PPA:0000437",
-        "workflow_modifier_hint": "mod_sumo_qqtgg",
-        "confidence": "low"
       }
     ],
     "assessor_support": null,
@@ -187,27 +210,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and methods explicitly state global quantitative proteomics in primary dermal fibroblasts using TMT-10 plex reagent."
+          "reason": "PRIDE metadata and sample processing explicitly state 'Global quantitative proteomics in primary dermal fibroblasts with isobaric labels' using 'TMT-10 plex reagent'."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "TUBE-enriched samples and caveolin-1 purifications were analyzed using DDA/PRM without isobaric labeling, relying on peak area/intensity for quantification."
+          "confidence": 0.6,
+          "reason": "The project uses multiple quantification methods including 'Label free' and 'AQUA' for specific targeted analyses."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin_digly",
           "confidence": 1.0,
-          "reason": "Explicit mention of 'GlyGly-tagged peptides' and 'ubiquitination signature dipeptidyl lysine' (+114 Da) in caveolin-1 purificates."
+          "reason": "Explicit mention of 'GlyGly-tagged peptides' with a mass shift of '+114 Da' and 'ubiquitination signature dipeptidyl lysine' in PRIDE metadata."
         }
       ],
       "trigger_keywords": [
         "TMT-10 plex",
-        "GlyGly-tagged",
+        "isobaric labels",
+        "GlyGly-tagged peptides",
         "dipeptidyl lysine",
-        "M1-Ub",
-        "AQUA"
+        "M1-Ub"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -216,27 +239,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and methods explicitly state global quantitative proteomics in primary dermal fibroblasts using TMT-10 plex reagent."
+          "reason": "PRIDE metadata and sample processing explicitly state 'Global quantitative proteomics in primary dermal fibroblasts with isobaric labels' using 'TMT-10 plex reagent'."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
-          "reason": "TUBE-enriched samples and caveolin-1 purifications were analyzed using DDA/PRM without isobaric labeling, relying on peak area/intensity for quantification."
+          "confidence": 0.6,
+          "reason": "The project uses multiple quantification methods including 'Label free' and 'AQUA' for specific targeted analyses."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ubiquitin_digly",
           "confidence": 1.0,
-          "reason": "Explicit mention of 'GlyGly-tagged peptides' and 'ubiquitination signature dipeptidyl lysine' (+114 Da) in caveolin-1 purificates."
+          "reason": "Explicit mention of 'GlyGly-tagged peptides' with a mass shift of '+114 Da' and 'ubiquitination signature dipeptidyl lysine' in PRIDE metadata."
         }
       ],
       "trigger_keywords": [
         "TMT-10 plex",
-        "GlyGly-tagged",
+        "isobaric labels",
+        "GlyGly-tagged peptides",
         "dipeptidyl lysine",
-        "M1-Ub",
-        "AQUA"
+        "M1-Ub"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -264,8 +287,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:37:18Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

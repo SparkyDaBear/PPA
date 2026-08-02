@@ -8,29 +8,29 @@
       "TMT"
     ],
     "treatment_categories": [
-      "disease or clinical state",
+      "case-control disease status",
       "cell state or interaction comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "subproteome",
-    "sample_scope_label": "depleted plasma proteome",
+    "sample_scope_label": "subproteome",
     "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "The present study cohort includes 114 patients, with an equal number of patients diagnosed with either lung cancer or no cancer, i.e., other benign lung conditions.",
@@ -42,19 +42,30 @@
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": null,
         "matched_class_path": [
-          "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "cell_state_interaction"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison where activation, differentiation, cell cycle, senescence, death, transition, coculture, or interaction state defines the biological groups.",
         "confidence": "medium",
         "evidence": [
           "DAAs between females (N = 37) and males (N = 51) were performed using a two-sided Welch\u2019s t test, with males as the reference group."
+        ],
+        "notes": "Sex differences are used as a biological comparison axis to evaluate platform statistical power, though not a 'perturbation' in the experimental sense."
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "lung adenocarcinoma",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "plasma samples",
+        "evidence": [
+          "including 57 patients diagnosed with stage III-IV lung adenocarcinoma (LUAD) and 57 non-cancer controls."
         ]
       }
     ],
-    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -62,7 +73,7 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "no cancer",
+      "non-cancer controls",
       "males"
     ],
     "case_arms": [
@@ -76,11 +87,11 @@
     ],
     "multiplex_channel_hints": [
       "TMTpro 16plex Label Reagent Set",
-      "labeled with eight sets of TMTpro 16plex, with one internal standard per set."
+      "eight sets of TMTpro 16plex, with one internal standard per set"
     ],
     "contrast_hints": [
       {
-        "control_label": "no cancer",
+        "control_label": "non-cancer controls",
         "case_label": "lung cancer",
         "contrast_type": "pairwise",
         "evidence": [
@@ -119,7 +130,7 @@
     ],
     "sample_scope": {
       "category": "subproteome",
-      "label": "depleted plasma proteome",
+      "label": "subproteome",
       "curie": "PPA:0000195"
     },
     "linkage_hints": {
@@ -139,7 +150,14 @@
       "Relative quantification using TMTpro 16plex reporter ions"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "high-abundance protein depletion",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -153,16 +171,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+          "reason": "The experiment explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation",
+          "confidence": 1.0,
+          "reason": "Samples underwent extensive pre-fractionation using High-resolution isoelectric focusing (HiRIEF) into 72 fractions."
+        },
+        {
+          "modifier_workflow_id": "depletion",
+          "confidence": 1.0,
+          "reason": "The 14 most abundant plasma proteins were depleted using High Select Top14 Abundant Protein Depletion Mini Spin Columns."
+        }
+      ],
       "trigger_keywords": [
         "TMTpro 16plex",
-        "isobaric TMTs",
-        "data-dependent acquisition",
         "DDA",
-        "HiRIEF"
+        "HiRIEF",
+        "isoelectric focusing",
+        "depletion",
+        "Top14"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -171,16 +201,28 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF."
+          "reason": "The experiment explicitly uses TMTpro 16plex labeling and data-dependent acquisition (DDA) on a Q-Exactive-HF mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionation",
+          "confidence": 1.0,
+          "reason": "Samples underwent extensive pre-fractionation using High-resolution isoelectric focusing (HiRIEF) into 72 fractions."
+        },
+        {
+          "modifier_workflow_id": "depletion",
+          "confidence": 1.0,
+          "reason": "The 14 most abundant plasma proteins were depleted using High Select Top14 Abundant Protein Depletion Mini Spin Columns."
+        }
+      ],
       "trigger_keywords": [
         "TMTpro 16plex",
-        "isobaric TMTs",
-        "data-dependent acquisition",
         "DDA",
-        "HiRIEF"
+        "HiRIEF",
+        "isoelectric focusing",
+        "depletion",
+        "Top14"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,8 +250,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:28:24Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

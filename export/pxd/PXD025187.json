@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "radiation or photostress"
+      "radiation or photostress",
+      "cell state or interaction comparison"
     ],
     "cell_types": [
       "chondrocyte"
@@ -29,17 +30,35 @@
         "ontology_curie": "PPA:0000016",
         "category": "radiation_photostress",
         "matched_parent_class_key": "radiation_photostress",
-        "matched_class_key": "ionizing_radiation",
+        "matched_class_key": "ionizing_radiation_exposure",
         "matched_class_path": [
           "radiation_photostress",
-          "ionizing_radiation"
+          "ionizing_radiation_exposure"
         ],
-        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
         "confidence": "high",
         "evidence": [
           "X-rays irradiations were performed",
           "irradiated with 0.1 Gy of X-rays",
-          "conditioned medium of 0.1 Gy irradiated chondrosarcoma cells"
+          "conditioned medium of 0.1 Gy irradiated chondrosarcoma cells was significantly modified, as compared with the conditioned medium of non-irradiated cells"
+        ]
+      },
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "co_culture_or_interaction_state_comparison",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "co_culture_or_interaction_state_comparison"
+        ],
+        "matched_definition": "Comparison based on co-culture, cell-cell interaction, conditioned medium, stromal interaction, or immune interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "study the bystander effect between irradiated chondrosarcoma cells (SW1353 cell line) and non-irradiated chondrocytes (T/C28-A2 cell line)",
+          "we selected a medium-transfer protocol",
+          "compare the cell responses of non-irradiated cells, receiving the conditioned medium from irradiated cells"
         ]
       }
     ],
@@ -49,20 +68,19 @@
         "agent": "X-rays",
         "dose_or_concentration": "0.1 Gy",
         "duration": null,
-        "route_or_context": "chondrosarcoma cells (SW1353)",
+        "route_or_context": "irradiation of SW1353 chondrosarcoma cells",
         "evidence": [
           "irradiated with 0.1 Gy of X-rays",
-          "chondrosarcoma cells irradiated at a low dose (0.1 Gy X-ray)"
+          "X-rays irradiations were performed"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "conditioned medium",
         "dose_or_concentration": null,
         "duration": "24 h",
-        "route_or_context": "conditioned medium collection and bystander cell exposure",
+        "route_or_context": "incubation of bystander T/C-28a2 cells with conditioned medium",
         "evidence": [
-          "After 24 h, the conditioned medium was removed from the flasks and analyzed",
           "Bystander cells were kept in contact with the conditioned medium for 24 h and then harvested."
         ]
       }
@@ -77,11 +95,11 @@
     ],
     "control_arms": [
       "non-irradiated cells",
-      "0 Gy"
+      "conditioned medium of non-irradiated chondrosarcoma cells"
     ],
     "case_arms": [
-      "0.1 Gy irradiated cells",
-      "bystander chondrocytes receiving the conditioned medium of low-dose irradiated chondrosarcoma cells"
+      "bystander chondrocytes receiving the conditioned medium of low-dose irradiated chondrosarcoma cells",
+      "conditioned medium of 0.1 Gy irradiated chondrosarcoma cells"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -92,19 +110,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "0 Gy",
-        "case_label": "0.1 Gy",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "comparison was then carried out in order to identify the overabundant proteins in the irradiated comparison (0.1 Gy) versus control condition"
-        ]
-      },
-      {
-        "control_label": "non-irradiated chondrosarcoma cells",
-        "case_label": "0.1 Gy irradiated chondrosarcoma cells",
+        "control_label": "non-irradiated",
+        "case_label": "0.1 Gy irradiated",
         "contrast_type": "pairwise",
         "evidence": [
           "abundance of 40 proteins in the conditioned medium of 0.1 Gy irradiated chondrosarcoma cells was significantly modified, as compared with the conditioned medium of non-irradiated cells"
+        ]
+      },
+      {
+        "control_label": "control medium",
+        "case_label": "bystander condition",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "significant differences in spot volume (from 25% variation) between control and \u201ctreated\u201d samples were assessed"
         ]
       }
     ],
@@ -166,7 +184,7 @@
     ],
     "quantification_strategy": [
       "spectral counts",
-      "spot volume"
+      "2D-gel spot volume"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -183,22 +201,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study uses data-dependent acquisition (DDA) on a Q-Exactive HF/Plus and employs label-free quantification methods (spectral counts for secretome and spot volume for 2D-gel proteome)."
+          "reason": "The study uses data-dependent acquisition (DDA) on a Q-Exactive HF/Plus. Quantification for the secretome is based on spectral counts (label-free), and the proteome analysis uses 2D-gel spot volume as the primary quantitation, with MS used for identification."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "gel_based_fractionation",
-          "confidence": 0.95,
-          "reason": "The proteome analysis specifically uses 2D-PAGE (IPG strips pH 4-7 and SDS-PAGE) with subsequent spot excision for MS identification."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "2D gel-based proteomic study",
         "spectral counts",
         "data-dependent mode",
-        "spot volume",
-        "silver-stained 2D-PAGE"
+        "2D gel-based proteomic study",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -207,22 +218,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study uses data-dependent acquisition (DDA) on a Q-Exactive HF/Plus and employs label-free quantification methods (spectral counts for secretome and spot volume for 2D-gel proteome)."
+          "reason": "The study uses data-dependent acquisition (DDA) on a Q-Exactive HF/Plus. Quantification for the secretome is based on spectral counts (label-free), and the proteome analysis uses 2D-gel spot volume as the primary quantitation, with MS used for identification."
         }
       ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "gel_based_fractionation",
-          "confidence": 0.95,
-          "reason": "The proteome analysis specifically uses 2D-PAGE (IPG strips pH 4-7 and SDS-PAGE) with subsequent spot excision for MS identification."
-        }
-      ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "2D gel-based proteomic study",
         "spectral counts",
         "data-dependent mode",
-        "spot volume",
-        "silver-stained 2D-PAGE"
+        "2D gel-based proteomic study",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -250,8 +254,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:48:34Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

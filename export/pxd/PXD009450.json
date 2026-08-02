@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -20,25 +20,35 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "identify active forms of proteases secreted by the colonic mucosa of healthy controls and IBD patients",
-          "Colonic tissue samples were obtained from well-characterized CD and UC patients undergoing colonoscopy or colonic resection procedures",
-          "Colonic tissue samples from individuals undergoing colon cancer screening who were otherwise healthy were used as controls"
+          "Colonic tissue samples from individuals undergoing colon cancer screening who were otherwise healthy were used as controls."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AEBSF",
+        "dose_or_concentration": "4 mM",
+        "duration": "15 min",
+        "route_or_context": "pre-treatment of colonic supernatants",
+        "evidence": [
+          "Each duplicate (450 \u00b5L) was then pre-treated or not with a final concentration of 4 \u00b5M AEBSF (SIGMA) during 15 min at 37 \u00b0C under stirring (1000 rpm)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -56,33 +66,28 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
+      "split into duplicates",
       "Triplicate LC-MS measurements were performed for each sample",
+      "mean protein intensities derived from three technical replicate experiments"
+    ],
+    "multiplex_channel_hints": [
       "colonic supernatants from 3 representative patients per group were pooled"
     ],
-    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "healthy controls",
         "case_label": "IBD patients",
         "contrast_type": "pairwise",
         "evidence": [
-          "identify active forms of proteases secreted by the colonic mucosa of healthy controls and IBD patients"
+          "Only cathepsin G and thrombin were overactive in supernatants from IBD patient tissues compared to healthy controls."
         ]
       },
       {
-        "control_label": "healthy controls",
-        "case_label": "CD patients",
+        "control_label": "AEBSF treated",
+        "case_label": "AEBSF not treated",
         "contrast_type": "pairwise",
         "evidence": [
-          "differences in the percentage of AEBSF-sensitive bands present in control versus CD samples were observed"
-        ]
-      },
-      {
-        "control_label": "healthy controls",
-        "case_label": "UC patients",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Changes in the percentage of AEBSF-sensitive bands between controls and UC were observed"
+          "Enrichment ratios between AEBSF not treated and AEBSF treated samples were calculated"
         ]
       }
     ],
@@ -131,14 +136,14 @@
     ],
     "quantification_strategy": [
       "label-free relative quantification",
-      "Intensity metric"
+      "Intensity metric from MaxQuant"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Activity-Based Probe (ABP) enrichment of active serine proteases",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "Unknown",
+        "ontology_label": "Activity-Based Probe (ABP) enrichment for serine proteases",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
         "confidence": "high"
       }
     ],
@@ -149,29 +154,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on an LTQ Orbitrap Velos and label-free relative quantification (LFQ) via MaxQuant's 'match between runs' and 'Intensity' metric."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos, and MaxQuant was used for label-free relative quantification (LFQ) using the 'Intensity' metric."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "activity_based_probe_enrichment",
+          "modifier_workflow_id": "enrichment_biotin",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a biotinylated activity-based probe (Biotin-PK-DPP) to covalently bind active serine proteases, followed by streptavidin-bead enrichment."
+          "reason": "The experiment used a biotinylated activity-based probe (ABP) and streptavidin-coated Dynabeads for affinity enrichment of active proteases."
         }
       ],
       "trigger_keywords": [
-        "activity-based probes",
-        "ABPs",
+        "activity-based probe",
         "biotin-PK-DPP",
-        "streptavidin-HRP",
-        "Dynabeads MyOne Streptavidin C1",
-        "label-free relative quantification"
+        "Dynabeads MyOne Streptavidin",
+        "label-free relative quantification",
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -180,23 +184,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on an LTQ Orbitrap Velos and label-free relative quantification (LFQ) via MaxQuant's 'match between runs' and 'Intensity' metric."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos, and MaxQuant was used for label-free relative quantification (LFQ) using the 'Intensity' metric."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "activity_based_probe_enrichment",
+          "modifier_workflow_id": "enrichment_biotin",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a biotinylated activity-based probe (Biotin-PK-DPP) to covalently bind active serine proteases, followed by streptavidin-bead enrichment."
+          "reason": "The experiment used a biotinylated activity-based probe (ABP) and streptavidin-coated Dynabeads for affinity enrichment of active proteases."
         }
       ],
       "trigger_keywords": [
-        "activity-based probes",
-        "ABPs",
+        "activity-based probe",
         "biotin-PK-DPP",
-        "streptavidin-HRP",
-        "Dynabeads MyOne Streptavidin C1",
-        "label-free relative quantification"
+        "Dynabeads MyOne Streptavidin",
+        "label-free relative quantification",
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -224,8 +227,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:56:06Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

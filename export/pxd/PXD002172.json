@@ -31,17 +31,16 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_modification_or_gain",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene modification or gain of function",
-          "insertion variant"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "We used pSBInducer to introduce miR-625-3p expression (or control shRNA designed not to target any human transcripts) in the microsatellite stable and microsatellite instable CRC cell lines SW620 and HCT116",
+          "Ectopic expression of miR-625-3p in CRC cells led to increased resistance towards oxPt.",
           "The HCT116.625 and HCT116.ctrl cells were grown in SILAC RPMI 1640 medium"
         ]
       },
@@ -49,24 +48,37 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "dna_damage_chemical_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "dna_damage_chemical_treatment"
+        ],
+        "matched_definition": "Chemical treatment that induces DNA damage or replication stress.",
         "confidence": "high",
         "evidence": [
-          "The cell triplicates were labelled, induced with DOX and exposed to 16 \u03bcM oxPt",
-          "Log2 ratios of normalized phosphopeptide intensities were generated for each triplicate ctrl+OX/ctrl, 625/ctrl, 625+OX/ctrl and 625+OX/ctrl+OX experiment"
+          "exposed to 16 \u03bcM oxPt",
+          "The cell triplicates were labelled, induced with DOX and exposed to 16 \u03bcM oxPt"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "miR-625-3p",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "ectopic expression via DOX-inducible vector",
+        "evidence": [
+          "Ectopic expression of miR-625-3p in CRC cells led to increased resistance towards oxPt."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "oxaliplatin",
         "dose_or_concentration": "16 \u03bcM",
         "duration": null,
-        "route_or_context": "in vitro CRC cells",
+        "route_or_context": "exposure",
         "evidence": [
           "exposed to 16 \u03bcM oxPt"
         ]
@@ -76,7 +88,7 @@
         "agent": "doxycycline",
         "dose_or_concentration": "50 ng ml\u22121",
         "duration": "48 or 72 h",
-        "route_or_context": "induction of miR-625-3p",
+        "route_or_context": "induction of miR-625-3p expression",
         "evidence": [
           "cells were first induced for 48 or 72 h with 50 ng ml\u22121 doxycycline hyclate"
         ]
@@ -93,24 +105,23 @@
     ],
     "control_arms": [
       "HCT116.ctrl",
-      "ctrl"
+      "SW620.ctrl"
     ],
     "case_arms": [
       "HCT116.625",
-      "625"
+      "SW620.625"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "The cell triplicates were labelled",
+      "cell triplicates were labelled",
       "three biological replicates"
     ],
     "multiplex_channel_hints": [
-      "SILAC RPMI 1640 medium",
-      "heavy isotopes Arg10-13C6,15N4",
+      "SILAC",
+      "heavy isotopes Arg10-13C6,15N4 and Lys8-13C6,15N2",
       "medium isotopes Arg6-13C and Lys4-D4",
-      "light isotopes Arg0 and Lys0",
-      "After mixing proteins 1:1:1"
+      "light isotopes Arg0 and Lys0"
     ],
     "contrast_hints": [
       {
@@ -126,7 +137,7 @@
         "case_label": "625+OX",
         "contrast_type": "pairwise",
         "evidence": [
-          "In the 625+OX/ctrl+OX experiment, a mean log2 ratio different from zero is expected for kinases whose activities after oxPt treatment are altered by increased miR-625-3p levels"
+          "Log2 ratios of normalized phosphopeptide intensities were generated for each triplicate ctrl+OX/ctrl, 625/ctrl, 625+OX/ctrl and 625+OX/ctrl+OX experiment"
         ]
       }
     ],
@@ -168,7 +179,7 @@
       },
       {
         "label": "HEK293 Flp pFRT/eGFP",
-        "family": "embryonic kidney",
+        "family": "HEK293",
         "ontology_curie": null
       }
     ],
@@ -221,14 +232,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of SILAC labelling (heavy isotopes Arg10-13C6,15N4 and Lys8-13C6,15N2) and DDA acquisition on a Q Exactive mass spectrometer."
+          "reason": "Explicit mention of SILAC labelling (heavy isotopes Arg10-13C6,15N4 and Lys8-13C6,15N2) and DDA acquisition on a Q Exactive."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Proteome data was also acquired, though SILAC was the primary quantification method for the main experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment includes a specific phosphoproteome workflow using TiO2 beads for phosphopeptide enrichment."
+          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment."
         }
       ],
       "trigger_keywords": [
@@ -245,14 +261,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of SILAC labelling (heavy isotopes Arg10-13C6,15N4 and Lys8-13C6,15N2) and DDA acquisition on a Q Exactive mass spectrometer."
+          "reason": "Explicit mention of SILAC labelling (heavy isotopes Arg10-13C6,15N4 and Lys8-13C6,15N2) and DDA acquisition on a Q Exactive."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Proteome data was also acquired, though SILAC was the primary quantification method for the main experiments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment includes a specific phosphoproteome workflow using TiO2 beads for phosphopeptide enrichment."
+          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment."
         }
       ],
       "trigger_keywords": [
@@ -288,8 +309,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:43:30Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

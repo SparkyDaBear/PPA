@@ -8,13 +8,14 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "disease or clinical state"
     ],
     "cell_types": [
       "HK2 cells"
     ],
     "cell_lines": [
-      "HK2"
+      "HK2",
+      "a172"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -24,49 +25,52 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "molecular_state",
-          "ptm_or_activation_state"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
-        "confidence": "medium",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
         "evidence": [
-          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+          "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues",
+          "A significant increase of KIFC1 expression was observed in tumor tissues relative to healthy tissues"
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "KIFC1",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "co-immunoprecipitation",
-        "evidence": [
-          "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [
-      "KIFC1 interactome"
+    "control_arms": [
+      "normal tissues",
+      "healthy tissues"
     ],
-    "paired_design": false,
-    "factorial_design": false,
+    "case_arms": [
+      "RCC tissues",
+      "tumor tissues"
+    ],
+    "paired_design": null,
+    "factorial_design": null,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "normal tissues",
+        "case_label": "RCC tissues",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -76,14 +80,14 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "HK2 cells",
-        "rollup_category": "epithelial cell",
+        "rollup_category": "renal epithelial cell",
         "ontology_curie": null
       }
     ],
@@ -92,9 +96,19 @@
         "label": "HK2",
         "family": null,
         "ontology_curie": null
+      },
+      {
+        "label": "a172",
+        "family": null,
+        "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "renal clear cell carcinoma",
+        "source_kind": "tumor or lesion specimen"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -102,7 +116,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -138,22 +152,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The methods describe a standard DDA acquisition (top 15 MS/MS scans, HCD) and the study aims to identify interacting proteins via co-immunoprecipitation, which typically uses label-free quantification (LFQ) or simple identification."
+          "reason": "The experiment used a Q Exactive HF-X with data-dependent acquisition (top 15 MS/MS scans) and co-immunoprecipitation for protein interaction analysis, which typically follows a label-free quantification (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 0.9,
-          "reason": "The text explicitly mentions 'phosphopeptides were loaded onto a self-packed column' and 'for the phosphoproteomic study'."
+          "reason": "Both the publication text and PRIDE metadata explicitly mention a 'phosphoproteomic study' and the loading of 'phosphopeptides'."
         }
       ],
       "trigger_keywords": [
         "phosphopeptides",
         "phosphoproteomic study",
-        "co-immunoprecipitation",
-        "DDA",
-        "HCD"
+        "data-dependent top 15 MS/MS",
+        "co-immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -162,22 +175,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The methods describe a standard DDA acquisition (top 15 MS/MS scans, HCD) and the study aims to identify interacting proteins via co-immunoprecipitation, which typically uses label-free quantification (LFQ) or simple identification."
+          "reason": "The experiment used a Q Exactive HF-X with data-dependent acquisition (top 15 MS/MS scans) and co-immunoprecipitation for protein interaction analysis, which typically follows a label-free quantification (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 0.9,
-          "reason": "The text explicitly mentions 'phosphopeptides were loaded onto a self-packed column' and 'for the phosphoproteomic study'."
+          "reason": "Both the publication text and PRIDE metadata explicitly mention a 'phosphoproteomic study' and the loading of 'phosphopeptides'."
         }
       ],
       "trigger_keywords": [
         "phosphopeptides",
         "phosphoproteomic study",
-        "co-immunoprecipitation",
-        "DDA",
-        "HCD"
+        "data-dependent top 15 MS/MS",
+        "co-immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -205,8 +217,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:46:01Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

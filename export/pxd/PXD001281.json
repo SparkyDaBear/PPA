@@ -3,13 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "temperature stress",
-      "genetic perturbation"
+      "heat stress"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,8 +22,8 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "temperature stress",
-        "ontology_curie": "PPA:0000022",
+        "ontology_label": "heat stress",
+        "ontology_curie": "PPA:0000117",
         "category": "temperature",
         "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
@@ -32,30 +31,12 @@
           "temperature",
           "heat_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature above baseline physiological or growth condition.",
         "confidence": "high",
         "evidence": [
           "Cells were heat-shocked to enhance sumoylation",
           "6 L of cell culture (~800 000 cells/ml) was stimulated by heat shock at 43 \u00b0C",
           "Cells (~ 3 \u00d7 108) were heat stressed at 43\u00b0C for 30 minutes to enhance sumoylation"
-        ]
-      },
-      {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "genetic",
-        "matched_class_key": "substitution_variant",
-        "matched_class_path": [
-          "genetic",
-          "gene_modification_or_gain",
-          "substitution_variant"
-        ],
-        "matched_definition": "Base or amino-acid substitution (for example SNV, point mutation, engineered missense).",
-        "confidence": "high",
-        "evidence": [
-          "expression of polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys",
-          "We stably expressed polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys (SUMO2T90K) in human embryonic kidney (HEK) 293 cells."
         ]
       }
     ],
@@ -65,19 +46,10 @@
         "agent": "heat shock",
         "dose_or_concentration": "43 \u00b0C",
         "duration": "30 minutes",
-        "route_or_context": "HEK293 N3S cells",
+        "route_or_context": "HEK293 N3S cells stably expressing 6His-SUMO2T90K",
         "evidence": [
+          "6 L of cell culture (~800 000 cells/ml) was stimulated by heat shock at 43 \u00b0C",
           "Cells (~ 3 \u00d7 108) were heat stressed at 43\u00b0C for 30 minutes to enhance sumoylation"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "6His-SUMO2T90K",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "stable expression in HEK293 N3S cells",
-        "evidence": [
-          "We stably expressed polyhistidine (6His)-tagged SUMO2 with Thr90 mutated to Lys (SUMO2T90K) in human embryonic kidney (HEK) 293 cells."
         ]
       }
     ],
@@ -86,23 +58,24 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [
-      "parental cells"
+    "timepoints": [
+      "30 minutes"
     ],
+    "control_arms": [],
     "case_arms": [
-      "6His-SUMO2T90K expressing cells"
+      "heat shock"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "In the experiment designed to evaluate reproducibility, duplicate 750mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 107 cells were processed in parallel."
+      "duplicate 750mL cultures of HEK293 6His-SUMO2T90K corresponding to 4 \u00d7 107 cells were processed in parallel",
+      "We performed the SUMO2T90K protein and peptide enrichment workflow in duplicate"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "non-heat-shocked",
-        "case_label": "heat-shocked",
+        "control_label": "unstimulated",
+        "case_label": "heat shock",
         "contrast_type": "pairwise",
         "evidence": [
           "Cells were heat-shocked to enhance sumoylation"
@@ -138,7 +111,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -173,21 +146,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data acquisition used a Q Exactive in DDA mode (precursor full scan followed by MS2) with no mention of isobaric labels or SILAC; LFQ is the default for this setup."
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q Exactive in DDA mode ('data dependent MS2 spectrum') and processed with MaxQuant. While no explicit LFQ parameters are mentioned, it is the standard base for this acquisition type."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "diGly_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses a diGly-Lys specific antibody (anti-K\u03b5GG) to enrich for SUMO2T90K remnant-containing peptides."
+          "reason": "The experiment specifically uses a SUMO2T90K mutation to create a diGly remnant on sumoylated lysines, followed by immunoprecipitation with a diGly-Lys specific antibody (anti-K\u03b5GG)."
         }
       ],
       "trigger_keywords": [
         "diGly remnant",
         "anti-K\u03b5GG",
         "SUMO2T90K",
+        "sumoylated lysines",
         "diGly adduction to Lys"
       ],
       "raw_or_file_name_triggers": []
@@ -196,21 +170,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data acquisition used a Q Exactive in DDA mode (precursor full scan followed by MS2) with no mention of isobaric labels or SILAC; LFQ is the default for this setup."
+          "confidence": 0.8,
+          "reason": "Data was acquired using a Q Exactive in DDA mode ('data dependent MS2 spectrum') and processed with MaxQuant. While no explicit LFQ parameters are mentioned, it is the standard base for this acquisition type."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "diGly_enrichment",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses a diGly-Lys specific antibody (anti-K\u03b5GG) to enrich for SUMO2T90K remnant-containing peptides."
+          "reason": "The experiment specifically uses a SUMO2T90K mutation to create a diGly remnant on sumoylated lysines, followed by immunoprecipitation with a diGly-Lys specific antibody (anti-K\u03b5GG)."
         }
       ],
       "trigger_keywords": [
         "diGly remnant",
         "anti-K\u03b5GG",
         "SUMO2T90K",
+        "sumoylated lysines",
         "diGly adduction to Lys"
       ],
       "raw_or_file_name_triggers": []
@@ -239,8 +214,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:43:07Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

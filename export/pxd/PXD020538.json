@@ -2,14 +2,15 @@
   "pxd": "PXD020538",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "SRM",
+    "acquisition_type": "Unknown",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
+      "LFQ",
       "Other"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "disease or clinical state"
+      "case-control disease status",
+      "disease stage or grade comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -21,43 +22,54 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "isolated from postmortem human tissue from 49 AD and 42 control subjects",
-          "Comparison between disease and matched control cohorts"
+          "quantitative proteomics map of 95 PTMs on multiple isoforms of Tau isolated from postmortem human tissue from 49 AD and 42 control subjects",
+          "we compare insoluble Tau from AD and control subjects"
         ]
       },
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "disease_stage_or_response",
+        "matched_class_key": "disease_stage_or_grade_comparison",
         "matched_class_path": [
           "disease",
-          "disease_stage_or_response"
+          "disease_stage_or_grade_comparison"
         ],
-        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
         "confidence": "high",
         "evidence": [
-          "Tau PTM Profiles Identify Patient Heterogeneity and Stages of Alzheimer\u2019s Disease",
+          "identify critical targets at each stage of disease",
+          "reflective of disease progression",
           "assessed for Braak NFT stages",
-          "reflecting disease progression",
-          "identify critical targets at each stage of disease"
+          "The Braak stage of cluster b is V, whereas the Braak stage of cluster c is VI"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Alzheimer\u2019s disease",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "postmortem human brain tissue",
+        "evidence": [
+          "quantitative proteomics map of 95 PTMs on multiple isoforms of Tau isolated from postmortem human tissue from 49 AD and 42 control subjects"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -65,19 +77,22 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "control subjects"
+      "control subjects",
+      "asymptomatic (controls)"
     ],
     "case_arms": [
-      "AD patients"
+      "AD patients",
+      "clinical AD"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "three technical replicates per sample"
+      "three technical replicates per sample",
+      "analyzed in duplicates"
     ],
     "multiplex_channel_hints": [
-      "Light-to-Heavy (L/H) ratio 1:1",
-      "addition of a full-length Tau protein standard containing the N-terminally tagged artificial tryptic FLEX-peptide"
+      "heavy isotope (i.e., 13C and 15N) labeled lysine, arginine and aspartate",
+      "L/H ratio of peak intensities"
     ],
     "contrast_hints": [
       {
@@ -85,12 +100,12 @@
         "case_label": "AD",
         "contrast_type": "pairwise",
         "evidence": [
-          "compare insoluble Tau from AD and control subjects"
+          "we compare insoluble Tau from AD and control subjects"
         ]
       },
       {
-        "control_label": "early stage (Braak 0-III)",
-        "case_label": "late stage (Braak V-VI)",
+        "control_label": "Braak stage 0-III",
+        "case_label": "Braak stage V-VI",
         "contrast_type": "multi_group",
         "evidence": [
           "The Braak stage of cluster b is V, whereas the Braak stage of cluster c is VI"
@@ -136,14 +151,14 @@
     ]
   },
   "assay": {
-    "acquisition_type": "Targeted",
+    "acquisition_type": "Unknown",
     "labeling_strategy": [
+      "LFQ",
       "Other"
     ],
     "quantification_strategy": [
-      "SRM",
-      "LFQ",
-      "Absolute quantification via internal standard (FLEXITau)"
+      "Label-free quantification (LFQ)",
+      "SRM-based absolute quantification using stable isotope-labeled standards (FLEXITau)"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -179,39 +194,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and employs the MaxQuant XIC-based label-free quantification (LFQ) algorithm."
+          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and performs label-free quantification (LFQ) using MaxQuant's XIC-based algorithm."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.2,
-          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'L/H ratios' refers to a specific internal standard method (FLEXITau) rather than a multiplexed isobaric labeling workflow."
+          "confidence": 0.1,
+          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'FLEXITau' involves internal standards for absolute quantification, but the primary discovery data is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_phosphorylation",
+          "modifier_workflow_id": "ptm_site_centric",
           "confidence": 0.95,
-          "reason": "Extensive mapping of 55 phosphorylation sites; search settings explicitly used 'phosphorylation emphasis'."
-        },
-        {
-          "modifier_workflow_id": "ptm_ubiquitination",
-          "confidence": 0.95,
-          "reason": "Explicit search for ubiquitination (GlyGly) as a variable modification."
-        },
-        {
-          "modifier_workflow_id": "ptm_acetylation",
-          "confidence": 0.9,
-          "reason": "Explicit search for acetylation of K and N-termini; search settings used 'acetylation emphasis'."
+          "reason": "The entire study is focused on mapping 95 distinct PTMs (phosphorylation, acetylation, ubiquitination) and calculating PTM stoichiometry."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "label-free quantification",
-        "LFQ",
+        "DDA",
+        "PTM stoichiometry",
         "phosphorylation",
-        "ubiquitination (GlyGly)",
         "acetylation",
-        "MaxQuant"
+        "ubiquitination"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -220,39 +224,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and employs the MaxQuant XIC-based label-free quantification (LFQ) algorithm."
+          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and performs label-free quantification (LFQ) using MaxQuant's XIC-based algorithm."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.2,
-          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'L/H ratios' refers to a specific internal standard method (FLEXITau) rather than a multiplexed isobaric labeling workflow."
+          "confidence": 0.1,
+          "reason": "Mention of 'heavy isotope labeled Tau standards' and 'FLEXITau' involves internal standards for absolute quantification, but the primary discovery data is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_phosphorylation",
+          "modifier_workflow_id": "ptm_site_centric",
           "confidence": 0.95,
-          "reason": "Extensive mapping of 55 phosphorylation sites; search settings explicitly used 'phosphorylation emphasis'."
-        },
-        {
-          "modifier_workflow_id": "ptm_ubiquitination",
-          "confidence": 0.95,
-          "reason": "Explicit search for ubiquitination (GlyGly) as a variable modification."
-        },
-        {
-          "modifier_workflow_id": "ptm_acetylation",
-          "confidence": 0.9,
-          "reason": "Explicit search for acetylation of K and N-termini; search settings used 'acetylation emphasis'."
+          "reason": "The entire study is focused on mapping 95 distinct PTMs (phosphorylation, acetylation, ubiquitination) and calculating PTM stoichiometry."
         }
       ],
       "trigger_keywords": [
-        "DDA",
         "label-free quantification",
-        "LFQ",
+        "DDA",
+        "PTM stoichiometry",
         "phosphorylation",
-        "ubiquitination (GlyGly)",
         "acetylation",
-        "MaxQuant"
+        "ubiquitination"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -280,8 +273,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:05:49Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

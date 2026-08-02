@@ -30,16 +30,16 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "Treatments included siRNA against EYA4 or a control sequence",
-          "Following depletion of EYA4, or treatment with a control siRNA, Myc-tagged PLK1 was overexpressed in 293\u2009T cells."
+          "Gene knockdown was performed using Lipofectamine\u2122 RNAiMAX",
+          "siRNAs used in the manuscript included the following: EYA1: Thermo Fisher Scientific (s534823), EYA4: Thermo Fisher Scientific (s4795), Control siRNA: Thermo Fisher Scientific (AM4613)"
         ]
       },
       {
@@ -47,16 +47,17 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "incubation with benzarone (10\u2009\u00b5M) or DMSO for 2\u2009h prior to cell harvesting",
-          "treatment with an EYA phosphatase inhibitor potently elicits cell death"
+          "chemical inhibition of EYA phosphatase activity",
+          "treatment with an EYA phosphatase inhibitor potently elicits cell death",
+          "incubation with benzarone (10\u00b5M) or DMSO for 2\u00b5h prior to cell harvesting"
         ]
       }
     ],
@@ -65,21 +66,22 @@
         "relation_key": "has_treatment_agent",
         "agent": "siRNA against EYA4",
         "dose_or_concentration": null,
-        "duration": "72\u2009h",
-        "route_or_context": "transfection",
+        "duration": "72\u00b5h",
+        "route_or_context": "Lipofectamine\u2122 RNAiMAX",
         "evidence": [
-          "Treatments included siRNA against EYA4",
-          "downstream analysis occurred 72\u2009h after initial siRNA transfection"
+          "siRNAs used in the manuscript included the following: EYA1: Thermo Fisher Scientific (s534823), EYA4: Thermo Fisher Scientific (s4795)",
+          "downstream analysis occurred 72\u00b5h after initial siRNA transfection"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "benzarone",
-        "dose_or_concentration": "10\u2009\u00b5M",
-        "duration": "2\u2009h",
-        "route_or_context": "incubation",
+        "dose_or_concentration": "10\u00b5M",
+        "duration": "2\u00b5h",
+        "route_or_context": "diluted in DMSO",
         "evidence": [
-          "incubation with benzarone (10\u2009\u00b5M) or DMSO for 2\u2009h prior to cell harvesting"
+          "incubation with benzarone (10\u00b5M) or DMSO for 2\u00b5h prior to cell harvesting",
+          "Benzarone was diluted in DMSO"
         ]
       }
     ],
@@ -89,11 +91,11 @@
   },
   "experimental_design": {
     "timepoints": [
-      "2h (benzarone)",
-      "72h (siRNA)"
+      "2\u00b5h",
+      "72\u00b5h"
     ],
     "control_arms": [
-      "control siRNA",
+      "Control siRNA",
       "DMSO"
     ],
     "case_arms": [
@@ -108,8 +110,8 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "control siRNA",
-        "case_label": "siRNA EYA4",
+        "control_label": "Control siRNA",
+        "case_label": "siRNA against EYA4",
         "contrast_type": "pairwise",
         "evidence": [
           "Treatments included siRNA against EYA4 or a control sequence"
@@ -120,7 +122,7 @@
         "case_label": "benzarone",
         "contrast_type": "pairwise",
         "evidence": [
-          "incubation with benzarone (10\u2009\u00b5M) or DMSO for 2\u2009h prior to cell harvesting"
+          "incubation with benzarone (10\u00b5M) or DMSO for 2\u00b5h prior to cell harvesting"
         ]
       }
     ],
@@ -205,39 +207,29 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The BioID proximity proteomics experiment used data-dependent acquisition (DDA) and label-free quantification (LFQ) via MaxQuant."
+          "reason": "The BioID proximity proteomics dataset explicitly used data-dependent acquisition (DDA) and label-free quantification (LFQ) processed via MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_prm",
-          "confidence": 1.0,
-          "reason": "The primary dataset described in the PRIDE metadata and methods is a Parallel Reaction Monitoring (PRM) targeted analysis of PLK1 phosphopeptides."
-        },
-        {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.9,
-          "reason": "The study specifically focuses on tyrosine phosphorylation (pY) and uses phosphotyrosine immunoprecipitation (pY IPMS) and targeted phosphopeptide analysis."
-        },
-        {
-          "modifier_workflow_id": "modifier_proximity",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.8,
-          "reason": "The study utilizes BioID2 proximity proteomics to identify EYA4 interactors."
+          "reason": "The study performed specific immunoprecipitation of phosphotyrosine (pY IPMS) and targeted PRM analysis of PLK1 phosphosites."
         }
       ],
       "trigger_keywords": [
-        "PRM",
-        "Parallel Reaction Monitoring",
-        "BioID2",
         "label-free quantification",
+        "LFQ",
+        "data-dependent mode",
         "phosphotyrosine",
-        "pY445"
+        "PRM",
+        "BioID"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -246,33 +238,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The BioID proximity proteomics experiment used data-dependent acquisition (DDA) and label-free quantification (LFQ) via MaxQuant."
+          "reason": "The BioID proximity proteomics dataset explicitly used data-dependent acquisition (DDA) and label-free quantification (LFQ) processed via MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_prm",
-          "confidence": 1.0,
-          "reason": "The primary dataset described in the PRIDE metadata and methods is a Parallel Reaction Monitoring (PRM) targeted analysis of PLK1 phosphopeptides."
-        },
-        {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.9,
-          "reason": "The study specifically focuses on tyrosine phosphorylation (pY) and uses phosphotyrosine immunoprecipitation (pY IPMS) and targeted phosphopeptide analysis."
-        },
-        {
-          "modifier_workflow_id": "modifier_proximity",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.8,
-          "reason": "The study utilizes BioID2 proximity proteomics to identify EYA4 interactors."
+          "reason": "The study performed specific immunoprecipitation of phosphotyrosine (pY IPMS) and targeted PRM analysis of PLK1 phosphosites."
         }
       ],
       "trigger_keywords": [
-        "PRM",
-        "Parallel Reaction Monitoring",
-        "BioID2",
         "label-free quantification",
+        "LFQ",
+        "data-dependent mode",
         "phosphotyrosine",
-        "pY445"
+        "PRM",
+        "BioID"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -300,8 +282,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:01:51Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

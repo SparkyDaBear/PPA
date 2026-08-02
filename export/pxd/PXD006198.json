@@ -3,20 +3,19 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ",
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HeLa S3",
       "HEK 293",
-      "Flp-In T-REx 293",
-      "EcR 293"
+      "Flp-In T-REx 293"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -26,21 +25,21 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "disruption of ZNHIT2 and RUVBL2 expression impacts the protein composition of the U5 snRNP",
-          "cells treated with siRNAs directed against ZNHIT2",
-          "siRNA targeting RUVBL2 mRNA directly"
+          "Disruption of ZNHIT2 and RUVBL2 expression impacts the protein composition of the U5 snRNP",
+          "SMARTpool siGenome siRNAs (GE-Healthcare) targeting human ZNHIT2 (M-008955-00), RUVBL2 (M-012299-00), ECD (M-019678-01) and WDR92 (M008669-01) were employed",
+          "Non-targeting siRNA (D-001210-01) was included as a control."
         ]
       }
     ],
@@ -66,6 +65,16 @@
           "SMARTpool siGenome siRNAs (GE-Healthcare) targeting... RUVBL2 (M-012299-00)... were employed at a concentration of 100 nM.",
           "After 72 h of siRNA transfection, cells were collected for CoIP."
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA targeting ECD",
+        "dose_or_concentration": "100 nM",
+        "duration": "72 h",
+        "route_or_context": "transfected using Lipofectamine 2000",
+        "evidence": [
+          "SMARTpool siGenome siRNAs (GE-Healthcare) targeting... ECD (M-019678-01)... were employed at a concentration of 100 nM."
+        ]
       }
     ],
     "source_sections": [
@@ -80,30 +89,27 @@
       "non-targeting siRNA"
     ],
     "case_arms": [
-      "ZNHIT2 siRNA",
-      "RUVBL2 siRNA"
+      "ZNHIT2 knockdown",
+      "RUVBL2 knockdown",
+      "ECD knockdown"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [
-      "SILAC experiments were performed on the Q Exactive mass spectrometer"
-    ],
+    "replicate_hints": [],
     "multiplex_channel_hints": [
-      "light SILAC medium",
-      "medium SILAC medium",
-      "heavy SILAC medium"
+      "SILAC (light, medium, heavy)"
     ],
     "contrast_hints": [
       {
-        "control_label": "non-specific siRNA",
+        "control_label": "non-targeting siRNA",
         "case_label": "ZNHIT2 siRNA",
         "contrast_type": "pairwise",
         "evidence": [
-          "monitor changes in U5 snRNP protein composition following ZNHIT2 siRNA-mediated knockdown using quantitative mass spectrometry with stable isotope labelling (SILAC)"
+          "when combined with ZNHIT2 knockdown, R2TP/PFDL subunits copurified substantially less U5 snRNP proteins as compared to cell treated with non-specific siRNAs"
         ]
       },
       {
-        "control_label": "non-specific siRNA",
+        "control_label": "non-targeting siRNA",
         "case_label": "RUVBL2 siRNA",
         "contrast_type": "pairwise",
         "evidence": [
@@ -133,17 +139,12 @@
       },
       {
         "label": "HEK 293",
-        "family": "HEK",
+        "family": "HEK 293",
         "ontology_curie": null
       },
       {
         "label": "Flp-In T-REx 293",
-        "family": "HEK",
-        "ontology_curie": null
-      },
-      {
-        "label": "EcR 293",
-        "family": "HEK",
+        "family": "HEK 293",
         "ontology_curie": null
       }
     ],
@@ -174,7 +175,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "affinity purification",
+        "ontology_label": "AP-MS",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -199,19 +200,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC experiments using light, medium, and heavy isotopes (R10K8 and R6K4) for quantitation of U5 snRNP composition."
+          "reason": "Explicit mention of SILAC experiments using light, medium, and heavy labels (R10K8 and R6K4) analyzed with MaxQuant."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Non-quantitative TAP-MS and BioID-MS experiments were performed using DDA (top 10 most intense ions) without labeling."
+          "reason": "Non-quantitative TAP-MS and BioID-MS experiments were performed using DDA (top 10 most intense ions) and analyzed with Mascot."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "affinity_purification",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "Extensive use of TAP-MS, BioID-MS, and CoIP for protein complex mapping."
+          "reason": "The study extensively uses Tandem Affinity Purification (TAP-MS), BioID-MS, and CoIP-MS to identify protein complexes."
         }
       ],
       "trigger_keywords": [
@@ -219,7 +220,9 @@
         "TAP-MS",
         "BioID-MS",
         "MaxQuant",
-        "stable isotope labelling"
+        "Mascot",
+        "heavy-labelled",
+        "medium-labelled"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -228,19 +231,19 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC experiments using light, medium, and heavy isotopes (R10K8 and R6K4) for quantitation of U5 snRNP composition."
+          "reason": "Explicit mention of SILAC experiments using light, medium, and heavy labels (R10K8 and R6K4) analyzed with MaxQuant."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Non-quantitative TAP-MS and BioID-MS experiments were performed using DDA (top 10 most intense ions) without labeling."
+          "reason": "Non-quantitative TAP-MS and BioID-MS experiments were performed using DDA (top 10 most intense ions) and analyzed with Mascot."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "affinity_purification",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "Extensive use of TAP-MS, BioID-MS, and CoIP for protein complex mapping."
+          "reason": "The study extensively uses Tandem Affinity Purification (TAP-MS), BioID-MS, and CoIP-MS to identify protein complexes."
         }
       ],
       "trigger_keywords": [
@@ -248,7 +251,9 @@
         "TAP-MS",
         "BioID-MS",
         "MaxQuant",
-        "stable isotope labelling"
+        "Mascot",
+        "heavy-labelled",
+        "medium-labelled"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -276,8 +281,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:06:59Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

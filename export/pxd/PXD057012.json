@@ -9,6 +9,7 @@
     ],
     "treatment_categories": [
       "genetic perturbation",
+      "chemical or drug treatment",
       "chemical or drug treatment"
     ],
     "cell_types": [
@@ -35,12 +36,12 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "depletion of the PERK (PERK/EIF2AK3)",
@@ -53,17 +54,33 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "er_stressor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "er_stressor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment that perturbs endoplasmic reticulum proteostasis or unfolded protein response state.",
         "confidence": "high",
         "evidence": [
-          "exposed to the N-glycosylation inhibitor tunicamycin",
-          "allosteric PERK kinase inhibitor GSK2606414",
-          "sarco/ER Ca2+-ATPase inhibitor thapsigargin"
+          "cells exposed to the N-glycosylation inhibitor tunicamycin, which provokes acute ER stress",
+          "challenged with a different source of ER stress, such as the sarco/ER Ca2+-ATPase inhibitor thapsigargin"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "exposed cells to the allosteric PERK kinase inhibitor GSK2606414",
+          "exposure to proteasome inhibitor MG-132"
         ]
       }
     ],
@@ -75,7 +92,8 @@
         "duration": "36 h",
         "route_or_context": "ER stress induction",
         "evidence": [
-          "cells were treated with either vehicle (DMSO) or tunicamycin (5 \u03bcg/mL, 36 h)"
+          "cells exposed to the N-glycosylation inhibitor tunicamycin",
+          "tunicamycin (5 \u03bcg/mL, 36 h)"
         ]
       },
       {
@@ -85,7 +103,38 @@
         "duration": null,
         "route_or_context": "PERK kinase inhibition",
         "evidence": [
-          "exposed cells to the allosteric PERK kinase inhibitor GSK2606414"
+          "allosteric PERK kinase inhibitor GSK2606414"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MG-132",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "proteasome inhibition",
+        "evidence": [
+          "exposure to proteasome inhibitor MG-132"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PERK siRNA",
+        "dose_or_concentration": "40 ng",
+        "duration": null,
+        "route_or_context": "genetic depletion",
+        "evidence": [
+          "depletion of the PERK (PERK/EIF2AK3)",
+          "40 ng of siRNA"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CAMSAP2 siRNA",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "genetic depletion",
+        "evidence": [
+          "knockdown of calmodulin-regulated spectrin-associated protein family member 2 (CAMSAP2)"
         ]
       }
     ],
@@ -96,15 +145,16 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "wild-type",
-      "scrambled siRNA",
-      "vehicle (DMSO)"
+      "untreated",
+      "vehicle (DMSO)",
+      "scrambled siRNA"
     ],
     "case_arms": [
+      "tunicamycin-treated",
       "PERK-depleted",
       "CAMSAP2-depleted",
-      "tunicamycin-treated",
-      "GSK2606414-treated"
+      "GSK2606414-treated",
+      "MG-132-treated"
     ],
     "paired_design": false,
     "factorial_design": true,
@@ -117,11 +167,19 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "Wild-type",
+        "control_label": "untreated/DMSO",
+        "case_label": "tunicamycin",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared wild-type cells with cells exposed to the N-glycosylation inhibitor tunicamycin"
+        ]
+      },
+      {
+        "control_label": "wild-type",
         "case_label": "PERK-depleted",
         "contrast_type": "pairwise",
         "evidence": [
-          "we first compared wild-type cells with cells exposed to the N-glycosylation inhibitor tunicamycin"
+          "depletion of the PERK (PERK/EIF2AK3), led to a marked impairment for ER subcellular redistribution upon exposure to tunicamycin"
         ]
       },
       {
@@ -129,7 +187,15 @@
         "case_label": "PERK-depleted + CAMSAP2-depleted",
         "contrast_type": "pairwise",
         "evidence": [
-          "the knockdown of CAMSAP2 in PERK-deficient cells fully rescued the phenotype of impaired ER peripheral distribution associated with PERK depletion"
+          "knockdown of CAMSAP2 in PERK-deficient cells fully rescued the phenotype of impaired ER peripheral distribution"
+        ]
+      },
+      {
+        "control_label": "tunicamycin",
+        "case_label": "tunicamycin + MG-132",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "exposure to proteasome inhibitor MG-132 increased basal CAMSAP2 levels and blunted their reduction associated with tunicamycin treatment"
         ]
       }
     ],
@@ -142,7 +208,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -198,7 +264,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -229,14 +295,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions TMT 11plex (and PRIDE metadata mentions TMTp 18plex) labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "Explicit mention of TMT 11plex reagents and TMTp 18plex reagents used for stable isobaric labeling, combined with data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionated",
+          "confidence": 0.9,
+          "reason": "Text states an aliquot was fractionated by high-pH reverse-phase chromatography to increase proteome coverage."
+        }
+      ],
       "trigger_keywords": [
         "TMT 11plex",
         "TMTp 18plex",
         "isobaric labeling",
+        "high-pH reverse-phase chromatography",
         "data-dependent MS/MS"
       ],
       "raw_or_file_name_triggers": []
@@ -246,14 +319,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions TMT 11plex (and PRIDE metadata mentions TMTp 18plex) labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "Explicit mention of TMT 11plex reagents and TMTp 18plex reagents used for stable isobaric labeling, combined with data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "fractionated",
+          "confidence": 0.9,
+          "reason": "Text states an aliquot was fractionated by high-pH reverse-phase chromatography to increase proteome coverage."
+        }
+      ],
       "trigger_keywords": [
         "TMT 11plex",
         "TMTp 18plex",
         "isobaric labeling",
+        "high-pH reverse-phase chromatography",
         "data-dependent MS/MS"
       ],
       "raw_or_file_name_triggers": []
@@ -282,8 +362,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:58:13Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

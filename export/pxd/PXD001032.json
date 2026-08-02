@@ -3,66 +3,158 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "precursor ion scan intensity",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Disease"
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "hepatocyte"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "hormone_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "hormone_stimulation"
+        ],
+        "matched_definition": "Stimulation using endocrine or paracrine hormones.",
+        "confidence": "high",
+        "evidence": [
+          "The phosphorylation state of human HA-tagged-SIK2, adenovirally introduced in murine hepatocytes (C57/BL/6 strain) was analysed in unstimulated and in response to glucagon- or insulin- treated conditions."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glucagon",
+        "dose_or_concentration": "100 nM",
+        "duration": "10 min",
+        "route_or_context": "primary mouse hepatocytes",
+        "evidence": [
+          "These cells were left untreated or stimulated with 10 nM insulin or 100 nM glucagon for 10 min and lysed."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "insulin",
+        "dose_or_concentration": "10 nM",
+        "duration": "10 min",
+        "route_or_context": "primary mouse hepatocytes",
+        "evidence": [
+          "These cells were left untreated or stimulated with 10 nM insulin or 100 nM glucagon for 10 min and lysed."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "timepoints": [
+      "10 min"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
+    "case_arms": [
+      "glucagon",
+      "insulin"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "glucagon",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We identified several phospho-peptides in a precursor ion scanning LC-MS-MS analysis that had markedly higher intensity in response to glucagon treatment than basal or insulin treatment"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "insulin",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The phosphorylation state of human HA-tagged-SIK2... was analysed in unstimulated and in response to glucagon- or insulin- treated conditions."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "No",
+    "organisms": [
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": "NEWT:10090",
+        "confidence": "high"
+      },
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "hepatocyte",
+        "rollup_category": "cell",
+        "ontology_curie": "CL:0000182"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "precursor ion scan intensity",
+      "TIC"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -70,10 +162,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "The experiment uses LC-MS/MS (DDA) with label-free quantification based on precursor ion scan intensities (TIC) to compare phosphorylation levels across conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 10,
+          "reason": "The study specifically targets phosphorylation sites using precursor ion scanning (m/z 79 in negative mode) and MS3 scans for neutral loss of phosphate."
+        }
+      ],
+      "trigger_keywords": [
+        "phospho-peptides",
+        "precursor ion scan of m/z 79",
+        "neutral loss",
+        "phospho-peptide mapping"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "The experiment uses LC-MS/MS (DDA) with label-free quantification based on precursor ion scan intensities (TIC) to compare phosphorylation levels across conditions."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 10,
+          "reason": "The study specifically targets phosphorylation sites using precursor ion scanning (m/z 79 in negative mode) and MS3 scans for neutral loss of phosphate."
+        }
+      ],
+      "trigger_keywords": [
+        "phospho-peptides",
+        "precursor ion scan of m/z 79",
+        "neutral loss",
+        "phospho-peptide mapping"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -93,7 +233,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

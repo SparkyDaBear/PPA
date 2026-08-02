@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -28,29 +28,29 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "insertion_variant",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
           "we developed a strategy to induce SUMOylation of a target protein relying on its genetic fusion to a 32-residue tag termed ZNF",
-          "comparing the SUMOylation levels of HA-ZNF-p53 (also referred as ZNF in cis) to those of HA-p53 either alone or in the presence of the ZNF fragment added in trans"
+          "comparing the SUMOylation levels of HA-ZNF-p53 (also referred as ZNF in cis) to those of HA-p53 either alone or in the presence of the ZNF fragment added in trans",
+          "HEK293 SUMO3m cells were transfected with either HA-p53 or HA-ZNF-p53 vectors"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "ZNF tag (ZNF451 residues 24-55)",
+        "agent": "ZNF",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "genetic fusion to target protein (p53)",
+        "route_or_context": "genetic fusion to target protein (p53, HSF1, DNMT3A)",
         "evidence": [
-          "genetic fusion to a 32-residue tag termed ZNF and composed of the SUMO E3 module of ZNF451",
+          "developed a strategy to induce SUMOylation of a target protein relying on its genetic fusion to a 32-residue tag termed ZNF",
           "fusion of the N-terminal fragment of ZNF451 responsible for its SUMO E3 ligase activity to a protein target"
         ]
       },
@@ -58,10 +58,10 @@
         "relation_key": "has_timepoint",
         "agent": null,
         "dose_or_concentration": null,
-        "duration": "48 hours",
+        "duration": null,
         "route_or_context": "post transfection",
         "evidence": [
-          "Forty-eight hours post transfection, cells were collected and lysed"
+          "Forty-eight hours post transfection, cells were collected"
         ]
       }
     ],
@@ -71,10 +71,11 @@
   },
   "experimental_design": {
     "timepoints": [
-      "48h"
+      "48 h"
     ],
     "control_arms": [
-      "HA-p53"
+      "HA-p53",
+      "unfused p53"
     ],
     "case_arms": [
       "HA-ZNF-p53"
@@ -82,7 +83,7 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "each biological replicate was standardized to the control condition"
+      "Experiments were conducted in technical triplicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -91,8 +92,7 @@
         "case_label": "HA-ZNF-p53",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparing the SUMOylation levels of HA-ZNF-p53... to those of HA-p53",
-          "HEK293 SUMO3m cells were transfected with either HA-p53 or HA-ZNF-p53 vectors"
+          "comparing the SUMOylation levels of HA-ZNF-p53 (also referred as ZNF in cis) to those of HA-p53"
         ]
       }
     ],
@@ -112,14 +112,14 @@
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "cell",
+        "rollup_category": "epithelial cell",
         "ontology_curie": "CL:0000066"
       }
     ],
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": "Human Embryonic Kidney",
+        "family": "HEK293",
         "ontology_curie": null
       }
     ],
@@ -131,7 +131,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -143,7 +143,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification"
+      "Label-free"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -167,22 +167,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on Orbitrap instruments with no mention of isobaric or SILAC labeling; quantification is implied via relative abundance/intensity."
+          "reason": "Data-dependent acquisition (DDA) was used on Orbitrap instruments with MaxQuant processing; no labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant_site",
+          "modifier_workflow_id": "sumo_remnant_search",
           "confidence": 1.0,
-          "reason": "Explicit use of SUMO remnants (+QQTGG and +NQTGG) to identify SUMOylation sites on lysine residues."
+          "reason": "Explicit use of SUMO remnants (+QQTGG and +NQTGG) as variable modifications to identify SUMOylation sites."
         }
       ],
       "trigger_keywords": [
-        "SUMOylation",
         "SUMO remnant",
         "QQTGG",
         "NQTGG",
-        "DDA",
+        "Data-dependent acquisition",
         "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
@@ -192,22 +191,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on Orbitrap instruments with no mention of isobaric or SILAC labeling; quantification is implied via relative abundance/intensity."
+          "reason": "Data-dependent acquisition (DDA) was used on Orbitrap instruments with MaxQuant processing; no labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant_site",
+          "modifier_workflow_id": "sumo_remnant_search",
           "confidence": 1.0,
-          "reason": "Explicit use of SUMO remnants (+QQTGG and +NQTGG) to identify SUMOylation sites on lysine residues."
+          "reason": "Explicit use of SUMO remnants (+QQTGG and +NQTGG) as variable modifications to identify SUMOylation sites."
         }
       ],
       "trigger_keywords": [
-        "SUMOylation",
         "SUMO remnant",
         "QQTGG",
         "NQTGG",
-        "DDA",
+        "Data-dependent acquisition",
         "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
@@ -236,8 +234,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:11:30Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -29,18 +29,17 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "To generate CRISPR\u2013Cas9 TEX264 knockout cells",
-          "Significantly less TOP1 co-immunoprecipitated with p97-myc-Strep in CRISPR-Cas9 TEX264 knockout cells (\u0394TEX264) than in wild-type cells"
+          "CRISPR-Cas9 TEX264 knockout cells (\u0394TEX264)"
         ]
       },
       {
@@ -48,27 +47,47 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "agonist_or_activator"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
-        "confidence": "medium",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
         "evidence": [
-          "Flp-In TRex HEK293 cells inducibly expressing SSH-tagged TEX264 were either left untreated or incubated overnight with 1.2\u2009\u00b5g/mL Doxycycline."
+          "treated human retinal pigmented epithelial (RPE-1) cells with CB-5083, a potent, selective inhibitor of p97 ATPase activity"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "CRISPR-Cas9",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "TEX264 knockout",
+        "evidence": [
+          "To generate CRISPR\u2013Cas9 TEX264 knockout cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "CB-5083",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "p97 ATPase inhibition",
+        "evidence": [
+          "treated human retinal pigmented epithelial (RPE-1) cells with CB-5083, a potent, selective inhibitor of p97 ATPase activity"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "Doxycycline",
         "dose_or_concentration": "1.2\u2009\u00b5g/mL",
         "duration": "overnight",
-        "route_or_context": "induction of SSH-tagged TEX264 expression",
+        "route_or_context": "induction of SSH-tagged TEX264",
         "evidence": [
-          "incubated overnight with 1.2\u2009\u00b5g/mL Doxycycline"
+          "Flp-In TRex HEK293 cells inducibly expressing SSH-tagged TEX264 were either left untreated or incubated overnight with 1.2\u2009\u00b5g/mL Doxycycline."
         ]
       }
     ],
@@ -85,8 +104,9 @@
       "wild-type cells"
     ],
     "case_arms": [
-      "Doxycycline treated",
-      "CRISPR-Cas9 TEX264 knockout cells (\u0394TEX264)"
+      "\u0394TEX264",
+      "CB-5083 treated",
+      "Doxycycline induced"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -97,7 +117,7 @@
     "contrast_hints": [
       {
         "control_label": "untreated",
-        "case_label": "Doxycycline",
+        "case_label": "Doxycycline induced",
         "contrast_type": "pairwise",
         "evidence": [
           "Flp-In TRex HEK293 cells inducibly expressing SSH-tagged TEX264 were either left untreated or incubated overnight with 1.2\u2009\u00b5g/mL Doxycycline."
@@ -121,7 +141,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -129,17 +149,17 @@
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": "Human embryonic kidney",
+        "family": "Human Embryonic Kidney",
         "ontology_curie": null
       },
       {
         "label": "U2OS",
-        "family": "Human osteosarcoma",
+        "family": "Osteosarcoma",
         "ontology_curie": null
       },
       {
         "label": "RPE-1",
-        "family": "Human retinal pigmented epithelial",
+        "family": null,
         "ontology_curie": null
       },
       {
@@ -173,7 +193,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification",
+        "ontology_label": "Affinity Purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -192,14 +212,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Orbitrap Fusion Lumos and LTQ Velos) for affinity purification (AP-MS) of YFP-TOP1 and TEX264-SSH. No labeling (SILAC, TMT) is mentioned; identification and relative abundance are implied via Mascot and standard shotgun proteomics."
+          "reason": "The experiment uses affinity purification (YFP-TOP1 and TEX264-SSH) followed by LC-MS/MS (DDA) on an Orbitrap Fusion Lumos and LTQ Velos. No isobaric or SILAC labeling is mentioned; identification and relative abundance are implied via standard shotgun proteomics."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "LC\u2013MS/MS",
+        "LC-MS/MS",
         "affinity purification",
-        "shotgun proteomics",
+        "YFP-TOP1",
+        "TEX264-SSH",
         "Orbitrap Fusion Lumos",
         "LTQ Orbitrap Velos"
       ],
@@ -210,14 +231,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (Orbitrap Fusion Lumos and LTQ Velos) for affinity purification (AP-MS) of YFP-TOP1 and TEX264-SSH. No labeling (SILAC, TMT) is mentioned; identification and relative abundance are implied via Mascot and standard shotgun proteomics."
+          "reason": "The experiment uses affinity purification (YFP-TOP1 and TEX264-SSH) followed by LC-MS/MS (DDA) on an Orbitrap Fusion Lumos and LTQ Velos. No isobaric or SILAC labeling is mentioned; identification and relative abundance are implied via standard shotgun proteomics."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "LC\u2013MS/MS",
+        "LC-MS/MS",
         "affinity purification",
-        "shotgun proteomics",
+        "YFP-TOP1",
+        "TEX264-SSH",
         "Orbitrap Fusion Lumos",
         "LTQ Orbitrap Velos"
       ],
@@ -247,8 +269,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:52:45Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

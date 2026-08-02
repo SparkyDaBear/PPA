@@ -5,10 +5,10 @@
     "acquisition_type": "DDA",
     "quantification_method": "TIC",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "PTM-state biological comparison"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,20 +22,21 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
+        "ontology_label": "PTM-state biological comparison",
+        "ontology_curie": "PPA:0000112",
         "category": "molecular_state",
         "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_or_activation_state",
+        "matched_class_key": "ptm_state_biological_comparison",
         "matched_class_path": [
           "molecular_state",
-          "ptm_or_activation_state"
+          "ptm_state_biological_comparison"
         ],
-        "matched_definition": "Comparison by phosphorylation, acetylation, ubiquitination, or activation markers.",
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
+          "we detected only the formerly glycosylated version of the peptide spanning the N92 N-glycosylation sequon",
           "nUPLC-MS/MS analyses of CD209L digests enabled detection of a glycopeptide bearing high-mannose-type N-linked glycosylation at site N92",
-          "Treatment with PNGase F in the presence of H218O, which removes N-linked glycans and isotopically labels the formerly-glycosylated site, confirmed that both unmodified and formerly-glycosylated versions of the peptide spanning the N92 N-glycosylated sequon were present."
+          "Treatment with PNGase F or Endo H, which remove both complex and high-mannose N-linked glycans or only high-mannose N-linked glycans, respectively, led to an increase in the binding of SARS-CoV-2 S-RBD"
         ]
       }
     ],
@@ -45,9 +46,19 @@
         "agent": "PNGase F",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "in the presence of H218O",
+        "route_or_context": "removal of N-linked glycans",
         "evidence": [
-          "Treatment with PNGase F in the presence of H218O, which removes N-linked glycans and isotopically labels the formerly-glycosylated site"
+          "After treatment of the immunoprecipitated protein with PNGase F in the presence of H217O (which removes N-linked glycans and converts N \u2192 D...)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Endo H",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "removal of high-mannose N-linked glycans",
+        "evidence": [
+          "Treatment with PNGase F or Endo H, which remove both complex and high-mannose N-linked glycans or only high-mannose N-linked glycans, respectively"
         ]
       }
     ],
@@ -58,22 +69,24 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "unmodified peptide"
+      "control HEK-293 cell lysates"
     ],
     "case_arms": [
-      "formerly-glycosylated peptide"
+      "CD209L/HEK-293 cell lysates"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "representation from at least three independent experiments"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "unmodified",
-        "case_label": "glycosylated",
+        "control_label": "glycosylated CD209L",
+        "case_label": "deglycosylated CD209L",
         "contrast_type": "pairwise",
         "evidence": [
-          "confirmed that both unmodified and formerly-glycosylated versions of the peptide spanning the N92 N-glycosylated sequon were present"
+          "Treatment with PNGase F or Endo H... led to an increase in the binding of SARS-CoV-2 S-RBD in a statistically significant manner compared to control conditions"
         ]
       }
     ],
@@ -86,7 +99,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -94,7 +107,7 @@
     "cell_lines": [
       {
         "label": "HEK-293",
-        "family": "HEK",
+        "family": "Human Embryonic Kidney",
         "ontology_curie": null
       }
     ],
@@ -106,7 +119,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -115,7 +128,7 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
       "TIC"
@@ -142,27 +155,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (HCD fragmentation) on an Orbitrap Fusion Lumos for protein and glycopeptide identification without evidence of isobaric or SILAC labeling."
+          "reason": "Data acquired on Orbitrap Fusion Lumos using HCD fragmentation with a standard DDA-like approach (MS scans followed by MS2), though focused on a single protein (CD209L)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycan_site_occupancy",
-          "confidence": 0.95,
-          "reason": "The study specifically uses PNGase F in H218O to determine N-glycosylation site occupancy via mass shifts (N to D conversion with 18O incorporation)."
-        },
-        {
-          "modifier_workflow_id": "glycopeptide_analysis",
-          "confidence": 0.9,
-          "reason": "The protocol explicitly reserves half of the sample for glycopeptide analyses and uses oxonium-ion triggered MS2 for glycopeptide identification."
+          "modifier_workflow_id": "glycan_analysis",
+          "confidence": 1.0,
+          "reason": "Explicit use of PNGase F for deglycosylation and direct analysis of glycopeptides with oxonium ion-triggered MS2."
         }
       ],
       "trigger_keywords": [
         "PNGase F",
-        "H218O",
         "glycopeptide",
-        "N-glycosylation site occupancy",
-        "oxonium ions"
+        "oxonium ions",
+        "N-glycosylation",
+        "H218O"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -171,27 +179,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (HCD fragmentation) on an Orbitrap Fusion Lumos for protein and glycopeptide identification without evidence of isobaric or SILAC labeling."
+          "reason": "Data acquired on Orbitrap Fusion Lumos using HCD fragmentation with a standard DDA-like approach (MS scans followed by MS2), though focused on a single protein (CD209L)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glycan_site_occupancy",
-          "confidence": 0.95,
-          "reason": "The study specifically uses PNGase F in H218O to determine N-glycosylation site occupancy via mass shifts (N to D conversion with 18O incorporation)."
-        },
-        {
-          "modifier_workflow_id": "glycopeptide_analysis",
-          "confidence": 0.9,
-          "reason": "The protocol explicitly reserves half of the sample for glycopeptide analyses and uses oxonium-ion triggered MS2 for glycopeptide identification."
+          "modifier_workflow_id": "glycan_analysis",
+          "confidence": 1.0,
+          "reason": "Explicit use of PNGase F for deglycosylation and direct analysis of glycopeptides with oxonium ion-triggered MS2."
         }
       ],
       "trigger_keywords": [
         "PNGase F",
-        "H218O",
         "glycopeptide",
-        "N-glycosylation site occupancy",
-        "oxonium ions"
+        "oxonium ions",
+        "N-glycosylation",
+        "H218O"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,8 +222,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:38:07Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

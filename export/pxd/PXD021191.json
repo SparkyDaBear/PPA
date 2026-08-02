@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -11,7 +11,8 @@
       "un-classified"
     ],
     "cell_types": [
-      "epithelial cell"
+      "epithelial cell",
+      "leukocyte"
     ],
     "cell_lines": [
       "HeLa",
@@ -32,25 +33,62 @@
         "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "In this study we characterize ProAlanase, a protease from the fungus Aspergillus niger that cleaves primarily on the C-terminal side of proline and alanine residues.",
-          "The results demonstrate that ProAlanase is highly suitable for proteomics analysis of the arginine- and lysine-rich histones",
           "ProAlanase is an Effective Alternative to Trypsin for Proteomics Applications and Disulfide Bond Mapping"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ProAlanase",
+        "dose_or_concentration": "1:50 w/w",
+        "duration": "2 h",
+        "route_or_context": "pH 1.5, 37 \u00b0C",
+        "evidence": [
+          "digested with either 1:50 w/w ProAlanase prototype (Promega) for 2 h at pH 1.5, 37 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Trypsin",
+        "dose_or_concentration": "1:100 w/w",
+        "duration": "18 h",
+        "route_or_context": "pH 8.5, 37 \u00b0C",
+        "evidence": [
+          "or with Trypsin (Sigma-Aldrich), rAsp-N (Promega, VA1160) and Glu-C (Sigma-Aldrich) for 18 h at pH 8.5, 37 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "rAsp-N",
+        "dose_or_concentration": null,
+        "duration": "18 h",
+        "route_or_context": "pH 8.5, 37 \u00b0C",
+        "evidence": [
+          "or with Trypsin (Sigma-Aldrich), rAsp-N (Promega, VA1160) and Glu-C (Sigma-Aldrich) for 18 h at pH 8.5, 37 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Glu-C",
+        "dose_or_concentration": null,
+        "duration": "18 h",
+        "route_or_context": "pH 8.5, 37 \u00b0C",
+        "evidence": [
+          "or with Trypsin (Sigma-Aldrich), rAsp-N (Promega, VA1160) and Glu-C (Sigma-Aldrich) for 18 h at pH 8.5, 37 \u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [
-      "1 h",
       "2 h",
-      "4 h",
       "18 h"
     ],
     "control_arms": [
@@ -74,7 +112,7 @@
         "case_label": "ProAlanase",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparing proteins identified in each fraction (pellet, supernatant and pellet+supernatant) between the two different proteases",
+          "comparative multi-enzymatic profiling of a human cell line proteome",
           "digested with either ProAlanase prototype... or with Trypsin"
         ]
       }
@@ -105,8 +143,13 @@
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial",
+        "rollup_category": "epithelial cell",
         "ontology_curie": "CL:0000066"
+      },
+      {
+        "label": "leukocyte",
+        "rollup_category": "leukocyte",
+        "ontology_curie": "CL:0000738"
       }
     ],
     "cell_lines": [
@@ -163,7 +206,7 @@
         "ontology_label": "phosphoproteome enrichment",
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -178,28 +221,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses data-dependent acquisition (DDA) on Q Exactive HF-X and Orbitrap Fusion Lumos instruments for protein identification and PTM mapping."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used across multiple experiments (HeLa, mammoth, N3ICD) with standard bottom-up processing in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_site_mapping",
-          "confidence": 0.8,
-          "reason": "Explicit focus on 'accurate phosphorylation site profiling' and 'phosphosite localization' for the N3ICD protein."
+          "confidence": 9,
+          "reason": "Explicit focus on phosphorylation site profiling and localization for N3ICD and histone proteins."
         },
         {
           "modifier_workflow_id": "disulfide_mapping",
-          "confidence": 0.8,
-          "reason": "Dedicated section on 'disulfide bond mapping' using nonreducing digestion and in-source reduction (ISR)."
+          "confidence": 9,
+          "reason": "Dedicated experiment for disulfide bond mapping of NIST mAb using LC-ISR-MS/MS."
         }
       ],
       "trigger_keywords": [
-        "DDA",
-        "phosphosite localization",
+        "phosphosite mapping",
         "disulfide bond mapping",
-        "in-source reduction",
-        "de novo sequencing"
+        "de novo sequencing",
+        "ProAlanase",
+        "in-source reduction"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -207,28 +250,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment uses data-dependent acquisition (DDA) on Q Exactive HF-X and Orbitrap Fusion Lumos instruments for protein identification and PTM mapping."
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (DDA) was used across multiple experiments (HeLa, mammoth, N3ICD) with standard bottom-up processing in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_site_mapping",
-          "confidence": 0.8,
-          "reason": "Explicit focus on 'accurate phosphorylation site profiling' and 'phosphosite localization' for the N3ICD protein."
+          "confidence": 9,
+          "reason": "Explicit focus on phosphorylation site profiling and localization for N3ICD and histone proteins."
         },
         {
           "modifier_workflow_id": "disulfide_mapping",
-          "confidence": 0.8,
-          "reason": "Dedicated section on 'disulfide bond mapping' using nonreducing digestion and in-source reduction (ISR)."
+          "confidence": 9,
+          "reason": "Dedicated experiment for disulfide bond mapping of NIST mAb using LC-ISR-MS/MS."
         }
       ],
       "trigger_keywords": [
-        "DDA",
-        "phosphosite localization",
+        "phosphosite mapping",
         "disulfide bond mapping",
-        "in-source reduction",
-        "de novo sequencing"
+        "de novo sequencing",
+        "ProAlanase",
+        "in-source reduction"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,8 +299,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:54:02Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

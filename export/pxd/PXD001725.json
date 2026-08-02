@@ -3,25 +3,60 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "detection frequency",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "Disease",
-      "Genetic Perturbations"
+      "disease or clinical state",
+      "disease or clinical state"
     ],
     "cell_types": [
       "melanocyte"
     ],
     "cell_lines": [],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "Ten lymph node metastases (South-Swedish Malignant Melanoma Biobank) were subjected to global protein expression analysis",
+          "The tumor tissues used were lymph nodes metastases from 10 MM patients"
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "dividing the samples into two metastatic melanoma \u201cgenomic subtypes\u201d, (\u201cpigmentation\u201d and \u201chigh immune\u201d) revealed several proteins showing differential levels of expression.",
+          "Half of the samples in the current study were obtained from a set defined as the \u201cpigmentation\u201d sub-type and half from samples defined as the \u201chigh-immune\u201d subtype."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -30,37 +65,77 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "pigmentation subtype",
+      "high-immune subtype"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "each with three technical replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "pigmentation",
+        "case_label": "high-immune",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Mann-Whitney U-test was applied to assess differences in protein detection frequencies between sample subsets.",
+          "comparison of 5 versus 5 samples"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "melanocyte",
+        "rollup_category": "cell type",
+        "ontology_curie": "CL:0000148"
+      }
+    ],
     "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "lymph node metastases",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "detection frequency",
+      "protein presence"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -69,10 +144,46 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (top10) was used on a Q-Exactive. While the authors describe 'protein expression analysis' and 'differential levels of expression', they explicitly state 'rigorous quantification was not performed here' and instead used detection frequencies (presence/absence) for comparison, which is a form of label-free qualitative/semi-quantitative analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "top10 data-dependent approach",
+        "unfractionated",
+        "strong cation exchange chromatography",
+        "SCX"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 8,
+          "reason": "Data-dependent acquisition (top10) was used on a Q-Exactive. While the authors describe 'protein expression analysis' and 'differential levels of expression', they explicitly state 'rigorous quantification was not performed here' and instead used detection frequencies (presence/absence) for comparison, which is a form of label-free qualitative/semi-quantitative analysis."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "top10 data-dependent approach",
+        "unfractionated",
+        "strong cation exchange chromatography",
+        "SCX"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -92,7 +203,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

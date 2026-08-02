@@ -3,16 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "precursor-based quantification",
     "labeling_strategy": [
       "TMT",
       "SILAC"
     ],
     "treatment_categories": [
-      "Unclassified"
+      "anatomical or spatial comparison"
     ],
     "cell_types": [
-      "neuronal cells",
       "astroglia cells"
     ],
     "cell_lines": [
@@ -20,12 +19,29 @@
       "SVGp12"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
+    "primary_variables": [
+      {
+        "ontology_label": "anatomical or spatial comparison",
+        "ontology_curie": "PPA:0000019",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "anatomical_spatial"
+        ],
+        "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
+        "confidence": "medium",
+        "evidence": [
+          "we compared two human cell lines that are often used in neuroscience research, specifically, SH-SY5Y and SVGp12.",
+          "we perform the first comparative proteome profiling of these two cell lines using our mTMT labeling strategy."
+        ]
+      }
+    ],
     "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
@@ -33,38 +49,90 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "control_arms": [
+      "SVGp12"
+    ],
+    "case_arms": [
+      "SH-SY5Y"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "Our analysis for each workflow was performed in duplicate.",
+      "we reversed the labels of the cell lines for each replicate."
+    ],
+    "multiplex_channel_hints": [
+      "TMT0 (TMTzero) and superheavy TMT (shTMT)",
+      "SILAC-heavy SVGp12 cells were mixed with SILAC-light SH-SY5Y cells",
+      "shTMT (heavy)-labeled SVGp12 cells were mixed with TMT0 (light)-labeled SH-SY5Y cells"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "SVGp12",
+        "case_label": "SH-SY5Y",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared two human cell lines that are often used in neuroscience research, specifically, SH-SY5Y and SVGp12.",
+          "log2(SH-SH5Y/SVGp12)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "astroglia cells",
+        "rollup_category": "glial cell",
+        "ontology_curie": null
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "SH-SY5Y",
+        "family": "SK-N-SH",
+        "ontology_curie": null
+      },
+      {
+        "label": "SVGp12",
+        "family": null,
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "SILAC"
+    ],
+    "quantification_strategy": [
+      "precursor-based quantification"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +141,56 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The mTMT method is explicitly described as 'precursor-based quantification' using nonisobaric tags that coelute, making it computationally analogous to SILAC or LFQ (precursor intensity ratios) rather than reporter-ion based isobaric workflows."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.7,
+          "reason": "The authors explicitly state that mTMT is a 'suitable alternative' to SILAC and processed the data using 'default settings for SILAC-based quantification' in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "mTMT",
+        "mass difference tandem mass tagging",
+        "precursor-based quantification",
+        "nonisobaric TMT"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The mTMT method is explicitly described as 'precursor-based quantification' using nonisobaric tags that coelute, making it computationally analogous to SILAC or LFQ (precursor intensity ratios) rather than reporter-ion based isobaric workflows."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.7,
+          "reason": "The authors explicitly state that mTMT is a 'suitable alternative' to SILAC and processed the data using 'default settings for SILAC-based quantification' in MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "mTMT",
+        "mass difference tandem mass tagging",
+        "precursor-based quantification",
+        "nonisobaric TMT"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,7 +210,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

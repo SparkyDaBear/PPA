@@ -2,36 +2,65 @@
   "pxd": "PXD039332",
   "title": null,
   "summary": {
-    "acquisition_type": "Targeted",
-    "quantification_method": "Unknown",
+    "acquisition_type": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
+      "LFQ",
       "Unknown"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Disease"
+      "overexpression or transgene perturbation"
     ],
-    "cell_types": [
-      "neuroblastoma cells",
-      "primary neuroblastoma tumor samples"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "Kelly",
-      "BE-2C",
-      "NLF",
-      "SHEP",
-      "SHEP MYCN-ER",
       "293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "293T cells transfected with MYCN-TurboID or Flag-MYCN were prepared for TurboID or co-IP, respectively, followed by mass spectrometry analysis."
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MYCN-TurboID",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfected 293T cells",
+        "evidence": [
+          "293T cells transfected with MYCN-TurboID or Flag-MYCN were prepared for TurboID or co-IP, respectively, followed by mass spectrometry analysis."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Flag-MYCN",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "transfected 293T cells",
+        "evidence": [
+          "293T cells transfected with MYCN-TurboID or Flag-MYCN were prepared for TurboID or co-IP, respectively, followed by mass spectrometry analysis."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -39,38 +68,77 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "MYCN-TurboID",
+      "Flag-MYCN"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "untransfected/baseline",
+        "case_label": "MYCN-overexpressing",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "293T cells transfected with MYCN-TurboID or Flag-MYCN were prepared for TurboID or co-IP, respectively, followed by mass spectrometry analysis."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "293T",
+        "family": "HEK",
+        "ontology_curie": "BTO:0002181"
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "Unknown",
+    "labeling_strategy": [
+      "LFQ",
+      "Unknown"
+    ],
+    "quantification_strategy": [
+      "Label-free"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": "PRIDE:0000433",
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -78,10 +146,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses affinity purification (TurboID and co-IP) followed by DDA on an Orbitrap Exploris 480. While no specific labeling (like TMT/SILAC) is mentioned for the MS analysis, the use of Proteome Discoverer for identification of associated proteins in a pull-down context typically follows a label-free or simple abundance-based identification workflow."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 0.9,
+          "reason": "Explicit use of TurboID for proximity labeling of MYCN proximal proteins."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "Explicit use of co-immunoprecipitation (co-IP) with Flag-beads and TEV protease digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "TurboID",
+        "co-IP",
+        "proximity labeling",
+        "streptavidin beads",
+        "Flag beads",
+        "affinity purification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "The experiment uses affinity purification (TurboID and co-IP) followed by DDA on an Orbitrap Exploris 480. While no specific labeling (like TMT/SILAC) is mentioned for the MS analysis, the use of Proteome Discoverer for identification of associated proteins in a pull-down context typically follows a label-free or simple abundance-based identification workflow."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 0.9,
+          "reason": "Explicit use of TurboID for proximity labeling of MYCN proximal proteins."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "Explicit use of co-immunoprecipitation (co-IP) with Flag-beads and TEV protease digestion."
+        }
+      ],
+      "trigger_keywords": [
+        "TurboID",
+        "co-IP",
+        "proximity labeling",
+        "streptavidin beads",
+        "Flag beads",
+        "affinity purification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "unknown",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -101,7 +231,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

@@ -21,9 +21,9 @@
       "NCH705",
       "NCH711d"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "extracellular vesicle scope",
-    "sample_scope_curie": "PPA:0000199",
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
@@ -33,16 +33,16 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "sEVs isolated from GSCs of the proneural and mesenchymal subtypes are enriched in specific sets of proteins, metabolites, and fatty acids",
-          "comparisons of sEVs between PN and MES subtypes"
+          "Glioblastoma is a deadly brain tumor for which there is no cure.",
+          "patient-derived glioblastoma stem-like cells were used"
         ]
       },
       {
@@ -50,30 +50,39 @@
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
         "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
           "cell_state_interaction",
-          "activation_or_differentiation_state"
+          "differentiation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
         "confidence": "high",
         "evidence": [
-          "proneural (PN) cells were treated with the different fractions of conditioned medium of mesenchymal (MES) cells",
-          "treating PN cells with the sEV-enriched fraction (100P) also resulted in the increase of CD44 abundance",
-          "the impact of MES conditioned medium (CM) and sEVs on recipient PN cells"
+          "proneural (PN) and mesenchymal (MES) subtypes",
+          "sEVs isolated from GSCs of the proneural and mesenchymal subtypes are enriched in specific sets of proteins"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "mesenchymal (MES) conditioned medium / sEVs",
-        "dose_or_concentration": "9 \u03bcg protein equivalent",
+        "agent": "mesenchymal conditioned medium",
+        "dose_or_concentration": null,
         "duration": "4 days",
-        "route_or_context": "treatment of proneural (PN) GSCs",
+        "route_or_context": "treatment of proneural cells",
         "evidence": [
           "Proneural (PN) cells were treated with the different fractions of conditioned medium of mesenchymal (MES) cells",
-          "for EV treatment, 250,000 PN cells were incubated with NCH705-derived sEVs (9 \u03bcg protein equivalent) for 4 days"
+          "treated with 6 mL of different fractions (Own_CCM, MES_CCM, 2S, 10S, 100S and Filtered) of mesenchymal conditioned medium, and then cultured for 4 days"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NCH705-derived sEVs",
+        "dose_or_concentration": "9 \u03bcg protein equivalent",
+        "duration": "4 days",
+        "route_or_context": "treatment of proneural cells",
+        "evidence": [
+          "For EV treatment, 250,000 PN cells were incubated with NCH705-derived sEVs (9 \u03bcg protein equivalent) for 4 days"
         ]
       }
     ],
@@ -83,23 +92,25 @@
   },
   "experimental_design": {
     "timepoints": [
-      "4 days"
+      "4 days",
+      "2 h",
+      "4 h",
+      "6 h",
+      "8 h"
     ],
     "control_arms": [
       "Own_CCM",
-      "DPBS (control)"
+      "DPBS",
+      "mock sEVs isolation"
     ],
     "case_arms": [
       "MES_CCM",
-      "2S",
-      "10S",
-      "100S",
-      "Filtered",
-      "100P",
-      "NCH705-derived sEVs"
+      "NCH705-derived sEVs",
+      "PN sEVs",
+      "MES sEVs"
     ],
     "paired_design": true,
-    "factorial_design": false,
+    "factorial_design": null,
     "replicate_hints": [
       "in triplicate",
       "n = 3 paired replicates"
@@ -121,14 +132,6 @@
         "evidence": [
           "comparisons of sEVs to cell lysates in individual cell lines"
         ]
-      },
-      {
-        "control_label": "untreated PN cells",
-        "case_label": "MES-CM/sEV treated PN cells",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "the impact of MES conditioned medium (CM) and sEVs on recipient PN cells"
-        ]
       }
     ],
     "source_sections": [
@@ -140,7 +143,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "human",
         "confidence": "high"
       }
     ],
@@ -180,9 +183,9 @@
     ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "subproteome",
-      "label": "extracellular vesicle scope",
-      "curie": "PPA:0000199"
+      "category": "whole cell lysate",
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
     "linkage_hints": {
       "biosample_accessions": [],
@@ -216,15 +219,13 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via the MaxLFQ algorithm."
+          "reason": "Explicitly mentions data-dependent acquisition (DDA) and label-free quantification (LFQ) using the MaxLFQ algorithm."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "data-dependent acquisition",
         "DDA",
         "label-free quantification",
-        "LFQ",
         "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
@@ -234,15 +235,13 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data-dependent acquisition (DDA) and label-free quantification (LFQ) via the MaxLFQ algorithm."
+          "reason": "Explicitly mentions data-dependent acquisition (DDA) and label-free quantification (LFQ) using the MaxLFQ algorithm."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "data-dependent acquisition",
         "DDA",
         "label-free quantification",
-        "LFQ",
         "MaxLFQ"
       ],
       "raw_or_file_name_triggers": []
@@ -271,8 +270,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:43:15Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

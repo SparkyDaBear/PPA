@@ -2,13 +2,14 @@
   "pxd": "PXD017586",
   "title": null,
   "summary": {
-    "acquisition_type": "DIA",
-    "quantification_method": "Label-free",
+    "acquisition_type": "DDA",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "small-molecule inhibitor treatment",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,20 +24,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "discovery and characterization of LEI-401 as a CNS-active N-acylphosphatidylethanolamine phospholipase D (NAPE-PLD) inhibitor",
-          "label-free chemical proteomics experiment was performed... labeling could be prevented by coincubation with LEI-401"
+          "LEI-401 dose-dependently reduced the labeling of NAPE-PLD"
+        ]
+      },
+      {
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "two NAPE-PLD KO cell lines were generated using CRISPR/Cas9",
+          "brain lysates from mice that genetically lack Napepld"
         ]
       }
     ],
@@ -44,11 +62,21 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "LEI-401",
-        "dose_or_concentration": "20 \u03bcM",
-        "duration": "30 min",
-        "route_or_context": "HEK293T cells",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "2 h",
+        "route_or_context": "Neuro-2a cells",
         "evidence": [
-          "treatment with photoprobe 10 (1,000\u00d7 in DMSO, final concentration of 2 \u03bcM) together with vehicle or competitor (1,000\u00d7 in DMSO, final concentration 20 \u03bcM) in medium + serum (1 ml per well) for 30 min at 37 \u00b0C"
+          "we incubated both WT and KO cells with LEI-401 (10 \u03bcM) for 2 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "LEI-401",
+        "dose_or_concentration": "30 mg kg\u207b1",
+        "duration": null,
+        "route_or_context": "intraperitoneal (i.p.)",
+        "evidence": [
+          "Male C57BL/6J mice were treated with LEI-401 (30 mg kg\u207b1, i.p., single dose)"
         ]
       }
     ],
@@ -58,27 +86,41 @@
   },
   "experimental_design": {
     "timepoints": [
-      "30 min"
+      "1 h",
+      "2 h",
+      "4 h",
+      "8 h"
     ],
     "control_arms": [
-      "vehicle"
+      "vehicle",
+      "mock",
+      "WT"
     ],
     "case_arms": [
-      "LEI-401"
+      "LEI-401",
+      "NAPE-PLD KO"
     ],
     "paired_design": false,
-    "factorial_design": false,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [
-      "label-free chemical proteomics"
+    "factorial_design": true,
+    "replicate_hints": [
+      "n = 5 per condition"
     ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "vehicle",
         "case_label": "LEI-401",
         "contrast_type": "pairwise",
         "evidence": [
-          "labeling could be prevented by coincubation with LEI-401"
+          "treated with vehicle or compound (10 \u03bcM, 0.1% DMSO)"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "NAPE-PLD KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "LEI-401 reduced NAE levels in neuroblastoma cells and in the brain of freely moving mice, but not in NAPE-PLD KO cells and mice"
         ]
       }
     ],
@@ -104,12 +146,12 @@
     "cell_lines": [
       {
         "label": "HEK293T",
-        "family": "human embryonic kidney",
+        "family": "Human Embryonic Kidney",
         "ontology_curie": null
       },
       {
         "label": "Neuro-2a",
-        "family": "neuroblastoma",
+        "family": "Neuroblastoma",
         "ontology_curie": null
       }
     ],
@@ -133,12 +175,12 @@
     ]
   },
   "assay": {
-    "acquisition_type": "DIA",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "label-free"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -146,7 +188,7 @@
         "ontology_label": "chemical proteomics",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -162,23 +204,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses label-free quantification (LFQ) and a UDMSe (HDMSE) acquisition method, which is a data-independent/dependent hybrid often processed via LFQ pipelines. PRIDE metadata explicitly lists 'Label free' quantification."
+          "reason": "The experiment uses label-free chemical proteomics with a SYNAPT G2-Si mass spectrometer and ISOQuant for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "chemical_proteomics_enrichment",
+          "modifier_workflow_id": "modifier_abpp",
           "confidence": 0.95,
-          "reason": "The study uses a photoaffinity probe (probe 10) with a click-chemistry handle (biotin-N3) and avidin agarose beads for enrichment of target proteins."
+          "reason": "The study explicitly uses activity-based protein profiling (ABPP) and photoaffinity labeling with a biotin-N3 click chemistry approach to enrich target proteins."
         }
       ],
       "trigger_keywords": [
-        "label-free chemical proteomics",
+        "chemical proteomics",
         "photoaffinity labeling",
+        "biotin-N3",
         "avidin agarose beads",
-        "UDMSe",
-        "HDMSE",
-        "biotin-N3"
+        "label-free",
+        "ISOQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,23 +229,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses label-free quantification (LFQ) and a UDMSe (HDMSE) acquisition method, which is a data-independent/dependent hybrid often processed via LFQ pipelines. PRIDE metadata explicitly lists 'Label free' quantification."
+          "reason": "The experiment uses label-free chemical proteomics with a SYNAPT G2-Si mass spectrometer and ISOQuant for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "chemical_proteomics_enrichment",
+          "modifier_workflow_id": "modifier_abpp",
           "confidence": 0.95,
-          "reason": "The study uses a photoaffinity probe (probe 10) with a click-chemistry handle (biotin-N3) and avidin agarose beads for enrichment of target proteins."
+          "reason": "The study explicitly uses activity-based protein profiling (ABPP) and photoaffinity labeling with a biotin-N3 click chemistry approach to enrich target proteins."
         }
       ],
       "trigger_keywords": [
-        "label-free chemical proteomics",
+        "chemical proteomics",
         "photoaffinity labeling",
+        "biotin-N3",
         "avidin agarose beads",
-        "UDMSe",
-        "HDMSE",
-        "biotin-N3"
+        "label-free",
+        "ISOQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -231,8 +273,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:27:27Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

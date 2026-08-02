@@ -3,11 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "HDX-MS (deuterium incorporation)",
+    "quantification_method": "Hydrogen-deuterium exchange (HDX)",
     "labeling_strategy": [
       "Unknown"
     ],
-    "treatment_categories": [],
+    "treatment_categories": [
+      "molecular state comparison"
+    ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "purified protein or complex",
@@ -16,21 +18,67 @@
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "Deuterium uptake in the presence or absence of RC-1 Fab was compared with identified residues involved in the epitope",
+          "For the differential HDX experiments, 5 \u00bcmL of either Siglec-6 (apo) or the complex (1:1 molar mixture Siglec-6 and RC-1 Fab) were mixed"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "RC-1 Fab",
+        "dose_or_concentration": "1:1 molar ratio",
+        "duration": "1 h",
+        "route_or_context": "complex formation on ice",
+        "evidence": [
+          "deglycosylated Siglec-6 (10 \u00bcmM) was preincubated with RC-1 Fab at a 1:1 molar ratio for 1 h on ice for complex formation"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "timepoints": [
+      "up to 1 h"
+    ],
+    "control_arms": [
+      "Siglec-6 (apo)"
+    ],
+    "case_arms": [
+      "Siglec-6 and RC-1 Fab complex"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "The experiment was performed with three technical replicates."
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "Siglec-6 (apo)",
+        "case_label": "Siglec-6 + RC-1 Fab complex",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Deuterium uptake in the presence or absence of RC-1 Fab was compared"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -66,7 +114,7 @@
       "Unknown"
     ],
     "quantification_strategy": [
-      "HDX-MS (deuterium incorporation)"
+      "Hydrogen-deuterium exchange (HDX)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -82,23 +130,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Data was acquired in data-dependent mode (DDA) on a QExactive, though the primary goal was HDX-MS rather than standard LFQ proteomics."
+          "confidence": 0.8,
+          "reason": "Data was acquired in data-dependent mode (DDA) on a QExactive, and the goal was to measure deuterium incorporation (HDX-MS), which typically uses label-free intensity or centroid shifts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "hdx_ms",
+          "modifier_workflow_id": "hd_exchange",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Hydrogen-Deuterium Exchange Mass Spectrometry (HDX-MS) to map antibody epitopes."
+          "reason": "The experiment is explicitly described as hydrogen-deuterium exchange mass spectrometry (HDX-MS) to map epitopes."
         }
       ],
       "trigger_keywords": [
         "HDX-MS",
-        "hydrogen\u2013deuterium exchange",
+        "hydrogen-deuterium exchange",
         "deuterium uptake",
         "deuterium incorporation",
-        "HDX Workbench"
+        "D2O-exchange buffer"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -106,28 +154,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Data was acquired in data-dependent mode (DDA) on a QExactive, though the primary goal was HDX-MS rather than standard LFQ proteomics."
+          "confidence": 0.8,
+          "reason": "Data was acquired in data-dependent mode (DDA) on a QExactive, and the goal was to measure deuterium incorporation (HDX-MS), which typically uses label-free intensity or centroid shifts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "hdx_ms",
+          "modifier_workflow_id": "hd_exchange",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly described as Hydrogen-Deuterium Exchange Mass Spectrometry (HDX-MS) to map antibody epitopes."
+          "reason": "The experiment is explicitly described as hydrogen-deuterium exchange mass spectrometry (HDX-MS) to map epitopes."
         }
       ],
       "trigger_keywords": [
         "HDX-MS",
-        "hydrogen\u2013deuterium exchange",
+        "hydrogen-deuterium exchange",
         "deuterium uptake",
         "deuterium incorporation",
-        "HDX Workbench"
+        "D2O-exchange buffer"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "unknown",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "peptide"
     },
@@ -150,8 +198,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:11:10Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

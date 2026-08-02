@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -26,19 +26,32 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
-        "confidence": "medium",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
         "evidence": [
-          "MUC16 was detected in samples containing less than the clinical cut-off level of CA125 (35 U mL\u22121), suggesting that this strategy of enrichment and bottom-up proteomics can enable analysis of CA125 from the serum of individuals with early-stage ovarian cancer and those whose tumors express CA125 (MUC16) at low levels."
+          "individuals with early-stage ovarian cancer and those whose tumors express CA125 (MUC16) at low levels",
+          "Serum CA125 levels can range from below 35 U mL\u22121 in healthy individuals to over 10 000 U mL\u22121 in patients with ovarian cancer."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MUC16",
+        "dose_or_concentration": "30\u201330,000 U mL\u22121",
+        "duration": null,
+        "route_or_context": "spiked into plasma-derived serum",
+        "evidence": [
+          "Filtered plasma-derived serum was spiked with MUC16 from the conditioned cell media of OVCAR3 cells.",
+          "can enrich CA125 across concentration ranges spanning clinically relevant values (30\u201330,000 U mL\u22121)."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -46,26 +59,27 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
+      "healthy individuals",
       "serum alone"
     ],
     "case_arms": [
-      "SEC enrichment",
-      "SEC and Top 14 depletion"
+      "ovarian cancer patients",
+      "spiked plasma-derived serum"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "duplicate digestions",
-      "two biological replicates"
+      "in duplicate digestions",
+      "between two biological replicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "serum alone",
-        "case_label": "SEC enrichment",
+        "case_label": "SEC enriched",
         "contrast_type": "pairwise",
         "evidence": [
-          "We demonstrate that enrichment of MUC16 from plasma-derived serum increases analyte purity by 100\u2013200 times over serum alone."
+          "This is in contrast with the results from samples not enriched by SEC in which no MUC16 peptides were detected in a sample that contained 5000 U mL\u22121 CA125"
         ]
       },
       {
@@ -73,7 +87,7 @@
         "case_label": "SEC and Top 14 depletion",
         "contrast_type": "pairwise",
         "evidence": [
-          "A sample containing 11 U CA125 that underwent SEC and Top 14 protein depletion resulted in 4\u201311 identified peptides, whereas a sample that underwent SEC alone but contained a similar CA125 amount resulted in 1\u20132 identified peptides."
+          "Bottom-up proteomics analysis was performed on samples enriched using SEC alone and samples enriched using both SEC and Top 14 depletion."
         ]
       }
     ],
@@ -100,7 +114,7 @@
     ],
     "noncellular_sources": [
       {
-        "label": "serum",
+        "label": "blood serum",
         "source_kind": "biofluid"
       },
       {
@@ -132,16 +146,10 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "MUC16 enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
-      },
-      {
-        "ontology_label": "abundant protein depletion",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "low"
       }
     ],
     "assessor_support": null,
@@ -156,15 +164,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired in data-dependent mode (DDA) using an Orbitrap Eclipse; no labeling (SILAC, isobaric, dimethyl) mentioned. While explicit LFQ software isn't named, the comparison of peptide counts across samples is a form of label-free quantification."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was explicitly used on an Orbitrap Eclipse, and the study focuses on peptide identification and coverage of MUC16 without mention of SILAC, isobaric, or dimethyl labeling."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "data-dependent mode",
         "bottom-up proteomics",
-        "Orbitrap Eclipse"
+        "Orbitrap Eclipse",
+        "SEQUEST"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -172,15 +181,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired in data-dependent mode (DDA) using an Orbitrap Eclipse; no labeling (SILAC, isobaric, dimethyl) mentioned. While explicit LFQ software isn't named, the comparison of peptide counts across samples is a form of label-free quantification."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was explicitly used on an Orbitrap Eclipse, and the study focuses on peptide identification and coverage of MUC16 without mention of SILAC, isobaric, or dimethyl labeling."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "data-dependent mode",
         "bottom-up proteomics",
-        "Orbitrap Eclipse"
+        "Orbitrap Eclipse",
+        "SEQUEST"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,8 +218,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T02:57:36Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

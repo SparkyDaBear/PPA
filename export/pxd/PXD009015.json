@@ -3,68 +3,216 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Genetic Perturbations",
-      "Mechanical or Physical Stimuli",
-      "Chemical/Drug Treatment",
-      "Time-Course / Temporal Series"
+      "cell state or interaction comparison",
+      "mechanical or physical stimulus",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "reticulocyte",
       "erythrocyte"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
+    "sample_scope": "subproteome",
+    "sample_scope_label": "phosphoproteome",
     "sample_scope_curie": null,
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "cell state or interaction comparison",
+        "ontology_curie": "PPA:0000020",
+        "category": "cell_state_interaction",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "differentiation_state_comparison",
+        "matched_class_path": [
+          "cell_state_interaction",
+          "differentiation_state_comparison"
+        ],
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
+        "confidence": "high",
+        "evidence": [
+          "a comparison of erythrocytes, endogenous reticulocytes and in vitro-derived reticulocytes",
+          "differences between erythrocytes, cultured reticulocytes and endogenous reticulocytes"
+        ]
+      },
+      {
+        "ontology_label": "mechanical or physical stimulus",
+        "ontology_curie": "PPA:0000015",
+        "category": "mechanical",
+        "matched_parent_class_key": "mechanical",
+        "matched_class_key": "fluid_shear_stress",
+        "matched_class_path": [
+          "mechanical",
+          "fluid_shear_stress"
+        ],
+        "matched_definition": "Mechanical perturbation by fluid shear or flow.",
+        "confidence": "high",
+        "evidence": [
+          "a comparison of circulated and non-circulated in vitro-derived reticulocytes",
+          "simulate the mechanical shear component of circulation",
+          "circulatory shear stress ex vivo is able to induce alterations in the morphology of reticulocytes"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "chemical inhibition of NMIIA leads to an inability to lose cell volume",
+          "blocking NMIIA-mediated activity with the use of blebbistatin, a selective and high-affinity inhibitor of NMIIA and NMIIB"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "blebbistatin",
+        "dose_or_concentration": "20 mM",
+        "duration": null,
+        "route_or_context": "exposed during circulation",
+        "evidence": [
+          "cells were exposed during circulation to either 20 mM blebbistatin(\u2212)... or 20 mM blebbistatin(+)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shear stress",
+        "dose_or_concentration": "5 rpm",
+        "duration": "overnight",
+        "route_or_context": "ex vivo circulation system",
+        "evidence": [
+          "The suspension was then circulated overnight at 37\u00b0C in 5% CO2, with the 5 rpm setting."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "overnight"
+    ],
+    "control_arms": [
+      "erythrocytes",
+      "non-circulated in vitro-derived reticulocytes",
+      "blebbistatin(+)"
+    ],
+    "case_arms": [
+      "endogenous reticulocytes",
+      "in vitro-derived reticulocytes",
+      "circulated in vitro-derived reticulocytes",
+      "blebbistatin(\u2212)"
+    ],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "three biological repeats per cell type",
+      "three biological repeats per condition"
+    ],
+    "multiplex_channel_hints": [
+      "quantitative tandem mass tag (TMT) proteomics"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "erythrocytes",
+        "case_label": "reticulocytes",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "broad comparison of protein expression changes between reticulocytes and erythrocytes"
+        ]
+      },
+      {
+        "control_label": "non-circulated",
+        "case_label": "circulated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparison of circulated and non-circulated in vitro-derived reticulocytes"
+        ]
+      },
+      {
+        "control_label": "blebbistatin(+)",
+        "case_label": "blebbistatin(\u2212)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "exposed during circulation to either 20 mM blebbistatin(\u2212)... or 20 mM blebbistatin(+) as a negative control"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "reticulocyte",
+        "rollup_category": "blood cell",
+        "ontology_curie": "CL:0000558"
+      },
+      {
+        "label": "erythrocyte",
+        "rollup_category": "blood cell",
+        "ontology_curie": "CL:0000232"
+      }
+    ],
     "cell_lines": [],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
+      "category": "subproteome",
+      "label": "phosphoproteome",
       "curie": null
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TMT-based quantitative proteomics",
+      "qualitative phosphoproteomics"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "phosphoproteome enrichment",
+        "ontology_curie": "PPA:0000292",
+        "workflow_modifier_hint": "mod_phospho",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -72,10 +220,58 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'quantitative tandem mass tag (TMT) proteomics' and 'data-dependent acquisition mode' (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment used 'TiO2-enriched phosphoproteomics' and 'TiO2-based phosphopeptide enrichment'."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "TiO2-enriched",
+        "phosphoproteomics",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "The text explicitly mentions 'quantitative tandem mass tag (TMT) proteomics' and 'data-dependent acquisition mode' (DDA)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 1.0,
+          "reason": "The experiment used 'TiO2-enriched phosphoproteomics' and 'TiO2-based phosphopeptide enrichment'."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "TiO2-enriched",
+        "phosphoproteomics",
+        "data-dependent acquisition"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -95,7 +291,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

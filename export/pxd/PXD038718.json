@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "label-free peptide counts",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "neurons"
@@ -28,37 +29,75 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "matched_class_key": "agonist_or_activator_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "agonist_or_activator"
+          "agonist_or_activator_treatment"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "matched_definition": "Chemical treatment using a small molecule that activates a receptor, enzyme, pathway, or signaling process.",
         "confidence": "high",
         "evidence": [
-          "To generate high levels of NPAS4 required for biochemical purification, we stimulated neurons in the hippocampus of Npas4\u2013FH mice through the injection of low-dose kainic acid (KA), a glutamate receptor agonist that synchronously depolarizes hippocampal neurons."
+          "we stimulated neurons in the hippocampus of Npas4\u2013FH mice through the injection of low-dose kainic acid (KA), a glutamate receptor agonist that synchronously depolarizes hippocampal neurons."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "we generated Npas4\u2013Flag-HA and Arnt2\u2013Flag-HA knock-in mouse lines",
+          "performing NPAS4 CUT&RUN on nuclei isolated from brains of stimulated Npas4 knockout mice",
+          "we injected Npas4fl/fl or Tip60fl/fl mice with a virus expressing either Cre-mCherry or a recombination-deficient version of Cre (\u0394Cre-GFP) into contralateral sides of the hippocampus to unilaterally remove either Npas4 or Tip60"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "kainic acid (KA)",
-        "dose_or_concentration": "12\u201315 mg kg\u20131",
+        "agent": "kainic acid",
+        "dose_or_concentration": "12\u201315 mg/kg",
         "duration": null,
         "route_or_context": "intraperitoneally injected",
         "evidence": [
-          "KA (5\u20138 mg kg\u20131 (electrophysiology) or 12\u201315 mg kg\u20131 (gene expression, CUT&RUN, sBLISS-seq and immunoprecipitations) (Sigma-Aldrich, K0250) was intraperitoneally injected."
+          "KA (5\u20138 mg/kg (electrophysiology) or 12\u201315 mg/kg (gene expression, CUT&RUN, sBLISS-seq and immunoprecipitations) (Sigma-Aldrich, K0250) was intraperitoneally injected."
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "kainic acid",
         "dose_or_concentration": null,
         "duration": "3 h",
         "route_or_context": "post-KA injection",
         "evidence": [
-          "Hippocampal regions were dissected 3 hours post-KA injection to allow sufficient time for NPAS4 protein expression and assembly into potential complexes."
+          "Hippocampal regions were dissected 3 h after KA injection to allow sufficient time for NPAS4 expression and assembly into potential complexes."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Npas4",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockout/deletion",
+        "evidence": [
+          "unilaterally remove either Npas4 or Tip60"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Tip60",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockout/deletion",
+        "evidence": [
+          "unilaterally remove either Npas4 or Tip60"
         ]
       }
     ],
@@ -68,28 +107,44 @@
   },
   "experimental_design": {
     "timepoints": [
-      "3 h"
+      "0 h",
+      "2 h",
+      "3 h",
+      "6 h",
+      "10 h"
     ],
     "control_arms": [
-      "wild-type mice",
-      "saline control"
+      "wild-type",
+      "saline-injected",
+      "\u0394Cre-infected"
     ],
     "case_arms": [
-      "Npas4\u2013Flag-HA mice stimulated with KA"
+      "KA-stimulated",
+      "Cre-infected (cKO)",
+      "Npas4 knockout"
     ],
-    "paired_design": false,
+    "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "Replicates for these experiments consisted of 3 independent pools of 8-12 mice."
+      "Replicates shown in Fig. 1c consisted of 3 independent pools of 8\u201312 mice",
+      "Two replicates were performed"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Wild-type",
-        "case_label": "NPAS4-FH + KA",
+        "control_label": "wild-type",
+        "case_label": "NPAS4-stimulated",
         "contrast_type": "pairwise",
         "evidence": [
-          "The R (3.6.1) package EdgeR (edgeR_3.28.1;limma_3.42.2) was used to identify proteins significantly enriched in NPAS4 IP samples relative to WT samples that do not express FLAG-tagged proteins."
+          "identify proteins significantly enriched in NPAS4 IP samples relative to WT samples that do not express FLAG-tagged proteins"
+        ]
+      },
+      {
+        "control_label": "\u0394Cre-infected",
+        "case_label": "Cre-infected",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential gene expression analysis between Cre and \u0394Cre-infected cells within each cluster"
         ]
       }
     ],
@@ -154,13 +209,13 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free peptide counts",
-      "EdgeR differential abundance"
+      "label-free quantification",
+      "peptide counts"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification",
+        "ontology_label": "affinity purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -179,7 +234,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses affinity purification (IP) followed by mass spectrometry with label-free quantification (LFQ) using EdgeR to compare protein enrichment between NPAS4-FLAG-HA and wild-type controls."
+          "reason": "The experiment uses affinity purification (IP) followed by mass spectrometry with label-free quantification (LFQ) using EdgeR to compare NPAS4 IP samples relative to wild-type controls."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -197,7 +252,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses affinity purification (IP) followed by mass spectrometry with label-free quantification (LFQ) using EdgeR to compare protein enrichment between NPAS4-FLAG-HA and wild-type controls."
+          "reason": "The experiment uses affinity purification (IP) followed by mass spectrometry with label-free quantification (LFQ) using EdgeR to compare NPAS4 IP samples relative to wild-type controls."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -234,8 +289,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:11:13Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -9,11 +9,10 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "ligand-mediated stimulation"
+      "case-control disease status",
+      "cytokine stimulation"
     ],
     "cell_types": [
-      "pancreatic adenocarcinoma cells",
       "cancer-associated fibroblast"
     ],
     "cell_lines": [
@@ -39,16 +38,16 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "Analyses were performed using plasma sample pools from PDAC patients, which were compared to pools of matched healthy subjects, benign pancreatic cyst patients, and patients with chronic pancreatitis",
@@ -56,8 +55,8 @@
         ]
       },
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
+        "ontology_label": "cytokine stimulation",
+        "ontology_curie": "PPA:0000037",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
         "matched_class_key": "cytokine_stimulation",
@@ -65,7 +64,7 @@
           "ligand_stimulation",
           "cytokine_stimulation"
         ],
-        "matched_definition": "Stimulation driven by cytokines or chemokines (for example IFN, TNF, IL-family).",
+        "matched_definition": "Stimulation using cytokines or immune signaling proteins.",
         "confidence": "high",
         "evidence": [
           "Cell lines were incubated with or without 20 ng/ml IFN\u03b3 for 24 h before elution of HLA-bound peptides."
@@ -78,7 +77,7 @@
         "agent": "IFN\u03b3",
         "dose_or_concentration": "20 ng/ml",
         "duration": "24 h",
-        "route_or_context": "cell culture",
+        "route_or_context": "cell lines",
         "evidence": [
           "Cell lines were incubated with or without 20 ng/ml IFN\u03b3 for 24 h before elution of HLA-bound peptides."
         ]
@@ -107,22 +106,24 @@
     "replicate_hints": [
       "All measurements were performed in triplicates."
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "SILAC (Pierce) containing 10% dialyzed fetal bovine serum (FBS) (Life Technologies) and 0.1 mg mL\u20131 13C\u2013lysine"
+    ],
     "contrast_hints": [
       {
-        "control_label": "matched healthy subjects",
+        "control_label": "healthy/benign/pancreatitis controls",
         "case_label": "PDAC patients",
         "contrast_type": "pairwise",
         "evidence": [
-          "Analyses were performed using plasma sample pools from PDAC patients, which were compared to pools of matched healthy subjects"
+          "Analyses were performed using plasma sample pools from PDAC patients, which were compared to pools of matched healthy subjects, benign pancreatic cyst patients, and patients with chronic pancreatitis"
         ]
       },
       {
-        "control_label": "without IFN\u03b3",
-        "case_label": "with IFN\u03b3",
+        "control_label": "unstimulated",
+        "case_label": "IFN\u03b3 stimulated",
         "contrast_type": "pairwise",
         "evidence": [
-          "Cell lines were incubated with or without 20 ng/ml IFN\u03b3 for 24 h before elution of HLA-bound peptides."
+          "Cell lines were incubated with or without 20 ng/ml IFN\u03b3 for 24 h"
         ]
       }
     ],
@@ -135,16 +136,11 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
-      {
-        "label": "pancreatic adenocarcinoma cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      },
       {
         "label": "cancer-associated fibroblast",
         "rollup_category": "fibroblast",
@@ -269,19 +265,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 80,
-          "reason": "The study uses label-free quantification based on total MS counts (spectral counting) and MS1 peptide ion intensities for comparing PDAC cases vs controls."
+          "reason": "The study uses data-dependent acquisition (DDA) on LTQ-Orbitrap Elite and quantifies protein abundance using total MS counts (spectral counting), which is a form of label-free quantification (LFQ)."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 30,
+          "reason": "The methods mention cells were grown in SILAC media containing 13C-lysine, although the primary results described use spectral counting and MS1 intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "surfaceome_enrichment",
           "confidence": 90,
-          "reason": "Extensive use of biotinylation (Sulfo-NHS-SS-BIOTIN) and Neutravidin affinity chromatography to isolate exosome and cell surface proteins."
+          "reason": "Extensive use of biotinylation and Neutravidin affinity chromatography to isolate exosome surface and cell surface proteins."
         }
       ],
       "trigger_keywords": [
         "spectral counts",
-        "MS1 peptide ion intensity",
+        "data-dependent mode",
         "biotinylated",
         "Neutravidin",
         "surfaceome"
@@ -293,19 +294,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 80,
-          "reason": "The study uses label-free quantification based on total MS counts (spectral counting) and MS1 peptide ion intensities for comparing PDAC cases vs controls."
+          "reason": "The study uses data-dependent acquisition (DDA) on LTQ-Orbitrap Elite and quantifies protein abundance using total MS counts (spectral counting), which is a form of label-free quantification (LFQ)."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 30,
+          "reason": "The methods mention cells were grown in SILAC media containing 13C-lysine, although the primary results described use spectral counting and MS1 intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "surfaceome_enrichment",
           "confidence": 90,
-          "reason": "Extensive use of biotinylation (Sulfo-NHS-SS-BIOTIN) and Neutravidin affinity chromatography to isolate exosome and cell surface proteins."
+          "reason": "Extensive use of biotinylation and Neutravidin affinity chromatography to isolate exosome surface and cell surface proteins."
         }
       ],
       "trigger_keywords": [
         "spectral counts",
-        "MS1 peptide ion intensity",
+        "data-dependent mode",
         "biotinylated",
         "Neutravidin",
         "surfaceome"
@@ -336,8 +342,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:35:51Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

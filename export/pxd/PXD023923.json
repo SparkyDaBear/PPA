@@ -9,8 +9,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "genetic perturbation"
+      "small-molecule inhibitor treatment",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
       "lung cancer cells"
@@ -18,11 +18,10 @@
     "cell_lines": [
       "H1299",
       "PC9",
-      "HCC4006",
-      "HCC827",
       "Calu1",
-      "H2009",
-      "H460"
+      "HCC827",
+      "HCC4006",
+      "H2009"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -32,35 +31,34 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "effects of AXL TKI on global phosphoproteins using mass spectrometry",
-          "treated H1299 cells either with DMSO or RXDX106 for 0.5 or 4 hours",
-          "Lysates were incubated with 20 \u03bcM RXDX106, Cabozantinib, Bemcentinib or DMSO for 15 minutes"
+          "target engagement of AXL TKI using activity-based protein profiling",
+          "treated H1299 cells either with DMSO or RXDX106 for 0.5 or 4 hours"
         ]
       },
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "H1299 AXL KO and PC9 AXL KO cells were developed",
@@ -81,22 +79,32 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "RXDX-106",
-        "dose_or_concentration": null,
-        "duration": "0.5 or 4 hours",
-        "route_or_context": "H1299 cells",
+        "agent": "Bemcentinib",
+        "dose_or_concentration": "1 \u03bcmM",
+        "duration": null,
+        "route_or_context": "H1299 and PC9 cells",
         "evidence": [
-          "treated H1299 cells either with DMSO or RXDX106 for 0.5 or 4 hours"
+          "1 \u03bcmM Bemcentinib completely inhibits growth in both H1299 and PC9 cells"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "RXDX106, Cabozantinib, Bemcentinib",
-        "dose_or_concentration": "20 \u03bcM",
+        "agent": "Cabozantinib",
+        "dose_or_concentration": "20 \u03bcmM",
         "duration": "15 minutes",
         "route_or_context": "H1299 and PC9 cell pellets",
         "evidence": [
-          "Lysates were incubated with 20 \u03bcM RXDX106, Cabozantinib, Bemcentinib or DMSO for 15 minutes"
+          "Lysates were incubated with 20 \u03bcmM RXDX106, Cabozantinib, Bemcentinib or DMSO for 15 minutes"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": "RXDX-106",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "phosphoproteomics",
+        "evidence": [
+          "treated H1299 cells either with DMSO or RXDX106 for 0.5 or 4 hours"
         ]
       }
     ],
@@ -111,18 +119,20 @@
     ],
     "control_arms": [
       "DMSO",
-      "AXL KO"
+      "biotin only",
+      "doxycycline only"
     ],
     "case_arms": [
       "RXDX-106",
+      "Bemcentinib",
       "Cabozantinib",
-      "Bemcentinib"
+      "AXL KO"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "Three biological replicates were used per sample",
-      "H1299 cells were plated in six 15cm dishes for each sample (in triplicates)"
+      "plated in six 15cm dishes for each sample (in triplicates)"
     ],
     "multiplex_channel_hints": [
       "labeled using TMT 10-plex reagents"
@@ -138,10 +148,18 @@
       },
       {
         "control_label": "DMSO",
-        "case_label": "AXL TKIs (RXDX106, Cabozantinib, Bemcentinib)",
-        "contrast_type": "multi_group",
+        "case_label": "AXL TKI",
+        "contrast_type": "pairwise",
         "evidence": [
-          "Lysates were incubated with 20 \u03bcM RXDX106, Cabozantinib, Bemcentinib or DMSO for 15 minutes"
+          "Log2 ratios between treatment groups and DMSO were calculated"
+        ]
+      },
+      {
+        "control_label": "Wild-type",
+        "case_label": "AXL KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To differentiate AXL-dependent effects from AXL-independent ones, we also used H1299 and PC9 cells where AXL has been knocked out by CRISPR (AXL KO)"
         ]
       }
     ],
@@ -177,7 +195,7 @@
         "ontology_curie": null
       },
       {
-        "label": "HCC4006",
+        "label": "Calu1",
         "family": null,
         "ontology_curie": null
       },
@@ -187,17 +205,12 @@
         "ontology_curie": null
       },
       {
-        "label": "Calu1",
+        "label": "HCC4006",
         "family": null,
         "ontology_curie": null
       },
       {
         "label": "H2009",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "H460",
         "family": null,
         "ontology_curie": null
       }
@@ -233,6 +246,12 @@
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "proximity-dependent biotinylation",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -248,19 +267,19 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The global phosphoproteomics (pSTY) used TMT 10-plex reagents for labeling and MaxQuant for reporter ion quantification."
+          "reason": "The global phosphoproteomics (pSTY) used TMT 10-plex reagents for labeling and was analyzed via DDA on a Q Exactive HF-X."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The phosphotyrosine (pY) peptides were analyzed using LC-MS/MS for label-free quantitation."
+          "reason": "The phosphotyrosine (pY) enrichment was specifically analyzed for label-free quantitation (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Experiment explicitly uses PTMScan Phospho-Tyrosine antibody beads and IMAC for pSTY enrichment."
+          "reason": "Experiment explicitly uses PTMScan Phospho-Tyrosine and IMAC for pSTY enrichment."
         }
       ],
       "trigger_keywords": [
@@ -268,7 +287,8 @@
         "label-free quantitation",
         "IMAC",
         "PTMScan Phospho-Tyrosine",
-        "phosphoproteomics"
+        "pSTY",
+        "pY"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -277,19 +297,19 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The global phosphoproteomics (pSTY) used TMT 10-plex reagents for labeling and MaxQuant for reporter ion quantification."
+          "reason": "The global phosphoproteomics (pSTY) used TMT 10-plex reagents for labeling and was analyzed via DDA on a Q Exactive HF-X."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The phosphotyrosine (pY) peptides were analyzed using LC-MS/MS for label-free quantitation."
+          "reason": "The phosphotyrosine (pY) enrichment was specifically analyzed for label-free quantitation (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Experiment explicitly uses PTMScan Phospho-Tyrosine antibody beads and IMAC for pSTY enrichment."
+          "reason": "Experiment explicitly uses PTMScan Phospho-Tyrosine and IMAC for pSTY enrichment."
         }
       ],
       "trigger_keywords": [
@@ -297,7 +317,8 @@
         "label-free quantitation",
         "IMAC",
         "PTMScan Phospho-Tyrosine",
-        "phosphoproteomics"
+        "pSTY",
+        "pY"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -325,8 +346,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:04:28Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

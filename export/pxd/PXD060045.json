@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockdown or interference perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,21 +26,21 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption",
-          "whole_gene_knockout"
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "Using control and doxycycline-induced DHHC9 knockdown HCT116 and A549 cells, we applied a multiplex approach combining a modified acyl-biotin exchange (ABE) technique with label-free quantification for comprehensive S-palmitoylation analysis",
-          "Proteomic Data Analysis and Bioinformatics... The Q value was calculated between +HA and \u2212HA groups in both DHHC knockdown (+Dox, with doxycycline) and control (\u2212Dox, without doxycycline) samples."
+          "doxycycline-induced DHHC9 knockdown HCT116 and A549 cells",
+          "DHHC9 knockdown profoundly inhibited cell migration in vitro and tumour metastasis in vivo",
+          "S-palmitoylated proteome analysis HCT116, A549 and DLD-1 cells were pre-treated with doxycycline for 24h to induce zDHHC9 shRNA expression"
         ]
       }
     ],
@@ -49,10 +49,21 @@
         "relation_key": "has_treatment_agent",
         "agent": "shDHHC9",
         "dose_or_concentration": null,
-        "duration": "24 h",
-        "route_or_context": "doxycycline-induced knockdown",
+        "duration": null,
+        "route_or_context": "doxycycline-induced",
         "evidence": [
-          "HCT116, A549 and DLD-1 cells were pre-treated with doxycycline for 24 h to induce DHHC9 shRNA expression."
+          "doxycycline-induced DHHC9 knockdown HCT116 and A549 cells",
+          "shRNAs targeting DHHC9 were cloned into the Tet-pLKO-puro vector"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "24h",
+        "route_or_context": "pre-treatment to induce shRNA expression",
+        "evidence": [
+          "HCT116, A549 and DLD-1 cells were pre-treated with doxycycline for 24h to induce DHHC9 shRNA expression"
         ]
       }
     ],
@@ -62,10 +73,11 @@
   },
   "experimental_design": {
     "timepoints": [
-      "24 h"
+      "24h"
     ],
     "control_arms": [
-      "-Dox"
+      "-Dox",
+      "vehicle control"
     ],
     "case_arms": [
       "+Dox"
@@ -76,7 +88,7 @@
       "three biological replicates of control and DHHC9 knockdown HCT116 cells"
     ],
     "multiplex_channel_hints": [
-      "label-free quantification"
+      "multiplex approach combining a modified acyl-biotin exchange (ABE) technique with label-free quantification"
     ],
     "contrast_hints": [
       {
@@ -84,7 +96,7 @@
         "case_label": "+Dox",
         "contrast_type": "pairwise",
         "evidence": [
-          "The Q value was calculated between +HA and \u2212HA groups in both DHHC knockdown (+Dox, with doxycycline) and control (\u2212Dox, without doxycycline) samples."
+          "Q value was calculated between +HA and -HA groups in both DHHC9 knockdown (+Dox, with doxycycline) and control (-Dox, without doxycycline) samples"
         ]
       }
     ],
@@ -97,7 +109,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
@@ -110,17 +122,17 @@
     "cell_lines": [
       {
         "label": "HCT116",
-        "family": "colorectal cancer",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "A549",
-        "family": "lung cancer",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "DLD-1",
-        "family": "colorectal cancer",
+        "family": null,
         "ontology_curie": null
       },
       {
@@ -130,7 +142,7 @@
       },
       {
         "label": "CT-26",
-        "family": "murine colorectal carcinoma",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -142,7 +154,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -178,21 +190,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'label-free quantification' and 'Data-dependent acquisition' in PRIDE metadata and methods."
+          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'label-free quantification'. Text confirms 'label-free quantification were based on MaxQuant software'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_palmitoylation_abe",
+          "modifier_workflow_id": "palmitoylation_abe",
           "confidence": 1.0,
-          "reason": "The experiment uses a modified Acyl-Biotin Exchange (ABE) assay to enrich S-palmitoylated peptides."
+          "reason": "The experiment uses a modified Acyl-Biotin Exchange (ABE) assay to enrich S-palmitoylated peptides using hydroxylamine cleavage and biotin-HPDP labeling."
         }
       ],
       "trigger_keywords": [
-        "S-palmitoylation",
         "Acyl-Biotin Exchange",
         "ABE",
+        "S-palmitoylation",
         "biotin-HPDP",
+        "hydroxylamine",
         "label-free quantification"
       ],
       "raw_or_file_name_triggers": []
@@ -202,21 +215,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'label-free quantification' and 'Data-dependent acquisition' in PRIDE metadata and methods."
+          "reason": "PRIDE metadata explicitly lists 'Data-dependent acquisition' and 'label-free quantification'. Text confirms 'label-free quantification were based on MaxQuant software'."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_palmitoylation_abe",
+          "modifier_workflow_id": "palmitoylation_abe",
           "confidence": 1.0,
-          "reason": "The experiment uses a modified Acyl-Biotin Exchange (ABE) assay to enrich S-palmitoylated peptides."
+          "reason": "The experiment uses a modified Acyl-Biotin Exchange (ABE) assay to enrich S-palmitoylated peptides using hydroxylamine cleavage and biotin-HPDP labeling."
         }
       ],
       "trigger_keywords": [
-        "S-palmitoylation",
         "Acyl-Biotin Exchange",
         "ABE",
+        "S-palmitoylation",
         "biotin-HPDP",
+        "hydroxylamine",
         "label-free quantification"
       ],
       "raw_or_file_name_triggers": []
@@ -245,8 +259,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:29:29Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

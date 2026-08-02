@@ -3,13 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
       "chemical or drug treatment",
-      "nutrient or metabolic perturbation"
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -27,43 +27,42 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "matched_class_key": "agonist_or_activator_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "agonist_or_activator"
+          "agonist_or_activator_treatment"
         ],
-        "matched_definition": "Intervention using an agonist or activator that increases receptor, pathway, or signaling activity relative to control.",
+        "matched_definition": "Chemical treatment using a small molecule that activates a receptor, enzyme, pathway, or signaling process.",
         "confidence": "medium",
         "evidence": [
-          "\u00b11.5 \u03bcM recombinant RBPMS",
-          "RBPMS was added at the indicated concentrations in buffer BS."
+          "\u00b10.5 mM ATP, \u00b120 mM creatinine phosphate"
         ]
       },
       {
-        "ontology_label": "nutrient or metabolic perturbation",
-        "ontology_curie": "PPA:0000012",
-        "category": "nutrient_metabolic",
-        "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "metabolite_supplementation",
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "nutrient_metabolic",
-          "metabolite_supplementation"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Addition of metabolites or metabolic substrates to alter pathway activity.",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "\u00b10.5 mM ATP",
-          "\u00b120 mM creatinine phosphate"
+          "\u00b11.5 \u03bcM recombinant RBPMS",
+          "FL versus \u0394C20 generated 133 significant interactors"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant RBPMS",
+        "agent": "RBPMS",
         "dose_or_concentration": "1.5 \u03bcM",
         "duration": null,
-        "route_or_context": "HeLa nuclear extract (NE)",
+        "route_or_context": "recombinant protein added to HeLa nuclear extract",
         "evidence": [
           "\u00b11.5 \u03bcM recombinant RBPMS"
         ]
@@ -73,9 +72,19 @@
         "agent": "ATP",
         "dose_or_concentration": "0.5 mM",
         "duration": null,
-        "route_or_context": "HeLa nuclear extract (NE)",
+        "route_or_context": "added to HeLa nuclear extract",
         "evidence": [
           "\u00b10.5 mM ATP"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "creatinine phosphate",
+        "dose_or_concentration": "20 mM",
+        "duration": null,
+        "route_or_context": "added to HeLa nuclear extract",
+        "evidence": [
+          "\u00b120 mM creatinine phosphate"
         ]
       }
     ],
@@ -88,8 +97,8 @@
     "control_arms": [
       "ATP-RNA-RBPMA-",
       "ATP+RNA-RBPMA-",
-      "ATP-RNA+RBPMA-",
-      "ATP+RNA+RBPMA-"
+      "no RNA background samples",
+      "no RBPMS added conditions"
     ],
     "case_arms": [
       "ATP-RNA-RBPMA+",
@@ -101,7 +110,7 @@
     "factorial_design": true,
     "replicate_hints": [
       "each contains three technical repeats",
-      "Samples in triplicate"
+      "samples in triplicate"
     ],
     "multiplex_channel_hints": [
       "label-free MS/MS"
@@ -116,11 +125,11 @@
         ]
       },
       {
-        "control_label": "ATP-",
-        "case_label": "ATP+",
+        "control_label": "\u0394C20",
+        "case_label": "FL",
         "contrast_type": "pairwise",
         "evidence": [
-          "\u00b10.5 mM ATP"
+          "FL versus \u0394C20 generated 133 significant interactors"
         ]
       }
     ],
@@ -152,7 +161,7 @@
       {
         "label": "HeLa S3",
         "family": "HeLa",
-        "ontology_curie": "CL:0000210"
+        "ontology_curie": "CL:0000564"
       }
     ],
     "noncellular_sources": [],
@@ -181,8 +190,8 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -199,15 +208,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used LC-MS/MS (Q-Exactive) for identification and quantification of proteins from affinity pull-downs (RNA-assisted and AP-MS) without mention of labels, and the PRIDE metadata explicitly describes 'abundance data at peptide level' processed for differential expression, which is characteristic of label-free quantification (LFQ)."
+          "confidence": 1.0,
+          "reason": "The experiment used LC-MS/MS on a Q-Exactive mass spectrometer with label-free quantification (abundance data at the peptide level) and gel-based excision."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free MS/MS",
         "abundance data at the peptide level",
-        "affinity purification coupled with mass spectrometry"
+        "Q-Exactive",
+        "trypsin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -215,15 +225,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used LC-MS/MS (Q-Exactive) for identification and quantification of proteins from affinity pull-downs (RNA-assisted and AP-MS) without mention of labels, and the PRIDE metadata explicitly describes 'abundance data at peptide level' processed for differential expression, which is characteristic of label-free quantification (LFQ)."
+          "confidence": 1.0,
+          "reason": "The experiment used LC-MS/MS on a Q-Exactive mass spectrometer with label-free quantification (abundance data at the peptide level) and gel-based excision."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free MS/MS",
         "abundance data at the peptide level",
-        "affinity purification coupled with mass spectrometry"
+        "Q-Exactive",
+        "trypsin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,8 +262,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:41:24Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

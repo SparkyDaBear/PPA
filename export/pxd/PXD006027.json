@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Super-SILAC",
+    "quantification_method": "super-SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "cancer subtype comparison",
+      "case-control disease status"
     ],
     "cell_types": [
       "tumor cells"
@@ -27,25 +28,71 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "cancer_subtype_comparison",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "cancer_subtype_comparison"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
-          "revealed significant changes in histone H3 methylation patterns between luminal A-like and triple negative breast cancer subtypes",
-          "we compared the hPTM patterns of the small set of luminal A-like and triple negative samples",
-          "In such human tumor samples a pattern that is clearly different from that found in normal mouse brain"
+          "detecting more marked changes between luminal A-like and triple negative patients",
+          "revealing significant changes in histone H3 methylation patterns between luminal A-like and triple negative breast cancer subtypes"
+        ]
+      },
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "show in human tumor samples a pattern that is clearly different from that found in normal mouse brain"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "luminal A-like breast cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "breast cancer subtype",
+        "evidence": [
+          "luminal A-like and triple negative subtypes were defined as follows: luminal A-like: ER and/or PgR(+), HER2(\u2212), Ki67 < 20%"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "triple negative breast cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "breast cancer subtype",
+        "evidence": [
+          "triple negative: ER, PgR, and HER2(\u2212), irrespective of Ki67 score"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "glioblastoma",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "patient-derived xenografts",
+        "evidence": [
+          "analyze orthotopic glioblastoma patient-derived xenografts"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -53,22 +100,21 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "luminal A-like",
       "normal mouse brain"
     ],
     "case_arms": [
+      "luminal A-like",
       "triple negative",
       "human tumor samples"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "some of the technical replicates for the luminal A-like samples"
+      "technical replicates for the luminal A-like samples"
     ],
     "multiplex_channel_hints": [
-      "histone-focused super-stable isotope labeling by amino acid in cell culture (SILAC) approach",
-      "L/H ratios of relative abundances were used to compare samples",
-      "unlabeled and heavy-labeled histones were mixed in equal amounts"
+      "super-SILAC",
+      "L/H ratios of relative abundances"
     ],
     "contrast_hints": [
       {
@@ -76,7 +122,7 @@
         "case_label": "triple negative",
         "contrast_type": "pairwise",
         "evidence": [
-          "revealed significant changes in histone H3 methylation patterns between luminal A-like and triple negative breast cancer subtypes"
+          "detecting more marked changes between luminal A-like and triple negative patients"
         ]
       },
       {
@@ -97,12 +143,12 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       },
       {
         "label": "Mus musculus",
-        "taxonomy_hint": "10090",
+        "taxonomy_hint": "NEWT:10090",
         "confidence": "high"
       }
     ],
@@ -168,8 +214,9 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "Super-SILAC",
-      "Relative Abundance (%RA)"
+      "super-SILAC",
+      "relative abundance (%RA)",
+      "L/H ratios"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -193,27 +240,27 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a 'histone-focused super-stable isotope labeling by amino acid in cell culture (SILAC) approach' with Arg10 as the heavy label."
+          "reason": "The study explicitly uses a 'histone-focused super-stable isotope labeling by amino acid in cell culture (SILAC) approach' with heavy-labeled aminoacids (Arg-10) and DDA acquisition on a Q Exactive HF."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The study also describes a 'classical approach' using % relative abundance (%RA) based on AUC of modified peptides, which is a label-free quantification method."
+          "reason": "The 'classical approach' (PAT-H-MS) is described as quantitative analysis of histone PTMs, and some samples were compared using % relative abundance (%RA) without mentioning SILAC for all cohorts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_enrichment",
           "confidence": 1.0,
-          "reason": "The entire experiment is focused on histone PTMs, utilizing SDS-PAGE gel excision of histone H3 bands for enrichment."
+          "reason": "The experiment is specifically designed for histone PTM analysis, utilizing SDS-PAGE gel excision of histone H3 bands and acidic extraction."
         }
       ],
       "trigger_keywords": [
         "super-SILAC",
-        "hPTM",
-        "histone H3",
+        "histone PTMs",
+        "DDA",
         "Arg-C like digestion",
-        "DDA"
+        "FFPE"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -222,27 +269,27 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a 'histone-focused super-stable isotope labeling by amino acid in cell culture (SILAC) approach' with Arg10 as the heavy label."
+          "reason": "The study explicitly uses a 'histone-focused super-stable isotope labeling by amino acid in cell culture (SILAC) approach' with heavy-labeled aminoacids (Arg-10) and DDA acquisition on a Q Exactive HF."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The study also describes a 'classical approach' using % relative abundance (%RA) based on AUC of modified peptides, which is a label-free quantification method."
+          "reason": "The 'classical approach' (PAT-H-MS) is described as quantitative analysis of histone PTMs, and some samples were compared using % relative abundance (%RA) without mentioning SILAC for all cohorts."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "histone_ptm_enrichment",
           "confidence": 1.0,
-          "reason": "The entire experiment is focused on histone PTMs, utilizing SDS-PAGE gel excision of histone H3 bands for enrichment."
+          "reason": "The experiment is specifically designed for histone PTM analysis, utilizing SDS-PAGE gel excision of histone H3 bands and acidic extraction."
         }
       ],
       "trigger_keywords": [
         "super-SILAC",
-        "hPTM",
-        "histone H3",
+        "histone PTMs",
+        "DDA",
         "Arg-C like digestion",
-        "DDA"
+        "FFPE"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -270,8 +317,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:48:42Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

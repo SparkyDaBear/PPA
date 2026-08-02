@@ -8,9 +8,18 @@
       "TMT"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "targeted protein degrader treatment",
+      "small-molecule inhibitor treatment"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "embryonic kidney cells",
+      "T lymphoblastic cells",
+      "B lymphoblastic cells",
+      "brain cells",
+      "ovarian cells",
+      "lymphoblastic cells",
+      "stomach cells"
+    ],
     "cell_lines": [
       "HEK293T",
       "MOLT-4",
@@ -28,21 +37,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "targeted protein degrader treatment",
+        "ontology_curie": "PPA:0000029",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "targeted_protein_degrader_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "targeted_protein_degrader_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a degrader, molecular glue, or PROTAC to reduce target protein abundance.",
         "confidence": "high",
         "evidence": [
           "we developed a large library of kinase-targeting degraders as a toolset to define the degradable kinome",
-          "measuring changes in protein abundance in response to treatment with each of the kinase degrader molecules",
-          "Cells were treated with DMSO (biological triplicate) or degrader at indicated dose and time"
+          "We employed global proteomics to identify targets by measuring changes in protein abundance in response to treatment with each of the kinase degrader molecules"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "co-treatment with the p97 inhibitor CB-5083",
+          "comparing results from three GNF-7-based multitargeted kinase degraders that recruit different E3 ligases (CRBN, VHL or IAP)"
         ]
       }
     ],
@@ -50,11 +75,11 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "kinase-targeting degraders",
-        "dose_or_concentration": "1 \u00b5M",
+        "dose_or_concentration": "1 \u03bcM",
         "duration": "5 h",
-        "route_or_context": "cell culture",
+        "route_or_context": "cellular",
         "evidence": [
-          "Initial standard screening conditions of 5 h treatment time with 1 \u00b5M degrader compound were selected"
+          "Initial standard screening conditions of 5 h treatment time with 1 \u03bcM degrader compound were selected"
         ]
       },
       {
@@ -62,9 +87,20 @@
         "agent": "CB-5083",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "co-treatment with degrader",
+        "route_or_context": "p97 inhibitor",
         "evidence": [
           "compared to co-treatment with the p97 inhibitor CB-5083"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SK-3\u201391",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "5 h",
+        "route_or_context": "multitargeted degrader",
+        "evidence": [
+          "treated for 5 h with candidate compounds",
+          "Cells were treated in four replicates each with either 0.05% DMSO or 1 \u03bcM SK-3\u201391"
         ]
       }
     ],
@@ -74,32 +110,45 @@
   },
   "experimental_design": {
     "timepoints": [
-      "5 h"
+      "5 h",
+      "1 h",
+      "2 h",
+      "4 h",
+      "8 h",
+      "12 h"
     ],
     "control_arms": [
       "DMSO"
     ],
     "case_arms": [
-      "kinase degrader molecules"
+      "kinase degrader molecules",
+      "CB-5083"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "biological triplicates",
       "biological duplicates"
     ],
     "multiplex_channel_hints": [
       "Tandem mass tag (TMT) reagents",
-      "10, 11 or 16-plex labeling reactions",
-      "16-plex labeling reactions"
+      "10, 11 or 16-plex labeling reactions"
     ],
     "contrast_hints": [
       {
         "control_label": "DMSO",
-        "case_label": "kinase degrader",
+        "case_label": "degrader",
         "contrast_type": "pairwise",
         "evidence": [
-          "Significant changes comparing the relative protein abundance of treatment samples to the DMSO control treatments were assessed by moderated t-test"
+          "Significant changes comparing the relative protein abundance of treatment samples to the DMSO control treatments were assessed"
+        ]
+      },
+      {
+        "control_label": "degrader alone",
+        "case_label": "degrader + CB-5083",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "measured changes in protein abundance in response to treatment with each of the four multi-kinase targeting degraders alone and compared to co-treatment with the p97 inhibitor CB-5083"
         ]
       }
     ],
@@ -112,45 +161,81 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
-    "cell_types": [],
+    "cell_types": [
+      {
+        "label": "embryonic kidney cells",
+        "rollup_category": "kidney cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "T lymphoblastic cells",
+        "rollup_category": "T-cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "B lymphoblastic cells",
+        "rollup_category": "B-cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "brain cells",
+        "rollup_category": "neuron/glial cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "ovarian cells",
+        "rollup_category": "ovarian cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "lymphoblastic cells",
+        "rollup_category": "lymphocyte",
+        "ontology_curie": null
+      },
+      {
+        "label": "stomach cells",
+        "rollup_category": "gastric cell",
+        "ontology_curie": null
+      }
+    ],
     "cell_lines": [
       {
         "label": "HEK293T",
-        "family": "Human embryonic kidney cells",
+        "family": "HEK293",
         "ontology_curie": null
       },
       {
         "label": "MOLT-4",
-        "family": "Human T lymphoblastic cells",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "MM.1S",
-        "family": "Human B lymphoblastic cells",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "KELLY",
-        "family": "Human brain cells",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "OVCAR-8",
-        "family": "Human ovarian cells",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "Mino",
-        "family": "Human lymphoblastic cells",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "KATO III",
-        "family": "Human stomach cells",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -162,7 +247,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -199,17 +284,15 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses Tandem Mass Tag (TMT) labeling with 10, 11, and 16-plex configurations and MS3-based acquisition for quantification."
+          "reason": "The text explicitly describes the use of Tandem Mass Tags (TMT) for 10, 11, and 16-plex labeling and an MS3-based TMT acquisition method."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT",
-        "isobaric",
         "MS3-based TMT method",
-        "16-plex",
-        "11-plex",
-        "10-plex"
+        "16-plex labeling",
+        "isobaric"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,17 +301,15 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses Tandem Mass Tag (TMT) labeling with 10, 11, and 16-plex configurations and MS3-based acquisition for quantification."
+          "reason": "The text explicitly describes the use of Tandem Mass Tags (TMT) for 10, 11, and 16-plex labeling and an MS3-based TMT acquisition method."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT",
-        "isobaric",
         "MS3-based TMT method",
-        "16-plex",
-        "11-plex",
-        "10-plex"
+        "16-plex labeling",
+        "isobaric"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,8 +337,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:08:43Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

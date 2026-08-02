@@ -3,9 +3,9 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": null,
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
       "un-classified"
@@ -26,11 +26,11 @@
         "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "The primary focus was on difficult-to-model protein targets",
-          "All targets in the XL-assisted modelling category were solved by X-ray crystallography and provided to the XL-MS labs as purified protein samples."
+          "The samples were shipped to two research groups specializing in chemical crosslinking and mass spectrometry: Alexander Leitner\u2019s group (Zurich) and Juri Rappsilber\u2019s group (Berlin, Edinburgh).",
+          "The two groups used different experimental approaches to generate the crosslinking data."
         ]
       }
     ],
@@ -40,9 +40,20 @@
         "agent": "disuccinimidyl suberate (DSS)",
         "dose_or_concentration": null,
         "duration": "30 minutes",
-        "route_or_context": "crosslinking reaction",
+        "route_or_context": "25 \u00b0C",
         "evidence": [
           "The group at ETH Zurich (a.k.a. BigX group) performed reactions with residue-specific linkers: disuccinimidyl suberate (DSS)",
+          "samples were crosslinked for 30 minutes at 25 \u00b0C"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "pimelic acid dihydrazide (PDH) and the coupling reagent DMTMM",
+        "dose_or_concentration": null,
+        "duration": "30 minutes",
+        "route_or_context": "25 \u00b0C",
+        "evidence": [
+          "a combination of pimelic acid dihydrazide (PDH) and the coupling reagent DMTMM",
           "samples were crosslinked for 30 minutes at 25 \u00b0C"
         ]
       },
@@ -51,9 +62,11 @@
         "agent": "sulfosuccinimidyl 4,4\u2019-azipentanoate (sulfo-SDA)",
         "dose_or_concentration": "eight different crosslinker-to-protein ratios: 0.13:1, 0.19:1, 0.25:1, 0.38:1, 0.5:1, 0.75:1, 1:1 and 1.5:1 (w/w)",
         "duration": null,
-        "route_or_context": "two-stage reaction (NHS-ester then UV photoactivation at 365 nm)",
+        "route_or_context": "UV photoactivation at 365 nm",
         "evidence": [
-          "target proteins were crosslinked separately using sulfosuccinimidyl 4,4\u2019-azipentanoate (sulfo-SDA) (Thermo Scientific Pierce, Rockford IL) in a two-stage reaction (using eight different crosslinker-to-protein ratios: 0.13:1, 0.19:1, 0.25:1, 0.38:1, 0.5:1, 0.75:1, 1:1 and 1.5:1 (w/w), a protein concentration of 0.5 mg/mL and using 20 \u03bcg protein aliquots), with reaction of the NHS-ester firstly, subsequently followed by UV photoactivation at 365 nm"
+          "target proteins were crosslinked separately using sulfosuccinimidyl 4,4\u2019-azipentanoate (sulfo-SDA)",
+          "using eight different crosslinker-to-protein ratios: 0.13:1, 0.19:1, 0.25:1, 0.38:1, 0.5:1, 0.75:1, 1:1 and 1.5:1 (w/w)",
+          "subsequently followed by UV photoactivation at 365 nm"
         ]
       }
     ],
@@ -64,14 +77,26 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "BigX",
+      "Smallx"
+    ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "The samples were analyzed in three technical replicates"
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "BigX",
+        "case_label": "Smallx",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "On the subset of targets where crosslinks were provided by both experimental groups we compared the accuracy of models for the same targets"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -119,17 +144,15 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
-    "quantification_strategy": [
-      "Label-free"
-    ],
+    "quantification_strategy": [],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
         "ontology_curie": "PRIDE:0000430",
-        "workflow_modifier_hint": "mod_complexome",
+        "workflow_modifier_hint": "mod_tpp",
         "confidence": "high"
       }
     ],
@@ -146,14 +169,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used for both the BigX and Smallx groups. No labeling (SILAC/Isobaric) is mentioned; samples were analyzed as purified proteins."
+          "reason": "Data-dependent acquisition (DDA) was used for both experimental groups (BigX and Smallx), and no specific labeling (SILAC/Isobaric) was mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xlink_crosslinking",
+          "modifier_workflow_id": "modifier_xlms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly defined as chemical cross-linking mass spectrometry (XL-MS) using multiple reagents (DSS, PDH, sulfo-SDA)."
+          "reason": "The experiment is explicitly described as chemical cross-linking mass spectrometry (XL-MS) using multiple crosslinkers (DSS, PDH, sulfo-SDA)."
         }
       ],
       "trigger_keywords": [
@@ -171,14 +194,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used for both the BigX and Smallx groups. No labeling (SILAC/Isobaric) is mentioned; samples were analyzed as purified proteins."
+          "reason": "Data-dependent acquisition (DDA) was used for both experimental groups (BigX and Smallx), and no specific labeling (SILAC/Isobaric) was mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xlink_crosslinking",
+          "modifier_workflow_id": "modifier_xlms",
           "confidence": 1.0,
-          "reason": "The experiment is explicitly defined as chemical cross-linking mass spectrometry (XL-MS) using multiple reagents (DSS, PDH, sulfo-SDA)."
+          "reason": "The experiment is explicitly described as chemical cross-linking mass spectrometry (XL-MS) using multiple crosslinkers (DSS, PDH, sulfo-SDA)."
         }
       ],
       "trigger_keywords": [
@@ -215,8 +238,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:37:24Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

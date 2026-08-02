@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Relative abundance (spectral counts/presence)",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
-      "radiation or photostress"
+      "radiation or photostress",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "keratinocyte"
@@ -28,28 +29,55 @@
         "ontology_curie": "PPA:0000016",
         "category": "radiation_photostress",
         "matched_parent_class_key": "radiation_photostress",
-        "matched_class_key": "ionizing_radiation",
+        "matched_class_key": "ionizing_radiation_exposure",
         "matched_class_path": [
           "radiation_photostress",
-          "ionizing_radiation"
+          "ionizing_radiation_exposure"
         ],
-        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
         "confidence": "high",
         "evidence": [
-          "We conducted HPLC-MS analysis of the protein mix immunoprecipitated by SIRT7 antibody under non-IR and 8 Gy X-ray irradiation to identify the interacting proteins of SIRT7 in HaCaT cells.",
-          "Mice left posterior limbs were exposed to 40 Gy X-ray after anesthesia using Elekta Precise medical linear accelerator (radiation type X-ray, Energy 6 MV, Dose Rate 300 MU/min)."
+          "We conducted HPLC-MS analysis of the protein mix immunoprecipitated by SIRT7 antibody under non-IR and 8 Gy X-ray irradiation",
+          "Mice left posterior limbs were exposed to 40 Gy X-ray"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "agonist_or_activator_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "agonist_or_activator_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a small molecule that activates a receptor, enzyme, pathway, or signaling process.",
+        "confidence": "high",
+        "evidence": [
+          "Resveratrol (RSV) has been shown to be a promising protective agent against CRI",
+          "RSV is an effective sirtuin-activating compound (STAC)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "X-ray irradiation",
+        "agent": "ionizing radiation",
         "dose_or_concentration": "8 Gy",
         "duration": null,
-        "route_or_context": "HaCaT cells",
+        "route_or_context": "X-ray irradiation",
         "evidence": [
-          "We conducted HPLC-MS analysis of the protein mix immunoprecipitated by SIRT7 antibody under non-IR and 8 Gy X-ray irradiation to identify the interacting proteins of SIRT7 in HaCaT cells."
+          "under non-IR and 8 Gy X-ray irradiation"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Resveratrol",
+        "dose_or_concentration": "1.0 \u03bcM",
+        "duration": null,
+        "route_or_context": "pretreatment",
+        "evidence": [
+          "1.0 \u03bcM RSV showed the strongest protection and thus we performed the following cellular studies using 1.0 \u03bcM RSV."
         ]
       }
     ],
@@ -60,14 +88,18 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "non-IR"
+      "non-IR",
+      "solvent"
     ],
     "case_arms": [
-      "8 Gy X-ray irradiation"
+      "8 Gy X-ray irradiation",
+      "RSV"
     ],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "four biological repeats of RNA-seq"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -75,7 +107,7 @@
         "case_label": "8 Gy X-ray irradiation",
         "contrast_type": "pairwise",
         "evidence": [
-          "We conducted HPLC-MS analysis of the protein mix immunoprecipitated by SIRT7 antibody under non-IR and 8 Gy X-ray irradiation to identify the interacting proteins of SIRT7 in HaCaT cells."
+          "analysis of the protein mix immunoprecipitated by SIRT7 antibody under non-IR and 8 Gy X-ray irradiation"
         ]
       }
     ],
@@ -88,14 +120,14 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "keratinocyte",
-        "rollup_category": "skin cell",
+        "rollup_category": "cell type",
         "ontology_curie": "CL:0000312"
       }
     ],
@@ -123,15 +155,15 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "Relative abundance (spectral counts/presence)"
+      "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity Purification (AP-MS)",
+        "ontology_label": "Affinity Purification",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -149,16 +181,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 80,
-          "reason": "The experiment uses Orbitrap Fusion LC-MS/MS (DDA) to identify interacting proteins via immunoprecipitation. While no specific labeling is mentioned, the comparison between SIRT7-pulldown and IgG-pulldown groups implies a label-free quantification (LFQ) approach for identifying specific binding partners."
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion with Proteome Discoverer suggests DDA. No labeling reagents (SILAC, TMT, dimethyl) are mentioned; quantification is implied by comparing pulldown vs IgG groups."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
+        "Shotgun proteomics",
         "immunoprecipitation",
-        "SIRT7-pulldown",
-        "IgG-pulldown",
-        "Orbitrap Fusion"
+        "Orbitrap Fusion",
+        "Proteome Discoverer"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -166,16 +198,16 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 80,
-          "reason": "The experiment uses Orbitrap Fusion LC-MS/MS (DDA) to identify interacting proteins via immunoprecipitation. While no specific labeling is mentioned, the comparison between SIRT7-pulldown and IgG-pulldown groups implies a label-free quantification (LFQ) approach for identifying specific binding partners."
+          "confidence": 0.8,
+          "reason": "Shotgun proteomics using Orbitrap Fusion with Proteome Discoverer suggests DDA. No labeling reagents (SILAC, TMT, dimethyl) are mentioned; quantification is implied by comparing pulldown vs IgG groups."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
+        "Shotgun proteomics",
         "immunoprecipitation",
-        "SIRT7-pulldown",
-        "IgG-pulldown",
-        "Orbitrap Fusion"
+        "Orbitrap Fusion",
+        "Proteome Discoverer"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,8 +235,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:24:52Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

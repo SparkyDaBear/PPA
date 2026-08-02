@@ -8,8 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation",
-      "chemical or drug treatment"
+      "knockdown or interference perturbation",
+      "ligand-mediated stimulation"
     ],
     "cell_types": [
       "microglia"
@@ -25,35 +25,35 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "genetic perturbation",
-          "gene disruption",
-          "whole-gene knockout"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "inhibiting the primary cilia gene intraflagellar transport particle 88 (Ift88) in microglia",
-          "BV2 cells were transfected with 80 nM of mouse siIft88 or a negative control siRNA (Bioneer)",
-          "downregulating Ift88 expression"
+          "BV2 cells were transfected with 80 nM of mouse siIft88 or a negative control siRNA (Bioneer).",
+          "The knockdown of Ift88 led to a decrease in the expression of homeostatic microglial cell markers"
         ]
       },
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": null,
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
         "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": "Perturbation where an exogenous chemical compound or pharmacologic agent is administered.",
+        "matched_class_path": [
+          "ligand_stimulation"
+        ],
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
         "confidence": "high",
         "evidence": [
-          "BV2 cells were treated with a final concentration of 1 \u03bcM A\u03b2 (1-42)",
+          "Following siRNA transfection, BV2 cells were treated with a final concentration of 1 \u03bcM A\u03b2 (1-42)",
           "To characterize the proteomic changes in microglia in response to A\u03b2 treatment, we performed proteomic analysis of BV2 cells with the combination of Ift88 inhibition and treatment with A\u03b2."
         ]
       }
@@ -66,7 +66,7 @@
         "duration": null,
         "route_or_context": "siRNA transfection in BV2 cells",
         "evidence": [
-          "BV cells were transfected with 80 nM of mouse siIft88"
+          "BV2 cells were transfected with 80 nM of mouse siIft88"
         ]
       },
       {
@@ -97,12 +97,14 @@
   },
   "experimental_design": {
     "timepoints": [
-      "24 h after transfection"
+      "24 h"
     ],
     "control_arms": [
-      "siCon + A\u03b2"
+      "siCon",
+      "negative control siRNA"
     ],
     "case_arms": [
+      "siIft88",
       "siIft88 + A\u03b2"
     ],
     "paired_design": false,
@@ -110,9 +112,7 @@
     "replicate_hints": [
       "We pooled data from the 3 technical replicates."
     ],
-    "multiplex_channel_hints": [
-      "label-free proteomics"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "siCon + A\u03b2",
@@ -163,7 +163,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -182,7 +182,7 @@
       {
         "ontology_label": "extracellular vesicle enrichment",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
+        "workflow_modifier_hint": null,
         "confidence": "high"
       },
       {
@@ -205,27 +205,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'For label-free proteomics' and describes a 'data-dependent MS/MS acquisition' (ddMS2) using a Q-Exactive Plus Orbitrap."
-        }
-      ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "enrichment_coip",
-          "confidence": 0.9,
-          "reason": "The experiment involves co-immunoprecipitation (Co-IP) using anti-CD63 and anti-CD81 antibodies to analyze specific EV-bound proteins."
+          "reason": "The text explicitly states 'For label-free proteomics' and describes a DDA acquisition (Full MS and ddMS2) using a Q-Exactive Plus Orbitrap."
         },
         {
-          "modifier_workflow_id": "extracellular_vesicle",
-          "confidence": 0.9,
-          "reason": "The study specifically isolates and analyzes the proteome of extracellular vesicles (EVs) using the ExoQuick ULTRA EV Isolation Kit."
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.1,
+          "reason": "Mention of LFQ but acquisition is clearly DDA."
         }
       ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free proteomics",
-        "data-dependent MS/MS",
-        "co-immunoprecipitation",
-        "extracellular vesicles",
-        "Co-IP"
+        "ddMS 2",
+        "Full MS mode",
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -234,27 +227,20 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'For label-free proteomics' and describes a 'data-dependent MS/MS acquisition' (ddMS2) using a Q-Exactive Plus Orbitrap."
-        }
-      ],
-      "modifier_candidates_ranked": [
-        {
-          "modifier_workflow_id": "enrichment_coip",
-          "confidence": 0.9,
-          "reason": "The experiment involves co-immunoprecipitation (Co-IP) using anti-CD63 and anti-CD81 antibodies to analyze specific EV-bound proteins."
+          "reason": "The text explicitly states 'For label-free proteomics' and describes a DDA acquisition (Full MS and ddMS2) using a Q-Exactive Plus Orbitrap."
         },
         {
-          "modifier_workflow_id": "extracellular_vesicle",
-          "confidence": 0.9,
-          "reason": "The study specifically isolates and analyzes the proteome of extracellular vesicles (EVs) using the ExoQuick ULTRA EV Isolation Kit."
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.1,
+          "reason": "Mention of LFQ but acquisition is clearly DDA."
         }
       ],
+      "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free proteomics",
-        "data-dependent MS/MS",
-        "co-immunoprecipitation",
-        "extracellular vesicles",
-        "Co-IP"
+        "ddMS 2",
+        "Full MS mode",
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -282,8 +268,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:51:15Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

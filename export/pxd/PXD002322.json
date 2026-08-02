@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "spectral count",
+    "quantification_method": "spectral counting",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
       "anatomical or spatial comparison",
+      "disease or clinical state",
       "cell state or interaction comparison"
     ],
     "cell_types": [],
@@ -27,68 +28,113 @@
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "inter_tissue_comparison",
-        "matched_class_key": "inter_tissue_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "subcellular_spatial_comparison",
         "matched_class_path": [
-          "inter_tissue_comparison"
+          "anatomical_spatial",
+          "subcellular_spatial_comparison"
         ],
-        "matched_definition": "Comparison between distinct tissue or organ sources.",
+        "matched_definition": "Comparison among spatially resolved cellular compartments when the spatial state is the biological variable.",
         "confidence": "high",
         "evidence": [
-          "soluble cell extracts from 5 representative model organisms Caenorhabditis elegans, Drosophila melanogaster, Mus musculus, Strongylocentrotus purpuratus, and Homo sapiens",
-          "The species, cell types, and fractionation methods used are provided as Supplementary information"
+          "The supernatant was saved as the cytosolic fraction. The pellet was resuspended... and the supernatant saved as the nuclear fraction."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "medium",
+        "evidence": [
+          "Human neural stem cell line CB660 and human brain tumor stem cell line G166"
         ]
       },
       {
         "ontology_label": "cell state or interaction comparison",
         "ontology_curie": "PPA:0000020",
         "category": "cell_state_interaction",
-        "matched_parent_class_key": "activation_or_differentiation_state",
-        "matched_class_key": "activation_or_differentiation_state",
+        "matched_parent_class_key": "cell_state_interaction",
+        "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
-          "activation_or_differentiation_state"
+          "cell_state_interaction",
+          "differentiation_state_comparison"
         ],
-        "matched_definition": "Comparison across cell activation, maturation, or differentiation states.",
+        "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
         "confidence": "high",
         "evidence": [
-          "cells from 5 different development stages in sea urchin",
           "Four stages of sea urchin early embryonic development were analyzed: unfertilized embryos, 5 min post fertilization, 2 cell and hatched blastula."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "sea urchin embryonic development",
+        "evidence": [
+          "unfertilized embryos, 5 min post fertilization, 2 cell and hatched blastula"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [
-      "unfertilized embryos",
+      "unfertilized",
       "5 min post fertilization",
       "2 cell",
       "hatched blastula"
     ],
-    "control_arms": [],
-    "case_arms": [
-      "Caenorhabditis elegans",
-      "Drosophila melanogaster",
-      "Mus musculus",
-      "Strongylocentrotus purpuratus",
-      "Homo sapiens"
+    "control_arms": [
+      "CB660 (neural stem cell)",
+      "unfertilized embryos"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "G166 (brain tumor stem cell)",
+      "5 min post fertilization",
+      "2 cell",
+      "hatched blastula"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
       "In a replicate experiment, clarified heart and liver homogenates were frozen"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "CB660",
+        "case_label": "G166",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Human neural stem cell line CB660 and human brain tumor stem cell line G166"
+        ]
+      },
+      {
         "control_label": "unfertilized embryos",
         "case_label": "hatched blastula",
         "contrast_type": "timecourse",
         "evidence": [
           "Four stages of sea urchin early embryonic development were analyzed: unfertilized embryos, 5 min post fertilization, 2 cell and hatched blastula."
+        ]
+      },
+      {
+        "control_label": "cytosolic fraction",
+        "case_label": "nuclear fraction",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The supernatant was saved as the cytosolic fraction... the supernatant saved as the nuclear fraction."
         ]
       }
     ],
@@ -138,7 +184,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "spectral count",
+      "spectral counting",
       "MS1 intensity"
     ],
     "proteomics_mode": "Bottom-up",
@@ -163,7 +209,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) with 'top 10 precursor ion MS2 acquisitions' and employed label-free quantitation methods including spectral counting and MS1 intensities."
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('operating the instrument in data dependent mode'), and quantitation is performed via spectral counting and MS1 intensities, which is a label-free (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -180,7 +226,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) with 'top 10 precursor ion MS2 acquisitions' and employed label-free quantitation methods including spectral counting and MS1 intensities."
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('operating the instrument in data dependent mode'), and quantitation is performed via spectral counting and MS1 intensities, which is a label-free (LFQ) approach."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -193,7 +239,7 @@
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "unknown",
       "pairwise_strategy": "all_pairs",
       "analyte_level": "protein"
     },
@@ -216,8 +262,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T13:44:40Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

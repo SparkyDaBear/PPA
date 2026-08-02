@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "molecular state comparison"
     ],
     "cell_types": [
       "epithelial cell"
@@ -24,31 +24,41 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
         "matched_class_path": [
-          "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "molecular_state",
+          "protein_complex_assembly_state"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
         "confidence": "high",
         "evidence": [
-          "we treated the human enterocyte cell line HT-29 with O-glycosidase and observed a reduction in MUC1 protein levels"
+          "we performed immunoprecipitation-mass spectrometry (IP-MS) proteomic analysis and identified E3 ligase Neural Precursor Cell Expressed Developmentally Down-regulated Protein 4 (NEDD4) as an interactor with MUC1"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "O-glycosidase",
-        "dose_or_concentration": "50 nM",
-        "duration": "30 min",
-        "route_or_context": "HT-29 cells in complete medium",
+        "agent": "MUC1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "immunoprecipitation",
         "evidence": [
-          "HT-29 cells were treated with 50 nM O-glycosidase in complete medium for 30 min"
+          "HT-29 cells were lysed, followed by immunoprecipitation with specific antibodies and Protein A magnetic beads"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NEDD4",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "interactor identification",
+        "evidence": [
+          "identified E3 ligase Neural Precursor Cell Expressed Developmentally Down-regulated Protein 4 (NEDD4) as an interactor with MUC1"
         ]
       }
     ],
@@ -57,29 +67,14 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "30 min"
-    ],
-    "control_arms": [
-      "untreated HT-29 cells"
-    ],
-    "case_arms": [
-      "O-glycosidase treated HT-29 cells"
-    ],
+    "timepoints": [],
+    "control_arms": [],
+    "case_arms": [],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
-    "contrast_hints": [
-      {
-        "control_label": "Control",
-        "case_label": "O-glycosidase",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "we treated the human enterocyte cell line HT-29 with O-glycosidase and observed a reduction in MUC1 protein levels"
-        ]
-      }
-    ],
+    "contrast_hints": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -89,7 +84,12 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
         "confidence": "high"
       }
     ],
@@ -103,7 +103,7 @@
     "cell_lines": [
       {
         "label": "HT-29",
-        "family": "human enterocyte cell line",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -151,14 +151,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used DDA mode on an Orbitrap Fusion LUMOS/LTQ Orbitrap. While PRIDE metadata mentions 'Spectrum counting' and '18O', the publication text describes a standard IP-MS approach for interactor identification (NEDD4) without explicit mention of isobaric labels or SILAC."
+          "reason": "The experiment used DDA mode on an Orbitrap Fusion LUMOS/LTQ Orbitrap. While PRIDE metadata mentions 'Spectrum counting', the primary goal was identifying interactors via IP-MS, which typically follows a label-free DDA approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_ms",
+          "confidence": 0.95,
+          "reason": "The proteomics data was generated specifically from immunoprecipitation (IP) of MUC1 using specific antibodies and Protein A magnetic beads to identify interactors (NEDD4)."
+        }
+      ],
       "trigger_keywords": [
+        "immunoprecipitation",
+        "IP-MS",
         "DDA",
-        "immunoprecipitation-mass spectrometry",
-        "IP-MS"
+        "interactor"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -167,22 +174,25 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used DDA mode on an Orbitrap Fusion LUMOS/LTQ Orbitrap. While PRIDE metadata mentions 'Spectrum counting' and '18O', the publication text describes a standard IP-MS approach for interactor identification (NEDD4) without explicit mention of isobaric labels or SILAC."
+          "reason": "The experiment used DDA mode on an Orbitrap Fusion LUMOS/LTQ Orbitrap. While PRIDE metadata mentions 'Spectrum counting', the primary goal was identifying interactors via IP-MS, which typically follows a label-free DDA approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_ms",
+          "confidence": 0.95,
+          "reason": "The proteomics data was generated specifically from immunoprecipitation (IP) of MUC1 using specific antibodies and Protein A magnetic beads to identify interactors (NEDD4)."
+        }
+      ],
       "trigger_keywords": [
+        "immunoprecipitation",
+        "IP-MS",
         "DDA",
-        "immunoprecipitation-mass spectrometry",
-        "IP-MS"
+        "interactor"
       ],
       "raw_or_file_name_triggers": []
     },
-    "differential_hints": {
-      "preferred_engine": "log2fc_protein",
-      "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
-    },
+    "differential_hints": {},
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -202,8 +212,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:55:59Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

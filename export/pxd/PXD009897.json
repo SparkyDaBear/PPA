@@ -3,18 +3,23 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": null,
+    "quantification_method": "Unknown",
     "labeling_strategy": [
       "Unknown"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "molecular state comparison"
     ],
     "cell_types": [],
     "cell_lines": [
       "HeLa",
       "A549",
       "MDA-MB-231",
+      "NCI-H23",
+      "NCI-H460",
+      "IMR90",
+      "NCI-H441",
+      "MiaPaca-2",
       "HEK293T"
     ],
     "sample_scope": "purified protein or complex",
@@ -25,32 +30,33 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "ptm_state_biological_comparison",
         "matched_class_path": [
-          "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "molecular_state",
+          "ptm_state_biological_comparison"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
         "confidence": "high",
         "evidence": [
-          "To determine the effect of Compound A on AMPK\u03b11 or IKK\u03b2 activity, peptide based kinase assays were performed",
-          "Pre-treatment with the IKK specific inhibitor Compound A (Bay 65\u20131942) prevented IL-1\u03b2 from inducing AMPK Thr172 phosphorylation"
+          "The band corresponding to the AMPK\u03b11 subunit was excised from the gel and digested with trypsin. Phospho-peptides were enriched using titanium dioxide, then subjected to LC-MS",
+          "To map the IKK-dependent phosphorylation sites on AMPK, such a reaction performed with cold ATP was subjected to mass spectrometry. Among the phosphopeptides identified was one that corresponded to phosphorylated Thr172"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Compound A (Bay 65\u20131942)",
-        "dose_or_concentration": "5\u03bcM",
+        "agent": "IKK\u03b2",
+        "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "cell-free kinase assays",
+        "route_or_context": "cell free kinase assays",
         "evidence": [
-          "To determine the effect of Compound A on AMPK\u03b11 or IKK\u03b2 activity, peptide based kinase assays were performed, using 100\u03bcM ATP and 5\u03bcM Compound A."
+          "In cell-free kinase assays, allosteric binding of AMP to the gamma subunit causes a 5-fold increase in AMPK activity while phosphorylation of Thr172 causes a 100-fold increase in AMPK activity",
+          "we performed kinase assays using inactive recombinant AMPK trimers consisting of AMPK\u03b11, AMPK\u03b21 and AMPK\u03b31 and GST-IKK\u03b2 (1\u2013786)."
         ]
       }
     ],
@@ -61,10 +67,10 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "untreated"
+      "inactive recombinant AMPK trimers"
     ],
     "case_arms": [
-      "Compound A treated"
+      "AMPK trimers incubated with IKK\u03b2"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -74,11 +80,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Control",
-        "case_label": "Compound A",
+        "control_label": "inactive AMPK",
+        "case_label": "IKK\u03b2-phosphorylated AMPK",
         "contrast_type": "pairwise",
         "evidence": [
-          "To determine the effect of Compound A on AMPK\u03b11 or IKK\u03b2 activity, peptide based kinase assays were performed"
+          "To map the IKK-dependent phosphorylation sites on AMPK, such a reaction performed with cold ATP was subjected to mass spectrometry."
         ]
       }
     ],
@@ -91,7 +97,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
@@ -128,6 +134,31 @@
         "ontology_curie": null
       },
       {
+        "label": "NCI-H23",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "NCI-H460",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "IMR90",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "NCI-H441",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "MiaPaca-2",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
         "label": "HEK293T",
         "family": null,
         "ontology_curie": null
@@ -141,7 +172,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -152,7 +183,9 @@
     "labeling_strategy": [
       "Unknown"
     ],
-    "quantification_strategy": [],
+    "quantification_strategy": [
+      "Unknown"
+    ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
@@ -175,20 +208,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was explicitly used on an LTQ Orbitrap Velos. No labeling (SILAC/TMT) is mentioned; the experiment uses gel-band excision of a single protein (AMPK alpha-1) for site identification."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos. No labeling (SILAC, TMT, dimethyl) is mentioned; the experiment used gel-band excision of a single protein (AMPK\u03b11) for identification of phosphorylation sites."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The methods explicitly state 'Phospho-peptides were enriched using titanium dioxide'."
+          "reason": "Explicit mention of TiO2 enrichment for phospho-peptides."
         }
       ],
       "trigger_keywords": [
         "titanium dioxide",
+        "phospho-peptides",
         "data-dependent mode",
-        "phospho-peptides"
+        "LTQ Orbitrap Velos"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -197,20 +231,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was explicitly used on an LTQ Orbitrap Velos. No labeling (SILAC/TMT) is mentioned; the experiment uses gel-band excision of a single protein (AMPK alpha-1) for site identification."
+          "reason": "Data-dependent acquisition (DDA) was used on an LTQ Orbitrap Velos. No labeling (SILAC, TMT, dimethyl) is mentioned; the experiment used gel-band excision of a single protein (AMPK\u03b11) for identification of phosphorylation sites."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "The methods explicitly state 'Phospho-peptides were enriched using titanium dioxide'."
+          "reason": "Explicit mention of TiO2 enrichment for phospho-peptides."
         }
       ],
       "trigger_keywords": [
         "titanium dioxide",
+        "phospho-peptides",
         "data-dependent mode",
-        "phospho-peptides"
+        "LTQ Orbitrap Velos"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -238,8 +273,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T03:15:08Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

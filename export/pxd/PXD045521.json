@@ -3,71 +3,231 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion MS2",
+    "quantification_method": "TMT reporter ion intensities",
     "labeling_strategy": [
-      "TMT"
+      "TMT",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Chemical/Drug Treatment",
-      "Viral Infection",
-      "Genetic Perturbations",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series"
+      "genetic perturbation",
+      "radiation or photostress",
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "human embryonic kidney epithelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK-293"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic_perturbation",
+        "matched_class_key": "gene_modification_or_gain",
+        "matched_class_path": [
+          "genetic_perturbation",
+          "gene_modification_or_gain"
+        ],
+        "matched_definition": "Genetic perturbation that modifies sequence or increases expression/activity.",
+        "confidence": "high",
+        "evidence": [
+          "we tagged the catalytic end of an E3 Ub ligase using the WT E. coli biotin ligase enzyme (BirA)",
+          "we transiently expressed along with AP-Ub in human embryonic kidney (HEK) 293 cells",
+          "coexpression of AP-Ub with BirA alone only led to minimal biotinylation"
+        ]
+      },
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "uv_or_phototoxic_stress",
+        "matched_class_path": [
+          "radiation_photostress",
+          "uv_or_phototoxic_stress"
+        ],
+        "matched_definition": "Exposure to UV or intense light causing photodamage or photostress.",
+        "confidence": "high",
+        "evidence": [
+          "For RAD18, UV exposure was used as an inducer of DNA damage.",
+          "cells were either exposed to UV or left untreated",
+          "biotinylated proteins were isolated using streptavidin beads under denaturing conditions from both UV-treated and untreated cells in triplicates"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor"
+        ],
+        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "confidence": "high",
+        "evidence": [
+          "For CHIP, the proteasome inhibitor, MG132 was used as an inducer.",
+          "we performed a comparison of Ub-POD CHIP in the presence or absence of MG132",
+          "we used a nonselective, broad spectrum DUB inhibitor PR619"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "UV radiation",
+        "dose_or_concentration": "10 mJ/cm2",
+        "duration": null,
+        "route_or_context": "DNA damage induction for RAD18",
+        "evidence": [
+          "exposed to UV (10 mJ/cm2) in a Stratalinker UV cross-linker oven"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "MG132",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "6 hours",
+        "route_or_context": "proteasome inhibition for CHIP",
+        "evidence": [
+          "replaced with medium supplemented with 100 \u03bcM biotin (dissolved in DMEM) and 10 \u03bcM MG132 and incubated at 37\u00b0C in the 5% CO2 incubator for 6 hours."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PR-619",
+        "dose_or_concentration": "10 \u03bcM",
+        "duration": "4 hours",
+        "route_or_context": "DUB inhibition",
+        "evidence": [
+          "10 \u03bcM PR-619 was added to the media. ... After 4 hours, the cells were harvested."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "6 hours",
+      "15 min"
+    ],
+    "control_arms": [
+      "BirA alone",
+      "untreated cells",
+      "mock-treated cells (DMSO)"
+    ],
+    "case_arms": [
+      "BirA-RAD18",
+      "BirA-TRAF6",
+      "CHIP-GSGS-BirA",
+      "UV-treated",
+      "MG132-treated",
+      "PR619-treated"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "biotinylated proteins were isolated ... in triplicates",
+      "at least 4 biological replicates per condition were analyzed"
+    ],
+    "multiplex_channel_hints": [
+      "Peptides were labeled with TMT10plex Isobaric Label Reagent"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "untreated",
+        "case_label": "UV-treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "biotinylated proteins were isolated using streptavidin beads under denaturing conditions from both UV-treated and untreated cells"
+        ]
+      },
+      {
+        "control_label": "BirA alone",
+        "case_label": "BirA-tagged ligase",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we primarily expressed BirA alone without the candidate ligase fusion as a control"
+        ]
+      },
+      {
+        "control_label": "absence of MG132",
+        "case_label": "presence of MG132",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we performed a comparison of Ub-POD CHIP in the presence or absence of MG132"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK-293",
+        "family": "Human embryonic kidney epithelial cell line",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "TMT",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "TMT reporter ion intensities",
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "ubiquitylome or diGly enrichment",
+        "ontology_curie": "PPA:0000294",
+        "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "medium"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -75,10 +235,70 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT10plex Isobaric Label Reagent and DDA acquisition on Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "TRAF6 experiments specifically used label-free quantification (LFQ) with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_enrichment",
+          "confidence": 1.0,
+          "reason": "The entire Ub-POD method relies on streptavidin pulldown of biotinylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT10plex",
+        "streptavidin pulldown",
+        "LFQ",
+        "Ub-POD",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT10plex Isobaric Label Reagent and DDA acquisition on Orbitrap Fusion Lumos."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "TRAF6 experiments specifically used label-free quantification (LFQ) with MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "biotin_enrichment",
+          "confidence": 1.0,
+          "reason": "The entire Ub-POD method relies on streptavidin pulldown of biotinylated proteins."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT10plex",
+        "streptavidin pulldown",
+        "LFQ",
+        "Ub-POD",
+        "DDA"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -98,7 +318,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

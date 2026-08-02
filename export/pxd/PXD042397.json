@@ -3,18 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "Unknown",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
       "disease or clinical state",
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "nucleus pulposus cells"
     ],
-    "cell_lines": [],
+    "cell_lines": [
+      "HEK293T"
+    ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
@@ -27,16 +30,17 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "In degenerated NPCs, increased K141-methylation of PPP1CA disrupts its interaction with TEFB",
-          "we collected intervertebral disc tissue samples from patients. Based on the Pfirrmann MRI classification system, healthy or differently degenerated disc tissues were classified as grade I/II/III/IV."
+          "we collected intervertebral disc tissue samples from patients",
+          "healthy or differently degenerated disc tissues were classified as grade I/II/III/IV",
+          "senescence-associated markers were dramatically elevated in degenerated NP tissues"
         ]
       },
       {
@@ -44,17 +48,38 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "we developed an in vitro model of NPC degeneration by exposing NPCs to tert-butyl-hydroperoxide (TBHP)",
           "using the pan-methylation inhibitor Adox",
           "treatment with an inhibitor specific to SUV39H2 (SUV39H2i)"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "knockdown of ATG7",
+          "knocked down TFEB in NPCs with an siRNA",
+          "PPP1CA-knockdown NPCs",
+          "knockdown of PPP1R9B in NPCs",
+          "depletion of SUV39H2",
+          "AAV vectors carrying a short hairpin RNA targeting SUV39H2"
         ]
       }
     ],
@@ -88,6 +113,17 @@
         "evidence": [
           "treatment with an inhibitor specific to SUV39H2 (SUV39H2i)"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "AAV shSUV39H2",
+        "dose_or_concentration": null,
+        "duration": "4 weeks",
+        "route_or_context": "intradiscal injection",
+        "evidence": [
+          "Two kinds of solutions were prepared for intradiscal injection: AAV Scrambled and AAV shSUV39H2",
+          "injections were repeated every week for 4 weeks"
+        ]
       }
     ],
     "source_sections": [
@@ -95,29 +131,59 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "4 weeks"
+    ],
     "control_arms": [
-      "healthy NP tissues",
-      "control NPCs"
+      "healthy disc tissues",
+      "AAV Scrambled",
+      "PBS"
     ],
     "case_arms": [
       "degenerated NP tissues",
       "TBHP-treated NPCs",
-      "IDD rats"
+      "Adox treatment",
+      "AAV shSUV39H2",
+      "SUV39H2i treatment"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
+      "n = 5",
       "Each group was analyzed in no less than three separate experiments"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Healthy/Control",
-        "case_label": "Degenerated/TBHP",
+        "control_label": "healthy NP",
+        "case_label": "degenerated NP",
         "contrast_type": "pairwise",
         "evidence": [
-          "In degenerated NPCs, increased K141-methylation of PPP1CA disrupts its interaction with TEFB"
+          "senescence-associated markers were dramatically elevated in degenerated NP tissues"
+        ]
+      },
+      {
+        "control_label": "control NPCs",
+        "case_label": "TBHP-treated NPCs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "TBHP-treated NPCs consistently exhibited multiple senescence phenotypes"
+        ]
+      },
+      {
+        "control_label": "TBHP-treated NPCs",
+        "case_label": "TBHP + Adox NPCs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Adox treatment rescued TBHP-reduced TFEB activity"
+        ]
+      },
+      {
+        "control_label": "AAV Scrambled",
+        "case_label": "AAV shSUV39H2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SUV39H2 knockdown significantly retarded the degeneration of IVD"
         ]
       }
     ],
@@ -132,17 +198,33 @@
         "label": "Homo sapiens",
         "taxonomy_hint": "9606",
         "confidence": "high"
+      },
+      {
+        "label": "Sprague-Dawley rats",
+        "taxonomy_hint": null,
+        "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "nucleus pulposus cells",
         "rollup_category": "primary cell",
+        "ontology_curie": "BTO:0001413"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "human embryonic kidney",
         "ontology_curie": null
       }
     ],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "nucleus pulposus tissues",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
       "label": "affinity-purified complex scope",
@@ -159,10 +241,10 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "Unknown"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -185,22 +267,21 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) on a Q Exactive instrument with Co-IP enrichment. No labeling (SILAC, TMT, dimethyl) is mentioned, suggesting label-free quantification or simple identification."
+          "confidence": 8,
+          "reason": "The experiment uses Co-IP followed by LC-MS/MS on a Q Exactive (DDA) to identify interactomes and PTM sites. No labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_methylation",
-          "confidence": 0.9,
-          "reason": "The primary goal of the MS analysis was to identify lysine methylation sites, specifically verifying a 14.016 Da mass increment on lysine residues."
+          "modifier_workflow_id": "mod_lysine_methylation",
+          "confidence": 10,
+          "reason": "The study specifically focuses on lysine methylation of PPP1CA (K141) and uses MS to verify a mass increment of 14.016 Da on lysine residues."
         }
       ],
       "trigger_keywords": [
-        "LC-MS/MS",
-        "monomethylation",
+        "lysine methylation",
+        "K141 mono-methylated",
         "mass increment of 14.016 Da",
-        "lysine residues",
         "Co-IP"
       ],
       "raw_or_file_name_triggers": []
@@ -209,22 +290,21 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses shotgun proteomics (LC-MS/MS) on a Q Exactive instrument with Co-IP enrichment. No labeling (SILAC, TMT, dimethyl) is mentioned, suggesting label-free quantification or simple identification."
+          "confidence": 8,
+          "reason": "The experiment uses Co-IP followed by LC-MS/MS on a Q Exactive (DDA) to identify interactomes and PTM sites. No labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_methylation",
-          "confidence": 0.9,
-          "reason": "The primary goal of the MS analysis was to identify lysine methylation sites, specifically verifying a 14.016 Da mass increment on lysine residues."
+          "modifier_workflow_id": "mod_lysine_methylation",
+          "confidence": 10,
+          "reason": "The study specifically focuses on lysine methylation of PPP1CA (K141) and uses MS to verify a mass increment of 14.016 Da on lysine residues."
         }
       ],
       "trigger_keywords": [
-        "LC-MS/MS",
-        "monomethylation",
+        "lysine methylation",
+        "K141 mono-methylated",
         "mass increment of 14.016 Da",
-        "lysine residues",
         "Co-IP"
       ],
       "raw_or_file_name_triggers": []
@@ -253,8 +333,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:48:21Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

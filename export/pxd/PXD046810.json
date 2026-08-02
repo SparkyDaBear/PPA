@@ -3,23 +3,18 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "treatment_categories": [
-      "Genetic Perturbations",
-      "Chemical/Drug Treatment",
-      "Post-Translational Modification Enrichment",
-      "Disease"
+    "treatment_categories": [],
+    "cell_types": [],
+    "cell_lines": [
+      "BL21(DE3) STAR"
     ],
-    "cell_types": [
-      "saliva"
-    ],
-    "cell_lines": [],
     "sample_scope": "purified protein or complex",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "purified protein or complex",
+    "sample_scope_curie": "PPA:0000196",
     "instrument": null
   },
   "treatment": {
@@ -43,27 +38,68 @@
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "Streptococcus oralis",
+        "taxonomy_hint": null,
+        "confidence": "high"
+      },
+      {
+        "label": "Escherichia coli",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
     "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "cell_lines": [
+      {
+        "label": "BL21(DE3) STAR",
+        "family": "E. coli",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "saliva",
+        "source_kind": "biofluid"
+      }
+    ],
     "sample_scope": {
       "category": "purified protein or complex",
-      "label": null,
-      "curie": null
+      "label": "purified protein or complex",
+      "curie": "PPA:0000196"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": false
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "label-free"
+    ],
+    "proteomics_mode": "PTM-enriched",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "glycoproteome enrichment",
+        "ontology_curie": "PPA:0000293",
+        "workflow_modifier_hint": "mod_glyco",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -71,10 +107,72 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Requires specialized pipeline",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Exploris 480. While no formal LFQ method is described, the study compares MUC5B with and without enzyme treatment using intensity-based identification and sequence coverage."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "unspecified_cleavage",
+          "confidence": 0.95,
+          "reason": "The study explicitly searches for 'unspecified cleavage' and 'non-specific hydrolysis' because the enzyme MdpS is a protease with broad/variable specificity."
+        },
+        {
+          "modifier_workflow_id": "glycopeptide_search",
+          "confidence": 0.9,
+          "reason": "Byonic was used specifically to search for N- and O-glycopeptides against MUC5B and S-IgA."
+        }
+      ],
+      "trigger_keywords": [
+        "unspecified cleavage",
+        "non-specific hydrolysis",
+        "glycopeptides",
+        "Byonics",
+        "MUC5B",
+        "O-glycans"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Exploris 480. While no formal LFQ method is described, the study compares MUC5B with and without enzyme treatment using intensity-based identification and sequence coverage."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "unspecified_cleavage",
+          "confidence": 0.95,
+          "reason": "The study explicitly searches for 'unspecified cleavage' and 'non-specific hydrolysis' because the enzyme MdpS is a protease with broad/variable specificity."
+        },
+        {
+          "modifier_workflow_id": "glycopeptide_search",
+          "confidence": 0.9,
+          "reason": "Byonic was used specifically to search for N- and O-glycopeptides against MUC5B and S-IgA."
+        }
+      ],
+      "trigger_keywords": [
+        "unspecified cleavage",
+        "non-specific hydrolysis",
+        "glycopeptides",
+        "Byonics",
+        "MUC5B",
+        "O-glycans"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_site",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "site"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -94,7 +192,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

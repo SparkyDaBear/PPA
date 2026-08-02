@@ -8,6 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
+      "disease or clinical state",
       "disease or clinical state"
     ],
     "cell_types": [],
@@ -28,28 +29,69 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "performed in-depth mass spectrometry (MS)-based proteogenomic analysis of 141 tumors representing all major histologies of non-small cell lung cancer (NSCLC)",
-          "The early-stage cohort (also referred to as the \u201cdiscovery cohort\u201d) comprised resected lung cancer tumor samples from a total of 192 patients",
-          "The late-stage cohort comprised biopsy material from inoperable lung cancer (84 samples)"
+          "performed in-depth mass spectrometry (MS)-based proteogenomic analysis of 141 tumors representing all major histologies of non-small cell lung cancer (NSCLC)."
+        ]
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "We identified six distinct proteome subtypes with striking differences in immune cell composition and subtype-specific expression of immune checkpoints.",
+          "The 2015 WHO histological classification subdivides NSCLC into AC, SqCC, large-cell neuroendocrine carcinoma (LCNEC), and large-cell lung cancer (LCC)"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "A-769662",
+        "dose_or_concentration": null,
+        "duration": "24 and 48 h",
+        "route_or_context": "Treatment of HepG2 cells (liver cancer) and STK11-mutated lung cancer cell lines",
+        "evidence": [
+          "Treatment of HepG2 cells (liver cancer) with the AMPK activator A-769662 for 24 and 48 h resulted in reduced levels of HNF1A and FGL1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "STK11wt",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "rescue experiment by introducing wild-type (wt) STK11 in NCI-H1944 cells",
+        "evidence": [
+          "we validated the role of STK11 signaling in a rescue experiment by introducing wild-type (wt) STK11 in NCI-H1944 cells."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
+    "timepoints": [
+      "24 h",
+      "48 h"
+    ],
+    "control_arms": [
+      "untreated"
+    ],
     "case_arms": [
       "Subtype 1",
       "Subtype 2",
@@ -60,19 +102,28 @@
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "three replicate experiments showed that STK11wt protein expression was associated with loss of both FGL1 and HNF1A"
+    ],
     "multiplex_channel_hints": [
       "isobaric labelling",
       "TMT 10plex reagent 131"
     ],
     "contrast_hints": [
       {
-        "control_label": "NSCLC Cohort Median",
-        "case_label": "Proteome Subtypes 1-6",
+        "control_label": "NSCLC cohort median",
+        "case_label": "outlier expression",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "defined here as extreme level, i.e., sample protein level > 3-fold up or down compared to cohort median"
+        ]
+      },
+      {
+        "control_label": "Subtype 1",
+        "case_label": "Subtype 4",
         "contrast_type": "multi_group",
         "evidence": [
-          "defined six proteome subtypes of NSCLC",
-          "outlier levels (defined here as extreme level, i.e., sample protein level > 3-fold up or down compared to cohort median)"
+          "significantly longer RFS in Subtype 1 cases than in Subtype 4 cases"
         ]
       }
     ],
@@ -137,7 +188,7 @@
     ],
     "quantification_strategy": [
       "peak area",
-      "median value of the top 3 most abundant peptides"
+      "label-free"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -154,17 +205,17 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and text explicitly state the use of label-free data-independent acquisition (DIA-MS) for the validation and late-stage cohorts."
+          "reason": "PRIDE metadata and methods explicitly state the use of Data Independent Acquisition (DIA-MS) and label-free analysis for the validation and late-stage cohorts."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
+          "confidence": 0.8,
           "reason": "The discovery cohort used isobaric labelling and HiRIEF-LC-MS with data-dependent acquisition (DDA)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "data-independent acquisition",
+        "Data Independent Acquisition",
         "DIA-MS",
         "isobaric labelling",
         "DDA",
@@ -177,17 +228,17 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata and text explicitly state the use of label-free data-independent acquisition (DIA-MS) for the validation and late-stage cohorts."
+          "reason": "PRIDE metadata and methods explicitly state the use of Data Independent Acquisition (DIA-MS) and label-free analysis for the validation and late-stage cohorts."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.9,
+          "confidence": 0.8,
           "reason": "The discovery cohort used isobaric labelling and HiRIEF-LC-MS with data-dependent acquisition (DDA)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "data-independent acquisition",
+        "Data Independent Acquisition",
         "DIA-MS",
         "isobaric labelling",
         "DDA",
@@ -219,8 +270,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T05:24:21Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "light:heavy ratio",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "Other"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "mutation or variant perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,33 +23,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "insertion_variant",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_modification_or_gain",
-          "insertion_variant"
+          "genetic",
+          "mutation_or_variant_perturbation"
         ],
-        "matched_definition": "Addition of bases or sequence cassette (for example donor insertion, tag insertion, transposon insertion).",
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "expressed human influenza hemagglutinin (HA)-tagged versions of either wild-type (WT) SS18 or SS18-SSX in HEK293T cells",
-          "fusion oncoprotein SS18-SSX-bound BAF complexes preferentially eluted in the CHR material, in contrast to WT complexes"
+          "we expressed human influenza hemagglutinin (HA)-tagged versions of either wild-type (WT) SS18 or SS18-SSX in HEK293T cells",
+          "Using affinity purification determine changes in SS18 BAF complex upon fusion to SSX1."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "SS18-SSX fusion protein",
+        "agent": "SS18 WT",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "lentiviral infection in HEK293T cells",
         "evidence": [
-          "Stable HEK293T cell lines expressing, by lentiviral infection, HA-SS18 WT or HA-SS18-SSX1"
+          "expressed human influenza hemagglutinin (HA)-tagged versions of either wild-type (WT) SS18 or SS18-SSX in HEK293T cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "SS18-SSX",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "lentiviral infection in HEK293T cells",
+        "evidence": [
+          "expressed human influenza hemagglutinin (HA)-tagged versions of either wild-type (WT) SS18 or SS18-SSX in HEK293T cells"
         ]
       }
     ],
@@ -76,7 +86,7 @@
         "case_label": "SS18-SSX",
         "contrast_type": "pairwise",
         "evidence": [
-          "we found selective co-enrichment of histone peptides with HA-SS18-SSX, but not with HA-WT SS18 in the chromatin-bound fractions"
+          "we expressed human influenza hemagglutinin (HA)-tagged versions of either wild-type (WT) SS18 or SS18-SSX in HEK293T cells and performed BAF complex purifications"
         ]
       }
     ],
@@ -118,11 +128,12 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "Other"
     ],
     "quantification_strategy": [
-      "Label-free",
-      "Light:heavy ratio (targeted MS)"
+      "light:heavy ratio",
+      "label-free"
     ],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
@@ -130,6 +141,12 @@
         "ontology_label": "ubiquitylome or diGly enrichment",
         "ontology_curie": "PPA:0000294",
         "workflow_modifier_hint": "mod_ubiquitin",
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "affinity purification",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
     ],
@@ -145,22 +162,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses affinity purification (HA-resin) followed by SDS-PAGE, gel excision, and DDA acquisition on an LTQ Orbitrap Elite. While not explicitly stating a label-free quantification method, the comparison of 'equal amounts' of purified complexes and the reporting of 'selective co-enrichment' and 'fold change' suggests a label-free approach."
+          "confidence": 8,
+          "reason": "The experiment uses affinity purification (HA-resin) followed by SDS-PAGE and in-gel trypsin digestion. While the PRIDE metadata doesn't explicitly state the quantification method, the results describe 'selective co-enrichment' and 'relative abundance' of peptides between WT and SS18-SSX conditions, typical of label-free quantification (LFQ) in DDA workflows."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
-          "confidence": 0.9,
-          "reason": "The study explicitly focuses on H2AK119Ub and reports the capture of peptides corresponding to the H2AK119Ub mark. Ubiquitination analysis in bottom-up proteomics typically requires the diGly (K-epsilon-GG) modifier."
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 9,
+          "reason": "The study specifically focuses on H2AK119Ub and reports the capture of peptides corresponding to the H2AK119Ub mark. This requires a pipeline capable of detecting diGly (K-epsilon-GG) remnants."
         }
       ],
       "trigger_keywords": [
         "H2AK119Ub",
         "ubiquitylated histone H2A",
-        "affinity capture",
-        "co-enrichment"
+        "diGly",
+        "affinity purification",
+        "in-gel trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -168,22 +186,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses affinity purification (HA-resin) followed by SDS-PAGE, gel excision, and DDA acquisition on an LTQ Orbitrap Elite. While not explicitly stating a label-free quantification method, the comparison of 'equal amounts' of purified complexes and the reporting of 'selective co-enrichment' and 'fold change' suggests a label-free approach."
+          "confidence": 8,
+          "reason": "The experiment uses affinity purification (HA-resin) followed by SDS-PAGE and in-gel trypsin digestion. While the PRIDE metadata doesn't explicitly state the quantification method, the results describe 'selective co-enrichment' and 'relative abundance' of peptides between WT and SS18-SSX conditions, typical of label-free quantification (LFQ) in DDA workflows."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diGly",
-          "confidence": 0.9,
-          "reason": "The study explicitly focuses on H2AK119Ub and reports the capture of peptides corresponding to the H2AK119Ub mark. Ubiquitination analysis in bottom-up proteomics typically requires the diGly (K-epsilon-GG) modifier."
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 9,
+          "reason": "The study specifically focuses on H2AK119Ub and reports the capture of peptides corresponding to the H2AK119Ub mark. This requires a pipeline capable of detecting diGly (K-epsilon-GG) remnants."
         }
       ],
       "trigger_keywords": [
         "H2AK119Ub",
         "ubiquitylated histone H2A",
-        "affinity capture",
-        "co-enrichment"
+        "diGly",
+        "affinity purification",
+        "in-gel trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,8 +230,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:13:58Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

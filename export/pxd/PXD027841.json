@@ -3,18 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Parallel Reaction Monitoring (PRM)",
+    "quantification_method": "Parallel Reaction Monitoring",
     "labeling_strategy": [
       "LFQ",
-      "TMT",
-      "Unknown"
+      "TMT"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "disease or clinical state",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HeLa"
+      "HeLa",
+      "MCF-7",
+      "A549",
+      "HCT-116"
     ],
     "sample_scope": "subproteome",
     "sample_scope_label": "organelle-enriched scope",
@@ -28,19 +31,58 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
+          "reanalyzed publicly available tandem mass tag (TMT) isobaric labeling-based quantitative proteomic data on human primary tumor and adjacent normal tissues from endometria and breasts",
           "The expression levels of oSCRIB and SCRIB proteins were simultaneously increased in human endometrial (Fig. 5a) and breast (Fig. 5b) primary tumors as compared with adjacent normal tissues."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "To assess the functionality of oSCRIB, we also mutated the translational start codon (AUG) of oSCRIB into AGG and CCC",
+          "disrupting the start codon (AUG) of oSCRIB by mutating it to AGG and CCC increased the fluorescence intensity of sfGFP"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "primary tumor",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "endometria and breasts",
+        "evidence": [
+          "human primary tumor and adjacent normal tissues from endometria and breasts"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "oSCRIB start codon mutation (AGG/CCC)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "in vitro translation system",
+        "evidence": [
+          "mutated the translational start codon (AUG) of oSCRIB into AGG and CCC"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -48,15 +90,19 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "adjacent normal tissues"
+      "adjacent normal tissues",
+      "SCRIB\u2013sfGFP (positive control)",
+      "oSCRIB (WT)"
     ],
     "case_arms": [
-      "primary tumors"
+      "primary tumor",
+      "oSCRIB (mt1; ATGstart to AGG)-SCRIB-sfGFP",
+      "oSCRIB (mt2; ATGstart to CCC)-SCRIB-sfGFP"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "two biological replicates for each cell line"
+      "three biological replicates for each cell line"
     ],
     "multiplex_channel_hints": [
       "tandem mass tag (TMT) isobaric labeling-based quantitative proteomic data"
@@ -64,10 +110,18 @@
     "contrast_hints": [
       {
         "control_label": "adjacent normal tissues",
-        "case_label": "primary tumors",
+        "case_label": "primary tumor",
         "contrast_type": "pairwise",
         "evidence": [
           "The expression levels of oSCRIB and SCRIB proteins were simultaneously increased in human endometrial (Fig. 5a) and breast (Fig. 5b) primary tumors as compared with adjacent normal tissues."
+        ]
+      },
+      {
+        "control_label": "oSCRIB (WT)",
+        "case_label": "oSCRIB (mt1/mt2)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "disrupting the start codon (AUG) of oSCRIB by mutating it to AGG and CCC increased the fluorescence intensity of sfGFP"
         ]
       }
     ],
@@ -90,9 +144,33 @@
         "label": "HeLa",
         "family": null,
         "ontology_curie": "BTO:0000567"
+      },
+      {
+        "label": "MCF-7",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "A549",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "HCT-116",
+        "family": null,
+        "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "endometria",
+        "source_kind": "tissue"
+      },
+      {
+        "label": "breasts",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
       "label": "organelle-enriched scope",
@@ -110,17 +188,16 @@
     "acquisition_type": "Targeted",
     "labeling_strategy": [
       "LFQ",
-      "TMT",
-      "Unknown"
+      "TMT"
     ],
     "quantification_strategy": [
-      "Parallel Reaction Monitoring (PRM)",
+      "Parallel Reaction Monitoring",
       "TMT-based quantitative proteomic data"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "small protein enrichment",
+        "ontology_label": "size-based enrichment",
         "ontology_curie": null,
         "workflow_modifier_hint": null,
         "confidence": "high"
@@ -138,13 +215,13 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The primary discovery and validation phases used DDA mode on Q Exactive for protein identification from gel slices."
+          "confidence": 80,
+          "reason": "The primary discovery and validation datasets used DDA mode on Q Exactive, with standard tryptic digestion and gel-based fractionation."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.6,
-          "reason": "The study reanalyzed clinical human proteomic data using TMT isobaric labeling-based quantitative proteomics."
+          "confidence": 60,
+          "reason": "The study reanalyzed clinical human proteomic data using TMT isobaric labeling for quantitative comparison between tumor and normal tissues."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -152,7 +229,7 @@
         "DDA mode",
         "TMT isobaric labeling",
         "PRM mode",
-        "shotgun proteomics"
+        "trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -160,13 +237,13 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The primary discovery and validation phases used DDA mode on Q Exactive for protein identification from gel slices."
+          "confidence": 80,
+          "reason": "The primary discovery and validation datasets used DDA mode on Q Exactive, with standard tryptic digestion and gel-based fractionation."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 0.6,
-          "reason": "The study reanalyzed clinical human proteomic data using TMT isobaric labeling-based quantitative proteomics."
+          "confidence": 60,
+          "reason": "The study reanalyzed clinical human proteomic data using TMT isobaric labeling for quantitative comparison between tumor and normal tissues."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -174,7 +251,7 @@
         "DDA mode",
         "TMT isobaric labeling",
         "PRM mode",
-        "shotgun proteomics"
+        "trypsin digestion"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,8 +279,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T06:23:38Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

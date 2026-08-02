@@ -3,68 +3,216 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Unclassified"
+      "pH, ionic, or osmotic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "primary AML cells"
+      "leukemic blasts"
     ],
     "cell_lines": [
       "THP-1",
       "Molm-13"
     ],
     "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "pH, ionic, or osmotic perturbation",
+        "ontology_curie": "PPA:0000014",
+        "category": "ph_ionic_osmotic",
+        "matched_parent_class_key": "ph_ionic_osmotic",
+        "matched_class_key": "osmotic_stress",
+        "matched_class_path": [
+          "ph_ionic_osmotic",
+          "osmotic_stress"
+        ],
+        "matched_definition": "Change in osmotic state using salt, sorbitol, mannitol, or osmotic agents.",
+        "confidence": "high",
+        "evidence": [
+          "we have studied the effect of phosphate buffered saline (PBS) wash on cell pellets from AML patients",
+          "This suggested a cell bursting, presumably due to the osmotic shock produced when cells are placed abruptly in buffer"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "chemical_or_drug"
+        ],
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "confidence": "medium",
+        "evidence": [
+          "evaluate its impact on the AML proteome coverage and quantification. Furthermore, the effect of three storage and preparation protocols on two AML-derived cell lines: (1) liquid nitrogen storage in media containing bovine serum and DMSO; (2) liquid nitrogen storage as dried cell pellets; and (3) \u221280 \u00b0C storage as cell lysates in 4% sodium dodecyl sulfate (SDS)"
+        ],
+        "notes": "The comparison is between different chemical preservation agents (DMSO vs SDS vs dried pellet). No specific inhibitor or activator class from the ontology fits; therefore, mapped to the parent chemical/drug category."
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "phosphate buffered saline (PBS)",
+        "dose_or_concentration": "1x solution",
+        "duration": null,
+        "route_or_context": "cell pellet wash",
+        "evidence": [
+          "study of PBS wash (1\u00d7 solution) of AML primary cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "dimethyl sulfoxide (DMSO)",
+        "dose_or_concentration": "10%",
+        "duration": null,
+        "route_or_context": "cryopreservation media",
+        "evidence": [
+          "stored in media containing bovine serum and dimethyl sulfoxide (DMSO)",
+          "resuspended media containing 10% DMSO/ 20% FBS"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sodium dodecyl sulfate (SDS)",
+        "dose_or_concentration": "4%",
+        "duration": null,
+        "route_or_context": "cell lysate storage",
+        "evidence": [
+          "stored as cell lysates in 4% sodium dodecyl sulfate (SDS)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "control_arms": [
+      "unwashed",
+      "0xPBS wash"
+    ],
+    "case_arms": [
+      "1x PBS wash",
+      "2x PBS wash",
+      "DMSO-preserved",
+      "dried cell pellets",
+      "SDS-lysed"
+    ],
+    "paired_design": true,
+    "factorial_design": false,
+    "replicate_hints": [
+      "samples were split into two or three identical aliquots"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "unwashed",
+        "case_label": "1x PBS wash",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "one wash with PBS (1\u00d7 PBS) efficiently reduced (~3 fold) the amount of bovine serum albumin and blood contamination from the patient samples"
+        ]
+      },
+      {
+        "control_label": "unwashed",
+        "case_label": "2x PBS wash",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "a second PBS wash (2\u00d7 PBS) even further reduced the protein amount"
+        ]
+      },
+      {
+        "control_label": "SDS",
+        "case_label": "DMSO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing the biological process categories of proteins with higher abundance in SDS... and of proteins with higher abundance in DMSO"
+        ]
+      },
+      {
+        "control_label": "pellet",
+        "case_label": "DMSO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The enrichment analysis of DMSO vs. pellet samples showed approximately the same results"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "9606",
+        "confidence": "high"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "leukemic blasts",
+        "rollup_category": "leukocyte",
+        "ontology_curie": "CL:0000738"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "THP-1",
+        "family": "AML-derived",
+        "ontology_curie": null
+      },
+      {
+        "label": "Molm-13",
+        "family": "AML-derived",
+        "ontology_curie": null
+      }
+    ],
+    "noncellular_sources": [
+      {
+        "label": "peripheral blood",
+        "source_kind": "biofluid"
+      },
+      {
+        "label": "bone marrow aspirate",
+        "source_kind": "tissue"
+      }
+    ],
     "sample_scope": {
       "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "label": "whole cell lysate",
+      "curie": "PPA:0000194"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
@@ -73,10 +221,44 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantification (LFQ) mode in MaxQuant and MS1 intensity based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ mode",
+        "MS1 intensity based label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses label-free quantification (LFQ) mode in MaxQuant and MS1 intensity based label-free quantification."
+        }
+      ],
+      "modifier_candidates_ranked": [],
+      "trigger_keywords": [
+        "label-free quantification",
+        "LFQ mode",
+        "MS1 intensity based label-free quantification"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,7 +278,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

@@ -3,13 +3,15 @@
   "title": null,
   "summary": {
     "acquisition_type": "Unknown",
-    "quantification_method": "TMT-based multiplexed quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "TMT",
       "LFQ"
     ],
     "treatment_categories": [
-      "infection exposure"
+      "infection exposure",
+      "temperature stress",
+      "pH, ionic, or osmotic perturbation"
     ],
     "cell_types": [
       "epithelial cells"
@@ -29,41 +31,84 @@
         "ontology_label": "infection exposure",
         "ontology_curie": "PPA:0000017",
         "category": "infection",
-        "matched_parent_class_key": "infection_exposure",
-        "matched_class_key": "live_pathogen_infection",
+        "matched_parent_class_key": "infection",
+        "matched_class_key": "viral_infection",
         "matched_class_path": [
-          "infection_exposure",
-          "live_pathogen_infection"
+          "infection",
+          "viral_infection"
         ],
-        "matched_definition": "Exposure involving active infection by virus, bacteria, fungus, or parasite.",
+        "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
         "confidence": "high",
         "evidence": [
           "Using influenza A infection as a model for cellular perturbation",
-          "For influenza A infections, Influenza A H1N1 A/Puerto Rico/8/1934 (gift from Dr Thomas Shenk, Princeton University) was used."
+          "Applying soluble and insoluble TPCA workflows to studying influenza A infection",
+          "In the TPCA influenza A experiment, A549 cells were grown to 90 to 100% confluency. Next, the cells were infected at a multiplicity of infection (MOI) of 10"
+        ]
+      },
+      {
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
+        "category": "temperature",
+        "matched_parent_class_key": "temperature",
+        "matched_class_key": "thermal_shift_or_gradient_exposure",
+        "matched_class_path": [
+          "temperature",
+          "thermal_shift_or_gradient_exposure"
+        ],
+        "matched_definition": "Temperature series, gradient, ramp, or shift used as a perturbation rather than only analytical TPP.",
+        "confidence": "high",
+        "evidence": [
+          "In TPCA, cells are denatured through exposure to a temperature gradient",
+          "Thermal denaturation for TPCA samples was performed using 5, 8, or 10 temperature points between 37 \u00b0C and 55 \u00b0C"
+        ]
+      },
+      {
+        "ontology_label": "pH, ionic, or osmotic perturbation",
+        "ontology_curie": "PPA:0000014",
+        "category": "ph_ionic_osmotic",
+        "matched_parent_class_key": "ph_ionic_osmotic",
+        "matched_class_key": "ionophore_treatment",
+        "matched_class_path": [
+          "ph_ionic_osmotic",
+          "ionophore_treatment"
+        ],
+        "matched_definition": "Use of an ionophore or ion transport modulator to define the comparison.",
+        "confidence": "medium",
+        "evidence": [
+          "in I-PISA, a ZnCl2 concentration gradient is applied",
+          "Ion-based denaturation for the I-PISA samples was performed using five or 10 ZnCl2 concentrations between 0 \u03bcM and 800 \u03bcM"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Influenza A H1N1 A/Puerto Rico/8/1934",
-        "dose_or_concentration": "multiplicity of infection (MOI) of 10",
-        "duration": "18 h post infection (HPI)",
+        "agent": "Influenza A",
+        "dose_or_concentration": "MOI of 10",
+        "duration": null,
         "route_or_context": "A549 cells",
         "evidence": [
-          "For influenza A infections, Influenza A H1N1 A/Puerto Rico/8/1934 (gift from Dr Thomas Shenk, Princeton University) was used.",
-          "the cells were infected at a multiplicity of infection (MOI) of 10",
-          "Infected cells were harvested at 18 h post infection (HPI)"
+          "the cells were infected at a multiplicity of infection (MOI) of 10"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "Influenza A",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "post infection",
+        "duration": "18 h",
+        "route_or_context": "post infection (HPI)",
         "evidence": [
-          "Uninfected (mock) cells were compared to 18 h post infection (HPI)"
+          "Infected cells were harvested at 18 h post infection (HPI)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ZnCl2",
+        "dose_or_concentration": "0 \u03bcM to 800 \u03bcM",
+        "duration": null,
+        "route_or_context": "I-PISA denaturation",
+        "evidence": [
+          "Ion-based denaturation for the I-PISA samples was performed using five or 10 ZnCl2 concentrations between 0 \u03bcM and 800 \u03bcM"
         ]
       }
     ],
@@ -73,33 +118,49 @@
   },
   "experimental_design": {
     "timepoints": [
-      "0 h post infection (0 HPI)",
-      "18 h post infection (18 HPI)"
+      "0 HPI",
+      "18 HPI"
     ],
     "control_arms": [
       "mock cells",
       "0 h post infection (0 HPI, mock)"
     ],
     "case_arms": [
-      "infected cells",
       "18 h post infection (HPI)"
     ],
-    "paired_design": false,
+    "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
       "a sample size of three biological replicates was used"
     ],
     "multiplex_channel_hints": [
-      "labeled using tandem mass tags (TMT) for multiplexing within conditions and replicates",
-      "TMT 11-plex"
+      "labeled using tandem mass tags (TMT)",
+      "TMT 11-plex",
+      "label-free data-independent acquisition (DIA)"
     ],
     "contrast_hints": [
       {
         "control_label": "mock",
-        "case_label": "influenza A infected",
+        "case_label": "18 HPI",
         "contrast_type": "pairwise",
         "evidence": [
           "Uninfected (mock) cells were compared to 18 h post infection (HPI)"
+        ]
+      },
+      {
+        "control_label": "TPCA soluble",
+        "case_label": "I-PISA soluble",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the protein detection and downstream PPI prediction obtained from the TPCA or I-PISA workflows"
+        ]
+      },
+      {
+        "control_label": "soluble",
+        "case_label": "insoluble",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compare the resulting PPI networks both across (i.e., soluble TPCA to soluble I-PISA) and within (i.e., soluble to insoluble TPCA or I-PISA) denaturation methods"
         ]
       }
     ],
@@ -112,7 +173,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -126,12 +187,12 @@
     "cell_lines": [
       {
         "label": "A375",
-        "family": "ATCC CRL-1619",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "A549",
-        "family": "ATCC CCL-185",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -156,8 +217,8 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "TMT-based multiplexed quantification",
-      "Label-free data-independent acquisition (DIA)"
+      "TMT reporter ion quantification",
+      "Label-free DIA quantification (QuantUMS)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -187,22 +248,20 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT 11-plex labeling and DDA acquisition on Q Exactive HF for TPCA and I-PISA experiments."
+          "reason": "Explicit use of TMT 11-plex labeling and DDA acquisition on a Q Exactive HF for TPCA and I-PISA experiments."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Explicit use of label-free DIA (dia-PASEF) on timsTOF Ultra for refined TPCA workflows."
+          "reason": "Explicit use of label-free DIA (dia-PASEF) on a timsTOF Ultra for optimized TPCA workflows."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT 11-plex",
-        "label-free DIA",
-        "dia-PASEF",
+        "label-free data-independent acquisition (DIA)",
         "TMT-DDA",
-        "TMT-DDA TPCA",
-        "label-free DIA TPCA"
+        "dia-PASEF"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,22 +270,20 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT 11-plex labeling and DDA acquisition on Q Exactive HF for TPCA and I-PISA experiments."
+          "reason": "Explicit use of TMT 11-plex labeling and DDA acquisition on a Q Exactive HF for TPCA and I-PISA experiments."
         },
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Explicit use of label-free DIA (dia-PASEF) on timsTOF Ultra for refined TPCA workflows."
+          "reason": "Explicit use of label-free DIA (dia-PASEF) on a timsTOF Ultra for optimized TPCA workflows."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT 11-plex",
-        "label-free DIA",
-        "dia-PASEF",
+        "label-free data-independent acquisition (DIA)",
         "TMT-DDA",
-        "TMT-DDA TPCA",
-        "label-free DIA TPCA"
+        "dia-PASEF"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -254,8 +311,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-10T14:25:11Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

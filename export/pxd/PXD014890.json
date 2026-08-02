@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,28 +27,77 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "Proteomics of immunoprecipitated PIGBOS-FLAG followed by SAINT and CRAPome analysis to remove false positives and contaminating proteins identified chloride channel CLIC-like 1 (CLCC1) as a PIGBOS-interacting protein",
-          "PIGBOS-KO HEK293 and U2OS cells were generated according to the protocol described."
+          "PIGBOS-KO HEK293 and U2OS cells were generated",
+          "loss of PIGBOS leads to heightened UPR and increased cell death"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "er_stressor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "er_stressor_treatment"
+        ],
+        "matched_definition": "Chemical treatment that perturbs endoplasmic reticulum proteostasis or unfolded protein response state.",
+        "confidence": "high",
+        "evidence": [
+          "treating PIGBOS siRNA KD or CRISPR-Cas9 knockout (KO) cells... with TM",
+          "tunicamycin (TM), an inducer of ER stress",
+          "heightened sensitivity to thapsigargin (TG) and Brefeldin A (BFA), two mechanistically distinct UPR activators"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "PIGBOS-FLAG",
+        "agent": "PIGBOS",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpression/immunoprecipitation",
+        "route_or_context": "knockout (KO) and knockdown (KD)",
         "evidence": [
-          "Proteomics of immunoprecipitated PIGBOS-FLAG followed by SAINT and CRAPome analysis"
+          "PIGBOS-KO HEK293 and U2OS cells were generated",
+          "PIGBOS siRNA KD"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "tunicamycin",
+        "dose_or_concentration": null,
+        "duration": "24 h",
+        "route_or_context": "ER stress induction",
+        "evidence": [
+          "cells were treated with indicated concentrations of TM for 24 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "thapsigargin",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "ER stress induction",
+        "evidence": [
+          "heightened sensitivity to thapsigargin (TG)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Brefeldin A",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "ER stress induction",
+        "evidence": [
+          "heightened sensitivity to... Brefeldin A (BFA)"
         ]
       }
     ],
@@ -56,24 +106,50 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24 h",
+      "27 h",
+      "48 h"
+    ],
     "control_arms": [
-      "APEX control"
+      "WT",
+      "non-targeting negative siRNA",
+      "pcDNA3.1(+) empty vector"
     ],
     "case_arms": [
-      "PIGBOS-FLAG"
+      "PIGBOS-KO",
+      "PIGBOS-KD",
+      "PIGBOS-FLAG (overexpression)"
     ],
     "paired_design": false,
-    "factorial_design": false,
-    "replicate_hints": [],
+    "factorial_design": true,
+    "replicate_hints": [
+      "two samples for each condition"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "Control/Mock",
-        "case_label": "PIGBOS-FLAG",
+        "control_label": "WT",
+        "case_label": "PIGBOS-KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "Proteomics of immunoprecipitated PIGBOS-FLAG followed by SAINT and CRAPome analysis to remove false positives and contaminating proteins"
+          "visualize ER-mitochondria contacts in WT and PIGBOS-KO U2OS cells"
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "PIGBOS-KD",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Analysis of the ATF6 branch of UPR in WT and PIGBOS-KD cells"
+        ]
+      },
+      {
+        "control_label": "Control",
+        "case_label": "TM treated",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treating PIGBOS siRNA KD or CRISPR-Cas9 knockout (KO) cells... with TM"
         ]
       }
     ],
@@ -86,7 +162,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -148,22 +224,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive with spectrum counting (DTASelect) for quantification."
+          "reason": "Data-dependent acquisition (DDA) on Q Exactive with spectrum counting (PRIDE metadata) used for protein identification and relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 10,
-          "reason": "Experiment is explicitly described as affinity purification coupled with mass spectrometry (AP-MS) of PIGBOS-FLAG."
+          "reason": "Experiment explicitly describes immunoprecipitation of PIGBOS-FLAG and use of APEX proximity labeling to identify interacting proteins."
         }
       ],
       "trigger_keywords": [
-        "data-dependent mode",
         "immunoprecipitated",
-        "Affinity purification",
+        "proximity labeling",
+        "APEX",
         "spectrum counting",
-        "DTASelect"
+        "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -172,22 +248,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive with spectrum counting (DTASelect) for quantification."
+          "reason": "Data-dependent acquisition (DDA) on Q Exactive with spectrum counting (PRIDE metadata) used for protein identification and relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 10,
-          "reason": "Experiment is explicitly described as affinity purification coupled with mass spectrometry (AP-MS) of PIGBOS-FLAG."
+          "reason": "Experiment explicitly describes immunoprecipitation of PIGBOS-FLAG and use of APEX proximity labeling to identify interacting proteins."
         }
       ],
       "trigger_keywords": [
-        "data-dependent mode",
         "immunoprecipitated",
-        "Affinity purification",
+        "proximity labeling",
+        "APEX",
         "spectrum counting",
-        "DTASelect"
+        "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -215,8 +291,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T04:20:34Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

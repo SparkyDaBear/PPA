@@ -8,7 +8,7 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "small-molecule inhibitor treatment"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -24,20 +24,20 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "b-AP15 and VLX1570 are two structurally related USP14/UCH-37 inhibitors.",
-          "VLX1570 competitive conditions (5 and 20 \u00b5M) were taken forward for proteomic analysis."
+          "To comprehensively profile the covalent targets of VLX1570, ABPP was conducted."
         ]
       }
     ],
@@ -45,22 +45,41 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "VLX1570",
-        "dose_or_concentration": "5 \u00b5M, 20 \u00b5M",
-        "duration": "30 min",
+        "dose_or_concentration": null,
+        "duration": null,
         "route_or_context": "U2OS cells",
         "evidence": [
-          "U2OS cells were pre-incubated with increasing concentrations of VLX1570 or bAP-15 for 30 min",
-          "VLX1570 competitive conditions (5 and 20 \u00b5M) were taken forward for proteomic analysis."
+          "VLX1570 competitive conditions (5 and 20 \u03bcM) were taken forward for proteomic analysis."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "b-AP15",
         "dose_or_concentration": null,
-        "duration": "30 min",
+        "duration": null,
         "route_or_context": "U2OS cells",
         "evidence": [
-          "U2OS cells were pre-incubated with increasing concentrations of VLX1570 or bAP-15 for 30 min"
+          "U2OS cells were pre-incubated with increasing concentrations of VLX1570 or bAP-15 for 30 min before addition of the affinity probe 1"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "VLX1570",
+        "dose_or_concentration": "5 \u03bcM, 20 \u03bcM",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "VLX1570 competitive conditions (5 and 20 \u03bcM) were taken forward for proteomic analysis."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_duration",
+        "agent": "VLX1570",
+        "dose_or_concentration": null,
+        "duration": "30 min",
+        "route_or_context": null,
+        "evidence": [
+          "U2OS cells were pre-incubated with increasing concentrations of VLX1570 or bAP-15 for 30 min before addition of the affinity probe 1"
         ]
       }
     ],
@@ -73,11 +92,12 @@
       "30 min"
     ],
     "control_arms": [
-      "0 \u00b5M compound 1"
+      "DMSO control",
+      "0 \u03bcM compound 1"
     ],
     "case_arms": [
-      "5 \u00b5M VLX1570",
-      "20 \u00b5M VLX1570"
+      "VLX1570",
+      "b-AP15"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -90,12 +110,19 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "0 \u00b5M compound 1",
+        "control_label": "DMSO",
         "case_label": "VLX1570",
         "contrast_type": "dose_response",
         "evidence": [
-          "VLX1570 competitive conditions (5 and 20 \u00b5M) were taken forward for proteomic analysis.",
-          "normalising all mean ratios relative to the condition lacking inhibitor (0 \u00b5M compound 1)"
+          "VLX1570 competitive conditions (5 and 20 \u03bcM) were taken forward for proteomic analysis."
+        ]
+      },
+      {
+        "control_label": "DMSO",
+        "case_label": "b-AP15",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "U2OS cells were pre-incubated with increasing concentrations of VLX1570 or bAP-15"
         ]
       }
     ],
@@ -121,7 +148,7 @@
       },
       {
         "label": "KMS11",
-        "family": "multiple myeloma",
+        "family": null,
         "ontology_curie": null
       },
       {
@@ -155,8 +182,8 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
+        "ontology_label": "Affinity purification",
+        "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
       }
@@ -174,14 +201,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses 'spike-in SILAC methodology' with heavy labels 'Arg10' and 'Lys8' and DDA acquisition (top 10 most abundant isotope patterns)."
+          "reason": "The experiment explicitly uses 'spike-in SILAC methodology' with 'Arg10' and 'Lys8' heavy labels and data-dependent acquisition (DDA) on a QExactive mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_abpp",
           "confidence": 1.0,
-          "reason": "The study uses activity-based protein profiling (ABPP) with an alkyne-tagged probe (compound 1), CuAAC ligation to a biotin capture reagent (AzTB), and NeutrAvidin-Agarose enrichment."
+          "reason": "The study uses activity-based protein profiling (ABPP) with an alkyne-tagged analogue (compound 1) and CuAAC ligation to AzTB (azido-TAMRA-biotin) for enrichment."
         }
       ],
       "trigger_keywords": [
@@ -189,7 +216,7 @@
         "ABPP",
         "alkyne-tagged",
         "CuAAC ligation",
-        "NeutrAvidin-Agarose"
+        "NeutrAvidin-Agarose resin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -198,14 +225,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses 'spike-in SILAC methodology' with heavy labels 'Arg10' and 'Lys8' and DDA acquisition (top 10 most abundant isotope patterns)."
+          "reason": "The experiment explicitly uses 'spike-in SILAC methodology' with 'Arg10' and 'Lys8' heavy labels and data-dependent acquisition (DDA) on a QExactive mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_abpp",
           "confidence": 1.0,
-          "reason": "The study uses activity-based protein profiling (ABPP) with an alkyne-tagged probe (compound 1), CuAAC ligation to a biotin capture reagent (AzTB), and NeutrAvidin-Agarose enrichment."
+          "reason": "The study uses activity-based protein profiling (ABPP) with an alkyne-tagged analogue (compound 1) and CuAAC ligation to AzTB (azido-TAMRA-biotin) for enrichment."
         }
       ],
       "trigger_keywords": [
@@ -213,7 +240,7 @@
         "ABPP",
         "alkyne-tagged",
         "CuAAC ligation",
-        "NeutrAvidin-Agarose"
+        "NeutrAvidin-Agarose resin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -241,8 +268,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T07:59:05Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }

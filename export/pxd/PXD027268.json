@@ -3,69 +3,198 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "MS1 intensity",
+    "quantification_method": "SILAC ratios",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
-      "Chemical/Drug Treatment",
-      "Genetic Perturbations",
-      "Time-Course / Temporal Series",
-      "Disease"
+      "ligand-mediated stimulation",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cell of lung"
     ],
     "cell_lines": [
-      "H1299"
+      "H1299",
+      "KPC-PDAC"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": null,
-    "sample_scope_curie": null,
+    "sample_scope": "purified protein or complex",
+    "sample_scope_label": "affinity-purified complex scope",
+    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
-    "primary_variables": [],
-    "attributes": [],
+    "primary_variables": [
+      {
+        "ontology_label": "ligand-mediated stimulation",
+        "ontology_curie": "PPA:0000010",
+        "category": "ligand_stimulation",
+        "matched_parent_class_key": "ligand_stimulation",
+        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_path": [
+          "ligand_stimulation",
+          "growth_factor_stimulation"
+        ],
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
+        "confidence": "high",
+        "evidence": [
+          "To determine the proteins that translocate from the cell surface to the nucleus, cells were labelled with light or heavy SILAC amino acids and surface biotinylated. Light-labelled cells were warmed to 37\u2009\u00b0C for 30\u2009min to allow internalization of labelled protein in the presence of HGF (10\u2009ng/ml), whereas the heavy-labelled cells were warmed to 37\u2009\u00b0C in the absence of HGF."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "H1299 cells expressing wild-type or NLS mutant EphA2-TurboID constructs were then incubated with biotin in the presence of HGF and the resulting biotinylated proximal proteome was then determined using MS-based proteomics.",
+          "Data presented in the volcano plots were expressed by using the \u2018Student\u2019s t-test difference\u2019 metric, which corresponds for a given protein, to the average of the log2-transformed LFQ intensities measured in each replicate from condition 1 (WT), subtracted from the counterpart average in condition 2 (either NLS1 or NLS2)"
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "HGF",
+        "dose_or_concentration": "10 ng/ml",
+        "duration": "30 min",
+        "route_or_context": "cell culture medium",
+        "evidence": [
+          "Light-labelled cells were warmed to 37\u2009\u00b0C for 30\u2009min to allow internalization of labelled protein in the presence of HGF (10\u2009ng/ml)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "EphA2 NLS mutants",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stable cell line expression",
+        "evidence": [
+          "We generated constructs in which either wild-type or NLS-mutated EphA2 was fused to an engineered biotin ligase, TurboID"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "timepoints": [
+      "30 min"
+    ],
+    "control_arms": [
+      "absence of HGF",
+      "WT (wild-type EphA2)"
+    ],
+    "case_arms": [
+      "presence of HGF",
+      "NLS1 mutant",
+      "NLS2 mutant"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "proteins quantified in all five replicates in at least one group"
+    ],
+    "multiplex_channel_hints": [
+      "SILAC-labelled with heavy (Cambridge Isotope Laboratories) and light (Sigma) amino acids"
+    ],
+    "contrast_hints": [
+      {
+        "control_label": "absence of HGF",
+        "case_label": "presence of HGF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Light-labelled cells were warmed to 37\u2009\u00b0C for 30\u2009min to allow internalization of labelled protein in the presence of HGF (10\u2009ng/ml), whereas the heavy-labelled cells were warmed to 37\u2009\u00b0C in the absence of HGF."
+        ]
+      },
+      {
+        "control_label": "WT",
+        "case_label": "NLS mutants",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "average of the log2-transformed LFQ intensities measured in each replicate from condition 1 (WT), subtracted from the counterpart average in condition 2 (either NLS1 or NLS2)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "sample_source": {
-    "human_system_present": null,
-    "organisms": [],
-    "cell_types": [],
-    "cell_lines": [],
+    "human_system_present": "Yes",
+    "organisms": [
+      {
+        "label": "Homo sapiens",
+        "taxonomy_hint": "NEWT:9606",
+        "confidence": "high"
+      },
+      {
+        "label": "mouse",
+        "taxonomy_hint": null,
+        "confidence": "medium"
+      }
+    ],
+    "cell_types": [
+      {
+        "label": "epithelial cell of lung",
+        "rollup_category": "epithelial cell",
+        "ontology_curie": "CL:0000082"
+      }
+    ],
+    "cell_lines": [
+      {
+        "label": "H1299",
+        "family": null,
+        "ontology_curie": null
+      },
+      {
+        "label": "KPC-PDAC",
+        "family": "KPC",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [],
     "sample_scope": {
-      "category": "whole cell lysate",
-      "label": null,
-      "curie": null
+      "category": "purified protein or complex",
+      "label": "affinity-purified complex scope",
+      "curie": "PPA:0000202"
     },
-    "linkage_hints": {},
+    "linkage_hints": {
+      "biosample_accessions": [],
+      "sample_to_file_mapping_present": null
+    },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
-    "acquisition_type": null,
-    "labeling_strategy": [],
-    "quantification_strategy": [],
-    "proteomics_mode": null,
-    "targets_and_enrichments": [],
+    "acquisition_type": "DDA",
+    "labeling_strategy": [
+      "SILAC",
+      "LFQ"
+    ],
+    "quantification_strategy": [
+      "SILAC ratios",
+      "Label-free quantification (LFQ)"
+    ],
+    "proteomics_mode": "Bottom-up",
+    "targets_and_enrichments": [
+      {
+        "ontology_label": "proximity labeling",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_proximity_labeling",
+        "confidence": "high"
+      }
+    ],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -73,10 +202,80 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes SILAC labelling with heavy and light amino acids and the calculation of SILAC ratios using MaxQuant."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "A second proteomics experiment for the EphA2 proximity interactome used label-free quantification (LFQ) as processed by MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labelling",
+          "confidence": 0.9,
+          "reason": "The study used TurboID, an engineered biotin ligase, to identify the proximal proteome of EphA2."
+        },
+        {
+          "modifier_workflow_id": "surface_biotinylation",
+          "confidence": 0.9,
+          "reason": "The surface and nuclear proteomes were obtained using sulfo-NHS-SS-Biotin for cell surface labelling."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TurboID",
+        "surface-biotinylated",
+        "LFQ",
+        "proximity-labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 1.0,
+          "reason": "The text explicitly describes SILAC labelling with heavy and light amino acids and the calculation of SILAC ratios using MaxQuant."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "A second proteomics experiment for the EphA2 proximity interactome used label-free quantification (LFQ) as processed by MaxQuant."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labelling",
+          "confidence": 0.9,
+          "reason": "The study used TurboID, an engineered biotin ligase, to identify the proximal proteome of EphA2."
+        },
+        {
+          "modifier_workflow_id": "surface_biotinylation",
+          "confidence": 0.9,
+          "reason": "The surface and nuclear proteomes were obtained using sulfo-NHS-SS-Biotin for cell surface labelling."
+        }
+      ],
+      "trigger_keywords": [
+        "SILAC",
+        "TurboID",
+        "surface-biotinylated",
+        "LFQ",
+        "proximity-labelling"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -96,7 +295,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
+    "export_version": "2026-08-02",
     "public_evidence_policy": "links_only"
   }
 }

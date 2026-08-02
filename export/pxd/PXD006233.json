@@ -8,36 +8,66 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "subcellular spatial comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "subproteome",
-    "sample_scope_label": "subproteome",
+    "sample_scope_label": "soluble and particulate brain proteomes",
     "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "comparative characterization of uDPMs in the soluble and particulate postmortem brain fractions of subjects diagnosed with AD + CVD and age-matched controls.",
           "AD + CVD and healthy age-matched control (Ctrl) autopsied human brain tissues"
         ]
+      },
+      {
+        "ontology_label": "subcellular spatial comparison",
+        "ontology_curie": "PPA:0000102",
+        "category": "anatomical_spatial",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "subcellular_spatial_comparison",
+        "matched_class_path": [
+          "anatomical_spatial",
+          "subcellular_spatial_comparison"
+        ],
+        "matched_definition": "Comparison among spatially resolved cellular compartments when the spatial state is the biological variable.",
+        "confidence": "high",
+        "evidence": [
+          "comparative characterization of uDPMs in the soluble and particulate postmortem brain fractions",
+          "Isolation of the soluble and particulate brain proteomes by UC-ERLIC"
+        ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "Alzheimer\u2019s disease with cerebrovascular disease (AD + CVD)",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "postmortem brain tissues (middle temporal lobe, BA21 region)",
+        "evidence": [
+          "subjects diagnosed with AD + CVD",
+          "AD + CVD and healthy age-matched control (Ctrl) autopsied human brain tissues (middle temporal lobe, BA21 region)"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -51,7 +81,7 @@
       "AD + CVD"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "Three biological replicates were independently analyzed in this study for each experimental condition (soluble and particulate proteomes)."
     ],
@@ -62,7 +92,15 @@
         "case_label": "AD + CVD",
         "contrast_type": "pairwise",
         "evidence": [
-          "An increase in the formation of Cit and HCit residues was observed in the brains of AD + CVD compared to those of age-matched controls"
+          "comparative characterization of uDPMs in the soluble and particulate postmortem brain fractions of subjects diagnosed with AD + CVD and age-matched controls."
+        ]
+      },
+      {
+        "control_label": "soluble fraction",
+        "case_label": "particulate fraction",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Citrulline-containing proteins were found more abundant in the soluble fraction of AD + CVD whereas homocitrulline-containing proteins were preferentially abundant in the particulate fraction of AD + CVD brains."
         ]
       }
     ],
@@ -84,12 +122,12 @@
     "noncellular_sources": [
       {
         "label": "brain",
-        "source_kind": "organ"
+        "source_kind": "tissue"
       }
     ],
     "sample_scope": {
       "category": "subproteome",
-      "label": "subproteome",
+      "label": "soluble and particulate brain proteomes",
       "curie": "PPA:0000195"
     },
     "linkage_hints": {
@@ -114,7 +152,13 @@
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "ureido degenerative protein modifications (citrullination and carbamylation)",
+        "ontology_label": "ureido DPMs (citrullination and carbamylation)",
+        "ontology_curie": null,
+        "workflow_modifier_hint": null,
+        "confidence": "high"
+      },
+      {
+        "ontology_label": "soluble and particulate brain proteomes",
         "ontology_curie": null,
         "workflow_modifier_hint": null,
         "confidence": "high"
@@ -132,24 +176,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used FT-MS and FT-MS/MS (top 10 most intense ions) which is characteristic of DDA. Quantification mentioned as 'mean signal intensity' and 'relative signal intensities', suggesting label-free approach."
+          "confidence": 0.9,
+          "reason": "Data acquisition used FT-MS and FT-MS/MS (DDA) on an Orbitrap Elite. Quantification is described as mean signal intensity and spectrum/peptide counting (label-free approach)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment",
-          "confidence": 0.9,
-          "reason": "The study specifically targets ureido DPMs (citrullination and carbamylation) using UC-ERLIC to isolate soluble and particulate fractions."
+          "modifier_workflow_id": "ptm_citrullination_carbamylation",
+          "confidence": 0.95,
+          "reason": "The study specifically targets and identifies citrullination (Arg to Cit) and carbamylation (Lys to HCit) using the PEAKS PTM algorithm."
         }
       ],
       "trigger_keywords": [
         "citrullination",
         "carbamylation",
         "uDPMs",
-        "UC-ERLIC",
-        "particulate brain proteomes",
-        "soluble brain proteomes"
+        "PEAKS PTM algorithm",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -157,24 +200,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used FT-MS and FT-MS/MS (top 10 most intense ions) which is characteristic of DDA. Quantification mentioned as 'mean signal intensity' and 'relative signal intensities', suggesting label-free approach."
+          "confidence": 0.9,
+          "reason": "Data acquisition used FT-MS and FT-MS/MS (DDA) on an Orbitrap Elite. Quantification is described as mean signal intensity and spectrum/peptide counting (label-free approach)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment",
-          "confidence": 0.9,
-          "reason": "The study specifically targets ureido DPMs (citrullination and carbamylation) using UC-ERLIC to isolate soluble and particulate fractions."
+          "modifier_workflow_id": "ptm_citrullination_carbamylation",
+          "confidence": 0.95,
+          "reason": "The study specifically targets and identifies citrullination (Arg to Cit) and carbamylation (Lys to HCit) using the PEAKS PTM algorithm."
         }
       ],
       "trigger_keywords": [
         "citrullination",
         "carbamylation",
         "uDPMs",
-        "UC-ERLIC",
-        "particulate brain proteomes",
-        "soluble brain proteomes"
+        "PEAKS PTM algorithm",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,8 +244,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-07-10",
-    "public_evidence_policy": "links_only",
-    "stage3_refreshed_at": "2026-07-13T08:16:17Z"
+    "export_version": "2026-08-02",
+    "public_evidence_policy": "links_only"
   }
 }
