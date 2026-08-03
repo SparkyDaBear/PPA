@@ -8,7 +8,8 @@ type Project = {
   source_links?: Record<string, string | null>;
 };
 
-type L2Node = { curie: string; label: string; definition?: string; pxd_count: number; projects: Project[] };
+type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[] };
+type L2Node = { curie: string; label: string; definition?: string; pxd_count: number; children: L3Node[]; projects: Project[] };
 type L1Node = { curie: string; label: string; pxd_count: number; children: L2Node[] };
 type Options = { dataUrl: string; baseUrl: string };
 
@@ -49,6 +50,8 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
   const l1El = get('treatment-l1');
   const l2El = get('treatment-l2');
   const l2TitleEl = get('treatment-l2-title');
+  const l3El = get('treatment-l3');
+  const l3TitleEl = get('treatment-l3-title');
   const totalEl = get('browser-total');
   const resultsTitleEl = get('results-title');
   const definitionEl = get('results-definition');
@@ -56,7 +59,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
   const projectListEl = get('treatment-projects');
   const detailEl = get('treatment-project-detail');
   const filterEl = get('treatment-project-filter') as HTMLInputElement | null;
-  if (!l1El || !l2El || !l2TitleEl || !totalEl || !resultsTitleEl || !definitionEl || !resultsCountEl || !projectListEl || !detailEl || !filterEl) return;
+  if (!l1El || !l2El || !l2TitleEl || !l3El || !l3TitleEl || !totalEl || !resultsTitleEl || !definitionEl || !resultsCountEl || !projectListEl || !detailEl || !filterEl) return;
 
   try {
     const response = await fetch(dataUrl);
@@ -65,19 +68,53 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
     const l1Nodes = payload.l1_nodes.filter((node) => node.pxd_count > 0);
     let selectedL1 = l1Nodes[0];
     let selectedL2: L2Node | null = null;
+    let selectedL3: L3Node | null = null;
     let selectedProject: Project | null = null;
     totalEl.textContent = `${l1Nodes.length} treatment categories`;
 
     const renderProjects = () => {
       if (!selectedL2) return;
       const query = filterEl.value.trim().toLowerCase();
-      const projects = selectedL2.projects.filter((project) => JSON.stringify(project).toLowerCase().includes(query));
-      resultsCountEl.textContent = `${projects.length} of ${selectedL2.pxd_count} studies`;
+      const allowedPxds = selectedL3 ? new Set(selectedL3.pxd_ids) : null;
+      const baseProjects = allowedPxds ? selectedL2.projects.filter((project) => allowedPxds.has(project.pxd)) : selectedL2.projects;
+      const projects = baseProjects.filter((project) => JSON.stringify(project).toLowerCase().includes(query));
+      resultsCountEl.textContent = `${projects.length} of ${baseProjects.length} studies`;
       projectListEl.innerHTML = projects.length ? projects.map((project) => `<button class="treatment-project-row${selectedProject?.pxd === project.pxd ? ' is-selected' : ''}" data-pxd="${escapeHtml(project.pxd)}"><span class="row-head"><strong>${escapeHtml(project.pxd)}</strong><span class="row-code">${escapeHtml(project.classification.confidence || 'unrated')}</span></span><span>${escapeHtml(project.title || project.classification.label || 'Untitled project')}</span><span class="row-meta">${escapeHtml((project.treatment_attributes || []).map((item) => item.agent).filter(Boolean).join(', ') || String(project.summary?.sample_scope_label || project.summary?.sample_scope || 'Not reported'))}</span></button>`).join('') : '<p class="empty-state">No studies match this filter.</p>';
       projectListEl.querySelectorAll<HTMLButtonElement>('[data-pxd]').forEach((button) => button.addEventListener('click', () => {
         selectedProject = selectedL2?.projects.find((project) => project.pxd === button.dataset.pxd) || null;
         if (selectedProject) detailEl.innerHTML = renderDetail(selectedProject, baseUrl);
         renderProjects();
+      }));
+    };
+
+    const selectL3 = (node: L3Node | null) => {
+      if (!selectedL2) return;
+      selectedL3 = node;
+      selectedProject = node
+        ? selectedL2.projects.find((project) => node.pxd_ids.includes(project.pxd)) || null
+        : selectedL2.projects[0] || null;
+      filterEl.value = '';
+      resultsTitleEl.textContent = node?.label || selectedL2.label;
+      definitionEl.textContent = node?.definition || selectedL2.definition || 'No ontology definition exported.';
+      detailEl.innerHTML = selectedProject ? renderDetail(selectedProject, baseUrl) : '<p class="empty-state">No projects are currently mapped to this Level 3 class.</p>';
+      history.replaceState(null, '', `#${encodeURIComponent(node?.curie || selectedL2.curie)}`);
+      renderL3();
+      renderProjects();
+    };
+
+    const renderL3 = () => {
+      if (!selectedL2) {
+        l3TitleEl.textContent = 'Choose a treatment class';
+        l3El.innerHTML = '<p class="empty-state">Select Level 2 to inspect its fine-grained classes.</p>';
+        return;
+      }
+      l3TitleEl.textContent = selectedL2.label;
+      const allButton = `<button class="treatment-node treatment-node-l3${selectedL3 ? '' : ' is-selected'}" data-l3-curie=""><span>All Level 3 classes</span><strong>${selectedL2.pxd_count}</strong></button>`;
+      const children = (selectedL2.children || []).map((node) => `<button class="treatment-node treatment-node-l3${selectedL3?.curie === node.curie ? ' is-selected' : ''}${node.pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
+      l3El.innerHTML = allButton + children;
+      l3El.querySelectorAll<HTMLButtonElement>('[data-l3-curie]').forEach((button) => button.addEventListener('click', () => {
+        const node = button.dataset.l3Curie ? selectedL2?.children.find((child) => child.curie === button.dataset.l3Curie) || null : null;
+        selectL3(node);
       }));
     };
 
@@ -88,6 +125,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         const node = selectedL1.children.find((child) => child.curie === button.dataset.curie);
         if (!node) return;
         selectedL2 = node;
+        selectedL3 = null;
         selectedProject = node.projects[0] || null;
         filterEl.disabled = false;
         filterEl.value = '';
@@ -96,6 +134,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         detailEl.innerHTML = selectedProject ? renderDetail(selectedProject, baseUrl) : '<p class="empty-state">No projects are currently annotated to this treatment class.</p>';
         history.replaceState(null, '', `#${encodeURIComponent(node.curie)}`);
         renderL2();
+        renderL3();
         renderProjects();
       }));
     };
@@ -107,26 +146,33 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         if (!node) return;
         selectedL1 = node;
         selectedL2 = null;
+        selectedL3 = null;
         selectedProject = null;
         filterEl.disabled = true;
         resultsTitleEl.textContent = 'Select a treatment class';
-        definitionEl.textContent = 'The selected Level 2 class will show its normalized project metadata here.';
+        definitionEl.textContent = 'Select a Level 2 class to see all studies, then optionally refine them with Level 3.';
         resultsCountEl.textContent = '';
         projectListEl.innerHTML = '';
         detailEl.innerHTML = '<p class="detail-kicker">Project metadata</p><h3>Select a study</h3><p class="row-meta">Choose a Level 2 treatment class first.</p>';
         renderL1();
         renderL2();
+        renderL3();
       }));
     };
 
     filterEl.addEventListener('input', renderProjects);
     const requestedCurie = decodeURIComponent(window.location.hash.slice(1));
-    const requestedL1 = l1Nodes.find((node) => node.children.some((child) => child.curie === requestedCurie));
+    const requestedL1 = l1Nodes.find((node) => node.children.some((child) => child.curie === requestedCurie || child.children?.some((grandchild) => grandchild.curie === requestedCurie)));
     if (requestedL1) selectedL1 = requestedL1;
     renderL1();
     renderL2();
-    const requestedL2 = selectedL1.children.find((child) => child.curie === requestedCurie);
+    renderL3();
+    const requestedL2 = selectedL1.children.find((child) => child.curie === requestedCurie || child.children?.some((grandchild) => grandchild.curie === requestedCurie));
     if (requestedL2) l2El.querySelector<HTMLButtonElement>(`[data-curie="${requestedL2.curie}"]`)?.click();
+    const requestedL3 = requestedL2?.children?.find((child) => child.curie === requestedCurie);
+    if (requestedL3) l3El.querySelectorAll<HTMLButtonElement>('[data-l3-curie]').forEach((button) => {
+      if (button.dataset.l3Curie === requestedL3.curie) button.click();
+    });
   } catch {
     totalEl.textContent = 'Treatment data could not be loaded.';
     l1El.innerHTML = '<p class="empty-state">Rebuild the public export to create treatment_browser.json.</p>';
