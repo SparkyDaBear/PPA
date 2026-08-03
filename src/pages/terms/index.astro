@@ -1,54 +1,62 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getRelease, getTermIndex, normalizeLabel } from '../../lib/site-data';
+import { getRelease, getOntology } from '../../lib/site-data';
 
-const [release, termIndex] = await Promise.all([getRelease(), getTermIndex()]);
+const [release, ontology] = await Promise.all([getRelease(), getOntology()]);
 const base = import.meta.env.BASE_URL;
+
+// Annotate term_page_available at build time; export/ontology.json doesn't carry this field.
+const treePayload = {
+  root_curie: 'PPA:0000001',
+  branches: ontology.branches,
+  nodes: (ontology.nodes as any[]).map((node) => ({
+    ...node,
+    term_page_available: /^PPA:\d+$/.test(String(node.curie ?? '')),
+  })),
+};
 ---
 
 <BaseLayout title="Ontology Terms · PPA Curator Workbench">
   <section class="hero-panel">
     <div>
-      <p class="hero-kicker">Ontology explorer</p>
-      <h2>Search the public term index and drill into branch-level metadata.</h2>
+      <p class="hero-kicker">Ontology tree</p>
+      <h2>Full PPA metadata ontology — {release.term_count} terms across 6 branches.</h2>
+      <p class="lede">Click any node to expand its children and inspect its definition, branch, and linked project count. Nodes are sized by annotated project count.</p>
     </div>
     <div class="hero-badges">
       <span class="badge">{release.term_count} terms</span>
-      <span class="badge">Static HTML + client search</span>
+      <span class="badge">6 branches</span>
+      <span class="badge">{release.pxd_count} projects</span>
     </div>
   </section>
 
   <section class="panel">
-    <label class="search-field">
-      <span>Search terms</span>
-      <input id="term-search" type="search" placeholder="Search label, synonym, or CURIE" />
-    </label>
-    <p id="term-search-status" class="search-status" aria-live="polite"></p>
-    <noscript>
-      <p class="empty-state">Term filtering requires JavaScript. You can still browse all terms below.</p>
-    </noscript>
-    <div id="term-results" class="table-list">
-      {termIndex.map((term) => (
-        <a class="table-row row-clickable term-row" href={`${base}terms/${encodeURIComponent(term.curie)}/`} data-search={`${term.preferred_label} ${term.curie} ${(term.synonyms || []).join(' ')}`.toLowerCase()}>
-          <div class="row-head">
-            <h4 class="row-title">{term.preferred_label}</h4>
-            <span class="row-code">{term.curie}</span>
-          </div>
-          <div class="row-meta">{normalizeLabel(term.branch) }</div>
-          <div class="row-meta">{term.definition_snippet || 'No definition snippet available.'}</div>
-        </a>
-      ))}
+    <div class="tree-layout">
+      <div class="tree-view-wrap" id="tree-view" data-base={base}>
+        <svg id="ontology-tree-svg" class="tree-svg" role="img" aria-label="PPA ontology tree"></svg>
+      </div>
+      <aside class="tree-detail" id="tree-detail" aria-live="polite">
+        <p class="detail-kicker">Node details</p>
+        <h3 id="tree-node-title">Select a node</h3>
+        <p class="row-meta" id="tree-node-curie">Click any node in the tree to inspect its details.</p>
+        <p class="row-meta" id="tree-node-branch"></p>
+        <p class="row-meta" id="tree-node-def"></p>
+        <p class="row-meta" id="tree-node-stats"></p>
+        <p class="row-meta" id="tree-node-projects"></p>
+        <p id="tree-node-link-wrap"></p>
+      </aside>
     </div>
   </section>
 
+  <script id="ontology-tree-data" type="application/json" set:html={JSON.stringify(treePayload)}></script>
   <script>
-    import { initListSearch } from '../../scripts/list-search';
+    import { initOntologyTree } from '../../scripts/ontology-tree';
 
-    initListSearch({
-      inputId: 'term-search',
-      rowSelector: '.term-row',
-      statusId: 'term-search-status',
-      entityPlural: 'terms',
+    initOntologyTree({
+      svgId: 'ontology-tree-svg',
+      dataId: 'ontology-tree-data',
+      containerId: 'tree-view',
+      detailPrefix: 'tree-node',
     });
   </script>
 </BaseLayout>
