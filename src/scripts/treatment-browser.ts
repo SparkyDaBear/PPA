@@ -8,7 +8,7 @@ type Project = {
   source_links?: Record<string, string | null>;
 };
 
-type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[] };
+type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[]; is_residual?: boolean };
 type L2Node = { curie: string; label: string; definition?: string; pxd_count: number; l3_mapped_pxd_count: number; children: L3Node[]; projects: Project[] };
 type L1Node = { curie: string; label: string; pxd_count: number; children: L2Node[] };
 type Options = { dataUrl: string; baseUrl: string };
@@ -77,7 +77,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
     const renderProjects = () => {
       if (!selectedL2) return;
       const query = filterEl.value.trim().toLowerCase();
-      const mappedPxds = new Set(selectedL2.children.flatMap((node) => node.pxd_ids));
+      const mappedPxds = new Set(selectedL2.children.filter((node) => !node.is_residual).flatMap((node) => node.pxd_ids));
       const allowedPxds = selectedL3 ? new Set(selectedL3.pxd_ids) : null;
       const baseProjects = showMappedL3
         ? selectedL2.projects.filter((project) => mappedPxds.has(project.pxd))
@@ -99,7 +99,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       selectedL3 = node;
       showMappedL3 = mapped;
       showUnmappedL3 = unmapped;
-      const mappedPxds = new Set(selectedL2.children.flatMap((child) => child.pxd_ids));
+      const mappedPxds = new Set(selectedL2.children.filter((child) => !child.is_residual).flatMap((child) => child.pxd_ids));
       selectedProject = mapped
         ? selectedL2.projects.find((project) => mappedPxds.has(project.pxd)) || null
         : unmapped
@@ -132,8 +132,8 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       const mappedButton = `<button class="treatment-node treatment-node-l3${showMappedL3 ? ' is-selected' : ''}${selectedL2.l3_mapped_pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-mapped><span>Mapped to Level 3</span><strong>${selectedL2.l3_mapped_pxd_count}</strong></button>`;
       const unmappedButton = `<button class="treatment-node treatment-node-l3${showUnmappedL3 ? ' is-selected' : ''}${unmappedCount === 0 ? ' is-zero-count' : ''}" data-l3-unmapped><span>Unmapped to Level 3</span><strong>${unmappedCount}</strong></button>`;
       const children = [...(selectedL2.children || [])]
-        .sort((left, right) => right.pxd_count - left.pxd_count || left.label.localeCompare(right.label))
-        .map((node) => `<button class="treatment-node treatment-node-l3${selectedL3?.curie === node.curie ? ' is-selected' : ''}${node.pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
+        .sort((left, right) => Number(Boolean(left.is_residual)) - Number(Boolean(right.is_residual)) || right.pxd_count - left.pxd_count || left.label.localeCompare(right.label))
+        .map((node) => `<button class="treatment-node treatment-node-l3${node.is_residual ? ' treatment-node-l3-residual' : ''}${selectedL3?.curie === node.curie ? ' is-selected' : ''}${node.pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
       l3El.innerHTML = allButton + mappedButton + unmappedButton + children;
       l3El.querySelectorAll<HTMLButtonElement>('[data-l3-curie]').forEach((button) => button.addEventListener('click', () => {
         const node = button.dataset.l3Curie ? selectedL2?.children.find((child) => child.curie === button.dataset.l3Curie) || null : null;
