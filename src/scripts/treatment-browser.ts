@@ -8,10 +8,16 @@ type Project = {
   source_links?: Record<string, string | null>;
 };
 
-type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[]; is_residual?: boolean };
+type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[]; is_residual?: boolean; is_unmapped_agent?: boolean };
 type L2Node = { curie: string; label: string; definition?: string; pxd_count: number; l3_mapped_pxd_count: number; children: L3Node[]; projects: Project[] };
 type L1Node = { curie: string; label: string; pxd_count: number; children: L2Node[] };
 type Options = { dataUrl: string; baseUrl: string };
+
+function sortByCountThenLabel<T extends { pxd_count: number; label: string }>(left: T, right: T) {
+  return right.pxd_count - left.pxd_count
+    || left.label.localeCompare(right.label, undefined, { sensitivity: 'base' })
+    || left.label.localeCompare(right.label);
+}
 
 function escapeHtml(value: unknown) {
   return String(value ?? '').replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character);
@@ -65,7 +71,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
     const response = await fetch(dataUrl);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json() as { l1_nodes: L1Node[] };
-    const l1Nodes = payload.l1_nodes.filter((node) => node.pxd_count > 0);
+    const l1Nodes = payload.l1_nodes.filter((node) => node.pxd_count > 0).sort(sortByCountThenLabel);
     let selectedL1 = l1Nodes[0];
     let selectedL2: L2Node | null = null;
     let selectedL3: L3Node | null = null;
@@ -77,7 +83,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
     const renderProjects = () => {
       if (!selectedL2) return;
       const query = filterEl.value.trim().toLowerCase();
-      const mappedPxds = new Set(selectedL2.children.filter((node) => !node.is_residual).flatMap((node) => node.pxd_ids));
+      const mappedPxds = new Set(selectedL2.children.filter((node) => !node.is_residual && !node.is_unmapped_agent).flatMap((node) => node.pxd_ids));
       const allowedPxds = selectedL3 ? new Set(selectedL3.pxd_ids) : null;
       const baseProjects = showMappedL3
         ? selectedL2.projects.filter((project) => mappedPxds.has(project.pxd))
@@ -99,7 +105,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       selectedL3 = node;
       showMappedL3 = mapped;
       showUnmappedL3 = unmapped;
-      const mappedPxds = new Set(selectedL2.children.filter((child) => !child.is_residual).flatMap((child) => child.pxd_ids));
+      const mappedPxds = new Set(selectedL2.children.filter((child) => !child.is_residual && !child.is_unmapped_agent).flatMap((child) => child.pxd_ids));
       selectedProject = mapped
         ? selectedL2.projects.find((project) => mappedPxds.has(project.pxd)) || null
         : unmapped
@@ -132,7 +138,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       const mappedButton = `<button class="treatment-node treatment-node-l3${showMappedL3 ? ' is-selected' : ''}${selectedL2.l3_mapped_pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-mapped><span>Mapped to Level 3</span><strong>${selectedL2.l3_mapped_pxd_count}</strong></button>`;
       const unmappedButton = `<button class="treatment-node treatment-node-l3${showUnmappedL3 ? ' is-selected' : ''}${unmappedCount === 0 ? ' is-zero-count' : ''}" data-l3-unmapped><span>Unmapped to Level 3</span><strong>${unmappedCount}</strong></button>`;
       const children = [...(selectedL2.children || [])]
-        .sort((left, right) => Number(Boolean(left.is_residual)) - Number(Boolean(right.is_residual)) || right.pxd_count - left.pxd_count || left.label.localeCompare(right.label))
+        .sort(sortByCountThenLabel)
         .map((node) => `<button class="treatment-node treatment-node-l3${node.is_residual ? ' treatment-node-l3-residual' : ''}${selectedL3?.curie === node.curie ? ' is-selected' : ''}${node.pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
       l3El.innerHTML = allButton + mappedButton + unmappedButton + children;
       l3El.querySelectorAll<HTMLButtonElement>('[data-l3-curie]').forEach((button) => button.addEventListener('click', () => {
@@ -145,7 +151,7 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
 
     const renderL2 = () => {
       l2TitleEl.textContent = selectedL1.label;
-      l2El.innerHTML = selectedL1.children.map((node) => `<button class="treatment-node treatment-node-l2${selectedL2?.curie === node.curie ? ' is-selected' : ''}" data-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
+      l2El.innerHTML = [...selectedL1.children].sort(sortByCountThenLabel).map((node) => `<button class="treatment-node treatment-node-l2${selectedL2?.curie === node.curie ? ' is-selected' : ''}" data-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
       l2El.querySelectorAll<HTMLButtonElement>('[data-curie]').forEach((button) => button.addEventListener('click', () => {
         const node = selectedL1.children.find((child) => child.curie === button.dataset.curie);
         if (!node) return;
