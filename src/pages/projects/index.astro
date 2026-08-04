@@ -5,6 +5,17 @@ import { getProjectIndex, getRelease } from '../../lib/site-data';
 const [release, projectIndex] = await Promise.all([getRelease(), getProjectIndex()]);
 const projects = projectIndex.projects || [];
 const base = import.meta.env.BASE_URL;
+
+function collectSearchValues(value: unknown, output = new Set<string>()) {
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    output.add(String(value));
+  } else if (Array.isArray(value)) {
+    value.forEach((item) => collectSearchValues(item, output));
+  } else if (value && typeof value === 'object') {
+    Object.values(value).forEach((item) => collectSearchValues(item, output));
+  }
+  return [...output].join(' ');
+}
 ---
 
 <BaseLayout title="Projects · PPA Curator Workbench">
@@ -22,7 +33,7 @@ const base = import.meta.env.BASE_URL;
   <section class="panel">
     <label class="search-field">
       <span>Search projects</span>
-      <input id="project-search" type="search" placeholder="Search PXD, label, scope, or instrument" />
+      <input id="project-search" type="search" placeholder="Search all project metadata" />
     </label>
     <p id="project-search-status" class="search-status" aria-live="polite"></p>
     <noscript>
@@ -33,7 +44,7 @@ const base = import.meta.env.BASE_URL;
         const summary = project.summary || {};
         const labels = [summary.acquisition_type, summary.quantification_method, ...(summary.labeling_strategy || [])].filter(Boolean).join(' · ');
         return (
-          <a class="table-row row-clickable project-row" href={`${base}projects/${project.pxd}/`} data-search={`${project.pxd} ${summary.acquisition_type || ''} ${summary.quantification_method || ''} ${summary.sample_scope_label || ''} ${(summary.labeling_strategy || []).join(' ')}`.toLowerCase()}>
+          <a class="table-row row-clickable project-row" href={`${base}projects/${project.pxd}/`} data-search={collectSearchValues(project)}>
             <div class="row-head">
               <h4 class="row-title">{project.pxd}</h4>
               <span class="row-code">{summary.sample_scope_label || 'no scope'}</span>
