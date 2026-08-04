@@ -1,0 +1,44 @@
+---
+import SectionHeading from './SectionHeading.astro';
+
+const { pxd, dataUrl } = Astro.props;
+---
+
+<details class="panel metadata-viewer" data-metadata-viewer data-url={dataUrl}>
+  <summary class="metadata-viewer-summary">
+    <SectionHeading
+      kicker="Full metadata"
+      title="Interactive metadata.json"
+      description="Explore every field in the complete source metadata record."
+    />
+    <span class="metadata-viewer-disclosure" aria-hidden="true">+</span>
+  </summary>
+
+  <div class="metadata-viewer-body">
+    <div class="metadata-viewer-toolbar">
+      <label class="search-field metadata-viewer-search">
+        <span>Search metadata</span>
+        <input type="search" placeholder="Search keys or values" data-metadata-search />
+      </label>
+      <div class="metadata-viewer-actions">
+        <button type="button" data-metadata-expand>Expand all</button>
+        <button type="button" data-metadata-collapse>Collapse all</button>
+        <button type="button" data-metadata-copy>Copy JSON</button>
+        <a href={dataUrl} download={`${pxd}.metadata.json`}>Download JSON</a>
+      </div>
+    </div>
+    <p class="search-status" data-metadata-status aria-live="polite">Open the viewer to load metadata.</p>
+    <div class="metadata-json-window" data-metadata-tree aria-label={`Full metadata for ${pxd}`}>
+      <p class="empty-state">Metadata has not been loaded.</p>
+    </div>
+    <noscript>
+      <p class="empty-state"><a href={dataUrl}>Open the full metadata JSON</a>.</p>
+    </noscript>
+  </div>
+</details>
+
+<script>
+  import { initMetadataJsonViewers } from '../scripts/metadata-json-viewer';
+
+  initMetadataJsonViewers();
+</script>
