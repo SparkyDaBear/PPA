@@ -5,7 +5,11 @@ type Project = {
   treatment_attributes?: Array<{ agent?: string; dose_or_concentration?: string; duration?: string; route_or_context?: string }>;
   summary?: Record<string, unknown>;
   experimental_design?: Record<string, unknown>;
+  sample_source?: Record<string, unknown>;
+  assay?: Record<string, unknown>;
+  processing?: Record<string, unknown>;
   source_links?: Record<string, string | null>;
+  additional_search_values?: string[];
 };
 
 type L3Node = { curie: string; key: string; label: string; definition?: string; pxd_count: number; pxd_ids: string[]; is_residual?: boolean; is_unmapped_agent?: boolean };
@@ -25,6 +29,41 @@ function escapeHtml(value: unknown) {
 
 function displayList(value: unknown) {
   return Array.isArray(value) && value.length ? value.filter((item): item is string => typeof item === 'string').join(', ') : 'Not reported';
+}
+
+function normalizeSearchText(value: unknown) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase()
+    .replace(/[µμ]/g, 'u')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+}
+
+function collectSearchValues(value: unknown, output: string[]) {
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    output.push(String(value));
+  } else if (Array.isArray(value)) {
+    value.forEach((item) => collectSearchValues(item, output));
+  } else if (value && typeof value === 'object') {
+    Object.values(value).forEach((item) => collectSearchValues(item, output));
+  }
+}
+
+const projectSearchText = new WeakMap<Project, string>();
+
+function matchesProject(project: Project, query: string) {
+  const tokens = normalizeSearchText(query).split(/\s+/).filter(Boolean);
+  if (!tokens.length) return true;
+  let searchText = projectSearchText.get(project);
+  if (!searchText) {
+    const values: string[] = [];
+    collectSearchValues(project, values);
+    searchText = normalizeSearchText(values.join(' '));
+    projectSearchText.set(project, searchText);
+  }
+  return tokens.every((token) => searchText.includes(token));
 }
 
 function renderDetail(project: Project, baseUrl: string) {
@@ -83,7 +122,13 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       const query = filterEl.value.trim().toLowerCase();
       const allowedPxds = selectedL3 ? new Set(selectedL3.pxd_ids) : null;
       const baseProjects = allowedPxds ? selectedL2.projects.filter((project) => allowedPxds.has(project.pxd)) : selectedL2.projects;
-      const projects = baseProjects.filter((project) => JSON.stringify(project).toLowerCase().includes(query));
+      const projects = baseProjects.filter((project) => matchesProject(project, query));
+      if (!projects.some((project) => project.pxd === selectedProject?.pxd)) {
+        selectedProject = projects[0] || null;
+        detailEl.innerHTML = selectedProject
+          ? renderDetail(selectedProject, baseUrl)
+          : '<p class="empty-state">No studies match this filter.</p>';
+      }
       resultsCountEl.textContent = `${projects.length} of ${baseProjects.length} studies`;
       projectListEl.innerHTML = projects.length ? projects.map((project) => `<button class="treatment-project-row${selectedProject?.pxd === project.pxd ? ' is-selected' : ''}" data-pxd="${escapeHtml(project.pxd)}"><span class="row-head"><strong>${escapeHtml(project.pxd)}</strong><span class="row-code">${escapeHtml(project.classification.confidence || 'unrated')}</span></span><span>${escapeHtml(project.title || project.classification.label || 'Untitled project')}</span><span class="row-meta">${escapeHtml((project.treatment_attributes || []).map((item) => item.agent).filter(Boolean).join(', ') || String(project.summary?.sample_scope_label || project.summary?.sample_scope || 'Not reported'))}</span></button>`).join('') : '<p class="empty-state">No studies match this filter.</p>';
       projectListEl.querySelectorAll<HTMLButtonElement>('[data-pxd]').forEach((button) => button.addEventListener('click', () => {
