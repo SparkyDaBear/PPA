@@ -75,21 +75,14 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
     let selectedL1 = l1Nodes[0];
     let selectedL2: L2Node | null = null;
     let selectedL3: L3Node | null = null;
-    let showMappedL3 = false;
-    let showUnmappedL3 = false;
     let selectedProject: Project | null = null;
     totalEl.textContent = `${l1Nodes.length} treatment categories`;
 
     const renderProjects = () => {
       if (!selectedL2) return;
       const query = filterEl.value.trim().toLowerCase();
-      const mappedPxds = new Set(selectedL2.children.filter((node) => !node.is_residual && !node.is_unmapped_agent).flatMap((node) => node.pxd_ids));
       const allowedPxds = selectedL3 ? new Set(selectedL3.pxd_ids) : null;
-      const baseProjects = showMappedL3
-        ? selectedL2.projects.filter((project) => mappedPxds.has(project.pxd))
-        : showUnmappedL3
-        ? selectedL2.projects.filter((project) => !mappedPxds.has(project.pxd))
-        : allowedPxds ? selectedL2.projects.filter((project) => allowedPxds.has(project.pxd)) : selectedL2.projects;
+      const baseProjects = allowedPxds ? selectedL2.projects.filter((project) => allowedPxds.has(project.pxd)) : selectedL2.projects;
       const projects = baseProjects.filter((project) => JSON.stringify(project).toLowerCase().includes(query));
       resultsCountEl.textContent = `${projects.length} of ${baseProjects.length} studies`;
       projectListEl.innerHTML = projects.length ? projects.map((project) => `<button class="treatment-project-row${selectedProject?.pxd === project.pxd ? ' is-selected' : ''}" data-pxd="${escapeHtml(project.pxd)}"><span class="row-head"><strong>${escapeHtml(project.pxd)}</strong><span class="row-code">${escapeHtml(project.classification.confidence || 'unrated')}</span></span><span>${escapeHtml(project.title || project.classification.label || 'Untitled project')}</span><span class="row-meta">${escapeHtml((project.treatment_attributes || []).map((item) => item.agent).filter(Boolean).join(', ') || String(project.summary?.sample_scope_label || project.summary?.sample_scope || 'Not reported'))}</span></button>`).join('') : '<p class="empty-state">No studies match this filter.</p>';
@@ -100,26 +93,15 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
       }));
     };
 
-    const selectL3 = (node: L3Node | null, mapped = false, unmapped = false) => {
+    const selectL3 = (node: L3Node | null) => {
       if (!selectedL2) return;
       selectedL3 = node;
-      showMappedL3 = mapped;
-      showUnmappedL3 = unmapped;
-      const mappedPxds = new Set(selectedL2.children.filter((child) => !child.is_residual && !child.is_unmapped_agent).flatMap((child) => child.pxd_ids));
-      selectedProject = mapped
-        ? selectedL2.projects.find((project) => mappedPxds.has(project.pxd)) || null
-        : unmapped
-        ? selectedL2.projects.find((project) => !mappedPxds.has(project.pxd)) || null
-        : node
+      selectedProject = node
         ? selectedL2.projects.find((project) => node.pxd_ids.includes(project.pxd)) || null
         : selectedL2.projects[0] || null;
       filterEl.value = '';
-      resultsTitleEl.textContent = mapped ? 'Mapped to Level 3' : unmapped ? 'Unmapped to Level 3' : node?.label || selectedL2.label;
-      definitionEl.textContent = mapped
-        ? 'Studies with at least one evidence-backed Level 3 assignment. A study may belong to multiple Level 3 classes.'
-        : unmapped
-        ? 'Studies assigned to this Level 2 class without an evidence-backed Level 3 mapping.'
-        : node?.definition || selectedL2.definition || 'No ontology definition exported.';
+      resultsTitleEl.textContent = node?.label || selectedL2.label;
+      definitionEl.textContent = node?.definition || selectedL2.definition || 'No ontology definition exported.';
       detailEl.innerHTML = selectedProject ? renderDetail(selectedProject, baseUrl) : '<p class="empty-state">No projects are currently mapped to this Level 3 class.</p>';
       history.replaceState(null, '', `#${encodeURIComponent(node?.curie || selectedL2.curie)}`);
       renderL3();
@@ -133,20 +115,15 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         return;
       }
       l3TitleEl.textContent = selectedL2.label;
-      const unmappedCount = selectedL2.pxd_count - selectedL2.l3_mapped_pxd_count;
-      const allButton = `<button class="treatment-node treatment-node-l3${selectedL3 || showMappedL3 || showUnmappedL3 ? '' : ' is-selected'}" data-l3-curie=""><span>All studies</span><strong>${selectedL2.pxd_count}</strong></button>`;
-      const mappedButton = `<button class="treatment-node treatment-node-l3${showMappedL3 ? ' is-selected' : ''}${selectedL2.l3_mapped_pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-mapped><span>Mapped to Level 3</span><strong>${selectedL2.l3_mapped_pxd_count}</strong></button>`;
-      const unmappedButton = `<button class="treatment-node treatment-node-l3${showUnmappedL3 ? ' is-selected' : ''}${unmappedCount === 0 ? ' is-zero-count' : ''}" data-l3-unmapped><span>Unmapped to Level 3</span><strong>${unmappedCount}</strong></button>`;
+      const allButton = `<button class="treatment-node treatment-node-l3${selectedL3 ? '' : ' is-selected'}" data-l3-curie=""><span>All studies</span><strong>${selectedL2.pxd_count}</strong></button>`;
       const children = [...(selectedL2.children || [])]
         .sort(sortByCountThenLabel)
         .map((node) => `<button class="treatment-node treatment-node-l3${node.is_residual ? ' treatment-node-l3-residual' : ''}${selectedL3?.curie === node.curie ? ' is-selected' : ''}${node.pxd_count === 0 ? ' is-zero-count' : ''}" data-l3-curie="${escapeHtml(node.curie)}"><span>${escapeHtml(node.label)}</span><strong>${node.pxd_count}</strong></button>`).join('');
-      l3El.innerHTML = allButton + mappedButton + unmappedButton + children;
+      l3El.innerHTML = allButton + children;
       l3El.querySelectorAll<HTMLButtonElement>('[data-l3-curie]').forEach((button) => button.addEventListener('click', () => {
         const node = button.dataset.l3Curie ? selectedL2?.children.find((child) => child.curie === button.dataset.l3Curie) || null : null;
         selectL3(node);
       }));
-      l3El.querySelector<HTMLButtonElement>('[data-l3-mapped]')?.addEventListener('click', () => selectL3(null, true));
-      l3El.querySelector<HTMLButtonElement>('[data-l3-unmapped]')?.addEventListener('click', () => selectL3(null, false, true));
     };
 
     const renderL2 = () => {
@@ -157,8 +134,6 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         if (!node) return;
         selectedL2 = node;
         selectedL3 = null;
-        showMappedL3 = false;
-        showUnmappedL3 = false;
         selectedProject = node.projects[0] || null;
         filterEl.disabled = false;
         filterEl.value = '';
@@ -180,8 +155,6 @@ export async function initTreatmentBrowser({ dataUrl, baseUrl }: Options) {
         selectedL1 = node;
         selectedL2 = null;
         selectedL3 = null;
-        showMappedL3 = false;
-        showUnmappedL3 = false;
         selectedProject = null;
         filterEl.disabled = true;
         resultsTitleEl.textContent = 'Select a treatment class';
