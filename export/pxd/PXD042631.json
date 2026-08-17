@@ -8,14 +8,14 @@
       "TMT"
     ],
     "treatment_categories": [
-      "molecular state comparison",
       "anatomical or spatial comparison"
     ],
     "cell_types": [
       "fibroblast",
       "hepatocyte",
       "erythroblast",
-      "glioblastoma cell"
+      "glioblastoma cell",
+      "T-lymphoblastoid"
     ],
     "cell_lines": [
       "NIH3T3",
@@ -32,24 +32,6 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "protein_complex_assembly_state",
-        "matched_class_path": [
-          "molecular_state",
-          "protein_complex_assembly_state"
-        ],
-        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
-        "confidence": "high",
-        "evidence": [
-          "To identify PPIX-binding proteins we developed a PPIX probe, referred to as PPB, by conjugation to biotin.",
-          "PPB-bound proteins were precipitated from cell extracts from four distinct cell lines",
-          "identify proteins that interact with PPIX"
-        ]
-      },
-      {
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
@@ -59,27 +41,13 @@
           "anatomical_spatial"
         ],
         "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
-          "PPB-interacting proteins identified for each cell line. Most differences are quantitative, despite marked differences in PPIX formation and sensitivity.",
-          "identify whether the proteins involved in PPIX interactions are conserved among species",
-          "evaluate PPB-interacting proteins in multiple cell lineages"
-        ],
-        "notes": "The primary proteomics comparison is across different cell lineages/types (NIH3T3, MEL, HepG2, U251), which is mapped to the broad anatomical/spatial category as it compares different biological origins/histotypes."
-      }
-    ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "PPB",
-        "dose_or_concentration": "40 nmol",
-        "duration": "30 min",
-        "route_or_context": "cell lysates",
-        "evidence": [
-          "40 nmol of PPB or biotin with only a cross-linker as a control were added to the tubes. The tubes were allowed to equilibrate in the dark for 30 min."
+          "To identify PPB-interacting proteins, PPB-bound proteins were precipitated from cell extracts from four distinct cell lines (Fig. 5a). These cell lines, taken from four different lineages, included NIH3T3, a mouse fibroblast cell line; MEL, a mouse erythroblast cell line; HepG2, a human liver cell line; and U251, a human glioblastoma cell."
         ]
       }
     ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -88,28 +56,31 @@
     "timepoints": [],
     "control_arms": [
       "PEG-biotin",
-      "biotin"
+      "blank negative control samples"
     ],
     "case_arms": [
-      "PPB"
+      "NIH3T3",
+      "MEL",
+      "HepG2",
+      "U251"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "three independent cell lysates were prepared",
-      "with duplicates"
+      "Four cell lines (two human and two mouse) with duplicates",
+      "three independent cell lysates were prepared"
     ],
     "multiplex_channel_hints": [
-      "tandem mass tag (TMT) proteomics",
-      "11-plex Tandem Mass Tag (TMT) reagents"
+      "labeled with 11-plex Tandem Mass Tag (TMT) reagents",
+      "pooled both human and mouse cell lines into one 11-plex TMT experiment"
     ],
     "contrast_hints": [
       {
-        "control_label": "PEG-biotin",
-        "case_label": "PPB",
-        "contrast_type": "pairwise",
+        "control_label": "blank samples",
+        "case_label": "cell lines",
+        "contrast_type": "multi_group",
         "evidence": [
-          "interaction candidates were identified by comparison to the three blank samples via one-tailed t-test."
+          "For each of the four cell lines, interaction candidates were identified by comparison to the three blank samples via one-tailed t-test."
         ]
       }
     ],
@@ -134,49 +105,54 @@
     "cell_types": [
       {
         "label": "fibroblast",
-        "rollup_category": "cell type",
+        "rollup_category": "somatic cell",
         "ontology_curie": "CL:0000057"
       },
       {
         "label": "hepatocyte",
-        "rollup_category": "cell type",
+        "rollup_category": "somatic cell",
         "ontology_curie": "CL:0000182"
       },
       {
         "label": "erythroblast",
-        "rollup_category": "cell type",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       },
       {
         "label": "glioblastoma cell",
-        "rollup_category": "cell type",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
+        "label": "T-lymphoblastoid",
+        "rollup_category": "hematopoietic cell",
         "ontology_curie": null
       }
     ],
     "cell_lines": [
       {
         "label": "NIH3T3",
-        "family": "fibroblast",
+        "family": "mouse fibroblast",
         "ontology_curie": null
       },
       {
         "label": "HepG2",
-        "family": "hepatoblastoma",
+        "family": "human liver",
         "ontology_curie": null
       },
       {
         "label": "MEL",
-        "family": "erythroleukemia",
+        "family": "mouse erythroblast",
         "ontology_curie": null
       },
       {
         "label": "U251",
-        "family": "glioblastoma",
+        "family": "human glioblastoma",
         "ontology_curie": null
       },
       {
         "label": "Jurkat",
-        "family": "T-lymphoblastoid leukemia",
+        "family": "T-cell leukemia",
         "ontology_curie": null
       }
     ],
@@ -224,14 +200,14 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses 11-plex Tandem Mass Tag (TMT) labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "The experiment explicitly uses 11-plex Tandem Mass Tag (TMT) reagents and data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT",
+        "tandem mass tag",
         "11-plex",
-        "isobaric labeling",
         "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
@@ -241,14 +217,14 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses 11-plex Tandem Mass Tag (TMT) labeling and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "The experiment explicitly uses 11-plex Tandem Mass Tag (TMT) reagents and data-dependent acquisition (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMT",
+        "tandem mass tag",
         "11-plex",
-        "isobaric labeling",
         "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
@@ -277,7 +253,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

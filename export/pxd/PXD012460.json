@@ -15,8 +15,8 @@
     "cell_types": [],
     "cell_lines": [],
     "sample_scope": "subproteome",
-    "sample_scope_label": "extracellular matrix scope",
-    "sample_scope_curie": null,
+    "sample_scope_label": "extracellular matrix",
+    "sample_scope_curie": "PPA:0000195",
     "instrument": null
   },
   "treatment": {
@@ -31,12 +31,12 @@
           "chemical_or_drug"
         ],
         "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
           "characterized human pancreatic ECM composition before and after decellularization",
           "treated with 2.5 mM deoxycholate and lipase over an 18-h period to decellularize the tissue"
         ],
-        "notes": "The decellularization process is a chemical treatment using detergents (deoxycholate) and enzymes (lipase) to remove cellular components, creating a 'native vs decellularized' comparison."
+        "notes": "The decellularization process is a chemical treatment using detergents (deoxycholate) and enzymes (lipase) to remove cellular components."
       },
       {
         "ontology_label": "anatomical or spatial comparison",
@@ -52,7 +52,7 @@
         "evidence": [
           "The distinct expression of ECM proteins was quantified comparing adult and fetal pancreas ECM"
         ],
-        "notes": "The comparison between adult and fetal pancreas represents a developmental/anatomical state comparison. No specific child class in the ontology perfectly matches 'developmental age' without being a 'disease' or 'cell state', so parent mapping is used."
+        "notes": "Comparison between developmental stages (adult vs fetal) of the same organ."
       }
     ],
     "attributes": [
@@ -61,7 +61,7 @@
         "agent": "deoxycholate",
         "dose_or_concentration": "2.5 mM",
         "duration": "18-h",
-        "route_or_context": "decellularization of the human pancreas",
+        "route_or_context": "decellularization of adult human pancreata",
         "evidence": [
           "treated with 2.5 mM deoxycholate and lipase over an 18-h period to decellularize the tissue"
         ]
@@ -71,9 +71,19 @@
         "agent": "lipase",
         "dose_or_concentration": null,
         "duration": "18-h",
-        "route_or_context": "decellularization of the human pancreas",
+        "route_or_context": "decellularization of adult human pancreata",
         "evidence": [
           "treated with 2.5 mM deoxycholate and lipase over an 18-h period to decellularize the tissue"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "deoxycholate",
+        "dose_or_concentration": "2.5 mM",
+        "duration": "3 h",
+        "route_or_context": "decellularization of fetal pancreata",
+        "evidence": [
+          "treated with 2.5 mM deoxycholate for 3 h to decellularize"
         ]
       }
     ],
@@ -82,19 +92,19 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "fetal",
-      "adult"
-    ],
+    "timepoints": [],
     "control_arms": [
-      "native"
+      "native pancreas",
+      "adult pancreas",
+      "fetal pancreas"
     ],
     "case_arms": [
-      "decellularized"
+      "decellularized pancreas"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
+      "three technical replicates were performed for each approach",
       "three biological replicates for each condition"
     ],
     "multiplex_channel_hints": [
@@ -102,16 +112,16 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "native",
-        "case_label": "decellularized",
+        "control_label": "native pancreas",
+        "case_label": "decellularized pancreas",
         "contrast_type": "pairwise",
         "evidence": [
           "characterized human pancreatic ECM composition before and after decellularization"
         ]
       },
       {
-        "control_label": "fetal",
-        "case_label": "adult",
+        "control_label": "fetal pancreas",
+        "case_label": "adult pancreas",
         "contrast_type": "pairwise",
         "evidence": [
           "The distinct expression of ECM proteins was quantified comparing adult and fetal pancreas ECM"
@@ -141,8 +151,8 @@
     ],
     "sample_scope": {
       "category": "subproteome",
-      "label": "extracellular matrix scope",
-      "curie": null
+      "label": "extracellular matrix",
+      "curie": "PPA:0000195"
     },
     "linkage_hints": {
       "biosample_accessions": [],
@@ -163,14 +173,7 @@
       "MaxLFQ"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
-      {
-        "ontology_label": "extracellular matrix proteins",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
-      }
-    ],
+    "targets_and_enrichments": [],
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
@@ -182,46 +185,48 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_dimethyl",
-          "confidence": 1.0,
-          "reason": "Explicit use of 12-plex dimethylated leucine (DiLeu) isobaric tags for relative quantification."
-        },
-        {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly performed a parallel analysis using a well-established label-free quantification (LFQ) approach with MaxLFQ algorithm."
+          "reason": "The study explicitly used a 'well-established label-free quantification (LFQ) approach' with MaxQuant and MaxLFQ algorithm for the primary comparison of fetal vs adult pancreas."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.8,
+          "reason": "The study utilized 12-plex dimethylated leucine (DiLeu) isobaric tags for relative quantification of native vs decellularized ECM."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "DiLeu",
-        "dimethylated leucine",
-        "isobaric tags",
         "label-free quantification",
-        "MaxLFQ"
+        "LFQ",
+        "MaxLFQ",
+        "dimethylated leucine",
+        "DiLeu",
+        "isobaric tags"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_dimethyl",
-          "confidence": 1.0,
-          "reason": "Explicit use of 12-plex dimethylated leucine (DiLeu) isobaric tags for relative quantification."
-        },
-        {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly performed a parallel analysis using a well-established label-free quantification (LFQ) approach with MaxLFQ algorithm."
+          "reason": "The study explicitly used a 'well-established label-free quantification (LFQ) approach' with MaxQuant and MaxLFQ algorithm for the primary comparison of fetal vs adult pancreas."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 0.8,
+          "reason": "The study utilized 12-plex dimethylated leucine (DiLeu) isobaric tags for relative quantification of native vs decellularized ECM."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "DiLeu",
-        "dimethylated leucine",
-        "isobaric tags",
         "label-free quantification",
-        "MaxLFQ"
+        "LFQ",
+        "MaxLFQ",
+        "dimethylated leucine",
+        "DiLeu",
+        "isobaric tags"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -249,7 +254,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

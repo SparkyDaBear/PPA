@@ -9,8 +9,8 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "ligand-mediated stimulation"
+      "ER stressor treatment",
+      "growth factor stimulation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -27,25 +27,25 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "ER stressor treatment",
+        "ontology_curie": "PPA:0000032",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "er_stressor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "er_stressor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment that perturbs endoplasmic reticulum proteostasis or unfolded protein response state.",
         "confidence": "high",
         "evidence": [
           "To induce the UPR, 10 \u03bcg/mL tunicamycin was added to cells",
-          "For UPR experiments, tunicamycin was added to the media to achieve a final concentration of 10 \u03bcg/mL"
+          "Application of MITNCAT to the unfolded protein response enabled the temporal analysis of thousands of protein synthesis rates"
         ]
       },
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
+        "ontology_label": "growth factor stimulation",
+        "ontology_curie": "PPA:0000042",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
         "matched_class_key": "growth_factor_stimulation",
@@ -53,7 +53,7 @@
           "ligand_stimulation",
           "growth_factor_stimulation"
         ],
-        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
         "confidence": "high",
         "evidence": [
           "We also applied MITNCAT to quantify protein synthesis rates following epidermal growth factor (EGF) stimulation of HeLa cells",
@@ -67,14 +67,14 @@
         "agent": "tunicamycin",
         "dose_or_concentration": "10 \u03bcg/mL",
         "duration": null,
-        "route_or_context": "induction of the unfolded protein response (UPR)",
+        "route_or_context": "induction of the unfolded protein response",
         "evidence": [
           "To induce the UPR, 10 \u03bcg/mL tunicamycin was added to cells"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "epidermal growth factor (EGF)",
+        "agent": "epidermal growth factor",
         "dose_or_concentration": "20 nM",
         "duration": null,
         "route_or_context": "stimulation of HeLa cells",
@@ -118,9 +118,8 @@
       "four replicates"
     ],
     "multiplex_channel_hints": [
-      "multiplexed isobaric tandem mass tagging (TMT)",
       "TMT 6-plex",
-      "ten different conditions in a single MS experiment"
+      "multiplexed isobaric tandem mass tagging (TMT)"
     ],
     "contrast_hints": [
       {
@@ -136,7 +135,8 @@
         "case_label": "EGF",
         "contrast_type": "timecourse",
         "evidence": [
-          "To account for the effects of the KRM-free media starvation and Aha labeling, matched PBS controls were also collected at the same time points."
+          "quantify the temporal dynamics of protein synthesis rates for thousands of proteins at multiple time points following EGF stimulation",
+          "matched PBS controls were also collected at the same time points"
         ]
       }
     ],
@@ -149,26 +149,26 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
+        "rollup_category": "cell type",
         "ontology_curie": "CL:0000066"
       }
     ],
     "cell_lines": [
       {
         "label": "HeLa",
-        "family": "HeLa",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "MCF10a",
-        "family": "MCF10a",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -196,7 +196,7 @@
       "TMT reporter ion intensity",
       "pSILAC"
     ],
-    "proteomics_mode": "PTM-enriched",
+    "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
         "ontology_label": "BONCAT enrichment",
@@ -219,28 +219,28 @@
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
           "reason": "The experiment explicitly uses TMT (multiplexed isobaric tandem mass tagging) for quantification across multiple time points."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.8,
+          "reason": "The MITNCAT method incorporates pSILAC (heavy-isotope labeled arginine and lysine) as a marker for specificity of newly synthesized proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_silac",
-          "confidence": 0.9,
-          "reason": "The MITNCAT method combines TMT with pulsed SILAC (pSILAC) using K8 and R10 labels to mark newly synthesized proteins."
-        },
-        {
-          "modifier_workflow_id": "modifier_boncat",
-          "confidence": 0.9,
-          "reason": "The method uses BONCAT (azidohomoalanine/Aha tagging) for selective enrichment of newly synthesized proteins via click chemistry."
+          "modifier_workflow_id": "boncat_enrichment",
+          "confidence": 1.0,
+          "reason": "The workflow uses azidohomoalanine (Aha) for bio-orthogonal non-canonical amino acid tagging (BONCAT) and click chemistry-mediated solid-phase capture."
         }
       ],
       "trigger_keywords": [
         "MITNCAT",
-        "TMT",
-        "pSILAC",
         "BONCAT",
+        "pSILAC",
+        "TMT",
         "azidohomoalanine",
         "Aha",
-        "isobaric mass tagging"
+        "click chemistry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -250,28 +250,28 @@
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
           "reason": "The experiment explicitly uses TMT (multiplexed isobaric tandem mass tagging) for quantification across multiple time points."
+        },
+        {
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 0.8,
+          "reason": "The MITNCAT method incorporates pSILAC (heavy-isotope labeled arginine and lysine) as a marker for specificity of newly synthesized proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_silac",
-          "confidence": 0.9,
-          "reason": "The MITNCAT method combines TMT with pulsed SILAC (pSILAC) using K8 and R10 labels to mark newly synthesized proteins."
-        },
-        {
-          "modifier_workflow_id": "modifier_boncat",
-          "confidence": 0.9,
-          "reason": "The method uses BONCAT (azidohomoalanine/Aha tagging) for selective enrichment of newly synthesized proteins via click chemistry."
+          "modifier_workflow_id": "boncat_enrichment",
+          "confidence": 1.0,
+          "reason": "The workflow uses azidohomoalanine (Aha) for bio-orthogonal non-canonical amino acid tagging (BONCAT) and click chemistry-mediated solid-phase capture."
         }
       ],
       "trigger_keywords": [
         "MITNCAT",
-        "TMT",
-        "pSILAC",
         "BONCAT",
+        "pSILAC",
+        "TMT",
         "azidohomoalanine",
         "Aha",
-        "isobaric mass tagging"
+        "click chemistry"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -299,7 +299,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

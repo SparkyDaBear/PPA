@@ -28,15 +28,14 @@
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
-        "matched_class_key": "growth_factor_stimulation",
+        "matched_class_key": null,
         "matched_class_path": [
-          "ligand_stimulation",
-          "growth_factor_stimulation"
+          "ligand_stimulation"
         ],
-        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
-        "confidence": "medium",
+        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
+        "confidence": "high",
         "evidence": [
-          "treated with recombinant proteins in starving media at the following concentrations: ECM-1 (20 ng/mL; R&D systems; catno. 3937-EC)",
+          "treated with recombinant proteins in starving media at the following concentrations: ECM-1 (20 ng/mL; R&D systems; catno. 3937-EC), and TNF-\u03b1 (20 ng/mL; Gibco; cat no. PHC3011).",
           "With the use of unbiased phosphoproteomics mass spectrometry (serine/threonine), we identified 38 differentially phosphorylated proteins in ECM-1-treated HuCFbs relative to control cells treated with media alone"
         ]
       }
@@ -44,23 +43,22 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant human ECM-1 protein",
+        "agent": "ECM-1",
         "dose_or_concentration": "20 ng/mL",
         "duration": null,
-        "route_or_context": "HuCFb cells in starving media",
+        "route_or_context": "starving media",
         "evidence": [
           "treated with recombinant proteins in starving media at the following concentrations: ECM-1 (20 ng/mL; R&D systems; catno. 3937-EC)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "His-Tag Isolation Dynabeads with recombinant human ECM-1 protein",
-        "dose_or_concentration": "500ng",
-        "duration": "45 minutes",
-        "route_or_context": "HuCFb purified membrane/membrane associated protein lysate",
+        "agent": "TNF-\u03b1",
+        "dose_or_concentration": "20 ng/mL",
+        "duration": null,
+        "route_or_context": "starving media",
         "evidence": [
-          "Washed Dynabeads\u2019 were then incubation with His-IP lysis buffer containing 500ng recombinant human ECM1 protein (\u201cECM1\u201d samples; R&D Systems)",
-          "incubated in either our previously prepared \u201c1x detergent sample\u201d or \u201c1/4x detergent sample\u201d HuCFb purified membrane/membrane associated protein lysate for 45 minutes at RT"
+          "treated with recombinant proteins in starving media at the following concentrations: ... TNF-\u03b1 (20 ng/mL; Gibco; cat no. PHC3011)."
         ]
       }
     ],
@@ -69,13 +67,18 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "3 hours",
+      "16 hours",
+      "48 hours"
+    ],
     "control_arms": [
       "media alone",
-      "control (Dynabeads without pre-bound ECM-1)"
+      "control samples (Dynabeads had no pre-bound ECM-1)"
     ],
     "case_arms": [
       "ECM-1 treated",
+      "TNF-\u03b1 treated",
       "ECM-1 bound beads"
     ],
     "paired_design": false,
@@ -90,15 +93,15 @@
         "case_label": "ECM-1 treated",
         "contrast_type": "pairwise",
         "evidence": [
-          "identified 38 differentially phosphorylated proteins in ECM-1-treated HuCFbs relative to control cells treated with media alone"
+          "we identified 38 differentially phosphorylated proteins in ECM-1-treated HuCFbs relative to control cells treated with media alone"
         ]
       },
       {
-        "control_label": "control (Dynabeads)",
+        "control_label": "control (no pre-bound ECM-1)",
         "case_label": "ECM-1 bound",
         "contrast_type": "pairwise",
         "evidence": [
-          "Two-sample t-test was performed to identify significantly enriched proteins in the ECM1 bound samples (p-value <= 0.05)"
+          "recombinant human ECM-1 protein which was pre-bound (\"ECM-1\" sample) to His-Tag Isolation Dynabeads (\"control\" sample; Dynabeads had no pre-bound ECM-1)"
         ]
       }
     ],
@@ -137,7 +140,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -158,6 +161,12 @@
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -173,24 +182,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The phosphoproteomics data used label-free quantification (LFQ) with MaxQuant and DDA acquisition (top 10 most intense peaks)."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with MaxQuant for both the phosphoproteomics and the pull-down experiments, utilizing DDA (top20 CID/HCD) on Orbitrap and maXis instruments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment."
+          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment in the phosphoproteomics dataset."
         },
         {
           "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "Use of His-tag dependent pull-down for ECM-1 protein-protein binding partners."
+          "confidence": 1.0,
+          "reason": "Explicit use of His-tag dependent pull-down of ECM1 protein-protein binding partners."
         }
       ],
       "trigger_keywords": [
-        "phosphoproteomics",
         "label free quantification",
+        "phosphopeptide enrichment",
         "TiO2 beads",
         "His-tag dependent pull-down",
         "in-gel digestion"
@@ -202,24 +211,24 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The phosphoproteomics data used label-free quantification (LFQ) with MaxQuant and DDA acquisition (top 10 most intense peaks)."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with MaxQuant for both the phosphoproteomics and the pull-down experiments, utilizing DDA (top20 CID/HCD) on Orbitrap and maXis instruments."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment."
+          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment in the phosphoproteomics dataset."
         },
         {
           "modifier_workflow_id": "affinity_purification",
-          "confidence": 0.9,
-          "reason": "Use of His-tag dependent pull-down for ECM-1 protein-protein binding partners."
+          "confidence": 1.0,
+          "reason": "Explicit use of His-tag dependent pull-down of ECM1 protein-protein binding partners."
         }
       ],
       "trigger_keywords": [
-        "phosphoproteomics",
         "label free quantification",
+        "phosphopeptide enrichment",
         "TiO2 beads",
         "His-tag dependent pull-down",
         "in-gel digestion"
@@ -250,7 +259,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

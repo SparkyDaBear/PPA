@@ -31,66 +31,64 @@
         "ontology_curie": "PPA:0000016",
         "category": "radiation_photostress",
         "matched_parent_class_key": "radiation_photostress",
-        "matched_class_key": "ionizing_radiation",
+        "matched_class_key": "ionizing_radiation_exposure",
         "matched_class_path": [
           "radiation_photostress",
-          "ionizing_radiation"
+          "ionizing_radiation_exposure"
         ],
-        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
         "confidence": "high",
         "evidence": [
-          "exposure of human breast carcinoma cells to ionizing radiation (IR)",
-          "IR exposure was performed using a cesium-137 \u03b3-ray source",
-          "followed by IR exposure (10 Gy) or no treatment"
+          "systematically identified RNA-binding proteins differentially interacting with polyadenylated transcripts upon exposure of human breast carcinoma cells to ionizing radiation (IR)",
+          "IR exposure was performed using a cesium-137 \u03b3-ray source"
         ]
       },
       {
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "genetic_perturbation",
-        "matched_class_key": "gene_disruption",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "genetic_perturbation",
-          "gene_disruption"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "Mock- and siRNA-transfected MCF-7 Flp-In cells",
-          "DDX54 knockdown results in significantly lower number of clones compared to mock-treated cells",
-          "in DDX54-depleted cells the dramatic up-regulation of pre-mRNA levels was also observed"
+          "Mock- and siRNA-transfected MCF-7 Flp-In cells were grown",
+          "DDX54 knockdown (10 nM siRNA)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "ionizing radiation (IR)",
+        "agent": "ionizing radiation",
         "dose_or_concentration": "10 Gy",
         "duration": null,
         "route_or_context": "cesium-137 \u03b3-ray source",
         "evidence": [
-          "followed by IR exposure (10 Gy) or no treatment",
+          "followed by IR exposure (10 Gy)",
           "IR exposure was performed using a cesium-137 \u03b3-ray source"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": "ionizing radiation (IR)",
+        "agent": "ionizing radiation",
         "dose_or_concentration": null,
-        "duration": "1 hour",
-        "route_or_context": null,
+        "duration": null,
+        "route_or_context": "post IR exposure",
         "evidence": [
           "One hour after IR exposure, the cells were UV crosslinked"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "siRNA (siDDX54)",
+        "agent": "siRNA",
         "dose_or_concentration": "10 nM",
         "duration": "48 h",
-        "route_or_context": "transfection",
+        "route_or_context": "DDX54 knockdown",
         "evidence": [
           "Forty-eight hours after DDX54 knockdown (10 nM siRNA)"
         ]
@@ -102,7 +100,10 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 hour post IR"
+      "1 h",
+      "2 h",
+      "6 h",
+      "24 h"
     ],
     "control_arms": [
       "no treatment",
@@ -115,20 +116,21 @@
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "two biological replicates",
-      "two replicates of mock or siDDX54 samples each"
+      "two biological replicates"
     ],
     "multiplex_channel_hints": [
       "SILAC \u201cheavy\u201d labeled cell extracts",
-      "\u201cmedium-heavy\u201d and \u201cheavy\u201d cells were mixed in a 1:1 ratio"
+      "pSILAC",
+      "medium-heavy amino-acids",
+      "heavy amino-acids"
     ],
     "contrast_hints": [
       {
-        "control_label": "no treatment",
+        "control_label": "untreated",
         "case_label": "IR-exposed",
         "contrast_type": "pairwise",
         "evidence": [
-          "followed by IR exposure (10 Gy) or no treatment"
+          "quantify the differences in poly(A)+ RNA binding... between IR-treated and untreated cells"
         ]
       },
       {
@@ -136,7 +138,7 @@
         "case_label": "siDDX54-transfected",
         "contrast_type": "pairwise",
         "evidence": [
-          "Mock- and siRNA-transfected MCF-7 Flp-In cells"
+          "evaluate the dynamics of the transcriptome response to genotoxic stress in the presence and absence of DDX54"
         ]
       }
     ],
@@ -198,7 +200,6 @@
     ],
     "quantification_strategy": [
       "SILAC",
-      "pSILAC",
       "label-free"
     ],
     "proteomics_mode": "Bottom-up",
@@ -228,22 +229,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 100,
-          "reason": "The text explicitly describes the use of SILAC 'heavy' labeled cell extracts as a calibrator for the mRNA-bound proteome and a pSILAC approach for protein synthesis quantification."
+          "confidence": 1.0,
+          "reason": "The study explicitly describes using SILAC 'heavy' labeled cell extracts as a calibrator for the mRNA-bound proteome and pSILAC for protein synthesis quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 60,
-          "reason": "BioID proximity ligation assays were performed, which typically use label-free quantification (LFQ) or relative abundance comparisons."
+          "confidence": 0.6,
+          "reason": "While SILAC is used, the study also mentions 'label-free DMEM formulation' for some samples, though quantification was primarily relative to the SILAC spike-in."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 0.9,
+          "reason": "The text describes proximity-dependent biotinylation (BioID) assays using BirA-FLAG-DDX54 followed by streptavidin purification."
+        },
+        {
+          "modifier_workflow_id": "modifier_coip",
+          "confidence": 0.9,
+          "reason": "The text describes anti-FLAG co-immunoprecipitation (co-IP) experiments."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "heavy labeled cell extracts",
         "pSILAC",
+        "BioID",
+        "co-immunoprecipitation",
         "oligo(dT) affinity purification",
-        "BioID"
+        "streptavidin-purified"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,22 +264,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 100,
-          "reason": "The text explicitly describes the use of SILAC 'heavy' labeled cell extracts as a calibrator for the mRNA-bound proteome and a pSILAC approach for protein synthesis quantification."
+          "confidence": 1.0,
+          "reason": "The study explicitly describes using SILAC 'heavy' labeled cell extracts as a calibrator for the mRNA-bound proteome and pSILAC for protein synthesis quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 60,
-          "reason": "BioID proximity ligation assays were performed, which typically use label-free quantification (LFQ) or relative abundance comparisons."
+          "confidence": 0.6,
+          "reason": "While SILAC is used, the study also mentions 'label-free DMEM formulation' for some samples, though quantification was primarily relative to the SILAC spike-in."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_bioid",
+          "confidence": 0.9,
+          "reason": "The text describes proximity-dependent biotinylation (BioID) assays using BirA-FLAG-DDX54 followed by streptavidin purification."
+        },
+        {
+          "modifier_workflow_id": "modifier_coip",
+          "confidence": 0.9,
+          "reason": "The text describes anti-FLAG co-immunoprecipitation (co-IP) experiments."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "heavy labeled cell extracts",
         "pSILAC",
+        "BioID",
+        "co-immunoprecipitation",
         "oligo(dT) affinity purification",
-        "BioID"
+        "streptavidin-purified"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -294,7 +319,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

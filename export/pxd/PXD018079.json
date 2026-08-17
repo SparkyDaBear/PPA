@@ -3,13 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Parallel Reaction Monitoring (PRM)",
+    "quantification_method": "Relative quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
       "ligand-mediated stimulation",
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "ovarian cancer cells"
@@ -19,7 +20,7 @@
       "OVCAR4",
       "OVCAR5"
     ],
-    "sample_scope": "secretome scope",
+    "sample_scope": "subproteome",
     "sample_scope_label": "secretome scope",
     "sample_scope_curie": "PPA:0000198",
     "instrument": null
@@ -56,6 +57,23 @@
         "evidence": [
           "treating with or without brefeldin A (1 \u03bcg ml\u22121) or wortmannin (1 \u03bcM)"
         ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "CRISPR-mediated ablation of PIGR in OVCAR3 cells",
+          "conditioned medium from transcytosis experiment in OVCAR3 (wild-type or PIGR-ablated) cells"
+        ]
       }
     ],
     "attributes": [
@@ -64,7 +82,7 @@
         "agent": "native human IgA",
         "dose_or_concentration": "0.5 \u03bcg ml\u22121",
         "duration": "12 h",
-        "route_or_context": "serum-free RPMI medium",
+        "route_or_context": "conditioned medium",
         "evidence": [
           "treating with or without native human IgA (Abcam, ab91025) or IgG (Abcam, ab98981) at 0.5 \u03bcg ml\u22121 final concentration",
           "After 12 h, conditioned medium was collected"
@@ -75,7 +93,7 @@
         "agent": "IgG",
         "dose_or_concentration": "0.5 \u03bcg ml\u22121",
         "duration": "12 h",
-        "route_or_context": "serum-free RPMI medium",
+        "route_or_context": "conditioned medium",
         "evidence": [
           "treating with or without native human IgA (Abcam, ab91025) or IgG (Abcam, ab98981) at 0.5 \u03bcg ml\u22121 final concentration"
         ]
@@ -112,28 +130,22 @@
     ],
     "control_arms": [
       "untreated",
-      "IgG"
+      "IgG",
+      "wild-type"
     ],
     "case_arms": [
       "IgA",
       "brefeldin A",
-      "wortmannin"
+      "wortmannin",
+      "PIGR-ablated"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "All experiments are represented by several biological replicates or independent experiments"
+      "All western blot analyses were independently replicated at least two times in case of human-derived specimens and three times in case of in vitro experiments"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
-      {
-        "control_label": "untreated",
-        "case_label": "IgA",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "treating with or without native human IgA"
-        ]
-      },
       {
         "control_label": "IgG",
         "case_label": "IgA",
@@ -143,11 +155,11 @@
         ]
       },
       {
-        "control_label": "IgA",
-        "case_label": "IgA + transcytosis inhibitors",
+        "control_label": "wild-type",
+        "case_label": "PIGR-ablated",
         "contrast_type": "pairwise",
         "evidence": [
-          "conditioned media from different cell lines exposed to IgA or control IgG, in the presence or the absence of the inhibitors of IgA transcytosis, Brefeldin A and Wortmannin"
+          "conditioned medium from transcytosis experiment in OVCAR3 (wild-type or PIGR-ablated) cells"
         ]
       }
     ],
@@ -160,7 +172,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -195,7 +207,7 @@
       }
     ],
     "sample_scope": {
-      "category": "secretome scope",
+      "category": "subproteome",
       "label": "secretome scope",
       "curie": "PPA:0000198"
     },
@@ -213,14 +225,14 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Parallel Reaction Monitoring (PRM)",
-      "Relative quantitation via Skyline"
+      "Relative quantitation",
+      "Parallel Reaction Monitoring (PRM)"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "polymeric immunoglobulin receptor (pIgR)",
-        "ontology_curie": null,
+        "ontology_label": "targeted acquisition",
+        "ontology_curie": "PPA:0000221",
         "workflow_modifier_hint": null,
         "confidence": "high"
       }
@@ -238,14 +250,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used DDA (data-dependent manner) and MaxQuant for relative quantification of proteins/peptides in conditioned media."
+          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant for relative quantification of proteins/peptides in conditioned media."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm",
           "confidence": 0.95,
-          "reason": "The PRIDE metadata explicitly describes the use of 8 targeted parallel reaction monitoring (PRM) scans for pIgR peptides."
+          "reason": "The PRIDE metadata explicitly describes the use of 8 targeted parallel reaction monitoring (PRM) scans to quantify pIgR peptides."
         }
       ],
       "trigger_keywords": [
@@ -262,14 +274,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used DDA (data-dependent manner) and MaxQuant for relative quantification of proteins/peptides in conditioned media."
+          "reason": "The experiment used data-dependent acquisition (DDA) and MaxQuant for relative quantification of proteins/peptides in conditioned media."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm",
           "confidence": 0.95,
-          "reason": "The PRIDE metadata explicitly describes the use of 8 targeted parallel reaction monitoring (PRM) scans for pIgR peptides."
+          "reason": "The PRIDE metadata explicitly describes the use of 8 targeted parallel reaction monitoring (PRM) scans to quantify pIgR peptides."
         }
       ],
       "trigger_keywords": [
@@ -305,7 +317,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

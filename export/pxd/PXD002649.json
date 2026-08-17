@@ -8,7 +8,9 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "anatomical or spatial comparison"
+      "anatomical or spatial comparison",
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -25,35 +27,106 @@
         "ontology_label": "anatomical or spatial comparison",
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
-        "matched_parent_class_key": "spatial_region_comparison",
-        "matched_class_key": "spatial_region_comparison",
+        "matched_parent_class_key": "anatomical_spatial",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
-          "anatomical or spatial comparison",
-          "spatial region comparison"
+          "anatomical_spatial",
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
-          "quantifying the distribution of cellular proteins between protrusions and the cell body by stable isotope labeling of amino acids in culture (SILAC)",
-          "determined the relative translation rates of proteins between protrusions and the cell body",
-          "quantified the relative distribution of mRNAs between protrusions and the cell body by RNA sequencing (RNA-seq)"
+          "quantifying the distribution of cellular proteins between protrusions and the cell body",
+          "relative translation rates of proteins between protrusions and the cell body",
+          "relative distribution of mRNAs between protrusions and the cell body"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "Treatment of MDA-MB231 cells with cycloheximide-abrogated protein translation",
+          "we used emetine, an irreversible inhibitor of protein translation",
+          "local inhibition of translation also destabilized protrusions"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000050",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "we screened RBP categories enriched in protrusions by RNAi",
+          "depleting each protein by RNAi and assessing the ability of depleted cells to form stable protrusions",
+          "knockdown of seven out of nine exosome core subunits significantly inhibited protrusions"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "cycloheximide",
+        "dose_or_concentration": "10\u00a0\u03bcg/ml",
+        "duration": null,
+        "route_or_context": null,
+        "evidence": [
+          "For cycloheximide treatments, 10\u00a0\u03bcg/ml cycloheximide was added to the cells for indicated times."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "emetine",
+        "dose_or_concentration": "1\u00a0\u03bcg/ml",
+        "duration": "5\u00a0min",
+        "route_or_context": "added to the bottom of transwell filters",
+        "evidence": [
+          "a low dose of 1\u00a0\u03bcg/ml emetine was added to the bottom of transwell filters for 5\u00a0min."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "RNAi",
+        "dose_or_concentration": null,
+        "duration": "72\u00a0hr",
+        "route_or_context": "siRNA depletion",
+        "evidence": [
+          "No apoptosis or change in cell proliferation could be detected upon depletion of exosome core subunits over 72\u00a0hr"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [
-      "2 hr"
+      "2\u00a0hr"
     ],
     "control_arms": [
-      "cell body"
+      "cell body",
+      "vehicle"
     ],
     "case_arms": [
-      "protrusions"
+      "protrusions",
+      "cycloheximide",
+      "emetine",
+      "RNAi"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -63,9 +136,9 @@
     ],
     "multiplex_channel_hints": [
       "SILAC",
-      "pulsed-SILAC",
+      "pulsed-SILAC (pSILAC)",
       "heavy or light SILAC DMEM",
-      "reciprocally mixed SILAC or pSILAC samples"
+      "medium or heavy SILAC DMEM"
     ],
     "contrast_hints": [
       {
@@ -73,8 +146,15 @@
         "case_label": "protrusions",
         "contrast_type": "pairwise",
         "evidence": [
-          "quantifying the distribution of cellular proteins between protrusions and the cell body",
-          "determined the relative translation rates of proteins between protrusions and the cell body"
+          "quantifying the distribution of cellular proteins between protrusions and the cell body"
+        ]
+      },
+      {
+        "control_label": "vehicle",
+        "case_label": "emetine",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "1\u00a0\u03bcg/ml emetine (or vehicle for control treatment)"
         ]
       }
     ],
@@ -87,7 +167,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "taxid:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -137,15 +217,16 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC and pulsed-SILAC (pSILAC) for quantification with DDA acquisition on an LTQ Velos Orbitrap."
+          "reason": "Explicit mention of SILAC and pulsed-SILAC (pSILAC) using heavy, medium, and light labels, combined with DDA acquisition on an LTQ Velos Orbitrap."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
-        "pulsed-SILAC",
         "pSILAC",
-        "data dependent acquisition"
+        "pulsed-SILAC",
+        "reciprocal mixing",
+        "heavy or light SILAC DMEM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -154,15 +235,16 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC and pulsed-SILAC (pSILAC) for quantification with DDA acquisition on an LTQ Velos Orbitrap."
+          "reason": "Explicit mention of SILAC and pulsed-SILAC (pSILAC) using heavy, medium, and light labels, combined with DDA acquisition on an LTQ Velos Orbitrap."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
-        "pulsed-SILAC",
         "pSILAC",
-        "data dependent acquisition"
+        "pulsed-SILAC",
+        "reciprocal mixing",
+        "heavy or light SILAC DMEM"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -190,7 +272,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

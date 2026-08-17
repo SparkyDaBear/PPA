@@ -8,7 +8,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "targeted protein degrader treatment",
+      "small-molecule inhibitor treatment"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,21 +23,36 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "targeted protein degrader treatment",
+        "ontology_curie": "PPA:0000029",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "targeted_protein_degrader_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "targeted_protein_degrader_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a degrader, molecular glue, or PROTAC to reduce target protein abundance.",
         "confidence": "high",
         "evidence": [
           "analyzing over 15,000 unique proteins (>12,000 gene products) in HEK293 cells treated with five PROTACs",
-          "identified the proteomic response to 14 pools from the drug library",
-          "validated the proteomic response from one pool by re-profiling the cells under individual drug treatment",
+          "we used it to analyze PROTAC-induced protein degradation"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "apply the strategy to an FDA-approved drug library (95 best-in-class compounds)",
           "six kinase inhibitors (Venetoclax/Bcl-2, Vemurafenib/B-RAF, Sorafenib/VEGFR, Palbocilib/CDK4/6, 7-Hyddroxystaurosporin/pan-kinase, and AZD4547/FGFR)"
         ]
       }
@@ -44,35 +60,36 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "FDA-approved drug library (95 compounds)",
+        "agent": "PROTACs",
         "dose_or_concentration": null,
-        "duration": "5 hours",
+        "duration": "5 hrs",
+        "route_or_context": "HEK293 cells",
+        "evidence": [
+          "HEK293 cells treated with five PROTACs",
+          "HEK293 cells were separately treated with DMSO (a negative control) or each PROTAC for 5 hrs"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FDA-approved drug library",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "5 hrs",
         "route_or_context": "HEK293 cells",
         "evidence": [
           "apply the strategy to an FDA-approved drug library (95 best-in-class compounds)",
-          "cells were treated with fresh medium containing pooled or individual compounds (final DMSO concentration at 0.1%) for 5 hours"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_dose",
-        "agent": "FDA-approved drug library",
-        "dose_or_concentration": "5 \u03bcM (default), 1 \u03bcM or 0.2 \u03bcM (high toxicity)",
-        "duration": null,
-        "route_or_context": null,
-        "evidence": [
           "The default concentration was set at 5 \u03bcM",
-          "77 drugs were used at 5 \u03bcM, while the other 18 drugs of high toxicity were used at 1 \u03bcM or 0.2 \u03bcM"
+          "the default treatment time was 5 hrs"
         ]
       },
       {
-        "relation_key": "has_treatment_duration",
-        "agent": "PROTACs / Drug Library",
-        "dose_or_concentration": null,
-        "duration": "5 hours",
-        "route_or_context": null,
+        "relation_key": "has_treatment_agent",
+        "agent": "7-Hydroxystaurosporine",
+        "dose_or_concentration": "5 \u03bcM",
+        "duration": "5 hrs",
+        "route_or_context": "HEK293 cells",
         "evidence": [
-          "HEK293 cells were separately treated with DMSO (a negative control) or each PROTAC for 5 hrs",
-          "the default treatment time was 5 hrs to minimize the secondary effects"
+          "7-Hydroxystaurosporine, a prototypical ATP-competitive kinase inhibitor",
+          "All drugs were applied with a default concentration of 5 \u03bcM"
         ]
       }
     ],
@@ -82,20 +99,20 @@
   },
   "experimental_design": {
     "timepoints": [
-      "5 hours"
+      "5 hrs"
     ],
     "control_arms": [
       "DMSO"
     ],
     "case_arms": [
       "PROTACs",
-      "Drug pools",
-      "Individual drugs"
+      "drug pools",
+      "individual drugs"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "We had two replicates for each drug and the DMSO control (totaling 16 samples)",
+      "We had two replicates for each drug and the DMSO control",
       "performed four-replicated screening experiments for drug pool 7 and all 7 individual drugs"
     ],
     "multiplex_channel_hints": [
@@ -114,7 +131,7 @@
       },
       {
         "control_label": "DMSO",
-        "case_label": "Drug pools",
+        "case_label": "drug pools",
         "contrast_type": "multi_group",
         "evidence": [
           "the majority of variable proteins in drug pools 1/4/11/12/13 were upregulated, and those in drug pools 6/7/8/14 were downregulated, compared with the DMSO treatment"
@@ -122,8 +139,8 @@
       },
       {
         "control_label": "DMSO",
-        "case_label": "Individual drugs",
-        "contrast_type": "pairwise",
+        "case_label": "individual drugs",
+        "contrast_type": "multi_group",
         "evidence": [
           "determine differentially expressed (DE) proteins in each drug treatment versus DMSO by an ANOVA analysis"
         ]
@@ -158,7 +175,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -187,15 +204,15 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses TMTpro (isobaric labeling) and data-dependent MS2 scans (DDA) on a Q Exactive HF Orbitrap."
+          "reason": "The study explicitly uses TMTpro 18-plex isobaric labeling and data-dependent acquisition (DDA) on a Q Exactive HF Orbitrap."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMTpro",
         "isobaric labeling",
-        "data-dependent MS2 scans",
-        "TMT-MS"
+        "18-plex",
+        "data-dependent MS2"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -204,15 +221,15 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses TMTpro (isobaric labeling) and data-dependent MS2 scans (DDA) on a Q Exactive HF Orbitrap."
+          "reason": "The study explicitly uses TMTpro 18-plex isobaric labeling and data-dependent acquisition (DDA) on a Q Exactive HF Orbitrap."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "TMTpro",
         "isobaric labeling",
-        "data-dependent MS2 scans",
-        "TMT-MS"
+        "18-plex",
+        "data-dependent MS2"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,7 +257,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

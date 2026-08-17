@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
+      "case-control disease status",
       "disease or clinical state"
     ],
     "cell_types": [
@@ -24,16 +24,16 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
-        "matched_parent_class_key": "case_control_disease",
-        "matched_class_key": "case_control_disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "disease or clinical state",
-          "disease case-control"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "A set of four normal breast tissues was also collected after a breast-reduction surgery at Lund University Hospital and used to generate the DIA spectral library."
@@ -43,21 +43,42 @@
         "ontology_label": "disease or clinical state",
         "ontology_curie": "PPA:0000018",
         "category": "disease",
-        "matched_parent_class_key": "disease_stage_or_response",
-        "matched_class_key": "disease_stage_or_response",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": null,
         "matched_class_path": [
-          "disease or clinical state",
-          "disease stage or response state"
+          "disease"
         ],
-        "matched_definition": "Comparison across disease stages, grades, or therapeutic response groups.",
+        "matched_definition": "Disease status, disease subtype, disease stage, pathology state, treatment response, or clinical outcome state defining the comparison.",
         "confidence": "high",
         "evidence": [
-          "we stratified the breast cancer discovery sample set according to ER status and mammographic appearance",
-          "differential expression and GSEA analyses on the RNA-seq and DIA MS data in sample set 2... confirmed the enrichment of ER-related pathways in the ER-positive tumors and immune signatures in the ER-negative tumors"
+          "stratified the breast cancer discovery sample set according to ER status and mammographic appearance",
+          "comparison between ER-positive and ER-negative tumors",
+          "comparison of spiculated and nonspiculated tumors"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "estrogen receptor status",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "clinical receptor status",
+        "evidence": [
+          "stratified the breast cancer discovery sample set according to ER status"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "mammographic appearance",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "radiological phenotype",
+        "evidence": [
+          "stratified the breast cancer discovery sample set according to... mammographic appearance"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -77,7 +98,7 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Two samples sets of breast cancer tissues (set 1: 21 samples and set 2: 24 samples) were analyzed"
+      "Two samples sets of breast cancer tissues (set 1: 21 samples and set 2: 24 samples)"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -94,7 +115,15 @@
         "case_label": "spiculated",
         "contrast_type": "pairwise",
         "evidence": [
-          "A separate DESeq analysis was also performed using the mammographic appearance (i.e., spiculated and nonspiculated tumors) status as the explanatory variable."
+          "comparison of spiculated and nonspiculated tumors"
+        ]
+      },
+      {
+        "control_label": "normal breast tissues",
+        "case_label": "breast cancer tissues",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A set of four normal breast tissues was also collected... and used to generate the DIA spectral library."
         ]
       }
     ],
@@ -107,7 +136,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "human",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -171,30 +200,34 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly describes a data-independent acquisition (DIA) MS-based proteogenomic workflow using label-free quantification."
+          "reason": "The primary analysis used data-independent acquisition (DIA) MS with label-free quantification (LFQ) and spectral libraries."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "DDA MS analysis was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
+          "reason": "DDA MS was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proteogenomics_saav_dtu",
+          "modifier_workflow_id": "isoform_aware",
           "confidence": 0.9,
-          "reason": "The workflow specifically integrates RNA-seq data to create 'isoform-aware' and 'SAAV-aware' spectral libraries to detect differential transcript usage (DTU) and single amino acid variants (SAAVs)."
+          "reason": "The authors explicitly implemented an 'isoform-aware spectral library' to detect differential transcript usage (DTU) at the protein level."
+        },
+        {
+          "modifier_workflow_id": "mutation_aware",
+          "confidence": 0.9,
+          "reason": "The authors created a 'SAAV aware DIA library' using RNA-seq SNV calls to identify single amino acid variants."
         }
       ],
       "trigger_keywords": [
-        "data-independent acquisition",
         "DIA MS",
-        "label-free quantification",
+        "data-independent acquisition",
         "spectral library",
+        "isoform-aware",
         "SAAV",
-        "differential transcript usage",
-        "DTU",
-        "proteogenomic"
+        "single amino acid variants",
+        "label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,30 +236,34 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly describes a data-independent acquisition (DIA) MS-based proteogenomic workflow using label-free quantification."
+          "reason": "The primary analysis used data-independent acquisition (DIA) MS with label-free quantification (LFQ) and spectral libraries."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "DDA MS analysis was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
+          "reason": "DDA MS was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proteogenomics_saav_dtu",
+          "modifier_workflow_id": "isoform_aware",
           "confidence": 0.9,
-          "reason": "The workflow specifically integrates RNA-seq data to create 'isoform-aware' and 'SAAV-aware' spectral libraries to detect differential transcript usage (DTU) and single amino acid variants (SAAVs)."
+          "reason": "The authors explicitly implemented an 'isoform-aware spectral library' to detect differential transcript usage (DTU) at the protein level."
+        },
+        {
+          "modifier_workflow_id": "mutation_aware",
+          "confidence": 0.9,
+          "reason": "The authors created a 'SAAV aware DIA library' using RNA-seq SNV calls to identify single amino acid variants."
         }
       ],
       "trigger_keywords": [
-        "data-independent acquisition",
         "DIA MS",
-        "label-free quantification",
+        "data-independent acquisition",
         "spectral library",
+        "isoform-aware",
         "SAAV",
-        "differential transcript usage",
-        "DTU",
-        "proteogenomic"
+        "single amino acid variants",
+        "label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -254,7 +291,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

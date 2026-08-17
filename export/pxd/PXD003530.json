@@ -10,7 +10,7 @@
     ],
     "treatment_categories": [
       "chemical or drug treatment",
-      "small-molecule inhibitor treatment"
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "epithelial cell"
@@ -30,19 +30,21 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": null,
+        "matched_class_key": "proteostasis_modulator_treatment",
         "matched_class_path": [
-          "chemical_or_drug"
+          "chemical_or_drug",
+          "proteostasis_modulator_treatment"
         ],
-        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "matched_definition": "Chemical treatment that perturbs protein folding, degradation, chaperone function, or proteome stability.",
         "confidence": "high",
         "evidence": [
+          "A Proteomic Approach to Analyze the Aspirin-mediated Lysine Acetylome",
           "Three groups of cultured HeLa cells were exposed to 5 mm aspirin (unlabeled/isotopically typical form), 5 mm aspirin-d3, or vehicle control for four hours."
         ]
       },
       {
-        "ontology_label": "small-molecule inhibitor treatment",
-        "ontology_curie": "PPA:0000023",
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
         "matched_class_key": "small_molecule_inhibitor_treatment",
@@ -54,7 +56,7 @@
         "confidence": "high",
         "evidence": [
           "inhibition of HDAC6 enhances aspirin acetylations",
-          "short half-life sites were commonly sensitive to the HDAC6 inhibitor bufexamac, and the sirtuin inhibitor nicotinamide."
+          "In experiments using co-treatment with KDAC inhibitors, bufexamac was used at 0.25 mm or nicotinamide at 20 mm"
         ]
       }
     ],
@@ -86,7 +88,7 @@
         "duration": "24 h",
         "route_or_context": "co-treatment with KDAC inhibitors",
         "evidence": [
-          "In experiments using co-treatment with KDAC inhibitors, bufexamac was used at 0.25 mm... cells were exposed for 24 h"
+          "In experiments using co-treatment with KDAC inhibitors, bufexamac was used at 0.25 mm or nicotinamide at 20 mm, cells were exposed for 24 h"
         ]
       },
       {
@@ -96,7 +98,7 @@
         "duration": "24 h",
         "route_or_context": "co-treatment with KDAC inhibitors",
         "evidence": [
-          "In experiments using co-treatment with KDAC inhibitors... nicotinamide at 20 mm, cells were exposed for 24 h"
+          "In experiments using co-treatment with KDAC inhibitors, bufexamac was used at 0.25 mm or nicotinamide at 20 mm, cells were exposed for 24 h"
         ]
       }
     ],
@@ -109,12 +111,13 @@
       "4 h",
       "6 h",
       "8 h",
-      "0.25 h recovery",
-      "0.5 h recovery"
+      "24 h",
+      "48 h"
     ],
     "control_arms": [
       "vehicle control",
-      "DMSO only"
+      "DMSO only",
+      "untreated cells"
     ],
     "case_arms": [
       "aspirin",
@@ -134,11 +137,20 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "DMSO",
+        "control_label": "vehicle control",
         "case_label": "aspirin-d3",
         "contrast_type": "pairwise",
         "evidence": [
-          "Direct comparisons between DMSO and aspirin-d3 treated preps for common (n = 1039) acetylated peptide signal intensity"
+          "Three groups of cultured HeLa cells were exposed to 5 mm aspirin (unlabeled/isotopically typical form), 5 mm aspirin-d3, or vehicle control for four hours."
+        ]
+      },
+      {
+        "control_label": "aspirin",
+        "case_label": "aspirin + bufexamac",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "inhibition of HDAC6 enhances aspirin acetylations",
+          "In experiments using co-treatment with KDAC inhibitors, bufexamac was used at 0.25 mm"
         ]
       },
       {
@@ -146,7 +158,8 @@
         "case_label": "recovery timepoints",
         "contrast_type": "timecourse",
         "evidence": [
-          "A time-resolved SILAC experiment was undertaken to quantitatively monitor AcK peptide abundance after drug withdrawal"
+          "A time-resolved SILAC experiment was undertaken to quantitatively monitor AcK peptide abundance after drug withdrawal",
+          "Acetylation was set to 100% for time t = 8 h exposure to aspirin-d3 (0 h recovery)"
         ]
       }
     ],
@@ -166,7 +179,7 @@
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "cell type",
+        "rollup_category": "epithelial",
         "ontology_curie": "CL:0000066"
       }
     ],
@@ -185,7 +198,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -223,27 +236,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The label-free site ID analysis (PXD003530) used DDA on a Q Exactive and compared signal intensities between DMSO and aspirin-treated samples."
+          "reason": "The primary dataset (PXD003530) uses label-free quantification (LFQ) with DDA acquisition on a Q Exactive."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.8,
-          "reason": "A separate SILAC experiment (PXD004995) was conducted for occupancy and half-life analysis using L, M, and H labels."
+          "reason": "A secondary dataset (PXD004995) specifically uses SILAC for occupancy and half-life analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_site_enrichment",
           "confidence": 1.0,
-          "reason": "Used anti-acetylated lysine agarose beads for immune affinity chromatography to purify acetylated peptides."
+          "reason": "Extensive use of anti-acetylated lysine (anti-AcK) antibody immuno-precipitation (IP) for peptide enrichment."
         }
       ],
       "trigger_keywords": [
         "anti-acetylated lysine agarose beads",
         "immune affinity chromatography",
-        "label-free",
-        "SILAC",
-        "aspirin-d3"
+        "label-free proteomic ruler",
+        "SILAC mixes",
+        "d3-acetylation"
       ],
       "raw_or_file_name_triggers": [
         "Crude",
@@ -255,27 +268,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The label-free site ID analysis (PXD003530) used DDA on a Q Exactive and compared signal intensities between DMSO and aspirin-treated samples."
+          "reason": "The primary dataset (PXD003530) uses label-free quantification (LFQ) with DDA acquisition on a Q Exactive."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.8,
-          "reason": "A separate SILAC experiment (PXD004995) was conducted for occupancy and half-life analysis using L, M, and H labels."
+          "reason": "A secondary dataset (PXD004995) specifically uses SILAC for occupancy and half-life analysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_site_enrichment",
           "confidence": 1.0,
-          "reason": "Used anti-acetylated lysine agarose beads for immune affinity chromatography to purify acetylated peptides."
+          "reason": "Extensive use of anti-acetylated lysine (anti-AcK) antibody immuno-precipitation (IP) for peptide enrichment."
         }
       ],
       "trigger_keywords": [
         "anti-acetylated lysine agarose beads",
         "immune affinity chromatography",
-        "label-free",
-        "SILAC",
-        "aspirin-d3"
+        "label-free proteomic ruler",
+        "SILAC mixes",
+        "d3-acetylation"
       ],
       "raw_or_file_name_triggers": [
         "Crude",
@@ -306,7 +319,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

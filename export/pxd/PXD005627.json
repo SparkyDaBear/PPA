@@ -9,7 +9,7 @@
     ],
     "treatment_categories": [
       "genetic perturbation",
-      "oxidative or redox modulation"
+      "oxidative stress"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,57 +26,69 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "Quantitative proteomics revealed that serine ADPr does not occur in cells lacking HPF1.",
           "U2OS cells (wild-type and knockout cell lines) were cultured",
-          "Compared to the WT cells, histone S-ADPr was abolished in \u0394HPF1 cells"
+          "all detected histone S-ADPr sites were radically decreased in \u0394PARP-1 cells compared to wild-type cells",
+          "histone S-ADPr was abolished in \u0394HPF1 cells"
         ]
       },
       {
-        "ontology_label": "oxidative or redox modulation",
-        "ontology_curie": "PPA:0000013",
+        "ontology_label": "oxidative stress",
+        "ontology_curie": "PPA:0000065",
         "category": "redox",
-        "matched_parent_class_key": "oxidative_stress_induction",
-        "matched_class_key": "oxidative_stress_induction",
+        "matched_parent_class_key": "redox",
+        "matched_class_key": "oxidative_stress",
         "matched_class_path": [
-          "oxidative_stress_induction"
+          "redox",
+          "oxidative_stress"
         ],
-        "matched_definition": "Redox perturbation caused by pro-oxidant treatment (for example H2O2 exposure).",
+        "matched_definition": "Exposure or condition increasing reactive oxygen species or oxidative damage.",
         "confidence": "high",
         "evidence": [
-          "cells were stimulated with 2 mM H2O2 for 10 min",
-          "Modification of these sites is dramatically increased during DNA damage"
+          "after H2O2 stimulation, cells were washed twice with ice-cold PBS",
+          "cells were stimulated with 2 mM H2O2 for 10 min"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "H2O2",
-        "dose_or_concentration": "2 mM",
-        "duration": "10 min",
-        "route_or_context": "cell stimulation",
+        "agent": "HPF1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockout",
         "evidence": [
-          "cells were stimulated with 2 mM H2O2 for 10 min"
+          "cells lacking HPF1",
+          "\u0394HPF1 cells"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "HPF1 knockout",
+        "agent": "PARP-1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "U2OS cell line",
+        "route_or_context": "knockout",
         "evidence": [
-          "U2OS cells (wild-type and knockout cell lines)",
-          "histone S-ADPr was abolished in \u0394HPF1 cells"
+          "\u0394PARP-1 cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "H2O2",
+        "dose_or_concentration": "2 mM",
+        "duration": "10 min",
+        "route_or_context": "stimulation",
+        "evidence": [
+          "cells were stimulated with 2 mM H2O2 for 10 min"
         ]
       }
     ],
@@ -93,35 +105,35 @@
       "WT cells"
     ],
     "case_arms": [
-      "knockout cell lines",
+      "\u0394PARP-1 cells",
       "\u0394HPF1 cells",
-      "\u0394PARP-1 cells"
+      "knockout cell lines"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": null,
     "replicate_hints": [
       "Each SILAC experiment was composed of at least two biological replicates."
     ],
     "multiplex_channel_hints": [
       "SILAC labeling",
       "unlabelled L-lysine as the light condition, or isotopically labeled L-lysine (13C6,15N2) as the heavy condition",
-      "Multiplicity was set to 2, with Lys8 as the Heavy Label"
+      "Supernatants containing sulfuric acid-soluble fractions from light and heavy lysates were mixed 1:1"
     ],
     "contrast_hints": [
-      {
-        "control_label": "WT",
-        "case_label": "\u0394HPF1",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Compared to the WT cells, histone S-ADPr was abolished in \u0394HPF1 cells"
-        ]
-      },
       {
         "control_label": "wild-type",
         "case_label": "\u0394PARP-1",
         "contrast_type": "pairwise",
         "evidence": [
           "all detected histone S-ADPr sites were radically decreased in \u0394PARP-1 cells compared to wild-type cells"
+        ]
+      },
+      {
+        "control_label": "WT cells",
+        "case_label": "\u0394HPF1 cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Compared to the WT cells, histone S-ADPr was abolished in \u0394HPF1 cells"
         ]
       }
     ],
@@ -134,7 +146,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -191,25 +203,26 @@
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
           "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative proteomics of histones and PARP-1."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Some datasets (e.g., histone-depleted fractions and in vitro assays) appear to be non-SILAC DDA acquisitions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "site_localization_etd",
+          "modifier_workflow_id": "adpr_enrichment",
           "confidence": 0.9,
-          "reason": "Extensive use of ETD fragmentation specifically for the localization of fragile ADP-ribosylation sites."
-        },
-        {
-          "modifier_workflow_id": "enrichment_imac",
-          "confidence": 0.8,
-          "reason": "Use of PHOS-select beads (IMAC) to enrich for ADP-ribosylated peptides from histone-depleted fractions."
+          "reason": "Use of IMAC (PHOS-select beads) adapted for ADPr peptide enrichment and mention of macrodomain ADPr-binding module enrichment in reanalyzed datasets."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "ETD",
         "ADP-ribosylation",
+        "ADPr",
         "IMAC",
+        "PHOS-select",
         "partial FASP"
       ],
       "raw_or_file_name_triggers": []
@@ -220,25 +233,26 @@
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
           "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative proteomics of histones and PARP-1."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Some datasets (e.g., histone-depleted fractions and in vitro assays) appear to be non-SILAC DDA acquisitions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "site_localization_etd",
+          "modifier_workflow_id": "adpr_enrichment",
           "confidence": 0.9,
-          "reason": "Extensive use of ETD fragmentation specifically for the localization of fragile ADP-ribosylation sites."
-        },
-        {
-          "modifier_workflow_id": "enrichment_imac",
-          "confidence": 0.8,
-          "reason": "Use of PHOS-select beads (IMAC) to enrich for ADP-ribosylated peptides from histone-depleted fractions."
+          "reason": "Use of IMAC (PHOS-select beads) adapted for ADPr peptide enrichment and mention of macrodomain ADPr-binding module enrichment in reanalyzed datasets."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "ETD",
         "ADP-ribosylation",
+        "ADPr",
         "IMAC",
+        "PHOS-select",
         "partial FASP"
       ],
       "raw_or_file_name_triggers": []
@@ -267,7 +281,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

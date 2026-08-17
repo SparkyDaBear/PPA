@@ -28,16 +28,17 @@
         "ontology_curie": "PPA:0000018",
         "category": "disease",
         "matched_parent_class_key": "disease",
-        "matched_class_key": "case_control_disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
           "disease",
-          "case_control_disease"
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between disease and matched control cohorts.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
           "Top-down tissue microproteomics was applied on benign, tumor and necrotic-fibrotic regions of serous ovarian cancer biopsies",
-          "Using ovarian cancer tissues, tumor and benign zones can be distinguished from each other"
+          "distinguish between normal and diseased states based on molecular content",
+          "investigated the pathological heterogeneity in ovarian serous cancer tumor microenvironment"
         ]
       },
       {
@@ -45,16 +46,17 @@
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
         "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "spatial_region_comparison",
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
           "anatomical_spatial",
-          "spatial_region_comparison"
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison between defined anatomical regions or microenvironments.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "high",
         "evidence": [
-          "we investigated proteome microenvironment alterations aiming to delineate and characterize specific protein profiles in benign, tumor and necrotic/fibrotic tumor regions",
-          "The tissue was thus successfully classified by MALDI-MSI with three main clusters... One was associated with the benign region (blue-cyan), whereas the two others matched the tumor and necrotic/fibrotic tumor regions"
+          "identifying proteins exhibiting region-specific cellular localization and PTMs",
+          "delineate and characterize specific protein profiles in benign, tumor and necrotic/fibrotic tumor regions",
+          "The tissue was thus successfully classified by MALDI-MSI with three main clusters... associated with the benign region... matched the tumor and necrotic/fibrotic tumor regions"
         ]
       }
     ],
@@ -66,11 +68,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "benign region"
+      "benign"
     ],
     "case_arms": [
-      "tumor region",
-      "necrotic/fibrotic tumor region"
+      "tumor",
+      "necrotic/fibrotic tumor"
     ],
     "paired_design": null,
     "factorial_design": false,
@@ -82,7 +84,7 @@
       {
         "control_label": "benign",
         "case_label": "tumor",
-        "contrast_type": "multi_group",
+        "contrast_type": "pairwise",
         "evidence": [
           "Comparison of proteins from tumor and benign regions showed proteins involved in cell death, cell growth, keloid and muscle cell differentiation."
         ]
@@ -90,15 +92,15 @@
       {
         "control_label": "benign",
         "case_label": "necrotic/fibrotic tumor",
-        "contrast_type": "multi_group",
+        "contrast_type": "pairwise",
         "evidence": [
           "Global network analysis between benign and necrotic/fibrotic tumor regions (Fig. 3d) revealed proteins involved in apoptosis, contraction and actin organization pathways."
         ]
       },
       {
-        "control_label": "tumor",
-        "case_label": "necrotic/fibrotic tumor",
-        "contrast_type": "multi_group",
+        "control_label": "necrotic/fibrotic tumor",
+        "case_label": "tumor",
+        "contrast_type": "pairwise",
         "evidence": [
           "The same analysis between tumor and necrotic/fibrotic tumor revealed proteins involved in neoplasm and Smooth Muscle Cell (SMC) proliferation pathways."
         ]
@@ -113,7 +115,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
       }
     ],
@@ -121,12 +123,12 @@
     "cell_lines": [
       {
         "label": "HEK293",
-        "family": "Human Embryonic Kidney",
+        "family": null,
         "ontology_curie": null
       },
       {
         "label": "HeLa",
-        "family": "Cervical Cancer",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -134,6 +136,10 @@
       {
         "label": "ovarian cancer biopsies",
         "source_kind": "tissue"
+      },
+      {
+        "label": "ovary",
+        "source_kind": "organ"
       }
     ],
     "sample_scope": {
@@ -168,31 +174,53 @@
   "processing": {
     "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
-      "base_candidates_ranked": [],
-      "modifier_candidates_ranked": [],
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Data acquired in data-dependent mode (DDA) using a Q-Exactive. While no explicit LFQ method is detailed, the comparison of protein presence across regions (benign, tumor, necrotic) suggests a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_proteomics",
+          "confidence": 1.0,
+          "reason": "Explicitly stated multiple times as 'top-down mass spectrometry-based proteomics' and 'top-down microproteomics' analyzing intact proteins without enzymatic digestion."
+        }
+      ],
       "trigger_keywords": [
         "top-down",
-        "intact protein",
-        "proteoform",
-        "altORF",
-        "hidden proteome"
+        "intact proteins",
+        "without the need for enzymatic digestion",
+        "proteoform"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
-      "base_candidates_ranked": [],
-      "modifier_candidates_ranked": [],
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "Data acquired in data-dependent mode (DDA) using a Q-Exactive. While no explicit LFQ method is detailed, the comparison of protein presence across regions (benign, tumor, necrotic) suggests a label-free approach."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "top_down_proteomics",
+          "confidence": 1.0,
+          "reason": "Explicitly stated multiple times as 'top-down mass spectrometry-based proteomics' and 'top-down microproteomics' analyzing intact proteins without enzymatic digestion."
+        }
+      ],
       "trigger_keywords": [
         "top-down",
-        "intact protein",
-        "proteoform",
-        "altORF",
-        "hidden proteome"
+        "intact proteins",
+        "without the need for enzymatic digestion",
+        "proteoform"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "unknown",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -215,7 +243,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

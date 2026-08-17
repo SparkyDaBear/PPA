@@ -10,10 +10,10 @@
     "treatment_categories": [
       "ligand-mediated stimulation",
       "genetic perturbation",
-      "genetic perturbation",
       "disease or clinical state"
     ],
     "cell_types": [
+      "small cell lung cancer cells",
       "lung neuroendocrine cell"
     ],
     "cell_lines": [
@@ -37,30 +37,15 @@
         "ontology_curie": "PPA:0000010",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
-        "matched_class_key": null,
+        "matched_class_key": "immune_receptor_ligand_stimulation",
         "matched_class_path": [
-          "ligand_stimulation"
+          "ligand_stimulation",
+          "immune_receptor_ligand_stimulation"
         ],
-        "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
-        "confidence": "high",
+        "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
+        "confidence": "medium",
         "evidence": [
           "Cells were treated with vehicle or 8-Br-cAMP for 60 minutes."
-        ]
-      },
-      {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
-        "category": "genetic",
-        "matched_parent_class_key": "genetic",
-        "matched_class_key": "knockout_or_deletion_perturbation",
-        "matched_class_path": [
-          "genetic",
-          "knockout_or_deletion_perturbation"
-        ],
-        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
-        "confidence": "high",
-        "evidence": [
-          "To determine the requirement for Gnas in SCLC, we crossed Gnasflox/flox mice to TKO mice."
         ]
       },
       {
@@ -102,9 +87,9 @@
         "agent": "8-Br-cAMP",
         "dose_or_concentration": "100 \u03bcM",
         "duration": "60 min",
-        "route_or_context": "SCLC cells",
+        "route_or_context": "SCLC cells in media containing 2% BGS",
         "evidence": [
-          "the following day 100 \u03bcM 8-Br-cAMP (Tocris)... were added to cells in media containing 2% BGS for 60 min"
+          "100 \u03bcM 8-Br-cAMP (Tocris)... were added to cells in media containing 2% BGS for 60 min"
         ]
       },
       {
@@ -115,16 +100,6 @@
         "route_or_context": "TKO mice",
         "evidence": [
           "To examine the role for Prkaca in SCLC lung tumors, PrkacaM120A mice were crossed to TKO mice."
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "Gnas",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "TKO mice",
-        "evidence": [
-          "To determine the requirement for Gnas in SCLC, we crossed Gnasflox/flox mice to TKO mice."
         ]
       }
     ],
@@ -138,15 +113,14 @@
     ],
     "control_arms": [
       "vehicle",
-      "TKO mice",
       "Normal murine lungs",
-      "NSCLC samples"
+      "NSCLC samples",
+      "TKO mice"
     ],
     "case_arms": [
       "8-Br-cAMP",
-      "PrkacaM120A",
-      "Gnasflox/flox",
-      "SCLC PDXs"
+      "SCLC samples",
+      "PrkacaM120A mice"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -166,15 +140,7 @@
         ]
       },
       {
-        "control_label": "TKO",
-        "case_label": "TKO;PrkacaM120A",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "Switching from PKA-C\u03b1WT to PKA-C\u03b1M120A at the time of cancer initiation in TKO;PrkacaM120A/M120A mice... led to a significant inhibition of SCLC development compared to control TKO mice"
-        ]
-      },
-      {
-        "control_label": "NSCLC/Normal Lung",
+        "control_label": "NSCLC/Normal",
         "case_label": "SCLC",
         "contrast_type": "multi_group",
         "evidence": [
@@ -202,8 +168,13 @@
     ],
     "cell_types": [
       {
+        "label": "small cell lung cancer cells",
+        "rollup_category": "cancer cell",
+        "ontology_curie": null
+      },
+      {
         "label": "lung neuroendocrine cell",
-        "rollup_category": "cell type",
+        "rollup_category": "neuroendocrine cell",
         "ontology_curie": "CL:1000223"
       }
     ],
@@ -230,7 +201,7 @@
       },
       {
         "label": "A549",
-        "family": null,
+        "family": "NSCLC",
         "ontology_curie": null
       },
       {
@@ -248,6 +219,10 @@
       {
         "label": "lung",
         "source_kind": "organ"
+      },
+      {
+        "label": "SCLC patient-derived xenografts",
+        "source_kind": "tissue"
       }
     ],
     "sample_scope": {
@@ -293,29 +268,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Multiple assays (MIBs and Global Phosphoproteomics) explicitly used label-free quantification (LFQ) via Skyline and MSstats."
+          "reason": "Multiple datasets (MIBs, Global Phosphoproteomics) explicitly used label-free quantification (LFQ) with DDA acquisition (top N peaks) on Orbitrap instruments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Global phosphoproteomics performed using immobilized metal affinity chromatography (IMAC) for phosphoenrichment."
+          "reason": "Explicit use of immobilized metal affinity chromatography (IMAC) for phosphoenrichment and search for S/T/Y phosphorylation."
         },
         {
-          "modifier_workflow_id": "covalent_capture_thiophospho",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "Specialized covalent capture of thiophosphorylated peptides using Bn-ATP\u03b3S labeling and iodoacetyl Sepharose resin."
+          "reason": "Use of Multiplexed Inhibitor Beads (MIBs) and LAP-tag tandem affinity purification."
         }
       ],
       "trigger_keywords": [
-        "Label-free quantification",
+        "label-free quantification",
         "phosphoenrichment",
         "immobilized metal affinity chromatography",
-        "Covalent Capture",
-        "Bn-ATP\u03b3S",
         "Multiplexed Inhibitor Beads",
-        "MIBs"
+        "S/T/Y phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -324,29 +297,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Multiple assays (MIBs and Global Phosphoproteomics) explicitly used label-free quantification (LFQ) via Skyline and MSstats."
+          "reason": "Multiple datasets (MIBs, Global Phosphoproteomics) explicitly used label-free quantification (LFQ) with DDA acquisition (top N peaks) on Orbitrap instruments."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho",
+          "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Global phosphoproteomics performed using immobilized metal affinity chromatography (IMAC) for phosphoenrichment."
+          "reason": "Explicit use of immobilized metal affinity chromatography (IMAC) for phosphoenrichment and search for S/T/Y phosphorylation."
         },
         {
-          "modifier_workflow_id": "covalent_capture_thiophospho",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.9,
-          "reason": "Specialized covalent capture of thiophosphorylated peptides using Bn-ATP\u03b3S labeling and iodoacetyl Sepharose resin."
+          "reason": "Use of Multiplexed Inhibitor Beads (MIBs) and LAP-tag tandem affinity purification."
         }
       ],
       "trigger_keywords": [
-        "Label-free quantification",
+        "label-free quantification",
         "phosphoenrichment",
         "immobilized metal affinity chromatography",
-        "Covalent Capture",
-        "Bn-ATP\u03b3S",
         "Multiplexed Inhibitor Beads",
-        "MIBs"
+        "S/T/Y phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -374,7 +345,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

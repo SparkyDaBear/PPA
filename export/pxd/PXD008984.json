@@ -13,7 +13,7 @@
       "radiation or photostress"
     ],
     "cell_types": [
-      "glioma cells"
+      "glioblastoma"
     ],
     "cell_lines": [
       "LNZ308"
@@ -30,11 +30,12 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": null,
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "chemical_or_drug"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "chemotherapy, virotherapy, and finally radiotherapy (CT-VT-RT)",
@@ -81,20 +82,25 @@
         "relation_key": "has_treatment_agent",
         "agent": "temozolomide",
         "dose_or_concentration": "130 \u03bcM",
-        "duration": null,
-        "route_or_context": "chemotherapy (CT)",
+        "duration": "48 h",
+        "route_or_context": "serum-free DMEM",
         "evidence": [
-          "CT, 130 \u03bcM"
+          "temozolomide (TMZ)",
+          "CT, 130 \u03bcM",
+          "treated with TMZ... for 48 h",
+          "carried out in serum-free DMEM"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "measles virus",
         "dose_or_concentration": "0.05 MOI",
-        "duration": null,
-        "route_or_context": "virotherapy (VT)",
+        "duration": "48 h",
+        "route_or_context": "virotherapy",
         "evidence": [
-          "VT, 0.05 MOI"
+          "oncolytic measles virus (MeV)",
+          "VT, 0.05 MOI",
+          "infected with MeV-GFP... for 48 h"
         ]
       },
       {
@@ -102,9 +108,21 @@
         "agent": "\u03b3-irradiation",
         "dose_or_concentration": "2 Gy",
         "duration": null,
-        "route_or_context": "radiotherapy (RT)",
+        "route_or_context": "radiotherapy",
         "evidence": [
-          "RT, 2 Gy"
+          "radiotherapy (RT)",
+          "RT, 2 Gy",
+          "\u03b3-irradiation"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HLA ligandome analysis",
+        "evidence": [
+          "harvested at 96 h"
         ]
       }
     ],
@@ -118,12 +136,14 @@
     ],
     "control_arms": [
       "DMSO",
-      "CTL [R/V]"
+      "CTL-DMSO",
+      "CTL [R/V]",
+      "Blank (0 hpt)"
     ],
     "case_arms": [
+      "RT",
       "CT",
       "VT",
-      "RT",
       "CT-VT",
       "CT-VT-RT"
     ],
@@ -135,19 +155,19 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "monotherapies",
+        "control_label": "DMSO",
         "case_label": "CT-VT-RT",
         "contrast_type": "multi_group",
         "evidence": [
-          "the triple regimen CT-VT-RT (2.7-fold increase) compared to VT alone"
+          "relative HLA ligand abundances under the different conditions (CT, CT-VT, CT-VT-RT, VT, and RT)"
         ]
       },
       {
-        "control_label": "CT or RT",
-        "case_label": "VT-containing regimens",
-        "contrast_type": "multi_group",
+        "control_label": "VT",
+        "case_label": "CT-VT-RT",
+        "contrast_type": "pairwise",
         "evidence": [
-          "The differential expression of antigenic ligands was higher in the VT-containing regimens (i.e., VT, CT-VT, and CT-VT-RT) when compared with CT or RT"
+          "MeV-L peptide was particularly increased in the triple regimen CT-VT-RT (2.7-fold increase) compared to VT alone"
         ]
       }
     ],
@@ -160,13 +180,13 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
-        "label": "glioma cells",
+        "label": "glioblastoma",
         "rollup_category": "tumor cell",
         "ontology_curie": null
       }
@@ -186,7 +206,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -223,14 +243,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study uses label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) LC-MS/MS runs."
+          "reason": "The experiment used label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) acquisition on an LTQ Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome",
           "confidence": 1.0,
-          "reason": "The experiment specifically isolates HLA class I molecules using immunoaffinity purification (W6/32 Ab) to analyze the immunopeptidome."
+          "reason": "The study specifically performs HLA ligandome analysis using immunoaffinity purification of HLA class I molecules and restricts peptide lengths to 8-12 aa."
         }
       ],
       "trigger_keywords": [
@@ -247,14 +267,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study uses label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) LC-MS/MS runs."
+          "reason": "The experiment used label-free quantification (LFQ) based on precursor ion intensities (AUC) from DDA (top 5 CID) acquisition on an LTQ Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome",
           "confidence": 1.0,
-          "reason": "The experiment specifically isolates HLA class I molecules using immunoaffinity purification (W6/32 Ab) to analyze the immunopeptidome."
+          "reason": "The study specifically performs HLA ligandome analysis using immunoaffinity purification of HLA class I molecules and restricts peptide lengths to 8-12 aa."
         }
       ],
       "trigger_keywords": [
@@ -290,7 +310,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

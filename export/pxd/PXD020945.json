@@ -12,7 +12,9 @@
       "anatomical or spatial comparison"
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      "HEK293T"
+    ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
@@ -35,7 +37,7 @@
         "evidence": [
           "40 postmortem AD and non-AD human brains",
           "Comparison of male AD and female AD brain proteomes revealed both similarities and differences",
-          "SNO proteins that appear in both AD and non-AD, were analyzed in Volcano plots"
+          "SNO proteins that appear in the third compartment, present in both AD and non-AD, were analyzed in Volcano plots"
         ]
       },
       {
@@ -50,9 +52,9 @@
         "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
         "confidence": "medium",
         "evidence": [
-          "Tissues from the prefrontal cortex (Brodmann area 10, a region of the brain affected in these cases of AD, were analyzed."
+          "The tissues from the prefrontal cortex (Brodmann area 10, a region of the brain affected in these cases of AD, were analyzed."
         ],
-        "notes": "The study focuses on a specific brain region (prefrontal cortex) to compare AD vs non-AD; however, the primary axis is disease status. This is included as a spatial variable defining the sample source."
+        "notes": "Sex is used as a primary covariate/comparison axis (male vs female), but 'sex' is not a specific class in the provided ontology; it is treated here as a biological variable. The anatomical focus is the prefrontal cortex."
       }
     ],
     "attributes": [],
@@ -63,12 +65,12 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "non-AD human brains",
+      "non-AD",
       "male non-AD",
       "female non-AD"
     ],
     "case_arms": [
-      "AD human brains",
+      "AD",
       "male AD",
       "female AD"
     ],
@@ -78,14 +80,16 @@
       "At least four technical runs were conducted for each biological replicate",
       "n = 10 females and n = 10 males"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "label-free semiquantitative assessment"
+    ],
     "contrast_hints": [
       {
         "control_label": "non-AD",
         "case_label": "AD",
         "contrast_type": "pairwise",
         "evidence": [
-          "SNO proteins that appear in both AD and non-AD, were analyzed in Volcano plots"
+          "SNO proteins that appear in the third compartment, present in both AD and non-AD, were analyzed in Volcano plots"
         ]
       },
       {
@@ -106,12 +110,18 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [],
-    "cell_lines": [],
+    "cell_lines": [
+      {
+        "label": "HEK293T",
+        "family": "HEK293",
+        "ontology_curie": null
+      }
+    ],
     "noncellular_sources": [
       {
         "label": "prefrontal cortex",
@@ -129,7 +139,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -160,28 +170,28 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive mass spectrometer and performed label-free semiquantitative assessment based on peak intensities."
+          "reason": "Data acquired in data-dependent mode (DDA) using a Q Exactive and quantified via label-free semiquantitative assessment (peak intensity/spectral counting)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sno_snotrap_enrichment",
+          "modifier_workflow_id": "sno_trap_enrichment",
           "confidence": 1.0,
-          "reason": "The study specifically used the SNOTRAP (S-nitrosylation trapping with a triaryl phosphine probe) method to enrich for S-nitrosylated cysteine residues."
+          "reason": "The experiment uses a specific SNOTRAP (triaryl phosphine probe) method to selectively convert S-nitrosothiol (SNO) to stable disulfide-iminophosphorane for streptavidin enrichment."
         }
       ],
       "trigger_keywords": [
         "SNOTRAP",
         "S-nitrosylation",
-        "label-free",
-        "data-dependent mode",
-        "SNO proteins"
+        "SNO",
+        "triaryl phosphine probe",
+        "streptavidin agarose beads"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -190,29 +200,29 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on a Q Exactive mass spectrometer and performed label-free semiquantitative assessment based on peak intensities."
+          "reason": "Data acquired in data-dependent mode (DDA) using a Q Exactive and quantified via label-free semiquantitative assessment (peak intensity/spectral counting)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sno_snotrap_enrichment",
+          "modifier_workflow_id": "sno_trap_enrichment",
           "confidence": 1.0,
-          "reason": "The study specifically used the SNOTRAP (S-nitrosylation trapping with a triaryl phosphine probe) method to enrich for S-nitrosylated cysteine residues."
+          "reason": "The experiment uses a specific SNOTRAP (triaryl phosphine probe) method to selectively convert S-nitrosothiol (SNO) to stable disulfide-iminophosphorane for streptavidin enrichment."
         }
       ],
       "trigger_keywords": [
         "SNOTRAP",
         "S-nitrosylation",
-        "label-free",
-        "data-dependent mode",
-        "SNO proteins"
+        "SNO",
+        "triaryl phosphine probe",
+        "streptavidin agarose beads"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "protein"
+      "analyte_level": "site"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -233,7 +243,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

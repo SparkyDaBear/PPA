@@ -2,13 +2,14 @@
   "pxd": "PXD054006",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
-    "quantification_method": "2D gel electrophoresis spot intensity (%vol)",
+    "acquisition_type": "DDA",
+    "quantification_method": "2-DE spot intensity (%vol)",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "temperature stress"
+      "heat stress",
+      "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [],
@@ -20,42 +21,68 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "temperature stress",
-        "ontology_curie": "PPA:0000022",
+        "ontology_label": "heat stress",
+        "ontology_curie": "PPA:0000117",
         "category": "temperature",
-        "matched_parent_class_key": "temperature_stress",
+        "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
         "matched_class_path": [
-          "temperature_stress",
+          "temperature",
           "heat_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature above baseline physiological or growth condition.",
         "confidence": "high",
         "evidence": [
-          "Plasma samples (n\u2009=\u200912) from clinically diagnosed classical (non-exertional) heatstroke patients were collected at diagnosis and recovery.",
-          "The plasma proteome of heatstroke patients is examined at heatstroke diagnosis and during recovery to identify potential biomarkers and molecular targets for early therapeutic interventions."
+          "classic (non-exertional) heatstroke (CHS) results from prolonged exposure to high temperatures",
+          "Diagnosis is typically based on a rapid increase in core body temperature above 40 \u00b0C (104 \u00b0F)"
+        ]
+      },
+      {
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "medium",
+        "evidence": [
+          "Plasma samples (n = 12) from clinically diagnosed classical (non-exertional) heatstroke patients were collected"
         ]
       }
     ],
     "attributes": [
       {
-        "relation_key": "has_timepoint",
-        "agent": "heatstroke",
+        "relation_key": "has_treatment_agent",
+        "agent": "classic (non-exertional) heatstroke",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "diagnosis",
+        "route_or_context": "prolonged exposure to high temperatures",
         "evidence": [
-          "Twelve plasma samples were collected from six patients at two distinct time points: upon diagnosis (at patient presentation to the emergency room) and during recovery"
+          "classic (non-exertional) heatstroke (CHS) results from prolonged exposure to high temperatures"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": "heatstroke",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "at diagnosis",
+        "evidence": [
+          "collected at diagnosis and recovery"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
         "dose_or_concentration": null,
         "duration": "4\u20137 days post-diagnosis",
-        "route_or_context": "recovery",
+        "route_or_context": "during recovery",
         "evidence": [
-          "Twelve plasma samples were collected from six patients at two distinct time points: upon diagnosis (at patient presentation to the emergency room) and during recovery, typically 4\u20137 days post-diagnosis"
+          "during recovery, typically 4\u20137 days post-diagnosis"
         ]
       }
     ],
@@ -69,25 +96,25 @@
       "recovery"
     ],
     "control_arms": [
-      "recovery"
+      "diagnosis"
     ],
     "case_arms": [
-      "diagnosis"
+      "recovery"
     ],
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "Six patients were enrolled, with paired plasma samples collected at diagnosis and recovery to reduce interindividual variability",
-      "paired t-tests were performed on the results of six patients"
+      "Six patients were enrolled, with paired plasma samples collected at diagnosis and recovery to reduce interindividual variability"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "recovery",
-        "case_label": "diagnosis",
+        "control_label": "diagnosis",
+        "case_label": "recovery",
         "contrast_type": "timecourse",
         "evidence": [
-          "To determine protein spots that changed significantly between the diagnosis and recovery groups, each spot\u2019s %vol was analyzed using a paired t-test."
+          "five proteins... show significant changes between the two timepoints",
+          "identify potential biomarkers that reflect organ stress and recovery status following heatstroke"
         ]
       }
     ],
@@ -108,7 +135,7 @@
     "cell_lines": [],
     "noncellular_sources": [
       {
-        "label": "plasma",
+        "label": "blood plasma",
         "source_kind": "biofluid"
       }
     ],
@@ -126,13 +153,13 @@
     ]
   },
   "assay": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "2D gel electrophoresis spot intensity (%vol)",
-      "Label-free quantification"
+      "2-DE spot intensity (%vol)",
+      "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -155,15 +182,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses 2-DE for initial quantification (label-free) followed by LC-MS/MS for identification of excised spots. While the PRIDE metadata mentions 'Top-down', the methods explicitly describe 'in-gel trypsin digestion' and 'LC-MS/MS' for identification, which is a bottom-up approach for the MS phase."
+          "confidence": 0.7,
+          "reason": "The experiment uses LC-MS/MS (Q Exactive) for identification of spots previously quantified by 2-DE. While the PRIDE metadata mentions 'Top-down', the methods section explicitly describes 'in-gel trypsin digestion' and 'bottom-up' style identification via Mascot, making it a DDA-based identification of LFQ-quantified spots."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_2de_spot_analysis",
+          "confidence": 0.9,
+          "reason": "The primary quantification and discovery were performed using two-dimensional gel electrophoresis (2-DE) and Melanie software, with MS used only for identification of excised spots."
+        }
+      ],
       "trigger_keywords": [
         "two-dimensional gel electrophoresis",
         "2-DE",
         "in-gel trypsin digestion",
+        "Melanie 2D gel analysis software",
         "spot picker"
       ],
       "raw_or_file_name_triggers": []
@@ -172,15 +206,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses 2-DE for initial quantification (label-free) followed by LC-MS/MS for identification of excised spots. While the PRIDE metadata mentions 'Top-down', the methods explicitly describe 'in-gel trypsin digestion' and 'LC-MS/MS' for identification, which is a bottom-up approach for the MS phase."
+          "confidence": 0.7,
+          "reason": "The experiment uses LC-MS/MS (Q Exactive) for identification of spots previously quantified by 2-DE. While the PRIDE metadata mentions 'Top-down', the methods section explicitly describes 'in-gel trypsin digestion' and 'bottom-up' style identification via Mascot, making it a DDA-based identification of LFQ-quantified spots."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_2de_spot_analysis",
+          "confidence": 0.9,
+          "reason": "The primary quantification and discovery were performed using two-dimensional gel electrophoresis (2-DE) and Melanie software, with MS used only for identification of excised spots."
+        }
+      ],
       "trigger_keywords": [
         "two-dimensional gel electrophoresis",
         "2-DE",
         "in-gel trypsin digestion",
+        "Melanie 2D gel analysis software",
         "spot picker"
       ],
       "raw_or_file_name_triggers": []
@@ -209,7 +250,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

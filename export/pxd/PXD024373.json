@@ -3,12 +3,12 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "spectral counting",
+    "quantification_method": "spectrum counts",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "nutrient or metabolic perturbation"
     ],
     "cell_types": [
       "breast cancer cells"
@@ -24,42 +24,42 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "agonist_or_activator",
+        "ontology_label": "nutrient or metabolic perturbation",
+        "ontology_curie": "PPA:0000012",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "oxygen_availability_perturbation",
         "matched_class_path": [
-          "chemical or drug treatment",
-          "agonist or activator treatment"
+          "nutrient_metabolic",
+          "oxygen_availability_perturbation"
         ],
-        "matched_definition": "Intervention using a compound that activates a receptor or pathway.",
+        "matched_definition": "Altered oxygen state such as hypoxia, normoxia, anoxia, or reoxygenation.",
         "confidence": "high",
         "evidence": [
-          "MDA-MB-231 human breast cancer cells were treated with the prolyl hydroxylase inhibitor and HIF-inducer dimethyloxalylglycine (DMOG; 1 mM) or vehicle control (DMSO) for 8 h"
+          "MDA-MB-231 human breast cancer cells were treated with the prolyl hydroxylase inhibitor and HIF-inducer dimethyloxalylglycine (DMOG; 1 mM) or vehicle control (DMSO) for 8 h",
+          "exposed to 20% or 1% O2"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "dimethyloxalylglycine (DMOG)",
+        "agent": "dimethyloxalylglycine",
         "dose_or_concentration": "1 mM",
         "duration": "8 h",
-        "route_or_context": "MDA-MB-231 human breast cancer cells",
+        "route_or_context": "prolyl hydroxylase inhibitor and HIF-inducer",
         "evidence": [
           "MDA-MB-231 human breast cancer cells were treated with the prolyl hydroxylase inhibitor and HIF-inducer dimethyloxalylglycine (DMOG; 1 mM) or vehicle control (DMSO) for 8 h"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DMSO",
-        "dose_or_concentration": "0.1% (vol/vol)",
-        "duration": "8 h",
-        "route_or_context": "vehicle control",
+        "agent": "oxygen",
+        "dose_or_concentration": "1% O2",
+        "duration": null,
+        "route_or_context": "hypoxia",
         "evidence": [
-          "MDA-MB-231 human breast cancer cells were treated with the prolyl hydroxylase inhibitor and HIF-inducer dimethyloxalylglycine (DMOG; 1 mM) or vehicle control (DMSO) for 8 h",
-          "inhibitor- or vehicle-treated cells were exposed to 0.1% (vol/vol) DMSO"
+          "exposed to 20% or 1% O2"
         ]
       }
     ],
@@ -72,10 +72,12 @@
       "8 h"
     ],
     "control_arms": [
-      "DMSO"
+      "DMSO",
+      "20% O2"
     ],
     "case_arms": [
-      "DMOG"
+      "DMOG",
+      "1% O2"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -91,6 +93,14 @@
         "evidence": [
           "MDA-MB-231 human breast cancer cells were treated with the prolyl hydroxylase inhibitor and HIF-inducer dimethyloxalylglycine (DMOG; 1 mM) or vehicle control (DMSO) for 8 h"
         ]
+      },
+      {
+        "control_label": "20% O2",
+        "case_label": "1% O2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "exposed to 20% or 1% O2"
+        ]
       }
     ],
     "source_sections": [
@@ -102,7 +112,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -140,7 +150,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "spectral counting"
+      "spectrum counts"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
@@ -163,15 +173,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used RIME (Rapid Immunoprecipitation Mass spectrometry of Endogenous proteins) with a DDA acquisition (top 15 precursor ions) and reported 'spectrum counts and fold enrichment', which is characteristic of label-free quantification (LFQ) in a discovery-based IP screen."
+          "confidence": 0.8,
+          "reason": "The experiment used DDA (top 15 precursor ions) and reported 'spectrum counts and fold enrichment', which is characteristic of label-free quantification (LFQ) in a RIME/IP-MS context."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "The experiment explicitly used RIME (Rapid Immunoprecipitation Mass spectrometry of Endogenous proteins) involving formaldehyde cross-linking."
+        }
+      ],
       "trigger_keywords": [
         "RIME",
+        "cross-linked",
+        "formaldehyde",
         "spectrum counts",
-        "fold enrichment",
         "data dependent mode"
       ],
       "raw_or_file_name_triggers": []
@@ -180,15 +197,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used RIME (Rapid Immunoprecipitation Mass spectrometry of Endogenous proteins) with a DDA acquisition (top 15 precursor ions) and reported 'spectrum counts and fold enrichment', which is characteristic of label-free quantification (LFQ) in a discovery-based IP screen."
+          "confidence": 0.8,
+          "reason": "The experiment used DDA (top 15 precursor ions) and reported 'spectrum counts and fold enrichment', which is characteristic of label-free quantification (LFQ) in a RIME/IP-MS context."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_crosslinking",
+          "confidence": 0.9,
+          "reason": "The experiment explicitly used RIME (Rapid Immunoprecipitation Mass spectrometry of Endogenous proteins) involving formaldehyde cross-linking."
+        }
+      ],
       "trigger_keywords": [
         "RIME",
+        "cross-linked",
+        "formaldehyde",
         "spectrum counts",
-        "fold enrichment",
         "data dependent mode"
       ],
       "raw_or_file_name_triggers": []
@@ -217,7 +241,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

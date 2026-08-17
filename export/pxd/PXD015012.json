@@ -8,7 +8,8 @@
       "Other"
     ],
     "treatment_categories": [
-      "anatomical or spatial comparison"
+      "anatomical or spatial comparison",
+      "molecular state comparison"
     ],
     "cell_types": [
       "CD4+ Th cell"
@@ -28,15 +29,32 @@
         "ontology_curie": "PPA:0000019",
         "category": "anatomical_spatial",
         "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": null,
+        "matched_class_key": "organ_region_comparison",
         "matched_class_path": [
-          "anatomical_spatial"
+          "anatomical_spatial",
+          "organ_region_comparison"
         ],
-        "matched_definition": "Comparison where anatomical region, organ subregion, spatial niche, or microenvironment defines the biological groups.",
+        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
         "confidence": "medium",
         "evidence": [
           "Analyzing female and male ES antigens separately for their influence on CD4+ Th cell responses presents an unbiased approach to account for pathogen gender-heterogeneity during infection",
           "the relative difference between them (Fig. 1e). This analysis yielded additional information regarding the differences in abundance between ESF and ESM"
+        ]
+      },
+      {
+        "ontology_label": "molecular state comparison",
+        "ontology_curie": "PPA:0000021",
+        "category": "molecular_state",
+        "matched_parent_class_key": "molecular_state",
+        "matched_class_key": "protein_complex_assembly_state",
+        "matched_class_path": [
+          "molecular_state",
+          "protein_complex_assembly_state"
+        ],
+        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "confidence": "high",
+        "evidence": [
+          "Immunoprecipitation (IP) of the pMHCII complexes was performed using L243 covalently linked to Fast Flow sepharose. Peptides were eluted from purified MHCII adding TFA 0.1% to the samples."
         ]
       }
     ],
@@ -72,7 +90,9 @@
       "2-5 h"
     ],
     "control_arms": [
-      "CLIP"
+      "CLIP",
+      "DR7CLIP",
+      "DR7RtBP"
     ],
     "case_arms": [
       "ESF",
@@ -81,7 +101,7 @@
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "500 iterations"
+      "five T75 flasks"
     ],
     "multiplex_channel_hints": [
       "16O/18O-labeled samples"
@@ -96,11 +116,11 @@
         ]
       },
       {
-        "control_label": "DRB1*15:01",
-        "case_label": "DRB1*07:01",
+        "control_label": "intracellular proteins",
+        "case_label": "classically secreted proteins",
         "contrast_type": "pairwise",
         "evidence": [
-          "two common MHCII allotypes (DRB1*07:01 or DRB1*15:01, Supplementary Fig. 2c)"
+          "discriminates between classical secretory proteins and intracellular proteins within the secretome of cultured cells"
         ]
       }
     ],
@@ -112,13 +132,13 @@
     "human_system_present": "Yes",
     "organisms": [
       {
-        "label": "Ascaris suum",
-        "taxonomy_hint": "NEWT:6253",
+        "label": "Ascaris spp.",
+        "taxonomy_hint": "Ascaris suum",
         "confidence": "high"
       },
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "Homo sapiens",
         "confidence": "high"
       }
     ],
@@ -149,7 +169,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -185,28 +205,33 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The study uses data-dependent acquisition (DDA) on an Orbitrap Velos and quantifies based on MS1 intensity (TIC) and 16O/18O labeling for some samples."
+          "confidence": 80,
+          "reason": "The immunopeptidomics part of the study used DDA (Orbitrap Velos) and MaxQuant for identification, with quantification based on MS1 intensity (TIC), which aligns with a label-free approach for the eluted peptides."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 60,
+          "reason": "The initial characterization of ESF and ESM antigens used 16O/18O labeling, which is a form of isotopic labeling similar in logic to dimethyl labeling for relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 0.95,
-          "reason": "The experiment specifically targets MHCII-bound peptides eluted from pMHCII complexes using an in vitro reconstituted antigen processing system."
+          "confidence": 95,
+          "reason": "The core of the experiment is the identification of MHCII-bound peptides eluted from pMHCII complexes."
         },
         {
           "modifier_workflow_id": "no_enzyme_search",
-          "confidence": 0.9,
-          "reason": "The text explicitly states 'No enzyme specificity was used for the search' for the in vitro reconstituted experiments."
+          "confidence": 90,
+          "reason": "Explicitly stated: 'No enzyme specificity was used for the search' for the in vitro reconstituted experiments."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
         "MHCII-bound peptides",
-        "pMHCII complexes",
         "no enzyme specificity",
-        "16O/18O-labeled"
+        "16O/18O-labeled",
+        "pMHCII complexes"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -214,28 +239,33 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The study uses data-dependent acquisition (DDA) on an Orbitrap Velos and quantifies based on MS1 intensity (TIC) and 16O/18O labeling for some samples."
+          "confidence": 80,
+          "reason": "The immunopeptidomics part of the study used DDA (Orbitrap Velos) and MaxQuant for identification, with quantification based on MS1 intensity (TIC), which aligns with a label-free approach for the eluted peptides."
+        },
+        {
+          "base_workflow_id": "base_dda_dimethyl",
+          "confidence": 60,
+          "reason": "The initial characterization of ESF and ESM antigens used 16O/18O labeling, which is a form of isotopic labeling similar in logic to dimethyl labeling for relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 0.95,
-          "reason": "The experiment specifically targets MHCII-bound peptides eluted from pMHCII complexes using an in vitro reconstituted antigen processing system."
+          "confidence": 95,
+          "reason": "The core of the experiment is the identification of MHCII-bound peptides eluted from pMHCII complexes."
         },
         {
           "modifier_workflow_id": "no_enzyme_search",
-          "confidence": 0.9,
-          "reason": "The text explicitly states 'No enzyme specificity was used for the search' for the in vitro reconstituted experiments."
+          "confidence": 90,
+          "reason": "Explicitly stated: 'No enzyme specificity was used for the search' for the in vitro reconstituted experiments."
         }
       ],
       "trigger_keywords": [
         "immunopeptidomics",
         "MHCII-bound peptides",
-        "pMHCII complexes",
         "no enzyme specificity",
-        "16O/18O-labeled"
+        "16O/18O-labeled",
+        "pMHCII complexes"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -263,7 +293,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

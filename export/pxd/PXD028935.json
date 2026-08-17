@@ -10,9 +10,7 @@
     "treatment_categories": [
       "genetic perturbation"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T"
     ],
@@ -28,12 +26,12 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "gene_disruption",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
           "genetic",
-          "gene_disruption"
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Genetic perturbation that reduces or eliminates gene function.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "track changes in the membrane integration of mitochondrial proteins in gene-edited knockout cell-lines lacking different CIII subunits",
@@ -44,24 +42,22 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "UQCRC1 knockout",
+        "agent": "UQCRC1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/Cas9 gene editing in HEK293T cells",
+        "route_or_context": "CRISPR/Cas9 knockout",
         "evidence": [
-          "UQCRC1KO clone 1 contained the following mutations c.[1-6T_11del]; [1-3A_4del]",
-          "We used the CRISPR/Cas9 system to generate knockout cell lines where the expression of complex III subunits UQCRC1 and UQCR10 was disrupted."
+          "knockout cell lines where the expression of complex III subunits UQCRC1 and UQCR10 was disrupted"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "UQCR10 knockout",
+        "agent": "UQCR10",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR/Cas9 gene editing in HEK293T cells",
+        "route_or_context": "CRISPR/Cas9 knockout",
         "evidence": [
-          "UQCR10KO clone 1 contained the following mutations c.[1-217G_30del]",
-          "We used the CRISPR/Cas9 system to generate knockout cell lines where the expression of complex III subunits UQCRC1 and UQCR10 was disrupted."
+          "knockout cell lines where the expression of complex III subunits UQCRC1 and UQCR10 was disrupted"
         ]
       }
     ],
@@ -81,11 +77,11 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Samples were prepared in triplicate with a label switch."
+      "Samples were prepared in triplicate with a label switch"
     ],
     "multiplex_channel_hints": [
-      "coupling SCE-MS with stable isotope labelling of amino acids in cell culture (SILAC)",
-      "mixed in heavy/light HEK293T/knockout pairs"
+      "SILAC",
+      "heavy/light HEK293T/knockout pairs"
     ],
     "contrast_hints": [
       {
@@ -93,8 +89,7 @@
         "case_label": "UQCR10KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "we performed SCE-MS on UQCR10 knockout mitochondria",
-          "comparing the extractability of UQCRC1 and UQCRC2 from this and wildtype holo-CIII2"
+          "We first focused our SCE-MS analysis on UQCR10 knockout mitochondria."
         ]
       },
       {
@@ -102,8 +97,7 @@
         "case_label": "UQCRC1KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "we performed SCE-MS on UQCRC1KO as described above",
-          "Loss of UQCRC1 led to a significant decrease in the levels of subunits present in CI, CIII and CIV"
+          "We next turned our attention to the UQCRC1 knockout."
         ]
       }
     ],
@@ -120,13 +114,7 @@
         "confidence": "high"
       }
     ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
+    "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293T",
@@ -134,7 +122,12 @@
         "ontology_curie": null
       }
     ],
-    "noncellular_sources": [],
+    "noncellular_sources": [
+      {
+        "label": "mitochondria",
+        "source_kind": "organ"
+      }
+    ],
     "sample_scope": {
       "category": "subproteome",
       "label": "organelle-enriched scope",
@@ -160,7 +153,7 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "complexome mass spectrometry",
+        "ontology_label": "complexome profiling",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_complexome",
         "confidence": "high"
@@ -179,15 +172,20 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC (heavy/light arginine and lysine) with DDA acquisition on Orbitrap Exploris 480 and Eclipse."
+          "reason": "Explicit use of SILAC (13C6 15N2 lysine and 13C6 15N4-arginine) with DDA acquisition on Orbitrap Exploris 480 and Eclipse."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "MaxQuant LFQ settings were enabled for the SCE-MS search, although the primary quantification was SILAC."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
-        "heavy/light",
         "data-dependent acquisition",
-        "DDA"
+        "MaxQuant",
+        "heavy/light"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -196,15 +194,20 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC (heavy/light arginine and lysine) with DDA acquisition on Orbitrap Exploris 480 and Eclipse."
+          "reason": "Explicit use of SILAC (13C6 15N2 lysine and 13C6 15N4-arginine) with DDA acquisition on Orbitrap Exploris 480 and Eclipse."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "MaxQuant LFQ settings were enabled for the SCE-MS search, although the primary quantification was SILAC."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "SILAC",
-        "heavy/light",
         "data-dependent acquisition",
-        "DDA"
+        "MaxQuant",
+        "heavy/light"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -232,7 +235,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

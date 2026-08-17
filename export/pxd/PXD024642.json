@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -26,12 +26,13 @@
         "ontology_label": "nutrient or metabolic perturbation",
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
-        "matched_parent_class_key": "nutrient_deprivation",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
-          "nutrient_deprivation"
+          "nutrient_metabolic",
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
           "we observed a significant decrease in mTORC1-mediated phosphorylation of the SNARE component VAMP8 upon culture in (autophagy-inducing) starvation conditions",
@@ -42,12 +43,13 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": "small_molecule_inhibitor",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "small_molecule_inhibitor"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "Phosphorylation of VAMP8 dramatically decreased when autophagy was induced by... adding mTOR inhibitor Torin or rapamycin to the cultured cells"
@@ -60,19 +62,19 @@
         "agent": "Earle\u2019s Balanced Salt Solution (EBSS)",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "starvation conditions",
+        "route_or_context": "culture",
         "evidence": [
           "To induce autophagy, cells were treated with Earle\u2019s Balanced Salt Solution (EBSS)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Torin1",
+        "agent": "Torin",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "mTOR inhibitor",
         "evidence": [
-          "To induce autophagy, cells were treated with Earle\u2019s Balanced Salt Solution (EBSS) or Torin1."
+          "adding mTOR inhibitor Torin or rapamycin to the cultured cells"
         ]
       },
       {
@@ -82,7 +84,7 @@
         "duration": null,
         "route_or_context": "mTOR inhibitor",
         "evidence": [
-          "Phosphorylation of VAMP8 dramatically decreased when autophagy was induced by... adding mTOR inhibitor Torin or rapamycin to the cultured cells"
+          "adding mTOR inhibitor Torin or rapamycin to the cultured cells"
         ]
       }
     ],
@@ -96,12 +98,13 @@
       "nutrient rich conditions"
     ],
     "case_arms": [
-      "starvation (EBSS)",
-      "Torin treatment",
-      "rapamycin treatment"
+      "starvation conditions",
+      "EBSS",
+      "Torin",
+      "rapamycin"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
       "All the western blot and immunofluorescence assay was carried out at least three independent times"
     ],
@@ -116,11 +119,11 @@
         ]
       },
       {
-        "control_label": "nutrient rich",
+        "control_label": "untreated",
         "case_label": "Torin/rapamycin",
         "contrast_type": "pairwise",
         "evidence": [
-          "Phosphorylation of VAMP8 dramatically decreased when autophagy was induced by... adding mTOR inhibitor Torin or rapamycin to the cultured cells"
+          "Phosphorylation of VAMP8 dramatically decreased when autophagy was induced by... adding mTOR inhibitor Torin or rapamycin"
         ]
       }
     ],
@@ -133,15 +136,20 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
+        "taxonomy_hint": "NEWT:9606",
         "confidence": "high"
+      },
+      {
+        "label": "Mus musculus",
+        "taxonomy_hint": null,
+        "confidence": "medium"
       }
     ],
     "cell_types": [],
     "cell_lines": [
       {
         "label": "HEK293T",
-        "family": "Human Embryonic Kidney",
+        "family": null,
         "ontology_curie": null
       }
     ],
@@ -174,6 +182,12 @@
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
         "confidence": "high"
+      },
+      {
+        "ontology_label": "AP-MS",
+        "ontology_curie": null,
+        "workflow_modifier_hint": "mod_ap_ms",
+        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -189,21 +203,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used an LTQ Orbitrap with automated data-dependent MS/MS (DDA) and MaxQuant for analysis. While no explicit labeling is mentioned, the use of TAP and gel-band excision typically follows a label-free quantification (LFQ) or identification-centric approach."
+          "reason": "The experiment used DDA (data-dependent MS/MS) on an LTQ Orbitrap with MaxQuant for analysis. While no explicit LFQ method is mentioned, it is the standard for this setup; no isobaric or SILAC labels were described."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "The primary goal of the MS analysis was to identify phosphorylation sites (T48 and S55) on VAMP8, and PRIDE metadata explicitly lists 'phosphorylated residue' as an identified PTM."
+          "reason": "The study specifically aims to identify phosphorylation sites (T48, S55) of VAMP8 and uses a phospho-specific antibody for verification."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "data-dependent MS/MS",
+        "phospho-specific antibody",
         "MaxQuant",
-        "phosphorylated residue"
+        "data-dependent MS/MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -212,21 +226,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used an LTQ Orbitrap with automated data-dependent MS/MS (DDA) and MaxQuant for analysis. While no explicit labeling is mentioned, the use of TAP and gel-band excision typically follows a label-free quantification (LFQ) or identification-centric approach."
+          "reason": "The experiment used DDA (data-dependent MS/MS) on an LTQ Orbitrap with MaxQuant for analysis. While no explicit LFQ method is mentioned, it is the standard for this setup; no isobaric or SILAC labels were described."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_site_enrichment",
           "confidence": 0.9,
-          "reason": "The primary goal of the MS analysis was to identify phosphorylation sites (T48 and S55) on VAMP8, and PRIDE metadata explicitly lists 'phosphorylated residue' as an identified PTM."
+          "reason": "The study specifically aims to identify phosphorylation sites (T48, S55) of VAMP8 and uses a phospho-specific antibody for verification."
         }
       ],
       "trigger_keywords": [
         "phosphorylation",
-        "data-dependent MS/MS",
+        "phospho-specific antibody",
         "MaxQuant",
-        "phosphorylated residue"
+        "data-dependent MS/MS"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -254,7 +268,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

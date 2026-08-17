@@ -9,7 +9,7 @@
       "TMT"
     ],
     "treatment_categories": [
-      "temperature stress"
+      "heat stress"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -23,16 +23,16 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "temperature stress",
-        "ontology_curie": "PPA:0000022",
+        "ontology_label": "heat stress",
+        "ontology_curie": "PPA:0000117",
         "category": "temperature",
         "matched_parent_class_key": "temperature",
         "matched_class_key": "heat_stress",
         "matched_class_path": [
-          "temperature stress",
-          "heat stress"
+          "temperature",
+          "heat_stress"
         ],
-        "matched_definition": "Elevated temperature exposure (acute or chronic) relative to baseline culture conditions.",
+        "matched_definition": "Exposure to temperature above baseline physiological or growth condition.",
         "confidence": "high",
         "evidence": [
           "characterize aggregation and disaggregation in human cells after non\u2010lethal heat shock",
@@ -45,37 +45,18 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "heat shock",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": null,
-        "evidence": [
-          "Heat shock at 44\u00b0C"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_dose",
-        "agent": null,
         "dose_or_concentration": "44\u00b0C",
-        "duration": null,
-        "route_or_context": null,
-        "evidence": [
-          "Heat shock at 44\u00b0C"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_duration",
-        "agent": null,
-        "dose_or_concentration": null,
         "duration": "10 min",
-        "route_or_context": null,
+        "route_or_context": "K-562 cells",
         "evidence": [
           "Heat shock at 44\u00b0C",
-          "Place plates on pre\u2010warmed heat blocks for 10 min"
+          "Place plates on pre\u2010warmed heat blocks for 10 min",
+          "Heat treatment: ... Heat shock at 44\u00b0C"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "recovery",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "recovery from heat shock",
@@ -98,18 +79,17 @@
     ],
     "control_arms": [
       "mock shock",
-      "pre-shock control"
+      "pre-shock"
     ],
     "case_arms": [
       "heat shock"
     ],
-    "paired_design": null,
+    "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "at least two biological replicates"
+      "two biological replicates"
     ],
     "multiplex_channel_hints": [
-      "TMT labels",
       "TMT10plex",
       "TMT11-131C",
       "hyperplexed quantitative mass spectrometry assay"
@@ -120,12 +100,12 @@
         "case_label": "heat shock",
         "contrast_type": "pairwise",
         "evidence": [
-          "Heat\u2010shocked samples compared with time\u2010matched mock controls"
+          "Ratios between heat shock and mock shock were calculated for each time point."
         ]
       },
       {
-        "control_label": "heat shock (0 h)",
-        "case_label": "recovery (1, 2, 3, 5 h)",
+        "control_label": "heat shock (0h)",
+        "case_label": "recovery (1, 2, 3, 5h)",
         "contrast_type": "timecourse",
         "evidence": [
           "Analysis of soluble protein fraction after 0, 1, 2, 3, and 5 h of recovery from heat shock"
@@ -180,9 +160,9 @@
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Thermal Proteome Profiling",
+        "ontology_label": "Thermal proteome profiling",
         "ontology_curie": null,
-        "workflow_modifier_hint": "mod_tpp",
+        "workflow_modifier_hint": null,
         "confidence": "high"
       }
     ],
@@ -193,35 +173,39 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT10plex and TMT11-131C labels for quantification of pooled samples."
+          "reason": "The experiment explicitly uses TMT10plex and TMT11-131C labels with data-dependent acquisition (DDA) on Q Exactive Plus and Orbitrap Fusion Lumos."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.8,
-          "reason": "The experiment uses dynamic SILAC (light and heavy amino acids) to distinguish pre-existing from newly synthesized proteins."
+          "reason": "The study employs dynamic SILAC (light and heavy medium) to distinguish pre-existing from newly synthesized proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "hyperplexing",
           "confidence": 0.9,
-          "reason": "The text explicitly describes the use of a 'hyperplexed quantitative mass spectrometry assay' combining protein and peptide level labeling (SILAC and TMT)."
+          "reason": "The text explicitly mentions a 'hyperplexed quantitative mass spectrometry assay' combining SILAC and TMT labeling."
+        },
+        {
+          "modifier_workflow_id": "thermal_proteome_profiling",
+          "confidence": 0.9,
+          "reason": "The study performs 'Two-dimensional thermal proteome profiling (2D-TPP)' using a temperature gradient."
         }
       ],
       "trigger_keywords": [
         "TMT",
         "SILAC",
-        "hyperplexed",
-        "isobaric tags",
-        "dynamic SILAC",
-        "TMT10plex",
-        "TMT11-131C"
+        "hyperplexing",
+        "thermal proteome profiling",
+        "2D-TPP",
+        "isobarQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -230,29 +214,33 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses TMT10plex and TMT11-131C labels for quantification of pooled samples."
+          "reason": "The experiment explicitly uses TMT10plex and TMT11-131C labels with data-dependent acquisition (DDA) on Q Exactive Plus and Orbitrap Fusion Lumos."
         },
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 0.8,
-          "reason": "The experiment uses dynamic SILAC (light and heavy amino acids) to distinguish pre-existing from newly synthesized proteins."
+          "reason": "The study employs dynamic SILAC (light and heavy medium) to distinguish pre-existing from newly synthesized proteins."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "hyperplexing",
           "confidence": 0.9,
-          "reason": "The text explicitly describes the use of a 'hyperplexed quantitative mass spectrometry assay' combining protein and peptide level labeling (SILAC and TMT)."
+          "reason": "The text explicitly mentions a 'hyperplexed quantitative mass spectrometry assay' combining SILAC and TMT labeling."
+        },
+        {
+          "modifier_workflow_id": "thermal_proteome_profiling",
+          "confidence": 0.9,
+          "reason": "The study performs 'Two-dimensional thermal proteome profiling (2D-TPP)' using a temperature gradient."
         }
       ],
       "trigger_keywords": [
         "TMT",
         "SILAC",
-        "hyperplexed",
-        "isobaric tags",
-        "dynamic SILAC",
-        "TMT10plex",
-        "TMT11-131C"
+        "hyperplexing",
+        "thermal proteome profiling",
+        "2D-TPP",
+        "isobarQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -280,7 +268,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

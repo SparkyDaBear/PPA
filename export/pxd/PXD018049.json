@@ -8,7 +8,7 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation"
+      "growth factor stimulation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -22,8 +22,8 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "ligand-mediated stimulation",
-        "ontology_curie": "PPA:0000010",
+        "ontology_label": "growth factor stimulation",
+        "ontology_curie": "PPA:0000042",
         "category": "ligand_stimulation",
         "matched_parent_class_key": "ligand_stimulation",
         "matched_class_key": "growth_factor_stimulation",
@@ -31,11 +31,11 @@
           "ligand_stimulation",
           "growth_factor_stimulation"
         ],
-        "matched_definition": "Stimulation driven by growth factors (for example EGF, FGF, PDGF).",
+        "matched_definition": "Stimulation using growth factors that activate growth, survival, motility, or differentiation pathways.",
         "confidence": "high",
         "evidence": [
-          "Using quantitative mass spectrometry, we compare the endogenous SUMO proteomes of HeLa cells before and after EGF stimulation.",
-          "we investigated changes in the endogenous SUMO1 and SUMO2/3 proteome in EGFR signaling using quantitative mass spectrometry 10 min after or without EGF treatment."
+          "we compare the endogenous SUMO proteomes of HeLa cells before and after EGF stimulation",
+          "treated with 0 or 100 ng/ml EGF for 10 min, respectively"
         ]
       }
     ],
@@ -47,17 +47,7 @@
         "duration": "10 min",
         "route_or_context": "HeLa cells",
         "evidence": [
-          "One set of cells was treated with 100 ng/ml EGF (in PBS-BSA) for 10 min; the other set was treated with PBS-BSA only."
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": "EGF",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "SUMO proteome analysis",
-        "evidence": [
-          "we investigated changes in the endogenous SUMO1 and SUMO2/3 proteome in EGFR signaling using quantitative mass spectrometry 10 min after or without EGF treatment."
+          "treated with 100 ng/ml EGF (in PBS-BSA) for 10 min"
         ]
       }
     ],
@@ -80,19 +70,20 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "In total, this large-scale SILAC/SUMO-IP/Mass spectrometry experiment was done three times"
+      "large-scale SILAC/SUMO-IP/Mass spectrometry experiment was done three times"
     ],
     "multiplex_channel_hints": [
       "SILAC",
-      "one where \u201cno EGF\u201d was labeled \u201clight\u201d and \u201c10-min EGF treatment\u201d was labeled \u201cheavy\u201d, and twice vice versa"
+      "one set of 24 plates contained \u201clight\u201d lysine and arginine, and the other set of 24 plates contained D4-lysine and 13C-arginine"
     ],
     "contrast_hints": [
       {
-        "control_label": "no EGF",
-        "case_label": "EGF",
+        "control_label": "without EGF",
+        "case_label": "10-min EGF treatment",
         "contrast_type": "pairwise",
         "evidence": [
-          "we compare the endogenous SUMO proteomes of HeLa cells before and after EGF stimulation."
+          "compare the endogenous SUMO proteomes of HeLa cells before and after EGF stimulation",
+          "treated with 0 or 100 ng/ml EGF for 10 min"
         ]
       }
     ],
@@ -155,28 +146,27 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC (light and heavy labels) with data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
+          "reason": "The experiment explicitly uses SILAC labeling (light vs heavy) and data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant",
-          "confidence": 0.9,
-          "reason": "The study focuses on the SUMO proteome using SUMO-IP and specifically discusses the identification of SUMO acceptor sites on lysine residues."
+          "modifier_workflow_id": "modifier_sumo",
+          "confidence": 1.0,
+          "reason": "The study focuses on the SUMO proteome using SUMO-IP (immunoprecipitation) to enrich SUMOylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "SUMO-IP",
         "SUMO proteome",
-        "SUMOylated proteins",
-        "SUMO acceptor sites"
+        "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -185,29 +175,28 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses SILAC (light and heavy labels) with data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
+          "reason": "The experiment explicitly uses SILAC labeling (light vs heavy) and data-dependent acquisition (DDA) on an LTQ-Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant",
-          "confidence": 0.9,
-          "reason": "The study focuses on the SUMO proteome using SUMO-IP and specifically discusses the identification of SUMO acceptor sites on lysine residues."
+          "modifier_workflow_id": "modifier_sumo",
+          "confidence": 1.0,
+          "reason": "The study focuses on the SUMO proteome using SUMO-IP (immunoprecipitation) to enrich SUMOylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "SUMO-IP",
         "SUMO proteome",
-        "SUMOylated proteins",
-        "SUMO acceptor sites"
+        "data-dependent mode"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -228,7 +217,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

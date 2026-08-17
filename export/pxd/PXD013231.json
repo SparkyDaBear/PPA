@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "label-free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -23,42 +23,40 @@
         "ontology_label": "nutrient or metabolic perturbation",
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
-        "matched_parent_class_key": "nutrient_deprivation",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
-          "nutrient or metabolic perturbation",
-          "nutrient deprivation"
+          "nutrient_metabolic",
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
-          "Eight weeks of weight loss during a low caloric diet (800 kcal\u00b7day-1 over 8 weeks) were followed by 6 months of weight maintenance",
-          "938 overweight/obese, non-diabetic, adults (BMI between 27 and 45 kg/m2, blood fasting glucose below 6.1 mmol/L) underwent an 8-week weight loss phase using a complete meal replacement low calorie diet (LCD)."
+          "8 weeks of weight loss during a low caloric diet (800 kcal\u00b7day-1 over 8 weeks)",
+          "underwent an 8-week weight loss phase using a complete meal replacement low calorie diet (LCD)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "low calorie diet (LCD)",
-        "dose_or_concentration": "800 kcal/day",
+        "agent": "low caloric diet",
+        "dose_or_concentration": "800 kcal\u00b7day-1",
         "duration": "8 weeks",
-        "route_or_context": "meal replacement",
+        "route_or_context": "complete meal replacement",
         "evidence": [
-          "Eight weeks of weight loss during a low caloric diet (800 kcal\u00b7day-1 over 8 weeks)",
-          "The LCD provided 800 kcal/day (Modifast from Nutrition et Sant\u00e9, Revel, France)."
+          "8 weeks of weight loss during a low caloric diet (800 kcal\u00b7day-1 over 8 weeks)",
+          "underwent an 8-week weight loss phase using a complete meal replacement low calorie diet (LCD). The LCD provided 800 kcal/day"
         ]
       },
       {
-        "relation_key": "has_treatment_duration",
-        "agent": "weight maintenance diet (WMD)",
+        "relation_key": "has_timepoint",
+        "agent": null,
         "dose_or_concentration": null,
-        "duration": "26 to 52 weeks",
-        "route_or_context": null,
+        "duration": null,
+        "route_or_context": "clinical intervention day",
         "evidence": [
-          "followed by 6 months of weight maintenance",
-          "randomized to a 26-week weight maintenance diet",
-          "the two leading intervention centers (DK and NL) continued the WMD for an additional 26-weeks"
+          "CID1 corresponding to baseline, CID2 to the LCD termination, CID3 to the 26-week WMD termination and CID4 to the 52-week WMD termination"
         ]
       }
     ],
@@ -68,23 +66,22 @@
   },
   "experimental_design": {
     "timepoints": [
-      "CID1 (baseline)",
-      "CID2 (LCD termination)",
-      "CID3 (26-week WMD termination)",
-      "CID4 (52-week WMD termination)"
-    ],
-    "control_arms": [
-      "CID1"
-    ],
-    "case_arms": [
+      "CID1",
       "CID2",
       "CID3",
       "CID4"
     ],
+    "control_arms": [
+      "baseline (CID1)"
+    ],
+    "case_arms": [
+      "weight loss (CID2)",
+      "weight maintenance (CID3)",
+      "weight maintenance (CID4)"
+    ],
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "34 quality control pools acquired at regular intervals",
       "ten replicate injections of a plasma pool"
     ],
     "multiplex_channel_hints": [
@@ -116,8 +113,8 @@
         ]
       },
       {
-        "control_label": "CID1",
-        "case_label": "CID2, CID3, CID4",
+        "control_label": "baseline",
+        "case_label": "weight loss and maintenance",
         "contrast_type": "timecourse",
         "evidence": [
           "Tracking of nonenzymatic glycation indicated a delayed, slight reduction of glycation in the weight maintenance phase."
@@ -189,21 +186,26 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly described as a label-free, single shot data-independent acquisition (DIA) approach using capillary flow chromatography."
+          "reason": "The study explicitly describes a 'label-free, single shot DIA' approach using capillary flow chromatography and Spectronaut for analysis."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically for library generation and PTM discovery."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_dia_sis",
-          "confidence": 0.8,
-          "reason": "The study used stable-isotope-references (SIS peptides from PlasmaDeepDive kit) for absolute quantification of 60 proteins within the DIA data."
+          "modifier_workflow_id": "sis_quantification",
+          "confidence": 0.9,
+          "reason": "The authors used stable-isotope-references (PlasmaDeepDive kit) for absolute quantification of 60 proteins within the DIA data."
         }
       ],
       "trigger_keywords": [
-        "DIA",
         "data-independent acquisition",
+        "DIA",
         "label-free",
-        "capillary flow",
+        "capillary-flow",
         "stable-isotope-references",
         "SIS"
       ],
@@ -214,30 +216,35 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly described as a label-free, single shot data-independent acquisition (DIA) approach using capillary flow chromatography."
+          "reason": "The study explicitly describes a 'label-free, single shot DIA' approach using capillary flow chromatography and Spectronaut for analysis."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "DDA was used specifically for library generation and PTM discovery."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_dia_sis",
-          "confidence": 0.8,
-          "reason": "The study used stable-isotope-references (SIS peptides from PlasmaDeepDive kit) for absolute quantification of 60 proteins within the DIA data."
+          "modifier_workflow_id": "sis_quantification",
+          "confidence": 0.9,
+          "reason": "The authors used stable-isotope-references (PlasmaDeepDive kit) for absolute quantification of 60 proteins within the DIA data."
         }
       ],
       "trigger_keywords": [
-        "DIA",
         "data-independent acquisition",
+        "DIA",
         "label-free",
-        "capillary flow",
+        "capillary-flow",
         "stable-isotope-references",
         "SIS"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "log2fc_site",
       "pairwise_strategy": "time_anchored",
-      "analyte_level": "protein"
+      "analyte_level": "site"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -258,7 +265,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

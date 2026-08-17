@@ -28,16 +28,16 @@
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "we treated HCT116 cells grown in physiological glucose with vehicle or 10 nM CRT0063465 and immunoprecipitated TRF2",
-          "CRT0063465 targets the nucleotide binding site of glycolytic enzyme phosphoglycerate kinase 1 (PGK1)"
+          "CRT0063465 targets the nucleotide binding site of glycolytic enzyme phosphoglycerate kinase 1 (PGK1).",
+          "the lead compound CRT0063465 is a nucleotide binding site ligand of PGK1... confirming activity against glycolysis."
         ]
       },
       {
@@ -45,16 +45,16 @@
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
         "matched_parent_class_key": "nutrient_metabolic",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
           "nutrient_metabolic",
-          "nutrient_deprivation"
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
-          "HCT116 cells were treated for 1 week in the presence or absence of hypoglycemia",
-          "Cells were fed twice-weekly with low-glucose (500 \u03bcM) medium"
+          "we adopted glucose restriction to further manipulate glycolysis",
+          "hypoglycemic erosion of telomeres was blocked in the presence of the compound"
         ]
       }
     ],
@@ -64,9 +64,9 @@
         "agent": "CRT0063465",
         "dose_or_concentration": "10 nM",
         "duration": null,
-        "route_or_context": "HCT116 cells",
+        "route_or_context": "HCT116 colorectal cancer cells",
         "evidence": [
-          "we treated HCT116 cells grown in physiological glucose with vehicle or 10 nM CRT0063465"
+          "treated HCT116 cells grown in physiological glucose with vehicle or 10 nM CRT0063465"
         ]
       },
       {
@@ -74,7 +74,7 @@
         "agent": "hypoglycemia",
         "dose_or_concentration": "500 \u03bcM glucose",
         "duration": "1 week",
-        "route_or_context": "HCT116 cells",
+        "route_or_context": "HCT116 colorectal cancer cells",
         "evidence": [
           "HCT116 cells were treated for 1 week in the presence or absence of hypoglycemia",
           "Cells were fed twice-weekly with low-glucose (500 \u03bcM) medium"
@@ -109,7 +109,7 @@
         "case_label": "CRT0063465",
         "contrast_type": "pairwise",
         "evidence": [
-          "we treated HCT116 cells grown in physiological glucose with vehicle or 10 nM CRT0063465 and immunoprecipitated TRF2"
+          "treated HCT116 cells grown in physiological glucose with vehicle or 10 nM CRT0063465"
         ]
       },
       {
@@ -118,6 +118,14 @@
         "contrast_type": "pairwise",
         "evidence": [
           "HCT116 cells were treated for 1 week in the presence or absence of hypoglycemia"
+        ]
+      },
+      {
+        "control_label": "hypoglycemia",
+        "case_label": "hypoglycemia + CRT0063465",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "hypoglycemic erosion of telomeres was blocked in the presence of the compound"
         ]
       }
     ],
@@ -130,7 +138,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -155,7 +163,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -168,12 +176,12 @@
     ],
     "quantification_strategy": [
       "TIC",
-      "Area under the peaks"
+      "area under the peaks"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [
       {
-        "ontology_label": "Affinity purification",
+        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_ap_ms",
         "confidence": "high"
@@ -191,16 +199,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on 'areas under the peaks' (TIC), which is a label-free approach."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on TIC (Total Ion Current) / area under the peak, which is a form of label-free quantification (LFQ)."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.95,
+          "reason": "The study explicitly uses TRF2 pull-down (immunoprecipitation) and photoaffinity cross-linking to identify interacting proteins."
+        }
+      ],
       "trigger_keywords": [
-        "top 10 ions",
-        "areas under the peaks",
+        "immunoprecipitation",
+        "pull-down",
+        "photoaffinity cross-linking",
         "TIC",
-        "DDA"
+        "area under the peaks"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -208,16 +223,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on 'areas under the peaks' (TIC), which is a label-free approach."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on TIC (Total Ion Current) / area under the peak, which is a form of label-free quantification (LFQ)."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_affinity_purification",
+          "confidence": 0.95,
+          "reason": "The study explicitly uses TRF2 pull-down (immunoprecipitation) and photoaffinity cross-linking to identify interacting proteins."
+        }
+      ],
       "trigger_keywords": [
-        "top 10 ions",
-        "areas under the peaks",
+        "immunoprecipitation",
+        "pull-down",
+        "photoaffinity cross-linking",
         "TIC",
-        "DDA"
+        "area under the peaks"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -245,7 +267,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

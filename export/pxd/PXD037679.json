@@ -8,7 +8,8 @@
       "TMT"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "small-molecule inhibitor treatment",
+      "kinase inhibitor treatment"
     ],
     "cell_types": [
       "lung carcinoma"
@@ -24,20 +25,37 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
           "chemical_or_drug",
-          "small_molecule_inhibitor"
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "experimentally identified cellular proteins that are differentially expressed in cells treated with multikinase inhibitors dasatinib and staurosporine using mass spectrometry-based proteomics",
           "in-house case study focuses on the identification of mechanistic proteins subject to differential expression by the multikinase inhibitors dasatinib and staurosporine"
+        ]
+      },
+      {
+        "ontology_label": "kinase inhibitor treatment",
+        "ontology_curie": "PPA:0000024",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "kinase_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "kinase_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound that inhibits protein kinase activity or kinase signaling.",
+        "confidence": "high",
+        "evidence": [
+          "treated with multikinase inhibitors dasatinib and staurosporine",
+          "two kinase inhibitors that inhibit protein phosphorylation"
         ]
       }
     ],
@@ -45,7 +63,7 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "dasatinib",
-        "dose_or_concentration": "100 nM, 1, 5, and 25",
+        "dose_or_concentration": "100 nM, 1 \u03bcM, 5 \u03bcM, and 25 \u03bcM",
         "duration": "24 h",
         "route_or_context": "A549 cell line",
         "evidence": [
@@ -57,23 +75,13 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "staurosporine",
-        "dose_or_concentration": "8 nM, 40 nM, 200 nM, and 1",
+        "dose_or_concentration": "8 nM, 40 nM, 200 nM, and 1 \u03bcM",
         "duration": "24 h",
         "route_or_context": "A549 cell line",
         "evidence": [
           "Staurosporine was profiled at 8 nM, 40 nM, 200 nM, and 1 .",
           "treated with the compounds for 24 h",
           "deep expression profiling of the A549 cell line"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "DMSO",
-        "dose_or_concentration": null,
-        "duration": "24 h",
-        "route_or_context": "control",
-        "evidence": [
-          "Cells treated with DMSO were used as controls"
         ]
       }
     ],
@@ -95,33 +103,12 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
+      "cells were allowed to grow for 24 h, after which they were treated with the compounds for 24 h in triplicates",
       "All the experiments were performed in triplicates",
-      "three control samples (A549 cells treated with DMSO), three samples treated with dasatinib, and three samples treated with staurosporine"
+      "three biological replicates of independent WT cultures (n = 3)"
     ],
-    "multiplex_channel_hints": [
-      "TMT reagents were added 4x by weight to each sample",
-      "taking advantage of TMTpro 16 multiplexing"
-    ],
-    "contrast_hints": [
-      {
-        "control_label": "DMSO",
-        "case_label": "dasatinib",
-        "contrast_type": "dose_response",
-        "evidence": [
-          "comparing the highest concentration of drugs (Conc.4) versus control",
-          "Dasatinib was profiled at 100 nM, 1 , 5 , and 25 ."
-        ]
-      },
-      {
-        "control_label": "DMSO",
-        "case_label": "staurosporine",
-        "contrast_type": "dose_response",
-        "evidence": [
-          "comparing the highest concentration of drugs (Conc.4) versus control",
-          "Staurosporine was profiled at 8 nM, 40 nM, 200 nM, and 1 ."
-        ]
-      }
-    ],
+    "multiplex_channel_hints": [],
+    "contrast_hints": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -189,6 +176,12 @@
         "ontology_curie": "PPA:0000293",
         "workflow_modifier_hint": "mod_glyco",
         "confidence": "medium"
+      },
+      {
+        "ontology_label": "acetylome enrichment",
+        "ontology_curie": "PPA:0000295",
+        "workflow_modifier_hint": "mod_acetyl",
+        "confidence": "medium"
       }
     ],
     "assessor_support": null,
@@ -204,20 +197,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment used TMTpro 16 multiplexing (isobaric labeling) and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "The experiment used TMTpro 16 multiplexing (isobaric labeling) and data-dependent acquisition (DDA) on an Orbitrap Fusion mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ptm_discovery_refined",
           "confidence": 0.9,
-          "reason": "The study explicitly describes a two-stage search process: an initial search followed by a 'refined database search' incorporating predicted PTMs (Phosphorylation, Acetylation) based on PEIMAN2 enrichment analysis."
+          "reason": "The study explicitly describes a two-stage search process: an initial routine search followed by a refined search incorporating predicted PTMs (Phosphorylation, Acetylation) identified via the PEIMAN2 pipeline."
         }
       ],
       "trigger_keywords": [
         "TMTpro 16 multiplexing",
         "data-dependent mode",
         "refined database search",
+        "PEIMAN2",
         "isobaric labeling"
       ],
       "raw_or_file_name_triggers": []
@@ -227,20 +221,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The experiment used TMTpro 16 multiplexing (isobaric labeling) and data-dependent acquisition (DDA) on an Orbitrap Fusion."
+          "reason": "The experiment used TMTpro 16 multiplexing (isobaric labeling) and data-dependent acquisition (DDA) on an Orbitrap Fusion mass spectrometer."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ptm_discovery_refined",
           "confidence": 0.9,
-          "reason": "The study explicitly describes a two-stage search process: an initial search followed by a 'refined database search' incorporating predicted PTMs (Phosphorylation, Acetylation) based on PEIMAN2 enrichment analysis."
+          "reason": "The study explicitly describes a two-stage search process: an initial routine search followed by a refined search incorporating predicted PTMs (Phosphorylation, Acetylation) identified via the PEIMAN2 pipeline."
         }
       ],
       "trigger_keywords": [
         "TMTpro 16 multiplexing",
         "data-dependent mode",
         "refined database search",
+        "PEIMAN2",
         "isobaric labeling"
       ],
       "raw_or_file_name_triggers": []
@@ -269,7 +264,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

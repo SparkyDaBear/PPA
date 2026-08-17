@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free quantification (LFQ)",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -27,53 +27,64 @@
         "ontology_label": "genetic perturbation",
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
-        "matched_parent_class_key": "gene_disruption",
-        "matched_class_key": "whole_gene_knockout",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "gene_disruption",
-          "whole_gene_knockout"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Permanent loss of function through full gene knockout (for example CRISPR KO or deletion).",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
           "we first generated CRISPR-Cas9-mediated ID3 knockout cells (U2OS cells)",
-          "ID3-KO cells stably expressing Flag-ID3 (ID3-rescue)"
+          "comparison of gene expression in ID3-KO versus WT cells"
         ]
       },
       {
         "ontology_label": "radiation or photostress",
         "ontology_curie": "PPA:0000016",
         "category": "radiation_photostress",
-        "matched_parent_class_key": "ionizing_radiation",
-        "matched_class_key": "ionizing_radiation",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation_exposure",
         "matched_class_path": [
-          "ionizing_radiation"
+          "radiation_photostress",
+          "ionizing_radiation_exposure"
         ],
-        "matched_definition": "Exposure to X-ray, gamma, or related ionizing radiation sources.",
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
         "confidence": "high",
         "evidence": [
-          "These cells with ID3 expression rescue were either left untreated or irradiated with 10 Gy",
-          "proteomic and transcriptomic analyses following DNA damage induction with IR in wild-type and ID3-depleted cells."
+          "irradiated with 10 Gy",
+          "proteomic and transcriptomic analyses following DNA damage induction with IR in wild-type and ID3-depleted cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "ionizing radiation (IR)",
+        "agent": "ID3",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "CRISPR-Cas9 knockout",
+        "evidence": [
+          "generated CRISPR-Cas9-mediated ID3 knockout cells (U2OS cells)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ionizing radiation",
         "dose_or_concentration": "10 Gy",
         "duration": null,
-        "route_or_context": null,
+        "route_or_context": "IR",
         "evidence": [
           "irradiated with 10 Gy"
         ]
       },
       {
         "relation_key": "has_timepoint",
-        "agent": null,
+        "agent": "ionizing radiation",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "post-irradiation",
+        "route_or_context": "post-IR collection",
         "evidence": [
           "harvested after 15 min or 1 h"
         ]
@@ -91,16 +102,18 @@
     ],
     "control_arms": [
       "untreated",
+      "wild-type (WT)",
       "empty vector"
     ],
     "case_arms": [
-      "irradiated (10 Gy)",
+      "irradiated",
+      "ID3-KO",
       "GFP-Flag-tagged-ID3 expressing vector"
     ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "proteins only identified with at least one unique peptide in both biological replicates were considered for further analysis"
+      "two biological replicates"
     ],
     "multiplex_channel_hints": [
       "label-free quantitative mass spectrometry"
@@ -109,17 +122,17 @@
       {
         "control_label": "untreated",
         "case_label": "irradiated",
-        "contrast_type": "timecourse",
+        "contrast_type": "pairwise",
         "evidence": [
-          "data analysis identified 1194 protein interactions occurring in untreated cells, while 1150 and 1242 interactions were in cells collected 15 min or 1 h after IR"
+          "identified 1194 protein interactions occurring in untreated cells, while 1150 and 1242 interactions were in cells collected 15 min or 1 h after IR"
         ]
       },
       {
-        "control_label": "empty vector",
-        "case_label": "Flag-ID3 rescue",
+        "control_label": "WT",
+        "case_label": "ID3-KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "transduced them with GFP-Flag-tagged-ID3 expressing vector or an empty vector as a control"
+          "comparison of gene expression in ID3-KO versus WT cells"
         ]
       }
     ],
@@ -132,7 +145,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -169,7 +182,7 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free quantification (LFQ)",
+      "Label-free quantification (LFQ)",
       "iBAQ"
     ],
     "proteomics_mode": "Bottom-up",
@@ -194,23 +207,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion and label-free quantification (LFQ) as explicitly stated in both the text and PRIDE metadata."
+          "reason": "The text explicitly states the use of 'label-free quantitative mass spectrometry' and 'data-dependent acquisition mode' (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ip",
-          "confidence": 1.0,
-          "reason": "The samples were prepared using immunoprecipitation (IP) with Flag-magnetic beads and protein A/G beads to enrich for ID3 and its interactors."
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 0.95,
+          "reason": "The experiment is an affinity purification mass spectrometry (AP-MS) study using Flag-magnetic beads to immunoprecipitate Flag-ID3 and its interactors."
         }
       ],
       "trigger_keywords": [
-        "label-free quantification",
-        "LFQ",
-        "data-dependent acquisition",
+        "label-free quantitative mass spectrometry",
+        "data-dependent acquisition mode",
         "immunoprecipitation",
-        "IP",
-        "Flag-magnetic beads"
+        "Flag-magnetic beads",
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,23 +231,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Fusion and label-free quantification (LFQ) as explicitly stated in both the text and PRIDE metadata."
+          "reason": "The text explicitly states the use of 'label-free quantitative mass spectrometry' and 'data-dependent acquisition mode' (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ip",
-          "confidence": 1.0,
-          "reason": "The samples were prepared using immunoprecipitation (IP) with Flag-magnetic beads and protein A/G beads to enrich for ID3 and its interactors."
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 0.95,
+          "reason": "The experiment is an affinity purification mass spectrometry (AP-MS) study using Flag-magnetic beads to immunoprecipitate Flag-ID3 and its interactors."
         }
       ],
       "trigger_keywords": [
-        "label-free quantification",
-        "LFQ",
-        "data-dependent acquisition",
+        "label-free quantitative mass spectrometry",
+        "data-dependent acquisition mode",
         "immunoprecipitation",
-        "IP",
-        "Flag-magnetic beads"
+        "Flag-magnetic beads",
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -263,7 +274,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

@@ -3,12 +3,14 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free",
+    "quantification_method": null,
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
-      "nutrient or metabolic perturbation"
+      "nutrient or metabolic perturbation",
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -26,30 +28,97 @@
         "ontology_label": "nutrient or metabolic perturbation",
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
-        "matched_parent_class_key": "nutrient_deprivation",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "glucose_deprivation",
         "matched_class_path": [
-          "nutrient or metabolic perturbation",
-          "nutrient deprivation"
+          "nutrient_metabolic",
+          "glucose_deprivation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Removal or limitation of glucose availability.",
         "confidence": "high",
         "evidence": [
-          "After a 48-h incubation with or without GlcNAc treatment, cells were rinsed with ice-cold PBS and lysed",
           "HeLa cells were cultured in media with varying glucose concentrations",
           "When cultured in low-glucose media (1 g/l) and no-glucose media (0 g/l), the HeLa cells secreted significantly more galectin 3"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "we used chemical inhibitors to disrupt O-GlcNAc cycling",
+          "Thiamet G inhibits OGA",
+          "OSMI-1 inhibits OGT"
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "mouse embryonic fibroblasts derived from OGA knockout mice",
+          "We used siRNA to knock down either OGT or OGA in HeLa cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "GlcNAc",
-        "dose_or_concentration": null,
-        "duration": "48-h",
-        "route_or_context": "incubation",
+        "agent": "glucose",
+        "dose_or_concentration": "0 g/l, 1 g/l, 2-4.5 g/l",
+        "duration": null,
+        "route_or_context": "culture media",
         "evidence": [
-          "After a 48-h incubation with or without GlcNAc treatment, cells were rinsed with ice-cold PBS and lysed"
+          "HeLa cells were cultured in media with varying glucose concentrations",
+          "low-glucose media (1 g/l) and no-glucose media (0 g/l)",
+          "higher glucose concentrations (2\u20134.5 g/l)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "thiamet G",
+        "dose_or_concentration": "2 \u03bcg/ml",
+        "duration": "48 to 72 h",
+        "route_or_context": "sterile DMSO",
+        "evidence": [
+          "a 2 \u03bcg/ml solution of thiamet G (Sigma-Aldrich) in sterile DMSO was prepared, and the cells were incubated in the thiamet G solution for 48 to 72 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "OSMI-1",
+        "dose_or_concentration": "2 \u03bcg/ml",
+        "duration": "48 to 72 h",
+        "route_or_context": "sterile DMSO",
+        "evidence": [
+          "a 2 \u03bcg/ml solution of OSMI-1 (Sigma-Aldrich) in sterile DMSO was prepared, and the cells were incubated in 25 \u03bcM OSMI-1 solution for 48 to 72 h"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA",
+        "dose_or_concentration": "50 nM",
+        "duration": "48 to 72 h",
+        "route_or_context": "Lipofectamine RNAiMAX",
+        "evidence": [
+          "transfected with a 50 nM final concentration of OGT... OGA... or nontargeting siRNA",
+          "Cells were used in experiments 48 to 72 h after transfection"
         ]
       }
     ],
@@ -59,27 +128,52 @@
   },
   "experimental_design": {
     "timepoints": [
-      "48-h"
+      "48 h",
+      "72 h"
     ],
     "control_arms": [
-      "without GlcNAc treatment"
+      "untreated control",
+      "nontargeting siRNA",
+      "4.5 g/l glucose"
     ],
     "case_arms": [
-      "with GlcNAc treatment"
+      "0 g/l glucose",
+      "1 g/l glucose",
+      "thiamet G",
+      "OSMI-1",
+      "OGT siRNA",
+      "OGA siRNA",
+      "OGA KO MEFs"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "At least three independent biological replicates (independent experiments) were carried out for each experiment"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "without GlcNAc",
-        "case_label": "with GlcNAc",
+        "control_label": "high glucose",
+        "case_label": "low/no glucose",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "When cultured in low-glucose media (1 g/l) and no-glucose media (0 g/l), the HeLa cells secreted significantly more galectin 3 (\u223c3-fold and \u223c10-fold, respectively) than cells grown in higher glucose concentrations (2\u20134.5 g/l)."
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "OSMI-1",
         "contrast_type": "pairwise",
         "evidence": [
-          "After a 48-h incubation with or without GlcNAc treatment, cells were rinsed with ice-cold PBS and lysed"
+          "Galectin 3 secretion over the course of 2 days wasn\u2019t affected by Thiamet G but increased significantly with OSMI-1 treatment"
+        ]
+      },
+      {
+        "control_label": "WT MEF",
+        "case_label": "OGA KO MEF",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "there was a significant decrease in galectin 3 secretion when Oga was deleted"
         ]
       }
     ],
@@ -92,11 +186,11 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       },
       {
-        "label": "Mus musculus",
+        "label": "mouse",
         "taxonomy_hint": null,
         "confidence": "medium"
       }
@@ -131,11 +225,9 @@
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
-    "quantification_strategy": [
-      "Label-free"
-    ],
+    "quantification_strategy": [],
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
@@ -157,22 +249,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) mode was used on an Orbitrap Fusion Lumos with EThcD and HCD fragmentation. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While no explicit quantification method is listed in PRIDE, the experimental design involves comparing immunoprecipitated samples."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glcnac_site_mapping",
+          "modifier_workflow_id": "modifier_oglnac",
           "confidence": 0.95,
-          "reason": "The experiment specifically targets O-GlcNAcylation using EThcD fragmentation, which is the gold standard for site-localization of O-GlcNAc modifications."
+          "reason": "The experiment specifically targets O-GlcNAcylation, using EThcD fragmentation (ideal for glycopeptides) and searching for GlcNAc modifications on Ser/Thr."
         }
       ],
       "trigger_keywords": [
         "O-GlcNAcylation",
         "EThcD",
-        "GlcNAc attachment",
-        "data-dependent mode"
+        "GlcNAc attachment to serine and threonine",
+        "O-GlcNAc-modified proteins"
       ],
       "raw_or_file_name_triggers": [
         "Gal-3ip"
@@ -182,22 +274,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) mode was used on an Orbitrap Fusion Lumos with EThcD and HCD fragmentation. No labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Lumos. While no explicit quantification method is listed in PRIDE, the experimental design involves comparing immunoprecipitated samples."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glcnac_site_mapping",
+          "modifier_workflow_id": "modifier_oglnac",
           "confidence": 0.95,
-          "reason": "The experiment specifically targets O-GlcNAcylation using EThcD fragmentation, which is the gold standard for site-localization of O-GlcNAc modifications."
+          "reason": "The experiment specifically targets O-GlcNAcylation, using EThcD fragmentation (ideal for glycopeptides) and searching for GlcNAc modifications on Ser/Thr."
         }
       ],
       "trigger_keywords": [
         "O-GlcNAcylation",
         "EThcD",
-        "GlcNAc attachment",
-        "data-dependent mode"
+        "GlcNAc attachment to serine and threonine",
+        "O-GlcNAc-modified proteins"
       ],
       "raw_or_file_name_triggers": [
         "Gal-3ip"
@@ -227,7 +319,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

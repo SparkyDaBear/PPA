@@ -28,13 +28,13 @@
         "ontology_label": "nutrient or metabolic perturbation",
         "ontology_curie": "PPA:0000012",
         "category": "nutrient_metabolic",
-        "matched_parent_class_key": "nutrient_deprivation",
-        "matched_class_key": "nutrient_deprivation",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "deprivation_or_starvation",
         "matched_class_path": [
-          "nutrient or metabolic perturbation",
-          "nutrient deprivation"
+          "nutrient_metabolic",
+          "deprivation_or_starvation"
         ],
-        "matched_definition": "Removal or reduction of nutrients (for example glucose starvation, amino acid withdrawal).",
+        "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
           "detection and identification of protein glutathionylation in response to glucose starvation",
@@ -45,13 +45,13 @@
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
-        "matched_parent_class_key": "small_molecule_inhibitor",
-        "matched_class_key": "small_molecule_inhibitor",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "chemical or drug treatment",
-          "small-molecule inhibitor treatment"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Intervention using a compound that inhibits a target protein, pathway, or process.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
           "treated cells with the mitochondrial electron transport chain blockers (antimycin A or rotenone)",
@@ -62,12 +62,23 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
+        "agent": "glucose starvation",
+        "dose_or_concentration": "glucose-free",
+        "duration": null,
+        "route_or_context": "DMEM",
+        "evidence": [
+          "cells were incubated with and without antimycin A or rotenone in glucose-free (glucose starvation) or glucose-containing DMEM"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "antimycin A",
         "dose_or_concentration": null,
-        "duration": null,
+        "duration": "2 h",
         "route_or_context": "mitochondrial electron transport chain blocker",
         "evidence": [
-          "treated cells with the mitochondrial electron transport chain blockers (antimycin A or rotenone)"
+          "treated cells with the mitochondrial electron transport chain blockers (antimycin A or rotenone)",
+          "After inducing a high level of glutathionylation by glucose starvation with antimycin A for 2 h"
         ]
       },
       {
@@ -78,17 +89,6 @@
         "route_or_context": "mitochondrial electron transport chain blocker",
         "evidence": [
           "treated cells with the mitochondrial electron transport chain blockers (antimycin A or rotenone)"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "glucose starvation",
-        "dose_or_concentration": "glucose-free",
-        "duration": "2 h",
-        "route_or_context": "DMEM",
-        "evidence": [
-          "cells were incubated with and without antimycin A or rotenone in glucose-free (glucose starvation) or glucose-containing DMEM",
-          "cells were incubated in glucose-free medium for 2 h"
         ]
       }
     ],
@@ -104,12 +104,11 @@
     ],
     "control_arms": [
       "glucose-containing DMEM",
-      "negative control"
+      "antimycin A alone in high glucose concentration"
     ],
     "case_arms": [
       "glucose starvation with antimycin A",
-      "glucose starvation with rotenone",
-      "positive control"
+      "glucose starvation with rotenone"
     ],
     "paired_design": false,
     "factorial_design": true,
@@ -119,10 +118,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "glucose-containing",
+        "control_label": "glucose-containing DMEM",
         "case_label": "glucose starvation with antimycin A",
         "contrast_type": "pairwise",
         "evidence": [
+          "Proteins in lane 1 (negative) and 4 (positive) in Figure 4B were digested by trypsin on beads, and analyzed by LC-MS/MS",
           "1383 out of 1493 identified proteins (92.6%) have two or higher fold increases of the spectral counts... in the positive versus negative control"
         ]
       }
@@ -136,14 +136,14 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
     "cell_types": [
       {
         "label": "epithelial cell",
-        "rollup_category": "epithelial",
+        "rollup_category": "epithelial cell",
         "ontology_curie": "CL:0000066"
       }
     ],
@@ -162,7 +162,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -179,7 +179,7 @@
     "proteomics_mode": "PTM-enriched",
     "targets_and_enrichments": [
       {
-        "ontology_label": "protein glutathionylation",
+        "ontology_label": "protein glutathionylation enrichment",
         "ontology_curie": null,
         "workflow_modifier_hint": "mod_redox",
         "confidence": "high"
@@ -192,27 +192,27 @@
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data was acquired using an LTQ-Orbitrap in DDA mode (18 data dependent scans) and quantified using spectral counts, which is a label-free approach."
+          "confidence": 0.9,
+          "reason": "Data was acquired using an LTQ-Orbitrap in DDA mode (1 FTMS scan followed by 18 ITMS scans) and quantified using spectral counts, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glutathionylation_enrichment",
-          "confidence": 1.0,
-          "reason": "The experiment uses a specialized 'clickable glutathione' approach involving azido-glutathione, click chemistry with biotin-alkyne, and streptavidin pull-down to enrich glutathionylated proteins."
+          "modifier_workflow_id": "enrichment_site_centric",
+          "confidence": 0.95,
+          "reason": "The experiment uses a specific chemical biology approach (clickable azido-glutathione) followed by streptavidin pull-down to enrich for glutathionylated cysteine residues."
         }
       ],
       "trigger_keywords": [
         "clickable glutathione",
         "azido-glutathione",
-        "biotin-alkyne",
         "streptavidin agarose beads",
+        "spectral counts",
         "glutathionylation"
       ],
       "raw_or_file_name_triggers": []
@@ -221,22 +221,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data was acquired using an LTQ-Orbitrap in DDA mode (18 data dependent scans) and quantified using spectral counts, which is a label-free approach."
+          "confidence": 0.9,
+          "reason": "Data was acquired using an LTQ-Orbitrap in DDA mode (1 FTMS scan followed by 18 ITMS scans) and quantified using spectral counts, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "glutathionylation_enrichment",
-          "confidence": 1.0,
-          "reason": "The experiment uses a specialized 'clickable glutathione' approach involving azido-glutathione, click chemistry with biotin-alkyne, and streptavidin pull-down to enrich glutathionylated proteins."
+          "modifier_workflow_id": "enrichment_site_centric",
+          "confidence": 0.95,
+          "reason": "The experiment uses a specific chemical biology approach (clickable azido-glutathione) followed by streptavidin pull-down to enrich for glutathionylated cysteine residues."
         }
       ],
       "trigger_keywords": [
         "clickable glutathione",
         "azido-glutathione",
-        "biotin-alkyne",
         "streptavidin agarose beads",
+        "spectral counts",
         "glutathionylation"
       ],
       "raw_or_file_name_triggers": []
@@ -265,7 +265,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

@@ -8,6 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
+      "genetic perturbation",
       "chemical or drug treatment",
       "ligand-mediated stimulation"
     ],
@@ -23,18 +24,36 @@
   "treatment": {
     "primary_variables": [
       {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "Purified recombinant GST-Npro protein was incubated with HEK 293 cell lysates",
+          "expression of Npro alone in cells has been shown to suppress the innate immune response"
+        ]
+      },
+      {
         "ontology_label": "chemical or drug treatment",
         "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": null,
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "chemical_or_drug"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "medium",
         "evidence": [
-          "recombinant protein was bound to lysates either in the presence of zinc or in the presence of a chelator of zinc, TPEN"
+          "the recombinant protein was bound to lysates either in the presence of zinc or in the presence of a chelator of zinc, TPEN"
         ]
       },
       {
@@ -50,11 +69,21 @@
         "matched_definition": "Stimulation by ligands or agonists of immune receptors.",
         "confidence": "high",
         "evidence": [
-          "Purified recombinant GST-Npro protein was incubated with HEK 293 cell lysates that had either been untreated or transfected with synthetic dsRNA, poly(I\u00b7C)"
+          "transfected with synthetic dsRNA, poly(I\u00b7C), for 4 h both to induce expression of early-response genes"
         ]
       }
     ],
     "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "GST-Npro",
+        "dose_or_concentration": null,
+        "duration": "4 h",
+        "route_or_context": "incubated with HEK 293 cell lysates",
+        "evidence": [
+          "Purified recombinant GST-Npro protein was incubated with HEK 293 cell lysates... for 4 h"
+        ]
+      },
       {
         "relation_key": "has_treatment_agent",
         "agent": "poly(I\u00b7C)",
@@ -67,22 +96,22 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "zinc",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "presence of zinc",
-        "evidence": [
-          "recombinant protein was bound to lysates either in the presence of zinc"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
         "agent": "TPEN",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "chelator of zinc",
         "evidence": [
           "in the presence of a chelator of zinc, TPEN"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "zinc",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "presence of zinc",
+        "evidence": [
+          "the recombinant protein was bound to lysates either in the presence of zinc"
         ]
       }
     ],
@@ -91,36 +120,38 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "4 h"
+    ],
     "control_arms": [
-      "untreated",
       "GST alone",
-      "TPEN"
+      "untreated"
     ],
     "case_arms": [
-      "poly(I\u00b7C)",
       "GST-Npro",
-      "zinc"
+      "poly(I\u00b7C) transfected",
+      "zinc present",
+      "TPEN present"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
+      {
+        "control_label": "GST alone",
+        "case_label": "GST-Npro",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "specifically eluted from Npro-GST compared to results with GST alone"
+        ]
+      },
       {
         "control_label": "untreated",
         "case_label": "poly(I\u00b7C)",
         "contrast_type": "pairwise",
         "evidence": [
-          "incubated with HEK 293 cell lysates that had either been untreated or transfected with synthetic dsRNA, poly(I\u00b7C)"
-        ]
-      },
-      {
-        "control_label": "GST alone",
-        "case_label": "Npro-GST",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "proteins that were specifically eluted from Npro-GST compared to results with GST alone"
+          "with or without poly(I\u00b7C)"
         ]
       },
       {
@@ -128,7 +159,7 @@
         "case_label": "zinc",
         "contrast_type": "pairwise",
         "evidence": [
-          "recombinant protein was bound to lysates either in the presence of zinc or in the presence of a chelator of zinc, TPEN"
+          "either in the presence of zinc or in the presence of a chelator of zinc, TPEN"
         ]
       }
     ],
@@ -166,7 +197,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
+      "sample_to_file_mapping_present": null
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -202,15 +233,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an LTQ-Orbitrap with a pull-down design. While no formal LFQ method is detailed, the comparison of peptide counts between GST and GST-Npro is a standard label-free approach for interactomics."
+          "reason": "The experiment uses DDA (Data-Dependent Analysis) on an LTQ-Orbitrap with a pull-down design. While no formal LFQ method is detailed, the comparison of protein abundance/presence between GST and GST-Npro is the primary goal."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "pull-down",
         "Data-dependent analysis",
+        "pull-down analysis",
         "LTQ-Orbitrap",
-        "interactome"
+        "GST Pulldown"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,15 +250,15 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses Data-Dependent Acquisition (DDA) on an LTQ-Orbitrap with a pull-down design. While no formal LFQ method is detailed, the comparison of peptide counts between GST and GST-Npro is a standard label-free approach for interactomics."
+          "reason": "The experiment uses DDA (Data-Dependent Analysis) on an LTQ-Orbitrap with a pull-down design. While no formal LFQ method is detailed, the comparison of protein abundance/presence between GST and GST-Npro is the primary goal."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
-        "pull-down",
         "Data-dependent analysis",
+        "pull-down analysis",
         "LTQ-Orbitrap",
-        "interactome"
+        "GST Pulldown"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -255,7 +286,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

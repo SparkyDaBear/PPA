@@ -8,14 +8,15 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "chemical or drug treatment",
-      "genetic perturbation"
+      "overexpression or transgene perturbation",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293",
       "T98G",
-      "U-2 OS"
+      "U-2 OS",
+      "HEK293T"
     ],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
@@ -25,23 +26,25 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
-        "category": "chemical_or_drug",
-        "matched_parent_class_key": "chemical_or_drug",
-        "matched_class_key": null,
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
         "matched_class_path": [
-          "chemical_or_drug"
+          "genetic",
+          "overexpression_or_transgene_perturbation"
         ],
-        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
+          "To identify potential substrates and downstream targets of B55\u03b1 in +/\u2212Dox treated HEK293-iFLAG-B55\u03b1 cells, global phosphoproteomics analysis was performed",
           "HEK293 iFLAG-B55\u03b1 clones 5 (high expresser) and 6 (lower expresser) were induced with 1\u00b5g/mL of doxycycline for 24 h."
         ]
       },
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "knockout_or_deletion_perturbation",
@@ -52,7 +55,6 @@
         "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "To genetically ablate FAM122A, HEK293, T98G, and U-2 OS cells were transduced with one of two lentiCRISPRv2-sgFAM122A (#1/#2)",
           "immunoprecipitation from lysates of cells transfected with this B55\u03b1 mutant vs WT followed by mass spec shows FAM122A as the most enriched holoenzyme binder"
         ]
       }
@@ -60,10 +62,10 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "doxycycline",
-        "dose_or_concentration": "1\u00b5g/mL",
+        "agent": "FLAG-B55\u03b1",
+        "dose_or_concentration": null,
         "duration": "24 h",
-        "route_or_context": "induction of FLAG-B55\u03b1 expression in HEK293 cells",
+        "route_or_context": "doxycycline-inducible expression in HEK293 cells",
         "evidence": [
           "HEK293 iFLAG-B55\u03b1 clones 5 (high expresser) and 6 (lower expresser) were induced with 1\u00b5g/mL of doxycycline for 24 h."
         ]
@@ -73,7 +75,7 @@
         "agent": "FAM122A",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "CRISPR knockout",
+        "route_or_context": "genetic ablation/knockout",
         "evidence": [
           "To genetically ablate FAM122A, HEK293, T98G, and U-2 OS cells were transduced with one of two lentiCRISPRv2-sgFAM122A (#1/#2)"
         ]
@@ -93,8 +95,7 @@
     ],
     "case_arms": [
       "+Dox",
-      "FAM122A-KO",
-      "B55\u03b1 mutant"
+      "FAM122A-KO"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -113,10 +114,10 @@
       },
       {
         "control_label": "WT",
-        "case_label": "B55\u03b1 mutant",
+        "case_label": "FAM122A-KO",
         "contrast_type": "pairwise",
         "evidence": [
-          "immunoprecipitation from lysates of cells transfected with this B55\u03b1 mutant vs WT followed by mass spec"
+          "immunoprecipitation from lysates of cells transfected with this B55\u03b1 mutant vs WT followed by mass spec shows FAM122A as the most enriched holoenzyme binder"
         ]
       }
     ],
@@ -149,6 +150,11 @@
         "label": "U-2 OS",
         "family": null,
         "ontology_curie": null
+      },
+      {
+        "label": "HEK293T",
+        "family": "Human Embryonic Kidney",
+        "ontology_curie": null
       }
     ],
     "noncellular_sources": [],
@@ -159,7 +165,7 @@
     },
     "linkage_hints": {
       "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
+      "sample_to_file_mapping_present": false
     },
     "source_sections": [
       "Ontology_SampleSourceAndScope_prompt"
@@ -181,12 +187,6 @@
         "ontology_curie": "PPA:0000292",
         "workflow_modifier_hint": "mod_phospho",
         "confidence": "high"
-      },
-      {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
       }
     ],
     "assessor_support": null,
@@ -202,21 +202,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q Exactive Plus with 'top 15' fragmentation (DDA) and MaxQuant LFQ quantitation."
+          "reason": "The study explicitly uses LFQ quantitation via MaxQuant on DDA data (Q Exactive plus, top 15 methodology)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment and search for phosphorylation of Ser, Thr, and Tyr."
+          "reason": "The experiment uses TiO2 beads for phosphopeptide enrichment and specifically analyzes phosphorylation of Ser, Thr, and Tyr."
         }
       ],
       "trigger_keywords": [
-        "TiO2 beads",
         "LFQ quantitation",
-        "top 15 methodology",
-        "phosphoproteomics"
+        "TiO2 beads",
+        "phosphoproteomics",
+        "MaxQuant",
+        "top 15 methodology"
       ],
       "raw_or_file_name_triggers": [
         "Phospho(STY).txt"
@@ -227,21 +228,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q Exactive Plus with 'top 15' fragmentation (DDA) and MaxQuant LFQ quantitation."
+          "reason": "The study explicitly uses LFQ quantitation via MaxQuant on DDA data (Q Exactive plus, top 15 methodology)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphopeptide enrichment and search for phosphorylation of Ser, Thr, and Tyr."
+          "reason": "The experiment uses TiO2 beads for phosphopeptide enrichment and specifically analyzes phosphorylation of Ser, Thr, and Tyr."
         }
       ],
       "trigger_keywords": [
-        "TiO2 beads",
         "LFQ quantitation",
-        "top 15 methodology",
-        "phosphoproteomics"
+        "TiO2 beads",
+        "phosphoproteomics",
+        "MaxQuant",
+        "top 15 methodology"
       ],
       "raw_or_file_name_triggers": [
         "Phospho(STY).txt"
@@ -271,7 +273,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }

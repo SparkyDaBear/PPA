@@ -8,8 +8,7 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "temperature stress",
-      "other"
+      "oxygen availability perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
@@ -24,58 +23,64 @@
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "temperature stress",
-        "ontology_curie": "PPA:0000022",
-        "category": "temperature",
-        "matched_parent_class_key": "temperature",
-        "matched_class_key": null,
+        "ontology_label": "oxygen availability perturbation",
+        "ontology_curie": "PPA:0000063",
+        "category": "nutrient_metabolic",
+        "matched_parent_class_key": "nutrient_metabolic",
+        "matched_class_key": "oxygen_availability_perturbation",
         "matched_class_path": [
-          "temperature"
+          "nutrient_metabolic",
+          "oxygen_availability_perturbation"
         ],
-        "matched_definition": "Perturbation induced by altered temperature conditions relative to the experimental baseline or control arm.",
-        "confidence": "low",
-        "evidence": [
-          "Cells were maintained at 37\u00b0C in a 5% CO2, humidified incubator."
-        ],
-        "notes": "Temperature is mentioned as a maintenance condition (37\u00b0C) but is not the primary comparison axis of the proteomics experiment."
-      },
-      {
-        "ontology_label": "other",
-        "ontology_curie": null,
-        "category": "other",
-        "matched_parent_class_key": null,
-        "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": null,
+        "matched_definition": "Altered oxygen state such as hypoxia, normoxia, anoxia, or reoxygenation.",
         "confidence": "high",
         "evidence": [
-          "Cells were subjected to hypoxia (1% O2, 24 hr unless otherwise stated)",
-          "maintained in normoxia (21% O2) or hypoxia (1% O2, 24h)",
-          "pSILAC identified more than 1,000 different newly synthesized proteins in normoxic (pSN) and hypoxic (pSH) cells."
-        ],
-        "notes": "The primary perturbation is oxygen tension (Normoxia vs Hypoxia). This does not fit the provided specific ontology categories (chemical, genetic, nutrient, etc.) and is thus mapped to 'other'."
+          "Cells exposed to hypoxia (i.e. low [O2]) activate a robust transcription program",
+          "We investigated the role of mRNA expression and translation efficiency in a dynamic system associated with a robust transcription response to stimulus: oxygen tension.",
+          "isolated transcripts engaged by the protein synthesis machineries of cells maintained in normoxia (21% O2) or hypoxia (1% O2, 24h)"
+        ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Oxygen (O2)",
-        "dose_or_concentration": "1% O2 (hypoxia) vs 21% O2 (normoxia)",
-        "duration": "24 hr",
-        "route_or_context": "cell culture",
+        "agent": "oxygen",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": null,
         "evidence": [
-          "Cells were subjected to hypoxia (1% O2, 24 hr unless otherwise stated)",
-          "maintained in normoxia (21% O2) or hypoxia (1% O2, 24h)"
+          "cells responding to oxygen stimulus",
+          "perturbations in environmental [O2]"
         ]
       },
       {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
+        "relation_key": "has_treatment_dose",
+        "agent": "oxygen",
+        "dose_or_concentration": "1% O2",
         "duration": null,
-        "route_or_context": "pSILAC pre-treatment",
+        "route_or_context": "hypoxia",
         "evidence": [
-          "Cells grown in \u201clight\u201d (R0K0) media were subjected to 1% O2 or 21% O2 pre-treatment for 6 hr."
+          "Cells were subjected to hypoxia (1% O2, 24 hr unless otherwise stated)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_dose",
+        "agent": "oxygen",
+        "dose_or_concentration": "21% O2",
+        "duration": null,
+        "route_or_context": "normoxia",
+        "evidence": [
+          "cells maintained in normoxia (21% O2)"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_duration",
+        "agent": "oxygen",
+        "dose_or_concentration": null,
+        "duration": "24 hr",
+        "route_or_context": "hypoxia",
+        "evidence": [
+          "Cells were subjected to hypoxia (1% O2, 24 hr unless otherwise stated)"
         ]
       }
     ],
@@ -85,25 +90,27 @@
   },
   "experimental_design": {
     "timepoints": [
-      "6 hr (pre-treatment)",
-      "24 hr (labeling/treatment)"
+      "6 hr",
+      "24 hr"
     ],
     "control_arms": [
-      "normoxia (21% O2)"
+      "normoxia",
+      "21% O2"
     ],
     "case_arms": [
-      "hypoxia (1% O2)"
+      "hypoxia",
+      "1% O2"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
+      "four independent experiments were pooled",
       "All experiments were performed at least three independent times"
     ],
     "multiplex_channel_hints": [
       "pSILAC",
       "\u201clight\u201d (R0K0) media",
-      "\u201cheavy\u201d (R10K8) media",
-      "Both normoxia and hypoxia light channels were considered references, while the heavy channels were compared against each other."
+      "\u201cheavy\u201d (R10K8) media"
     ],
     "contrast_hints": [
       {
@@ -124,7 +131,7 @@
     "organisms": [
       {
         "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
+        "taxonomy_hint": "9606",
         "confidence": "high"
       }
     ],
@@ -161,7 +168,8 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "pSILAC"
+      "pSILAC",
+      "SILAC Label Based Quantitation"
     ],
     "proteomics_mode": "Bottom-up",
     "targets_and_enrichments": [],
@@ -178,17 +186,15 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of pSILAC (pulse-SILAC) using light (R0K0) and heavy (R10K8) media, and DDA acquisition (top 10 most intense ions)."
+          "reason": "The text explicitly describes the use of pSILAC (pulse-stable isotope labeling with amino acids in cell culture) and DDA acquisition (ten data-dependent MS/MS scans)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "pSILAC",
         "SILAC",
-        "heavy media",
-        "light media",
-        "R10K8",
-        "R0K0"
+        "data-dependent MS/MS",
+        "heavy media"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -197,17 +203,15 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of pSILAC (pulse-SILAC) using light (R0K0) and heavy (R10K8) media, and DDA acquisition (top 10 most intense ions)."
+          "reason": "The text explicitly describes the use of pSILAC (pulse-stable isotope labeling with amino acids in cell culture) and DDA acquisition (ten data-dependent MS/MS scans)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "pSILAC",
         "SILAC",
-        "heavy media",
-        "light media",
-        "R10K8",
-        "R0K0"
+        "data-dependent MS/MS",
+        "heavy media"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -235,7 +239,7 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-02",
+    "export_version": "2026-08-05",
     "public_evidence_policy": "links_only"
   }
 }
