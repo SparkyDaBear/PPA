@@ -3,22 +3,24 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free mass spectrometry",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "small-molecule inhibitor treatment"
+      "small-molecule inhibitor treatment",
+      "genetic perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "hTERT-RPE-1",
       "HEK-293T",
       "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,21 +38,46 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "This phosphorylation was markedly reduced when cells were treated with two different PLK1 inhibitors (PLK1i)",
           "To identify the Pol\u03b8 residues phosphorylated by PLK1, we performed quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis, in the presence or absence of PLK1i."
+        ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "genetic"
+        ],
+        "matched_definition": "Direct alteration of gene function, sequence, expression, dosage, or genetic background defining the biological comparison.",
+        "confidence": "high",
+        "evidence": [
+          "immunoprecipitation coupled to label-free mass spectrometry analysis of tagged Pol\u03b8 showed that Pol\u03b8 co-purified with several members of the HR pathway",
+          "NeonGreen-POLQ knock-in in Human embryonic kidney 293 cells VS Human embryonic kidney 293 cells"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "PLK1 inhibitors",
+        "agent": "Volasertib",
         "dose_or_concentration": "200 nM",
         "duration": "1 hour",
-        "route_or_context": "mitosis",
+        "route_or_context": "added during the last hour of nocodazole treatment",
         "evidence": [
-          "Volasertib (referred as PLK1i throughout, 200\u200anM, Selleckchem, Bi6727)",
+          "Volasertib (referred as PLK1i throughout, 200\u2009nM, Selleckchem, Bi6727)",
           "DMSO or Volasertib was added during the last hour of nocodazole treatment."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "NeonGreen-POLQ knock-in",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "HEK-293T cells",
+        "evidence": [
+          "NeonGreen-POLQ knock-in in Human embryonic kidney 293 cells VS Human embryonic kidney 293 cells"
         ]
       }
     ],
@@ -59,17 +86,22 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "mitosis"
+    ],
     "control_arms": [
-      "DMSO"
+      "DMSO",
+      "Human embryonic kidney 293 cells"
     ],
     "case_arms": [
-      "PLK1i"
+      "PLK1i",
+      "NeonGreen-POLQ knock-in"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
-      "five independent experiments"
+      "Mass spectrometry analysis was performed on five independent experiments.",
+      "Mass spectrometry analysis was performed on three independent experiments."
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -80,56 +112,18 @@
         "evidence": [
           "quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis, in the presence or absence of PLK1i."
         ]
+      },
+      {
+        "control_label": "wild-type HEK 293",
+        "case_label": "NeonGreen-POLQ knock-in",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "NeonGreen-POLQ knock-in in Human embryonic kidney 293 cells VS Human embryonic kidney 293 cells"
+        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Escherichia coli",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "hTERT-RPE-1",
-        "family": "human retinal epithelium",
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK-293T",
-        "family": "human embryonic kidney",
-        "ontology_curie": "BTO:0002733"
-      },
-      {
-        "label": "HeLa",
-        "family": "human cervical adenocarcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -138,22 +132,60 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free mass spectrometry",
+      "label-free quantification",
       "peptide extracted ion chromatograms (XICs)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of tagged Pol\u03b8"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "peptide pull-downs of Pol\u03b8 peptides (4S and 4S-P)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK-293T",
+          "ontology_curie": null
+        },
+        {
+          "label": "HeLa",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "nuclear extract",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -163,22 +195,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'label-free quantification was performed by peptide extracted ion chromatograms (XICs)' and 'Affinity purification coupled with mass spectrometry proteomics'."
+          "reason": "The PRIDE metadata explicitly states 'label-free quantification was performed by peptide extracted ion chromatograms (XICs)' and the methods describe LC-MS/MS using an Orbitrap Exploris 480 without mention of labels."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_quant",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 0.9,
-          "reason": "The text describes 'quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis' and 'Pol\u03b8 phosphorylated sites quantification' (PXD036486)."
+          "reason": "The study specifically performs 'quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis' and identifies multiple PLK1 phosphorylation sites."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment uses 'immunoprecipitation coupled to label-free mass spectrometry' and 'peptide pull-downs' to identify binding partners."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
-        "XICs",
+        "immunoprecipitation",
         "phosphorylation analysis",
-        "affinity purification",
-        "phospho-specific"
+        "XICs",
+        "peptide pull-downs"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,22 +224,27 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'label-free quantification was performed by peptide extracted ion chromatograms (XICs)' and 'Affinity purification coupled with mass spectrometry proteomics'."
+          "reason": "The PRIDE metadata explicitly states 'label-free quantification was performed by peptide extracted ion chromatograms (XICs)' and the methods describe LC-MS/MS using an Orbitrap Exploris 480 without mention of labels."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_site_quant",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 0.9,
-          "reason": "The text describes 'quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis' and 'Pol\u03b8 phosphorylated sites quantification' (PXD036486)."
+          "reason": "The study specifically performs 'quantitative mass spectrometry-based phosphorylation analysis of Pol\u03b8 in mitosis' and identifies multiple PLK1 phosphorylation sites."
+        },
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment uses 'immunoprecipitation coupled to label-free mass spectrometry' and 'peptide pull-downs' to identify binding partners."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
-        "XICs",
+        "immunoprecipitation",
         "phosphorylation analysis",
-        "affinity purification",
-        "phospho-specific"
+        "XICs",
+        "peptide pull-downs"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -230,7 +272,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:00:45Z"
   }
 }

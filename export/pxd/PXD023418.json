@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "infection exposure"
+      "viral infection"
     ],
     "cell_types": [
       "epithelial cell"
@@ -18,16 +18,18 @@
       "A549-Ace2",
       "HEK293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "male",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "infection exposure",
-        "ontology_curie": "PPA:0000017",
+        "ontology_label": "viral infection",
+        "ontology_curie": "PPA:0000085",
         "category": "infection",
         "matched_parent_class_key": "infection",
         "matched_class_key": "viral_infection",
@@ -58,8 +60,8 @@
         "relation_key": "has_timepoint",
         "agent": "SARS-CoV-2",
         "dose_or_concentration": null,
-        "duration": "8 h",
-        "route_or_context": "post-infection",
+        "duration": "8 hpi",
+        "route_or_context": null,
         "evidence": [
           "One of these infected cell sets was incubated for 8 h"
         ]
@@ -68,10 +70,10 @@
         "relation_key": "has_timepoint",
         "agent": "SARS-CoV-2",
         "dose_or_concentration": null,
-        "duration": "24 h",
-        "route_or_context": "post-infection",
+        "duration": "24 hpi",
+        "route_or_context": null,
         "evidence": [
-          "and the other for 24 h."
+          "the other for 24 h"
         ]
       }
     ],
@@ -111,7 +113,7 @@
         "case_label": "SARS-CoV-2-infected (24 hpi)",
         "contrast_type": "pairwise",
         "evidence": [
-          "335 RBPs were significantly altered at 24 hpi."
+          "cRIC was then applied to SARS-CoV-2-infected (8 and 24 hpi) and uninfected cells"
         ]
       },
       {
@@ -127,58 +129,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      },
-      {
-        "label": "SARS-CoV-2",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "Calu-3",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "A549-Ace2",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK293T",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -187,19 +137,61 @@
     "quantification_strategy": [
       "Label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "RNA-binding protein enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "RNA-bound proteome (RBPome) capture via oligo(dT)25 magnetic beads (cRIC)"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "viral RNA interactome capture (vRIC) via 4SU-incorporation and oligo(dT) capture"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "Calu-3",
+          "ontology_curie": null
+        },
+        {
+          "label": "A549-Ace2",
+          "ontology_curie": null
+        },
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "male"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -208,15 +200,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "The experiment used data-dependent acquisition (DDA) on QExactive and Orbitrap Eclipse instruments with label-free quantification (LFQ) as explicitly stated in the PRIDE metadata and methods."
+          "confidence": 1.0,
+          "reason": "Data acquired in data-dependent mode (DDA) using QExactive and Orbitrap Eclipse, with label-free quantification (LFQ) performed via MaxQuant proteinGroups intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "enrichment_ric",
-          "confidence": 90,
-          "reason": "The study employs RNA interactome capture (cRIC and vRIC) using oligo(dT) magnetic beads to enrich for RNA-binding proteins."
+          "confidence": 0.9,
+          "reason": "The experiment uses RNA Interactome Capture (cRIC and vRIC) involving UV crosslinking and oligo(dT) magnetic bead selection to enrich for RNA-binding proteins."
         }
       ],
       "trigger_keywords": [
@@ -233,15 +225,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 100,
-          "reason": "The experiment used data-dependent acquisition (DDA) on QExactive and Orbitrap Eclipse instruments with label-free quantification (LFQ) as explicitly stated in the PRIDE metadata and methods."
+          "confidence": 1.0,
+          "reason": "Data acquired in data-dependent mode (DDA) using QExactive and Orbitrap Eclipse, with label-free quantification (LFQ) performed via MaxQuant proteinGroups intensities."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "enrichment_ric",
-          "confidence": 90,
-          "reason": "The study employs RNA interactome capture (cRIC and vRIC) using oligo(dT) magnetic beads to enrich for RNA-binding proteins."
+          "confidence": 0.9,
+          "reason": "The experiment uses RNA Interactome Capture (cRIC and vRIC) involving UV crosslinking and oligo(dT) magnetic bead selection to enrich for RNA-binding proteins."
         }
       ],
       "trigger_keywords": [
@@ -278,7 +270,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:57:32Z"
   }
 }

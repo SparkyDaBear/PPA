@@ -12,11 +12,14 @@
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK-293"
+      "HEK-293",
+      "HEK-293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -35,7 +38,7 @@
         "confidence": "high",
         "evidence": [
           "inducibly expressing individual S protein, Flag tag, Streptavidin Binding peptide (SFB)-tagged BRD proteins (baits) upon tetracycline treatment",
-          "The interactomes of BRD proteins were obtained by analyzing affinity purification of BRD proteins coupled with mass spectrometry (AP-MS)"
+          "inducible SFB-tagged BRD proteins expressed in HEK-293 cells were treated with tetracycline (1 \u03bcg/ml) for 24 h"
         ]
       }
     ],
@@ -45,7 +48,7 @@
         "agent": "tetracycline",
         "dose_or_concentration": "1 \u03bcg/ml",
         "duration": "24 h",
-        "route_or_context": "inducible SFB-tagged BRD protein-expressing cell lines",
+        "route_or_context": "induction of SFB-tagged BRD proteins in HEK-293 cells",
         "evidence": [
           "inducible SFB-tagged BRD proteins expressed in HEK-293 cells were treated with tetracycline (1 \u03bcg/ml) for 24 h"
         ]
@@ -93,46 +96,15 @@
     "contrast_hints": [
       {
         "control_label": "Mock/Input/SBP-NLS",
-        "case_label": "SFB-tagged BRD protein",
-        "contrast_type": "pairwise",
+        "case_label": "SFB-tagged BRD proteins",
+        "contrast_type": "multi_group",
         "evidence": [
-          "To efficiently discriminate confident interacting protein from false-positive or contaminant proteins, the probability of a bona fide protein\u2013protein interaction was analyzed using Significance Analysis of INTeractome software (SAINTexpress)."
+          "This accession provides AP-MS experiment files for the following subset of 18 BRDs... as well as their associated controls (Input, Mock, and SBP-tagged NLS)."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK-293",
-        "family": "human embryonic kidney",
-        "ontology_curie": "BTO:0002181"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -144,18 +116,46 @@
       "spectral counting"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "tandem affinity purification (TAP) of SFB-tagged BRD proteins"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK-293",
+          "ontology_curie": null
+        },
+        {
+          "label": "HEK-293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -164,16 +164,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a top-speed data-dependent acquisition (DDA) method on an Orbitrap Lumos. While the original study used spectral counting for quantification, the DDA raw data is compatible with label-free quantification (LFQ) reanalysis."
+          "confidence": 80,
+          "reason": "The experiment uses DDA (top-speed data-dependent acquisition) and spectral counting for quantification, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 100,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' (AP-MS) using SFB-tagged baits."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent acquisition",
-        "top-speed",
+        "AP-MS",
+        "tandem affinity purification",
         "spectral counts",
-        "AP-MS"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,16 +187,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a top-speed data-dependent acquisition (DDA) method on an Orbitrap Lumos. While the original study used spectral counting for quantification, the DDA raw data is compatible with label-free quantification (LFQ) reanalysis."
+          "confidence": 80,
+          "reason": "The experiment uses DDA (top-speed data-dependent acquisition) and spectral counting for quantification, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ap_ms",
+          "confidence": 100,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' (AP-MS) using SFB-tagged baits."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent acquisition",
-        "top-speed",
+        "AP-MS",
+        "tandem affinity purification",
         "spectral counts",
-        "AP-MS"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,7 +230,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:15Z"
   }
 }

@@ -5,21 +5,21 @@
     "acquisition_type": "DDA",
     "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "Other"
     ],
     "treatment_categories": [
       "un-classified"
     ],
-    "cell_types": [
-      "retinoblastoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "Y79",
       "RB383"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "secretome scope",
-    "sample_scope_curie": "PPA:0000198",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -28,10 +28,10 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
           "To dissect cytokine signaling in retinoblastoma, we analyzed the proteins secreted from Y79 and RB383 retinoblastoma cells by mass spectrometry.",
@@ -48,8 +48,10 @@
     "timepoints": [],
     "control_arms": [],
     "case_arms": [
-      "Y79",
-      "RB383"
+      "Y79 secretome",
+      "RB383 secretome",
+      "Y79 cell surface proteome",
+      "RB383 cell surface proteome"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -60,80 +62,56 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "retinoblastoma cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "Y79",
-        "family": "retinoblastoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "RB383",
-        "family": "retinoblastoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "culture supernatant",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "secretome scope",
-      "curie": "PPA:0000198"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "LFQ",
+      "Other"
     ],
     "quantification_strategy": [
       "Spectrum counting"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "cell surface proteome enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "secretome"
       },
       {
-        "ontology_label": "secretome analysis",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "cell surface proteome"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "Y79",
+          "ontology_curie": "PPA:0000140"
+        },
+        {
+          "label": "RB383",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -142,20 +120,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data was acquired on an LTQ Orbitrap Velos Pro (DDA) and quantified via spectrum counting, which is a label-free approach."
+          "confidence": 80,
+          "reason": "The experiment uses DDA (HPLC-ESI-tandem MS on LTQ Orbitrap Velos Pro) and spectrum counting for quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "surface_proteome",
-          "confidence": 0.9,
-          "reason": "Explicit mention of cell-surface proteome analysis using biotinylation (EZ-Link Sulfo-NHS-SS-Biotin) and streptavidin purification."
-        },
-        {
-          "modifier_workflow_id": "secretome",
-          "confidence": 0.9,
-          "reason": "Explicit mention of secretome analysis using culture supernatant harvesting and concentration."
+          "modifier_workflow_id": "cell_surface_biotinylation",
+          "confidence": 95,
+          "reason": "Explicit mention of cell surface protein biotinylation using EZ-Link Sulfo-NHS-SS-Biotin and isolation via streptavidin agarose for PXD039517 and PXD039518."
         }
       ],
       "trigger_keywords": [
@@ -168,28 +141,23 @@
       "raw_or_file_name_triggers": [
         "Y79 secretome",
         "RB383 secretome",
-        "Y79 cell surface proteome",
-        "RB383 cell surface proteome"
+        "Y79 surface proteome",
+        "RB383 surface proteome"
       ]
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data was acquired on an LTQ Orbitrap Velos Pro (DDA) and quantified via spectrum counting, which is a label-free approach."
+          "confidence": 80,
+          "reason": "The experiment uses DDA (HPLC-ESI-tandem MS on LTQ Orbitrap Velos Pro) and spectrum counting for quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "surface_proteome",
-          "confidence": 0.9,
-          "reason": "Explicit mention of cell-surface proteome analysis using biotinylation (EZ-Link Sulfo-NHS-SS-Biotin) and streptavidin purification."
-        },
-        {
-          "modifier_workflow_id": "secretome",
-          "confidence": 0.9,
-          "reason": "Explicit mention of secretome analysis using culture supernatant harvesting and concentration."
+          "modifier_workflow_id": "cell_surface_biotinylation",
+          "confidence": 95,
+          "reason": "Explicit mention of cell surface protein biotinylation using EZ-Link Sulfo-NHS-SS-Biotin and isolation via streptavidin agarose for PXD039517 and PXD039518."
         }
       ],
       "trigger_keywords": [
@@ -202,8 +170,8 @@
       "raw_or_file_name_triggers": [
         "Y79 secretome",
         "RB383 secretome",
-        "Y79 cell surface proteome",
-        "RB383 cell surface proteome"
+        "Y79 surface proteome",
+        "RB383 surface proteome"
       ]
     },
     "differential_hints": {
@@ -230,7 +198,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:57Z"
   }
 }

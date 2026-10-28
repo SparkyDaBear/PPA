@@ -8,34 +8,35 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "molecular state comparison"
+      "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEp-2"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "protein_complex_assembly_state",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "molecular_state",
-          "protein_complex_assembly_state"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "captured antibody-antigen complexes were eluted and resolved by SDS-PAGE",
-          "log2 fold changes over the means of negative controls were obtained for the three antinucleolar antibodies."
+          "The presence of antibody-mediated rejection was clinically confirmed for all the sequenced transplant patients.",
+          "In renal allograft rejection, the presence of serum DSAs predicts a worse clinical outcome."
         ]
       }
     ],
@@ -47,8 +48,8 @@
         "duration": "overnight",
         "route_or_context": "IP from a nuclear fraction of HEp-2 cell lysates",
         "evidence": [
-          "incubated with 5 \u03bcg of antibodies at 4 \u00b0C overnight",
-          "log2 fold changes over the means of negative controls were obtained for the three antinucleolar antibodies."
+          "log2 fold changes over the means of negative controls were obtained for the three antinucleolar antibodies.",
+          "HEp-2 nuclear lysates were precleared with Protein A Agarose beads, and incubated with 5 \u03bcg of antibodies at 4 \u00b0C overnight."
         ]
       },
       {
@@ -69,10 +70,10 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "negative control mAbs"
+      "negative control antibodies"
     ],
     "case_arms": [
-      "antinucleolar antibodies"
+      "antinucleolar antibodies (6-2A4, 6-2B9, 6-1B5)"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -86,43 +87,12 @@
         "case_label": "antinucleolar antibodies",
         "contrast_type": "pairwise",
         "evidence": [
-          "Fold changes of signal intensity (normalized to median) were calculated for the three antinucleolar antibodies over the mean intensity of the two negative control antibodies."
+          "log2 fold changes over the means of negative controls were obtained for the three antinucleolar antibodies."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEp-2",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -133,19 +103,43 @@
     "quantification_strategy": [
       "LFQ"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity Purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of antibody-antigen complexes from HEp-2 nuclear lysates"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEp-2",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "nuclear fraction",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -158,16 +152,21 @@
           "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive Orbitrap and employed MaxQuant LFQ for quantitation."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_enrichment",
+          "confidence": 1.0,
+          "reason": "The proteomics data was derived from immunoprecipitation (IP) of HEp-2 nuclear lysates using specific antibodies."
+        }
+      ],
       "trigger_keywords": [
         "data-dependent electrospray tandem mass spectrometry",
         "LFQ",
         "MaxQuant",
+        "immunoprecipitations (IP)",
         "Q-Exactive Orbitrap"
       ],
-      "raw_or_file_name_triggers": [
-        "*.raw"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
@@ -177,16 +176,21 @@
           "reason": "The experiment used data-dependent acquisition (DDA) on a Q-Exactive Orbitrap and employed MaxQuant LFQ for quantitation."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_enrichment",
+          "confidence": 1.0,
+          "reason": "The proteomics data was derived from immunoprecipitation (IP) of HEp-2 nuclear lysates using specific antibodies."
+        }
+      ],
       "trigger_keywords": [
         "data-dependent electrospray tandem mass spectrometry",
         "LFQ",
         "MaxQuant",
+        "immunoprecipitations (IP)",
         "Q-Exactive Orbitrap"
       ],
-      "raw_or_file_name_triggers": [
-        "*.raw"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
@@ -212,7 +216,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:48:11Z"
   }
 }

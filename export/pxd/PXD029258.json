@@ -8,15 +8,17 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "overexpression or transgene perturbation"
+      "overexpression or transgene perturbation",
+      "knockdown or interference perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -34,7 +36,23 @@
         "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells and performed immunoprecipitation (IP) against FLAG. The immunoprecipitated products were then analyzed by mass spectrometry (MS)."
+          "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells and performed immunoprecipitation (IP) against FLAG."
+        ]
+      },
+      {
+        "ontology_label": "knockdown or interference perturbation",
+        "ontology_curie": "PPA:0000050",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "we overexpressed detected proteins in cells with knockdown (KD, by shRNA) of PHF20 or PHF20L1."
         ]
       }
     ],
@@ -44,7 +62,7 @@
         "agent": "FLAG-PHF20",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpressed in U2OS cells",
+        "route_or_context": "overexpression in U2OS cells",
         "evidence": [
           "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells"
         ]
@@ -54,9 +72,29 @@
         "agent": "FLAG-PHF20L1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpressed in U2OS cells",
+        "route_or_context": "overexpression in U2OS cells",
         "evidence": [
           "we overexpressed either FLAG-tagged PHF20 (FLAG-PHF20) or FLAG-tagged PHF20L1 (FLAG-PHF20L1) in U2OS cells"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shRNA for PHF20",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown in U2OS cells",
+        "evidence": [
+          "we overexpressed detected proteins in cells with knockdown (KD, by shRNA) of PHF20 or PHF20L1."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shRNA for PHF20L1",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "knockdown in U2OS cells",
+        "evidence": [
+          "we overexpressed detected proteins in cells with knockdown (KD, by shRNA) of PHF20 or PHF20L1."
         ]
       }
     ],
@@ -66,10 +104,14 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "control vector"
+    ],
     "case_arms": [
       "FLAG-PHF20",
-      "FLAG-PHF20L1"
+      "FLAG-PHF20L1",
+      "PHF20 KD",
+      "PHF20L1 KD"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -83,48 +125,12 @@
         "case_label": "FLAG-PHF20L1",
         "contrast_type": "pairwise",
         "evidence": [
-          "our IP\u2013MS results show that both PHF20 and PHF20L1 are associated with KAT8 and all known subunits of the NSL complex... However, PHF20 and PHF20L1 are not associated with each other, indicating that two different NSL complexes might exist: one with PHF20 and one with PHF20L1."
+          "our IP\u2013MS results show that both PHF20 and PHF20L1 are associated with KAT8... However, PHF20 and PHF20L1 are not associated with each other"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "U2OS",
-        "family": "osteosarcoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -136,18 +142,37 @@
       "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of FLAG-tagged PHF20 or FLAG-tagged PHF20L1 complexes"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "U2OS",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -156,15 +181,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no specific labeling (SILAC/TMT) is mentioned, the use of AP-MS for complex identification typically follows a label-free quantification (LFQ) or spectral counting approach for comparing interactomes."
+          "confidence": 0.8,
+          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no explicit quantification method like TMT or SILAC is mentioned, the use of AP-MS to compare interactomes typically follows a label-free quantification (LFQ) or spectral counting approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ap_ms",
-          "confidence": 1.0,
-          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags to identify NSL complex members."
+          "confidence": 0.95,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags."
         }
       ],
       "trigger_keywords": [
@@ -181,15 +206,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no specific labeling (SILAC/TMT) is mentioned, the use of AP-MS for complex identification typically follows a label-free quantification (LFQ) or spectral counting approach for comparing interactomes."
+          "confidence": 0.8,
+          "reason": "The experiment used a top speed data-dependent acquisition (DDA) method on an Orbitrap Fusion. While no explicit quantification method like TMT or SILAC is mentioned, the use of AP-MS to compare interactomes typically follows a label-free quantification (LFQ) or spectral counting approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "ap_ms",
-          "confidence": 1.0,
-          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags to identify NSL complex members."
+          "confidence": 0.95,
+          "reason": "Explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' and 'IP-MS' using FLAG and HA tags."
         }
       ],
       "trigger_keywords": [
@@ -226,7 +251,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:46:40Z"
   }
 }

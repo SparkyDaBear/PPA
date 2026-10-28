@@ -13,12 +13,12 @@
     ],
     "cell_types": [],
     "cell_lines": [
-      "HeLa",
-      "U2OS"
+      "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -75,17 +75,17 @@
         "duration": null,
         "route_or_context": null,
         "evidence": [
-          "treated with 10 \u03bcM 5-Aza-2'-deoxycytidine (AZA)"
+          "treated with 10 \u03bcM 5-Aza-2\u00b4-deoxycytidine (AZA)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DNMT1-targeted siRNA",
+        "agent": "DNMT1 siRNA",
         "dose_or_concentration": "50 nM",
         "duration": null,
         "route_or_context": null,
         "evidence": [
-          "HeLa cells stably expressing His10-SUMO2 were either treated with control siRNA or DNMT1-targeted siRNA",
+          "treated with control siRNA or DNMT1-targeted siRNA",
           "All siRNAs were used at a final concentration of 50 nM"
         ]
       }
@@ -96,7 +96,8 @@
   },
   "experimental_design": {
     "timepoints": [
-      "one hour"
+      "direct lysis",
+      "one hour recovery"
     ],
     "control_arms": [
       "mock treated",
@@ -104,8 +105,8 @@
       "control siRNA"
     ],
     "case_arms": [
-      "formaldehyde (FA)",
-      "5-Aza-2'-deoxycytidine (AZA)",
+      "formaldehyde treated",
+      "5-azadC treated",
       "DNMT1-targeted siRNA"
     ],
     "paired_design": false,
@@ -114,12 +115,10 @@
       "biological cell culture quadruplicate (n=4)",
       "four individual biological replicates"
     ],
-    "multiplex_channel_hints": [
-      "label-free quantification (LFQ)"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "mock treated",
+        "control_label": "mock",
         "case_label": "formaldehyde",
         "contrast_type": "pairwise",
         "evidence": [
@@ -128,64 +127,23 @@
       },
       {
         "control_label": "control siRNA",
-        "case_label": "DNMT1-targeted siRNA",
+        "case_label": "DNMT1 siRNA",
         "contrast_type": "pairwise",
         "evidence": [
           "HeLa cells stably expressing His10-SUMO2 were either treated with control siRNA or DNMT1-targeted siRNA"
         ]
       },
       {
-        "control_label": "mock treated",
+        "control_label": "mock",
         "case_label": "5-azadC",
         "contrast_type": "pairwise",
         "evidence": [
-          "profiled global SUMOylation changes resulting from exposure to 5-azadC"
+          "additionally either treated with 10 \u03bcM 5-Aza-2\u00b4-deoxycytidine (AZA) or mock treated"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Caenorhabditis elegans",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "U2OS",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -197,80 +155,93 @@
       "Label-free quantification (LFQ)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "SUMOylome or QQTGG enrichment",
-        "ontology_curie": "PPA:0000437",
-        "workflow_modifier_hint": "mod_sumo_qqtgg",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "SUMOylation enrichment via Ni-NTA purification of His10-SUMO2"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) with a Q-Exactive HF/HFX mass spectrometer in DDA mode (full scans followed by HCD fragmentation)."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with a Q-Exactive HF/HF-X mass spectrometer using DDA (full scans followed by HCD fragmentation)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant",
-          "confidence": 1.0,
-          "reason": "The experiment specifically enriches for SUMOylated proteins using His10-SUMO2 and Ni-NTA purification, and the PRIDE metadata explicitly lists 'sumoylated lysine' (MOD:01149) as an identified PTM."
+          "modifier_workflow_id": "sumo_remnant_enrichment",
+          "confidence": 0.95,
+          "reason": "The experiment involves enrichment of proteins modified by His10-SUMO2 using Ni-NTA purification, specifically targeting the SUMOylation response."
         }
       ],
       "trigger_keywords": [
         "SUMOylation",
+        "label-free quantification",
         "His10-SUMO2",
         "Ni-NTA purification",
-        "label-free quantification",
-        "sumoylated lysine"
+        "LFQ"
       ],
-      "raw_or_file_name_triggers": [
-        "FA",
-        "AZA"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses label-free quantification (LFQ) with a Q-Exactive HF/HFX mass spectrometer in DDA mode (full scans followed by HCD fragmentation)."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with a Q-Exactive HF/HF-X mass spectrometer using DDA (full scans followed by HCD fragmentation)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "sumo_remnant",
-          "confidence": 1.0,
-          "reason": "The experiment specifically enriches for SUMOylated proteins using His10-SUMO2 and Ni-NTA purification, and the PRIDE metadata explicitly lists 'sumoylated lysine' (MOD:01149) as an identified PTM."
+          "modifier_workflow_id": "sumo_remnant_enrichment",
+          "confidence": 0.95,
+          "reason": "The experiment involves enrichment of proteins modified by His10-SUMO2 using Ni-NTA purification, specifically targeting the SUMOylation response."
         }
       ],
       "trigger_keywords": [
         "SUMOylation",
+        "label-free quantification",
         "His10-SUMO2",
         "Ni-NTA purification",
-        "label-free quantification",
-        "sumoylated lysine"
+        "LFQ"
       ],
-      "raw_or_file_name_triggers": [
-        "FA",
-        "AZA"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
-      "analyte_level": "site"
+      "analyte_level": "protein"
     },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
@@ -291,7 +262,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:51:22Z"
   }
 }

@@ -8,23 +8,23 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
-      "HEK293",
-      "HEK293T"
+      "HEK293"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "overexpression_or_transgene_perturbation",
@@ -35,8 +35,7 @@
         "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "HEK293 cells stably expressing tag-free BZW2 were cultured in light media",
-          "HEK293 stably expressing Flag-tagged BZW2 were cultured in heavy media",
+          "HEK293 cells stably expressing Flag-tagged BZW2 were cultured in heavy media",
           "Overexpression of Flag-tagged BZW2 in HEK293 cells followed by immunoprecipitation confirmed BZW2 interaction"
         ]
       }
@@ -44,13 +43,22 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "BZW2",
+        "agent": "Flag-tagged BZW2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "Flag-tagged vs tag-free stable expression in HEK293 cells",
+        "route_or_context": "stably expressing",
         "evidence": [
-          "HEK293 cells stably expressing tag-free BZW2",
-          "HEK293 stably expressing Flag-tagged BZW2"
+          "HEK293 cells stably expressing Flag-tagged BZW2 were cultured in heavy media"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "tag-free BZW2",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "stably expressing",
+        "evidence": [
+          "HEK293 cells stably expressing tag-free BZW2 were cultured in light media"
         ]
       }
     ],
@@ -91,42 +99,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "Human Embryonic Kidney",
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK293T",
-        "family": "Human Embryonic Kidney",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -137,18 +109,37 @@
       "heavy/light (H/L) ratios"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity Purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-FLAG M2 affinity gel enrichment of BZW2 interactome"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -158,16 +149,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC 2-plex (Arg10, Lys8) with DDA acquisition on an Orbitrap Fusion."
+          "reason": "The study explicitly uses a SILAC 2-plex (Arg10, Lys8) quantitative approach with DDA acquisition on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "interactome_ap_ms",
+          "confidence": 0.9,
+          "reason": "The experiment is a quantitative interactome analysis using Flag-tagged BZW2 immunoprecipitation (AP-MS) with forward and reverse SILAC labeling to filter non-specific binders."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "DDA",
+        "interactome",
+        "Flag immunoprecipitation",
         "heavy/light ratios",
-        "Arg10",
-        "Lys8"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -176,16 +173,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC 2-plex (Arg10, Lys8) with DDA acquisition on an Orbitrap Fusion."
+          "reason": "The study explicitly uses a SILAC 2-plex (Arg10, Lys8) quantitative approach with DDA acquisition on an Orbitrap Fusion."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "interactome_ap_ms",
+          "confidence": 0.9,
+          "reason": "The experiment is a quantitative interactome analysis using Flag-tagged BZW2 immunoprecipitation (AP-MS) with forward and reverse SILAC labeling to filter non-specific binders."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "DDA",
+        "interactome",
+        "Flag immunoprecipitation",
         "heavy/light ratios",
-        "Arg10",
-        "Lys8"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -213,7 +216,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:58:11Z"
   }
 }

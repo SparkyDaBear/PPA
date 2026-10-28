@@ -8,23 +8,25 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation",
+      "knockout or deletion perturbation",
       "oxidative stress"
     ],
     "cell_types": [],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "knockout_or_deletion_perturbation",
@@ -38,7 +40,7 @@
           "Quantitative proteomics revealed that serine ADPr does not occur in cells lacking HPF1.",
           "U2OS cells (wild-type and knockout cell lines) were cultured",
           "all detected histone S-ADPr sites were radically decreased in \u0394PARP-1 cells compared to wild-type cells",
-          "histone S-ADPr was abolished in \u0394HPF1 cells"
+          "Compared to the WT cells, histone S-ADPr was abolished in \u0394HPF1 cells"
         ]
       },
       {
@@ -54,8 +56,8 @@
         "matched_definition": "Exposure or condition increasing reactive oxygen species or oxidative damage.",
         "confidence": "high",
         "evidence": [
-          "after H2O2 stimulation, cells were washed twice with ice-cold PBS",
-          "cells were stimulated with 2 mM H2O2 for 10 min"
+          "cells were stimulated with 2 mM H2O2 for 10 min",
+          "after H2O2 stimulation, cells were washed twice with ice-cold PBS"
         ]
       }
     ],
@@ -106,18 +108,17 @@
     ],
     "case_arms": [
       "\u0394PARP-1 cells",
-      "\u0394HPF1 cells",
-      "knockout cell lines"
+      "\u0394HPF1 cells"
     ],
     "paired_design": false,
-    "factorial_design": null,
+    "factorial_design": false,
     "replicate_hints": [
       "Each SILAC experiment was composed of at least two biological replicates."
     ],
     "multiplex_channel_hints": [
       "SILAC labeling",
       "unlabelled L-lysine as the light condition, or isotopically labeled L-lysine (13C6,15N2) as the heavy condition",
-      "Supernatants containing sulfuric acid-soluble fractions from light and heavy lysates were mixed 1:1"
+      "supernatants from light and heavy lysates were mixed 1:1"
     ],
     "contrast_hints": [
       {
@@ -141,37 +142,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "U2OS",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -181,18 +151,47 @@
       "SILAC"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "purified histones and PARP-1"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "enrichment of ADPr peptides via IMAC (PHOS-select beads)"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "recombinant proteins in vitro ADP-ribosylation assays"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "U2OS",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -202,27 +201,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative proteomics of histones and PARP-1."
-        },
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Some datasets (e.g., histone-depleted fractions and in vitro assays) appear to be non-SILAC DDA acquisitions."
+          "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative comparison of wild-type vs knockout cell lines."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "adpr_enrichment",
+          "modifier_workflow_id": "site_centric_enrichment",
           "confidence": 0.9,
-          "reason": "Use of IMAC (PHOS-select beads) adapted for ADPr peptide enrichment and mention of macrodomain ADPr-binding module enrichment in reanalyzed datasets."
+          "reason": "Use of IMAC (PHOS-select beads) to enrich for ADP-ribosylated peptides and targeted ETD for site localization."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "ADP-ribosylation",
-        "ADPr",
+        "ETD",
         "IMAC",
-        "PHOS-select",
         "partial FASP"
       ],
       "raw_or_file_name_triggers": []
@@ -232,27 +225,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative proteomics of histones and PARP-1."
-        },
-        {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "Some datasets (e.g., histone-depleted fractions and in vitro assays) appear to be non-SILAC DDA acquisitions."
+          "reason": "Explicit use of SILAC labeling (light and heavy L-lysine) for quantitative comparison of wild-type vs knockout cell lines."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "adpr_enrichment",
+          "modifier_workflow_id": "site_centric_enrichment",
           "confidence": 0.9,
-          "reason": "Use of IMAC (PHOS-select beads) adapted for ADPr peptide enrichment and mention of macrodomain ADPr-binding module enrichment in reanalyzed datasets."
+          "reason": "Use of IMAC (PHOS-select beads) to enrich for ADP-ribosylated peptides and targeted ETD for site localization."
         }
       ],
       "trigger_keywords": [
         "SILAC",
         "ADP-ribosylation",
-        "ADPr",
+        "ETD",
         "IMAC",
-        "PHOS-select",
         "partial FASP"
       ],
       "raw_or_file_name_triggers": []
@@ -281,7 +268,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:26:45Z"
   }
 }

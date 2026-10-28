@@ -12,9 +12,10 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "purified protein or complex",
-    "sample_scope_curie": "PPA:0000196",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -22,11 +23,11 @@
       {
         "ontology_label": "molecular state comparison",
         "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
+        "category": "unclassified",
+        "matched_parent_class_key": "molecular_state_comparison",
         "matched_class_key": "conformation_or_structural_state_comparison",
         "matched_class_path": [
-          "molecular_state",
+          "molecular_state_comparison",
           "conformation_or_structural_state_comparison"
         ],
         "matched_definition": "Comparison where protein conformation, folding state, complex conformation, or structural state is the biological variable.",
@@ -40,22 +41,22 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "C3",
+        "agent": "BS3",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "protein conformation",
+        "route_or_context": "cross-linker",
         "evidence": [
-          "benchmark QCLMS analysis on complement protein C3 versus its active product C3b"
+          "cross-linking C3 and C3b with BS3 and isotope-labeled BS3-d4"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "C3b",
+        "agent": "BS3-d4",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "protein conformation",
+        "route_or_context": "isotope-labeled cross-linker",
         "evidence": [
-          "benchmark QCLMS analysis on complement protein C3 versus its active product C3b"
+          "cross-linking C3 and C3b with BS3 and isotope-labeled BS3-d4"
         ]
       }
     ],
@@ -75,12 +76,12 @@
     "factorial_design": false,
     "replicate_hints": [
       "label-swap replica",
-      "replicated analysis and label-swap provided effective quality control"
+      "three replicas for each ratio"
     ],
     "multiplex_channel_hints": [
-      "isotope-labeled cross-linkers",
-      "BS3 and BS3-d4",
-      "forward-labeled and reverse-labeled analysis"
+      "isotopically mixed",
+      "forward-labeled and reverse-labeled analysis",
+      "C3+BS3 and C3b+BS3-d4; C3+BS3-d4 and C3b+BS3"
     ],
     "contrast_hints": [
       {
@@ -96,31 +97,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "purified protein or complex",
-      "curie": "PPA:0000196"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -131,18 +107,45 @@
       "Label-swap replica"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000430",
-        "workflow_modifier_hint": "mod_tpp",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "purified protein C3 and C3b"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "human serum albumin",
+          "source_kind": "other"
+        },
+        {
+          "label": "complement protein C3",
+          "source_kind": "other"
+        },
+        {
+          "label": "complement protein C3b",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -150,16 +153,21 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.7,
-          "reason": "Data was acquired in data-dependent mode (DDA) and quantified using MS1 precursor signals (intensities of elution peaks), which aligns with LFQ-style feature extraction, although using a custom isotope-labeled cross-linker ratio."
+          "reason": "The experiment uses isotope-labeled cross-linkers (BS3 vs BS3-d4) to create doublet MS signals for quantification, which mimics the logic of isobaric/labeled workflows, although it is specifically for cross-links."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Data was acquired in data-dependent mode (DDA) and processed for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_bs3",
+          "modifier_workflow_id": "cross_linking_cx",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses BS3 and BS3-d4 for chemical cross-linking of proteins C3 and C3b."
+          "reason": "Explicitly described as Quantitative Cross-linking/Mass Spectrometry (QCLMS) using BS3 and BS3-d4 cross-linkers."
         }
       ],
       "trigger_keywords": [
@@ -167,24 +175,29 @@
         "QCLMS",
         "BS3",
         "BS3-d4",
-        "cross-linked peptides",
-        "linked residue pairs"
+        "isotope-labeled cross-linkers",
+        "cross-linked peptides"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.7,
-          "reason": "Data was acquired in data-dependent mode (DDA) and quantified using MS1 precursor signals (intensities of elution peaks), which aligns with LFQ-style feature extraction, although using a custom isotope-labeled cross-linker ratio."
+          "reason": "The experiment uses isotope-labeled cross-linkers (BS3 vs BS3-d4) to create doublet MS signals for quantification, which mimics the logic of isobaric/labeled workflows, although it is specifically for cross-links."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.4,
+          "reason": "Data was acquired in data-dependent mode (DDA) and processed for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_bs3",
+          "modifier_workflow_id": "cross_linking_cx",
           "confidence": 1.0,
-          "reason": "The experiment explicitly uses BS3 and BS3-d4 for chemical cross-linking of proteins C3 and C3b."
+          "reason": "Explicitly described as Quantitative Cross-linking/Mass Spectrometry (QCLMS) using BS3 and BS3-d4 cross-linkers."
         }
       ],
       "trigger_keywords": [
@@ -192,8 +205,8 @@
         "QCLMS",
         "BS3",
         "BS3-d4",
-        "cross-linked peptides",
-        "linked residue pairs"
+        "isotope-labeled cross-linkers",
+        "cross-linked peptides"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -221,7 +234,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:11Z"
   }
 }

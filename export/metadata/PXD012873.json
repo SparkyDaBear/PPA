@@ -1,25 +1,26 @@
 {
   "pxd": "PXD012873",
-  "timestamp": "2026-08-01T23:03:05.076012",
+  "timestamp": "2026-09-22T22:59:50.311652",
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "label-free intensity quantification",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
+      "LFQ",
       "Other"
     ],
-    "cell_types": [
-      "mesenchymal stem cells"
-    ],
-    "cell_lines": [
-      "Y201"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "mechanical or physical stimulus",
       "genetic perturbation",
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "instrument": null
   },
@@ -58,19 +59,20 @@
       "Ontology_AssayAndWorkflow_prompt": {
         "acquisition_type": "DDA",
         "labeling_strategy": [
+          "LFQ",
           "Other"
         ],
         "quantification_strategy": [
-          "label-free intensity quantification",
-          "Bayesian elastic net linear regression"
+          "label-free quantification",
+          "mBBr-based cysteine reactivity quantification"
         ],
-        "proteomics_mode": "Bottom-up",
+        "proteomics_mode": "PTM-enriched",
         "assay_targets_or_enrichments": [
           {
             "ontology_label": "phosphoproteome enrichment",
             "ontology_curie": "PPA:0000292",
             "workflow_modifier_hint": "mod_phospho",
-            "confidence": "low"
+            "confidence": "medium"
           }
         ],
         "stage4_workflow_hints": {
@@ -83,33 +85,33 @@
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
-                "name": "Carbamidomethylation",
-                "residue_or_site": "Cysteine",
+                "name": "Carbamidomethyl",
+                "residue_or_site": "C",
                 "mass_shift_da": 57.021
               },
               {
                 "name": "Oxidation",
-                "residue_or_site": "Methionine",
+                "residue_or_site": "M",
                 "mass_shift_da": 15.995
               },
               {
                 "name": "Hydroxylation",
-                "residue_or_site": "Asn, Asp, Pro, Lys",
+                "residue_or_site": "N, D, P, K",
                 "mass_shift_da": 15.995
               },
               {
                 "name": "Phosphorylation",
-                "residue_or_site": "Ser, Thr, Tyr, His, Asp",
+                "residue_or_site": "S, T, Y, H, D",
                 "mass_shift_da": 79.966
               },
               {
-                "name": "mBBr labeling",
-                "residue_or_site": "Cysteine",
+                "name": "monobromobimane (mBBr)",
+                "residue_or_site": "C",
                 "mass_shift_da": 133.053
               },
               {
-                "name": "mBBr labeling (oxidized)",
-                "residue_or_site": "Cysteine",
+                "name": "monobromobimane (mBBr) oxidized",
+                "residue_or_site": "C",
                 "mass_shift_da": 150.056
               }
             ],
@@ -122,83 +124,41 @@
             "In all MS experiments, peptides were selected for fragmentation automatically by data dependent analysis"
           ],
           "labeling": [
-            "protein labeling with monobromobimane (mBBr)",
-            "cysteine residues were labeled with mBBr"
+            "Protein labeling with monobromobimane (mBBr)",
+            "labeling with mBBr, the modification was searched for in two possible oxidation states"
           ],
           "quantification": [
-            "Peptide detection intensities were exported from Progenesis QI",
             "raw peptide ion intensities were log-transformed",
-            "calculated by fitting a linear regression model that considers donor variability"
+            "quantify differential labeling in hMSCs following CTS at 5 Hz, relative to unstrained controls"
           ],
           "enrichment": [
-            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column)"
+            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column), but MS spectra... were aligned together to enable detection of PTMs to SUN2",
+            "For analysis of phospho-proteomics, highlighted sites are those significantly differentially regulated"
           ],
           "workflow_hints": [
-            "search for alkylated cysteine residues (monoisotopic mass change, 57.021 Da), oxidized methionine (15.995 Da), hydroxylation of asparagine, aspartic acid, proline or lysine (15.995 Da) and phosphorylation of serine, tyrosine, threonine, histidine or aspartate (79.966 Da)",
+            "The peptide database was modified to search for... phosphorylation of serine, tyrosine, threonine, histidine or aspartate (79.966 Da)",
             "In experiments in which cysteine residues were labeled with mBBr, the modification was searched for in two possible oxidation states (133.053 and 150.056 Da)"
           ],
           "file_name_cues": []
         },
-        "notes": "The study uses a label-free approach for general protein abundance and PTM occupancy. While it mentions 'phospho-proteomics' and searches for phosphorylation, it explicitly states that no affinity enrichment (like TiO2 or IMAC) was used prior to MS. mBBr is used as a chemical probe for cysteine accessibility/folding, not as a standard quantification label like TMT/SILAC."
+        "notes": "The study uses a label-free approach for general protein abundance and a chemical labeling strategy (mBBr) to probe cysteine accessibility/conformation. While the authors explicitly state they did not use affinity enrichment columns for PTMs, they performed a targeted PTM analysis (phospho and oxidation) via search parameter modification and site-level quantification, justifying the 'mod_phospho' hint and 'PTM-enriched' mode for routing purposes."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "mesenchymal stem cells",
-            "rollup_category": "stem cell",
-            "ontology_curie": "CL:0000048"
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "Y201",
-            "family": "immortalised hMSC",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [
-          {
-            "label": "bone marrow",
-            "source_kind": "tissue"
-          }
-        ],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "primary human mesenchymal stem cells (hMSCs)",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "primary human mesenchymal stem cells (hMSCs)"
-          ],
-          "cell_lines": [
-            "immortalised hMSCs (line Y201)"
-          ],
-          "noncellular_sources": [
-            "Human mesenchymal stem cells (hMSCs) were isolated from the bone marrow (knee and hip)"
-          ],
           "scope": [
-            "Cells were homogenized in a Bullet Blender (Next Advance) at maximum speed for 2 min. Homogenates were cleared by centrifugation",
-            "50 \u03bcL of protein lysate and shaken overnight at 37 \u00b0C",
-            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column)"
-          ]
+            "Cells were homogenized in a Bullet Blender (Next Advance) at maximum speed for 2 min. Homogenates were cleared by centrifugation (12 \u00b0C, 10,000 \u00d7 g, 5 min).",
+            "50 \u00b5L of protein lysate and shaken overnight at 37 \u00b0C.",
+            "protein was extracted from cells by resuspension of cell pellets in 5% sodium dodecyl sulphate (SDS), 50 mM triethylammonium bicarbonate (TEAB, pH 7.55). Cell lysates (in 4 mm-thick microTUBEs, Covaris) were sonicated using a focused ultrasonicator"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis was performed on whole cell lysates (homogenates) of primary hMSCs and the Y201 immortalized line. While the study focuses on the LINC complex and SUN2, the MS method explicitly states that samples were not enriched via affinity columns prior to analysis."
+        "notes": "The proteomics analysis was performed on total cell lysates derived from homogenized cell pellets. While the study focuses on the LINC complex and nuclear envelope proteins, the MS material itself was unfractionated lysate."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -216,7 +176,7 @@
             "confidence": "high",
             "evidence": [
               "we examine the time-dependent response of primary human mesenchymal stem cells (hMSCs) to cyclic tensile strain (CTS).",
-              "Cells were strained for 1 or 2\u2009h at, low-intensity (0\u20134% strain at 1\u2009Hz), intermediate-intensity (0\u20134% strain at 2\u2009Hz), or high-intensity (2.6\u20136.2% strain at 5\u2009Hz)."
+              "Cells were strained for 1 or 2 h at, low-intensity (0\u20134% strain at 1 Hz), intermediate-intensity (0\u20134% strain at 2 Hz), or high-intensity (2.6\u20136.2% strain at 5 Hz)."
             ]
           },
           {
@@ -224,12 +184,12 @@
             "ontology_curie": "PPA:0000011",
             "category": "genetic",
             "matched_parent_class_key": "genetic",
-            "matched_class_key": "knockout_or_deletion_perturbation",
+            "matched_class_key": "knockdown_or_interference_perturbation",
             "matched_class_path": [
               "genetic",
-              "knockout_or_deletion_perturbation"
+              "knockdown_or_interference_perturbation"
             ],
-            "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+            "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
             "confidence": "high",
             "evidence": [
               "We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS",
@@ -250,7 +210,23 @@
             "confidence": "high",
             "evidence": [
               "We also investigated the effects of SUN2 overexpression (OE), using immortalized hMSCs (Y201 line)",
-              "The proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
+              "the proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
+            ]
+          },
+          {
+            "ontology_label": "chemical or drug treatment",
+            "ontology_curie": "PPA:0000009",
+            "category": "chemical_or_drug",
+            "matched_parent_class_key": "chemical_or_drug",
+            "matched_class_key": "small_molecule_inhibitor_treatment",
+            "matched_class_path": [
+              "chemical_or_drug",
+              "small_molecule_inhibitor_treatment"
+            ],
+            "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+            "confidence": "medium",
+            "evidence": [
+              "we combined 5 Hz CTS with a panel of ion channel inhibitors: GdCl3, a broad-spectrum inhibitor of stretch-activated ion channels; RN9893, an inhibitor of transient receptor potential cation channel subfamily V member 4 (TRPV4); amiloride, an inhibitor of acid sensing ion channels (ASICs), and GsMTx4, an inhibitor of piezo channels"
             ]
           }
         ],
@@ -258,31 +234,41 @@
           {
             "relation_key": "has_treatment_agent",
             "agent": "cyclic tensile strain (CTS)",
-            "dose_or_concentration": "2.6\u20136.2% strain at 5\u2009Hz",
-            "duration": "1 or 2\u2009h",
+            "dose_or_concentration": "low-intensity (0\u20134% strain at 1 Hz), intermediate-intensity (0\u20134% strain at 2 Hz), or high-intensity (2.6\u20136.2% strain at 5 Hz)",
+            "duration": "1 or 2 h",
             "route_or_context": "FlexCell Tension Plus System",
             "evidence": [
-              "Cells were strained for 1 or 2\u2009h at... high-intensity (2.6\u20136.2% strain at 5\u2009Hz)."
+              "Cells were strained for 1 or 2 h at, low-intensity (0\u20134% strain at 1 Hz), intermediate-intensity (0\u20134% strain at 2 Hz), or high-intensity (2.6\u20136.2% strain at 5 Hz)."
             ]
           },
           {
             "relation_key": "has_treatment_agent",
             "agent": "SUN2 siRNA",
-            "dose_or_concentration": "10\u2009nM",
-            "duration": "24\u2009h of culture",
+            "dose_or_concentration": "10 nM",
+            "duration": "24 h of culture",
             "route_or_context": "RNAi Max Lipofectamine",
             "evidence": [
-              "hMSCs were incubated in complete medium containing RNAi Max Lipofectamine... in the presence of short interfering double stranded RNA (siRNA... final concentration of 10\u2009nM):- SUN2 siRNA1... SUN2 siRNA2"
+              "hMSCs were incubated in complete medium containing RNAi Max Lipofectamine (Thermo Fisher Scientific) in the presence of short interfering double stranded RNA (siRNA; Thermo Fisher Scientific; final concentration of 10 nM)"
             ]
           },
           {
             "relation_key": "has_treatment_agent",
             "agent": "doxycycline",
-            "dose_or_concentration": "50\u2009ngmL\u22121",
+            "dose_or_concentration": "50 ngmL-1",
             "duration": "4 days",
             "route_or_context": "inducible SUN2 expression vector",
             "evidence": [
-              "Cells containing the inducible SUN2 expression vector were cultured for 4 days in complete medium containing 50\u2009ngmL\u22121 doxycycline (DOX, Sigma)."
+              "Cells containing the inducible SUN2 expression vector were cultured for 4 days in complete medium containing 50 ngmL-1 doxycycline (DOX, Sigma)."
+            ]
+          },
+          {
+            "relation_key": "has_treatment_agent",
+            "agent": "GdCl3",
+            "dose_or_concentration": "10 \u00b5M",
+            "duration": "10 min prior to, and throughout, strain treatment",
+            "route_or_context": "inhibitor against stretch-activated ion channels",
+            "evidence": [
+              "Gadolinium chloride (GdCl3; Sigma), dissolved in water and used at a final concentration of 10 \u00b5M... was used as a broad-spectrum inhibitor against all stretch-activated ion channels."
             ]
           }
         ],
@@ -294,51 +280,63 @@
           ],
           "control_arms": [
             "unstrained controls",
-            "scrambled control",
-            "Non-transformed cells treated with 50\u2009ngmL\u22121 DOX"
+            "scrambled control (siRNA)",
+            "non-transformed cells treated with 50 ngmL-1 DOX",
+            "vehicle only (for ion channel inhibitors)"
           ],
           "case_arms": [
-            "low-intensity CTS (1 Hz)",
-            "high-intensity CTS (5 Hz)",
+            "low-intensity CTS",
+            "intermediate-intensity CTS",
+            "high-intensity CTS",
             "SUN2 knockdown",
             "SUN2 overexpression",
             "SUN2 rescue"
           ],
-          "paired_design": false,
+          "paired_design": null,
           "factorial_design": false,
           "replicate_hints": [
-            "comparing two siRNAs to increase confidence of identifying on-target effects"
+            "primary hMSCs were isolated from the bone marrow (knee and hip) of male and female donors",
+            "donor variability at both the peptide and protein levels"
           ],
           "multiplex_channel_hints": [],
           "evidence": [
-            "Cells were fixed or lysed for downstream analysis either immediately following straining, or having been maintained in culture for a further 3 or 24\u2009h.",
+            "Cells were fixed or lysed for downstream analysis either immediately following straining, or having been maintained in culture for a further 3 or 24 h.",
             "A scrambled control was provided by the manufacturer",
-            "Non-transformed cells treated with 50\u2009ngmL\u22121 DOX were used as controls."
+            "Non-transformed cells treated with 50 ngmL-1 DOX were used as controls.",
+            "with vehicle only used as a control."
           ]
         },
         "contrast_hints": [
           {
             "control_label": "unstrained",
-            "case_label": "5 Hz CTS",
+            "case_label": "high-intensity CTS (5 Hz)",
             "contrast_type": "pairwise",
             "evidence": [
               "analysis of the intracellular proteome by MS, showed greater changes relative to unstrained controls"
             ]
           },
           {
-            "control_label": "scrambled siRNA",
-            "case_label": "SUN2 siRNA",
+            "control_label": "unstrained",
+            "case_label": "low-intensity CTS (1 Hz)",
             "contrast_type": "pairwise",
             "evidence": [
-              "We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS, comparing two siRNAs to increase confidence of identifying on-target effects"
+              "For comparison, we also examined proteomic changes in response to low-intensity CTS (1 h at 1 Hz, change in strain = 4.0%)."
+            ]
+          },
+          {
+            "control_label": "scrambled control",
+            "case_label": "SUN2 knockdown",
+            "contrast_type": "pairwise",
+            "evidence": [
+              "The siRNAs depleted SUN2 to 35% of scrambled controls"
             ]
           },
           {
             "control_label": "control levels",
-            "case_label": "SUN2 OE",
-            "contrast_type": "dose_response",
+            "case_label": "SUN2 overexpression",
+            "contrast_type": "pairwise",
             "evidence": [
-              "The proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
+              "the proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
             ]
           }
         ],
@@ -346,25 +344,29 @@
           "biological_variables": [
             "we examine the time-dependent response of primary human mesenchymal stem cells (hMSCs) to cyclic tensile strain (CTS).",
             "We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS",
-            "We also investigated the effects of SUN2 overexpression (OE), using immortalized hMSCs (Y201 line)"
+            "We also investigated the effects of SUN2 overexpression (OE), using immortalized hMSCs (Y201 line)",
+            "we combined 5 Hz CTS with a panel of ion channel inhibitors"
           ],
           "treatment_attributes": [
-            "Cells were strained for 1 or 2\u2009h at... high-intensity (2.6\u20136.2% strain at 5\u2009Hz).",
-            "hMSCs were incubated in complete medium containing RNAi Max Lipofectamine... in the presence of short interfering double stranded RNA (siRNA... final concentration of 10\u2009nM)",
-            "Cells containing the inducible SUN2 expression vector were cultured for 4 days in complete medium containing 50\u2009ngmL\u22121 doxycycline (DOX, Sigma)."
+            "Cells were strained for 1 or 2 h at, low-intensity (0\u20134% strain at 1 Hz), intermediate-intensity (0\u20134% strain at 2 Hz), or high-intensity (2.6\u20136.2% strain at 5 Hz).",
+            "hMSCs were incubated in complete medium containing RNAi Max Lipofectamine... in the presence of short interfering double stranded RNA (siRNA... final concentration of 10 nM)",
+            "Cells containing the inducible SUN2 expression vector were cultured for 4 days in complete medium containing 50 ngmL-1 doxycycline (DOX, Sigma).",
+            "Gadolinium chloride (GdCl3; Sigma)... used at a final concentration of 10 \u00b5M"
           ],
           "design": [
-            "Cells were fixed or lysed for downstream analysis either immediately following straining, or having been maintained in culture for a further 3 or 24\u2009h.",
+            "Cells were fixed or lysed for downstream analysis either immediately following straining, or having been maintained in culture for a further 3 or 24 h.",
             "A scrambled control was provided by the manufacturer",
-            "Non-transformed cells treated with 50\u2009ngmL\u22121 DOX were used as controls."
+            "Non-transformed cells treated with 50 ngmL-1 DOX were used as controls.",
+            "with vehicle only used as a control."
           ],
           "contrasts": [
             "analysis of the intracellular proteome by MS, showed greater changes relative to unstrained controls",
-            "We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS, comparing two siRNAs to increase confidence of identifying on-target effects",
-            "The proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
+            "For comparison, we also examined proteomic changes in response to low-intensity CTS (1 h at 1 Hz, change in strain = 4.0%).",
+            "The siRNAs depleted SUN2 to 35% of scrambled controls",
+            "the proteomes of Y201 cells were quantified with doxycycline-induced OE of SUN2 to 160% and 410% of control levels."
           ]
         },
-        "notes": "The study employs a multi-pronged approach using mechanical strain (CTS), genetic knockdown (siRNA), and genetic overexpression (doxycycline-inducible) to investigate the role of SUN2 in nuclear decoupling. Proteomics was used to analyze total protein abundance, protein conformation (via mBBr labeling), and PTMs (phosphorylation and oxidation)."
+        "notes": "The study employs a multi-pronged approach combining mechanical stimulation (CTS), genetic modulation (siRNA knockdown and Dox-induced overexpression of SUN2), and pharmacological inhibition of ion channels. Proteomics was used to analyze total protein abundance, PTMs (phosphorylation, oxidation), and protein conformation (via mBBr labeling)."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -372,28 +374,23 @@
           "base_candidates_ranked": [
             {
               "base_workflow_id": "base_dda_lfq",
-              "confidence": 1.0,
-              "reason": "Data-dependent analysis (DDA) was used on an Orbitrap Elite and Q Exactive HF, and quantification was performed using label-free intensity-based alignment (Progenesis QI) and linear regression modeling."
+              "confidence": 0.9,
+              "reason": "The experiment used data-dependent acquisition (DDA) on an Orbitrap Elite and Q Exactive HF, with quantification based on peptide ion intensities (label-free) processed via Progenesis QI."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "phospho_enrichment",
               "confidence": 0.6,
-              "reason": "The study quantifies phosphosite occupancy and reports specific differentially regulated phosphosites, although it explicitly states samples were not enriched by affinity columns prior to MS."
-            },
-            {
-              "modifier_workflow_id": "cysteine_labeling",
-              "confidence": 0.9,
-              "reason": "Specific use of monobromobimane (mBBr) to label solvent-exposed cysteine residues to monitor protein conformation."
+              "reason": "The study quantifies phosphosite occupancy and reports on phospho-proteomics, although it explicitly states samples were not enriched by affinity columns prior to MS, relying on alignment of overexpressing and strained samples."
             }
           ],
           "trigger_keywords": [
             "data dependent analysis",
             "label-free",
-            "monobromobimane",
-            "mBBr",
-            "phosphosite occupancy"
+            "Progenesis QI",
+            "phosphosite occupancy",
+            "monobromobimane"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -405,7 +402,7 @@
         "search_parameter_hints": {
           "variable_modification_hints": [
             {
-              "name": "Carbamidomethylation",
+              "name": "Carbamidomethyl",
               "residue_or_site": "C",
               "mass_shift_da": 57.021,
               "required_for_modifier": null
@@ -426,19 +423,19 @@
               "name": "Phosphorylation",
               "residue_or_site": "S, T, Y, H, D",
               "mass_shift_da": 79.966,
-              "required_for_modifier": "phospho_enrichment"
+              "required_for_modifier": null
             },
             {
-              "name": "mBBr",
+              "name": "mBBr (oxidation state 1)",
               "residue_or_site": "C",
               "mass_shift_da": 133.053,
-              "required_for_modifier": "cysteine_labeling"
+              "required_for_modifier": "mBBr_labeling"
             },
             {
-              "name": "mBBr_oxidized",
+              "name": "mBBr (oxidation state 2)",
               "residue_or_site": "C",
               "mass_shift_da": 150.056,
-              "required_for_modifier": "cysteine_labeling"
+              "required_for_modifier": "mBBr_labeling"
             }
           ],
           "special_reagent_hints": [
@@ -449,31 +446,33 @@
           "workflow": [
             "Peptides were selected for fragmentation automatically by data dependent analysis",
             "MS spectra from multiple samples were aligned using Progenesis QI",
-            "cells were labeled by incubation with 2 mL of 400 \u00b5M monobromobimane (mBBr)"
+            "Peptide detection intensities were exported from Progenesis QI as Excel spreadsheets"
           ],
           "differential": [
             "\u03b2fg would therefore give a measure of the fold-change in site occupancy",
+            "analysis of phospho-proteomics, highlighted sites are those significantly differentially regulated",
             "compare different experimental conditions",
-            "highlighted sites are those significantly differentially regulated"
+            "log-transformed to ensure a normal distribution and normalized within-sample by equalizing sample medians"
           ],
           "search_parameters": [
             "search for alkylated cysteine residues (monoisotopic mass change, 57.021 Da), oxidized methionine (15.995 Da), hydroxylation of asparagine, aspartic acid, proline or lysine (15.995 Da) and phosphorylation of serine, tyrosine, threonine, histidine or aspartate (79.966 Da)",
-            "in which cysteine residues were labeled with mBBr, the modification was searched for in two possible oxidation states (133.053 and 150.056 Da)"
+            "In experiments in which cysteine residues were labeled with mBBr, the modification was searched for in two possible oxidation states (133.053 and 150.056 Da)"
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment combines global proteome quantification with site-specific analysis of phosphorylation and mBBr-labeling of cysteines. While the authors mention 'phospho-proteomics', they explicitly state that no affinity enrichment was used, meaning the phosphorylation data is derived from the global DDA search."
+        "notes": "The study combines global proteome analysis with site-specific analysis of phosphorylation and mBBr-labeling (cysteine accessibility/folding). While no physical enrichment was used for PTMs, the analysis is site-centric for these modifications."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
         "labeling_strategy": [
+          "LFQ",
           "Other"
         ],
         "quantification_strategy": [
-          "label-free intensity quantification",
-          "Bayesian elastic net linear regression"
+          "label-free quantification",
+          "mBBr-based cysteine reactivity quantification"
         ],
-        "proteomics_mode": "Bottom-up",
+        "proteomics_mode": "PTM-enriched",
         "specialized_workflows": [
           "phosphoproteome enrichment"
         ],
@@ -483,61 +482,42 @@
             "In all MS experiments, peptides were selected for fragmentation automatically by data dependent analysis"
           ],
           "labeling": [
-            "protein labeling with monobromobimane (mBBr)",
-            "cysteine residues were labeled with mBBr"
+            "Protein labeling with monobromobimane (mBBr)",
+            "labeling with mBBr, the modification was searched for in two possible oxidation states"
           ],
           "quantification": [
-            "Peptide detection intensities were exported from Progenesis QI",
             "raw peptide ion intensities were log-transformed",
-            "calculated by fitting a linear regression model that considers donor variability"
+            "quantify differential labeling in hMSCs following CTS at 5 Hz, relative to unstrained controls"
           ],
           "specialized": [
-            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column)"
+            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column), but MS spectra... were aligned together to enable detection of PTMs to SUN2",
+            "For analysis of phospho-proteomics, highlighted sites are those significantly differentially regulated"
           ]
         },
-        "notes": "The study uses a label-free approach for general protein abundance and PTM occupancy. While it mentions 'phospho-proteomics' and searches for phosphorylation, it explicitly states that no affinity enrichment (like TiO2 or IMAC) was used prior to MS. mBBr is used as a chemical probe for cysteine accessibility/folding, not as a standard quantification label like TMT/SILAC."
+        "notes": "The study uses a label-free approach for general protein abundance and a chemical labeling strategy (mBBr) to probe cysteine accessibility/conformation. While the authors explicitly state they did not use affinity enrichment columns for PTMs, they performed a targeted PTM analysis (phospho and oxidation) via search parameter modification and site-level quantification, justifying the 'mod_phospho' hint and 'PTM-enriched' mode for routing purposes."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "mesenchymal stem cells"
-        ],
-        "cell_type_categories": [
-          "stem cell"
-        ],
-        "cell_lines": [
-          "Y201"
-        ],
-        "cell_line_families": [
-          "immortalised hMSC"
-        ],
-        "noncellular_source_terms": [
-          "bone marrow"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
+        "cell_line_families": [],
+        "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "primary human mesenchymal stem cells (hMSCs)",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "primary human mesenchymal stem cells (hMSCs)"
-          ],
-          "cell_lines": [
-            "immortalised hMSCs (line Y201)"
-          ],
-          "noncellular_sources": [
-            "Human mesenchymal stem cells (hMSCs) were isolated from the bone marrow (knee and hip)"
-          ],
           "scope": [
-            "Cells were homogenized in a Bullet Blender (Next Advance) at maximum speed for 2 min. Homogenates were cleared by centrifugation",
-            "50 \u03bcL of protein lysate and shaken overnight at 37 \u00b0C",
-            "Samples were not enriched for PTMs prior to MS (e.g. by affinity column)"
-          ]
+            "Cells were homogenized in a Bullet Blender (Next Advance) at maximum speed for 2 min. Homogenates were cleared by centrifugation (12 \u00b0C, 10,000 \u00d7 g, 5 min).",
+            "50 \u00b5L of protein lysate and shaken overnight at 37 \u00b0C.",
+            "protein was extracted from cells by resuspension of cell pellets in 5% sodium dodecyl sulphate (SDS), 50 mM triethylammonium bicarbonate (TEAB, pH 7.55). Cell lysates (in 4 mm-thick microTUBEs, Covaris) were sonicated using a focused ultrasonicator"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis was performed on whole cell lysates (homogenates) of primary hMSCs and the Y201 immortalized line. While the study focuses on the LINC complex and SUN2, the MS method explicitly states that samples were not enriched via affinity columns prior to analysis."
+        "notes": "The proteomics analysis was performed on total cell lysates derived from homogenized cell pellets. While the study focuses on the LINC complex and nuclear envelope proteins, the MS material itself was unfractionated lysate."
       },
       "Treatment_prompt": [
         {
@@ -557,6 +537,12 @@
           "example_entity_ids": null,
           "reasoning": "we examine the time-dependent response of primary human mesenchymal stem cells (hMSCs) to cyclic tensile strain (CTS).; We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS",
           "confidence_score": 0.95
+        },
+        {
+          "treatment_category": "chemical or drug treatment",
+          "example_entity_ids": null,
+          "reasoning": "we examine the time-dependent response of primary human mesenchymal stem cells (hMSCs) to cyclic tensile strain (CTS).; We quantified the effects of siRNA-mediated knockdown (KD) of SUN2 on primary hMSCs by MS",
+          "confidence_score": 0.75
         }
       ]
     }
@@ -569,7 +555,7 @@
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
     "acquisition_method": "DDA",
-    "quantification_method": "label-free intensity quantification",
+    "quantification_method": "label-free quantification",
     "fixed_mods": [
       "Carbamidomethyl (C)"
     ],

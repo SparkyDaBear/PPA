@@ -1,6 +1,6 @@
 {
   "pxd": "PXD018450",
-  "timestamp": "2026-07-28T02:31:06.105961",
+  "timestamp": "2026-09-22T23:05:29.507671",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "LFQ",
@@ -8,12 +8,13 @@
       "LFQ"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "HepG2"
-    ],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "un-classified"
     ],
@@ -109,65 +110,38 @@
             "shotgun mass spectrometry"
           ],
           "labeling": [
-            "no mention of stable isotope tags or isobaric reagents"
+            "no mention of isobaric tags or metabolic labeling"
           ],
           "quantification": [
-            "no mention of labeling; standard shotgun approach"
+            "shotgun mass spectrometry"
           ],
           "enrichment": [
             "Two-dimensional electrophoresis (2DE) was not only a technique of complex protein mixture fractionation, but it was also a tool for proteomic analysis",
-            "The shift of P04792 to the lower pI zone was supposedly caused by multiple phosphorylations of serine residues",
-            "We also carried out re-analysis of the mass spectra with consideration to the most frequent and well-studied types of PTMs: serine, threonine, and tyrosine phosphorylation, lysine and N-terminal acetylation"
+            "phosphorylation (serine, threonine, tyrosine), acetylation (lysine), methylation (lysine, arginine), amydation of C-terminal residues, and deamydation (asparagine, glutamine)"
           ],
           "workflow_hints": [
-            "oxidation of methionine, acetylation of lysine and N-terminus amino acid residues, and phosphorylation of serine, threonine, and tyrosine regarded as variable modifications"
+            "oxidation of methionine, acetylation of lysine and N-terminus amino acid residues, and phosphorylation of serine, threonine, and tyrosine regarded as variable modifications",
+            "carbamidomethylation of cysteine regarded as a fixed modification"
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment uses 2DE as a primary fractionation/enrichment step to separate proteoforms. While not a traditional antibody-based enrichment, the study explicitly targets and re-analyzes phosphorylation and acetylation. Acquisition is DDA (implied by 'shotgun' and 'Q-Exactive' without DIA/SWATH mentions)."
+        "notes": "The experiment uses 2DE as a primary fractionation/enrichment step. While not a traditional antibody-based enrichment, the authors explicitly search for and analyze phosphorylation and acetylation as key PTMs to explain gel shifts, justifying the inclusion of PTM modifiers. Acquisition is DDA based on the 'shotgun' and 'Q-Exactive' description."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "HepG2",
-            "family": "hepatoblastoma",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HepG2 hepatoblastoma cell line proteome",
-            "cells from the same HepG2 cellular culture"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "We fractionated approximately 10 mln cells, containing 2 mg of protein, of the HepG2 cell line",
             "2DE was not only a technique of complex protein mixture fractionation, but it was also a tool for proteomic analysis."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The material analyzed by MS was a whole cell lysate of HepG2 cells that underwent 2D electrophoresis (2DE) fractionation. While 2DE separates proteins, the starting material is the total protein extract (lysate) of the cell line, and the study aims to profile the 'HepG2 cell line proteome'. This is classified as whole cell lysate rather than a purified complex or subproteome because the 2DE is used as a general fractionation tool for the entire proteome rather than a specific enrichment for a sub-cellular compartment or a specific bait-captured complex."
+        "notes": "The material analyzed by MS was derived from a whole cell lysate of HepG2 cells, which was first fractionated by two-dimensional electrophoresis (2DE) before LC-MS/MS analysis. 2DE is used here as a fractionation step for the bulk proteome, not as a method to isolate a specific subcellular organelle or affinity-purified complex."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -190,9 +164,11 @@
         "experimental_design": {
           "timepoints": [],
           "control_arms": [],
-          "case_arms": [],
-          "paired_design": null,
-          "factorial_design": null,
+          "case_arms": [
+            "HepG2"
+          ],
+          "paired_design": false,
+          "factorial_design": false,
           "replicate_hints": [
             "Tandem MS was performed in two replicates on an Orbitrap Q-Exactive mass spectrometer"
           ],
@@ -222,22 +198,21 @@
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 0.8,
-              "reason": "Shotgun proteomics using Orbitrap Q-Exactive in positive ion mode with DDA-like acquisition (tandem MS) and no mention of labeling reagents."
+              "reason": "Shotgun proteomics using Orbitrap Q-Exactive with DDA (implied by 'tandem MS' and 'MS/MS spectra') and no evidence of labeling (SILAC/TMT/Dimethyl)."
             }
           ],
           "modifier_candidates_ranked": [
             {
-              "modifier_workflow_id": "custom_library_search",
-              "confidence": 0.9,
-              "reason": "The core of the study is the use of a customized RNA-seq-based library containing aberrant proteoforms (splice variants, SAPs, indels) rather than just canonical UniProt sequences."
+              "modifier_workflow_id": "2de_fractionation",
+              "confidence": 1.0,
+              "reason": "The experiment explicitly uses two-dimensional electrophoresis (2DE) to fractionate the proteome into 96 cells before LC-MS/MS."
             }
           ],
           "trigger_keywords": [
-            "customized RNA-seq library",
-            "aberrant proteoforms",
+            "two-dimensional electrophoresis",
             "2DE",
-            "proteoforms",
-            "personalized library"
+            "shotgun mass spectrometry",
+            "proteoforms"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -249,20 +224,20 @@
         "search_parameter_hints": {
           "variable_modification_hints": [
             {
-              "name": "oxidation",
+              "name": "oxidation of methionine",
               "residue_or_site": "M",
               "mass_shift_da": null,
               "required_for_modifier": null
             },
             {
-              "name": "acetylation",
+              "name": "acetylation of lysine",
               "residue_or_site": "K",
               "mass_shift_da": null,
               "required_for_modifier": null
             },
             {
-              "name": "acetylation",
-              "residue_or_site": "N-terminus",
+              "name": "acetylation of N-terminus",
+              "residue_or_site": null,
               "mass_shift_da": null,
               "required_for_modifier": null
             },
@@ -279,12 +254,12 @@
         },
         "evidence": {
           "workflow": [
-            "Tandem MS was performed in two replicates on an Orbitrap Q-Exactive mass spectrometer",
-            "customized RNA-seq library of potential proteoforms, which includes aberrant variants",
-            "Two-dimensional electrophoresis (2DE) was not only a technique of complex protein mixture fractionation, but it was also a tool for proteomic analysis"
+            "Two-dimensional electrophoresis coupled with high-performance liquid chromatography",
+            "The obtained 2DE gel was cut into 96 cells",
+            "Tandem MS was performed in two replicates on an Orbitrap Q-Exactive mass spectrometer"
           ],
           "differential": [
-            "The study focuses on identification and cataloging of proteoforms rather than differential abundance between conditions."
+            "The study focuses on proteoform identification and cataloging rather than differential abundance between conditions."
           ],
           "search_parameters": [
             "carbamidomethylation of cysteine regarded as a fixed modification",
@@ -293,7 +268,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment is highly specialized, utilizing 2DE gel cells as fractionation units and a personalized protein database derived from RNA-seq to identify non-canonical proteoforms. Standard bottom-up pipelines may fail to capture the aberrant variants unless the custom FASTA is provided."
+        "notes": "The experiment is highly specialized, utilizing a customized RNA-seq-based protein library to identify aberrant proteoforms (splice variants, SAPs, indels). Standard bottom-up reanalysis would require this custom FASTA library to replicate the results."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -314,49 +289,39 @@
             "shotgun mass spectrometry"
           ],
           "labeling": [
-            "no mention of stable isotope tags or isobaric reagents"
+            "no mention of isobaric tags or metabolic labeling"
           ],
           "quantification": [
-            "no mention of labeling; standard shotgun approach"
+            "shotgun mass spectrometry"
           ],
           "specialized": [
             "Two-dimensional electrophoresis (2DE) was not only a technique of complex protein mixture fractionation, but it was also a tool for proteomic analysis",
-            "The shift of P04792 to the lower pI zone was supposedly caused by multiple phosphorylations of serine residues",
-            "We also carried out re-analysis of the mass spectra with consideration to the most frequent and well-studied types of PTMs: serine, threonine, and tyrosine phosphorylation, lysine and N-terminal acetylation"
+            "phosphorylation (serine, threonine, tyrosine), acetylation (lysine), methylation (lysine, arginine), amydation of C-terminal residues, and deamydation (asparagine, glutamine)"
           ]
         },
-        "notes": "The experiment uses 2DE as a primary fractionation/enrichment step to separate proteoforms. While not a traditional antibody-based enrichment, the study explicitly targets and re-analyzes phosphorylation and acetylation. Acquisition is DDA (implied by 'shotgun' and 'Q-Exactive' without DIA/SWATH mentions)."
+        "notes": "The experiment uses 2DE as a primary fractionation/enrichment step. While not a traditional antibody-based enrichment, the authors explicitly search for and analyze phosphorylation and acetylation as key PTMs to explain gel shifts, justifying the inclusion of PTM modifiers. Acquisition is DDA based on the 'shotgun' and 'Q-Exactive' description."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "HepG2"
-        ],
-        "cell_line_families": [
-          "hepatoblastoma"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HepG2 hepatoblastoma cell line proteome",
-            "cells from the same HepG2 cellular culture"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "We fractionated approximately 10 mln cells, containing 2 mg of protein, of the HepG2 cell line",
             "2DE was not only a technique of complex protein mixture fractionation, but it was also a tool for proteomic analysis."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The material analyzed by MS was a whole cell lysate of HepG2 cells that underwent 2D electrophoresis (2DE) fractionation. While 2DE separates proteins, the starting material is the total protein extract (lysate) of the cell line, and the study aims to profile the 'HepG2 cell line proteome'. This is classified as whole cell lysate rather than a purified complex or subproteome because the 2DE is used as a general fractionation tool for the entire proteome rather than a specific enrichment for a sub-cellular compartment or a specific bait-captured complex."
+        "notes": "The material analyzed by MS was derived from a whole cell lysate of HepG2 cells, which was first fractionated by two-dimensional electrophoresis (2DE) before LC-MS/MS analysis. 2DE is used here as a fractionation step for the bulk proteome, not as a method to isolate a specific subcellular organelle or affinity-purified complex."
       },
       "Treatment_prompt": [
         {

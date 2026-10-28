@@ -3,12 +3,13 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "LFQ",
+    "quantification_method": "Unknown",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
-      "mutation or variant perturbation"
+      "genetic perturbation",
+      "oxidative stress"
     ],
     "cell_types": [
       "neuroblastoma cell"
@@ -16,16 +17,17 @@
     "cell_lines": [
       "SK-N-BE"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "mutation or variant perturbation",
-        "ontology_curie": "PPA:0000052",
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "mutation_or_variant_perturbation",
@@ -36,7 +38,25 @@
         "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "aiming to characterize the protein content of granules in FUSWT and FUSP525L conditions, we performed SG purification followed by mass spectrometry"
+          "we generated two stable SK-N-BE cell lines overexpressing under a doxycycline-inducible promoter either the wild-type FUS protein (FUSWT) or a version carrying the P525L mutation on the NLS",
+          "molecular differences between physiological and pathological SG in ALS-FUS conditions, showing how FUS mutations impact the RNA and protein composition of these condensates"
+        ]
+      },
+      {
+        "ontology_label": "oxidative stress",
+        "ontology_curie": "PPA:0000065",
+        "category": "redox",
+        "matched_parent_class_key": "redox",
+        "matched_class_key": "oxidative_stress",
+        "matched_class_path": [
+          "redox",
+          "oxidative_stress"
+        ],
+        "matched_definition": "Exposure or condition increasing reactive oxygen species or oxidative stress damage.",
+        "confidence": "high",
+        "evidence": [
+          "To induce SG formation, cells were incubated with 0, 5 mM sodium arsenite (Sigma Aldrich) at 37\u00b0C for 1 h",
+          "demonstrating that neuronal RNAs are specifically enriched in these condensates in response to oxidative stress"
         ]
       }
     ],
@@ -46,20 +66,29 @@
         "agent": "FUSP525L",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpressing under a doxycycline-inducible promoter",
+        "route_or_context": "doxycycline-inducible promoter",
         "evidence": [
-          "we generated two stable SK-N-BE cell lines overexpressing under a doxycycline-inducible promoter either the wild-type FUS protein (FUSWT) or a version carrying the P525L mutation on the NLS, which is associated to severe and juvenile ALS (FUSP525L)"
+          "SK-N-BE cell lines expressing FUSWT and FUSP525L under a doxycycline-inducible promoter were already present in the lab."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "FUSWT",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "doxycycline-inducible promoter",
+        "evidence": [
+          "SK-N-BE cell lines expressing FUSWT and FUSP525L under a doxycycline-inducible promoter were already present in the lab."
         ]
       },
       {
         "relation_key": "has_treatment_agent",
         "agent": "sodium arsenite",
-        "dose_or_concentration": "0.5 mM",
+        "dose_or_concentration": "5 mM",
         "duration": "1 h",
-        "route_or_context": "To induce SG formation",
+        "route_or_context": "oxidative stress induction",
         "evidence": [
-          "To induce SG formation, cells were incubated with 0, 5 mM sodium arsenite (Sigma Aldrich) at 37\u00b0C for 1 h",
-          "After stress induction with 0,5mM sodium arsenite, SG were recovered by mild cell lysis and differential centrifugation"
+          "To induce SG formation, cells were incubated with 0, 5 mM sodium arsenite (Sigma Aldrich) at 37\u00b0C for 1 h"
         ]
       },
       {
@@ -67,9 +96,9 @@
         "agent": "doxycycline hyclate",
         "dose_or_concentration": "50 ng/ml",
         "duration": "24 h",
-        "route_or_context": "To induce FUS overexpression",
+        "route_or_context": "induction of FUS overexpression",
         "evidence": [
-          "To induce FUS overexpression, cells were incubated with 50 ng/ml doxycycline hyclate (Sigma Aldrich) in culture medium for 24 h"
+          "To induce FUS overexpression, cells were incubated with 50 ng/ml doxycycline hyclate (Sigma Aldrich) in culture medium for 24 h."
         ]
       }
     ],
@@ -79,17 +108,23 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 h"
+      "1 h (stress induction)",
+      "24 h (doxy induction)"
     ],
     "control_arms": [
-      "FUSWT"
+      "FUSWT",
+      "no DOXY"
     ],
     "case_arms": [
       "FUSP525L"
     ],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": true,
+    "replicate_hints": [
+      "four replicates (no DOXY)",
+      "two replicates (FUSP525L)",
+      "two replicates (FUSWT)"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -97,7 +132,15 @@
         "case_label": "FUSP525L",
         "contrast_type": "pairwise",
         "evidence": [
-          "aiming to characterize the protein content of granules in FUSWT and FUSP525L conditions, we performed SG purification followed by mass spectrometry"
+          "we compared the SG proteome in FUSWT condition with that in FUSP525L conditions"
+        ]
+      },
+      {
+        "control_label": "no DOXY",
+        "case_label": "FUSP525L",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we compared the SG transcriptome in the three datasets we generated: FUS no DOXY (without FUS induction), FUSWT and FUSP525L"
         ]
       }
     ],
@@ -105,64 +148,51 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "neuroblastoma cell",
-        "rollup_category": "cell type",
-        "ontology_curie": "BTO:0000931"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "SK-N-BE",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "Unknown"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "AP-MS",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of stress granules via GFP-G3BP1"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "neuroblastoma cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "SK-N-BE",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -172,14 +202,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Exploris 480 and performed protein identification and relative abundance comparisons (e.g., comparing FUSWT vs FUSP525L SG proteomes) without evidence of isotopic labeling."
+          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Exploris 480. While no specific labeling reagent (like TMT or SILAC) is mentioned, the study compares protein abundance between FUSWT and FUSP525L conditions, implying label-free quantification (LFQ) of the purified SG proteome."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Data Dependent mode (DDA)",
         "Orbitrap Exploris 480",
-        "on-beads trypsin digestion"
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -188,14 +218,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Exploris 480 and performed protein identification and relative abundance comparisons (e.g., comparing FUSWT vs FUSP525L SG proteomes) without evidence of isotopic labeling."
+          "reason": "The experiment used Data Dependent Acquisition (DDA) on an Orbitrap Exploris 480. While no specific labeling reagent (like TMT or SILAC) is mentioned, the study compares protein abundance between FUSWT and FUSP525L conditions, implying label-free quantification (LFQ) of the purified SG proteome."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Data Dependent mode (DDA)",
         "Orbitrap Exploris 480",
-        "on-beads trypsin digestion"
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,7 +253,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:10Z"
   }
 }

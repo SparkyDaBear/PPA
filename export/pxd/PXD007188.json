@@ -10,17 +10,16 @@
     "treatment_categories": [
       "disease or clinical state"
     ],
-    "cell_types": [
-      "head and neck squamous cell carcinoma"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "SCC61",
       "JSQ3",
       "SQ20B"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -38,8 +37,8 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "Proteomic profiling and comparison of radioresistant to radiosensitive HNSCCs revealed differential regulation of the mevalonate biosynthetic pathway.",
-          "This stimulated a hypothesis\u2010driven proteomics analysis comparing two radioresistant HNSCC cell lines, JSQ3 and SQ20B... to a radiosensitive control, SCC61"
+          "proteomic profiling and comparison of radioresistant to radiosensitive HNSCCs",
+          "comparing two radioresistant HNSCC cell lines, JSQ3 and SQ20B... to a radiosensitive control, SCC61"
         ]
       }
     ],
@@ -68,63 +67,23 @@
     "contrast_hints": [
       {
         "control_label": "radiosensitive (SCC61)",
-        "case_label": "radioresistant (JSQ3, SQ20B)",
+        "case_label": "radioresistant (JSQ3)",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparison of radioresistant to radiosensitive HNSCCs",
-          "comparing two radioresistant HNSCC cell lines, JSQ3 and SQ20B... to a radiosensitive control, SCC61"
+          "Significant gene lists for (SQ20B/SCC61) and (JSQ3/SCC61) were compared"
+        ]
+      },
+      {
+        "control_label": "radiosensitive (SCC61)",
+        "case_label": "radioresistant (SQ20B)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Significant gene lists for (SQ20B/SCC61) and (JSQ3/SCC61) were compared"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "head and neck squamous cell carcinoma",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "SCC61",
-        "family": "head and neck squamous cell carcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "JSQ3",
-        "family": "head and neck squamous cell carcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "SQ20B",
-        "family": "head and neck squamous cell carcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -136,11 +95,45 @@
       "Label-free quantification (LFQ)"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "SCC61",
+          "ontology_curie": null
+        },
+        {
+          "label": "JSQ3",
+          "ontology_curie": null
+        },
+        {
+          "label": "SQ20B",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -150,13 +143,26 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly states 'Label-free quantification (LFQ) sample sets were analyzed' and used MaxQuant LFQ intensities."
+          "reason": "Explicitly stated use of Label-free quantification (LFQ) and DDA acquisition (survey scans followed by HCD fragmentation) on a Q-Exactive Orbitrap."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_ubiquitin",
+          "confidence": 0.8,
+          "reason": "Variable modification 'GlyGly (K)' was explicitly selected in MaxQuant, indicating a search for ubiquitination sites."
+        },
+        {
+          "modifier_workflow_id": "mod_phosphorylation",
+          "confidence": 0.8,
+          "reason": "Variable modification 'Phosphorylation (STY)' was explicitly selected in MaxQuant."
+        }
+      ],
       "trigger_keywords": [
         "Label-free quantification",
         "LFQ",
+        "GlyGly (K)",
+        "Phosphorylation (STY)",
         "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
@@ -166,13 +172,26 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly states 'Label-free quantification (LFQ) sample sets were analyzed' and used MaxQuant LFQ intensities."
+          "reason": "Explicitly stated use of Label-free quantification (LFQ) and DDA acquisition (survey scans followed by HCD fragmentation) on a Q-Exactive Orbitrap."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "mod_ubiquitin",
+          "confidence": 0.8,
+          "reason": "Variable modification 'GlyGly (K)' was explicitly selected in MaxQuant, indicating a search for ubiquitination sites."
+        },
+        {
+          "modifier_workflow_id": "mod_phosphorylation",
+          "confidence": 0.8,
+          "reason": "Variable modification 'Phosphorylation (STY)' was explicitly selected in MaxQuant."
+        }
+      ],
       "trigger_keywords": [
         "Label-free quantification",
         "LFQ",
+        "GlyGly (K)",
+        "Phosphorylation (STY)",
         "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
@@ -201,7 +220,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:26:14Z"
   }
 }

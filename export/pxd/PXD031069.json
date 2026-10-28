@@ -5,7 +5,7 @@
     "acquisition_type": "DDA",
     "quantification_method": "Sequest score",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "case-control disease status",
@@ -13,9 +13,10 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -47,9 +48,9 @@
           "disease_stage_or_grade_comparison"
         ],
         "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
-          "a biomarker panel comprising CD14, CD34, cystatin A, myocyte enhancer factor 2C (MEF2C), RGS12, and ubiquitin C (UBC) ICx could distinguish active LN from inactive LN"
+          "Active lupus nephritis (LN-active) is defined as Systemic Lupus Erythematosus Disease Activity Index (SLEDAI) greater than 4 and the renal domain of SLEDAI (rSLEDAI) greater than 0. Inactive lupus nephritis (LN-inactive) is defined as SLEDAI less than 4 and rSLEDAI equal to 0."
         ]
       }
     ],
@@ -65,8 +66,8 @@
     ],
     "case_arms": [
       "lupus nephritis",
-      "active LN",
-      "inactive LN"
+      "LN-active",
+      "LN-inactive"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -80,12 +81,12 @@
         "case_label": "lupus nephritis",
         "contrast_type": "pairwise",
         "evidence": [
-          "identify proteins which were only detectable in the serum of LN but not healthy controls by mass spectrometry"
+          "identify 52 (Protein A/G method) and 27 (C1Q method) proteins which were only detectable in the serum of LN but not healthy controls by mass spectrometry"
         ]
       },
       {
-        "control_label": "inactive LN",
-        "case_label": "active LN",
+        "control_label": "LN-inactive",
+        "case_label": "LN-active",
         "contrast_type": "pairwise",
         "evidence": [
           "distinguish active LN from inactive LN"
@@ -96,58 +97,53 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "serum",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
       "Sequest score",
-      "Peptide counting"
+      "Peptide counting",
+      "Cumulative Protein Score"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunocapture of circulating immune complexes via Protein A/G magnetic beads"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunocapture of circulating immune complexes via C1q-coated plates"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "serum",
+          "source_kind": "biofluid"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -156,15 +152,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Tribrid. While the original study used 'sum of scores' for identification, the experimental design (pooled LN vs pooled HC) is a standard label-free comparison of protein presence/abundance."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion. While the original study used 'sum of scores' and 'peptide counting' for relative identification, the dataset is a standard DDA bottom-up proteomics run suitable for LFQ reanalysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_affinity_purification",
-          "confidence": 10,
-          "reason": "The experiment explicitly uses Protein A/G magnetic beads and C1q-coated plates to capture immune complexes (ICx) from serum."
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment specifically used Protein A/G magnetic beads and C1q-coated plates to capture immune complexes (ICx) from serum."
         }
       ],
       "trigger_keywords": [
@@ -180,15 +176,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion Tribrid. While the original study used 'sum of scores' for identification, the experimental design (pooled LN vs pooled HC) is a standard label-free comparison of protein presence/abundance."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) was used on an Orbitrap Fusion. While the original study used 'sum of scores' and 'peptide counting' for relative identification, the dataset is a standard DDA bottom-up proteomics run suitable for LFQ reanalysis."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_affinity_purification",
-          "confidence": 10,
-          "reason": "The experiment explicitly uses Protein A/G magnetic beads and C1q-coated plates to capture immune complexes (ICx) from serum."
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 0.9,
+          "reason": "The experiment specifically used Protein A/G magnetic beads and C1q-coated plates to capture immune complexes (ICx) from serum."
         }
       ],
       "trigger_keywords": [
@@ -224,7 +220,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:37Z"
   }
 }

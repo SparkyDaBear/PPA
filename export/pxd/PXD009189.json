@@ -16,9 +16,10 @@
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,6 +37,7 @@
         "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
+          "single point mutations in the membrane protein connexin 32 (Cx32), which cause Charcot-Marie-Tooth disease, can cause failures in membrane integration",
           "the matrix was separated to submatrices for each comparison (wt vs. wt iso, L90H vs. L90H iso, I203N vs. I203N iso, wt vs. L90H and wt vs. I203N)"
         ]
       }
@@ -48,7 +50,7 @@
         "duration": null,
         "route_or_context": "transfection",
         "evidence": [
-          "transfected with 10 ug of FLAG- tagged Cx32"
+          "transfected FLAG-tagged Cx32wt"
         ]
       },
       {
@@ -58,7 +60,7 @@
         "duration": null,
         "route_or_context": "transfection",
         "evidence": [
-          "the matrix was separated to submatrices for each comparison (wt vs. wt iso, L90H vs. L90H iso, I203N vs. I203N iso, wt vs. L90H and wt vs. I203N)"
+          "transfected FLAG-tagged Cx32wt or Cx32L90H into HEK293T cells"
         ]
       },
       {
@@ -79,87 +81,47 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "wt iso",
-      "L90H iso",
-      "I203N iso"
+      "Cx32wt",
+      "rabbit IgG isotype control"
     ],
     "case_arms": [
-      "Cx32wt",
       "Cx32L90H",
       "Cx32I203N"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "with a total of three replicates each"
+      "a total of three replicates each"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "wt",
-        "case_label": "L90H",
+        "control_label": "Cx32wt",
+        "case_label": "Cx32L90H",
         "contrast_type": "pairwise",
         "evidence": [
           "wt vs. L90H"
         ]
       },
       {
-        "control_label": "wt",
-        "case_label": "I203N",
+        "control_label": "Cx32wt",
+        "case_label": "Cx32I203N",
         "contrast_type": "pairwise",
         "evidence": [
           "wt vs. I203N"
         ]
       },
       {
-        "control_label": "wt iso",
-        "case_label": "wt",
+        "control_label": "rabbit IgG isotype control",
+        "case_label": "anti-FLAG IP",
         "contrast_type": "pairwise",
         "evidence": [
-          "wt vs. wt iso"
+          "The three replicates of antibody and isotype control were compared via a two-sided, two-sample Student's t-test"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK293T",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt",
-      "cell_type_source_overrides"
     ]
   },
   "assay": {
@@ -171,18 +133,43 @@
       "MaxLFQ"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-FLAG immunoprecipitation of Cx32"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": "CL:0000066"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt",
+      "cell_type_source_overrides"
     ]
   },
   "processing": {
@@ -192,7 +179,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used Orbitrap Fusion in top speed data dependent mode (DDA) and MaxLFQ for label-free protein quantification."
+          "reason": "Explicitly mentions 'label-free protein quantification' using the 'MaxLFQ algorithm' and 'top speed data dependent mode' (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -209,7 +196,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used Orbitrap Fusion in top speed data dependent mode (DDA) and MaxLFQ for label-free protein quantification."
+          "reason": "Explicitly mentions 'label-free protein quantification' using the 'MaxLFQ algorithm' and 'top speed data dependent mode' (DDA) on an Orbitrap Fusion."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -245,7 +232,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:51:29Z"
   }
 }

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
-import { getProjectIndex, getTermIndex, normalizeLabel, projectMentionsCurie, stringifyList } from '../../lib/site-data';
+import { getProjectIndex, getTermIndex, getTermProjects, normalizeLabel, sampleScopeCategories, stringifyList } from '../../lib/site-data';
 
 export async function getStaticPaths() {
   const termIndex = await getTermIndex();
@@ -10,8 +10,9 @@ export async function getStaticPaths() {
 
 const { term } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const projects = (await getProjectIndex()).projects || [];
-const linkedProjects = projects.filter((project) => projectMentionsCurie(project, term.curie));
+const [projectIndex, termProjects] = await Promise.all([getProjectIndex(), getTermProjects()]);
+const linkedIds = new Set(termProjects.get(term.curie) || []);
+const linkedProjects = (projectIndex.projects || []).filter((project) => linkedIds.has(project.pxd));
 ---
 
 <BaseLayout title={`${term.preferred_label} · PPA Curator Workbench`}>
@@ -39,13 +40,13 @@ const linkedProjects = projects.filter((project) => projectMentionsCurie(project
     </section>
 
     <section class="panel">
-      <SectionHeading kicker="Crosswalk" title="Related projects" description="Initial crosswalk view based on the public summary index." />
+      <SectionHeading kicker="Crosswalk" title="Related projects" description={`Projects annotated to this term or a descendant${linkedProjects.length > 50 ? ' (first 50 shown)' : ''}.`} />
       <div class="table-list">
         {linkedProjects.slice(0, 50).map((project) => (
           <a class="table-row row-clickable" href={`${base}projects/${project.pxd}/`}>
             <div class="row-head">
               <h4 class="row-title">{project.pxd}</h4>
-              <span class="row-code">{project.summary?.sample_scope_label || 'no scope'}</span>
+              <span class="row-code">{sampleScopeCategories(project).join(' · ') || 'no scope'}</span>
             </div>
             <div class="row-meta">{stringifyList(project.summary?.labeling_strategy)}</div>
           </a>

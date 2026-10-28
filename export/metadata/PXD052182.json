@@ -1,24 +1,22 @@
 {
   "pxd": "PXD052182",
-  "timestamp": "2026-07-28T02:23:44.504740",
+  "timestamp": "2026-09-22T21:48:43.457891",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "Unknown",
     "labeling_strategy": [
       "Unknown"
     ],
-    "cell_types": [
-      "HK2 cells"
-    ],
-    "cell_lines": [
-      "HK2",
-      "a172"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status"
     ],
     "instrument": null
   },
@@ -105,75 +103,28 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The PRIDE metadata contains conflicting information (experimentType listed as 'Top-down proteomics' and identifiedPTMStrings as 'No PTMs'), but the verbatim Methods section in the publication and the sampleProcessingProtocol in PRIDE explicitly describe a 'phosphoproteomic study' using 'phosphopeptides' and 'data-dependent' acquisition. I have prioritized the explicit method descriptions over the PRIDE category tags."
+        "notes": "The PRIDE metadata contains a contradiction: the 'experimentTypes' field lists 'Top-down proteomics', but the 'sampleProcessingProtocol' and 'dataProcessingProtocol' explicitly describe a bottom-up DDA phosphoproteomics workflow (phosphopeptides, HCD, top 15 precursors). I have prioritized the detailed methods text over the PRIDE category tag."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "HK2 cells",
-            "rollup_category": "renal epithelial cell",
-            "ontology_curie": null
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "HK2",
-            "family": null,
-            "ontology_curie": null
-          },
-          {
-            "label": "a172",
-            "family": null,
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [
-          {
-            "label": "renal clear cell carcinoma",
-            "source_kind": "tumor or lesion specimen"
-          }
-        ],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "We cultured HK2 cells on coverslips"
-          ],
-          "cell_lines": [
-            "We cultured HK2 cells on coverslips",
-            "Human a172"
-          ],
-          "noncellular_sources": [
-            "Identification of KIFC1 as an independent prognostic marker in renal clear cell carcinoma"
-          ],
           "scope": [
-            "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics"
-          ]
+            "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The INPUT_TEXT contains a significant discrepancy: the publication text describes KIFC1 in renal clear cell carcinoma (ccRCC), but the PRIDE metadata describes CDKN3 in low-grade glioma (LGG) and mentions 'Human a172' (a glioblastoma cell line). Following the priority to use the experimental information describing the proteomics, the publication text explicitly states the use of co-immunoprecipitation to identify interacting proteins, which defines the sample scope as an affinity-purified complex."
+        "notes": "The proteomics analysis was performed on material obtained via co-immunoprecipitation to identify KIFC1 interacting proteins, which corresponds to an affinity-purified complex scope."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
           {
-            "ontology_label": "disease or clinical state",
-            "ontology_curie": "PPA:0000018",
+            "ontology_label": "case-control disease status",
+            "ontology_curie": "PPA:0000091",
             "category": "disease",
             "matched_parent_class_key": "disease",
             "matched_class_key": "case_control_disease_status",
@@ -200,8 +151,8 @@
             "RCC tissues",
             "tumor tissues"
           ],
-          "paired_design": null,
-          "factorial_design": null,
+          "paired_design": false,
+          "factorial_design": false,
           "replicate_hints": [],
           "multiplex_channel_hints": [],
           "evidence": [
@@ -233,7 +184,7 @@
             "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues"
           ]
         },
-        "notes": "The proteomics component of this study primarily focuses on identifying proteins that interact with KIFC1 via co-immunoprecipitation (Co-IP) and LC-MS/MS, rather than a differential expression experiment between treated and untreated groups. However, the overall study design is centered on the comparison between renal clear cell carcinoma (ccRCC) and normal kidney tissues. Note: The PRIDE metadata provided appears to be for a different study (CDKN3 in LGG) and contradicts the INPUT_TEXT (KIFC1 in ccRCC); per instructions, I have prioritized the INPUT_TEXT for factual extraction."
+        "notes": "The proteomics component of this study focused on identifying proteins interacting with KIFC1 via co-immunoprecipitation (Co-IP) and LC-MS/MS. While the paper discusses extensive bioinformatics comparisons between tumor and normal tissues, the MS data itself is used for interaction mapping (interactome) rather than a differential perturbation experiment. However, the primary biological context defining the study's groups is the disease state (ccRCC vs Normal)."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -242,21 +193,26 @@
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 0.8,
-              "reason": "The experiment used a Q Exactive HF-X with data-dependent acquisition (top 15 MS/MS scans) and co-immunoprecipitation for protein interaction analysis, which typically follows a label-free quantification (LFQ) approach."
+              "reason": "The experiment used a Q Exactive HF-X with data-dependent acquisition (top 15 MS/MS scans) and HCD fragmentation. While the PRIDE metadata mentions 'Top-down', the detailed methods describe a standard bottom-up phosphoproteomic and Co-IP workflow (peptides eluted over a gradient, m/z 350-1800)."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "phosphoproteomics",
               "confidence": 0.9,
-              "reason": "Both the publication text and PRIDE metadata explicitly mention a 'phosphoproteomic study' and the loading of 'phosphopeptides'."
+              "reason": "Explicit mention of 'phosphopeptides were loaded' and 'phosphoproteomic study' in both the publication methods and PRIDE sample processing protocol."
+            },
+            {
+              "modifier_workflow_id": "co_immunoprecipitation",
+              "confidence": 0.9,
+              "reason": "The text explicitly states 'we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics'."
             }
           ],
           "trigger_keywords": [
             "phosphopeptides",
-            "phosphoproteomic study",
+            "co-immunoprecipitation",
             "data-dependent top 15 MS/MS",
-            "co-immunoprecipitation"
+            "HCD"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -279,19 +235,18 @@
         "evidence": {
           "workflow": [
             "The phosphopeptides were loaded onto a self-packed column using buffer A for the phosphoproteomic study.",
-            "data-dependent top 15 MS/MS scans with normalized energy 28 were applied",
+            "data-dependent top 15 MS/MS scans with normalized energy 28 were applied with 15,000 resolution",
             "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
           ],
           "differential": [
-            "we identified proteins that showed interaction with KIFC1."
+            "we analyzed proteins interacting with KIFC1"
           ],
           "search_parameters": [
-            "phosphoproteomic study",
-            "phosphopeptides"
+            "phosphoproteomic study"
           ],
           "file_name_triggers": []
         },
-        "notes": "There is a discrepancy between the publication text (KIFC1 in renal clear cell carcinoma) and the PRIDE project description (CDKN3 in Low-grade glioma). However, the MS acquisition parameters (Q Exactive HF-X, top 15 DDA, phosphopeptide enrichment) are consistent across both, and the reanalysis metadata is based on these technical parameters."
+        "notes": "There is a contradiction between the PRIDE 'experimentTypes' (Top-down) and the detailed 'sampleProcessingProtocol' and publication methods, which describe a standard bottom-up LC-MS/MS approach for phosphopeptides and Co-IP. The detailed methods are prioritized."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -317,50 +272,32 @@
             "For the phosphoproteomic study, phosphopeptides were loaded onto a self-packed column"
           ]
         },
-        "notes": "The PRIDE metadata contains conflicting information (experimentType listed as 'Top-down proteomics' and identifiedPTMStrings as 'No PTMs'), but the verbatim Methods section in the publication and the sampleProcessingProtocol in PRIDE explicitly describe a 'phosphoproteomic study' using 'phosphopeptides' and 'data-dependent' acquisition. I have prioritized the explicit method descriptions over the PRIDE category tags."
+        "notes": "The PRIDE metadata contains a contradiction: the 'experimentTypes' field lists 'Top-down proteomics', but the 'sampleProcessingProtocol' and 'dataProcessingProtocol' explicitly describe a bottom-up DDA phosphoproteomics workflow (phosphopeptides, HCD, top 15 precursors). I have prioritized the detailed methods text over the PRIDE category tag."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "HK2 cells"
-        ],
-        "cell_type_categories": [
-          "renal epithelial cell"
-        ],
-        "cell_lines": [
-          "HK2",
-          "a172"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
         "cell_line_families": [],
-        "noncellular_source_terms": [
-          "renal clear cell carcinoma"
-        ],
+        "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "We cultured HK2 cells on coverslips"
-          ],
-          "cell_lines": [
-            "We cultured HK2 cells on coverslips",
-            "Human a172"
-          ],
-          "noncellular_sources": [
-            "Identification of KIFC1 as an independent prognostic marker in renal clear cell carcinoma"
-          ],
           "scope": [
-            "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics"
-          ]
+            "we identified proteins with direct or indirect interaction with KIFC1 through co-immunoprecipitation and proteomics."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The INPUT_TEXT contains a significant discrepancy: the publication text describes KIFC1 in renal clear cell carcinoma (ccRCC), but the PRIDE metadata describes CDKN3 in low-grade glioma (LGG) and mentions 'Human a172' (a glioblastoma cell line). Following the priority to use the experimental information describing the proteomics, the publication text explicitly states the use of co-immunoprecipitation to identify interacting proteins, which defines the sample scope as an affinity-purified complex."
+        "notes": "The proteomics analysis was performed on material obtained via co-immunoprecipitation to identify KIFC1 interacting proteins, which corresponds to an affinity-purified complex scope."
       },
       "Treatment_prompt": [
         {
-          "treatment_category": "disease or clinical state",
+          "treatment_category": "case-control disease status",
           "example_entity_ids": null,
           "reasoning": "The mRNA expression of KIF1 was significantly elevated in RCC tissues compared with that in normal tissues; A significant increase of KIFC1 expression was observed in tumor tissues relative to healthy tissues",
           "confidence_score": 0.95

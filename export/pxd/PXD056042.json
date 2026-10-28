@@ -3,9 +3,9 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "quantitative analysis",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "un-classified"
@@ -14,9 +14,10 @@
     "cell_lines": [
       "293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -25,14 +26,13 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "we performed unbiased spatial proteomics using a proximity labeling approach. We fused NBS1 with TurboID, a biotin ligase that is able to covalently label proximal proteins with biotin, and the fusion enzyme is stably expressed in 293T cells.",
-          "In the absence of any DNA-damaging agent treatment, biotinylated proteins were collected and examined by mass spectrometry"
+          "we performed unbiased spatial proteomics using a proximity labeling approach. We fused NBS1 with TurboID, a biotin ligase that is able to covalently label proximal proteins with biotin, and the fusion enzyme is stably expressed in 293T cells."
         ]
       }
     ],
@@ -44,9 +44,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
-    "paired_design": null,
-    "factorial_design": null,
+    "case_arms": [
+      "TurboID-NBS1"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [],
@@ -54,63 +56,46 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "mouse",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "293T",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "quantitative analysis"
+      "label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "proximity labeling using TurboID-fused NBS1 and streptavidin resin enrichment"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -120,22 +105,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The data was acquired in data-dependent acquisition (DDA) mode using a Q Exactive HF-X. While the PRIDE metadata does not explicitly name a quantification method, the use of TurboID proximity labeling for 'unbiased spatial proteomics' typically employs label-free quantification (LFQ) or spectral counting to identify enriched proteins."
+          "reason": "Data-dependent acquisition (DDA) mode was used on a Q Exactive HF-X, and the experiment is a proximity labeling (TurboID) approach which typically uses label-free quantification (LFQ) or enrichment-based identification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly uses TurboID, a biotin ligase for proximity labeling, with streptavidin resin enrichment."
+          "modifier_workflow_id": "modifier_biotinylation",
+          "confidence": 0.95,
+          "reason": "The experiment uses TurboID for proximity labeling and streptavidin resin for enrichment of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "TurboID",
-        "biotin ligase",
-        "proximity labeling",
+        "biotin labeling",
         "streptavidin resin",
-        "data-dependent acquisition mode"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -144,22 +128,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The data was acquired in data-dependent acquisition (DDA) mode using a Q Exactive HF-X. While the PRIDE metadata does not explicitly name a quantification method, the use of TurboID proximity labeling for 'unbiased spatial proteomics' typically employs label-free quantification (LFQ) or spectral counting to identify enriched proteins."
+          "reason": "Data-dependent acquisition (DDA) mode was used on a Q Exactive HF-X, and the experiment is a proximity labeling (TurboID) approach which typically uses label-free quantification (LFQ) or enrichment-based identification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
-          "confidence": 1.0,
-          "reason": "The experiment explicitly uses TurboID, a biotin ligase for proximity labeling, with streptavidin resin enrichment."
+          "modifier_workflow_id": "modifier_biotinylation",
+          "confidence": 0.95,
+          "reason": "The experiment uses TurboID for proximity labeling and streptavidin resin for enrichment of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "TurboID",
-        "biotin ligase",
-        "proximity labeling",
+        "biotin labeling",
         "streptavidin resin",
-        "data-dependent acquisition mode"
+        "data-dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,7 +170,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:50:13Z"
   }
 }

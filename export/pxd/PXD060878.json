@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "pairwise protein ratio",
+    "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC"
     ],
@@ -16,9 +16,10 @@
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -49,17 +50,7 @@
         "duration": "1 h",
         "route_or_context": "stimulation of heavy-labeled THP-1 cells",
         "evidence": [
-          "heavy-labeled cells were stimulated with LPS (100 ng/ml, 127K, Sigma Aldrich) for 1 h"
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
-        "duration": "24 h",
-        "route_or_context": "biotinylation period",
-        "evidence": [
-          "before biotin was added (50 mM, Sigma Aldrich, 24 h)"
+          "heavy-labeled cells were stimulated with LPS (100 ng/ml, 127K, Sigma Aldrich) for 1 h before biotin was added"
         ]
       }
     ],
@@ -69,8 +60,7 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 h (LPS stimulation)",
-      "24 h (biotinylation)"
+      "1 h"
     ],
     "control_arms": [
       "resting",
@@ -85,12 +75,12 @@
     "factorial_design": false,
     "replicate_hints": [
       "The conditions were set up in three separate T-175 flasks (n = 3)",
-      "experiments were performed in parallel to avoid batch differences"
+      "hits obtained in only one of the three data sets were excluded"
     ],
     "multiplex_channel_hints": [
       "SILAC labeling",
       "light media contained L-Arginine and L-Lysine and heavy media contained 13C615N2 L-Lysine and 13C615N2 L-Arginine",
-      "pooled lysate (1:1)"
+      "lysates containing heavy and light proteins were pooled (1:1)"
     ],
     "contrast_hints": [
       {
@@ -98,49 +88,12 @@
         "case_label": "LPS-stressed",
         "contrast_type": "pairwise",
         "evidence": [
-          "we compared the HMGB1 interactomes in resting and LPS-stressed monocytic THP-1 cells"
+          "we compared the HMGB1 interactomes in resting and LPS-stressed monocytic THP-1 cells using BioID-based proximity proteomics"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "monocyte",
-        "rollup_category": "immune cell",
-        "ontology_curie": "CL:0000576"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "THP-1",
-        "family": "acute leukemia-derived monocyte",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -149,21 +102,46 @@
       "SILAC"
     ],
     "quantification_strategy": [
+      "SILAC",
       "pairwise protein ratio"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "BioID-based proximity labeling of HMGB1 interactome via streptavidin pull-down"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "monocyte",
+          "ontology_curie": "CL:0000576"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "THP-1",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -173,22 +151,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of SILAC (Stable Isotope Labeling by Amino acids in Cell culture) with light and heavy media (13C615N2 L-Lysine and 13C615N2 L-Arginine) and the use of an Orbitrap Fusion mass spectrometer for survey MS spectra and HCD MS/MS."
+          "reason": "Explicit use of SILAC labeling (light and heavy media with 13C6/15N2 Lys/Arg) and DDA acquisition (survey MS spectra and HCD MS/MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling_biotid",
+          "modifier_workflow_id": "proximity_labeling",
           "confidence": 1.0,
-          "reason": "The experiment uses BioID-based proximity proteomics with MycBioID2-HMGB1 and streptavidin-activated beads for pull-down of biotinylated proteins."
+          "reason": "Experiment uses BioID-based proximity proteomics with streptavidin pull-down of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "BioID-based proximity proteomics",
-        "biotinylated proteins",
-        "streptavidin-activated beads",
-        "heavy-labeled cells"
+        "BioID",
+        "proximity proteomics",
+        "streptavidin",
+        "biotinylated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -197,22 +175,22 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly describes the use of SILAC (Stable Isotope Labeling by Amino acids in Cell culture) with light and heavy media (13C615N2 L-Lysine and 13C615N2 L-Arginine) and the use of an Orbitrap Fusion mass spectrometer for survey MS spectra and HCD MS/MS."
+          "reason": "Explicit use of SILAC labeling (light and heavy media with 13C6/15N2 Lys/Arg) and DDA acquisition (survey MS spectra and HCD MS/MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling_biotid",
+          "modifier_workflow_id": "proximity_labeling",
           "confidence": 1.0,
-          "reason": "The experiment uses BioID-based proximity proteomics with MycBioID2-HMGB1 and streptavidin-activated beads for pull-down of biotinylated proteins."
+          "reason": "Experiment uses BioID-based proximity proteomics with streptavidin pull-down of biotinylated proteins."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "BioID-based proximity proteomics",
-        "biotinylated proteins",
-        "streptavidin-activated beads",
-        "heavy-labeled cells"
+        "BioID",
+        "proximity proteomics",
+        "streptavidin",
+        "biotinylated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,7 +218,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:03Z"
   }
 }

@@ -10,19 +10,18 @@
     "treatment_categories": [
       "disease or clinical state"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "NCI-3784Mel",
       "NCI-3795Mel",
       "H1975",
-      "PC9",
-      "T2"
+      "PC9"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "male",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -78,68 +77,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "somatic cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "NCI-3784Mel",
-        "family": "melanoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "NCI-3795Mel",
-        "family": "melanoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "H1975",
-        "family": "lung adenocarcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "PC9",
-        "family": "lung adenocarcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "T2",
-        "family": "TAP-deficient",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "lung tumor",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -149,18 +86,59 @@
       "MS1 peak area-based label-free quantitation"
     ],
     "proteomics_mode": "Immunopeptidomics",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "immunopeptidome enrichment",
-        "ontology_curie": "PPA:0000298",
-        "workflow_modifier_hint": "mod_immunopeptidomics",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "HLA class I-bound peptides immunoprecipitated with pan-HLA class I antibody W6/32"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "NCI-3784Mel",
+          "ontology_curie": null
+        },
+        {
+          "label": "NCI-3795Mel",
+          "ontology_curie": null
+        },
+        {
+          "label": "H1975",
+          "ontology_curie": null
+        },
+        {
+          "label": "PC9",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "lung tumor",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "male"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -170,22 +148,33 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study used Orbitrap Q-Exactive HF in discovery mode (DDA) with MS1 peak area-based label-free quantitation (LFQ)."
+          "reason": "The study uses high-resolution tandem MS (MS/MS) in discovery mode (DDA) with MS1 peak area-based label-free quantitation (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome_no_enzyme",
           "confidence": 1.0,
-          "reason": "The experiment specifically enriched HLA class I-presented peptides; the search was performed with 'no enzyme digestion' because HLA peptides are natural and not artificially digested."
+          "reason": "The experiment specifically targets the HLA class I immunopeptidome; the methods explicitly state 'no enzyme digestion was selected because HLA peptides are natural peptides without artificial enzyme digestion'."
+        },
+        {
+          "modifier_workflow_id": "pan_ptm_search",
+          "confidence": 0.9,
+          "reason": "The study utilized PEAKS pan-PTMs including 650 different variable modifications to identify a large number of PTM peptides."
+        },
+        {
+          "modifier_workflow_id": "de_novo_sequencing",
+          "confidence": 0.9,
+          "reason": "A significant portion of the peptides (20,357) were identified using a de novo search algorithm to find variant and lncRNA-derived peptides."
         }
       ],
       "trigger_keywords": [
         "HLA class I-presented peptides",
-        "immunopeptidome",
         "no enzyme digestion",
         "de novo search",
-        "pan-PTMs"
+        "pan-PTMs",
+        "immunopeptidome",
+        "label-free quantitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -194,22 +183,33 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study used Orbitrap Q-Exactive HF in discovery mode (DDA) with MS1 peak area-based label-free quantitation (LFQ)."
+          "reason": "The study uses high-resolution tandem MS (MS/MS) in discovery mode (DDA) with MS1 peak area-based label-free quantitation (LFQ)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome_no_enzyme",
           "confidence": 1.0,
-          "reason": "The experiment specifically enriched HLA class I-presented peptides; the search was performed with 'no enzyme digestion' because HLA peptides are natural and not artificially digested."
+          "reason": "The experiment specifically targets the HLA class I immunopeptidome; the methods explicitly state 'no enzyme digestion was selected because HLA peptides are natural peptides without artificial enzyme digestion'."
+        },
+        {
+          "modifier_workflow_id": "pan_ptm_search",
+          "confidence": 0.9,
+          "reason": "The study utilized PEAKS pan-PTMs including 650 different variable modifications to identify a large number of PTM peptides."
+        },
+        {
+          "modifier_workflow_id": "de_novo_sequencing",
+          "confidence": 0.9,
+          "reason": "A significant portion of the peptides (20,357) were identified using a de novo search algorithm to find variant and lncRNA-derived peptides."
         }
       ],
       "trigger_keywords": [
         "HLA class I-presented peptides",
-        "immunopeptidome",
         "no enzyme digestion",
         "de novo search",
-        "pan-PTMs"
+        "pan-PTMs",
+        "immunopeptidome",
+        "label-free quantitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,7 +237,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:14:26Z"
   }
 }

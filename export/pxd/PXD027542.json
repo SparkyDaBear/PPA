@@ -10,15 +10,14 @@
     "treatment_categories": [
       "overexpression or transgene perturbation"
     ],
-    "cell_types": [
-      "rhabdomyosarcoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "TE671"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,21 +36,20 @@
         "confidence": "high",
         "evidence": [
           "The cells were transduced with a retrovirus vector expressing an ORF of ZNF555 and FLAG, 6His and HA tags (pOZ_FHHY_ZNF555).",
-          "affinity purification coupled with mass spectroscopy (MS) was performed using nuclear fraction",
-          "Pulldown analysis revealed 24 proteins (cutoff s0 = 2 and FDR = 0.05) enriched by the FLAG-tagged DiPRO1 bait protein in the nuclei of RMS cells expressing DiPRO1"
+          "a stable cell line overexpressing the DiPRO1wt protein (pDiPRO1) was generated."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DiPRO1",
+        "agent": "pDiPRO1",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "overexpression via retroviral vector pOZ_FHHY_ZNF555 in RMS TE671 cells",
+        "route_or_context": "retroviral vector transduction in RMS TE671 cells",
         "evidence": [
           "The cells were transduced with a retrovirus vector expressing an ORF of ZNF555 and FLAG, 6His and HA tags (pOZ_FHHY_ZNF555).",
-          "affinity purification coupled with mass spectroscopy (MS) was performed using nuclear fraction"
+          "pDiPRO1 vector expressing the DiPRO1-YFP protein with FLAG and HA tags was transfected into RMS TE671 cells"
         ]
       }
     ],
@@ -62,19 +60,21 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "isogenic counterparts, which do not express the bait protein"
+      "isogenic cells lacking bait protein expression (null control)"
     ],
     "case_arms": [
-      "cells stably ZNF555"
+      "DiPRO1-expressing cells"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "The Co-IP-derived gels were combined"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "null control",
-        "case_label": "DiPRO1-expressing",
+        "case_label": "DiPRO1 fraction",
         "contrast_type": "pairwise",
         "evidence": [
           "the proteins must show a significant (p \u2264 0.05) increase in LFQ intensity in the DiPRO1 fraction compared with the control fraction."
@@ -83,43 +83,6 @@
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "rhabdomyosarcoma cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "TE671",
-        "family": "rhabdomyosarcoma",
-        "ontology_curie": "CVCL_1756"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -131,18 +94,37 @@
       "LFQ intensity"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-FLAG immunoprecipitation of DiPRO1 complex from nuclear fraction"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "TE671",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -152,22 +134,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.95,
-          "reason": "The authors explicitly mention using 'LFQ intensity' for filtering and MaxQuant for protein identification from in-gel digested samples, which is the standard DDA-LFQ pipeline."
+          "reason": "The study explicitly mentions using MaxQuant for protein identification and filtering based on 'LFQ intensity' to compare the DiPRO1 fraction with the control fraction."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_coip",
           "confidence": 0.9,
-          "reason": "The experiment is described as an 'affinity purification coupled with mass spectroscopy' and 'CoIP-MS/MS' to identify interacting proteins for the bait protein DiPRO1."
+          "reason": "The experiment is described as an immunoaffinity purification/Co-IP using anti-FLAG affinity beads to identify interacting partners of the bait protein DiPRO1."
         }
       ],
       "trigger_keywords": [
         "LFQ intensity",
-        "MaxQuant",
         "Co-IP",
-        "affinity purification",
-        "in-gel digestion"
+        "immunoaffinity purification",
+        "MaxQuant",
+        "anti-FLAG affinity beads"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -176,22 +158,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.95,
-          "reason": "The authors explicitly mention using 'LFQ intensity' for filtering and MaxQuant for protein identification from in-gel digested samples, which is the standard DDA-LFQ pipeline."
+          "reason": "The study explicitly mentions using MaxQuant for protein identification and filtering based on 'LFQ intensity' to compare the DiPRO1 fraction with the control fraction."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_coip",
           "confidence": 0.9,
-          "reason": "The experiment is described as an 'affinity purification coupled with mass spectroscopy' and 'CoIP-MS/MS' to identify interacting proteins for the bait protein DiPRO1."
+          "reason": "The experiment is described as an immunoaffinity purification/Co-IP using anti-FLAG affinity beads to identify interacting partners of the bait protein DiPRO1."
         }
       ],
       "trigger_keywords": [
         "LFQ intensity",
-        "MaxQuant",
         "Co-IP",
-        "affinity purification",
-        "in-gel digestion"
+        "immunoaffinity purification",
+        "MaxQuant",
+        "anti-FLAG affinity beads"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,7 +201,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:48:22Z"
   }
 }

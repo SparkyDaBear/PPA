@@ -3,28 +3,28 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "LFQ",
+    "quantification_method": "Relative abundance (manual examination of spectra)",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
       "ligand-mediated stimulation",
       "chemical or drug treatment",
       "genetic perturbation"
     ],
-    "cell_types": [
-      "prostate cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "VCaP",
       "PC3",
-      "PC3M",
+      "VCaP",
       "HEK293T",
+      "PC3M",
       "Sf21"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -61,7 +61,7 @@
         "confidence": "high",
         "evidence": [
           "Parp7, ADP-ribosylation of AR, and AR-Dtx3L/Parp9 complex assembly are inhibited by Olaparib",
-          "The Parp inhibitors Veliparib and Olaparib were used"
+          "androgen-induced AR-Dtx3L/Parp9 complex assembly was inhibited markedly by 0.4\u2009\u03bcM Olaparib"
         ]
       },
       {
@@ -78,7 +78,9 @@
         "confidence": "high",
         "evidence": [
           "To generate PARP9-deficient PC3-AR prostate cancer cells",
-          "Three independent Parp9 KO lines generated using CRISPR"
+          "Three independent Parp9 KO lines generated using CRISPR",
+          "VCaP(shParp7)",
+          "VCaP(pLKO-Tet-ON/shDtx3L)"
         ]
       }
     ],
@@ -96,21 +98,22 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "Olaparib",
-        "dose_or_concentration": "0.4 \u00b5M",
+        "dose_or_concentration": "0.4 \u03bcmM",
         "duration": null,
         "route_or_context": "Parp inhibitor",
         "evidence": [
-          "androgen-induced AR-Dtx3L/Parp9 complex assembly was inhibited markedly by 0.4\u00b5M Olaparib"
+          "androgen-induced AR-Dtx3L/Parp9 complex assembly was inhibited markedly by 0.4\u03bcmM Olaparib"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Veliparib",
-        "dose_or_concentration": "33\u2013330 nM",
-        "duration": null,
-        "route_or_context": "Parp inhibitor",
+        "agent": "NUDT16",
+        "dose_or_concentration": "3 \u03bcmM",
+        "duration": "60 min",
+        "route_or_context": "pyrophosphatase treatment of IP'd AR",
         "evidence": [
-          "co-treated cells with R1881 and Veliparib, another Parp1/2 inhibitor... at drug concentrations (33\u2013330 nM)"
+          "For the second MS experiment examining phosphoribosyl modification (n = 1), NUDT16 was used to treat IP\u2019d AR",
+          "incubated at 37\u00b0C for 60\u00b1min with 3\u00bcmM NUDT16"
         ]
       }
     ],
@@ -128,34 +131,47 @@
     ],
     "control_arms": [
       "untreated",
-      "0h"
+      "shGFP",
+      "shVector"
     ],
     "case_arms": [
       "R1881-treated",
-      "Olaparib-treated"
+      "Olaparib-treated",
+      "Parp9 KO",
+      "shParp7",
+      "shDtx3L"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "n = 1",
-      "technical and biological n = 1"
+      "n = 1 for MS discovery",
+      "n = 3 biological independent experiments for RNA-seq and reporter gene assays",
+      "n = 2 biologically independent experiments for all other experiments"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "untreated",
-        "case_label": "R1881-treated",
+        "case_label": "R1881",
         "contrast_type": "pairwise",
         "evidence": [
-          "AR was captured on GST-Af1521 beads but only if the PC3-AR cells were treated with R1881 in culture"
+          "R1881-induced early release of Hsp90 from AR (0 and 2\u2013h comparison)"
         ]
       },
       {
-        "control_label": "R1881-treated",
+        "control_label": "R1881",
         "case_label": "R1881 + Olaparib",
         "contrast_type": "pairwise",
         "evidence": [
-          "androgen-induced AR-Dtx3L/Parp9 complex assembly was inhibited markedly by 0.4\u00b5M Olaparib"
+          "androgen-induced AR-Dtx3L/Parp9 complex assembly was inhibited markedly by 0.4\u03bcmM Olaparib"
+        ]
+      },
+      {
+        "control_label": "WT Parp9",
+        "case_label": "Parp9 KO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Three independent Parp9 KO lines generated using CRISPR displayed robust, androgen induction of AR ADP-ribosylation"
         ]
       }
     ],
@@ -163,84 +179,72 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "prostate cancer cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "VCaP",
-        "family": "prostate cancer",
-        "ontology_curie": "ATCC:CRL-2876"
-      },
-      {
-        "label": "PC3",
-        "family": "prostate cancer",
-        "ontology_curie": "ATCC:CRL-1435"
-      },
-      {
-        "label": "PC3M",
-        "family": "prostate cancer",
-        "ontology_curie": "RRID:CVCL_9555"
-      },
-      {
-        "label": "HEK293T",
-        "family": "embryonic kidney",
-        "ontology_curie": "ATCC:CRL-3216"
-      },
-      {
-        "label": "Sf21",
-        "family": "insect cell",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "Relative abundance (manual examination of spectra)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitated AR"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphoribosylated peptides enriched using a TiO column"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "recombinant His6-T7-Parp7"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "PC3",
+          "ontology_curie": null
+        },
+        {
+          "label": "VCaP",
+          "ontology_curie": null
+        },
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        },
+        {
+          "label": "PC3M",
+          "ontology_curie": null
+        },
+        {
+          "label": "Sf21",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -249,28 +253,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses DDA (full scan followed by product ion spectra) and focuses on site identification. While no formal LFQ is described, it is the closest standard base for this discovery-style PTM analysis."
+          "confidence": 0.7,
+          "reason": "Data acquisition used full scan followed by product ion spectra (DDA) on Orbitrap systems. While primarily discovery-based (n=1), the goal was site identification and relative abundance assessment via manual examination and validation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "adp_ribosylation",
-          "confidence": 1.0,
-          "reason": "The primary goal of the MS experiments is the identification of ADP-ribosylation sites on the Androgen Receptor (AR) and Parp7."
-        },
-        {
-          "modifier_workflow_id": "phosphoribosylation",
+          "modifier_workflow_id": "site_enrichment_TiO2",
           "confidence": 0.9,
-          "reason": "The second MS experiment specifically examines phosphoribosyl modifications after NUDT16 treatment."
+          "reason": "The second MS experiment explicitly used a TiO column to enrich phosphoribosylated peptides after NUDT16 treatment."
         }
       ],
       "trigger_keywords": [
         "ADP-ribosylation",
         "phosphoribosyl",
-        "ADP-ribose",
+        "TiO column",
         "NUDT16",
-        "TiO column"
+        "Cys-ADP-ribosylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -278,28 +277,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses DDA (full scan followed by product ion spectra) and focuses on site identification. While no formal LFQ is described, it is the closest standard base for this discovery-style PTM analysis."
+          "confidence": 0.7,
+          "reason": "Data acquisition used full scan followed by product ion spectra (DDA) on Orbitrap systems. While primarily discovery-based (n=1), the goal was site identification and relative abundance assessment via manual examination and validation."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "adp_ribosylation",
-          "confidence": 1.0,
-          "reason": "The primary goal of the MS experiments is the identification of ADP-ribosylation sites on the Androgen Receptor (AR) and Parp7."
-        },
-        {
-          "modifier_workflow_id": "phosphoribosylation",
+          "modifier_workflow_id": "site_enrichment_TiO2",
           "confidence": 0.9,
-          "reason": "The second MS experiment specifically examines phosphoribosyl modifications after NUDT16 treatment."
+          "reason": "The second MS experiment explicitly used a TiO column to enrich phosphoribosylated peptides after NUDT16 treatment."
         }
       ],
       "trigger_keywords": [
         "ADP-ribosylation",
         "phosphoribosyl",
-        "ADP-ribose",
+        "TiO column",
         "NUDT16",
-        "TiO column"
+        "Cys-ADP-ribosylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -327,7 +321,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:09Z"
   }
 }

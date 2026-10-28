@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "MaxLFQ",
+    "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -15,9 +15,10 @@
       "HEK293",
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -26,10 +27,10 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
           "Guzman et al. characterize the performance of the Orbitrap Astral Zoom MS for high-throughput proteomics and benchmark its performance with that of the previous-generation Orbitrap Astral MS."
@@ -52,8 +53,8 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "each one with n = 4 experimental replicates",
-      "analyzed in quadruplicates"
+      "each condition (each one with n = 4 experimental replicates)",
+      "analyzed with both 180 SPD and 300 SPD in quadruplicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -70,74 +71,61 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "yeast",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      },
-      {
-        "label": "Escherichia coli",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "human",
-        "ontology_curie": null
-      },
-      {
-        "label": "HeLa",
-        "family": "human",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DIA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "MaxLFQ",
-      "label-free quantification"
+      "label-free quantification",
+      "MaxLFQ"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "low"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "yeast",
+          "taxonomy_hint": null,
+          "confidence": "high"
+        },
+        {
+          "label": "Escherichia coli",
+          "taxonomy_hint": null,
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        },
+        {
+          "label": "HeLa",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -147,21 +135,28 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 100,
-          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and mentions the use of DIA-NN and Spectronaut for library-free DIA analysis."
+          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and the MaxLFQ algorithm."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 60,
-          "reason": "The text describes DDA experiments, including an 'enhanced dynamic range (eDR) mode' for DDA, though the primary focus is on DIA."
+          "reason": "The text describes DDA experiments, including an 'enhanced dynamic range (eDR) mode' for DDA."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 80,
+          "reason": "The authors performed a phosphopeptide search identifying >2000 sites with a site localization probability threshold of >=0.75."
+        }
+      ],
       "trigger_keywords": [
         "DIA",
+        "DDA",
         "label-free quantification",
+        "MaxLFQ",
         "nDIA",
-        "library-free",
-        "directDIA+"
+        "phosphopeptide search"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -170,21 +165,28 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 100,
-          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and mentions the use of DIA-NN and Spectronaut for library-free DIA analysis."
+          "reason": "The text explicitly describes multiple DIA experiments using label-free quantification (LFQ) and the MaxLFQ algorithm."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 60,
-          "reason": "The text describes DDA experiments, including an 'enhanced dynamic range (eDR) mode' for DDA, though the primary focus is on DIA."
+          "reason": "The text describes DDA experiments, including an 'enhanced dynamic range (eDR) mode' for DDA."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "phospho_site_localization",
+          "confidence": 80,
+          "reason": "The authors performed a phosphopeptide search identifying >2000 sites with a site localization probability threshold of >=0.75."
+        }
+      ],
       "trigger_keywords": [
         "DIA",
+        "DDA",
         "label-free quantification",
+        "MaxLFQ",
         "nDIA",
-        "library-free",
-        "directDIA+"
+        "phosphopeptide search"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -212,7 +214,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:04:06Z"
   }
 }

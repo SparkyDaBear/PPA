@@ -8,50 +8,35 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "PTM-state biological comparison"
+      "un-classified"
     ],
     "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "PTM-state biological comparison",
-        "ontology_curie": "PPA:0000112",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "ptm_state_biological_comparison",
-        "matched_class_path": [
-          "molecular_state",
-          "ptm_state_biological_comparison"
-        ],
-        "matched_definition": "Comparison where modified versus unmodified, phosphorylated, glycosylated, acetylated, ubiquitinated, or other PTM state is the biological grouping.",
+        "ontology_label": "un-classified",
+        "ontology_curie": null,
+        "category": "unclassified",
+        "matched_parent_class_key": null,
+        "matched_class_key": null,
+        "matched_class_path": [],
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "S-fatty-acylation is the covalent attachment of long chain fatty acids, predominately palmitate (C16:0, S-palmitoylation), to cysteine (Cys) residues via a thioester linkage on proteins.",
-          "identify S-fatty-acylated proteins by MS-based proteomics."
+          "we optimized and compared two methods widely employed to identify S-fatty-acylated proteins by MS-based proteomics"
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "hydroxylamine",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "used to selectively hydrolyze thioesters",
-        "evidence": [
-          "Samples were treated -/+ hydroxylamine to selectively hydrolyze thioesters.",
-          "Acylated Cys were hydrolyzed with hydroxylamine (NH2OH)"
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -59,9 +44,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
+      "alk-16",
       "-NH2OH"
     ],
     "case_arms": [
+      "alk-16 +NH2OH",
       "+NH2OH"
     ],
     "paired_design": false,
@@ -72,47 +59,24 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "alk-16",
+        "case_label": "alk-16 +NH2OH",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "1-4: alk-16 +NH2OH(four biological replicates) 5-8: alk-16 (four biological replicates)"
+        ]
+      },
+      {
         "control_label": "-NH2OH",
         "case_label": "+NH2OH",
         "contrast_type": "pairwise",
         "evidence": [
-          "Samples were treated -/+ hydroxylamine to selectively hydrolyze thioesters."
+          "1-4: -NH2OH (four biological replicates) 5-8: +NH2OH (four biological replicates)"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": null,
-        "ontology_curie": "BTO:0000567"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": true
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -124,18 +88,42 @@
       "Label free"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "S-fatty-acylation enrichment",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "mod_lip_ms",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "S-fatty-acylated proteins enriched via alk-16 chemical reporter and Neutravidin beads"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "S-acylated proteins enriched via Acyl-RAC and thiopropyl sepharose 6B resin"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens (Human)",
+          "taxonomy_hint": "NEWT:9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -145,56 +133,46 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'Label free quatification', 'top-8-CID-mode' (DDA), and use of MaxQuant for LFQ ratios."
+          "reason": "Data was acquired using an Orbitrap XL in top-8-CID-mode (DDA) and quantified using label-free methods as explicitly stated in keywords and quantificationMethods."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "site_centric_enrichment",
+          "modifier_workflow_id": "site_localization",
           "confidence": 0.9,
-          "reason": "The experiment focuses on mapping S-palmitoylation sites using chemical reporters (Alk-16) and Acyl-RAC enrichment."
+          "reason": "The study specifically aims to map sites of S-fatty-acylation and uses site-level FDR filtering in MaxQuant."
         }
       ],
       "trigger_keywords": [
         "Label free quatification",
         "top-8-CID-mode",
-        "S-palmitoylation",
         "S-acylation",
-        "Acyl-RAC",
-        "alk-16 chemical reporter"
+        "S-palmitoylation"
       ],
-      "raw_or_file_name_triggers": [
-        "MS162701XL",
-        "MS151730XL"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'Label free quatification', 'top-8-CID-mode' (DDA), and use of MaxQuant for LFQ ratios."
+          "reason": "Data was acquired using an Orbitrap XL in top-8-CID-mode (DDA) and quantified using label-free methods as explicitly stated in keywords and quantificationMethods."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "site_centric_enrichment",
+          "modifier_workflow_id": "site_localization",
           "confidence": 0.9,
-          "reason": "The experiment focuses on mapping S-palmitoylation sites using chemical reporters (Alk-16) and Acyl-RAC enrichment."
+          "reason": "The study specifically aims to map sites of S-fatty-acylation and uses site-level FDR filtering in MaxQuant."
         }
       ],
       "trigger_keywords": [
         "Label free quatification",
         "top-8-CID-mode",
-        "S-palmitoylation",
         "S-acylation",
-        "Acyl-RAC",
-        "alk-16 chemical reporter"
+        "S-palmitoylation"
       ],
-      "raw_or_file_name_triggers": [
-        "MS162701XL",
-        "MS151730XL"
-      ]
+      "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "log2fc_site",
@@ -220,7 +198,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:47:57Z"
   }
 }

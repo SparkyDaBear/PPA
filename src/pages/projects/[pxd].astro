@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MetadataJsonViewer from '../../components/MetadataJsonViewer.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
-import { getProject, getProjectIndex, stringifyList, titleize } from '../../lib/site-data';
+import { getProject, getProjectIndex, getProjectL3Memberships, itemLabels, sampleScopeCategories, stringifyList, titleize } from '../../lib/site-data';
 
 export async function getStaticPaths() {
   const projectIndex = await getProjectIndex();
@@ -14,8 +14,16 @@ const project = await getProject(pxd);
 const summary = project.summary || {};
 const sourceLinks = project.source_links || {};
 const treatment = project.treatment || {};
-const sampleSource = project.sample_source || {};
 const assay = project.assay || {};
+const biologicalSource = assay.biological_source || {};
+const scopeCategories = sampleScopeCategories(project);
+const l3Memberships = await getProjectL3Memberships(project.pxd);
+const membershipLabel = (row) => ({
+  l3: row.l3_label,
+  unresolved: 'Unresolved value',
+  no_l3_value: 'No Level 3 value',
+  l1_only: 'Level 2 not specified',
+})[row.membership_type] || row.l3_label;
 const processing = project.processing || {};
 const stage4 = project.stage4 || {};
 const metadataUrl = `${import.meta.env.BASE_URL}export/metadata/${encodeURIComponent(project.pxd)}.json`;
@@ -26,7 +34,7 @@ const metadataUrl = `${import.meta.env.BASE_URL}export/metadata/${encodeURICompo
     <div>
       <p class="hero-kicker">Project detail</p>
       <h2>{project.pxd}</h2>
-      <p class="lede">{summary.sample_scope || 'Project metadata'}</p>
+      <p class="lede">{stringifyList(scopeCategories) === 'None' ? 'Project metadata' : stringifyList(scopeCategories)}</p>
     </div>
     <div class="hero-badges">
       {sourceLinks.pride_project_url ? <a class="badge" href={sourceLinks.pride_project_url} target="_blank" rel="noreferrer">PRIDE</a> : null}
@@ -43,16 +51,19 @@ const metadataUrl = `${import.meta.env.BASE_URL}export/metadata/${encodeURICompo
         <li><strong>Quantification:</strong> {summary.quantification_method || 'Unknown'}</li>
         <li><strong>Labeling:</strong> {stringifyList(summary.labeling_strategy)}</li>
         <li><strong>Instrument:</strong> {summary.instrument || 'Unknown'}</li>
-        <li><strong>Cell types:</strong> {stringifyList(summary.cell_types)}</li>
-        <li><strong>Cell lines:</strong> {stringifyList(summary.cell_lines)}</li>
+        <li><strong>Organisms:</strong> {stringifyList(itemLabels(biologicalSource.organisms))}</li>
+        <li><strong>Cell lines:</strong> {stringifyList(itemLabels(biologicalSource.cell_lines))}</li>
+        <li><strong>Cell types:</strong> {stringifyList(itemLabels(biologicalSource.cell_types))}</li>
+        <li><strong>Tissues and other sources:</strong> {stringifyList(itemLabels(biologicalSource.noncellular_sources))}</li>
+        <li><strong>Sex:</strong> {biologicalSource.sex || 'Not reported'}</li>
       </ul>
     </section>
 
     <section class="panel">
       <SectionHeading kicker="Source" title="Public evidence fields" description="Selected evidence fields are summarized here; the complete exported metadata is available below." />
       <ul class="detail-list">
-        <li><strong>Sample scope:</strong> {summary.sample_scope_label || sampleSource.sample_scope?.label || 'Unknown'}</li>
-        <li><strong>Human system:</strong> {sampleSource.human_system_present || 'Unknown'}</li>
+        <li><strong>Sample scope:</strong> {stringifyList((assay.sample_scopes || []).map((entry) => entry.detail ? `${entry.category} (${entry.detail})` : entry.category))}</li>
+        <li><strong>Human system:</strong> {biologicalSource.human_system_present || 'Unknown'}</li>
         <li><strong>Treatment categories:</strong> {stringifyList(summary.treatment_categories)}</li>
         <li><strong>Primary variables:</strong> {stringifyList((treatment.primary_variables || []).map((item) => item.ontology_label))}</li>
         <li><strong>Reanalysis compatibility:</strong> {processing.reanalysis_compatibility || 'Unknown'}</li>
@@ -73,6 +84,23 @@ const metadataUrl = `${import.meta.env.BASE_URL}export/metadata/${encodeURICompo
         <p class="lede">{processing.differential_hints?.preferred_engine || 'No differential hints exported yet.'}</p>
       </div>
     </div>
+  </section>
+
+  <section class="panel" style="margin-top: 18px;">
+    <SectionHeading kicker="Ontology" title="Level 1 → Level 2 → Level 3 assignments" description="Normalized ontology placement used by the treatment and assay explorers." />
+    {l3Memberships.length ? (
+      <div class="table-list">
+        {l3Memberships.map((row) => (
+          <div class="table-row">
+            <div class="row-head">
+              <h4 class="row-title">{row.l1_label}{row.l2_label ? ` › ${row.l2_label}` : ''}</h4>
+              <span class="row-code">{row.branch}</span>
+            </div>
+            <div class="row-meta">{membershipLabel(row)}{row.l3_id && !row.l3_id.includes('#') ? ` · ${row.l3_id}` : ''}</div>
+          </div>
+        ))}
+      </div>
+    ) : <p class="empty-state">No Level 3 assignments exported for this project.</p>}
   </section>
 
   <MetadataJsonViewer pxd={project.pxd} dataUrl={metadataUrl} />

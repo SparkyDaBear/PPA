@@ -16,9 +16,11 @@
       "HEK293",
       "HAP1"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -54,7 +56,7 @@
         "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
         "confidence": "high",
         "evidence": [
-          "we mutated Hsp90\u00e2\u20ac\u2019s K283 and Hsp90\u00beta-K275 to non-acetylated arginine (R) or acetylation-mimetic glutamine (Q).",
+          "mutated Hsp90\u03b1-K283 and Hsp90\u03b2-K275 to non-acetylated arginine (R) or acetylation-mimetic glutamine (Q)",
           "non-acetylated Hsp90 mutants exhibited decreased binding to bio-GB",
           "acetylation-mimetic mutants exhibited a similar increase on Hsp90 drug binding to HDAC3 or HDAC8 KO cells"
         ]
@@ -89,7 +91,7 @@
         "route_or_context": "pulldown challenge",
         "evidence": [
           "We challenged HAP1 wild-type (WT) cells as well as HDAC3 and HDAC8 KO cell lysates with 1.0 \u03bcM bio-GB",
-          "incubated with Biotin-GB (0.1 \u03bcM or 0.5 \u03bcM) for 30 min"
+          "mammalian cell lysate was collected and incubated with Biotin-GB (0.1 \u03bcM or 0.5 \u03bcM) for 30 min"
         ]
       }
     ],
@@ -100,7 +102,8 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "WT"
+      "WT",
+      "HAP1 WT"
     ],
     "case_arms": [
       "HDAC3 KO",
@@ -132,7 +135,7 @@
         ]
       },
       {
-        "control_label": "non-acetylated Hsp90 mutants",
+        "control_label": "non-acetylated mutants",
         "case_label": "acetylation-mimetic mutants",
         "contrast_type": "pairwise",
         "evidence": [
@@ -142,42 +145,6 @@
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "human embryonic kidney",
-        "ontology_curie": null
-      },
-      {
-        "label": "HAP1",
-        "family": "human",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -190,24 +157,46 @@
       "peak intensity"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "Hsp90-bio-GB complex isolated via streptavidin pulldown"
       },
       {
-        "ontology_label": "acetylome enrichment",
-        "ontology_curie": "PPA:0000295",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "medium"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphopeptide enrichment via titanium dioxide (TiO2)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": "PPA:0000140"
+        },
+        {
+          "label": "HAP1",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -217,19 +206,19 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly uses DDA mode for acetylation and phosphorylation analysis, and the PRIDE metadata specifies 'Relative quantification' and 'Fold change between samples was determined by dividing the peak intensity', which is characteristic of label-free quantification (LFQ)."
+          "reason": "The study explicitly uses DDA mode for acetylation and phosphorylation analysis with MaxQuant processing and relative quantification (LFQ-style) based on peak intensities."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
-          "reason": "The methods section explicitly states that 'For global protein profiling, data-independent acquisition (DIA) mode was employed' and processed with DIA-NN."
+          "confidence": 0.8,
+          "reason": "The study explicitly uses DIA mode for global protein profiling processed with DIA-NN."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.95,
-          "reason": "Methods explicitly state 'Phosphopeptides were enriched using titanium dioxide (TiO2) before LC-MS/MS analysis'."
+          "confidence": 1.0,
+          "reason": "Text explicitly states 'Phosphopeptides were enriched using titanium dioxide (TiO2) before LC-MS/MS analysis'."
         }
       ],
       "trigger_keywords": [
@@ -237,8 +226,10 @@
         "DIA",
         "titanium dioxide",
         "TiO2",
-        "label-free",
-        "relative quantification"
+        "MaxQuant",
+        "DIA-NN",
+        "phosphorylation",
+        "acetylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -247,19 +238,19 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The study explicitly uses DDA mode for acetylation and phosphorylation analysis, and the PRIDE metadata specifies 'Relative quantification' and 'Fold change between samples was determined by dividing the peak intensity', which is characteristic of label-free quantification (LFQ)."
+          "reason": "The study explicitly uses DDA mode for acetylation and phosphorylation analysis with MaxQuant processing and relative quantification (LFQ-style) based on peak intensities."
         },
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.7,
-          "reason": "The methods section explicitly states that 'For global protein profiling, data-independent acquisition (DIA) mode was employed' and processed with DIA-NN."
+          "confidence": 0.8,
+          "reason": "The study explicitly uses DIA mode for global protein profiling processed with DIA-NN."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.95,
-          "reason": "Methods explicitly state 'Phosphopeptides were enriched using titanium dioxide (TiO2) before LC-MS/MS analysis'."
+          "confidence": 1.0,
+          "reason": "Text explicitly states 'Phosphopeptides were enriched using titanium dioxide (TiO2) before LC-MS/MS analysis'."
         }
       ],
       "trigger_keywords": [
@@ -267,8 +258,10 @@
         "DIA",
         "titanium dioxide",
         "TiO2",
-        "label-free",
-        "relative quantification"
+        "MaxQuant",
+        "DIA-NN",
+        "phosphorylation",
+        "acetylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -296,7 +289,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:51:31Z"
   }
 }

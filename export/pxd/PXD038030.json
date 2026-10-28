@@ -11,16 +11,15 @@
       "chemical or drug treatment",
       "nutrient or metabolic perturbation"
     ],
-    "cell_types": [
-      "breast cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "MCF7",
       "T47D"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -75,7 +74,7 @@
         "agent": "estrogen deprivation",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "phenol red-free DMEM supplemented with 10% charcoal-stripped FCS",
+        "route_or_context": "phenol red-free DMEM supplemented with 10% charcoal-stripped FCS (\u2212E2)",
         "evidence": [
           "kept in phenol red-free DMEM (Gibco, 11880028) supplemented with 10% charcoal-stripped FCS (\u2212E2, Estrogen deprivation)"
         ]
@@ -91,15 +90,16 @@
       "day 14",
       "1 month",
       "2 months",
-      "awakening"
+      "awakening",
+      "TEP"
     ],
     "control_arms": [
-      "untreated arm",
-      "POT (pretreatment)"
+      "untreated arm (UT)",
+      "E2-supplemented media"
     ],
     "case_arms": [
       "TAM",
-      "\u2212E2 (estrogen deprivation)"
+      "\u2212E2"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -109,72 +109,39 @@
       "carbon copies (replicates)"
     ],
     "multiplex_channel_hints": [
-      "super-SILAC MS",
-      "heavy-isotope labeled histones"
+      "super-SILAC mix",
+      "heavy-isotope labeled histones",
+      "light channel: L",
+      "heavy channel: H"
     ],
     "contrast_hints": [
       {
-        "control_label": "POT (pretreatment)",
-        "case_label": "dormancy",
+        "control_label": "untreated",
+        "case_label": "TAM",
         "contrast_type": "pairwise",
         "evidence": [
-          "quantify changes in histone modifications during adaptation",
-          "ET triggered the accumulation of H3K9me2, H3K27me3, and H4K20me3 heterochromatin marks... during dormancy entrance"
+          "Comparing pretreatment and progression samples"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "\u2212E2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Comparing pretreatment and progression samples"
         ]
       },
       {
         "control_label": "dormancy",
         "case_label": "awakening",
-        "contrast_type": "pairwise",
+        "contrast_type": "timecourse",
         "evidence": [
-          "The heterochromatin state is partially reversed at awakening (early progression)"
+          "Dormant versus the awakening samples was estimated with DESeq2"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "breast cancer cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "MCF7",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "T47D",
-        "family": "breast cancer",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -186,18 +153,41 @@
       "super-SILAC"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "histone PTMs",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "histone PTM enrichment via super-SILAC MS"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "MCF7",
+          "ontology_curie": null
+        },
+        {
+          "label": "T47D",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -207,14 +197,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions the use of super-SILAC mix as an internal standard and the PRIDE metadata confirms SILAC quantification."
+          "reason": "The experiment explicitly uses super-SILAC as an internal standard for quantification of histone PTMs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
+          "modifier_workflow_id": "histone_ptm_specialized",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets histone PTMs using specialized chemistry: propionic anhydride acylation and phenyl isocyanate (PIC) N-terminal derivatization."
+          "reason": "The assay is specifically for histone PTMs, involving specialized chemistry: chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC)."
         }
       ],
       "trigger_keywords": [
@@ -222,7 +212,6 @@
         "histone PTMs",
         "propionic anhydride",
         "phenyl isocyanate",
-        "PIC",
         "EpiProfile 2.0"
       ],
       "raw_or_file_name_triggers": []
@@ -232,14 +221,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The text explicitly mentions the use of super-SILAC mix as an internal standard and the PRIDE metadata confirms SILAC quantification."
+          "reason": "The experiment explicitly uses super-SILAC as an internal standard for quantification of histone PTMs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_ptm_analysis",
+          "modifier_workflow_id": "histone_ptm_specialized",
           "confidence": 1.0,
-          "reason": "The experiment specifically targets histone PTMs using specialized chemistry: propionic anhydride acylation and phenyl isocyanate (PIC) N-terminal derivatization."
+          "reason": "The assay is specifically for histone PTMs, involving specialized chemistry: chemical acylation with propionic anhydride and N-terminal derivatization with phenyl isocyanate (PIC)."
         }
       ],
       "trigger_keywords": [
@@ -247,7 +236,6 @@
         "histone PTMs",
         "propionic anhydride",
         "phenyl isocyanate",
-        "PIC",
         "EpiProfile 2.0"
       ],
       "raw_or_file_name_triggers": []
@@ -276,7 +264,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:15Z"
   }
 }

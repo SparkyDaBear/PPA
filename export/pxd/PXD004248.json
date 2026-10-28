@@ -8,22 +8,25 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "overexpression or transgene perturbation",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [],
     "cell_lines": [
       "HEK293"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "overexpression_or_transgene_perturbation",
@@ -35,6 +38,22 @@
         "confidence": "high",
         "evidence": [
           "EGFR-GFP and PTPRH-FLAG (WT or DACS) were co-transfected into HEK293 cells."
+        ]
+      },
+      {
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "medium",
+        "evidence": [
+          "PTPRH knockout was achieved using the CRISPR/Cas9 system"
         ]
       }
     ],
@@ -60,7 +79,7 @@
         ]
       },
       {
-        "relation_key": "has_timepoint",
+        "relation_key": "has_treatment_agent",
         "agent": "EGF",
         "dose_or_concentration": null,
         "duration": "5 min",
@@ -95,7 +114,7 @@
         "case_label": "PTPRH WT",
         "contrast_type": "pairwise",
         "evidence": [
-          "All of these phosphotyrosines were detected in the PTPRH DACS-transfected sample but absent in the WT PTPRH-transfected sample"
+          "The non-enriched samples showed a comparable level of EGFR peptide intensities (2.8x1010 for control, 1.4x1010 for PTPRH WT...)"
         ]
       },
       {
@@ -111,37 +130,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -151,18 +139,42 @@
       "TIC"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitated EGFR-GFP"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphopeptide enrichment via TiO2 coated magnetic beads"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -171,22 +183,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('data-dependent scans'), and quantification is based on peptide intensities (TIC/LFQ-like) without mention of labels."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('data-dependent scans'), and the use of MaxQuant for intensity comparison suggests label-free quantification (LFQ) or TIC-based relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 1.0,
-          "reason": "Explicit use of TiO2 coated magnetic beads for phosphopeptide enrichment."
+          "confidence": 0.95,
+          "reason": "Explicit mention of TiO2 coated magnetic beads for phosphopeptide enrichment."
         }
       ],
       "trigger_keywords": [
-        "TiO2",
         "phosphopeptide enrichment",
+        "TiO2",
         "data-dependent scans",
-        "DDA"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -194,22 +206,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('data-dependent scans'), and quantification is based on peptide intensities (TIC/LFQ-like) without mention of labels."
+          "confidence": 0.8,
+          "reason": "Data-dependent acquisition (DDA) is explicitly mentioned ('data-dependent scans'), and the use of MaxQuant for intensity comparison suggests label-free quantification (LFQ) or TIC-based relative quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 1.0,
-          "reason": "Explicit use of TiO2 coated magnetic beads for phosphopeptide enrichment."
+          "confidence": 0.95,
+          "reason": "Explicit mention of TiO2 coated magnetic beads for phosphopeptide enrichment."
         }
       ],
       "trigger_keywords": [
-        "TiO2",
         "phosphopeptide enrichment",
+        "TiO2",
         "data-dependent scans",
-        "DDA"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -237,7 +249,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:24Z"
   }
 }

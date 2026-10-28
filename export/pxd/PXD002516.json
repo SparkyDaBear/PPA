@@ -8,21 +8,21 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "molecular state comparison"
+      "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "subproteome",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "male",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease_status",
@@ -33,26 +33,8 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "characterize aggregated proteins in human brain tissues affected by dementia",
+          "proteomic profiling of human brain tissues affected by dementia",
           "Post-mortem brain tissue samples of a 69-year-old male diagnosed with subarachnoid hemorrhage and dementia issues"
-        ]
-      },
-      {
-        "ontology_label": "molecular state comparison",
-        "ontology_curie": "PPA:0000021",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "protein_complex_assembly_state",
-        "matched_class_path": [
-          "molecular_state",
-          "protein_complex_assembly_state"
-        ],
-        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
-        "confidence": "high",
-        "evidence": [
-          "Proteomics profiling of both soluble and aggregated amyloidal plaque",
-          "identify dementia-associated changes in amyloid protein composition, relative abundance, and extent of deamidation",
-          "identified a total of 5225 \u00b1 248 brain tissue proteins, of which 4339 \u00b1 104 individual proteins remained... 1697 proteins were present in both the soluble and aggregated fractions, 159 individual brain proteins were specific to the aggregated (pellet) fraction only"
         ]
       }
     ],
@@ -67,12 +49,13 @@
       "soluble fraction"
     ],
     "case_arms": [
-      "aggregated fraction",
-      "pellet"
+      "aggregated fraction"
     ],
     "paired_design": true,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "5225 \u00b1 248 brain tissue proteins"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
@@ -80,42 +63,13 @@
         "case_label": "aggregated fraction",
         "contrast_type": "pairwise",
         "evidence": [
-          "Proteomics profiling of both soluble and aggregated amyloidal plaque demonstrated significant enrichment and deamidation of S100A9, ferritin, hemoglobin subunits, creatine kinase and collagen protein among the aggregated brain proteins."
+          "Proteomics profiling of both soluble and aggregated amyloidal plaque demonstrated significant enrichment and deamidation",
+          "differential abundance in the soluble and aggregated fractions"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "brain",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "subproteome",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -127,19 +81,38 @@
       "emPAI",
       "ion intensities of the extracted ion chromatogram"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "amyloid protein enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "soluble and aggregated amyloidal plaque fractions"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "brain tissue",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "male"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -149,22 +122,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study uses a Q-Exactive instrument with a full MS scan followed by the 10 most intense ions selected for HCD fragmentation (DDA) and explicitly mentions label-free quantitation (LFQ) using both emPAI and MaxQuant ion intensities."
+          "reason": "The study explicitly uses label-free quantitation (LFQ) based on ion intensities (MaxQuant) and spectral counting (emPAI in Mascot) with a Q-Exactive instrument performing full MS scans and HCD fragmentation of the 10 most intense ions."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "deamidation_site_analysis",
-          "confidence": 0.9,
-          "reason": "The core objective of the study is the identification and quantification of deamidated residues (N and Q) specifically comparing soluble vs aggregated fractions."
+          "confidence": 1.0,
+          "reason": "The primary objective of the study is the identification and quantification of deamidated residues (N and Q) and their association with protein aggregation."
         }
       ],
       "trigger_keywords": [
         "label-free quantitation",
         "LFQ",
         "deamidation",
-        "DDA",
-        "HCD fragmentation"
+        "emPAI",
+        "ERLIC"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -173,22 +146,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study uses a Q-Exactive instrument with a full MS scan followed by the 10 most intense ions selected for HCD fragmentation (DDA) and explicitly mentions label-free quantitation (LFQ) using both emPAI and MaxQuant ion intensities."
+          "reason": "The study explicitly uses label-free quantitation (LFQ) based on ion intensities (MaxQuant) and spectral counting (emPAI in Mascot) with a Q-Exactive instrument performing full MS scans and HCD fragmentation of the 10 most intense ions."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "deamidation_site_analysis",
-          "confidence": 0.9,
-          "reason": "The core objective of the study is the identification and quantification of deamidated residues (N and Q) specifically comparing soluble vs aggregated fractions."
+          "confidence": 1.0,
+          "reason": "The primary objective of the study is the identification and quantification of deamidated residues (N and Q) and their association with protein aggregation."
         }
       ],
       "trigger_keywords": [
         "label-free quantitation",
         "LFQ",
         "deamidation",
-        "DDA",
-        "HCD fragmentation"
+        "emPAI",
+        "ERLIC"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -216,7 +189,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:50:23Z"
   }
 }

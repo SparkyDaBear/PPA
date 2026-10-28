@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "SILAC",
+    "quantification_method": "XIC",
     "labeling_strategy": [
       "SILAC"
     ],
@@ -11,13 +11,14 @@
       "cell cycle state comparison",
       "chemical or drug treatment"
     ],
-    "cell_types": [],
-    "cell_lines": [
-      "permanent cell line cell"
+    "cell_types": [
+      "fibroblasts"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "cell_lines": [],
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -25,19 +26,18 @@
       {
         "ontology_label": "cell cycle state comparison",
         "ontology_curie": "PPA:0000106",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
+        "category": "unclassified",
+        "matched_parent_class_key": "cell_state_or_interaction_comparison",
         "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
-          "cell_state_interaction",
+          "cell_state_or_interaction_comparison",
           "cell_cycle_state_comparison"
         ],
         "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
         "confidence": "high",
         "evidence": [
           "track histone modifications and histone variants during DNA replication and across the cell cycle",
-          "compare histone methylation levels in proliferating and G0-arrested cells",
-          "we blocked cells by nocodazole... to determine whether PTM establishment on new histones requires passage through mitosis"
+          "compare histone methylation levels in proliferating and G0-arrested cells"
         ]
       },
       {
@@ -74,7 +74,7 @@
         "agent": "nocodazole",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "blocked cells... to determine whether PTM establishment on new histones requires passage through mitosis",
+        "route_or_context": "blocked cells to determine whether PTM establishment on new histones requires passage through mitosis",
         "evidence": [
           "we blocked cells by nocodazole"
         ]
@@ -108,7 +108,7 @@
     "case_arms": [
       "G0-arrested cells",
       "newly synthesized histones",
-      "nocodazole-blocked cells",
+      "nocodazole-treated cells",
       "cycloheximide-treated cells"
     ],
     "paired_design": false,
@@ -121,8 +121,8 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "proliferating",
-        "case_label": "G0-arrested",
+        "control_label": "proliferating cells",
+        "case_label": "G0-arrested cells",
         "contrast_type": "pairwise",
         "evidence": [
           "compare histone methylation levels in proliferating and G0-arrested cells"
@@ -130,47 +130,16 @@
       },
       {
         "control_label": "parental histones",
-        "case_label": "new histones",
+        "case_label": "newly synthesized histones",
         "contrast_type": "timecourse",
         "evidence": [
-          "Using the PTM level of the parental histones as an indicator of the prereplication state",
-          "within one cell cycle, the level of all PTMs was fully restored (Fig. 3A, 24 h)"
+          "track histone modifications and histone variants during DNA replication and across the cell cycle",
+          "new histones acquire modifications to become identical to the old ones"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "permanent cell line cell",
-        "family": null,
-        "ontology_curie": "CL:0000002"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -179,22 +148,46 @@
       "SILAC"
     ],
     "quantification_strategy": [
-      "SILAC",
-      "Extracted Ion Chromatograms (XICs)"
+      "XIC",
+      "SILAC"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "low"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "nascent chromatin capture (NCC)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "fibroblasts",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "chromatin",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -204,22 +197,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses triple-SILAC labeling to differentiate newly synthesized (heavy) and old recycled (light) histones, acquired via data-dependent acquisition (DDA) on an LTQ Orbitrap XL."
+          "reason": "The study explicitly uses triple-SILAC (stable isotope labeling with amino acids in cell culture) and data-dependent acquisition (DDA) mode on an LTQ Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_modification_analysis",
-          "confidence": 0.9,
-          "reason": "The experiment is specifically designed to track histone PTMs (methylation, acetylation) and uses propionylation to prevent tryptic cleavage at lysines, a standard histone-specific modification workflow."
+          "modifier_workflow_id": "histone_propionylation",
+          "confidence": 1.0,
+          "reason": "The methods section explicitly states histones were chemically modified by propionylation to prevent tryptic cleavage."
         }
       ],
       "trigger_keywords": [
         "triple-SILAC",
         "propionylation",
-        "histone modifications",
-        "nascent chromatin capture",
-        "data-dependent mode"
+        "data-dependent mode",
+        "histone PTMs"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -228,22 +220,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "The study explicitly uses triple-SILAC labeling to differentiate newly synthesized (heavy) and old recycled (light) histones, acquired via data-dependent acquisition (DDA) on an LTQ Orbitrap XL."
+          "reason": "The study explicitly uses triple-SILAC (stable isotope labeling with amino acids in cell culture) and data-dependent acquisition (DDA) mode on an LTQ Orbitrap XL."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "histone_modification_analysis",
-          "confidence": 0.9,
-          "reason": "The experiment is specifically designed to track histone PTMs (methylation, acetylation) and uses propionylation to prevent tryptic cleavage at lysines, a standard histone-specific modification workflow."
+          "modifier_workflow_id": "histone_propionylation",
+          "confidence": 1.0,
+          "reason": "The methods section explicitly states histones were chemically modified by propionylation to prevent tryptic cleavage."
         }
       ],
       "trigger_keywords": [
         "triple-SILAC",
         "propionylation",
-        "histone modifications",
-        "nascent chromatin capture",
-        "data-dependent mode"
+        "data-dependent mode",
+        "histone PTMs"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -271,7 +262,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:43:35Z"
   }
 }

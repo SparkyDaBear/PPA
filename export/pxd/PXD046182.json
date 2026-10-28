@@ -3,22 +3,19 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": null,
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "case-control disease status"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "CD4.221",
-      "Jurkat",
-      "C1866"
+    "cell_lines": [],
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
@@ -38,22 +35,11 @@
         "evidence": [
           "detect and validate lncRNA-derived peptides in human cervical tumour resections",
           "two sets of lung cancer and healthy control tissues",
-          "ten primary cervical tumour resections"
+          "10 cervical cancer tissue tumour resections were analysed"
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "cervical tumour",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "primary human tumour tissue",
-        "evidence": [
-          "detect and validate lncRNA-derived peptides in human cervical tumour resections"
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -61,22 +47,32 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "healthy control tissues"
+      "healthy control tissues",
+      "healthy tissue"
     ],
     "case_arms": [
       "human cervical tumour resections",
-      "lung cancer"
+      "lung cancer",
+      "melanoma cell lines"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
       "3 PBMC replicates"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "healthy tissue",
+        "case_label": "cervical tumour",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "shortlisted those peptides that were originating from ENSG genes that were not observed in any healthy tissue"
+        ]
+      },
+      {
         "control_label": "healthy control",
-        "case_label": "cancer tumour",
+        "case_label": "lung cancer",
         "contrast_type": "pairwise",
         "evidence": [
           "two sets of lung cancer and healthy control tissues"
@@ -87,71 +83,46 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "CD4.221",
-        "family": "721.221",
-        "ontology_curie": null
-      },
-      {
-        "label": "Jurkat",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "C1866",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "cervical tumour resections",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
-    "quantification_strategy": [],
+    "quantification_strategy": [
+      "Label-free"
+    ],
     "proteomics_mode": "Immunopeptidomics",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "immunopeptidome enrichment",
-        "ontology_curie": "PPA:0000298",
-        "workflow_modifier_hint": "mod_immunopeptidomics",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of HLA-peptide complexes using pan-HLA-I antibody (W6/32)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "cervical tumour resections",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -160,29 +131,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF-X. While the primary goal is identification of non-canonical peptides, the base acquisition is standard DDA."
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF-X. While primarily a discovery/de novo study, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "de_novo_sequencing",
-          "confidence": 10,
-          "reason": "The entire study focuses on a de novo sequencing approach (Peaks DeNovo) and a machine learning model (MARS) to refine de novo candidates without a protein database."
-        },
-        {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 10,
-          "reason": "The experiment specifically targets MHC-I associated peptides using pan-HLA-I antibody (W6/32) immunoprecipitation."
+          "confidence": 100,
+          "reason": "The experiment is explicitly described as immunopeptidomics, involving HLA-peptide purification using pan-HLA-I antibodies (W6/32) and non-tryptic, non-canonical peptide analysis."
         }
       ],
       "trigger_keywords": [
-        "de novo",
         "immunopeptidomics",
-        "MHC-I-associated peptides",
+        "MHC-associated peptides",
+        "de novo sequencing",
         "non-canonical",
-        "MARS",
-        "Peaks DeNovo"
+        "HLA-peptide purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -190,29 +155,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF-X. While the primary goal is identification of non-canonical peptides, the base acquisition is standard DDA."
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive HF-X. While primarily a discovery/de novo study, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "de_novo_sequencing",
-          "confidence": 10,
-          "reason": "The entire study focuses on a de novo sequencing approach (Peaks DeNovo) and a machine learning model (MARS) to refine de novo candidates without a protein database."
-        },
-        {
           "modifier_workflow_id": "immunopeptidomics",
-          "confidence": 10,
-          "reason": "The experiment specifically targets MHC-I associated peptides using pan-HLA-I antibody (W6/32) immunoprecipitation."
+          "confidence": 100,
+          "reason": "The experiment is explicitly described as immunopeptidomics, involving HLA-peptide purification using pan-HLA-I antibodies (W6/32) and non-tryptic, non-canonical peptide analysis."
         }
       ],
       "trigger_keywords": [
-        "de novo",
         "immunopeptidomics",
-        "MHC-I-associated peptides",
+        "MHC-associated peptides",
+        "de novo sequencing",
         "non-canonical",
-        "MARS",
-        "Peaks DeNovo"
+        "HLA-peptide purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,7 +199,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:44:58Z"
   }
 }

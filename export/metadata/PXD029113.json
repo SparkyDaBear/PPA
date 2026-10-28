@@ -1,19 +1,20 @@
 {
   "pxd": "PXD029113",
-  "timestamp": "2026-08-02T18:44:04.453146",
+  "timestamp": "2026-09-22T21:52:50.835049",
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "SILAC",
+    "quantification_method": "relative protein quantitation",
     "labeling_strategy": [
       "SILAC"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "HeLa P4"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "mutation or variant perturbation",
       "chemical or drug treatment"
@@ -58,7 +59,7 @@
           "SILAC"
         ],
         "quantification_strategy": [
-          "SILAC"
+          "relative protein quantitation"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [
@@ -67,6 +68,12 @@
             "ontology_curie": null,
             "workflow_modifier_hint": "mod_proximity_labeling",
             "confidence": "high"
+          },
+          {
+            "ontology_label": "AP-MS",
+            "ontology_curie": null,
+            "workflow_modifier_hint": "mod_ap_ms",
+            "confidence": "medium"
           }
         ],
         "stage4_workflow_hints": {
@@ -95,59 +102,32 @@
           ],
           "enrichment": [
             "Biotinylated proteins were captured with Neutravidin beads",
-            "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC) to identify proteins that interact with or are in close proximity to P56S-VAPB",
+            "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC)",
             "biotinylation of proteins in close proximity to ascorbate peroxidase 2 (APEX2)"
           ],
           "workflow_hints": [
             "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC)",
-            "biotinylation of proteins in close proximity to ascorbate peroxidase 2 (APEX2)"
+            "Biotinylated proteins were captured using neutravidin beads"
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment uses RAPIDS, which is a proximity labeling approach combining APEX2-mediated biotinylation and SILAC quantification. While the instrument is a Q Exactive (typically DDA for this workflow), DDA is inferred from the standard MaxQuant/SILAC pipeline described. The 'mod_ap_ms' hint is included as the study focuses on the interaction network/complexes of VAPB."
+        "notes": "The experiment uses RAPIDS, which is a proximity labeling approach (APEX2) combined with SILAC for quantification. While the PRIDE metadata mentions 'Gel-based experiment' (SDS-PAGE was used for separation before digestion), the core routing is driven by the SILAC labeling and the proximity-based enrichment of biotinylated proteins."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "HeLa P4",
-            "family": "HeLa",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": false
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Proteins were identified against the human reference proteome (v2020.02).",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa P4 cells were obtained from the NIH AIDS Reagent Program."
-          ],
-          "noncellular_sources": [],
           "scope": [
             "Biotinylated proteins were captured with Neutravidin beads",
             "we decided to subject the bound fraction, (i.e., proteins recovered from the neutravidin beads) to quantitative mass spectrometry."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis used RAPIDS, which involves APEX2-mediated biotinylation of proximity proteins followed by affinity capture using Neutravidin beads. The material analyzed by MS was the bound fraction (affinity-purified complex) rather than the whole cell lysate."
+        "notes": "The mass spectrometry analysis was performed on proteins affinity-captured using Neutravidin beads following APEX2-mediated biotinylation (RAPIDS method), which isolates a proximity-based protein complex."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -180,7 +160,8 @@
             "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
             "confidence": "high",
             "evidence": [
-              "SILAC then allows for a quantitative comparison of biotinylated proteins (i.e., proteins in close proximity to the protein of interest) in the absence or presence of rapamycin."
+              "incubated with or without 200 nM rapamycin (Sigma Aldrich, St. Louis, MO, USA).",
+              "quantitative comparison of biotinylated proteins (i.e., proteins in close proximity to the protein of interest) in the absence or presence of rapamycin."
             ]
           }
         ],
@@ -192,7 +173,6 @@
             "duration": null,
             "route_or_context": "transfection",
             "evidence": [
-              "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation",
               "Cells were co-transfected with HA-tagged FRB-P56S-VAPB"
             ]
           },
@@ -200,8 +180,8 @@
             "relation_key": "has_treatment_agent",
             "agent": "rapamycin",
             "dose_or_concentration": "200 nM",
-            "duration": null,
-            "route_or_context": "drug-induced dimerization",
+            "duration": "30 min",
+            "route_or_context": "addition to cells",
             "evidence": [
               "incubated for 30 min, with or without 200 nM rapamycin (Sigma Aldrich, St. Louis, MO, USA)."
             ]
@@ -213,12 +193,11 @@
           ],
           "control_arms": [
             "wild-type HA-FRB-VAPB",
-            "absence of rapamycin",
-            "FKBP12-NES-GFP-APEX2 only"
+            "without rapamycin"
           ],
           "case_arms": [
             "HA-FRB-P56S-VAPB",
-            "presence of rapamycin"
+            "with rapamycin"
           ],
           "paired_design": false,
           "factorial_design": true,
@@ -226,12 +205,11 @@
             "label-swap experiment"
           ],
           "multiplex_channel_hints": [
-            "SILAC",
+            "SILAC (stable isotope labeling with amino acids in cell culture)",
             "heavy or light isotopes of arginine and lysine"
           ],
           "evidence": [
-            "SILAC then allows for a quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin.",
-            "Cells were co-transfected with HA-tagged FRB-P56S-VAPB (and for comparison also with wild-type HA-FRB-VAPB)",
+            "SILAC (stable isotope labeling with amino acids in cell culture) then allows for a quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin.",
             "To increase the specificity, a label-swap experiment was also performed."
           ]
         },
@@ -255,24 +233,23 @@
         ],
         "evidence": {
           "biological_variables": [
-            "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation",
-            "quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin"
+            "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation, is involved in a familial form of amyotrophic lateral sclerosis (ALS8).",
+            "quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin."
           ],
           "treatment_attributes": [
-            "P56S-VAPB",
-            "200 nM rapamycin"
+            "Cells were co-transfected with HA-tagged FRB-P56S-VAPB",
+            "incubated for 30 min, with or without 200 nM rapamycin (Sigma Aldrich, St. Louis, MO, USA)."
           ],
           "design": [
-            "SILAC",
-            "label-swap experiment",
-            "co-transfected with HA-tagged FRB-P56S-VAPB (and for comparison also with wild-type HA-FRB-VAPB)"
+            "SILAC (stable isotope labeling with amino acids in cell culture) then allows for a quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin.",
+            "To increase the specificity, a label-swap experiment was also performed."
           ],
           "contrasts": [
-            "absence or presence of rapamycin",
-            "P56S-VAPB (and for comparison also with wild-type HA-FRB-VAPB)"
+            "Cells were co-transfected with HA-tagged FRB-P56S-VAPB (and for comparison also with wild-type HA-FRB-VAPB)",
+            "quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin."
           ]
         },
-        "notes": "The study uses a factorial-like design combining genetic variants (WT vs P56S mutant) and chemical induction (rapamycin +/-) to identify proximity partners using the RAPIDS method. Rapamycin is used as a tool for dimerization rather than a therapeutic drug, but it defines the primary MS comparison axis."
+        "notes": "The study uses a factorial-like design combining genetic variants (WT vs P56S mutant VAPB) and chemical induction (rapamycin) to drive the RAPIDS proximity labeling proteomics experiment. SILAC was used for quantification."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -281,22 +258,15 @@
             {
               "base_workflow_id": "base_dda_silac",
               "confidence": 1.0,
-              "reason": "The experiment explicitly uses SILAC (stable isotope labeling with amino acids in cell culture) with heavy/light isotopes of arginine and lysine, analyzed via nanoLC-MS/MS on a Q Exactive (DDA)."
+              "reason": "The experiment explicitly uses SILAC (stable isotope labeling with amino acids in cell culture) for quantitative comparison of biotinylated proteins, analyzed via nanoLC-MS/MS on a Q Exactive (DDA)."
             }
           ],
-          "modifier_candidates_ranked": [
-            {
-              "modifier_workflow_id": "proximity_labeling",
-              "confidence": 1.0,
-              "reason": "The study uses RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC), which is a proximity labeling approach using APEX2 and biotin-phenol."
-            }
-          ],
+          "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "SILAC",
             "RAPIDS",
-            "APEX2",
-            "biotin-phenol",
-            "Neutravidin beads"
+            "biotinylation",
+            "heavy or light isotopes of arginine and lysine"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -306,38 +276,30 @@
           "analyte_level": "protein"
         },
         "search_parameter_hints": {
-          "variable_modification_hints": [
-            {
-              "name": "Oxidation",
-              "residue_or_site": "M",
-              "mass_shift_da": null,
-              "required_for_modifier": null
-            }
-          ],
+          "variable_modification_hints": [],
           "special_reagent_hints": [
-            "2-iodoacetamide (alkylation)",
-            "biotin-phenol"
+            "biotin-phenol",
+            "Neutravidin beads"
           ]
         },
         "evidence": {
           "workflow": [
             "For SILAC, cells were cultured in a medium containing heavy or light isotopes of arginine and lysine",
-            "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC)",
             "analysed by nanoLC-MS/MS on a hybrid quadrupole/orbitrap mass spectrometer (Q Exactive)",
-            "Biotinylated proteins were captured with Neutravidin beads"
+            "Raw data were processed using MaxQuant Software version 1.6.3.4"
           ],
           "differential": [
             "two-sided Significance B test was performed using normalized log2 ratios",
             "Benjamini-Hochberg correction was applied with a threshold value of 0.05",
-            "quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin"
+            "quantitative comparison of biotinylated proteins (i.e., proteins in close proximity to the protein of interest) in the absence or presence of rapamycin"
           ],
           "search_parameters": [
             "reduction of proteins with dithiothreitol (DTT), alkylation with 2-iodoacetamide and digestion with trypsin",
-            "The Arginine R10 and Lysine K8 labels... were specified for relative protein quantitation"
+            "biotinylated proteins were captured with Neutravidin beads"
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment is a proximity labeling assay (APEX2) combined with SILAC for quantification. The differential analysis compares rapamycin-induced proximity (case) vs. non-induced (control)."
+        "notes": "The experiment uses the RAPIDS method, which is a proximity labeling approach combining rapamycin-induced dimerization and APEX2-mediated biotinylation, quantified via SILAC."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -345,11 +307,12 @@
           "SILAC"
         ],
         "quantification_strategy": [
-          "SILAC"
+          "relative protein quantitation"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [
-          "proximity labeling"
+          "proximity labeling",
+          "AP-MS"
         ],
         "evidence": {
           "acquisition": [
@@ -364,54 +327,45 @@
           ],
           "specialized": [
             "Biotinylated proteins were captured with Neutravidin beads",
-            "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC) to identify proteins that interact with or are in close proximity to P56S-VAPB",
+            "RAPIDS (rapamycin- and APEX-dependent identification of proteins by SILAC)",
             "biotinylation of proteins in close proximity to ascorbate peroxidase 2 (APEX2)"
           ]
         },
-        "notes": "The experiment uses RAPIDS, which is a proximity labeling approach combining APEX2-mediated biotinylation and SILAC quantification. While the instrument is a Q Exactive (typically DDA for this workflow), DDA is inferred from the standard MaxQuant/SILAC pipeline described. The 'mod_ap_ms' hint is included as the study focuses on the interaction network/complexes of VAPB."
+        "notes": "The experiment uses RAPIDS, which is a proximity labeling approach (APEX2) combined with SILAC for quantification. While the PRIDE metadata mentions 'Gel-based experiment' (SDS-PAGE was used for separation before digestion), the core routing is driven by the SILAC labeling and the proximity-based enrichment of biotinylated proteins."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "HeLa P4"
-        ],
-        "cell_line_families": [
-          "HeLa"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Proteins were identified against the human reference proteome (v2020.02).",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa P4 cells were obtained from the NIH AIDS Reagent Program."
-          ],
-          "noncellular_sources": [],
           "scope": [
             "Biotinylated proteins were captured with Neutravidin beads",
             "we decided to subject the bound fraction, (i.e., proteins recovered from the neutravidin beads) to quantitative mass spectrometry."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis used RAPIDS, which involves APEX2-mediated biotinylation of proximity proteins followed by affinity capture using Neutravidin beads. The material analyzed by MS was the bound fraction (affinity-purified complex) rather than the whole cell lysate."
+        "notes": "The mass spectrometry analysis was performed on proteins affinity-captured using Neutravidin beads following APEX2-mediated biotinylation (RAPIDS method), which isolates a proximity-based protein complex."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "mutation or variant perturbation",
           "example_entity_ids": null,
-          "reasoning": "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation; quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin",
+          "reasoning": "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation, is involved in a familial form of amyotrophic lateral sclerosis (ALS8).; quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin.",
           "confidence_score": 0.95
         },
         {
           "treatment_category": "chemical or drug treatment",
           "example_entity_ids": null,
-          "reasoning": "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation; quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin",
+          "reasoning": "A mutant version of VAPB, P56S-VAPB, which results from a single point mutation, is involved in a familial form of amyotrophic lateral sclerosis (ALS8).; quantitative comparison of biotinylated proteins... in the absence or presence of rapamycin.",
           "confidence_score": 0.95
         }
       ]
@@ -425,7 +379,7 @@
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
     "acquisition_method": "DDA",
-    "quantification_method": "SILAC",
+    "quantification_method": "relative protein quantitation",
     "fixed_mods": [
       "Carbamidomethyl (C)"
     ],

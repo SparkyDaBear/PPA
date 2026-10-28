@@ -13,11 +13,12 @@
     "cell_types": [],
     "cell_lines": [
       "HEK 293",
-      "NCI-H1299"
+      "E. coli MG1655"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,8 +37,8 @@
         "confidence": "high",
         "evidence": [
           "transfected with 5 \u03bcg of plasmid DNA",
-          "cells expressing tRNAV2.1",
-          "co-expressing tRNAV2.1 or tRNAV2.2"
+          "expressing tRNAV2.1",
+          "cells expressing either tRNAV2.1, tRNAV2.2, or the anticodon-engineered human sup-tRNATyr"
         ]
       }
     ],
@@ -60,7 +61,27 @@
         "duration": null,
         "route_or_context": "plasmid transfection in HEK 293 cells",
         "evidence": [
-          "co-expressing tRNAV2.1 or tRNAV2.2"
+          "cells expressing either tRNAV2.1, tRNAV2.2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "sup-tRNATyr",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "plasmid transfection in HEK 293 cells",
+        "evidence": [
+          "cells expressing... the anticodon-engineered human sup-tRNATyr"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-transfection",
+        "evidence": [
+          "Approximately 48 h after transfection"
         ]
       }
     ],
@@ -70,15 +91,16 @@
   },
   "experimental_design": {
     "timepoints": [
-      "48 h after transfection"
+      "48 h"
     ],
     "control_arms": [
-      "WT M. alvus tRNAPyl",
-      "empty vector"
+      "empty vector",
+      "WT tRNAPyl"
     ],
     "case_arms": [
       "tRNAV2.1",
-      "tRNAV2.2"
+      "tRNAV2.2",
+      "sup-tRNATyr"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -87,6 +109,14 @@
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
+      {
+        "control_label": "empty vector",
+        "case_label": "tRNAV2.1",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared the level of stop codon readthrough to cells transfected with an empty vector"
+        ]
+      },
       {
         "control_label": "WT tRNAPyl",
         "case_label": "tRNAV2.1",
@@ -100,47 +130,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Escherichia coli",
-        "taxonomy_hint": null,
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK 293",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "NCI-H1299",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -150,18 +139,51 @@
       "label-free quantitative analysis"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "protein purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "purified sfGFP from E. coli"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "purified GFP from HEK 293 via GFP-Trap"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "Escherichia coli",
+          "taxonomy_hint": "UP000002032",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK 293",
+          "ontology_curie": "PPA:0000140"
+        },
+        {
+          "label": "E. coli MG1655",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -171,7 +193,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses TopN data-dependent acquisition (DDA) and performs label-free quantitative analysis via extracted ion chromatograms (XIC) for specific peptides."
+          "reason": "The experiment used TopN data-dependent acquisition (DDA) and performed label-free quantitative analysis using extracted ion chromatograms (XIC) for stoichiometry estimates."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -187,7 +209,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment uses TopN data-dependent acquisition (DDA) and performs label-free quantitative analysis via extracted ion chromatograms (XIC) for specific peptides."
+          "reason": "The experiment used TopN data-dependent acquisition (DDA) and performed label-free quantitative analysis using extracted ion chromatograms (XIC) for stoichiometry estimates."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -222,7 +244,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:42:33Z"
   }
 }

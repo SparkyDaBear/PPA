@@ -1,17 +1,20 @@
 {
   "pxd": "PXD047282",
-  "timestamp": "2026-07-28T02:21:24.999422",
+  "timestamp": "2026-09-22T21:51:26.882698",
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "label-free quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "synaptoneurosome",
-    "sample_scope_curie": "PPA:0000195",
+    "sample_scope": "whole cell lysate",
+    "sample_scope_label": "whole cell lysate",
+    "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "case-control disease status"
     ],
@@ -55,12 +58,12 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "label-free quantification"
+          "label-free"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [
           {
-            "ontology_label": "synaptic enriched fractions",
+            "ontology_label": "synaptoneurosome enrichment",
             "ontology_curie": null,
             "workflow_modifier_hint": null,
             "confidence": "high"
@@ -79,70 +82,43 @@
         "evidence": {
           "acquisition": [
             "MS data was acquired in data-independent mode using a 45 variable m/z window method.",
-            "keywords: [ \"Dia\" ]",
-            "experimentTypes: [ { \"name\": \"SWATH MS\" } ]"
+            "quantitative proteomics by Sequential Windowed Acquisition of All Theoretical Fragment Ion Mass Spectra (SWATH-MS).",
+            "keywords: [\"Dia\"]"
           ],
           "labeling": [
-            "Protein abundance values were normalized using the quantile normalization as part of the PreProcessCore package."
+            "Protein abundance values were normalized using the quantile normalization",
+            "label-free"
           ],
           "quantification": [
-            "Protein abundance matrices were then processed using R (v.4.1.3)."
+            "Protein abundance matrices were then processed using R",
+            "Differentially expressed proteins (DEPs) were defined as proteins that exhibited more than a 20% alteration in protein levels"
           ],
           "enrichment": [
             "biochemically isolated synaptic enriched fractions were prepared for proteomics",
-            "the synaptic GO tool, SynGO, was used to examine changes in levels of known synaptic proteins"
+            "synaptoneurosome (SN) preparations were enriched for multiple synaptic proteins when compared to the total brain homogenate (TH) preparations"
           ],
           "workflow_hints": [
-            "MS data was acquired in data-independent mode",
             "MS.raw files were processed using DIA-NN (v.1.8.1) using the \u2018library free\u2019 method."
           ],
           "file_name_cues": []
         },
-        "notes": "The PRIDE metadata contains a contradictory 'dataProcessingProtocol' mentioning RUNX1-ETO and HSPC cells, which appears to be a copy-paste error from another project. I have relied on the publication's Methods section and the PRIDE 'keywords' and 'experimentTypes' which align with the publication's description of DIA proteomics on human brain samples."
+        "notes": "The experiment used DIA (SWATH) for quantification of total brain homogenates and synaptic enriched fractions (synaptoneurosome). While the study focuses on tau phosphorylation (AT8), the proteomics assay itself was a global protein abundance analysis rather than a PTM-specific enrichment (like phospho-enrichment), thus no PTM modifier is applied to the workflow routing."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [],
-        "noncellular_sources": [
-          {
-            "label": "brain",
-            "source_kind": "organ"
-          }
-        ],
-        "sample_scope": "subproteome",
-        "sample_scope_label": "synaptoneurosome",
-        "sample_scope_curie": "PPA:0000195",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "sample_scope": "whole cell lysate",
+        "sample_scope_label": "whole cell lysate",
+        "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "human postmortem brain tissue"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "postmortem PSP brain samples",
-            "frontal cortex (BA9) and SN",
-            "BTO:0000142 brain"
-          ],
           "scope": [
             "Total homogenates (TH) and biochemically isolated synaptic enriched fractions were prepared for proteomics",
-            "Gene Ontology (GO) analysis of cellular compartments present confirmed that our synaptoneurosome (SN) preparations were enriched for multiple synaptic proteins when compared to the total brain homogenate (TH) preparations"
-          ]
+            "mass-spectroscopy proteomics was performed on soluble brain homogenates and synaptic enriched fractions from the SN and frontal cortex"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics experiment analyzed two distinct scopes: total brain homogenates (whole cell lysate equivalent) and synaptic enriched fractions (subproteome). Per the priority of the most specific analyzed material, 'subproteome' is selected, specifically identifying the 'synaptoneurosome' preparation."
+        "notes": "The experiment analyzed both total homogenates (whole cell lysate) and synaptic enriched fractions. While 'synaptic enriched fraction' is described, it does not map to the specific allowed subcellular_fraction terms in the provided ontology context (e.g., nuclear, mitochondrial, cytosolic). Therefore, the broader sample_scope is set to whole cell lysate to cover the total homogenate analysis."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -160,7 +136,8 @@
             "confidence": "high",
             "evidence": [
               "The proteomes were then compared between PSP and control frontal cortex and SN.",
-              "mass-spectroscopy proteomics was performed on soluble brain homogenates and synaptic enriched fractions from the SN and frontal cortex of PSP and control cases."
+              "postmortem human cases (n = 11 PSP, 13 control)",
+              "Investigation into PSP using proteomic techniques. Through the use of different human brain preps, the differences between those with Progressive supranuclear palsy and those without will be compared"
             ]
           }
         ],
@@ -180,8 +157,8 @@
           ],
           "multiplex_channel_hints": [],
           "evidence": [
-            "The proteomes were then compared between PSP and control frontal cortex and SN.",
-            "details of the postmortem human cases (n = 11 PSP, 13 control) are given in Extended Data Table 1."
+            "postmortem human cases (n = 11 PSP, 13 control)",
+            "The proteomes were then compared between PSP and control frontal cortex and SN."
           ]
         },
         "contrast_hints": [
@@ -196,18 +173,19 @@
         ],
         "evidence": {
           "biological_variables": [
-            "The proteomes were then compared between PSP and control frontal cortex and SN."
+            "The proteomes were then compared between PSP and control frontal cortex and SN.",
+            "postmortem human cases (n = 11 PSP, 13 control)"
           ],
           "treatment_attributes": [],
           "design": [
-            "mass-spectroscopy proteomics was performed on soluble brain homogenates and synaptic enriched fractions from the SN and frontal cortex of PSP and control cases.",
-            "details of the postmortem human cases (n = 11 PSP, 13 control) are given in Extended Data Table 1."
+            "postmortem human cases (n = 11 PSP, 13 control)",
+            "The proteomes were then compared between PSP and control frontal cortex and SN."
           ],
           "contrasts": [
             "The proteomes were then compared between PSP and control frontal cortex and SN."
           ]
         },
-        "notes": "The proteomics experiment is a case-control study comparing patients with Progressive Supranuclear Palsy (PSP) against healthy controls. While the study also includes a living human brain slice culture (HBSC) model with tau-treatment, the proteomics section specifically describes the analysis of postmortem human brain homogenates and synaptic enriched fractions."
+        "notes": "The proteomics experiment specifically compares brain tissue (total homogenates and synaptic enriched fractions) from patients with Progressive Supranuclear Palsy (PSP) against healthy controls. While the study also includes a living human brain slice culture (HBSC) model with tau-treatment, the proteomics section of the text and the PRIDE metadata focus on the postmortem human brain comparison."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -215,15 +193,16 @@
           "base_candidates_ranked": [
             {
               "base_workflow_id": "base_dia_lfq",
-              "confidence": 1.0,
-              "reason": "The text explicitly states MS data was acquired in 'data-independent mode' and processed using DIA-NN."
+              "confidence": 100,
+              "reason": "The text explicitly states MS data was acquired in 'data-independent mode' and processed using DIA-NN with a 'library free' method for protein abundance matrices."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "data-independent mode",
             "DIA-NN",
-            "library free"
+            "library free",
+            "SWATH-MS"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -233,25 +212,33 @@
           "analyte_level": "protein"
         },
         "search_parameter_hints": {
-          "variable_modification_hints": [],
+          "variable_modification_hints": [
+            {
+              "name": "iodoacetamide derivatized residue",
+              "residue_or_site": "C",
+              "mass_shift_da": 57.021,
+              "required_for_modifier": null
+            }
+          ],
           "special_reagent_hints": []
         },
         "evidence": {
           "workflow": [
             "MS data was acquired in data-independent mode using a 45 variable m/z window method.",
-            "MS.raw files were processed using DIA-NN (v.1.8.1) using the \u2018library free\u2019 method."
+            "MS.raw files were processed using DIA-NN (v.1.8.1) using the \u2018library free\u2019 method.",
+            "PRIDE metadata: 'experimentTypes': 'SWATH MS', 'keywords': 'Dia'"
           ],
           "differential": [
             "The proteomes were then compared between PSP and control frontal cortex and SN.",
             "DEPs were defined as proteins that exhibited more than a 20% alteration in protein levels (fold change <0.8 or >1.2) and a P value < 0.05.",
-            "Protein abundance values were normalized using the quantile normalization as part of the PreProcessCore package."
+            "Statistical comparisons were then performed using the Limma package. Comparisons were made using the \u2018eBayes\u2019 method."
           ],
           "search_parameters": [
-            "A human UniProt FASTA (downloaded on 1 September 2023) was used as the reference database for library generation."
+            "PRIDE metadata: 'identifiedPTMStrings': 'iodoacetamide derivatized residue'"
           ],
           "file_name_triggers": []
         },
-        "notes": "The PRIDE metadata contains some conflicting information (mentioning Sciex 6600 and SWATH-MS/RUNX1-ETO), but the publication text explicitly describes the use of a Thermo Exploris 480, DIA-NN, and a study on PSP, which is the primary source of truth for this dataset."
+        "notes": "The experiment utilizes both total homogenates (TH) and synaptic enriched fractions (synaptoneurosomes). While the study focuses heavily on tau pathology and site-specific colocalization via imaging, the MS component is a global protein abundance analysis (LFQ) comparing PSP cases vs controls."
       },
       "MStype_prompt": {
         "acquisition_type": "DIA",
@@ -259,67 +246,60 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "label-free quantification"
+          "label-free"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [
-          "synaptic enriched fractions"
+          "synaptoneurosome enrichment"
         ],
         "evidence": {
           "acquisition": [
             "MS data was acquired in data-independent mode using a 45 variable m/z window method.",
-            "keywords: [ \"Dia\" ]",
-            "experimentTypes: [ { \"name\": \"SWATH MS\" } ]"
+            "quantitative proteomics by Sequential Windowed Acquisition of All Theoretical Fragment Ion Mass Spectra (SWATH-MS).",
+            "keywords: [\"Dia\"]"
           ],
           "labeling": [
-            "Protein abundance values were normalized using the quantile normalization as part of the PreProcessCore package."
+            "Protein abundance values were normalized using the quantile normalization",
+            "label-free"
           ],
           "quantification": [
-            "Protein abundance matrices were then processed using R (v.4.1.3)."
+            "Protein abundance matrices were then processed using R",
+            "Differentially expressed proteins (DEPs) were defined as proteins that exhibited more than a 20% alteration in protein levels"
           ],
           "specialized": [
             "biochemically isolated synaptic enriched fractions were prepared for proteomics",
-            "the synaptic GO tool, SynGO, was used to examine changes in levels of known synaptic proteins"
+            "synaptoneurosome (SN) preparations were enriched for multiple synaptic proteins when compared to the total brain homogenate (TH) preparations"
           ]
         },
-        "notes": "The PRIDE metadata contains a contradictory 'dataProcessingProtocol' mentioning RUNX1-ETO and HSPC cells, which appears to be a copy-paste error from another project. I have relied on the publication's Methods section and the PRIDE 'keywords' and 'experimentTypes' which align with the publication's description of DIA proteomics on human brain samples."
+        "notes": "The experiment used DIA (SWATH) for quantification of total brain homogenates and synaptic enriched fractions (synaptoneurosome). While the study focuses on tau phosphorylation (AT8), the proteomics assay itself was a global protein abundance analysis rather than a PTM-specific enrichment (like phospho-enrichment), thus no PTM modifier is applied to the workflow routing."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
         "cell_lines": [],
         "cell_line_families": [],
-        "noncellular_source_terms": [
-          "brain"
-        ],
-        "sample_scope": "subproteome",
-        "sample_scope_label": "synaptoneurosome",
-        "sample_scope_curie": "PPA:0000195",
+        "noncellular_source_terms": [],
+        "sample_scope": "whole cell lysate",
+        "sample_scope_label": "whole cell lysate",
+        "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "human postmortem brain tissue"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "postmortem PSP brain samples",
-            "frontal cortex (BA9) and SN",
-            "BTO:0000142 brain"
-          ],
           "scope": [
             "Total homogenates (TH) and biochemically isolated synaptic enriched fractions were prepared for proteomics",
-            "Gene Ontology (GO) analysis of cellular compartments present confirmed that our synaptoneurosome (SN) preparations were enriched for multiple synaptic proteins when compared to the total brain homogenate (TH) preparations"
-          ]
+            "mass-spectroscopy proteomics was performed on soluble brain homogenates and synaptic enriched fractions from the SN and frontal cortex"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics experiment analyzed two distinct scopes: total brain homogenates (whole cell lysate equivalent) and synaptic enriched fractions (subproteome). Per the priority of the most specific analyzed material, 'subproteome' is selected, specifically identifying the 'synaptoneurosome' preparation."
+        "notes": "The experiment analyzed both total homogenates (whole cell lysate) and synaptic enriched fractions. While 'synaptic enriched fraction' is described, it does not map to the specific allowed subcellular_fraction terms in the provided ontology context (e.g., nuclear, mitochondrial, cytosolic). Therefore, the broader sample_scope is set to whole cell lysate to cover the total homogenate analysis."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "case-control disease status",
           "example_entity_ids": null,
-          "reasoning": "The proteomes were then compared between PSP and control frontal cortex and SN.",
+          "reasoning": "The proteomes were then compared between PSP and control frontal cortex and SN.; postmortem human cases (n = 11 PSP, 13 control)",
           "confidence_score": 0.95
         }
       ]
@@ -333,7 +313,7 @@
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
     "acquisition_method": "DIA",
-    "quantification_method": "label-free quantification",
+    "quantification_method": "LFQ",
     "fixed_mods": [
       "Carbamidomethyl (C)"
     ],

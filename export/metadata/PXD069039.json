@@ -1,6 +1,6 @@
 {
   "pxd": "PXD069039",
-  "timestamp": "2026-08-02T19:54:41.289446",
+  "timestamp": "2026-09-22T23:07:29.943759",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "label-free quantitation (LFQ)",
@@ -12,6 +12,9 @@
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "oxidative stress",
       "small-molecule inhibitor treatment"
@@ -93,56 +96,29 @@
           ],
           "enrichment": [],
           "workflow_hints": [
-            "digested peptides were subjected to LC\u2013MS analysis",
-            "trypsin-based digestion of the peptides"
+            "proteins were isolated from the plant material... using the same Lacus protein isolation buffer and isolation protocol",
+            "digested in ammonium bicarbonate buffer (30 mM, pH 8.2) containing 30 \u00b5g trypsin"
           ],
           "file_name_cues": []
         },
-        "notes": "The INPUT_TEXT contains two distinct datasets: a publication describing an Arabidopsis LFQ study and PRIDE metadata describing a human single-cell TMT/PTM study. Following the priority of the publication text provided in the main body, the extraction focuses on the Arabidopsis experiment. The PRIDE metadata appears to be for a different project (PXD069039) despite the reference link."
+        "notes": "The INPUT_TEXT contains two distinct datasets: a publication about Arabidopsis thaliana (LFQ, DDA) and PRIDE metadata for a different study (TMT, single-cell, histone PTMs). Following the priority to extract the proteomics assay described in the publication text, the Arabidopsis LFQ workflow is selected. The PRIDE metadata appears to be for a different project (PXD069039) despite being provided in the same input."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "No",
-        "organism_mentions": [
-          {
-            "label": "Arabidopsis thaliana",
-            "taxonomy_hint": "plant",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [],
-        "noncellular_sources": [
-          {
-            "label": "leaves",
-            "source_kind": "tissue"
-          }
-        ],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": false
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "proteome changes in Arabidopsis thaliana leaves upon oxidative stress",
-            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana (ecotype Columbia; Col-0)."
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "Arabidopsis thaliana leaves",
-            "complete rosettes of three-weeks-old Col-0 plants were incubated"
-          ],
           "scope": [
-            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana",
+            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana (ecotype Columbia; Col-0).",
             "500 mg of the ground plant material was mixed with 2 ml ice-cold Lacus protein isolation buffer",
-            "3 mg total protein per sample was reduced in 5 mM DTT and alkylated"
-          ]
+            "3 mg total protein per sample was reduced in 5 mM DTT and alkylated in 15 mM iodoacetamide"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The PRIDE metadata provided (PXD069039) describes a completely different experiment involving HeLa cells and human histone PTMs, which contradicts the INPUT_TEXT publication describing Arabidopsis thaliana leaf proteomics. Following the priority rules, the publication text is used as it describes the actual biological system of the study titled 'With or without a Ca2+ signal?... in Arabidopsis thaliana'. The sample scope is whole cell lysate as the protocol describes grinding whole leaf material and extracting total protein without sub-cellular fractionation or affinity purification of a specific complex."
+        "notes": "The PRIDE metadata provided appears to be for a different study (single-cell histone PTMs in HeLa cells) than the INPUT_TEXT publication (Arabidopsis leaf proteome). Following the priority rules, the extraction is based on the publication text describing the analysis of total leaf protein extracts."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -219,13 +195,12 @@
             "30 min"
           ],
           "control_arms": [
-            "Control",
-            "ddH2O"
+            "Control (ddH2O pre-incubation, ddH2O treatment)"
           ],
           "case_arms": [
-            "Stress",
-            "Inhibitor",
-            "Inhibitor + Stress"
+            "Stress (ddH2O pre-incubation, H2O2 treatment)",
+            "Inhibitor (LaCl3 pre-incubation, ddH2O treatment)",
+            "Inhibitor + Stress (LaCl3 pre-incubation, H2O2 treatment)"
           ],
           "paired_design": false,
           "factorial_design": true,
@@ -236,7 +211,7 @@
           "multiplex_channel_hints": [],
           "evidence": [
             "Throughout all four treatment samples - control, H2O2-treated, LaCl3-treated, H2O2- and LaCl3-treated",
-            "Control: pre-incubation in ddH2O, treatment with ddH2O; Stress: pre-incubation with ddH2O, treatment with H2O2; Inhibitor: pre-incubation with LaCl3, treatment with ddH2O; Inhibitor + Stress: pre-incubation with LaCl3, treatment with H2O2"
+            "harvested after 10 and 30 min of the stress treatment"
           ]
         },
         "contrast_hints": [
@@ -250,27 +225,18 @@
           },
           {
             "control_label": "Control",
-            "case_label": "Inhibitor",
-            "contrast_type": "pairwise",
-            "evidence": [
-              "comparing the individual protein intensities in each treatment group (Stress, Inhibitor, and Inhibitor + Stress) with the control samples"
-            ]
-          },
-          {
-            "control_label": "Control",
             "case_label": "Inhibitor + Stress",
             "contrast_type": "pairwise",
             "evidence": [
-              "comparing the individual protein intensities in each treatment group (Stress, Inhibitor, and Inhibitor + Stress) with the control samples"
+              "The highest number of differences occurred for the Inhibitor + Stress treatment versus control"
             ]
           },
           {
-            "control_label": "10 min",
-            "case_label": "30 min",
-            "contrast_type": "timecourse",
+            "control_label": "Stress",
+            "case_label": "Inhibitor + Stress",
+            "contrast_type": "pairwise",
             "evidence": [
-              "The timing was chosen to elucidate short-term responses to the stress stimulus",
-              "compare the relative numbers (% from total proteins) of DAPs between the two time points"
+              "H2O2-responsive proteins that showed an unchanged abundance (UCs) compared to control under Inhibitor + Stress treatment can be considered strictly Ca2+-dependent"
             ]
           }
         ],
@@ -286,15 +252,15 @@
           ],
           "design": [
             "Throughout all four treatment samples - control, H2O2-treated, LaCl3-treated, H2O2- and LaCl3-treated",
-            "Control: pre-incubation in ddH2O, treatment with ddH2O; Stress: pre-incubation with ddH2O, treatment with H2O2; Inhibitor: pre-incubation with LaCl3, treatment with ddH2O; Inhibitor + Stress: pre-incubation with LaCl3, treatment with H2O2",
-            "five independent biological replicates, each consisting of pooled proteins from 12 rosettes"
+            "harvested after 10 and 30 min of the stress treatment",
+            "a total of 5 experiments with independently grown plants were performed"
           ],
           "contrasts": [
             "comparing the individual protein intensities in each treatment group (Stress, Inhibitor, and Inhibitor + Stress) with the control samples",
-            "The timing was chosen to elucidate short-term responses to the stress stimulus"
+            "The highest number of differences occurred for the Inhibitor + Stress treatment versus control"
           ]
         },
-        "notes": "The study uses a 2x2 factorial design (H2O2 +/- and LaCl3 +/-) across two timepoints (10 and 30 min). The PRIDE metadata provided appears to be for a different study (single cell histone PTMs in HeLa cells) and was ignored in favor of the INPUT_TEXT which describes the Arabidopsis oxidative stress study."
+        "notes": "The study uses a factorial design combining a stressor (H2O2) and an inhibitor (LaCl3) to determine the Ca2+ dependency of the proteomic response. Note: The PRIDE metadata provided in the input text appears to belong to a different study (single-cell histone PTMs in HeLa cells) and was ignored in favor of the publication text."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -330,7 +296,7 @@
             },
             {
               "name": "Acetylation",
-              "residue_or_site": "N-terminal",
+              "residue_or_site": "N-term",
               "mass_shift_da": null,
               "required_for_modifier": null
             }
@@ -346,17 +312,17 @@
             "label-free quantitation (LFQ) intensities were calculated using the Maxquant software"
           ],
           "differential": [
-            "comparing the individual protein intensities in each treatment group (Stress, Inhibitor, and Inhibitor + Stress) with the control samples",
-            "Pairwise Student\u2019s t tests (p value < 0.05) were performed on the non-z-scored values to determine differences in protein abundance between two treatments",
-            "Differential abundant proteins were determined by multiple sample ANOVA test (p value < 0.05)"
+            "Quantitative differences occurring among proteome profiles due to the different treatments were detected by comparing the individual protein intensities in each treatment group (Stress, Inhibitor, and Inhibitor + Stress) with the control samples.",
+            "Pairwise Student\u2019s t tests (p value < 0.05) were performed on the non-z-scored values to determine differences in protein abundance between two treatments.",
+            "Differential abundant proteins were determined by multiple sample ANOVA test (p value < 0.05)."
           ],
           "search_parameters": [
-            "Methionine oxidation as well as N-terminal acetylation was set as a variable modification for peptide identification",
+            "Methionine oxidation as well as N-terminal acetylation was set as a variable modification for peptide identification.",
             "alkylated in 15 mM iodoacetamide"
           ],
           "file_name_triggers": []
         },
-        "notes": "The PRIDE metadata provided in the INPUT_TEXT describes a completely different experiment (single-cell TMT histone PTMs in HeLa cells) than the publication text (LFQ Arabidopsis leaf proteome). Following the priority to use experimental information describing the proteomics experiment in the publication text, the Arabidopsis LFQ data was used for this extraction."
+        "notes": "The PRIDE metadata provided in the INPUT_TEXT describes a completely different experiment (single-cell TMT histone PTMs in HeLa cells) than the publication text (LFQ proteomics in Arabidopsis). Following the priority to use experimental information describing the MS dataset in the publication text, the Arabidopsis LFQ workflow was extracted."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -380,38 +346,30 @@
           ],
           "specialized": []
         },
-        "notes": "The INPUT_TEXT contains two distinct datasets: a publication describing an Arabidopsis LFQ study and PRIDE metadata describing a human single-cell TMT/PTM study. Following the priority of the publication text provided in the main body, the extraction focuses on the Arabidopsis experiment. The PRIDE metadata appears to be for a different project (PXD069039) despite the reference link."
+        "notes": "The INPUT_TEXT contains two distinct datasets: a publication about Arabidopsis thaliana (LFQ, DDA) and PRIDE metadata for a different study (TMT, single-cell, histone PTMs). Following the priority to extract the proteomics assay described in the publication text, the Arabidopsis LFQ workflow is selected. The PRIDE metadata appears to be for a different project (PXD069039) despite being provided in the same input."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "No",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
         "cell_lines": [],
         "cell_line_families": [],
-        "noncellular_source_terms": [
-          "leaves"
-        ],
+        "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "proteome changes in Arabidopsis thaliana leaves upon oxidative stress",
-            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana (ecotype Columbia; Col-0)."
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "Arabidopsis thaliana leaves",
-            "complete rosettes of three-weeks-old Col-0 plants were incubated"
-          ],
           "scope": [
-            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana",
+            "Leaf protein extracts for the proteomics analysis were obtained from A. thaliana (ecotype Columbia; Col-0).",
             "500 mg of the ground plant material was mixed with 2 ml ice-cold Lacus protein isolation buffer",
-            "3 mg total protein per sample was reduced in 5 mM DTT and alkylated"
-          ]
+            "3 mg total protein per sample was reduced in 5 mM DTT and alkylated in 15 mM iodoacetamide"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The PRIDE metadata provided (PXD069039) describes a completely different experiment involving HeLa cells and human histone PTMs, which contradicts the INPUT_TEXT publication describing Arabidopsis thaliana leaf proteomics. Following the priority rules, the publication text is used as it describes the actual biological system of the study titled 'With or without a Ca2+ signal?... in Arabidopsis thaliana'. The sample scope is whole cell lysate as the protocol describes grinding whole leaf material and extracting total protein without sub-cellular fractionation or affinity purification of a specific complex."
+        "notes": "The PRIDE metadata provided appears to be for a different study (single-cell histone PTMs in HeLa cells) than the INPUT_TEXT publication (Arabidopsis leaf proteome). Following the priority rules, the extraction is based on the publication text describing the analysis of total leaf protein extracts."
       },
       "Treatment_prompt": [
         {

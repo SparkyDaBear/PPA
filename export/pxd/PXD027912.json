@@ -14,9 +14,10 @@
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -25,10 +26,10 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
           "This comprehensive benchmarking gives an overview of currently available techniques and guides the conceptualization of the optimal single-cell proteomics experiment."
@@ -43,66 +44,36 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "no-carrier samples"
+      "no-carrier"
     ],
     "case_arms": [
       "carrier titrations",
       "dual carrier",
       "TMTzero carrier"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
       "three technical replicates"
     ],
     "multiplex_channel_hints": [
       "TMT10",
       "TMTpro",
-      "TMTzero"
+      "TMTzero",
+      "16 channel TMTpro"
     ],
     "contrast_hints": [
       {
         "control_label": "no-carrier",
-        "case_label": "carrier spike",
+        "case_label": "carrier spikes",
         "contrast_type": "dose_response",
         "evidence": [
-          "we focus on narrowly titrated carrier spikes (i.e., <20\u00d7) and assess their elimination for a comparable sensitivity with superior accuracy."
+          "We here focus on narrowly titrated carrier spikes (i.e., <20\u00d7) and assess their elimination for a comparable sensitivity with superior accuracy."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": "HeLa",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -111,14 +82,41 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "Reporter ion quantification"
+      "Reporter ion quantification",
+      "Isobaric labeling"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -128,23 +126,29 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Extensive description of TMT10 and TMTpro labeling using DDA (SCoPE-MS, SCoPE2, and TMTzero) for single-cell proteomics."
+          "reason": "Extensive use of TMT10 and TMTpro isobaric labeling with DDA acquisition (SCoPE-MS, SCoPE2, and TMTzero experiments)."
         },
         {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.8,
-          "reason": "Explicit mention of DIA-TMT experiments using a small-window DIA method to generate proteome signatures."
+          "base_workflow_id": "base_dia_isobaric",
+          "confidence": 0.9,
+          "reason": "Explicit mention of DIA-TMT experiments using a small-window DIA strategy with TMTpro."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "single_cell_carrier",
+          "confidence": 1.0,
+          "reason": "The entire study focuses on the 'congruent carrier' approach for single-cell proteomics (SCoPE-MS/SCoPE2) and its impact on quantification."
+        }
+      ],
       "trigger_keywords": [
         "TMT10",
         "TMTpro",
         "SCoPE-MS",
         "SCoPE2",
         "DIA-TMT",
-        "isobaric labeling",
-        "carrier spike"
+        "congruent carrier",
+        "isobaric labeling"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -153,23 +157,29 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Extensive description of TMT10 and TMTpro labeling using DDA (SCoPE-MS, SCoPE2, and TMTzero) for single-cell proteomics."
+          "reason": "Extensive use of TMT10 and TMTpro isobaric labeling with DDA acquisition (SCoPE-MS, SCoPE2, and TMTzero experiments)."
         },
         {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.8,
-          "reason": "Explicit mention of DIA-TMT experiments using a small-window DIA method to generate proteome signatures."
+          "base_workflow_id": "base_dia_isobaric",
+          "confidence": 0.9,
+          "reason": "Explicit mention of DIA-TMT experiments using a small-window DIA strategy with TMTpro."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "single_cell_carrier",
+          "confidence": 1.0,
+          "reason": "The entire study focuses on the 'congruent carrier' approach for single-cell proteomics (SCoPE-MS/SCoPE2) and its impact on quantification."
+        }
+      ],
       "trigger_keywords": [
         "TMT10",
         "TMTpro",
         "SCoPE-MS",
         "SCoPE2",
         "DIA-TMT",
-        "isobaric labeling",
-        "carrier spike"
+        "congruent carrier",
+        "isobaric labeling"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -197,7 +207,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:52:43Z"
   }
 }

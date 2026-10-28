@@ -10,13 +10,12 @@
     "treatment_categories": [
       "infection exposure"
     ],
-    "cell_types": [
-      "epithelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "male",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -35,7 +34,8 @@
         "confidence": "high",
         "evidence": [
           "asymptomatic urethral infection with Chlamydia trachomatis (CT) significantly impacts the foreskin proteome composition",
-          "compared the protein profiles with foreskins from age-matched men who were negative for the tested STIs"
+          "16 aSTI+ men and 10 age-matched STI- controls",
+          "the presence of aSTI in urine samples was detected using real-time multiplex PCR (M-PCR) assays that qualitatively detect Neisseria gonorrhoeae (NG), Mycoplasma genitalium (MG), Trichomonas vaginalis (TV), CT, and herpes simplex virus types 1 and 2 (HSV 1 and 2)."
         ]
       }
     ],
@@ -49,6 +49,16 @@
         "evidence": [
           "asymptomatic urethral infection with Chlamydia trachomatis (CT) significantly impacts the foreskin proteome composition"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "asymptomatic STIs",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "urethral infection",
+        "evidence": [
+          "asymptomatic urethral sexually transmitted infections result in profound alterations in epithelial tissue"
+        ]
       }
     ],
     "source_sections": [
@@ -59,11 +69,11 @@
     "timepoints": [],
     "control_arms": [
       "STI- controls",
-      "men who were negative for the tested STIs"
+      "men without any detectable aSTI"
     ],
     "case_arms": [
       "aSTI+ men",
-      "men with an aSTI"
+      "men with aSTI"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -77,49 +87,12 @@
         "case_label": "aSTI+",
         "contrast_type": "pairwise",
         "evidence": [
-          "compared the protein profiles with foreskins from age-matched men who were negative for the tested STIs",
-          "found that 400 of 2,108 protein groups were significantly differentially expressed (DE) between the STI + and STI- groups"
+          "differential abundance was defined using a Student t-test measuring differences in the log2 fold change of protein expression between aSTI participant samples and controls"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cells",
-        "rollup_category": "epithelial tissue",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "foreskin",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -131,35 +104,62 @@
       "label-free quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "metaproteomics",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_metaproteomics",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "foreskin",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "male"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses shotgun LC-MS/MS in a data-dependent manner (DDA) with label-free quantification (LFQ) using MaxQuant."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with data-dependent acquisition (DDA) on a Q Exactive and Orbitrap Fusion mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "metaproteomics",
+          "confidence": 0.9,
+          "reason": "The authors used a 'novel bioinformatic metaproteomic pipeline' and the 'MetaNovo pipeline' to search against a concatenated human and microbial protein database."
+        }
+      ],
       "trigger_keywords": [
-        "label-free quantitative",
+        "label-free quantitative mass spectrometry",
+        "metaproteomic pipeline",
+        "MetaNovo",
         "data-dependent manner",
-        "shotgun liquid chromatography"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -168,14 +168,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses shotgun LC-MS/MS in a data-dependent manner (DDA) with label-free quantification (LFQ) using MaxQuant."
+          "reason": "The study explicitly uses label-free quantification (LFQ) with data-dependent acquisition (DDA) on a Q Exactive and Orbitrap Fusion mass spectrometer."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "metaproteomics",
+          "confidence": 0.9,
+          "reason": "The authors used a 'novel bioinformatic metaproteomic pipeline' and the 'MetaNovo pipeline' to search against a concatenated human and microbial protein database."
+        }
+      ],
       "trigger_keywords": [
-        "label-free quantitative",
+        "label-free quantitative mass spectrometry",
+        "metaproteomic pipeline",
+        "MetaNovo",
         "data-dependent manner",
-        "shotgun liquid chromatography"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -203,7 +211,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:56:29Z"
   }
 }

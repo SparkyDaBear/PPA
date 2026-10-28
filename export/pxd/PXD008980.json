@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "SILAC",
+    "quantification_method": "SILAC relative quantification",
     "labeling_strategy": [
       "SILAC"
     ],
@@ -11,14 +11,15 @@
       "viral infection"
     ],
     "cell_types": [
-      "lung fibroblast"
+      "lung fibroblasts"
     ],
     "cell_lines": [
       "IMR-90"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,7 +37,8 @@
         "matched_definition": "Infection or exposure to a virus, viral particle, viral vector, or viral replication model.",
         "confidence": "high",
         "evidence": [
-          "investigate the host cell protein changes during human adenovirus type 2 (HAdV-C2 or Ad2) infection of lung fibroblasts",
+          "Time-resolved proteomics of adenovirus infected cells",
+          "human adenovirus type 2 (HAdV-C2 or Ad2) infection of lung fibroblasts",
           "infected with Ad2 at a multiplicity of infection of 100 fluorescence-forming units/cell"
         ]
       }
@@ -89,7 +91,7 @@
     "multiplex_channel_hints": [
       "stable isotope labelling of amino acids in cell culture (SILAC)",
       "L labelled mock samples were mixed with H labelled cells infected with Ad2 in a 1:1 ratio",
-      "SILAC label-swap replicates"
+      "Mock(Light)/Ad2(Heavy)"
     ],
     "contrast_hints": [
       {
@@ -98,6 +100,7 @@
         "contrast_type": "timecourse",
         "evidence": [
           "investigate the host cell protein changes during human adenovirus type 2 (HAdV-C2 or Ad2) infection of lung fibroblasts",
+          "cells were either mock infected (only medium) or infected with Ad2",
           "cells were collected at 6, 12, 24 and 36 hpi"
         ]
       }
@@ -106,62 +109,56 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Human adenovirus type 2",
-        "taxonomy_hint": "NEWT:10515",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "lung fibroblast",
-        "rollup_category": "fibroblast",
-        "ontology_curie": "CL:0002553"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "IMR-90",
-        "family": "lung fibroblast",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "SILAC"
     ],
     "quantification_strategy": [
-      "SILAC"
+      "SILAC relative quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "Human adenovirus type 2",
+          "taxonomy_hint": "10515",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "lung fibroblasts",
+          "ontology_curie": "CL:0002553"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "IMR-90",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -171,14 +168,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (Lys8, Arg10) and nanoLC-MS/MS using a Q-Exactive Orbitrap (DDA typical for this setup)."
+          "reason": "Explicit use of SILAC (stable isotope labelling of amino acids in cell culture) with heavy Lys8 and Arg10, analyzed via nanoLC-MS/MS (DDA implied by MaxQuant/Andromeda usage)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho_site",
+          "modifier_workflow_id": "phospho_site_quant",
           "confidence": 0.8,
-          "reason": "The study explicitly analyzes phosphorylation sites (STY) and reports results from 'Phospho (STY) sites.txt' generated by MaxQuant."
+          "reason": "The study explicitly analyzes and quantifies phosphorylation sites (STY) using the 'Phospho (STY) sites.txt' file from MaxQuant."
         }
       ],
       "trigger_keywords": [
@@ -186,8 +183,8 @@
         "stable isotope labelling of amino acids in cell culture",
         "Lys8",
         "Arg10",
-        "phosphorylation (STY)",
-        "phosphopeptides"
+        "swap-labelling",
+        "phosphorylation (STY)"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -196,14 +193,14 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicit mention of SILAC labeling (Lys8, Arg10) and nanoLC-MS/MS using a Q-Exactive Orbitrap (DDA typical for this setup)."
+          "reason": "Explicit use of SILAC (stable isotope labelling of amino acids in cell culture) with heavy Lys8 and Arg10, analyzed via nanoLC-MS/MS (DDA implied by MaxQuant/Andromeda usage)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho_site",
+          "modifier_workflow_id": "phospho_site_quant",
           "confidence": 0.8,
-          "reason": "The study explicitly analyzes phosphorylation sites (STY) and reports results from 'Phospho (STY) sites.txt' generated by MaxQuant."
+          "reason": "The study explicitly analyzes and quantifies phosphorylation sites (STY) using the 'Phospho (STY) sites.txt' file from MaxQuant."
         }
       ],
       "trigger_keywords": [
@@ -211,8 +208,8 @@
         "stable isotope labelling of amino acids in cell culture",
         "Lys8",
         "Arg10",
-        "phosphorylation (STY)",
-        "phosphopeptides"
+        "swap-labelling",
+        "phosphorylation (STY)"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -240,7 +237,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:56:59Z"
   }
 }

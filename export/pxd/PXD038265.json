@@ -12,9 +12,10 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "subproteome",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -33,23 +34,11 @@
         "confidence": "high",
         "evidence": [
           "10 cases of normal renal peritumoral tissues in total nephrectomies was normal controls.",
-          "ROC analysis of the relative quantification of selected peptides revealed clinical diagnostic values that clearly demarcated patients with renal amyloidosis from controls"
+          "ROC analysis of the relative quantification of selected peptides revealed clinical diagnostic values that clearly demarcated patients with renal amyloidosis from controls (Fig. 2)."
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "renal immunoglobulin-derived amyloidosis",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "renal biopsy",
-        "evidence": [
-          "identifying early-stage renal immunoglobulin-derived amyloidosis",
-          "All patients underwent native renal biopsy and were diagnosed with renal amyloidosis"
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -57,17 +46,20 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
+      "normal controls",
       "normal renal peritumoral tissues"
     ],
     "case_arms": [
-      "renal amyloidosis",
-      "early-stage renal amyloidosis"
+      "discovery cohort",
+      "validation cohort",
+      "early-stage renal amyloidosis cohort"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "10 cases in the discovery cohort",
-      "26 cases in the validation cohort"
+      "26 cases in the validation cohort",
+      "10 cases of early-stage renal amyloidosis"
     ],
     "multiplex_channel_hints": [
       "label-free quantification"
@@ -78,12 +70,12 @@
         "case_label": "renal amyloidosis",
         "contrast_type": "pairwise",
         "evidence": [
-          "The protein abundance ratio of renal amyloidosis samples to normal controls was directly calculated."
+          "ROC analysis of the relative quantification of selected peptides revealed clinical diagnostic values that clearly demarcated patients with renal amyloidosis from controls"
         ]
       },
       {
         "control_label": "untargeted proteomics",
-        "case_label": "PRM-based targeted proteomics",
+        "case_label": "targeted proteomics",
         "contrast_type": "pairwise",
         "evidence": [
           "The diagnosis and typing effectiveness of PRM-based targeted proteomics in 10 early-stage renal amyloid cases was assessed via a comparison with untargeted proteomics."
@@ -94,36 +86,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "kidney",
-        "source_kind": "organ"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "subproteome",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "Targeted",
     "labeling_strategy": [
@@ -131,14 +93,48 @@
     ],
     "quantification_strategy": [
       "label-free quantification",
-      "relative abundance ratio to internal standard proteins"
+      "relative abundance ratio to internal standard peptides"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "renal tissue",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "amyloid deposits",
+          "source_kind": "other"
+        },
+        {
+          "label": "kidney",
+          "source_kind": "organ"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -147,22 +143,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The discovery phase explicitly used data-dependent acquisition (DDA) for untargeted proteomics with label-free quantification (LFQ) based on total sum normalization."
-        },
-        {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.4,
-          "reason": "While the validation phase used PRM (targeted), which is not DIA, the overall goal was label-free quantification of specific proteins."
+          "confidence": 1.0,
+          "reason": "The discovery cohort was analyzed using data-dependent acquisition (DDA) with label-free quantification (LFQ) based on total sum normalization."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The validation cohort used Parallel Reaction Monitoring (PRM) for targeted quantification of a preselected peptide panel."
+        }
+      ],
       "trigger_keywords": [
         "data-dependent acquisition",
-        "untargeted proteomics",
+        "DDA",
         "parallel reaction monitoring",
         "PRM",
-        "label-free quantification"
+        "label-free quantification",
+        "targeted proteomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -170,22 +168,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The discovery phase explicitly used data-dependent acquisition (DDA) for untargeted proteomics with label-free quantification (LFQ) based on total sum normalization."
-        },
-        {
-          "base_workflow_id": "base_dia_lfq",
-          "confidence": 0.4,
-          "reason": "While the validation phase used PRM (targeted), which is not DIA, the overall goal was label-free quantification of specific proteins."
+          "confidence": 1.0,
+          "reason": "The discovery cohort was analyzed using data-dependent acquisition (DDA) with label-free quantification (LFQ) based on total sum normalization."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "targeted_prm",
+          "confidence": 1.0,
+          "reason": "The validation cohort used Parallel Reaction Monitoring (PRM) for targeted quantification of a preselected peptide panel."
+        }
+      ],
       "trigger_keywords": [
         "data-dependent acquisition",
-        "untargeted proteomics",
+        "DDA",
         "parallel reaction monitoring",
         "PRM",
-        "label-free quantification"
+        "label-free quantification",
+        "targeted proteomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -213,7 +213,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:19Z"
   }
 }

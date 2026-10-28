@@ -1,6 +1,6 @@
 {
   "pxd": "PXD067606",
-  "timestamp": "2026-07-27T23:21:54.795853",
+  "timestamp": "2026-09-22T21:43:31.470084",
   "summary": {
     "acquisition_type": "DIA",
     "quantification_method": "protein area values",
@@ -8,12 +8,13 @@
       "LFQ"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "HEK293 Flp-In T-REx"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "genetic perturbation",
       "genetic perturbation"
@@ -60,26 +61,34 @@
         "quantification_strategy": [
           "protein area values"
         ],
-        "proteomics_mode": "Bottom-up",
+        "proteomics_mode": "PTM-enriched",
         "assay_targets_or_enrichments": [
+          {
+            "ontology_label": "Protein-RNA crosslinking enrichment",
+            "ontology_curie": null,
+            "workflow_modifier_hint": null,
+            "confidence": "high"
+          },
           {
             "ontology_label": "phosphoproteome enrichment",
             "ontology_curie": "PPA:0000292",
             "workflow_modifier_hint": "mod_phospho",
-            "confidence": "low"
+            "confidence": "medium"
           }
         ],
         "stage4_workflow_hints": {
           "base_workflow_candidates": [
             "base_dia_lfq"
           ],
-          "modifier_candidates": [],
+          "modifier_candidates": [
+            "mod_phospho"
+          ],
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
                 "name": "Phosphorylation",
                 "residue_or_site": "S468, S470, S472",
-                "mass_shift_da": null
+                "mass_shift_da": 79.966
               }
             ],
             "requires_ptm_site_level_output": true
@@ -91,67 +100,39 @@
             "data-independent acquisition mass spectrometry (DIA-MS)"
           ],
           "labeling": [
-            "quantitation of the DIA data, up to the 6 most abundant fragment ion traces per peptide, and up to the 10 most abundant peptides per protein were integrated and summed up to provide protein area values"
+            "Protein intensities were normalized with quartile normalization"
           ],
           "quantification": [
-            "protein area values"
+            "up to the 6 most abundant fragment ion traces per peptide, and up to the 10 most abundant peptides per protein were integrated and summed up to provide protein area values"
           ],
           "enrichment": [
-            "Crosslinked peptides were enriched using TiO2 columns"
+            "Crosslinked peptides were enriched using TiO2 columns",
+            "identification of serine 468, 470, and 472... as phosphorylated residues within GTPBP4"
           ],
           "workflow_hints": [
             "DIA analysis was performed using a 30 variable size window acquisition method",
-            "identification of serine 468, 470, and 472... as phosphorylated residues within GTPBP4"
+            "Protein-RNA crosslinking mass spectrometry (NuXL)"
           ],
           "file_name_cues": []
         },
-        "notes": "The study contains two distinct MS approaches: 1) A DIA-MS workflow for compositional analysis of pre-ribosomal particles (routed to base_dia_lfq). 2) A UV-crosslinking (NuXL) workflow using TiO2 enrichment to map RNA-protein contacts. While TiO2 is listed in the ontology for phosphoproteome enrichment, here it is used to enrich RNA-crosslinked peptides. The PTM-aware hint is based on the explicit identification of phosphorylated residues on GTPBP4."
+        "notes": "The study contains two distinct MS workflows: 1) A DIA-LFQ workflow for compositional analysis of pre-ribosomal particles (IP-MS), and 2) A DDA-based crosslinking workflow (NuXL) using TiO2 enrichment to map RNA-protein contacts. The prompt asks for routing signals; the primary compositional data uses DIA. Phosphorylation of GTPBP4 is explicitly mentioned as identified, suggesting a need for PTM-aware search parameters."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "HEK293 Flp-In T-REx",
-            "family": "HEK293",
-            "ontology_curie": "BTO:0006149"
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "human pre-60S complexes"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HEK293 Flp-In T-REx cells",
-            "Flp-In-T-REx cell"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "Pre-ribosomal particles were immunoprecipitated from nuclear extract",
-            "supernatants were incubated with 300 \u00b5l of anti-FLAG\u00ae M2 magnetic beads",
+            "supernatant was incubated with anti-FLAG\u00ae M2 magnetic beads (Sigma\u2013Aldrich) slurry",
             "His-FLAG-tagged proteins were eluted with wash buffer supplemented with 250 \u00b5g/ml of 3\u00d7 FLAG\u00ae peptide",
-            "the supernatant was incubated with anti-FLAG\u00ae M2 magnetic beads (Sigma-Aldrich) pre-equilibrated with IP buffer for 3 h at 4\u00b0C. After washing with IP buffer, protein\u2013RNA complexes were eluted with 250 \u00b5g/mL 3x FLAG\u00ae peptide"
-          ]
+            "the supernatant was incubated with anti-FLAG M2 magnetic beads (Sigma-Aldrich) pre-equilibrated with IP buffer for 3 h at 4\u00b0C. After washing with IP buffer, protein\u2013RNA complexes were eluted with 250 \u00b5g/mL 3x FLAG\u00ae peptide"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis (DIA-MS and NuXL) specifically targeted pre-ribosomal particles isolated via anti-FLAG immunoprecipitation of tagged GTPases (GTPBP4, GNL2, GNL3, GNL3L) from nuclear extracts of HEK293 cells."
+        "notes": "The proteomics analysis was performed on material affinity-purified using anti-FLAG beads to isolate pre-ribosomal complexes. While the material was derived from nuclear extracts, the final analyzed sample was the purified complex."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -168,7 +149,8 @@
             "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
             "confidence": "high",
             "evidence": [
-              "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis."
+              "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis.",
+              "wild-type HEK293 Flp-In T-REx cells and HEK293 Flp-In T-REx GNL3LKO cells"
             ]
           },
           {
@@ -184,8 +166,8 @@
             "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
             "confidence": "high",
             "evidence": [
-              "GNL3LKO cells expressing GNL3L\u2013His-FLAG, GNL3L\u2013K265A\u2013His-FLAG and GNL3L\u2013G306A\u2013His-FLAG",
-              "expression of GNL3L with impaired GTP binding or hydrolysis impacts pre-60S composition"
+              "versions of these proteins carrying substitutions of conserved lysine residues in their G1 motifs (GTP-binding mutants: GTPBP4\u2013K181A and GNL2\u2013K323A) or glycine residues in their G3 motifs (GTP hydrolysis mutants: GTPBP4\u2013G224A and GNL2\u2013G364A).",
+              "GNL3L\u2013K265A and GNL3L\u2013G306A mutants"
             ]
           }
         ],
@@ -195,7 +177,7 @@
             "agent": "GNL3L",
             "dose_or_concentration": null,
             "duration": null,
-            "route_or_context": "knockout",
+            "route_or_context": "CRISPR/Cas9 knockout",
             "evidence": [
               "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis."
             ]
@@ -207,7 +189,7 @@
             "duration": null,
             "route_or_context": "GTP hydrolysis mutant",
             "evidence": [
-              "GNL3LKO cells expressing... GNL3L\u2013G306A\u2013His-FLAG",
+              "GNL3L\u2013G306A mutants",
               "expression of GNL3L unable to hydrolyze GTP"
             ]
           },
@@ -218,7 +200,7 @@
             "duration": null,
             "route_or_context": "GTP binding mutant",
             "evidence": [
-              "GNL3LKO cells expressing... GNL3L\u2013K265A\u2013His-FLAG"
+              "GNL3L\u2013K265A and GNL3L\u2013G306A mutants"
             ]
           }
         ],
@@ -226,34 +208,62 @@
           "timepoints": [],
           "control_arms": [
             "wild-type HEK293 Flp-In T-REx cells",
-            "His-FLAG control sample",
-            "GNL3L-His-FLAG"
+            "His-FLAG control sample"
           ],
-          "treatment_arms": [
-            "GNL3LKO",
-            "GNL3L-K265A",
-            "GNL3L-G306A"
+          "case_arms": [
+            "GNL3LKO cells",
+            "GNL3L-G306A",
+            "GNL3L-K265A"
           ],
           "paired_design": false,
           "factorial_design": false,
+          "replicate_hints": [
+            "Three technical replicates per biological replicate were acquired."
+          ],
+          "multiplex_channel_hints": [],
           "evidence": [
-            "compositions of GNL3L-containing pre-ribosomal particles accumulated when GTP binding or hydrolysis by GNL3L is impaired were examined by IP-MS",
-            "compared to the His-FLAG control sample"
+            "wild-type HEK293 Flp-In T-REx cells and HEK293 Flp-In T-REx GNL3LKO cells expressing His-FLAG-tagged proteins",
+            "Three technical replicates per biological replicate were acquired."
           ]
         },
         "contrast_hints": [
           {
-            "contrast_type": "multigroup contrast",
-            "control_group": "GNL3L-His-FLAG",
-            "perturbed_group": "GNL3L-K265A and GNL3L-G306A",
+            "control_label": "wild-type",
+            "case_label": "GNL3LKO",
+            "contrast_type": "pairwise",
             "evidence": [
-              "pre-60S AFs were generally more strongly enriched with GNL3L\u2013K265A and GNL3L\u2013G306A than with wild-type GNL3L"
+              "wild-type HEK293 Flp-In T-REx cells and HEK293 Flp-In T-REx GNL3LKO cells"
+            ]
+          },
+          {
+            "control_label": "wild-type GNL3L",
+            "case_label": "GNL3L-G306A",
+            "contrast_type": "pairwise",
+            "evidence": [
+              "compared to the wild-type protein, both the GNL3L\u2013K265A and G306A mutants were enriched in the fractions containing pre-60S complexes"
             ]
           }
         ],
         "evidence": {
-          "overall_evidence": "The study uses IP-MS to compare the composition of pre-ribosomal particles associated with wild-type GNL3L versus GTP-binding (K265A) and GTP-hydrolysis (G306A) mutants in a GNL3L knockout background."
-        }
+          "biological_variables": [
+            "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis.",
+            "versions of these proteins carrying substitutions of conserved lysine residues in their G1 motifs (GTP-binding mutants: GTPBP4\u2013K181A and GNL2\u2013K323A) or glycine residues in their G3 motifs (GTP hydrolysis mutants: GTPBP4\u2013G224A and GNL2\u2013G364A)."
+          ],
+          "treatment_attributes": [
+            "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis.",
+            "GNL3L\u2013G306A mutants",
+            "GNL3L\u2013K265A and GNL3L\u2013G306A mutants"
+          ],
+          "design": [
+            "wild-type HEK293 Flp-In T-REx cells and HEK293 Flp-In T-REx GNL3LKO cells expressing His-FLAG-tagged proteins",
+            "Three technical replicates per biological replicate were acquired."
+          ],
+          "contrasts": [
+            "wild-type HEK293 Flp-In T-REx cells and HEK293 Flp-In T-REx GNL3LKO cells",
+            "compared to the wild-type protein, both the GNL3L\u2013K265A and G306A mutants were enriched in the fractions containing pre-60S complexes"
+          ]
+        },
+        "notes": "The study focuses on the role of GNL3L in pre-60S ribosome assembly. The proteomics (DIA-MS) specifically compares the composition of pre-ribosomal particles associated with wild-type GNL3L versus GTP-binding (K265A) and GTP-hydrolysis (G306A) mutants in a GNL3LKO background."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Requires specialized pipeline",
@@ -262,26 +272,21 @@
             {
               "base_workflow_id": "base_dia_lfq",
               "confidence": 0.9,
-              "reason": "The main compositional analysis of pre-ribosomal particles used data-independent acquisition (DIA-MS) with Spectronaut software."
-            },
-            {
-              "base_workflow_id": "base_dda_lfq",
-              "confidence": 0.6,
-              "reason": "The NuXL protein-RNA crosslinking experiment used a data-dependent top 20 acquisition method."
+              "reason": "The main compositional analysis of pre-ribosomal particles used data-independent acquisition (DIA) with Spectronaut software and quartile normalization for protein area values."
             }
           ],
           "modifier_candidates_ranked": [
             {
-              "modifier_workflow_id": "modifier_crosslinking_uv",
+              "modifier_workflow_id": "modifier_uv_crosslinking_rna",
               "confidence": 0.95,
-              "reason": "The NuXL experiment specifically used UV irradiation (2400 mJ/cm2) to covalently link proteins to RNA, followed by TiO2 enrichment of crosslinked peptides."
+              "reason": "The PRIDE metadata and methods describe a specific NuXL workflow for UV-crosslinked protein-RNA complexes, involving TiO2 enrichment of peptides crosslinked to oligonucleotides."
             }
           ],
           "trigger_keywords": [
-            "DIA-MS",
+            "DIA",
             "data-independent acquisition",
             "NuXL",
-            "UV crosslinking",
+            "UV crosslinked",
             "protein-RNA crosslinking",
             "TiO2 columns"
           ],
@@ -302,16 +307,15 @@
             }
           ],
           "special_reagent_hints": [
-            "iodoacetamide",
-            "DTT"
+            "iRT Standard",
+            "TiO2 enrichment"
           ]
         },
         "evidence": {
           "workflow": [
             "DIA analysis was performed using a 30 variable size window acquisition method",
             "Protein identification was achieved using the Pulsar algorithm in directDIA mode in Spectronaut Software",
-            "Protein-RNA crosslinking mass spectrometry (NuXL)",
-            "HEK293 Flp-In T-REx cells expressing GNL3L-His-Flag were irradiated with 2400 mJ/cm2 UV light",
+            "RNA protein crosslinks were identified using OpenMS NuXL v.3.0.0 (UV-UCGA-Extended workflow)",
             "Crosslinked peptides were enriched using TiO2 columns"
           ],
           "differential": [
@@ -319,12 +323,12 @@
             "GO analysis was performed on proteins significantly enriched on the IP-MS analyses (log2 FC values > 0.58 and P-value < 0.05)"
           ],
           "search_parameters": [
-            "reduction with DTT, alkylation with iodoacetamide",
+            "spiked with a synthetic peptide standard used for retention time alignment (iRT Standard, Biognosys)",
             "identification of serine 468, 470, and 472... as phosphorylated residues within GTPBP4"
           ],
           "file_name_triggers": []
         },
-        "notes": "The dataset contains two distinct MS approaches: a DIA-based compositional analysis of IP eluates and a specialized UV-crosslinking (NuXL) pipeline for mapping protein-RNA contacts. The NuXL pipeline requires a specialized search for nucleotide-peptide adducts."
+        "notes": "The dataset contains two distinct MS approaches: a standard DIA-LFQ for compositional analysis of IP eluates and a specialized UV-crosslinking (NuXL) pipeline for mapping protein-RNA contacts. The NuXL pipeline is not suitable for standard bottom-up reanalysis and requires the OpenMS NuXL workflow."
       },
       "MStype_prompt": {
         "acquisition_type": "DIA",
@@ -334,8 +338,9 @@
         "quantification_strategy": [
           "protein area values"
         ],
-        "proteomics_mode": "Bottom-up",
+        "proteomics_mode": "PTM-enriched",
         "specialized_workflows": [
+          "Protein-RNA crosslinking enrichment",
           "phosphoproteome enrichment"
         ],
         "evidence": {
@@ -344,62 +349,52 @@
             "data-independent acquisition mass spectrometry (DIA-MS)"
           ],
           "labeling": [
-            "quantitation of the DIA data, up to the 6 most abundant fragment ion traces per peptide, and up to the 10 most abundant peptides per protein were integrated and summed up to provide protein area values"
+            "Protein intensities were normalized with quartile normalization"
           ],
           "quantification": [
-            "protein area values"
+            "up to the 6 most abundant fragment ion traces per peptide, and up to the 10 most abundant peptides per protein were integrated and summed up to provide protein area values"
           ],
           "specialized": [
-            "Crosslinked peptides were enriched using TiO2 columns"
+            "Crosslinked peptides were enriched using TiO2 columns",
+            "identification of serine 468, 470, and 472... as phosphorylated residues within GTPBP4"
           ]
         },
-        "notes": "The study contains two distinct MS approaches: 1) A DIA-MS workflow for compositional analysis of pre-ribosomal particles (routed to base_dia_lfq). 2) A UV-crosslinking (NuXL) workflow using TiO2 enrichment to map RNA-protein contacts. While TiO2 is listed in the ontology for phosphoproteome enrichment, here it is used to enrich RNA-crosslinked peptides. The PTM-aware hint is based on the explicit identification of phosphorylated residues on GTPBP4."
+        "notes": "The study contains two distinct MS workflows: 1) A DIA-LFQ workflow for compositional analysis of pre-ribosomal particles (IP-MS), and 2) A DDA-based crosslinking workflow (NuXL) using TiO2 enrichment to map RNA-protein contacts. The prompt asks for routing signals; the primary compositional data uses DIA. Phosphorylation of GTPBP4 is explicitly mentioned as identified, suggesting a need for PTM-aware search parameters."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "HEK293 Flp-In T-REx"
-        ],
-        "cell_line_families": [
-          "HEK293"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "human pre-60S complexes"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HEK293 Flp-In T-REx cells",
-            "Flp-In-T-REx cell"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "Pre-ribosomal particles were immunoprecipitated from nuclear extract",
-            "supernatants were incubated with 300 \u00b5l of anti-FLAG\u00ae M2 magnetic beads",
+            "supernatant was incubated with anti-FLAG\u00ae M2 magnetic beads (Sigma\u2013Aldrich) slurry",
             "His-FLAG-tagged proteins were eluted with wash buffer supplemented with 250 \u00b5g/ml of 3\u00d7 FLAG\u00ae peptide",
-            "the supernatant was incubated with anti-FLAG\u00ae M2 magnetic beads (Sigma-Aldrich) pre-equilibrated with IP buffer for 3 h at 4\u00b0C. After washing with IP buffer, protein\u2013RNA complexes were eluted with 250 \u00b5g/mL 3x FLAG\u00ae peptide"
-          ]
+            "the supernatant was incubated with anti-FLAG M2 magnetic beads (Sigma-Aldrich) pre-equilibrated with IP buffer for 3 h at 4\u00b0C. After washing with IP buffer, protein\u2013RNA complexes were eluted with 250 \u00b5g/mL 3x FLAG\u00ae peptide"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis (DIA-MS and NuXL) specifically targeted pre-ribosomal particles isolated via anti-FLAG immunoprecipitation of tagged GTPases (GTPBP4, GNL2, GNL3, GNL3L) from nuclear extracts of HEK293 cells."
+        "notes": "The proteomics analysis was performed on material affinity-purified using anti-FLAG beads to isolate pre-ribosomal complexes. While the material was derived from nuclear extracts, the final analyzed sample was the purified complex."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "genetic perturbation",
           "example_entity_ids": null,
-          "reasoning": "",
+          "reasoning": "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis.; versions of these proteins carrying substitutions of conserved lysine residues in their G1 motifs (GTP-binding mutants: GTPBP4\u2013K181A and GNL2\u2013K323A) or glycine residues in their G3 motifs (GTP hydrolysis mutants: GTPBP4\u2013G224A and GNL2\u2013G364A).",
           "confidence_score": 0.95
         },
         {
           "treatment_category": "genetic perturbation",
           "example_entity_ids": null,
-          "reasoning": "",
+          "reasoning": "The GNL3L knock-out cell line (GNL3LKO) was generated by CRISPR/Cas9-mediated mutagenesis.; versions of these proteins carrying substitutions of conserved lysine residues in their G1 motifs (GTP-binding mutants: GTPBP4\u2013K181A and GNL2\u2013K323A) or glycine residues in their G3 motifs (GTP hydrolysis mutants: GTPBP4\u2013G224A and GNL2\u2013G364A).",
           "confidence_score": 0.95
         }
       ]

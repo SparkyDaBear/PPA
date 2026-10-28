@@ -3,47 +3,28 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "AQUA peptides",
+    "quantification_method": "Absolute quantification",
     "labeling_strategy": [
       "Other"
     ],
     "treatment_categories": [
-      "cell cycle state comparison",
-      "small-molecule inhibitor treatment"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "osteosarcoma"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell cycle state comparison",
-        "ontology_curie": "PPA:0000106",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "cell_cycle_state_comparison",
-        "matched_class_path": [
-          "cell_state_interaction",
-          "cell_cycle_state_comparison"
-        ],
-        "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
-        "confidence": "high",
-        "evidence": [
-          "provide a quantitative description of the proteome of a commonly used human cell line in two functional states, interphase and mitosis.",
-          "we repeated the experiment-described above with cells arrested in M phase using nocodazole"
-        ]
-      },
-      {
-        "ontology_label": "small-molecule inhibitor treatment",
-        "ontology_curie": "PPA:0000023",
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
         "matched_class_key": "small_molecule_inhibitor_treatment",
@@ -54,7 +35,8 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "Synchronization was carried out by adding nocodazole to a final concentration of 330 nM for 18 h."
+          "Synchronization was carried out by adding nocodazole to a final concentration of 330 nM for 18 h.",
+          "we repeated the experiment-described above with cells arrested in M phase using nocodazole"
         ]
       }
     ],
@@ -85,7 +67,7 @@
       "mitosis",
       "M phase"
     ],
-    "paired_design": null,
+    "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "each fraction was analyzed 3\u20134 times in shotgun and 2\u20135 times in directed (inclusion list) mode"
@@ -94,7 +76,7 @@
     "contrast_hints": [
       {
         "control_label": "non-synchronized cells",
-        "case_label": "M phase (nocodazole arrested)",
+        "case_label": "synchronized cells (M phase)",
         "contrast_type": "pairwise",
         "evidence": [
           "Proteins detected with copy number variations as compared with a sample from non-synchronized cells were significantly enriched for biological processes carrying out mitotic functions"
@@ -105,61 +87,50 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "osteosarcoma",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "U2OS",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "Other"
     ],
     "quantification_strategy": [
+      "Absolute quantification",
       "AQUA peptides",
       "emPAI",
       "SSID",
-      "Top3",
       "Spectrum counting"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "U2OS",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -168,15 +139,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses shotgun MS (DDA) and absolute quantification via spiked AQUA peptides and spectral counting (SSID/emPAI), which aligns with label-free quantification (LFQ) logic for the endogenous proteins."
+          "confidence": 80,
+          "reason": "The experiment uses a label-free approach (SSID, emPAI, Top3) with DDA acquisition (shotgun and directed mode) to estimate absolute protein copy numbers."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "absolute_quantification_aqua",
+          "confidence": 95,
+          "reason": "Explicit use of heavy isotope labeled AQUA peptides spiked into samples to calibrate absolute protein copy numbers."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun MS",
         "AQUA peptides",
-        "spectral counts",
+        "absolute protein quantification",
+        "shotgun",
+        "directed (inclusion list) mode",
         "SSID",
         "emPAI"
       ],
@@ -186,15 +164,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The experiment uses shotgun MS (DDA) and absolute quantification via spiked AQUA peptides and spectral counting (SSID/emPAI), which aligns with label-free quantification (LFQ) logic for the endogenous proteins."
+          "confidence": 80,
+          "reason": "The experiment uses a label-free approach (SSID, emPAI, Top3) with DDA acquisition (shotgun and directed mode) to estimate absolute protein copy numbers."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "absolute_quantification_aqua",
+          "confidence": 95,
+          "reason": "Explicit use of heavy isotope labeled AQUA peptides spiked into samples to calibrate absolute protein copy numbers."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun MS",
         "AQUA peptides",
-        "spectral counts",
+        "absolute protein quantification",
+        "shotgun",
+        "directed (inclusion list) mode",
         "SSID",
         "emPAI"
       ],
@@ -224,7 +209,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:08Z"
   }
 }

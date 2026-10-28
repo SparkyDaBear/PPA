@@ -15,9 +15,10 @@
       "HEK293A",
       "HEK293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "female",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -26,15 +27,14 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
-        "matched_class_path": [
-          "unclassified"
-        ],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_class_path": [],
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "Because the cells used for our proteomic study were grown under normal culture condition, the identified HCIPs should be considered as the basal-state interactome for the human PLD-PA lipid pathway."
+          "we defined the protein interaction network for the human PLD family of enzymes and PA",
+          "the identified HCIPs should be considered as the basal-state interactome for the human PLD-PA lipid pathway"
         ]
       }
     ],
@@ -57,16 +57,16 @@
     "factorial_design": false,
     "replicate_hints": [
       "two independent TAP experiments",
-      "biological replicates for each PLD enzyme and PA"
+      "two biological repeats for the PLDs and PA proteomic studies"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "unrelated TAP-MS",
-        "case_label": "PLD-TAP-MS",
+        "case_label": "SFB-tagged PLD",
         "contrast_type": "pairwise",
         "evidence": [
-          "a group of unrelated TAP-MS experiments (i.e., 72 experiments using stably expressed SFB-tagged proteins as baits) were included as a control group"
+          "a group of unrelated TAP-MS experiments... were included as a control group"
         ]
       },
       {
@@ -82,42 +82,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293A",
-        "family": "HEK293",
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -127,19 +91,47 @@
       "spectral counting",
       "SAINT score"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "tandem affinity purification (TAP) of SFB-tagged PLD proteins"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "PA-beads pulldown of PA-associated protein complex"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293A",
+          "ontology_curie": null
+        },
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -148,17 +140,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "The experiment used DDA acquisition (LTQ Orbitrap Elite) and quantification based on raw spectra counts, which is a form of label-free quantification (LFQ)."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (LTQ Orbitrap Elite) and spectral counting for quantification (raw spectra count), which is a form of label-free quantification (LFQ) common in AP-MS."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.95,
+          "reason": "Explicitly described as tandem affinity purification (TAP) and PA-beads pulldown experiments to define an interactome."
+        }
+      ],
       "trigger_keywords": [
         "tandem affinity purification",
-        "PA beads-pulldown",
-        "raw spectra count",
-        "SAINT score",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "TAP-MS",
+        "pulldown",
+        "interactome",
+        "spectral counts",
+        "SAINT score"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -166,17 +165,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "The experiment used DDA acquisition (LTQ Orbitrap Elite) and quantification based on raw spectra counts, which is a form of label-free quantification (LFQ)."
+          "confidence": 0.8,
+          "reason": "The experiment uses DDA (LTQ Orbitrap Elite) and spectral counting for quantification (raw spectra count), which is a form of label-free quantification (LFQ) common in AP-MS."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms",
+          "confidence": 0.95,
+          "reason": "Explicitly described as tandem affinity purification (TAP) and PA-beads pulldown experiments to define an interactome."
+        }
+      ],
       "trigger_keywords": [
         "tandem affinity purification",
-        "PA beads-pulldown",
-        "raw spectra count",
-        "SAINT score",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "TAP-MS",
+        "pulldown",
+        "interactome",
+        "spectral counts",
+        "SAINT score"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -204,7 +210,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:44:20Z"
   }
 }

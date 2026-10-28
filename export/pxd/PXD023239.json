@@ -16,9 +16,11 @@
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,7 +39,7 @@
         "confidence": "high",
         "evidence": [
           "HA epitope tagged fusions of BASU-BirA were generated with each of these 17 viral ORFs",
-          "Samples were prepared from plasmid-transfected 293T cells"
+          "transfected with 5ug of each viral expression plasmid"
         ]
       },
       {
@@ -62,10 +64,10 @@
         "relation_key": "has_treatment_agent",
         "agent": "SARS-CoV-2 viral proteins",
         "dose_or_concentration": null,
-        "duration": "24 hours post transfection",
-        "route_or_context": "plasmid-transfected 293T cells",
+        "duration": "24 hours",
+        "route_or_context": "transfection in HEK293T cells",
         "evidence": [
-          "HA epitope tagged fusions of BASU-BirA were generated with each of these 17 viral ORFs",
+          "transfected with 5ug of each viral expression plasmid",
           "24 hours post transfection, biotin was added"
         ]
       },
@@ -73,7 +75,7 @@
         "relation_key": "has_treatment_agent",
         "agent": "NSP5",
         "dose_or_concentration": null,
-        "duration": "24 hours post-transfection",
+        "duration": "24 hours",
         "route_or_context": "SILAC mass spectrometry",
         "evidence": [
           "comparing wild type SARS-CoV-2 NSP5 to the catalytically-inactive NSP5C145A mutant",
@@ -84,10 +86,11 @@
         "relation_key": "has_treatment_agent",
         "agent": "NSP5C145A",
         "dose_or_concentration": null,
-        "duration": "24 hours post-transfection",
+        "duration": "24 hours",
         "route_or_context": "SILAC mass spectrometry",
         "evidence": [
-          "comparing wild type SARS-CoV-2 NSP5 to the catalytically-inactive NSP5C145A mutant"
+          "comparing wild type SARS-CoV-2 NSP5 to the catalytically-inactive NSP5C145A mutant",
+          "cells were collected 24 hours post-transfection"
         ]
       }
     ],
@@ -101,7 +104,7 @@
     ],
     "control_arms": [
       "NSP5C145A mutant",
-      "matched cell type control"
+      "GFP control"
     ],
     "case_arms": [
       "17 SARS-CoV-2 viral proteins",
@@ -126,47 +129,16 @@
         ]
       },
       {
-        "control_label": "cell type control",
-        "case_label": "SARS-CoV-2 viral proteins",
+        "control_label": "GFP",
+        "case_label": "NSP1",
         "contrast_type": "pairwise",
         "evidence": [
-          "fold change over matched cell type control \u2265 4"
+          "NSP1 reduced luciferase signal by (49.7%) as compared to GFP control"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -179,19 +151,43 @@
       "MS1 intensity based label-free quantification",
       "SILAC"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "streptavidin pulldown of biotinylated proteins via BASU-BirA proximity labeling"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -201,27 +197,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The majority of the proximity proteomics (BioID) was analyzed using MaxQuant for protein identification and quantification, with PRIDE metadata explicitly stating 'MS1 intensity based label-free quantification method' and 'data-dependent acquisition mode'."
+          "reason": "The majority of the proximity proteomics (BioID) experiments used DDA on a Q Exactive Plus with MS1 intensity-based label-free quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.7,
-          "reason": "A specific subset of experiments comparing WT NSP5 to the C145A mutant used SILAC labeling ([13C6,15N2]-lysine and [13C6]-arginine)."
+          "confidence": 0.8,
+          "reason": "Specific experiments comparing WT NSP5 to mutant NSP5C145A explicitly used SILAC with [13C6,15N2]-lysine and [13C6]-arginine."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_biotin_enrichment",
-          "confidence": 0.95,
-          "reason": "The core experiment is BioID proximity proteomics using BASU-BirA to biotinylate nearby proteins, followed by streptavidin pulldown."
+          "modifier_workflow_id": "modifier_proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The study extensively uses BioID (BASU-BirA) for proximity proteomics to identify vicinal proteins."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity proteomics",
-        "streptavidin pulldown",
+        "BASU-BirA",
         "SILAC",
-        "BASU-BirA"
+        "label-free quantification",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -230,27 +227,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The majority of the proximity proteomics (BioID) was analyzed using MaxQuant for protein identification and quantification, with PRIDE metadata explicitly stating 'MS1 intensity based label-free quantification method' and 'data-dependent acquisition mode'."
+          "reason": "The majority of the proximity proteomics (BioID) experiments used DDA on a Q Exactive Plus with MS1 intensity-based label-free quantification."
         },
         {
           "base_workflow_id": "base_dda_silac",
-          "confidence": 0.7,
-          "reason": "A specific subset of experiments comparing WT NSP5 to the C145A mutant used SILAC labeling ([13C6,15N2]-lysine and [13C6]-arginine)."
+          "confidence": 0.8,
+          "reason": "Specific experiments comparing WT NSP5 to mutant NSP5C145A explicitly used SILAC with [13C6,15N2]-lysine and [13C6]-arginine."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_biotin_enrichment",
-          "confidence": 0.95,
-          "reason": "The core experiment is BioID proximity proteomics using BASU-BirA to biotinylate nearby proteins, followed by streptavidin pulldown."
+          "modifier_workflow_id": "modifier_proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The study extensively uses BioID (BASU-BirA) for proximity proteomics to identify vicinal proteins."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity proteomics",
-        "streptavidin pulldown",
+        "BASU-BirA",
         "SILAC",
-        "BASU-BirA"
+        "label-free quantification",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -278,7 +276,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:51:37Z"
   }
 }

@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "Label-free quantification",
+    "quantification_method": "Label-free quantification (LFQ)",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -11,11 +11,16 @@
       "case-control disease status",
       "disease or clinical state"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "breast epithelial cell",
+      "breast cancer cell",
+      "epithelial cell"
+    ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "female",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -48,18 +53,19 @@
         "matched_definition": "Disease status, disease subtype, disease stage, pathology state, treatment response, or clinical outcome state defining the comparison.",
         "confidence": "high",
         "evidence": [
-          "we stratified the breast cancer discovery sample set according to ER status and mammographic appearance",
-          "differential expression and GSEA analyses on the RNA-seq and DIA MS data in sample set 2... confirmed the enrichment of ER-related pathways in the ER-positive tumors and immune signatures in the ER-negative tumors"
+          "stratified the breast cancer discovery sample set according to ER status and mammographic appearance",
+          "comparison between ER-positive and ER-negative tumors",
+          "comparison of mammographic appearance (i.e., spiculated and nonspiculated tumors)"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "estrogen receptor status",
+        "agent": "estrogen receptor (ER) status",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "clinical tumor subgroup",
+        "route_or_context": "breast cancer tumor subgroup",
         "evidence": [
           "stratified the breast cancer discovery sample set according to ER status"
         ]
@@ -69,7 +75,7 @@
         "agent": "mammographic appearance",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "clinical tumor morphology",
+        "route_or_context": "spiculated vs nonspiculated tumors",
         "evidence": [
           "stratified the breast cancer discovery sample set according to... mammographic appearance",
           "Tumors were categorized as spiculated or other tumor appearances such as microcalcifications or well-defined masses (nonspiculated)"
@@ -85,12 +91,12 @@
     "control_arms": [
       "normal breast tissues",
       "ER-negative",
-      "nonspiculated"
+      "nonspiculated tumors"
     ],
     "case_arms": [
       "breast cancer tissues",
       "ER-positive",
-      "spiculated"
+      "spiculated tumors"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -112,46 +118,20 @@
         "case_label": "spiculated",
         "contrast_type": "pairwise",
         "evidence": [
-          "comparison of ER-positive and ER-negative samples... separate DESeq analysis was also performed using the mammographic appearance (i.e., spiculated and nonspiculated tumors) status as the explanatory variable."
+          "comparison of mammographic appearance (i.e., spiculated and nonspiculated tumors)"
+        ]
+      },
+      {
+        "control_label": "normal breast tissue",
+        "case_label": "breast cancer tissue",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A set of four normal breast tissues was also collected... and used to generate the DIA spectral library."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "breast cancer tissues",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "normal breast tissues",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -160,15 +140,58 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification",
+      "Label-free quantification (LFQ)",
       "DIA-based quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "breast epithelial cell",
+          "ontology_curie": "BTO:0001211"
+        },
+        {
+          "label": "breast cancer cell",
+          "ontology_curie": "BTO:0000150"
+        },
+        {
+          "label": "epithelial cell",
+          "ontology_curie": "CL:0000066"
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "breast cancer tissues",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "normal breast tissues",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -178,33 +201,29 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data-independent acquisition (DIA) MS for the primary quantification of breast cancer tissues, utilizing label-free quantification (LFQ) principles (median intensity scaling)."
+          "reason": "The study explicitly uses data-independent acquisition (DIA) MS for the primary quantification of breast cancer tissues across two sample sets."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "DDA MS was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
+          "reason": "DDA MS was performed on sample set 1 for spectral library generation and separate protein quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "isoform_aware",
+          "modifier_workflow_id": "proteogenomic_variant_aware",
           "confidence": 0.9,
-          "reason": "The authors implemented an 'isoform-aware spectral library' to detect differential transcript usage (DTU) at the protein level."
-        },
-        {
-          "modifier_workflow_id": "saav_aware",
-          "confidence": 0.9,
-          "reason": "The authors created a 'SAAV aware DIA library' to quantify single amino acid variants based on RNA-seq SNV calls."
+          "reason": "The workflow specifically integrates RNA-seq data to create 'isoform-aware' and 'SAAV aware' (single amino acid variant) spectral libraries for targeted DIA quantification."
         }
       ],
       "trigger_keywords": [
         "DIA MS",
         "data-independent acquisition",
         "spectral library",
-        "isoform-aware",
+        "proteogenomic",
         "SAAV",
-        "label-free quantification"
+        "DTU",
+        "isoform-aware"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -213,33 +232,29 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses data-independent acquisition (DIA) MS for the primary quantification of breast cancer tissues, utilizing label-free quantification (LFQ) principles (median intensity scaling)."
+          "reason": "The study explicitly uses data-independent acquisition (DIA) MS for the primary quantification of breast cancer tissues across two sample sets."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "DDA MS was performed for spectral library generation and separate protein quantification using MaxQuant LFQ."
+          "reason": "DDA MS was performed on sample set 1 for spectral library generation and separate protein quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "isoform_aware",
+          "modifier_workflow_id": "proteogenomic_variant_aware",
           "confidence": 0.9,
-          "reason": "The authors implemented an 'isoform-aware spectral library' to detect differential transcript usage (DTU) at the protein level."
-        },
-        {
-          "modifier_workflow_id": "saav_aware",
-          "confidence": 0.9,
-          "reason": "The authors created a 'SAAV aware DIA library' to quantify single amino acid variants based on RNA-seq SNV calls."
+          "reason": "The workflow specifically integrates RNA-seq data to create 'isoform-aware' and 'SAAV aware' (single amino acid variant) spectral libraries for targeted DIA quantification."
         }
       ],
       "trigger_keywords": [
         "DIA MS",
         "data-independent acquisition",
         "spectral library",
-        "isoform-aware",
+        "proteogenomic",
         "SAAV",
-        "label-free quantification"
+        "DTU",
+        "isoform-aware"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -267,7 +282,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:17:41Z"
   }
 }

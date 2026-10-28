@@ -5,18 +5,20 @@
     "acquisition_type": "DDA",
     "quantification_method": "Spectrum counting",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "treatment_categories": [
       "knockout or deletion perturbation"
     ],
     "cell_types": [
-      "osteoclast"
+      "osteoclasts"
     ],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -42,12 +44,12 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "Elmo1",
+        "agent": "ELMO1",
         "dose_or_concentration": null,
         "duration": null,
         "route_or_context": "genetic deletion",
         "evidence": [
-          "Elmo1+/+ and Elmo1\u2212/\u2212 osteoclasts were labeled with EZ-LinkTM NHS-Biotin"
+          "Elmo1+/+ and Elmo1\u2212/\u2212 osteoclasts"
         ]
       }
     ],
@@ -81,63 +83,51 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "mouse",
-        "taxonomy_hint": "Mus musculus",
-        "confidence": "high"
-      },
-      {
-        "label": "human",
-        "taxonomy_hint": "Homo sapiens",
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "osteoclast",
-        "rollup_category": "hematopoietic lineage",
-        "ontology_curie": "BTO:0000968"
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Other"
+      "LFQ"
     ],
     "quantification_strategy": [
       "Spectrum counting"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "ELMO1 immunoprecipitation"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "biotinylated protein enrichment via NeutrAvidin"
       }
     ],
+    "biological_source": {
+      "human_system_present": "No",
+      "organisms": [
+        {
+          "label": "mouse",
+          "taxonomy_hint": "Mus musculus",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "osteoclasts",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -146,23 +136,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition (top 12 most intense ions) and label-free quantification (spectrum counting mentioned in PRIDE metadata) of gel-excised bands."
+          "confidence": 80,
+          "reason": "DDA acquisition (top 12 most intense ions) using Orbitrap Fusion Lumos. PRIDE metadata specifies 'Spectrum counting' for quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
-          "confidence": 0.95,
-          "reason": "Experiment explicitly describes immunoprecipitation of ELMO1 followed by biotin enrichment (AP-MS)."
+          "modifier_workflow_id": "modifier_biotinylation",
+          "confidence": 95,
+          "reason": "Explicit use of EZ-Link NHS-Biotin for cell surface labeling and NeutrAvidin agarose for enrichment of biotinylated proteins."
+        },
+        {
+          "modifier_workflow_id": "modifier_ip",
+          "confidence": 90,
+          "reason": "ELMO1 was immunoprecipitated using a mouse anti-ELMO1 antibody and Protein A agarose beads."
         }
       ],
       "trigger_keywords": [
+        "biotinylation",
         "immunoprecipitated",
-        "biotinilated proteins",
         "NeutrAvidin",
-        "interactome",
-        "gel bands were excised"
+        "spectrum counting",
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -170,23 +165,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition (top 12 most intense ions) and label-free quantification (spectrum counting mentioned in PRIDE metadata) of gel-excised bands."
+          "confidence": 80,
+          "reason": "DDA acquisition (top 12 most intense ions) using Orbitrap Fusion Lumos. PRIDE metadata specifies 'Spectrum counting' for quantification, which is a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
-          "confidence": 0.95,
-          "reason": "Experiment explicitly describes immunoprecipitation of ELMO1 followed by biotin enrichment (AP-MS)."
+          "modifier_workflow_id": "modifier_biotinylation",
+          "confidence": 95,
+          "reason": "Explicit use of EZ-Link NHS-Biotin for cell surface labeling and NeutrAvidin agarose for enrichment of biotinylated proteins."
+        },
+        {
+          "modifier_workflow_id": "modifier_ip",
+          "confidence": 90,
+          "reason": "ELMO1 was immunoprecipitated using a mouse anti-ELMO1 antibody and Protein A agarose beads."
         }
       ],
       "trigger_keywords": [
+        "biotinylation",
         "immunoprecipitated",
-        "biotinilated proteins",
         "NeutrAvidin",
-        "interactome",
-        "gel bands were excised"
+        "spectrum counting",
+        "HCD"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -214,7 +214,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:50:50Z"
   }
 }

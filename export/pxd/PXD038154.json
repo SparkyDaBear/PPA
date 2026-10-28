@@ -8,14 +8,14 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "cell state or interaction comparison"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "Unknown"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -33,25 +33,9 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "The true magnitude and distribution of poor vitamin D status in this assemblage cannot be known using macroscopic analysis alone",
-          "assess histological evidence of IGD and molecular evidence of chromosomal sex in a sub-sample of individuals with and without macroscopic evidence of rickets or residual rickets"
-        ]
-      },
-      {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_state_comparison",
-        "matched_class_path": [
-          "cell_state_interaction",
-          "activation_state_comparison"
-        ],
-        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
-        "confidence": "medium",
-        "evidence": [
-          "The significant association of IGD with male sex may be due to sex-related differences in dentinal mineralization",
-          "Is there a statistically significant association of IGD presence with sex in the individuals at Coach Lane?"
+          "The post-medieval period in Europe saw a dramatic increase in metabolic bone disease related to vitamin D deficiency (VDD).",
+          "explore the relationship between sex, the presence of IGD, and macroscopic markers of VDD",
+          "Of the 16 individuals with clear evidence of IGD, only six (37.5), three subadults and three adults, exhibited macroscopic evidence of VDD"
         ]
       }
     ],
@@ -73,15 +57,12 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "childhood",
-      "infancy"
-    ],
+    "timepoints": [],
     "control_arms": [
       "individuals without macroscopic evidence of rickets"
     ],
     "case_arms": [
-      "individuals with macroscopic evidence of rickets",
+      "individuals with macroscopic evidence of VDD",
       "individuals with interglobular dentin (IGD)"
     ],
     "paired_design": false,
@@ -90,11 +71,11 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "without IGD",
-        "case_label": "with IGD",
+        "control_label": "without VDD",
+        "case_label": "with VDD/IGD",
         "contrast_type": "pairwise",
         "evidence": [
-          "16 individuals (76.1%) exhibited \u22651 episode of IGD"
+          "individuals with and without macroscopic evidence of rickets or residual rickets"
         ]
       },
       {
@@ -110,36 +91,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "tooth enamel",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -149,29 +100,62 @@
       "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "Unknown",
+        "curie": "PPA:0000450",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "tooth enamel",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive and MaxQuant; however, the primary goal is peptide identification for sex estimation rather than deep quantitative profiling."
+          "reason": "Shotgun proteomics using Q Exactive (DDA) for peptide identification; however, the primary goal is qualitative identification of dimorphic peptides rather than global LFQ."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "unspecific_digestion",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states digestion was set to 'Unspecific' in MaxQuant."
+        }
+      ],
       "trigger_keywords": [
         "enamel peptide analysis",
-        "Shotgun proteomics",
-        "amelogenin protein",
-        "AMELX and AMELY"
+        "dimorphic peptides",
+        "unspecific digestion",
+        "AMELX",
+        "AMELY"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -180,15 +164,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Q Exactive and MaxQuant; however, the primary goal is peptide identification for sex estimation rather than deep quantitative profiling."
+          "reason": "Shotgun proteomics using Q Exactive (DDA) for peptide identification; however, the primary goal is qualitative identification of dimorphic peptides rather than global LFQ."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "unspecific_digestion",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata explicitly states digestion was set to 'Unspecific' in MaxQuant."
+        }
+      ],
       "trigger_keywords": [
         "enamel peptide analysis",
-        "Shotgun proteomics",
-        "amelogenin protein",
-        "AMELX and AMELY"
+        "dimorphic peptides",
+        "unspecific digestion",
+        "AMELX",
+        "AMELY"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -216,7 +207,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:47:51Z"
   }
 }

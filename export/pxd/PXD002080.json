@@ -15,9 +15,10 @@
       "rectal cancer cell"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,7 +37,7 @@
         "confidence": "high",
         "evidence": [
           "We analyzed proteomes of colon and rectal tumors",
-          "We compared the proteomic subtype classification... to normal colon samples from 30 individuals analyzed on the same proteome analysis platform"
+          "required signature proteins for a subtype to be significantly different in abundance compared to normal colon samples from 30 individuals"
         ]
       }
     ],
@@ -55,12 +56,14 @@
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Benchmark quality control (QC) samples from one basal and one luminal human breast tumor xenograft were analyzed in alternating order after every five CRC samples"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "normal colon",
-        "case_label": "CRC tumors",
+        "case_label": "CRC tumor",
         "contrast_type": "pairwise",
         "evidence": [
           "required signature proteins for a subtype to be significantly different in abundance compared to normal colon samples"
@@ -69,56 +72,6 @@
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "colonic cancer cell",
-        "rollup_category": "cancer cell",
-        "ontology_curie": "BTO:0000586"
-      },
-      {
-        "label": "rectal cancer cell",
-        "rollup_category": "cancer cell",
-        "ontology_curie": "BTO:0000193"
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "colon and rectal tumors",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "human breast tumor xenograft",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -130,28 +83,84 @@
       "spectral counts"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "NOD.Cg-Prkdcscid Il2rgtm1Wjl/SzJ mice",
+          "taxonomy_hint": "mouse",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "colonic cancer cell",
+          "ontology_curie": null
+        },
+        {
+          "label": "rectal cancer cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "colon and rectal tumors",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "human breast tumor xenograft",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "normal colon biopsies",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using LC-MS/MS (DDA) with spectral counting for relative quantification across 95 tumor samples."
+          "reason": "Shotgun LC-MS/MS using an Orbitrap Velos (DDA) with spectral counting for quantification, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_custom_db",
+          "confidence": 0.9,
+          "reason": "The study explicitly performed database searches with customized sequence databases derived from matched RNA-Seq data to identify single amino acid variants (SAAVs)."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun proteomic",
         "spectral counts",
-        "LC-MS/MS"
+        "shotgun proteomic",
+        "customized sequence databases",
+        "matched RNA-Seq data",
+        "single amino acid variants"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -160,14 +169,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using LC-MS/MS (DDA) with spectral counting for relative quantification across 95 tumor samples."
+          "reason": "Shotgun LC-MS/MS using an Orbitrap Velos (DDA) with spectral counting for quantification, which is a label-free approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proteogenomics_custom_db",
+          "confidence": 0.9,
+          "reason": "The study explicitly performed database searches with customized sequence databases derived from matched RNA-Seq data to identify single amino acid variants (SAAVs)."
+        }
+      ],
       "trigger_keywords": [
-        "shotgun proteomic",
         "spectral counts",
-        "LC-MS/MS"
+        "shotgun proteomic",
+        "customized sequence databases",
+        "matched RNA-Seq data",
+        "single amino acid variants"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -195,7 +212,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:42:58Z"
   }
 }

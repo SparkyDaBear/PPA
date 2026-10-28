@@ -3,18 +3,19 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Unknown",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "case-control disease status"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -34,7 +35,8 @@
         "evidence": [
           "Comparative HLA ligandome analysis of the HLA ligandome revealed 55 class I and 139 class II tumor-exclusive peptides.",
           "The comparative cohort of benign tissue donors showed an HLA allotype population coverage of 99.8%",
-          "In order to identify potentially tumor-associated or tumor-specific cryptic peptides, we filtered out all cryptic peptides that have previously been identified within the human HLA ligand atlas project"
+          "we filtered out all cryptic peptides that have previously been identified within the human HLA ligand atlas project",
+          "Sixty-one of the 158 cryptic binding peptides were identified only in AT/RT tumor samples but not in benign tissue"
         ]
       }
     ],
@@ -72,57 +74,50 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "atypical teratoid rhabdoid tumors",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "Unknown"
+      "Label-free"
     ],
     "proteomics_mode": "Immunopeptidomics",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "immunopeptidome enrichment",
-        "ontology_curie": "PPA:0000298",
-        "workflow_modifier_hint": "mod_immunopeptidomics",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoaffinity purification of HLA class I and class II molecules"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "atypical teratoid rhabdoid tumors",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "brain",
+          "source_kind": "organ"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -131,15 +126,20 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired via DDA (top five CID method) on LTQ Orbitrap XL. While not explicitly using a label-free quantification software, the comparative analysis of ligandomes across 23 samples and benign cohorts implies a label-free abundance or presence/absence comparison."
+          "confidence": 0.7,
+          "reason": "Data acquired via DDA (top five CID) on LTQ Orbitrap XL. While no explicit LFQ method is detailed, the comparative analysis of tumor vs benign cohorts implies a label-free approach for peptide identification and presence/absence counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome_non_enzymatic",
           "confidence": 1.0,
-          "reason": "The experiment specifically analyzes HLA class I and II ligands, which are non-enzymatically processed peptides. The search was explicitly 'not restricted by enzymatic specificity'."
+          "reason": "Explicitly stated that the search was 'not restricted by enzymatic specificity' and focused on HLA class I and II ligands."
+        },
+        {
+          "modifier_workflow_id": "cryptic_peptide_discovery",
+          "confidence": 0.9,
+          "reason": "Extensive use of de novo sequencing (PEAKS X) and Peptide-PRISM to identify peptides from non-canonical/non-coding regions (UTR, introns, off-frame)."
         }
       ],
       "trigger_keywords": [
@@ -148,7 +148,8 @@
         "immunopeptidome",
         "not restricted by enzymatic specificity",
         "cryptic peptides",
-        "Peptide-PRISM"
+        "Peptide-PRISM",
+        "de novo peptide sequencing"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -156,15 +157,20 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired via DDA (top five CID method) on LTQ Orbitrap XL. While not explicitly using a label-free quantification software, the comparative analysis of ligandomes across 23 samples and benign cohorts implies a label-free abundance or presence/absence comparison."
+          "confidence": 0.7,
+          "reason": "Data acquired via DDA (top five CID) on LTQ Orbitrap XL. While no explicit LFQ method is detailed, the comparative analysis of tumor vs benign cohorts implies a label-free approach for peptide identification and presence/absence counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidome_non_enzymatic",
           "confidence": 1.0,
-          "reason": "The experiment specifically analyzes HLA class I and II ligands, which are non-enzymatically processed peptides. The search was explicitly 'not restricted by enzymatic specificity'."
+          "reason": "Explicitly stated that the search was 'not restricted by enzymatic specificity' and focused on HLA class I and II ligands."
+        },
+        {
+          "modifier_workflow_id": "cryptic_peptide_discovery",
+          "confidence": 0.9,
+          "reason": "Extensive use of de novo sequencing (PEAKS X) and Peptide-PRISM to identify peptides from non-canonical/non-coding regions (UTR, introns, off-frame)."
         }
       ],
       "trigger_keywords": [
@@ -173,12 +179,13 @@
         "immunopeptidome",
         "not restricted by enzymatic specificity",
         "cryptic peptides",
-        "Peptide-PRISM"
+        "Peptide-PRISM",
+        "de novo peptide sequencing"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_site",
+      "preferred_engine": "log2fc_protein",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "peptide"
     },
@@ -201,7 +208,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:31Z"
   }
 }

@@ -4,6 +4,7 @@ import { getRelease, getOntology } from '../../lib/site-data';
 
 const [release, ontology] = await Promise.all([getRelease(), getOntology()]);
 const base = import.meta.env.BASE_URL;
+const branchCount = Object.keys(ontology.branches || {}).length;
 
 // Annotate term_page_available at build time; export/ontology.json doesn't carry this field.
 const treePayload = {
@@ -20,12 +21,12 @@ const treePayload = {
   <section class="hero-panel">
     <div>
       <p class="hero-kicker">Ontology tree</p>
-      <h2>Full PPA metadata ontology — {release.term_count} terms across 6 branches.</h2>
+      <h2>PPA core ontology — {release.term_count} catalog terms across {branchCount} core branches.</h2>
       <p class="lede">Click any node to expand its children and inspect its definition, branch, and linked project count. Nodes are sized by annotated project count.</p>
     </div>
     <div class="hero-badges">
       <span class="badge">{release.term_count} terms</span>
-      <span class="badge">6 branches</span>
+      <span class="badge">{branchCount} core branches</span>
       <span class="badge">{release.pxd_count} projects</span>
     </div>
   </section>

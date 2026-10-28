@@ -5,7 +5,8 @@
     "acquisition_type": "DIA",
     "quantification_method": "pSILAC",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "treatment_categories": [
       "disease or clinical state"
@@ -14,11 +15,14 @@
       "epithelial cell"
     ],
     "cell_lines": [
-      "HeLa"
+      "HeLa",
+      "HeLa Kyoto",
+      "HeLa CCL2"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -47,7 +51,7 @@
         "agent": null,
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "pSILAC labeling",
+        "route_or_context": "pSILAC pulse-chase",
         "evidence": [
           "Cells were harvested and counted in two biological replicates at four different time points (0, 1, 4.5, and 11 h)."
         ]
@@ -65,38 +69,28 @@
       "11 h"
     ],
     "control_arms": [
-      "HeLa Kyoto strains"
+      "HeLa CCL2"
     ],
     "case_arms": [
-      "HeLa CCL2 strains"
+      "HeLa Kyoto"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "two replicates each",
-      "two biological replicates"
+      "two biological replicates at four different time points",
+      "Two dishes of whole-process replicate were prepared at each time"
     ],
     "multiplex_channel_hints": [
-      "heavy SILAC (K8R10) medium",
-      "light SILAC medium",
-      "heavy-to-light (H/L) ratios"
+      "pSILAC (light and heavy isotopically labeled lysine and arginine)"
     ],
     "contrast_hints": [
       {
-        "control_label": "HeLa Kyoto",
-        "case_label": "HeLa CCL2",
-        "contrast_type": "multi_group",
+        "control_label": "HeLa CCL2",
+        "case_label": "HeLa Kyoto",
+        "contrast_type": "pairwise",
         "evidence": [
           "presenting a balanced comparison between HeLa Kyoto and CCL2 strains",
           "relative difference of k loss between HeLa CCL2 and Kyoto"
-        ]
-      },
-      {
-        "control_label": "HeLa P7",
-        "case_label": "HeLa P50",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "The RNA-Seq data for HeLa 12 (variant CCL2, passage 50; P50) were compared to the data from HeLa 14 (variant CCL2, passage 7; P7)."
         ]
       }
     ],
@@ -104,88 +98,99 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "cell type",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": "HeLa",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DIA",
     "labeling_strategy": [
-      "SILAC"
+      "SILAC",
+      "LFQ"
     ],
     "quantification_strategy": [
       "pSILAC",
-      "LFQ"
+      "Relative Isotopic Abundance (RIA)",
+      "Normalized Light Intensity (NLI)",
+      "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": "CL:0000066"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": null
+        },
+        {
+          "label": "HeLa Kyoto",
+          "ontology_curie": null
+        },
+        {
+          "label": "HeLa CCL2",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
+          "confidence": 100,
           "reason": "The study explicitly uses data-independent acquisition mass spectrometry (DIA-MS) for both total protein abundance and pSILAC measurements."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "DDA was used for hybrid library generation, though the primary analysis is DIA."
+          "confidence": 60,
+          "reason": "DDA was used for spectral library generation, but the primary quantification is DIA."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "silac_pulse_chase",
-          "confidence": 1.0,
+          "confidence": 100,
           "reason": "The experiment uses pulse stable isotope-labeled amino acids in cells (pSILAC) to measure protein degradation rates (k loss)."
+        },
+        {
+          "modifier_workflow_id": "isoform_resolved",
+          "confidence": 90,
+          "reason": "The study uses a sample-specific RNA-Seq-derived protein sequence database to resolve protein degradation at the level of mRNA alternative splicing isoforms."
         }
       ],
       "trigger_keywords": [
-        "DIA-MS",
         "pSILAC",
-        "pulse stable isotope-labeled amino acids",
-        "data-independent acquisition",
-        "k loss"
+        "DIA-MS",
+        "k loss",
+        "alternative splicing isoforms",
+        "Inverted Spike-In workflow",
+        "pulse-chase SILAC"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -193,28 +198,34 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dia_lfq",
-          "confidence": 1.0,
+          "confidence": 100,
           "reason": "The study explicitly uses data-independent acquisition mass spectrometry (DIA-MS) for both total protein abundance and pSILAC measurements."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "DDA was used for hybrid library generation, though the primary analysis is DIA."
+          "confidence": 60,
+          "reason": "DDA was used for spectral library generation, but the primary quantification is DIA."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "silac_pulse_chase",
-          "confidence": 1.0,
+          "confidence": 100,
           "reason": "The experiment uses pulse stable isotope-labeled amino acids in cells (pSILAC) to measure protein degradation rates (k loss)."
+        },
+        {
+          "modifier_workflow_id": "isoform_resolved",
+          "confidence": 90,
+          "reason": "The study uses a sample-specific RNA-Seq-derived protein sequence database to resolve protein degradation at the level of mRNA alternative splicing isoforms."
         }
       ],
       "trigger_keywords": [
-        "DIA-MS",
         "pSILAC",
-        "pulse stable isotope-labeled amino acids",
-        "data-independent acquisition",
-        "k loss"
+        "DIA-MS",
+        "k loss",
+        "alternative splicing isoforms",
+        "Inverted Spike-In workflow",
+        "pulse-chase SILAC"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -242,7 +253,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:20Z"
   }
 }

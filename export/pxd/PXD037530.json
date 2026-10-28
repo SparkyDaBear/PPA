@@ -3,20 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT",
+    "quantification_method": "TMT-based multiplexed quantification",
     "labeling_strategy": [
       "TMT"
     ],
     "treatment_categories": [
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "disease or clinical state"
     ],
-    "cell_types": [
-      "hepatocytes"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -31,11 +32,30 @@
           "chemical_or_drug"
         ],
         "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
-        "confidence": "high",
+        "confidence": "medium",
         "evidence": [
           "analyzing changes in the modification and expression of proteins 1 month post-treatment with UC-MSCs",
           "Each patient was administered UC-MSCs suspended in saline through the portal vein or hepatic artery infusion"
-        ]
+        ],
+        "notes": "While UC-MSCs are cells, the ontology for 'chemical_or_drug' is the closest fit for a therapeutic agent intervention in this specific hierarchy if not classified as a disease state, though it is technically a cell therapy. No specific 'cell therapy' class exists in the provided L2 ontology."
+      },
+      {
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "11 cirrhosis patients who received MSC injection",
+          "cirrhosis related to hepatitis B viruses"
+        ],
+        "notes": "The study focuses on patients with liver cirrhosis, comparing their state before and after treatment."
       }
     ],
     "attributes": [
@@ -69,7 +89,6 @@
     "paired_design": true,
     "factorial_design": false,
     "replicate_hints": [
-      "11 cirrhosis patients",
       "All experiments were set to more than three biological replicates"
     ],
     "multiplex_channel_hints": [
@@ -82,52 +101,12 @@
         "contrast_type": "pairwise",
         "evidence": [
           "The patients were compared before and after treatment",
-          "paired liver biopsies were performed at baseline and 1 month after enrollment"
+          "changes in proteomic and protein lactylation modification sites in cirrhosis before and after UC-MSC therapy"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "hepatocytes",
-        "rollup_category": "liver cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "liver",
-        "source_kind": "organ"
-      },
-      {
-        "label": "liver parenchyma",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -136,21 +115,49 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT"
+      "TMT-based multiplexed quantification"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "lactylation enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_lactylation",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "lactylation enrichment via lactic acid resin"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "liver",
+          "source_kind": "organ"
+        },
+        {
+          "label": "liver parenchyma",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -160,21 +167,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The methods explicitly state the use of TMT16plex labeling for both peptide N-terminals and Lysine residues."
+          "reason": "The methods explicitly state the use of TMT16plex labeling for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_lactylation",
+          "modifier_workflow_id": "modifier_ptm_enrichment",
           "confidence": 1.0,
-          "reason": "The study specifically focuses on lysine lactylation (Kla) using lactic acid resin (PTM-1404) for enrichment."
+          "reason": "The study used lactic acid resin (PTM-1404) to enrich for lactylated peptides."
         }
       ],
       "trigger_keywords": [
         "TMT16plex",
-        "lactylation",
-        "Kla",
-        "lactic acid resin"
+        "lactic acid resin",
+        "lactylation modification",
+        "Kla sites"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -183,21 +190,21 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The methods explicitly state the use of TMT16plex labeling for both peptide N-terminals and Lysine residues."
+          "reason": "The methods explicitly state the use of TMT16plex labeling for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_lactylation",
+          "modifier_workflow_id": "modifier_ptm_enrichment",
           "confidence": 1.0,
-          "reason": "The study specifically focuses on lysine lactylation (Kla) using lactic acid resin (PTM-1404) for enrichment."
+          "reason": "The study used lactic acid resin (PTM-1404) to enrich for lactylated peptides."
         }
       ],
       "trigger_keywords": [
         "TMT16plex",
-        "lactylation",
-        "Kla",
-        "lactic acid resin"
+        "lactic acid resin",
+        "lactylation modification",
+        "Kla sites"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -225,7 +232,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:20:49Z"
   }
 }

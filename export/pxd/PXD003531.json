@@ -9,23 +9,22 @@
     ],
     "treatment_categories": [
       "disease or clinical state",
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "genetic perturbation"
     ],
     "cell_types": [
       "epithelial cells",
-      "ovarian surface epithelium",
-      "distal fallopian tube epithelium"
+      "primary epithelial cells",
+      "ovarian epithelial cells"
     ],
     "cell_lines": [
-      "OVCAR3",
-      "SKOV3",
-      "HEYA8",
-      "COV362",
-      "COV318"
+      "OVCAR3"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "phosphoproteome",
-    "sample_scope_curie": null,
+    "sex": "female",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -64,6 +63,22 @@
           "Untreated cells were compared to cells treated with THZ1, a specific inhibitor of CDK7",
           "The mitogen-activated protein kinase kinase (MEK) inhibitor U0126 was used as control"
         ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockdown_or_interference_perturbation"
+        ],
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
+        "confidence": "high",
+        "evidence": [
+          "we transfected OVCAR3, COV318, or COV362 cells with two different small interfering RNA (siRNA) sequences against CDK7"
+        ]
       }
     ],
     "attributes": [
@@ -86,6 +101,16 @@
         "evidence": [
           "The mitogen-activated protein kinase kinase (MEK) inhibitor U0126 was used as control"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "siRNA against CDK7",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "OVCAR3, COV318, or COV362 cells",
+        "evidence": [
+          "we transfected OVCAR3, COV318, or COV362 cells with two different small interfering RNA (siRNA) sequences against CDK7"
+        ]
       }
     ],
     "source_sections": [
@@ -93,7 +118,10 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "4-hr",
+      "72-hr"
+    ],
     "control_arms": [
       "healthy tissue",
       "OSE",
@@ -103,16 +131,17 @@
     "case_arms": [
       "EOC",
       "THZ1 treated",
-      "U0126 treated"
+      "U0126 treated",
+      "CDK7 siRNA knockdown"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "13 independent patient samples",
-      "biological replicates"
+      "All experiments were performed at least three times"
     ],
     "multiplex_channel_hints": [
-      "label-free quantitation"
+      "iTRAQ"
     ],
     "contrast_hints": [
       {
@@ -120,7 +149,7 @@
         "case_label": "EOC",
         "contrast_type": "multi_group",
         "evidence": [
-          "The samples were grouped in three categories representing EOC, FTE, and OSE and we used the LIMMA package of Bioconductor in R to detect significant changes in abundance among the three groups."
+          "compared the molecular profile of high-grade serous EOC with those of non-neoplastic FTE and OSE"
         ]
       },
       {
@@ -130,77 +159,18 @@
         "evidence": [
           "Untreated cells were compared to cells treated with THZ1"
         ]
+      },
+      {
+        "control_label": "Untreated",
+        "case_label": "U0126",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "The mitogen-activated protein kinase kinase (MEK) inhibitor U0126 was used as control"
+        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cells",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "ovarian surface epithelium",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "distal fallopian tube epithelium",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "OVCAR3",
-        "family": "ovarian cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "SKOV3",
-        "family": "ovarian cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "HEYA8",
-        "family": "ovarian cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "COV362",
-        "family": "ovarian cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "COV318",
-        "family": "ovarian cancer",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "phosphoproteome",
-      "curie": null
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -212,18 +182,68 @@
       "label-free quantitation"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "enrichment of phosphorylated peptides by TiO2-based chromatography"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cells",
+          "ontology_curie": null
+        },
+        {
+          "label": "primary epithelial cells",
+          "ontology_curie": null
+        },
+        {
+          "label": "ovarian epithelial cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "OVCAR3",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "epithelial ovarian cancer (EOC)",
+          "source_kind": "cohort_descriptor"
+        },
+        {
+          "label": "ovarian surface epithelium (OSE)",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "distal fallopian tube epithelium (FTE)",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -233,21 +253,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Label free' quantification and 'Shotgun proteomics'. The text mentions 'single-run liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantitation' for the OVCAR3 dataset."
+          "reason": "PRIDE metadata explicitly lists 'Label free' quantification and 'Shotgun proteomics'. Text mentions 'single-run liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantitation'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Extensive evidence of TiO2-based chromatography for enrichment of phosphorylated peptides and identification of phosphorylation sites."
+          "reason": "Extensive mention of 'phosphoproteomics', 'enrichment of phosphorylated peptides by TiO2-based chromatography', and 'phosphorylated residue' in PRIDE metadata."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
         "TiO2-based chromatography",
         "label-free",
-        "phosphorylation sites"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -256,21 +276,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly lists 'Label free' quantification and 'Shotgun proteomics'. The text mentions 'single-run liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantitation' for the OVCAR3 dataset."
+          "reason": "PRIDE metadata explicitly lists 'Label free' quantification and 'Shotgun proteomics'. Text mentions 'single-run liquid chromatography-tandem mass spectrometry (LC-MS/MS)' and 'label-free quantitation'."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "phosphoproteomics",
           "confidence": 1.0,
-          "reason": "Extensive evidence of TiO2-based chromatography for enrichment of phosphorylated peptides and identification of phosphorylation sites."
+          "reason": "Extensive mention of 'phosphoproteomics', 'enrichment of phosphorylated peptides by TiO2-based chromatography', and 'phosphorylated residue' in PRIDE metadata."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
         "TiO2-based chromatography",
         "label-free",
-        "phosphorylation sites"
+        "LFQ"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -298,7 +318,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:43Z"
   }
 }

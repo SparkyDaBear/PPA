@@ -8,20 +8,22 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "cancer subtype comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "female",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease_status",
@@ -32,8 +34,24 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "we performed global mapping of ADMA in five patient-derived xenograft (PDX) tumors representing different subtypes of human breast cancer",
-          "quantified methylated proteins were compared between ER-positive and ER-negative tumors"
+          "we performed global mapping of ADMA in five patient-derived xenograft (PDX) tumors representing different subtypes of human breast cancer"
+        ]
+      },
+      {
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "the quantified methylated proteins were compared between ER-positive and ER-negative tumors",
+          "Unique protein substrates were identified between ER+ and ER- tumors"
         ]
       }
     ],
@@ -44,66 +62,30 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [
-      "ER-positive tumors"
-    ],
+    "control_arms": [],
     "case_arms": [
-      "ER-negative tumors"
+      "ER+ tumors",
+      "ER- tumors"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Each sample was acquired in two technical replicates.",
-      "The mean protein intensities were calculated for each biological replicate based on two technical replicates"
+      "Each sample was acquired in two technical replicates",
+      "two technical replicates of LFQ intensity in each tumor sample"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "ER+",
-        "case_label": "ER-",
+        "control_label": "ER+ tumors",
+        "case_label": "ER- tumors",
         "contrast_type": "pairwise",
         "evidence": [
-          "quantified methylated proteins were compared between ER-positive and ER-negative tumors"
+          "the quantified methylated proteins were compared between ER-positive and ER-negative tumors"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "patient-derived xenograft (PDX) tumors",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -115,18 +97,46 @@
       "MaxQuant LFQ algorithm"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "asymmetric arginine dimethylation enrichment",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "enrich for modified peptides using PTMScan Asymmetric Di-Methyl Arginine Motif [adme-R] antibodies"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "mouse",
+          "taxonomy_hint": null,
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "patient-derived xenograft (PDX) tumors",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "human breast tumors",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -141,16 +151,16 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment_antibody",
+          "modifier_workflow_id": "modifier_adma_enrichment",
           "confidence": 1.0,
-          "reason": "Used PTMScan Asymmetric Di-Methyl Arginine Motif [adme-R] antibodies for immunoaffinity purification of modified peptides."
+          "reason": "The experiment uses pan-specific ADMA antibodies (PTMScan Asymmetric Di-Methyl Arginine Motif [adme-R]) for immunoaffinity purification of modified peptides."
         }
       ],
       "trigger_keywords": [
-        "LFQ",
-        "label-free quantification",
-        "immunoaffinity purification",
         "ADMA",
+        "asymmetric di-methylation",
+        "LFQ",
+        "immunoaffinity purification",
         "PTMScan"
       ],
       "raw_or_file_name_triggers": []
@@ -165,16 +175,16 @@
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ptm_enrichment_antibody",
+          "modifier_workflow_id": "modifier_adma_enrichment",
           "confidence": 1.0,
-          "reason": "Used PTMScan Asymmetric Di-Methyl Arginine Motif [adme-R] antibodies for immunoaffinity purification of modified peptides."
+          "reason": "The experiment uses pan-specific ADMA antibodies (PTMScan Asymmetric Di-Methyl Arginine Motif [adme-R]) for immunoaffinity purification of modified peptides."
         }
       ],
       "trigger_keywords": [
-        "LFQ",
-        "label-free quantification",
-        "immunoaffinity purification",
         "ADMA",
+        "asymmetric di-methylation",
+        "LFQ",
+        "immunoaffinity purification",
         "PTMScan"
       ],
       "raw_or_file_name_triggers": []
@@ -203,7 +213,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:22:56Z"
   }
 }

@@ -10,15 +10,14 @@
     "treatment_categories": [
       "overexpression or transgene perturbation"
     ],
-    "cell_types": [
-      "colorectal cancer cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HCT8"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,8 +35,8 @@
         "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "we performed immunoprecipitation assays with lysates from the cells transfected with flag-labeled circPLCE1 vector",
-          "To identify this protein, we performed immunoprecipitation assays with lysates from the cells transfected with flag-labeled circPLCE1 vector (Fig. 3F and G). The protein bands at approximate 50 kDa were excised and submitted for mass spectrometry (MS)."
+          "we constructed four flag-labeled plasmids to confirm the existence of circPLCE1-411 (flag-labeled circPLCE1 sequence, flag-labeled circPLCE1 sequence with start codon mutant and flag-labeled circPLCE1-411 sequence)",
+          "cells transfected with flag-labeled circPLCE1 vector"
         ]
       }
     ],
@@ -47,9 +46,19 @@
         "agent": "flag-labeled circPLCE1 vector",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "transfected",
+        "route_or_context": "transfected into HCT8 cells",
         "evidence": [
           "performed immunoprecipitation assays with lysates from the cells transfected with flag-labeled circPLCE1 vector"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "circPLCE1-411",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression via plasmid",
+        "evidence": [
+          "flag-labeled circPLCE1-411 sequence"
         ]
       }
     ],
@@ -59,54 +68,32 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "empty vector",
+      "circPLCE1-ATGmut"
+    ],
     "case_arms": [
-      "flag-labeled circPLCE1 vector"
+      "circPLCE1",
+      "circPLCE1-411"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "Each group consisted of 5 mice"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "empty vector",
+        "case_label": "circPLCE1-411",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "To identify the unknown interacting proteins with circPLCE1-411, we extracted the proteins from HCT8 cells and performed co-immunoprecipitation assays with Flag antibody."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "colorectal cancer cell",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HCT8",
-        "family": "colorectal carcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -118,18 +105,42 @@
       "Unknown"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "co-immunoprecipitation assays with Flag antibody to identify interacting proteins with circPLCE1-411"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of flag-labeled circPLCE1 vector"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HCT8",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -138,15 +149,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The PRIDE metadata describes a data-dependent acquisition (DDA) procedure ('one MS scan followed by 20 MS/MS scans') and the experiment is a co-immunoprecipitation (co-IP) to identify interacting proteins, which typically uses label-free quantification or simple identification."
+          "confidence": 8,
+          "reason": "The experiment used a Q Exactive instrument with a data-dependent acquisition (DDA) procedure (top 20 precursor ions) and performed co-immunoprecipitation (co-IP) to identify interacting proteins, which typically follows a label-free quantification (LFQ) or identification-only approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip",
+          "confidence": 10,
+          "reason": "The project description and methods explicitly state that proteins were extracted from HCT8 cells and performed co-immunoprecipitation assays with Flag antibody."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent procedure",
+        "immunoprecipitation",
         "co-immunoprecipitation",
-        "top 20 precursor ions"
+        "Flag antibody",
+        "data-dependent procedure"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -154,21 +172,28 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The PRIDE metadata describes a data-dependent acquisition (DDA) procedure ('one MS scan followed by 20 MS/MS scans') and the experiment is a co-immunoprecipitation (co-IP) to identify interacting proteins, which typically uses label-free quantification or simple identification."
+          "confidence": 8,
+          "reason": "The experiment used a Q Exactive instrument with a data-dependent acquisition (DDA) procedure (top 20 precursor ions) and performed co-immunoprecipitation (co-IP) to identify interacting proteins, which typically follows a label-free quantification (LFQ) or identification-only approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip",
+          "confidence": 10,
+          "reason": "The project description and methods explicitly state that proteins were extracted from HCT8 cells and performed co-immunoprecipitation assays with Flag antibody."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent procedure",
+        "immunoprecipitation",
         "co-immunoprecipitation",
-        "top 20 precursor ions"
+        "Flag antibody",
+        "data-dependent procedure"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
       "preferred_engine": "unknown",
-      "pairwise_strategy": "unknown",
+      "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
     "source_sections": [
@@ -190,7 +215,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:45:10Z"
   }
 }

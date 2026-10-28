@@ -8,7 +8,7 @@
       "SILAC"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "overexpression or transgene perturbation"
     ],
     "cell_types": [
       "epithelial cell"
@@ -16,16 +16,17 @@
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "overexpression or transgene perturbation",
+        "ontology_curie": "PPA:0000051",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "overexpression_or_transgene_perturbation",
@@ -37,6 +38,7 @@
         "confidence": "high",
         "evidence": [
           "we used a set of green fluorescent protein (GFP)-fused testin protein variants as bait to analyse, via affinity purification-mass spectrometry (AP-MS), the composition of the protein complexes these testin variants participate in.",
+          "ectopically expressed testin-variants and endogenous testin reside in one complex",
           "Hela cells were transfected with the different constructs"
         ]
       }
@@ -61,12 +63,13 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "empty pGEX-2TK or pGEX-4T-2 vectors"
+      "endogenous testin",
+      "empty vectors"
     ],
     "case_arms": [
-      "FL-GFP",
       "\u0394PET-GFP",
-      "LIM1-3-GFP"
+      "LIM1-3-GFP",
+      "FL-GFP"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -76,53 +79,16 @@
     ],
     "contrast_hints": [
       {
-        "control_label": "empty vector",
-        "case_label": "testin variants",
-        "contrast_type": "multi_group",
+        "control_label": "endogenous testin",
+        "case_label": "ectopically expressed testin variants",
+        "contrast_type": "pairwise",
         "evidence": [
-          "The empty pGEX-2TK or pGEX-4T-2 vectors or those encoding a GST-testin variant were transformed"
+          "ectopically expressed testin-variants and endogenous testin reside in one complex"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": "cervix carcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -133,19 +99,43 @@
     "quantification_strategy": [
       "SILAC"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "affinity purification-mass spectrometry (AP-MS) of testin-containing co-complexes"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": "CL:0000066"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -155,22 +145,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'SILAC labeling was perfomed' and 'nanoLC-MS/MS on a Q-exactive system in data-dependent mode'."
+          "reason": "PRIDE metadata explicitly states 'SILAC labeling was perfomed' and 'quantificationMethods: SILAC', and 'data-dependent mode' (DDA) was used on a Q-exactive system."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ap_ms",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "Experiment is described as 'affinity purification-mass spectrometry (AP-MS)' using various testin variants as bait."
+          "reason": "Experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' (AP-MS) using various testin variants as baits."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "data-dependent mode",
         "AP-MS",
-        "affinity purification",
-        "Co-IP"
+        "data-dependent mode",
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -179,22 +168,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "PRIDE metadata explicitly states 'SILAC labeling was perfomed' and 'nanoLC-MS/MS on a Q-exactive system in data-dependent mode'."
+          "reason": "PRIDE metadata explicitly states 'SILAC labeling was perfomed' and 'quantificationMethods: SILAC', and 'data-dependent mode' (DDA) was used on a Q-exactive system."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ap_ms",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "Experiment is described as 'affinity purification-mass spectrometry (AP-MS)' using various testin variants as bait."
+          "reason": "Experiment is explicitly described as 'Affinity purification coupled with mass spectrometry proteomics' (AP-MS) using various testin variants as baits."
         }
       ],
       "trigger_keywords": [
         "SILAC",
-        "data-dependent mode",
         "AP-MS",
-        "affinity purification",
-        "Co-IP"
+        "data-dependent mode",
+        "affinity purification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -222,7 +210,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:46:41Z"
   }
 }

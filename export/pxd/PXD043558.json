@@ -8,15 +8,17 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "ligand-mediated stimulation"
+      "ligand-mediated stimulation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
-      "blood platelet"
+      "platelets"
     ],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "gel-fractionated protein scope",
-    "sample_scope_curie": null,
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -34,8 +36,26 @@
         "matched_definition": "Stimulation using chemokine ligands.",
         "confidence": "high",
         "evidence": [
+          "PF4 is an abundant chemokine that is released from platelet \u03b1-granules on activation.",
           "PF4 stimulated biphasic platelet aggregation over 3 to 100 \u03bcg/mL",
-          "Platelet factor 4 (PF4), also known as C-X-C motif ligand 4, is a 7.8-kDa chemokine"
+          "PF4 stimulated a concentration-dependent increase in tyrosine phosphorylation"
+        ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "kinase_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "kinase_inhibitor_treatment"
+        ],
+        "matched_definition": "Treatment using a compound that inhibits protein kinase activity or kinase signaling.",
+        "confidence": "high",
+        "evidence": [
+          "The JAK2 inhibitor ruxolitinib blocks platelet aggregation to PF4 and to VITT antibodies.",
+          "Inhibition of JAK-STAT signaling with ruxolitinib inhibits platelet aggregation in response to PF4"
         ]
       }
     ],
@@ -50,6 +70,16 @@
           "prior to PF4 50 \u03bcg/mL addition",
           "Reactions were terminated after 10 minutes"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "ruxolitinib",
+        "dose_or_concentration": "100 nM",
+        "duration": null,
+        "route_or_context": "JAK2 inhibitor",
+        "evidence": [
+          "we used a concentration of ruxolitinib (100 nM)"
+        ]
       }
     ],
     "source_sections": [
@@ -61,58 +91,39 @@
       "10 minutes"
     ],
     "control_arms": [
-      "untreated"
+      "untreated platelets"
     ],
     "case_arms": [
-      "PF4 stimulated"
+      "PF4 stimulated",
+      "ruxolitinib treated"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
+    "replicate_hints": [
+      "mean \u00b1 standard deviation"
+    ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "untreated",
         "case_label": "PF4",
+        "contrast_type": "dose_response",
+        "evidence": [
+          "PF4 stimulated biphasic platelet aggregation over 3 to 100 \u03bcg/mL",
+          "PF4 stimulated a concentration-dependent increase in tyrosine phosphorylation"
+        ]
+      },
+      {
+        "control_label": "PF4",
+        "case_label": "PF4 + ruxolitinib",
         "contrast_type": "pairwise",
         "evidence": [
-          "PF4 stimulated a concentration-dependent increase in tyrosine phosphorylation"
+          "ruxolitinib inhibited aggregation by PF4 (50 \u03bcg/mL)"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "blood platelet",
-        "rollup_category": "cell",
-        "ontology_curie": "BTO:0000132"
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "gel-fractionated protein scope",
-      "curie": null
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -124,18 +135,37 @@
       "Label-free"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphopeptide enrichment via SDS-PAGE gel excision of 95 kDa band"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "platelets",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -144,22 +174,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition (top 20 most abundant ions) using QExactive HF. No labeling (SILAC/Isobaric) mentioned; quantification is implied by the use of phosphoproteomics to identify proteins in a specific gel band."
+          "confidence": 80,
+          "reason": "DDA acquisition (top 20 most abundant ions) using QExactive HF. While no formal LFQ method is detailed, the use of gel excision for a specific band (95 kDa) suggests a targeted identification/relative abundance approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.9,
-          "reason": "The experiment specifically targets tyrosine phosphorylation and uses gel excision of a 95 kDa band known to contain phosphorylated proteins (STAT5/STAT3)."
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 100,
+          "reason": "Explicitly described as phosphoproteomics in PRIDE metadata and text, focusing on tyrosine phosphorylation of STAT5 and STAT3."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
-        "tyrosine phosphorylation",
-        "phosphorylated residue",
-        "phospho STAT5"
+        "phosphorylation",
+        "phospho STAT5",
+        "tyrosine phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -167,22 +197,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "DDA acquisition (top 20 most abundant ions) using QExactive HF. No labeling (SILAC/Isobaric) mentioned; quantification is implied by the use of phosphoproteomics to identify proteins in a specific gel band."
+          "confidence": 80,
+          "reason": "DDA acquisition (top 20 most abundant ions) using QExactive HF. While no formal LFQ method is detailed, the use of gel excision for a specific band (95 kDa) suggests a targeted identification/relative abundance approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phospho_enrichment",
-          "confidence": 0.9,
-          "reason": "The experiment specifically targets tyrosine phosphorylation and uses gel excision of a 95 kDa band known to contain phosphorylated proteins (STAT5/STAT3)."
+          "modifier_workflow_id": "phosphoproteomics",
+          "confidence": 100,
+          "reason": "Explicitly described as phosphoproteomics in PRIDE metadata and text, focusing on tyrosine phosphorylation of STAT5 and STAT3."
         }
       ],
       "trigger_keywords": [
         "phosphoproteomics",
-        "tyrosine phosphorylation",
-        "phosphorylated residue",
-        "phospho STAT5"
+        "phosphorylation",
+        "phospho STAT5",
+        "tyrosine phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -210,7 +240,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:26:53Z"
   }
 }

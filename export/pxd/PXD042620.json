@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label-free quantification",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -16,9 +16,10 @@
     "cell_lines": [
       "THP-1"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -44,12 +45,11 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "GFP-SARS-CoV-2 E protein",
+        "agent": "GFP-SARS-CoV-2 E",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "transiently transfected in THP-1 monocytes",
+        "route_or_context": "transiently transfected in THP-1 cells",
         "evidence": [
-          "The E protein was expressed fused to a GFP tag at the amino terminal in THP-1 monocytes",
           "THP-1 cells were transfected with 30 \u03bcg of endo-free plasmid encoding the SARS-CoV-2 E protein by electroporation"
         ]
       },
@@ -58,10 +58,10 @@
         "agent": "GFP",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "negative control vector",
+        "route_or_context": "negative control",
         "evidence": [
           "In all cases, the pEZYeGFP vector was used as a negative control.",
-          "For protein\u2013protein studies, THP-1 cells were transfected with GFP or GFP-SARS-CoV-2 E."
+          "Cells expressing the GFP vector were used as controls"
         ]
       }
     ],
@@ -98,64 +98,51 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "monocytes",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "THP-1",
-        "family": "monocytic cell line",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free quantification"
+      "Label-free"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "AP-MS",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "GFP-SARS-CoV-2 E protein immunoprecipitation via GFP-Trap Agarose beads"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "NEWT:9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "monocytes",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "THP-1",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -164,16 +151,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used a data-dependent top-20 method (DDA) on an Orbitrap Exploris 240. While explicit LFQ software isn't named, the comparison between GFP-E and GFP control pull-downs to identify 'proteins identified only in that of GFP-E' implies a label-free comparative approach."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used (top-20 method) and the experiment is a label-free comparison between GFP-E and GFP control pull-downs."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_apms",
+          "confidence": 0.95,
+          "reason": "The experiment is an affinity purification mass spectrometry (AP-MS) study using GFP-Trap beads to identify interactors of the SARS-CoV-2 E protein."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent top-20",
         "immunoprecipitated",
+        "GFP-Trap",
+        "interactome",
         "pull-down",
-        "GFP-Trap"
+        "data-dependent top-20"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -181,16 +175,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquisition used a data-dependent top-20 method (DDA) on an Orbitrap Exploris 240. While explicit LFQ software isn't named, the comparison between GFP-E and GFP control pull-downs to identify 'proteins identified only in that of GFP-E' implies a label-free comparative approach."
+          "confidence": 0.9,
+          "reason": "Data-dependent acquisition (DDA) was used (top-20 method) and the experiment is a label-free comparison between GFP-E and GFP control pull-downs."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_apms",
+          "confidence": 0.95,
+          "reason": "The experiment is an affinity purification mass spectrometry (AP-MS) study using GFP-Trap beads to identify interactors of the SARS-CoV-2 E protein."
+        }
+      ],
       "trigger_keywords": [
-        "data-dependent top-20",
         "immunoprecipitated",
+        "GFP-Trap",
+        "interactome",
         "pull-down",
-        "GFP-Trap"
+        "data-dependent top-20"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -218,7 +219,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:47:41Z"
   }
 }

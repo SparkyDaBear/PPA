@@ -9,17 +9,20 @@
     ],
     "treatment_categories": [
       "nutrient or metabolic perturbation",
-      "genetic perturbation"
+      "genetic perturbation",
+      "chemical or drug treatment"
     ],
     "cell_types": [
       "hepatocyte"
     ],
     "cell_lines": [
-      "HepG2"
+      "HepG2",
+      "HepG2 p53KO"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -38,8 +41,8 @@
         "confidence": "high",
         "evidence": [
           "starvation leads to robust nuclear p53 stabilization",
-          "p53 signaling networks under nutrient stress",
-          "changing cell culture media to either growth medium (GM) or starvation medium (SM)"
+          "cells were treated in HBSS (gibco, 14175-053) containing 1 g/l glucose supplemented with 10 mM HEPES (\u201cstarvation medium\u201d, SM)",
+          "intracellular biotinylation was induced by changing cell culture media to either growth medium (GM) or starvation medium (SM)"
         ]
       },
       {
@@ -57,6 +60,24 @@
         "evidence": [
           "HepG2 p53 knockout cell lines (HepG2 p53KO) were generated using p53 CRISPR/Cas9 KO plasmid"
         ]
+      },
+      {
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "medium",
+        "evidence": [
+          "pharmacological PAK inhibition utilizing the group I PAK-specific kinase inhibitor FRAX597",
+          "10 \u00b5M nutlin-3a (Biomol, Plymouth Meeting, PA, USA)",
+          "10 \u00b5M MG132 (Calbiochem, 474790)"
+        ]
       }
     ],
     "attributes": [
@@ -65,21 +86,31 @@
         "agent": "starvation medium",
         "dose_or_concentration": "1 g/l glucose",
         "duration": "2 h",
-        "route_or_context": "HepG2 p53KO cells",
+        "route_or_context": "HBSS supplemented with 10 mM HEPES",
         "evidence": [
           "treated in HBSS (gibco, 14175-053) containing 1 g/l glucose supplemented with 10 mM HEPES (\u201cstarvation medium\u201d, SM)",
-          "subjected the cells to either growth medium or starvation medium for 2 h"
+          "After 2 h of biotin labeling, samples were harvested"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "growth medium",
-        "dose_or_concentration": "4.5 g/l glucose",
-        "duration": "2 h",
-        "route_or_context": "HepG2 p53KO cells",
+        "agent": "FRAX597",
+        "dose_or_concentration": "20 nM to 1 \u00b5M",
+        "duration": "6 h",
+        "route_or_context": "HepG2 cells kept in growth medium",
         "evidence": [
-          "maintained in DMEM (gibco, 41966-029) containing 4.5 g/l glucose supplemented with 10% (v/v) heat inactivated fetal bovine serum (FBS; HyCloneTM, SV30160.03) and 1% Penicilin/Streptamycin (gibco, 15140-122) (\u201cgrowth medium\u201d, GM)",
-          "subjected the cells to either growth medium or starvation medium for 2 h"
+          "20 nM to 1 \u00b5M FRAX597 (Selleckchem, S7271)",
+          "gradual p21 upregulation over 6 h of treatment"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "nutlin-3a",
+        "dose_or_concentration": "10 \u00b5M",
+        "duration": null,
+        "route_or_context": "inhibitor of the MDM2/p53-interaction",
+        "evidence": [
+          "10 \u00b5M nutlin-3a (Biomol, Plymouth Meeting, PA, USA)"
         ]
       }
     ],
@@ -89,11 +120,13 @@
   },
   "experimental_design": {
     "timepoints": [
-      "2 h"
+      "2 h",
+      "24 h"
     ],
     "control_arms": [
       "growth medium (GM)",
-      "V5-EGFP-miniTurbo-NES"
+      "V5-EGFP-miniTurbo-NES",
+      "IgG2A isotype control"
     ],
     "case_arms": [
       "starvation medium (SM)",
@@ -104,66 +137,27 @@
     "replicate_hints": [
       "Each group was analyzed in 3 biological replicates"
     ],
-    "multiplex_channel_hints": [
-      "Label-Free Quantification"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "GM_p53",
-        "case_label": "SM_p53",
+        "control_label": "growth medium",
+        "case_label": "starvation medium",
         "contrast_type": "pairwise",
         "evidence": [
-          "Volcano bots were generated with Perseus 1.4.16 using the setting t-test, GM_p53 vs SM_p53, FDR0.05."
+          "Volcano bots were generated with Perseus 1.4.16 using the setting t-test, GM_p53 vs SM_p53"
         ]
       },
       {
-        "control_label": "EGFP control",
-        "case_label": "p53 group",
+        "control_label": "EGFP-mT",
+        "case_label": "p53-mT",
         "contrast_type": "pairwise",
         "evidence": [
-          "hierarchical clustering identified three clusters with proteins specifically enriched in the p53 group over the EGFP control"
+          "Clusters were selected if enriched over EGFP background control under both nutrient conditions"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "hepatocyte",
-        "rollup_category": "cell type",
-        "ontology_curie": "CL:0000182"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HepG2",
-        "family": "hepatoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -175,25 +169,52 @@
       "iBAQ",
       "Label-Free Quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "affinity purification with streptavidin beads for BioID biotinylated proteins"
       },
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "p53 immunoprecipitation (RIME) of chromatin complexes"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "hepatocyte",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HepG2",
+          "ontology_curie": null
+        },
+        {
+          "label": "HepG2 p53KO",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -203,22 +224,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480, utilizing iBAQ and Match Between Runs in MaxQuant."
+          "reason": "The experiment used Label-Free Quantification (LFQ) with an Orbitrap Exploris 480 in DDA mode (most intense precursor ions selected for tandem MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_biotinylation",
           "confidence": 1.0,
-          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a second MaxQuant search specifically for biotinylated peptides on K or N-term."
+          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a specific search for biotinylated peptides on K or N-term."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity-biotinylation",
         "Label-Free Quantification",
-        "iBAQ",
-        "streptavidin beads"
+        "biotinylated peptides"
       ],
       "raw_or_file_name_triggers": [
         "Biotin (K)Sites.txt"
@@ -229,22 +249,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment uses label-free quantification (LFQ) with an Orbitrap Exploris 480, utilizing iBAQ and Match Between Runs in MaxQuant."
+          "reason": "The experiment used Label-Free Quantification (LFQ) with an Orbitrap Exploris 480 in DDA mode (most intense precursor ions selected for tandem MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_biotinylation",
           "confidence": 1.0,
-          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a second MaxQuant search specifically for biotinylated peptides on K or N-term."
+          "reason": "The study explicitly uses BioID (proximity-based biotinylation) with a specific search for biotinylated peptides on K or N-term."
         }
       ],
       "trigger_keywords": [
         "BioID",
         "proximity-biotinylation",
         "Label-Free Quantification",
-        "iBAQ",
-        "streptavidin beads"
+        "biotinylated peptides"
       ],
       "raw_or_file_name_triggers": [
         "Biotin (K)Sites.txt"
@@ -274,7 +293,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:31Z"
   }
 }

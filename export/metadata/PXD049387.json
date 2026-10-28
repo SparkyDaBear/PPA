@@ -1,21 +1,20 @@
 {
   "pxd": "PXD049387",
-  "timestamp": "2026-08-01T20:58:18.949751",
+  "timestamp": "2026-09-22T21:56:04.352953",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
-    "cell_lines": [
-      "VCaP"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "targeted protein degrader treatment"
     ],
@@ -62,13 +61,22 @@
           "label-free",
           "TIC"
         ],
-        "proteomics_mode": "Bottom-up",
-        "assay_targets_or_enrichments": [],
+        "proteomics_mode": "PTM-enriched",
+        "assay_targets_or_enrichments": [
+          {
+            "ontology_label": "phosphoproteome enrichment",
+            "ontology_curie": "PPA:0000292",
+            "workflow_modifier_hint": "mod_phospho",
+            "confidence": "high"
+          }
+        ],
         "stage4_workflow_hints": {
           "base_workflow_candidates": [
             "base_dda_lfq"
           ],
-          "modifier_candidates": [],
+          "modifier_candidates": [
+            "mod_phospho"
+          ],
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
@@ -77,81 +85,50 @@
                 "mass_shift_da": null
               }
             ],
-            "requires_ptm_site_level_output": null
+            "requires_ptm_site_level_output": true
           }
         },
         "evidence": {
           "acquisition": [
             "Top 20 MS/MS",
-            "Orbitrap-Fusion Lumos mass spectrometer"
+            "Dynamic Exclusion Enabled"
           ],
           "labeling": [
             "Cell lysates were analyzed by label-free LC/MS-MS methodology"
           ],
           "quantification": [
             "label-free LC/MS-MS methodology",
-            "quantificationMethods: [ { \"name\": \"TIC\" } ]"
+            "quantificationMethods: TIC"
           ],
           "enrichment": [
-            "Peptides were prepared using the PTMScan Method (Cell Signaling Technology)"
+            "Peptides were prepared using the PTMScan Method (Cell Signaling Technology)",
+            "identifiedPTMStrings: phosphorylated residue"
           ],
           "workflow_hints": [
-            "experimentTypes: [ { \"name\": \"Bottom-up proteomics\" } ]"
+            "Peptides were prepared using the PTMScan Method (Cell Signaling Technology)",
+            "Results were filtered with mass accuracy of +/\u2013 5 ppm on precursor ions and presence of the intended motif."
           ],
-          "file_name_cues": []
+          "file_name_cues": [
+            "Ptmscan"
+          ]
         },
-        "notes": "The text mentions 'PTMScan Method' and 'identifiedPTMStrings' (phosphorylation), but the results section describes the proteomic screen as an 'unbiased proteomic screen of nearly 4,000 detectable proteins' to assess selectivity, which is characteristic of a global proteome analysis rather than a targeted PTM enrichment workflow. No specific PTM-based modifier (like mod_phospho) is explicitly linked to the routing of the global screen results. Acquisition is DDA based on 'Top 20 MS/MS' settings."
+        "notes": "The 'PTMScan Method' from Cell Signaling Technology is a well-known commercial phosphoproteomics enrichment workflow. This is further confirmed by the PRIDE metadata listing 'phosphorylated residue' in the identified PTM strings and the requirement for the 'intended motif' during data filtering."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "epithelial cell",
-            "rollup_category": "cell type",
-            "ontology_curie": "CL:0000066"
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "VCaP",
-            "family": null,
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": false
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Searches were performed against the most recent update of the Uniprot Homo sapiens database",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "epithelial cell"
-          ],
-          "cell_lines": [
-            "VCaP cells were treated with bavdegalutamide",
+          "scope": [
+            "Cell lysates were analyzed by label-free LC/MS-MS methodology.",
             "Global proteomics analysis of PROTAC-treated human VCaP cells"
           ],
-          "noncellular_sources": [],
-          "scope": [
-            "Cell lysates were analyzed by label-free LC/MS-MS methodology."
-          ]
+          "subcellular_fraction": []
         },
-        "notes": "The proteomic screen specifically used VCaP cell lysates. While the paper describes various assays (including ubiquitination assays using TUBE1 beads), the LC-MS/MS data deposited under PXD049387 is explicitly described as analysis of cell lysates."
+        "notes": "The proteomic screen used whole cell lysates from VCaP cells. While the PRIDE metadata mentions 'PTMScan Method', the input text describes the screen as an 'unbiased proteomic screen of nearly 4,000 detectable proteins', which is consistent with a global whole cell lysate analysis."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -231,7 +208,7 @@
             "Cells were either treated with 10nM A5110 or DMSO for 8 hours prior to harvest."
           ]
         },
-        "notes": "The proteomic screen specifically used VCaP cells treated with the PROTAC bavdegalutamide (also referred to as A5110 in PRIDE metadata) versus a DMSO control. Other experiments in the text (animal studies, other cell lines) were not part of the MS dataset PXD049387."
+        "notes": "The proteomics experiment (PXD049387) specifically compares VCaP cells treated with the PROTAC bavdegalutamide (referred to as A5110 in PRIDE metadata) against a DMSO control. Other assays in the text (Western blots, animal studies) are separate from the MS-analyzed samples."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -240,14 +217,14 @@
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 1.0,
-              "reason": "The text explicitly states 'label-free LC/MS-MS methodology' and the PRIDE metadata lists 'Bottom-up proteomics' and 'TIC' (Total Ion Current) for quantification."
+              "reason": "The text explicitly states 'label-free LC/MS-MS methodology' and PRIDE metadata lists 'Bottom-up proteomics' and 'TIC' (Total Ion Current) as the quantification method."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "label-free",
             "LC/MS-MS",
-            "Bottom-up proteomics"
+            "TIC"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -259,13 +236,13 @@
         "search_parameter_hints": {
           "variable_modification_hints": [
             {
-              "name": "Phosphorylation",
+              "name": "phosphorylated residue",
               "residue_or_site": null,
               "mass_shift_da": null,
               "required_for_modifier": null
             },
             {
-              "name": "Monohydroxylation",
+              "name": "monohydroxylated residue",
               "residue_or_site": null,
               "mass_shift_da": null,
               "required_for_modifier": null
@@ -278,8 +255,8 @@
         "evidence": {
           "workflow": [
             "Cell lysates were analyzed by label-free LC/MS-MS methodology.",
-            "Bottom-up proteomics",
-            "quantificationMethods: TIC"
+            "quantificationMethods: TIC",
+            "experimentTypes: Bottom-up proteomics"
           ],
           "differential": [
             "unbiased proteomic screen of nearly 4,000 detectable proteins in VCaP cells showed that treatment with 10 nmol/L bavdegalutamide for 8 hours led to degradation of only AR when a filter of >2x degradation and a P value of <0.05 were applied",
@@ -291,7 +268,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment is a label-free DDA protein quantification screen comparing a PROTAC-treated sample against a DMSO control. Although the study focuses on ubiquitination, the specific proteomic screen described for PXD049387 is a global protein abundance analysis (LFQ) rather than a diGly-capture site-specific analysis."
+        "notes": "The experiment is a global protein abundance screen comparing DMSO control vs PROTAC treatment to verify target selectivity (AR degradation). While PTMScan is mentioned, the results are reported as a global protein screen."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -302,60 +279,50 @@
           "label-free",
           "TIC"
         ],
-        "proteomics_mode": "Bottom-up",
-        "specialized_workflows": [],
+        "proteomics_mode": "PTM-enriched",
+        "specialized_workflows": [
+          "phosphoproteome enrichment"
+        ],
         "evidence": {
           "acquisition": [
             "Top 20 MS/MS",
-            "Orbitrap-Fusion Lumos mass spectrometer"
+            "Dynamic Exclusion Enabled"
           ],
           "labeling": [
             "Cell lysates were analyzed by label-free LC/MS-MS methodology"
           ],
           "quantification": [
             "label-free LC/MS-MS methodology",
-            "quantificationMethods: [ { \"name\": \"TIC\" } ]"
+            "quantificationMethods: TIC"
           ],
           "specialized": [
-            "Peptides were prepared using the PTMScan Method (Cell Signaling Technology)"
+            "Peptides were prepared using the PTMScan Method (Cell Signaling Technology)",
+            "identifiedPTMStrings: phosphorylated residue"
           ]
         },
-        "notes": "The text mentions 'PTMScan Method' and 'identifiedPTMStrings' (phosphorylation), but the results section describes the proteomic screen as an 'unbiased proteomic screen of nearly 4,000 detectable proteins' to assess selectivity, which is characteristic of a global proteome analysis rather than a targeted PTM enrichment workflow. No specific PTM-based modifier (like mod_phospho) is explicitly linked to the routing of the global screen results. Acquisition is DDA based on 'Top 20 MS/MS' settings."
+        "notes": "The 'PTMScan Method' from Cell Signaling Technology is a well-known commercial phosphoproteomics enrichment workflow. This is further confirmed by the PRIDE metadata listing 'phosphorylated residue' in the identified PTM strings and the requirement for the 'intended motif' during data filtering."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "epithelial cell"
-        ],
-        "cell_type_categories": [
-          "cell type"
-        ],
-        "cell_lines": [
-          "VCaP"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
         "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Searches were performed against the most recent update of the Uniprot Homo sapiens database",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "epithelial cell"
-          ],
-          "cell_lines": [
-            "VCaP cells were treated with bavdegalutamide",
+          "scope": [
+            "Cell lysates were analyzed by label-free LC/MS-MS methodology.",
             "Global proteomics analysis of PROTAC-treated human VCaP cells"
           ],
-          "noncellular_sources": [],
-          "scope": [
-            "Cell lysates were analyzed by label-free LC/MS-MS methodology."
-          ]
+          "subcellular_fraction": []
         },
-        "notes": "The proteomic screen specifically used VCaP cell lysates. While the paper describes various assays (including ubiquitination assays using TUBE1 beads), the LC-MS/MS data deposited under PXD049387 is explicitly described as analysis of cell lysates."
+        "notes": "The proteomic screen used whole cell lysates from VCaP cells. While the PRIDE metadata mentions 'PTMScan Method', the input text describes the screen as an 'unbiased proteomic screen of nearly 4,000 detectable proteins', which is consistent with a global whole cell lysate analysis."
       },
       "Treatment_prompt": [
         {

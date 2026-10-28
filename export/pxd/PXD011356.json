@@ -16,9 +16,10 @@
       "A2780",
       "HCT116"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,7 +38,7 @@
         "confidence": "high",
         "evidence": [
           "CRT0063465 targets the nucleotide binding site of glycolytic enzyme phosphoglycerate kinase 1 (PGK1).",
-          "the lead compound CRT0063465 is a nucleotide binding site ligand of PGK1... confirming activity against glycolysis."
+          "CRT0063465 treatment appears to modulate the composition of shelterin complexes in unstressed cells."
         ]
       },
       {
@@ -71,13 +72,23 @@
       },
       {
         "relation_key": "has_treatment_agent",
+        "agent": "CRT0105481",
+        "dose_or_concentration": "10 nM or 100 nM",
+        "duration": "30 minutes",
+        "route_or_context": "A2780 ovarian adenocarcinoma cells",
+        "evidence": [
+          "A2780 cells were treated with CRT0105481 at 10 nM or 100 nM for 30 minutes."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
         "agent": "hypoglycemia",
         "dose_or_concentration": "500 \u03bcM glucose",
-        "duration": "1 week",
+        "duration": "84 days",
         "route_or_context": "HCT116 colorectal cancer cells",
         "evidence": [
-          "HCT116 cells were treated for 1 week in the presence or absence of hypoglycemia",
-          "Cells were fed twice-weekly with low-glucose (500 \u03bcM) medium"
+          "Cells were fed twice-weekly with low-glucose (500 \u03bcM) medium",
+          "hypoglycemia alone led to a relatively stable reduction of telomerase activity over 84 days in culture"
         ]
       }
     ],
@@ -87,7 +98,9 @@
   },
   "experimental_design": {
     "timepoints": [
-      "1 week"
+      "30 minutes",
+      "1 hour",
+      "84 days"
     ],
     "control_arms": [
       "vehicle",
@@ -100,7 +113,8 @@
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [
-      "Experiments were performed twice"
+      "Experiments were performed twice",
+      "Experiments were performed three times with qPCR in triplicate"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -117,7 +131,7 @@
         "case_label": "hypoglycemia",
         "contrast_type": "pairwise",
         "evidence": [
-          "HCT116 cells were treated for 1 week in the presence or absence of hypoglycemia"
+          "telomere lengths were decreased in hypoglycemia relative to physiological conditions"
         ]
       },
       {
@@ -133,42 +147,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "A2780",
-        "family": "ovarian adenocarcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "HCT116",
-        "family": "colorectal cancer",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -178,19 +156,42 @@
       "TIC",
       "area under the peaks"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "TRF2 pull-down"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "A2780",
+          "ontology_curie": null
+        },
+        {
+          "label": "HCT116",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -200,22 +201,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on TIC (Total Ion Current) / area under the peak, which is a form of label-free quantification (LFQ)."
+          "reason": "The experiment uses DDA (top 10 ions) and label-free quantification based on 'quantification of areas under the peaks of each spectrum' (TIC)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_affinity_purification",
           "confidence": 0.95,
-          "reason": "The study explicitly uses TRF2 pull-down (immunoprecipitation) and photoaffinity cross-linking to identify interacting proteins."
+          "reason": "The dataset is explicitly described as TRF2 pull-down LC-MS analysis and affinity purification coupled with mass spectrometry."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
-        "pull-down",
-        "photoaffinity cross-linking",
-        "TIC",
-        "area under the peaks"
+        "TRF2 pull-down",
+        "immunoprecipitated",
+        "areas under the peaks",
+        "top 10 ions"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -224,22 +224,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses DDA (top 10 ions) and quantification is based on TIC (Total Ion Current) / area under the peak, which is a form of label-free quantification (LFQ)."
+          "reason": "The experiment uses DDA (top 10 ions) and label-free quantification based on 'quantification of areas under the peaks of each spectrum' (TIC)."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_affinity_purification",
           "confidence": 0.95,
-          "reason": "The study explicitly uses TRF2 pull-down (immunoprecipitation) and photoaffinity cross-linking to identify interacting proteins."
+          "reason": "The dataset is explicitly described as TRF2 pull-down LC-MS analysis and affinity purification coupled with mass spectrometry."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
-        "pull-down",
-        "photoaffinity cross-linking",
-        "TIC",
-        "area under the peaks"
+        "TRF2 pull-down",
+        "immunoprecipitated",
+        "areas under the peaks",
+        "top 10 ions"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -267,7 +266,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:10Z"
   }
 }

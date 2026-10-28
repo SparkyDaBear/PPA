@@ -16,11 +16,13 @@
       "fibroblast"
     ],
     "cell_lines": [
-      "HEK293"
+      "HEK293",
+      "DNAJC30-KO HEK293"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "Unknown"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -55,7 +57,7 @@
         "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "by tracking protein turnover in patient-derived cell lines and a DNAJC30-knockout cellular model",
+          "DNAJC30-knockout cellular model",
           "Biallelic knockout of DNAJC30 resulted from donor integration in the first allele and a c.158_159insA (NM_032317.2) frameshift mutation in the second allele",
           "quantitative proteomic analysis of detergent dodecyl maltoside\u2013solubilized (DDM-solubilized) respiratory chain complexes (RCCs) resolved by blue native electrophoresis (BNE) in the DNAJC30-KO HEK293 cell line"
         ]
@@ -108,8 +110,7 @@
     "factorial_design": false,
     "replicate_hints": [
       "patient-derived (n = 3)",
-      "control (n = 105)",
-      "control fibroblast (n = 79)"
+      "control (n = 105)"
     ],
     "multiplex_channel_hints": [
       "pSILAC metabolic labeling"
@@ -124,10 +125,11 @@
         ]
       },
       {
-        "control_label": "control HEK293",
+        "control_label": "parental HEK293",
         "case_label": "DNAJC30-KO HEK293",
         "contrast_type": "pairwise",
         "evidence": [
+          "quantitative proteomic analysis ... in the DNAJC30-KO HEK293 cell line",
           "studied the protein turnover of more than 1,200 proteins in the control and DNAJC30-KO HEK293 cell line"
         ]
       },
@@ -144,43 +146,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "fibroblast",
-        "rollup_category": "cell",
-        "ontology_curie": "CL:0000057"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "HEK",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -191,19 +156,47 @@
       "IBAQ",
       "pSILAC"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "complexome profiling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_complexome",
-        "confidence": "high"
+        "category": "Unknown",
+        "curie": "PPA:0000450",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "fibroblast",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        },
+        {
+          "label": "DNAJC30-KO HEK293",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -211,63 +204,65 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_silac",
-          "confidence": 1.0,
-          "reason": "The methods explicitly describe 'pSILAC metabolic labeling' using 13C6,15N4-L-arginine and 13C6,15N2-L-lysine for protein turnover measurements."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The PRIDE metadata explicitly states 'MS data were recorded by data dependent acquisition' and 'Intensity-based absolute quantification (IBAQ) values were recorded', which is a standard label-free quantification approach in MaxQuant."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The PRIDE metadata and results mention 'Intensity-based absolute quantification (IBAQ)' and 'differential expression analysis (DEA)' for complex I abundance."
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 60,
+          "reason": "The publication text describes 'pSILAC metabolic labeling' using 13C6,15N4-L-arginine and 13C6,15N2-L-lysine to measure protein turnover."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "complexome_profiling",
-          "confidence": 0.9,
-          "reason": "The study uses Blue Native Electrophoresis (BNE) to resolve respiratory chain complexes (RCCs) followed by MS, explicitly termed 'complexome profiling'."
+          "confidence": 95,
+          "reason": "The text and PRIDE metadata repeatedly refer to 'complexome profiling' and the use of 'blue native electrophoresis (BNE)' to resolve respiratory chain complexes before MS analysis."
         }
       ],
       "trigger_keywords": [
-        "pSILAC",
-        "BNE",
         "complexome profiling",
+        "blue native electrophoresis",
+        "BNE",
+        "pSILAC",
         "IBAQ",
-        "protein turnover"
+        "data dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_silac",
-          "confidence": 1.0,
-          "reason": "The methods explicitly describe 'pSILAC metabolic labeling' using 13C6,15N4-L-arginine and 13C6,15N2-L-lysine for protein turnover measurements."
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 80,
+          "reason": "The PRIDE metadata explicitly states 'MS data were recorded by data dependent acquisition' and 'Intensity-based absolute quantification (IBAQ) values were recorded', which is a standard label-free quantification approach in MaxQuant."
         },
         {
-          "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The PRIDE metadata and results mention 'Intensity-based absolute quantification (IBAQ)' and 'differential expression analysis (DEA)' for complex I abundance."
+          "base_workflow_id": "base_dda_silac",
+          "confidence": 60,
+          "reason": "The publication text describes 'pSILAC metabolic labeling' using 13C6,15N4-L-arginine and 13C6,15N2-L-lysine to measure protein turnover."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "complexome_profiling",
-          "confidence": 0.9,
-          "reason": "The study uses Blue Native Electrophoresis (BNE) to resolve respiratory chain complexes (RCCs) followed by MS, explicitly termed 'complexome profiling'."
+          "confidence": 95,
+          "reason": "The text and PRIDE metadata repeatedly refer to 'complexome profiling' and the use of 'blue native electrophoresis (BNE)' to resolve respiratory chain complexes before MS analysis."
         }
       ],
       "trigger_keywords": [
-        "pSILAC",
-        "BNE",
         "complexome profiling",
+        "blue native electrophoresis",
+        "BNE",
+        "pSILAC",
         "IBAQ",
-        "protein turnover"
+        "data dependent acquisition"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "kinetic_turnover",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -290,7 +285,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:26:26Z"
   }
 }

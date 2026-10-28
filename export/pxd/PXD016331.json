@@ -8,7 +8,7 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "infection exposure"
+      "viral infection"
     ],
     "cell_types": [
       "lung epithelial cells"
@@ -16,16 +16,18 @@
     "cell_lines": [
       "A549"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "infection exposure",
-        "ontology_curie": "PPA:0000017",
+        "ontology_label": "viral infection",
+        "ontology_curie": "PPA:0000085",
         "category": "infection",
         "matched_parent_class_key": "infection",
         "matched_class_key": "viral_infection",
@@ -45,12 +47,11 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "H1N1pdm (A/CA/07/2009) virus",
-        "dose_or_concentration": "MOI of 1",
+        "dose_or_concentration": null,
         "duration": "16 h",
         "route_or_context": "A549 GFP-Rab11A cells",
         "evidence": [
-          "we infected GFP-Rab11A A549 cells with either H1N1pdm (A/CA/07/2009) virus or mock infected",
-          "A549 GFP-Rab11A cells were infected at an MOI of 1 for 16\u2009h"
+          "we infected GFP-Rab11A A549 cells with either H1N1pdm (A/CA/07/2009) virus or mock infected, and at 16 hpi the GFP-Rab11A protein was immunoprecipitated"
         ]
       }
     ],
@@ -80,55 +81,12 @@
         "case_label": "IAV infected",
         "contrast_type": "pairwise",
         "evidence": [
-          "we infected GFP-Rab11A A549 cells with either H1N1pdm (A/CA/07/2009) virus or mock infected",
-          "Statistical difference between the two conditions was assessed using a peptide-based paired t test p value"
+          "we infected GFP-Rab11A A549 cells with either H1N1pdm (A/CA/07/2009) virus or mock infected"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Influenza A virus",
-        "taxonomy_hint": "641809",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "lung epithelial cells",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "A549",
-        "family": "lung adenocarcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -137,21 +95,56 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free"
+      "label-free",
+      "peptide-based paired t-test"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-GFP immunoprecipitation of Rab11A"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "Influenza A virus",
+          "taxonomy_hint": "641809",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "lung epithelial cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "A549",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -161,21 +154,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used label-free quantification (LFQ) with an Orbitrap Fusion mass spectrometer in DDA mode (TopSpeed duty cycle), as explicitly stated in the PRIDE metadata and methods."
+          "reason": "The experiment used label-free quantification (LFQ) with an Orbitrap Fusion mass spectrometer in DDA mode (survey scans followed by TopSpeed MS/MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The dataset is derived from an affinity purification (immunoprecipitation of GFP-Rab11A) coupled with mass spectrometry."
+          "reason": "The proteomics data was derived from immunoprecipitation (IP) of GFP-Rab11A."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
         "label free",
-        "anti-GFP magnetic beads",
-        "LFQ"
+        "immunoprecipitation",
+        "Orbitrap Fusion",
+        "Proteome Discoverer",
+        "Sequest HT"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -184,21 +178,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used label-free quantification (LFQ) with an Orbitrap Fusion mass spectrometer in DDA mode (TopSpeed duty cycle), as explicitly stated in the PRIDE metadata and methods."
+          "reason": "The experiment used label-free quantification (LFQ) with an Orbitrap Fusion mass spectrometer in DDA mode (survey scans followed by TopSpeed MS/MS)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_apms",
+          "modifier_workflow_id": "modifier_ap_ms",
           "confidence": 1.0,
-          "reason": "The dataset is derived from an affinity purification (immunoprecipitation of GFP-Rab11A) coupled with mass spectrometry."
+          "reason": "The proteomics data was derived from immunoprecipitation (IP) of GFP-Rab11A."
         }
       ],
       "trigger_keywords": [
-        "immunoprecipitation",
         "label free",
-        "anti-GFP magnetic beads",
-        "LFQ"
+        "immunoprecipitation",
+        "Orbitrap Fusion",
+        "Proteome Discoverer",
+        "Sequest HT"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -226,7 +221,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:44:20Z"
   }
 }

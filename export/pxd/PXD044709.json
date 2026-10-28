@@ -3,22 +3,21 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "LFQ",
+    "quantification_method": "log2 fold change",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "treatment_categories": [
       "genetic perturbation"
     ],
-    "cell_types": [
-      "glioblastoma"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "LN-229"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "female",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,15 +36,24 @@
         "confidence": "high",
         "evidence": [
           "Cells were transfected with 40\u00bcmg wt or mutant ZFX-Turbo or HA-Turbo plasmids",
-          "we instead used a sensitive proximal protein labeling technique called TurboID MS",
-          "Valid ZFX-interacting proteins were determined by comparison of proteins biotinylated in cells expressing ZFX-Turbo versus HA-Turbo"
+          "To perform TurboID MS, we first constructed an expression vector encoding ZFX fused to the Turbo biotin ligase at its C-terminus and a vector solely expressing the HA-tagged Turbo biotin ligase as a control"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "ZFX-Turbo",
+        "agent": "wt ZFX-Turbo",
+        "dose_or_concentration": "40\u00bcmg",
+        "duration": "48 h",
+        "route_or_context": "transfected into LN-229 cells",
+        "evidence": [
+          "Cells were transfected with 40\u00bcmg wt or mutant ZFX-Turbo or HA-Turbo plasmids using Lipofectamine 3000 (Thermo Fisher #L3000075) for 48 h."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "mutant ZFX-Turbo",
         "dose_or_concentration": "40\u00bcmg",
         "duration": "48 h",
         "route_or_context": "transfected into LN-229 cells",
@@ -65,10 +73,10 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "biotin",
+        "agent": "Biotin",
         "dose_or_concentration": "0.5mM",
         "duration": "15 min",
-        "route_or_context": "biotinylation pulse",
+        "route_or_context": "pulse of biotinylation",
         "evidence": [
           "Biotin was added to a final concentration of 0.5mM. Biotinylation was stopped after a 15 min pulse by placing cells on ice."
         ]
@@ -86,7 +94,7 @@
       "HA-Turbo"
     ],
     "case_arms": [
-      "ZFX-Turbo",
+      "wt ZFX-Turbo",
       "mutant ZFX-Turbo"
     ],
     "paired_design": false,
@@ -109,65 +117,47 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "glioblastoma",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "LN-229",
-        "family": "glioblastoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DIA",
     "labeling_strategy": [
-      "Unknown"
+      "LFQ"
     ],
     "quantification_strategy": [
-      "label-free",
-      "log2 fold change"
+      "log2 fold change",
+      "base peak intensity chromatogram"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "TurboID-MS enrichment of biotinylated ZFX-proximal proteins using streptavidin-coated beads"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "LN-229",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -177,19 +167,19 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states samples were run in 'data-independent mode' and analyzed using Spectronaut, which is a standard DIA processing software."
+          "reason": "The text explicitly states samples were run in 'data-independent mode' and analyzed with Spectronaut, which is a standard DIA processing pipeline."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
+          "modifier_workflow_id": "modifier_proximity_labeling",
           "confidence": 1.0,
-          "reason": "The experiment uses TurboID, a proximity-dependent biotinylation technique, to identify interacting proteins (ZIPs)."
+          "reason": "The experiment uses TurboID, a proximity-dependent biotinylation method, to identify interacting proteins (ZIPs)."
         }
       ],
       "trigger_keywords": [
-        "TurboID-MS",
         "data-independent mode",
+        "TurboID-MS",
         "Spectronaut",
         "biotinylation",
         "proximity labeling"
@@ -201,19 +191,19 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states samples were run in 'data-independent mode' and analyzed using Spectronaut, which is a standard DIA processing software."
+          "reason": "The text explicitly states samples were run in 'data-independent mode' and analyzed with Spectronaut, which is a standard DIA processing pipeline."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "proximity_labeling",
+          "modifier_workflow_id": "modifier_proximity_labeling",
           "confidence": 1.0,
-          "reason": "The experiment uses TurboID, a proximity-dependent biotinylation technique, to identify interacting proteins (ZIPs)."
+          "reason": "The experiment uses TurboID, a proximity-dependent biotinylation method, to identify interacting proteins (ZIPs)."
         }
       ],
       "trigger_keywords": [
-        "TurboID-MS",
         "data-independent mode",
+        "TurboID-MS",
         "Spectronaut",
         "biotinylation",
         "proximity labeling"
@@ -244,7 +234,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:22:38Z"
   }
 }

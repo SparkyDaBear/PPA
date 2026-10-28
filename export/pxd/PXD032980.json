@@ -8,24 +8,27 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "chemical or drug treatment"
+      "case-control disease status",
+      "mutation or variant perturbation",
+      "small-molecule inhibitor treatment"
     ],
     "cell_types": [
       "myeloid cell",
       "mononuclear cells"
     ],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "phosphoproteome",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease_status",
@@ -37,12 +40,29 @@
         "confidence": "high",
         "evidence": [
           "this analysis separated healthy donors from AML samples",
-          "AML groups also presented several hundred significant differences across protein or phosphorylated, methylated or acetylated peptide levels when compared to normal myeloid cells"
+          "cells from healthy donors showed a substantial alteration of phosphorylation sites when compared with cells with -7/del(7), complex and KMT2Ar karyotypes"
         ]
       },
       {
-        "ontology_label": "chemical or drug treatment",
-        "ontology_curie": "PPA:0000009",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "mutation_or_variant_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "mutation_or_variant_perturbation"
+        ],
+        "matched_definition": "Comparison between wild-type and mutant or variant alleles, proteins, or genotypes.",
+        "confidence": "high",
+        "evidence": [
+          "KMT2Ar-AML cases showed the greater number of significantly increased phosphorylation sites relative to other karyotypes",
+          "define two biologically distinct groups of KMT2A rearranged leukaemia, which we term MLLGA and MLLGB"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
         "category": "chemical_or_drug",
         "matched_parent_class_key": "chemical_or_drug",
         "matched_class_key": "small_molecule_inhibitor_treatment",
@@ -66,8 +86,9 @@
         "duration": "24 h",
         "route_or_context": "ex vivo treatment of AML primary samples",
         "evidence": [
-          "treated with either vehicle (DMSO) or the indicated concentrations of AVN-944 (MedChemExpress, Cat# HY-13560) for 24 h",
-          "After treatment with 1 \u00b5M AVN-944, the number of significantly increased phosphopeptides in proteins linked to RNA splicing and DNA damage was also higher in R6171 than in T2354"
+          "treated with either vehicle (DMSO) or the indicated concentrations of AVN-944",
+          "treated with AVN-944 for 24 h",
+          "More specifically, 1 \u00b5M AVN-994 significantly increased the phosphorylation"
         ]
       }
     ],
@@ -84,8 +105,10 @@
       "vehicle (DMSO)"
     ],
     "case_arms": [
-      "AML patients",
-      "AVN-944"
+      "MLLGA",
+      "MLLGB",
+      "No-MLL",
+      "AVN-944 treated"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -96,14 +119,22 @@
     "contrast_hints": [
       {
         "control_label": "healthy donors",
-        "case_label": "AML patients",
+        "case_label": "AML samples",
         "contrast_type": "pairwise",
         "evidence": [
           "this analysis separated healthy donors from AML samples"
         ]
       },
       {
-        "control_label": "DMSO",
+        "control_label": "MLLGB",
+        "case_label": "MLLGA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "define two biologically distinct groups of KMT2A rearranged leukaemia, which we term MLLGA and MLLGB"
+        ]
+      },
+      {
+        "control_label": "vehicle (DMSO)",
         "case_label": "AVN-944",
         "contrast_type": "pairwise",
         "evidence": [
@@ -115,51 +146,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "myeloid cell",
-        "rollup_category": "immune cell",
-        "ontology_curie": "CL:0000763"
-      },
-      {
-        "label": "mononuclear cells",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "peripheral blood",
-        "source_kind": "biofluid"
-      },
-      {
-        "label": "bone marrow",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "phosphoproteome",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -169,24 +155,55 @@
       "label free procedure based on extracted ion chromatograms (XICs)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       },
       {
-        "ontology_label": "acetylome enrichment",
-        "ontology_curie": "PPA:0000295",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "medium"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphoenrichment using TiO2"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "myeloid cell",
+          "ontology_curie": "CL:0000763"
+        },
+        {
+          "label": "mononuclear cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "peripheral blood",
+          "source_kind": "biofluid"
+        },
+        {
+          "label": "bone marrow",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -196,22 +213,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive Plus with label-free quantification (LFQ) based on extracted ion chromatograms (XICs)."
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the text describes a 'label free procedure based on extracted ion chromatograms (XICs)' using a Q Exactive Plus Orbitrap with data-dependent acquisition (DDA)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphoenrichment and focus on phosphopeptide quantification."
+          "reason": "The study explicitly uses TiO2 beads for phosphoenrichment of peptides."
         }
       ],
       "trigger_keywords": [
-        "phosphoproteomics",
-        "TiO2",
         "label free",
+        "TiO2",
+        "phosphoenrichment",
         "XICs",
-        "data-dependent acquisition"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -220,22 +237,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Data-dependent acquisition (DDA) on Q Exactive Plus with label-free quantification (LFQ) based on extracted ion chromatograms (XICs)."
+          "reason": "The PRIDE metadata explicitly states 'MS1 intensity based label-free quantification method' and the text describes a 'label free procedure based on extracted ion chromatograms (XICs)' using a Q Exactive Plus Orbitrap with data-dependent acquisition (DDA)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
+          "modifier_workflow_id": "phospho_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of TiO2 beads for phosphoenrichment and focus on phosphopeptide quantification."
+          "reason": "The study explicitly uses TiO2 beads for phosphoenrichment of peptides."
         }
       ],
       "trigger_keywords": [
-        "phosphoproteomics",
-        "TiO2",
         "label free",
+        "TiO2",
+        "phosphoenrichment",
         "XICs",
-        "data-dependent acquisition"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -263,7 +280,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:43:26Z"
   }
 }

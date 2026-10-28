@@ -1,21 +1,20 @@
 {
   "pxd": "PXD046996",
-  "timestamp": "2026-07-28T01:09:26.424328",
+  "timestamp": "2026-09-22T23:14:08.660411",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
-    "cell_types": [
-      "breast cancer cells"
-    ],
-    "cell_lines": [
-      "MCF-7"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "small-molecule inhibitor treatment",
       "knockdown or interference perturbation"
@@ -60,20 +59,26 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "Label-free"
+          "label-free"
         ],
         "proteomics_mode": "PTM-enriched",
         "assay_targets_or_enrichments": [
           {
-            "ontology_label": "phosphoproteome enrichment",
-            "ontology_curie": "PPA:0000292",
-            "workflow_modifier_hint": "mod_phospho",
+            "ontology_label": "SUMOylome or QQTGG enrichment",
+            "ontology_curie": "PPA:0000437",
+            "workflow_modifier_hint": "mod_sumo_qqtgg",
             "confidence": "low"
           },
           {
-            "ontology_label": "Other",
+            "ontology_label": "Symmetric Di-Methyl Arginine (SDMA) enrichment",
             "ontology_curie": null,
             "workflow_modifier_hint": null,
+            "confidence": "high"
+          },
+          {
+            "ontology_label": "Affinity Purification",
+            "ontology_curie": null,
+            "workflow_modifier_hint": "mod_ap_ms",
             "confidence": "high"
           }
         ],
@@ -81,13 +86,15 @@
           "base_workflow_candidates": [
             "base_dda_lfq"
           ],
-          "modifier_candidates": [],
+          "modifier_candidates": [
+            "mod_ap_ms"
+          ],
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
-                "name": "Symmetric Dimethyl Arginine",
+                "name": "Symmetric Dimethylarginine",
                 "residue_or_site": "R",
-                "mass_shift_da": 28.034
+                "mass_shift_da": 28.03
               }
             ],
             "requires_ptm_site_level_output": true
@@ -95,78 +102,47 @@
         },
         "evidence": {
           "acquisition": [
-            "experimentTypes: [ { \"@type\": \"CvParam\", \"cvLabel\": \"PRIDE\", \"accession\": \"PRIDE:0000627\", \"name\": \"Data-dependent acquisition\" } ]"
+            "experimentTypes: [ { \"name\": \"Data-dependent acquisition\" } ]"
           ],
           "labeling": [
-            "No mention of TMT, SILAC, or iTRAQ; used for 'SDMA level changes' and 'proteins that were significantly enriched in PRMT5 antibody pulldowns'"
+            "No mention of TMT, SILAC, or iTRAQ; used for 'SDMA level changes' and 'significantly enriched in PRMT5 antibody pulldowns' suggesting label-free comparison."
           ],
           "quantification": [
             "identified 165 SDMA peptides, of which 21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down"
           ],
           "enrichment": [
             "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit (Cell Signaling)",
-            "Co-IP MS analysis, immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion"
+            "immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion",
+            "PRMT5 antibody pulldowns"
           ],
           "workflow_hints": [
-            "SDMA post-translational modification (PTM) analysis using LC-MS/MS to examine SDMA level changes"
+            "Co-IP MS analysis",
+            "SDMA post-translational modification (PTM) analysis using LC-MS/MS"
           ],
           "file_name_cues": [
-            "SDMA PTM analysis: MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA"
+            "LUM1_1000791... LUM1_1000796: PRMT5 siRNA (SDMA PTM analysis)",
+            "QEX2_981005... QEX2_981016: PRMT5 antibody (Co-IP MS)"
           ]
         },
-        "notes": "The experiment contains two distinct proteomics workflows: 1) a Co-IP MS for PRMT5 interactors and 2) a PTM-specific enrichment for Symmetric Dimethyl Arginine (SDMA). While SDMA is a form of arginine methylation, it is not explicitly listed as a standalone modifier in the provided modifier_candidates list (which focuses on acetyl, phospho, etc.). Therefore, it is routed as a general PTM-enriched DDA LFQ workflow. The search parameters must account for the SDMA modification on Arginine."
+        "notes": "The experiment consists of two distinct proteomics workflows: 1) An AP-MS (Co-IP) to identify PRMT5 interactors, and 2) A PTM-enrichment assay specifically for Symmetric Dimethylarginine (SDMA) using a commercial kit. While the ontology provided a SUMO modifier, this study focuses on Arginine methylation (SDMA), which is a distinct PTM. I have included mod_ap_ms as a modifier for the Co-IP portion. The SDMA enrichment is a high-confidence PTM assay, though not explicitly listed as a standalone modifier in the provided Stage 4 list (it is related to the general PTM-enriched mode)."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "breast cancer cells",
-            "rollup_category": "cancer cell",
-            "ontology_curie": null
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "MCF-7",
-            "family": "breast cancer",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": true
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "searched using the human protein database from UniProt",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "ER+/RB1-knockout (RBKO) breast cancer cells"
-          ],
-          "cell_lines": [
-            "Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "For Co-IP MS analysis, immunoprecipitated proteins were further processed",
-            "Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody or IgG control",
-            "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit"
-          ]
+            "we employed co-immunoprecipitation (Co-IP) mass spectrometry (MS) and found 192 proteins that were significantly enriched in PRMT5 antibody pulldowns (over control IgG)",
+            "For Co-IP MS analysis, immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion",
+            "SDMA enriched samples were subjected to secondary digestion, solid-phase cleanup, and finally analyzed by LC-MS/MS",
+            "lysates were subjected to tryptic digestion, solid-phase cleanup and SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit (Cell Signaling)"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis consists of two distinct workflows: 1) Co-IP MS using PRMT5 antibody pulldowns and 2) SDMA PTM analysis using an immunoaffinity enrichment kit. Both represent purified protein/complex scopes rather than whole cell lysates."
+        "notes": "The proteomics experiments consisted of two distinct affinity-based enrichments: Co-IP pulldowns using PRMT5 antibodies and PTM-specific enrichment of SDMA peptides using a commercial kit. Both methods result in a purified protein/complex scope rather than whole cell lysate."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -184,7 +160,7 @@
             "confidence": "high",
             "evidence": [
               "Pharmacological inhibition of PRMT5 resulted in dissociation of FUS from RNA polymerase II (Pol II)",
-              "PRMT5 antibody pulldowns... DMSO, PRMT5 antibody... GSK, PRMT5 antibody"
+              "PRMT5 antibody pulldowns... QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG QEX2_981014, QEX2_981015, QEX2_981016, GSK, PRMT5 antibody"
             ]
           },
           {
@@ -200,8 +176,7 @@
             "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
             "confidence": "high",
             "evidence": [
-              "MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA.",
-              "SDMA PTM analysis: MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA."
+              "MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA. Lysates were collected three days after transfection and subjected to mass spectrometry analysis."
             ]
           }
         ],
@@ -213,15 +188,14 @@
             "duration": null,
             "route_or_context": "PRMT5 inhibitor",
             "evidence": [
-              "QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG",
-              "QEX2_981014, QEX2_981015, QEX2_981016, GSK, PRMT5 antibody"
+              "QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG QEX2_981014, QEX2_981015, QEX2_981016, GSK, PRMT5 antibody"
             ]
           },
           {
             "relation_key": "has_treatment_agent",
             "agent": "PRMT5 siRNA",
             "dose_or_concentration": null,
-            "duration": "three days",
+            "duration": "3 days",
             "route_or_context": "transfection",
             "evidence": [
               "MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA. Lysates were collected three days after transfection"
@@ -230,37 +204,37 @@
         ],
         "experimental_design": {
           "timepoints": [
-            "three days"
+            "3 days"
           ],
           "control_arms": [
+            "IgG",
             "DMSO",
-            "control siRNA",
-            "IgG"
+            "control siRNA"
           ],
           "case_arms": [
+            "PRMT5 antibody",
             "GSK",
             "PRMT5 siRNA"
           ],
           "paired_design": false,
           "factorial_design": false,
           "replicate_hints": [
-            "QEX2_981008, QEX2_981009, QEX2_981010: DMSO, PRMT5 antibody",
-            "LUM1_1000791, LUM1_1000792, LUM1_1000793: control SiRNA",
-            "LUM1_1000794, LUM1_1000795, LUM1_1000796: PRMT5 siRNA"
+            "QEX2_981005, QEX2_981006, QEX2_981007: DMSO, IgG",
+            "LUM1_1000791, LUM1_1000792, LUM1_1000793: control SiRNA"
           ],
           "multiplex_channel_hints": [],
           "evidence": [
             "PRMT5 Co-IP mass spectrometry: Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody or IgG control.",
-            "SDMA PTM analysis: MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA."
+            "SDMA PTM analysis: MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA. Lysates were collected three days after transfection"
           ]
         },
         "contrast_hints": [
           {
-            "control_label": "DMSO",
-            "case_label": "GSK",
+            "control_label": "IgG",
+            "case_label": "PRMT5 antibody",
             "contrast_type": "pairwise",
             "evidence": [
-              "QEX2_981008, QEX2_981009, QEX2_981010: DMSO, PRMT5 antibody QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG QEX2_981014, QEX2_981015, QEX2_981016, GSK, PRMT5 antibody"
+              "found 192 proteins that were significantly enriched in PRMT5 antibody pulldowns (over control IgG)"
             ]
           },
           {
@@ -268,7 +242,7 @@
             "case_label": "PRMT5 siRNA",
             "contrast_type": "pairwise",
             "evidence": [
-              "LUM1_1000791, LUM1_1000792, LUM1_1000793: control SiRNA LUM1_1000794, LUM1_1000795, LUM1_1000796: PRMT5 siRNA"
+              "21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down"
             ]
           }
         ],
@@ -278,18 +252,19 @@
             "MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA."
           ],
           "treatment_attributes": [
-            "QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG",
-            "Lysates were collected three days after transfection"
+            "QEX2_981011, QEX2_981012, QEX2_981013, GSK, IgG QEX2_981014, QEX2_981015, QEX2_981016, GSK, PRMT5 antibody",
+            "MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA. Lysates were collected three days after transfection"
           ],
           "design": [
             "PRMT5 Co-IP mass spectrometry: Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody or IgG control.",
             "SDMA PTM analysis: MCF-7 RB1-knockout cells were transfected with a PRMT5 siRNA or a control siRNA."
           ],
           "contrasts": [
-            "LUM1_1000791, LUM1_1000792, LUM1_1000793: control SiRNA LUM1_1000794, LUM1_1000795, LUM1_1000796: PRMT5 siRNA"
+            "found 192 proteins that were significantly enriched in PRMT5 antibody pulldowns (over control IgG)",
+            "21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down"
           ]
         },
-        "notes": "The proteomics analysis consists of two distinct experiments: a Co-IP MS to identify PRMT5 interactors (comparing DMSO vs GSK inhibitor) and an SDMA PTM analysis (comparing control siRNA vs PRMT5 siRNA). Both were performed in MCF-7 RB1-knockout cells."
+        "notes": "The proteomics data consists of two distinct experiments: a Co-IP MS to identify PRMT5 interactors (comparing PRMT5 antibody vs IgG, with and without GSK inhibitor) and an SDMA PTM analysis (comparing PRMT5 siRNA vs control siRNA)."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -298,26 +273,25 @@
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 0.9,
-              "reason": "Data-dependent acquisition (DDA) is explicitly stated in PRIDE metadata; label-free quantification (LFQ) is implied by the comparison of protein enrichment in Co-IP and SDMA peptide levels across siRNA conditions without mention of labels."
+              "reason": "The experiment uses Data-dependent acquisition (DDA) as per PRIDE metadata and describes label-free comparisons (e.g., PRMT5 siRNA vs control siRNA) without mention of SILAC or isobaric tags."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "ptm_sdma",
-              "confidence": 0.95,
+              "confidence": 1.0,
               "reason": "Explicit use of PTMScan Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit for SDMA enrichment."
             }
           ],
           "trigger_keywords": [
             "SDMA enrichment",
-            "PTMScan",
-            "Symmetric Di-Methyl Arginine Motif",
-            "Co-IP MS",
+            "PTMScan Symmetric Di-Methyl Arginine Motif",
+            "sdme-RG",
             "Data-dependent acquisition"
           ],
           "raw_or_file_name_triggers": [
-            "LUM1",
-            "QEX2"
+            "LUM1_",
+            "QEX2_"
           ]
         },
         "differential_output_hints": {
@@ -330,7 +304,7 @@
             {
               "name": "Symmetric Dimethylarginine",
               "residue_or_site": "R",
-              "mass_shift_da": 28.03,
+              "mass_shift_da": 28.034,
               "required_for_modifier": "ptm_sdma"
             }
           ],
@@ -342,22 +316,22 @@
           "workflow": [
             "Data-dependent acquisition",
             "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit",
-            "Co-IP MS analysis, immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion"
+            "MS data were acquired using a Q-Exactive HF... and an Orbitrap Fusion Lumos"
           ],
           "differential": [
-            "PTM analysis identified 165 SDMA peptides, of which 21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down",
-            "found 192 proteins that were significantly enriched in PRMT5 antibody pulldowns (over control IgG)"
+            "examine SDMA level changes in PRMT5-associated proteins as a result of PRMT5 knockdown",
+            "21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down"
           ],
           "search_parameters": [
             "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit",
-            "tryptic digestion, reduction with DTT, alkylation with iodoacetamide"
+            "reduction with DTT, alkylation with iodoacetamide"
           ],
           "file_name_triggers": [
-            "QEX2_981005",
-            "LUM1_1000791"
+            "LUM1_1000791",
+            "QEX2_981005"
           ]
         },
-        "notes": "The dataset contains two distinct proteomics experiments: a Co-IP for protein-protein interactions (PRMT5 pulldowns) and a PTM-specific enrichment for SDMA sites. The SDMA analysis is site-centric, requiring a site-level differential engine."
+        "notes": "The dataset contains two distinct proteomics experiments: a Co-IP MS for protein-protein interactions (PRMT5 pulldowns) and a site-specific PTM analysis for SDMA. The differential analysis for the PTM dataset is specifically focused on the site-level changes of symmetric dimethylarginine on arginine residues."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -365,67 +339,55 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "Label-free"
+          "label-free"
         ],
         "proteomics_mode": "PTM-enriched",
         "specialized_workflows": [
-          "phosphoproteome enrichment",
-          "Other"
+          "SUMOylome or QQTGG enrichment",
+          "Symmetric Di-Methyl Arginine (SDMA) enrichment",
+          "Affinity Purification"
         ],
         "evidence": {
           "acquisition": [
-            "experimentTypes: [ { \"@type\": \"CvParam\", \"cvLabel\": \"PRIDE\", \"accession\": \"PRIDE:0000627\", \"name\": \"Data-dependent acquisition\" } ]"
+            "experimentTypes: [ { \"name\": \"Data-dependent acquisition\" } ]"
           ],
           "labeling": [
-            "No mention of TMT, SILAC, or iTRAQ; used for 'SDMA level changes' and 'proteins that were significantly enriched in PRMT5 antibody pulldowns'"
+            "No mention of TMT, SILAC, or iTRAQ; used for 'SDMA level changes' and 'significantly enriched in PRMT5 antibody pulldowns' suggesting label-free comparison."
           ],
           "quantification": [
             "identified 165 SDMA peptides, of which 21 peptides exhibited significant downregulation of SDMA levels when PRMT5 was knocked down"
           ],
           "specialized": [
             "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit (Cell Signaling)",
-            "Co-IP MS analysis, immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion"
+            "immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion",
+            "PRMT5 antibody pulldowns"
           ]
         },
-        "notes": "The experiment contains two distinct proteomics workflows: 1) a Co-IP MS for PRMT5 interactors and 2) a PTM-specific enrichment for Symmetric Dimethyl Arginine (SDMA). While SDMA is a form of arginine methylation, it is not explicitly listed as a standalone modifier in the provided modifier_candidates list (which focuses on acetyl, phospho, etc.). Therefore, it is routed as a general PTM-enriched DDA LFQ workflow. The search parameters must account for the SDMA modification on Arginine."
+        "notes": "The experiment consists of two distinct proteomics workflows: 1) An AP-MS (Co-IP) to identify PRMT5 interactors, and 2) A PTM-enrichment assay specifically for Symmetric Dimethylarginine (SDMA) using a commercial kit. While the ontology provided a SUMO modifier, this study focuses on Arginine methylation (SDMA), which is a distinct PTM. I have included mod_ap_ms as a modifier for the Co-IP portion. The SDMA enrichment is a high-confidence PTM assay, though not explicitly listed as a standalone modifier in the provided Stage 4 list (it is related to the general PTM-enriched mode)."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "breast cancer cells"
-        ],
-        "cell_type_categories": [
-          "cancer cell"
-        ],
-        "cell_lines": [
-          "MCF-7"
-        ],
-        "cell_line_families": [
-          "breast cancer"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "searched using the human protein database from UniProt",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "ER+/RB1-knockout (RBKO) breast cancer cells"
-          ],
-          "cell_lines": [
-            "Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "For Co-IP MS analysis, immunoprecipitated proteins were further processed",
-            "Lysates of MCF-7 RB1-knockout cells were pulled down with a PRMT5 antibody or IgG control",
-            "SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit"
-          ]
+            "we employed co-immunoprecipitation (Co-IP) mass spectrometry (MS) and found 192 proteins that were significantly enriched in PRMT5 antibody pulldowns (over control IgG)",
+            "For Co-IP MS analysis, immunoprecipitated proteins were further processed by running in a SDS-PAGE gel followed by Coomassie blue staining, tryptic digestion",
+            "SDMA enriched samples were subjected to secondary digestion, solid-phase cleanup, and finally analyzed by LC-MS/MS",
+            "lysates were subjected to tryptic digestion, solid-phase cleanup and SDMA enrichment following the manual instruction of PTMScan\u00ae Symmetric Di-Methyl Arginine Motif [sdme-RG] Kit (Cell Signaling)"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis consists of two distinct workflows: 1) Co-IP MS using PRMT5 antibody pulldowns and 2) SDMA PTM analysis using an immunoaffinity enrichment kit. Both represent purified protein/complex scopes rather than whole cell lysates."
+        "notes": "The proteomics experiments consisted of two distinct affinity-based enrichments: Co-IP pulldowns using PRMT5 antibodies and PTM-specific enrichment of SDMA peptides using a commercial kit. Both methods result in a purified protein/complex scope rather than whole cell lysate."
       },
       "Treatment_prompt": [
         {

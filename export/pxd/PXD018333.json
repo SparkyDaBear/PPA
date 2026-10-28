@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "XIC area integration",
+    "quantification_method": "XIC",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -11,15 +11,16 @@
       "differentiation state comparison"
     ],
     "cell_types": [
-      "myoblast",
-      "myotube"
+      "myoblasts",
+      "myotubes"
     ],
     "cell_lines": [
       "AB1167"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -27,11 +28,11 @@
       {
         "ontology_label": "differentiation state comparison",
         "ontology_curie": "PPA:0000105",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
+        "category": "unclassified",
+        "matched_parent_class_key": "cell_state_or_interaction_comparison",
         "matched_class_key": "differentiation_state_comparison",
         "matched_class_path": [
-          "cell_state_interaction",
+          "cell_state_or_interaction_comparison",
           "differentiation_state_comparison"
         ],
         "matched_definition": "Comparison among progenitor, differentiated, induced, lineage-committed, or maturation states.",
@@ -42,26 +43,15 @@
         ]
       }
     ],
-    "attributes": [
-      {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "differentiation stage",
-        "evidence": [
-          "Human myoblasts and myotubes differentiated for 4 d were lysed"
-        ]
-      }
-    ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
     "timepoints": [
-      "myoblast",
-      "4 d myotube"
+      "myoblast stage",
+      "4 d differentiation"
     ],
     "control_arms": [
       "myoblasts"
@@ -72,7 +62,7 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Five biological replicates of myoblasts or myotubes were on-beads digested"
+      "Five biological replicates of myoblasts or myotubes"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -89,70 +79,56 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "myoblast",
-        "rollup_category": "muscle cell",
-        "ontology_curie": "CL:0000056"
-      },
-      {
-        "label": "myotube",
-        "rollup_category": "muscle cell",
-        "ontology_curie": "CL:0002372"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "AB1167",
-        "family": "immortalized myoblasts",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "XIC area integration",
+      "XIC",
       "MS1 intensity based label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "CHC immunoprecipitation"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "myoblasts",
+          "ontology_curie": null
+        },
+        {
+          "label": "myotubes",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "AB1167",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -162,14 +138,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q Exactive HF-X (DDA) and PRIDE metadata explicitly lists 'MS1 intensity based label-free quantification method'."
+          "reason": "The experiment uses DDA (top 20 intense ions) and MS1 intensity-based label-free quantification (LFQ) as specified in PRIDE metadata and methods."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The samples were processed using Clathrin Heavy Chain (CHC) immunoprecipitation (IP) prior to MS analysis."
+        }
+      ],
       "trigger_keywords": [
+        "immunoprecipitation",
         "label-free quantification",
-        "Q Exactive HF-X",
-        "shotgun proteomic analysis"
+        "Glu-C",
+        "top 20 intense ions"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -178,14 +161,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q Exactive HF-X (DDA) and PRIDE metadata explicitly lists 'MS1 intensity based label-free quantification method'."
+          "reason": "The experiment uses DDA (top 20 intense ions) and MS1 intensity-based label-free quantification (LFQ) as specified in PRIDE metadata and methods."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "affinity_purification",
+          "confidence": 1.0,
+          "reason": "The samples were processed using Clathrin Heavy Chain (CHC) immunoprecipitation (IP) prior to MS analysis."
+        }
+      ],
       "trigger_keywords": [
+        "immunoprecipitation",
         "label-free quantification",
-        "Q Exactive HF-X",
-        "shotgun proteomic analysis"
+        "Glu-C",
+        "top 20 intense ions"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -213,7 +203,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:01:11Z"
   }
 }

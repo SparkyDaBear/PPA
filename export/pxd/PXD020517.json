@@ -9,13 +9,15 @@
       "Other"
     ],
     "treatment_categories": [
-      "case-control disease status"
+      "case-control disease status",
+      "disease stage or grade comparison"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,20 +38,27 @@
           "isolated from postmortem human tissue from 49 AD and 42 control subjects",
           "we compare insoluble Tau from AD and control subjects"
         ]
-      }
-    ],
-    "attributes": [
+      },
       {
-        "relation_key": "has_treatment_agent",
-        "agent": "Alzheimer\u2019s disease",
-        "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "postmortem human brain tissue",
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "disease_stage_or_grade_comparison",
+        "matched_class_path": [
+          "disease",
+          "disease_stage_or_grade_comparison"
+        ],
+        "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
+        "confidence": "high",
         "evidence": [
-          "isolated from postmortem human tissue from 49 AD and 42 control subjects"
+          "identify critical targets at each stage of disease",
+          "assessed for Braak NFT stages",
+          "The Braak stage of cluster b is V, whereas the Braak stage of cluster c is VI"
         ]
       }
     ],
+    "attributes": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -80,44 +89,18 @@
         "evidence": [
           "we compare insoluble Tau from AD and control subjects"
         ]
+      },
+      {
+        "control_label": "early stage (Braak 0-III)",
+        "case_label": "late stage (Braak V-VI)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "The Braak stage of cluster b is V, whereas the Braak stage of cluster c is VI"
+        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "brain",
-        "source_kind": "organ"
-      },
-      {
-        "label": "cortical brain specimens",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -128,33 +111,57 @@
     ],
     "quantification_strategy": [
       "Label-free quantification (LFQ)",
-      "Absolute quantification using stable isotope-labeled Tau standards (FLEXITau)"
+      "SRM-based absolute quantification (FLEXITau)",
+      "Stable isotope-labeled internal standard (Heavy Tau standard)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "high"
-      },
-      {
-        "ontology_label": "ubiquitylome or diGly enrichment",
-        "ontology_curie": "PPA:0000294",
-        "workflow_modifier_hint": "mod_ubiquitin",
-        "confidence": "high"
-      },
-      {
-        "ontology_label": "acetylome enrichment",
-        "ontology_curie": "PPA:0000295",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "MC1-isolated Tau via immunoaffinity columns"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "postmortem human tissue",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "cortical brain specimens",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "frontal cortex tissue",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "angular gyrus",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "frontal gyrus (BA46)",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -163,27 +170,27 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 90,
-          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive/HF instruments with MaxQuant's XIC-based label-free quantification (LFQ) for PTM mapping."
+          "confidence": 0.9,
+          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and processes the data using MaxQuant's XIC-based label-free quantification (LFQ) algorithm."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 40,
-          "reason": "The FLEXITau method uses heavy isotope-labeled Tau standards for absolute quantification, though the DDA mapping part is described as LFQ."
+          "confidence": 0.2,
+          "reason": "Mention of heavy isotope labeled standards (FLEXITau) is used for absolute quantification/stoichiometry, but the primary discovery mapping is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ptm_site_centric",
-          "confidence": 95,
-          "reason": "The primary goal is mapping 95 distinct PTMs (phosphorylation, acetylation, ubiquitination) and calculating PTM stoichiometry."
+          "modifier_workflow_id": "ptm_site_mapping",
+          "confidence": 1.0,
+          "reason": "The core objective is a high-resolution quantitative proteomics map of 95 PTMs (phosphorylation, acetylation, ubiquitination, methylation) on Tau."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ",
         "DDA",
-        "PTM stoichiometry",
+        "PTM mapping",
         "phosphorylation",
         "ubiquitination",
         "acetylation"
@@ -194,27 +201,27 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 90,
-          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive/HF instruments with MaxQuant's XIC-based label-free quantification (LFQ) for PTM mapping."
+          "confidence": 0.9,
+          "reason": "The study explicitly uses DDA (top 10/20 mode) on Q Exactive instruments and processes the data using MaxQuant's XIC-based label-free quantification (LFQ) algorithm."
         },
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 40,
-          "reason": "The FLEXITau method uses heavy isotope-labeled Tau standards for absolute quantification, though the DDA mapping part is described as LFQ."
+          "confidence": 0.2,
+          "reason": "Mention of heavy isotope labeled standards (FLEXITau) is used for absolute quantification/stoichiometry, but the primary discovery mapping is described as LFQ."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ptm_site_centric",
-          "confidence": 95,
-          "reason": "The primary goal is mapping 95 distinct PTMs (phosphorylation, acetylation, ubiquitination) and calculating PTM stoichiometry."
+          "modifier_workflow_id": "ptm_site_mapping",
+          "confidence": 1.0,
+          "reason": "The core objective is a high-resolution quantitative proteomics map of 95 PTMs (phosphorylation, acetylation, ubiquitination, methylation) on Tau."
         }
       ],
       "trigger_keywords": [
         "label-free quantification",
         "LFQ",
         "DDA",
-        "PTM stoichiometry",
+        "PTM mapping",
         "phosphorylation",
         "ubiquitination",
         "acetylation"
@@ -245,7 +252,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:55Z"
   }
 }

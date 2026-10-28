@@ -16,9 +16,11 @@
       "U2OS",
       "HEK-293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -60,11 +62,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "IgG control",
-      "HeLa-DYRK1AKO"
+      "HeLa WT cells",
+      "mock immunoprecipitation (using mouse or rabbit IgGs)"
     ],
     "case_arms": [
-      "HeLa WT"
+      "HeLa-DYRK1AKO cells"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -75,65 +77,24 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
+        "control_label": "HeLa WT",
+        "case_label": "HeLa-DYRK1AKO",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "comparing... the number of SpCs in the HeLa WT cells vs HeLa-DYRK1AKO cells obtained using the specific DYRK1A Abs"
+        ]
+      },
+      {
         "control_label": "IgG control",
         "case_label": "DYRK1A immunoprecipitation",
         "contrast_type": "pairwise",
         "evidence": [
           "comparing: i) the number of SpCs from the specific DYRK1A immunoprecipitation relative to those found in the mock immunoprecipitation (using mouse or rabbit IgGs depending on the DYRK1A Ab)"
         ]
-      },
-      {
-        "control_label": "HeLa-DYRK1AKO",
-        "case_label": "HeLa WT",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "comparing... ii) the number of SpCs in the HeLa WT cells vs HeLa-DYRK1AKO cells obtained using the specific DYRK1A Abs"
-        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "U2OS",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK-293T",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -145,25 +106,56 @@
       "label-free quantitative MS-based proteomics",
       "spectral counts (SpCs)"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "antibody-based affinity purification of endogenous DYRK1A"
       },
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "phosphorylation sites of RNF169"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": "PPA:0000140"
+        },
+        {
+          "label": "U2OS",
+          "ontology_curie": "PPA:0000140"
+        },
+        {
+          "label": "HEK-293T",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "nuclear extracts",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -172,16 +164,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and label-free quantitative MS-based proteomics (spectral counting/SAINT) for interactome analysis."
+          "confidence": 1.0,
+          "reason": "The experiment uses label-free quantitative MS-based proteomics with DDA acquisition (LTQ-Orbitrap Velos Pro) and spectral counting (SpCs) for quantification."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms_saint",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses antibody-based affinity purification (AP-MS) and the SAINT Express algorithm to discriminate true interactors from non-specific ones."
+        }
+      ],
       "trigger_keywords": [
-        "label-free quantitative MS-based proteomics",
-        "DDA",
+        "label-free quantitative",
         "spectral counts",
-        "SAINT Express"
+        "SAINT Express",
+        "affinity purification",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -189,16 +188,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and label-free quantitative MS-based proteomics (spectral counting/SAINT) for interactome analysis."
+          "confidence": 1.0,
+          "reason": "The experiment uses label-free quantitative MS-based proteomics with DDA acquisition (LTQ-Orbitrap Velos Pro) and spectral counting (SpCs) for quantification."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "ap_ms_saint",
+          "confidence": 0.9,
+          "reason": "The study explicitly uses antibody-based affinity purification (AP-MS) and the SAINT Express algorithm to discriminate true interactors from non-specific ones."
+        }
+      ],
       "trigger_keywords": [
-        "label-free quantitative MS-based proteomics",
-        "DDA",
+        "label-free quantitative",
         "spectral counts",
-        "SAINT Express"
+        "SAINT Express",
+        "affinity purification",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -226,7 +232,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:44:15Z"
   }
 }

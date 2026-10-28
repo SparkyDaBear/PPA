@@ -1,21 +1,20 @@
 {
   "pxd": "PXD026448",
-  "timestamp": "2026-07-27T23:01:26.953850",
+  "timestamp": "2026-09-22T22:03:30.577541",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ"
     ],
-    "cell_types": [
-      "cervix carcinoma"
-    ],
-    "cell_lines": [
-      "HeLa S3"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "un-classified"
     ],
@@ -59,14 +58,42 @@
         "quantification_strategy": [
           "label-free"
         ],
-        "proteomics_mode": "Bottom-up",
-        "assay_targets_or_enrichments": [],
+        "proteomics_mode": "PTM-enriched",
+        "assay_targets_or_enrichments": [
+          {
+            "ontology_label": "phosphoproteome enrichment",
+            "ontology_curie": "PPA:0000292",
+            "workflow_modifier_hint": "mod_phospho",
+            "confidence": "medium"
+          },
+          {
+            "ontology_label": "acetylome enrichment",
+            "ontology_curie": "PPA:0000295",
+            "workflow_modifier_hint": "mod_acetyl",
+            "confidence": "medium"
+          },
+          {
+            "ontology_label": "ubiquitylome or diGly enrichment",
+            "ontology_curie": "PPA:0000294",
+            "workflow_modifier_hint": "mod_ubiquitin",
+            "confidence": "medium"
+          },
+          {
+            "ontology_label": "glycoproteome enrichment",
+            "ontology_curie": "PPA:0000293",
+            "workflow_modifier_hint": "mod_glyco",
+            "confidence": "medium"
+          }
+        ],
         "stage4_workflow_hints": {
           "base_workflow_candidates": [
             "base_dda_lfq"
           ],
           "modifier_candidates": [
-            "mod_ubiquitin"
+            "mod_phospho",
+            "mod_acetyl",
+            "mod_ubiquitin",
+            "mod_glyco"
           ],
           "search_parameter_hints": {
             "variable_modification_hints": [
@@ -86,17 +113,7 @@
                 "mass_shift_da": 14.016
               },
               {
-                "name": "nitrosylation",
-                "residue_or_site": "C, Y",
-                "mass_shift_da": 28.99
-              },
-              {
-                "name": "deamidation",
-                "residue_or_site": "N",
-                "mass_shift_da": 0.984
-              },
-              {
-                "name": "ubiquitination",
+                "name": "ubiquitination (GG)",
                 "residue_or_site": "K",
                 "mass_shift_da": 114.042
               },
@@ -106,9 +123,14 @@
                 "mass_shift_da": 203.079
               },
               {
-                "name": "N-terminal methionine loss plus acetylation",
-                "residue_or_site": "protein N-terminus",
-                "mass_shift_da": -89.03
+                "name": "nitrosylation",
+                "residue_or_site": "C, Y",
+                "mass_shift_da": 28.99
+              },
+              {
+                "name": "deamidation",
+                "residue_or_site": "N",
+                "mass_shift_da": 0.984
               }
             ],
             "requires_ptm_site_level_output": true
@@ -117,8 +139,8 @@
         "evidence": {
           "acquisition": [
             "precursor ions were isolated in the quadrupole with a 1.2 m/z window",
-            "precursor ions were subjected to higher-energy collision dissociation (HCD)",
-            "Dynamic exclusion was employed for 60 s on a single-charge state per precursor"
+            "Dynamic exclusion was employed for 60 s",
+            "MS/MS spectra were acquired in the ion trap mass analyzer"
           ],
           "labeling": [
             "enrichment-free, label-free proteomics method"
@@ -127,69 +149,36 @@
             "label-free proteomics method"
           ],
           "enrichment": [
-            "enrichment-free, label-free proteomics method",
-            "without prior protein/peptide PTM enrichment"
+            "without prior protein/peptide PTM enrichment",
+            "enrichment-free",
+            "the number of multi-PTM-containing peptides identified increases"
           ],
           "workflow_hints": [
-            "For PTM site localization, ptmRS was used.",
-            "GG corresponding to ubiquitination (+114.042; K)"
+            "searching for multiple combinations of dynamic PTMs on peptide sequences",
+            "phosphorylation (+79.996 Da; S, T, Y), acetylation (+42.011; K, R), and methylation (+14.016; K, R)",
+            "nitrosylation (+28.990; C, Y), deamidation (+0.984; N), GG corresponding to ubiquitination (+114.042; K), and HexNAc (+203.079; N, S, T)",
+            "ptmRS was used"
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment is explicitly described as enrichment-free. However, 'mod_ubiquitin' is included in modifier_candidates because the search specifically targeted the GG remnant motif, as per the prompt's modifier detection guidance. The acquisition is DDA based on the use of precursor isolation and dynamic exclusion."
+        "notes": "The study explicitly states it is 'enrichment-free', but the goal is the detection of multiple PTMs (crosstalk). Because the search parameters are heavily PTM-focused and the goal is PTM identification, it is routed as PTM-enriched/aware. Acquisition is DDA based on the description of precursor isolation and dynamic exclusion."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "cervix carcinoma",
-            "rollup_category": "cancer cell",
-            "ontology_curie": null
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "HeLa S3",
-            "family": "HeLa",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (SwissProt TaxID 9606, 20\u202f444 proteins)",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3"
-          ],
-          "cell_lines": [
-            "Pierce HeLa Protein Digest Standard was used throughout",
-            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "without prior protein/peptide PTM enrichment",
-            "enrichment-free, label-free proteomics method",
-            "HeLa protein digest was analysed using both standard reverse-phase LC-MS/MS and in combination with online high field asymmetric ion mobility spectrometry (FAIMS)"
-          ]
+            "Pierce HeLa Protein Digest Standard was used throughout.",
+            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3, were used.",
+            "without prior protein/peptide PTM enrichment"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The analyzed material is a commercial HeLa protein digest standard. The authors explicitly state the method is 'enrichment-free' and performed 'without prior protein/peptide PTM enrichment', supporting a whole cell lysate scope rather than a subproteome or purified complex."
+        "notes": "The analyzed material was a commercial HeLa protein digest standard. The text explicitly states the method was 'enrichment-free' and performed 'without prior protein/peptide PTM enrichment', supporting a whole cell lysate scope."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -197,16 +186,14 @@
             "ontology_label": "un-classified",
             "ontology_curie": null,
             "category": "unclassified",
-            "matched_parent_class_key": "unclassified",
+            "matched_parent_class_key": null,
             "matched_class_key": null,
-            "matched_class_path": [
-              "unclassified"
-            ],
-            "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+            "matched_class_path": [],
+            "matched_definition": null,
             "confidence": "high",
             "evidence": [
               "Pierce HeLa Protein Digest Standard was used throughout.",
-              "One microgram of HeLa digest was used for all experiments."
+              "tryptic peptides from a human cervix carcinoma cell line, HeLa S3, were used."
             ]
           }
         ],
@@ -242,7 +229,8 @@
         ],
         "evidence": {
           "biological_variables": [
-            "Pierce HeLa Protein Digest Standard was used throughout."
+            "Pierce HeLa Protein Digest Standard was used throughout.",
+            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3, were used."
           ],
           "treatment_attributes": [],
           "design": [
@@ -253,7 +241,7 @@
             "a 6-fold increase in candidate PTM crosstalk sites is identified compared with that of standard liquid chromatography-tandem mass spectrometry (LC-MS/MS) workflows."
           ]
         },
-        "notes": "This is a methodology study comparing two different MS acquisition workflows (standard LC-MS/MS vs LC-FAIMS-MS/MS) using a commercial protein standard (HeLa digest). There is no biological perturbation, treatment, or differential biological condition applied to the samples; therefore, it is mapped as un-classified."
+        "notes": "This is a methodology study comparing two different MS acquisition workflows (standard LC-MS/MS vs LC-FAIMS-MS/MS) using a commercial protein standard (HeLa digest). There is no biological perturbation, treatment, or disease-state comparison applied to the samples themselves; the 'comparison' is purely instrumental/analytical. Therefore, it is mapped as un-classified."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -262,14 +250,14 @@
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 0.9,
-              "reason": "Label-free, enrichment-free shotgun proteomics using DDA (Orbitrap Eclipse) on HeLa digest."
+              "reason": "Label-free, enrichment-free shotgun proteomics using DDA (HCD fragmentation, dynamic exclusion) on an Orbitrap Eclipse."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "faims_separation",
               "confidence": 1.0,
-              "reason": "Explicit use of High-Field Asymmetric Ion Mobility Spectrometry (FAIMS) with both static CV and internal stepping."
+              "reason": "Explicit use of High-Field Asymmetric Ion Mobility Spectrometry (FAIMS) with both static compensation voltages and internal stepping."
             }
           ],
           "trigger_keywords": [
@@ -310,7 +298,7 @@
               "name": "Ubiquitination (diGly)",
               "residue_or_site": "K",
               "mass_shift_da": 114.042,
-              "required_for_modifier": "ubiquitin_workflow"
+              "required_for_modifier": null
             },
             {
               "name": "HexNAc",
@@ -345,12 +333,12 @@
           "workflow": [
             "enrichment-free, label-free proteomics method that utilizes high-field asymmetric ion mobility spectrometry (FAIMS)",
             "LC-FAIMS-MS/MS workflow",
-            "FAIMS device was set to cycle between -45, -60, -75, and -90 V",
+            "internal stepping, the FAIMS device was set to cycle between -45, -60, -75, and -90 V",
             "Orbitrap Eclipse Tribrid Mass Spectrometer"
           ],
           "differential": [
             "searching for multiple combinations of dynamic PTMs on peptide sequences",
-            "candidate PTM crosstalk sites",
+            "detecting PTM crosstalk",
             "site probability threshold was set to 75",
             "ptmRS was used for PTM site localization"
           ],
@@ -362,7 +350,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment focuses on PTM crosstalk (multi-PTM peptides). The search strategy was iterative, first targeting specific pairwise combinations and then a wider PTM set. Site-level localization is critical for the reported 'crosstalk sites'."
+        "notes": "The experiment is specifically designed to identify multi-PTM peptides (crosstalk). The search strategy involves pairwise combinations of PTMs to reduce computational load. Site-level analysis is critical as the goal is to identify specific crosstalk sites."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -372,13 +360,18 @@
         "quantification_strategy": [
           "label-free"
         ],
-        "proteomics_mode": "Bottom-up",
-        "specialized_workflows": [],
+        "proteomics_mode": "PTM-enriched",
+        "specialized_workflows": [
+          "phosphoproteome enrichment",
+          "acetylome enrichment",
+          "ubiquitylome or diGly enrichment",
+          "glycoproteome enrichment"
+        ],
         "evidence": {
           "acquisition": [
             "precursor ions were isolated in the quadrupole with a 1.2 m/z window",
-            "precursor ions were subjected to higher-energy collision dissociation (HCD)",
-            "Dynamic exclusion was employed for 60 s on a single-charge state per precursor"
+            "Dynamic exclusion was employed for 60 s",
+            "MS/MS spectra were acquired in the ion trap mass analyzer"
           ],
           "labeling": [
             "enrichment-free, label-free proteomics method"
@@ -387,56 +380,41 @@
             "label-free proteomics method"
           ],
           "specialized": [
-            "enrichment-free, label-free proteomics method",
-            "without prior protein/peptide PTM enrichment"
+            "without prior protein/peptide PTM enrichment",
+            "enrichment-free",
+            "the number of multi-PTM-containing peptides identified increases"
           ]
         },
-        "notes": "The experiment is explicitly described as enrichment-free. However, 'mod_ubiquitin' is included in modifier_candidates because the search specifically targeted the GG remnant motif, as per the prompt's modifier detection guidance. The acquisition is DDA based on the use of precursor isolation and dynamic exclusion."
+        "notes": "The study explicitly states it is 'enrichment-free', but the goal is the detection of multiple PTMs (crosstalk). Because the search parameters are heavily PTM-focused and the goal is PTM identification, it is routed as PTM-enriched/aware. Acquisition is DDA based on the description of precursor isolation and dynamic exclusion."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "cervix carcinoma"
-        ],
-        "cell_type_categories": [
-          "cancer cell"
-        ],
-        "cell_lines": [
-          "HeLa S3"
-        ],
-        "cell_line_families": [
-          "HeLa"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (SwissProt TaxID 9606, 20\u202f444 proteins)",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [
-            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3"
-          ],
-          "cell_lines": [
-            "Pierce HeLa Protein Digest Standard was used throughout",
-            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "without prior protein/peptide PTM enrichment",
-            "enrichment-free, label-free proteomics method",
-            "HeLa protein digest was analysed using both standard reverse-phase LC-MS/MS and in combination with online high field asymmetric ion mobility spectrometry (FAIMS)"
-          ]
+            "Pierce HeLa Protein Digest Standard was used throughout.",
+            "tryptic peptides from a human cervix carcinoma cell line, HeLa S3, were used.",
+            "without prior protein/peptide PTM enrichment"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The analyzed material is a commercial HeLa protein digest standard. The authors explicitly state the method is 'enrichment-free' and performed 'without prior protein/peptide PTM enrichment', supporting a whole cell lysate scope rather than a subproteome or purified complex."
+        "notes": "The analyzed material was a commercial HeLa protein digest standard. The text explicitly states the method was 'enrichment-free' and performed 'without prior protein/peptide PTM enrichment', supporting a whole cell lysate scope."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "un-classified",
           "example_entity_ids": null,
-          "reasoning": "Pierce HeLa Protein Digest Standard was used throughout.",
+          "reasoning": "Pierce HeLa Protein Digest Standard was used throughout.; tryptic peptides from a human cervix carcinoma cell line, HeLa S3, were used.",
           "confidence_score": 0.95
         }
       ]

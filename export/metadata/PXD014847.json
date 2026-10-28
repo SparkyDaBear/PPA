@@ -1,21 +1,20 @@
 {
   "pxd": "PXD014847",
-  "timestamp": "2026-07-28T00:28:47.381051",
+  "timestamp": "2026-09-22T21:56:07.539357",
   "summary": {
     "acquisition_type": "DIA",
     "quantification_method": "pSILAC",
     "labeling_strategy": [
       "SILAC"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
-    "cell_lines": [
-      "HeLa"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "disease or clinical state"
     ],
@@ -60,7 +59,8 @@
         ],
         "quantification_strategy": [
           "pSILAC",
-          "LFQ"
+          "DIA-MS",
+          "Inverted Spike-In workflow"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [],
@@ -74,12 +74,12 @@
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
-                "name": "oxidation",
+                "name": "Oxidation",
                 "residue_or_site": "M",
                 "mass_shift_da": null
               },
               {
-                "name": "protein N-terminal acetylation",
+                "name": "Protein N-terminal acetylation",
                 "residue_or_site": "N-term",
                 "mass_shift_da": null
               }
@@ -94,71 +94,39 @@
           ],
           "labeling": [
             "pulse stable isotope-labeled amino acids in cells (pSILAC)",
-            "SILAC labels (\"Arg10\" and \"Lys8\") were specified in the second channel"
+            "SILAC labels (\u201cArg10\u201d and \u201cLys8\u201d) were specified in the second channel"
           ],
           "quantification": [
-            "pulse SILAC (or pSILAC) technique",
-            "label-free (i.e., \"light\") library generation"
+            "Inverted Spike-In workflow was used",
+            "monitoring the intensities of light and heavy peptides across several time points",
+            "relative isotopic abundance RIAt"
           ],
           "enrichment": [],
           "workflow_hints": [
             "optimized pSILAC-DIA workflow",
-            "Inverted Spike-In workflow was used"
+            "pSILAC-DIA-MS raw files"
           ],
-          "file_name_cues": []
+          "file_name_cues": [
+            "pSILAC-DIA"
+          ]
         },
-        "notes": "The study uses both DDA and DIA, but the primary analysis and the optimized workflow described for protein degradation are based on DIA. pSILAC is explicitly used for turnover/degradation rate estimation."
+        "notes": "The study uses both DDA (for library generation) and DIA (for main analysis). The primary quantification strategy is pSILAC (pulse-SILAC) implemented via a DIA-MS acquisition mode. The 'mod_psilac' modifier is selected based on the explicit use of pulse-SILAC to measure protein degradation rates."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "epithelial cell",
-            "rollup_category": "cell type",
-            "ontology_curie": "CL:0000066"
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "HeLa",
-            "family": "HeLa",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)"
-          ],
-          "cell_types": [
-            "epithelial cell"
-          ],
-          "cell_lines": [
-            "different strains of HeLa cells",
-            "six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10)"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "Both total proteomic and pulse-chase SILAC proteomic samples were prepared to measure protein abundance and degradation rate",
             "The cell pellets were snap frozen in liquid nitrogen after removal of the PBS and stored at \u221280\u00b0C."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The study uses total proteomic and pSILAC samples derived from HeLa cell pellets. While the text mentions 'fractionated HeLa samples' were used specifically to build a spectral library, the primary analyzed samples for the results (total protein abundance and k loss) are described as total proteomic samples from cell pellets, supporting a whole cell lysate scope."
+        "notes": "The experiment used total proteomic and pSILAC samples derived from cell pellets of HeLa cell lines. While the text mentions that some raw files used for library generation were from 'fractionated HeLa samples', the primary analyzed material for the study's results (the single-shot DIA-MS measurements) is described as total proteomic samples from cell pellets."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -186,7 +154,7 @@
             "agent": null,
             "dose_or_concentration": null,
             "duration": null,
-            "route_or_context": "pSILAC labeling",
+            "route_or_context": "pSILAC pulse-chase",
             "evidence": [
               "Cells were harvested and counted in two biological replicates at four different time points (0, 1, 4.5, and 11 h)."
             ]
@@ -200,50 +168,39 @@
             "11 h"
           ],
           "control_arms": [
-            "HeLa Kyoto strains"
+            "HeLa CCL2"
           ],
           "case_arms": [
-            "HeLa CCL2 strains"
+            "HeLa Kyoto"
           ],
           "paired_design": false,
           "factorial_design": false,
           "replicate_hints": [
-            "two replicates each",
-            "two biological replicates"
+            "two biological replicates at four different time points",
+            "Two dishes of whole-process replicate were prepared at each time"
           ],
           "multiplex_channel_hints": [
-            "heavy SILAC (K8R10) medium",
-            "light SILAC medium",
-            "heavy-to-light (H/L) ratios"
+            "pSILAC (light and heavy isotopically labeled lysine and arginine)"
           ],
           "evidence": [
             "The remaining twelve cell lines represented six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10), presenting a balanced comparison between HeLa Kyoto and CCL2 strains.",
             "Cells were harvested and counted in two biological replicates at four different time points (0, 1, 4.5, and 11 h).",
-            "two replicates each"
+            "SILAC DMEM High Glucose medium (GE Healthcare) lacking l-arginine and l-lysine was first supplemented with light or heavy isotopically labeled lysine and arginine"
           ]
         },
         "contrast_hints": [
           {
-            "control_label": "HeLa Kyoto",
-            "case_label": "HeLa CCL2",
-            "contrast_type": "multi_group",
+            "control_label": "HeLa CCL2",
+            "case_label": "HeLa Kyoto",
+            "contrast_type": "pairwise",
             "evidence": [
               "presenting a balanced comparison between HeLa Kyoto and CCL2 strains",
               "relative difference of k loss between HeLa CCL2 and Kyoto"
-            ]
-          },
-          {
-            "control_label": "HeLa P7",
-            "case_label": "HeLa P50",
-            "contrast_type": "pairwise",
-            "evidence": [
-              "The RNA-Seq data for HeLa 12 (variant CCL2, passage 50; P50) were compared to the data from HeLa 14 (variant CCL2, passage 7; P7)."
             ]
           }
         ],
         "evidence": {
           "biological_variables": [
-            "analyzed the protein turnover of differential AS groups across multiple HeLa cell lines collected from different laboratories",
             "The remaining twelve cell lines represented six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10), presenting a balanced comparison between HeLa Kyoto and CCL2 strains."
           ],
           "treatment_attributes": [
@@ -252,44 +209,48 @@
           "design": [
             "The remaining twelve cell lines represented six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10), presenting a balanced comparison between HeLa Kyoto and CCL2 strains.",
             "Cells were harvested and counted in two biological replicates at four different time points (0, 1, 4.5, and 11 h).",
-            "two replicates each"
+            "SILAC DMEM High Glucose medium (GE Healthcare) lacking l-arginine and l-lysine was first supplemented with light or heavy isotopically labeled lysine and arginine"
           ],
           "contrasts": [
-            "presenting a balanced comparison between HeLa Kyoto and CCL2 strains",
-            "relative difference of k loss between HeLa CCL2 and Kyoto",
-            "The RNA-Seq data for HeLa 12 (variant CCL2, passage 50; P50) were compared to the data from HeLa 14 (variant CCL2, passage 7; P7)."
+            "presenting a balanced comparison between HeLa Kyoto and CCL2 strains"
           ]
         },
-        "notes": "The study primarily compares different strains of HeLa cells (Kyoto vs CCL2) to analyze protein degradation rates (k loss) and mRNA abundance. While it uses pSILAC as a method, the biological variable is the cell line strain/variant. A secondary comparison is made between different passages (P7 vs P50) of the CCL2 variant."
+        "notes": "The primary biological comparison is between two different strains of HeLa cancer cell lines (Kyoto vs CCL2). While the study uses pSILAC to measure degradation rates (k loss), the pSILAC labeling is a methodological tool to determine the variable (degradation rate) rather than a perturbation treatment itself. The timepoints refer to the pulse-chase sampling for the degradation assay."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
-        "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+        "reanalysis_compatibility": "Requires specialized pipeline",
         "workflow_selection_hints": {
           "base_candidates_ranked": [
             {
               "base_workflow_id": "base_dia_lfq",
-              "confidence": 1.0,
+              "confidence": 100,
               "reason": "The study explicitly uses data-independent acquisition mass spectrometry (DIA-MS) for both total protein abundance and pSILAC measurements."
             },
             {
               "base_workflow_id": "base_dda_lfq",
-              "confidence": 0.6,
-              "reason": "DDA was used for hybrid library generation, though the primary analysis is DIA."
+              "confidence": 60,
+              "reason": "DDA was used for spectral library generation, but the primary quantification is DIA."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "silac_pulse_chase",
-              "confidence": 1.0,
+              "confidence": 100,
               "reason": "The experiment uses pulse stable isotope-labeled amino acids in cells (pSILAC) to measure protein degradation rates (k loss)."
+            },
+            {
+              "modifier_workflow_id": "isoform_resolved",
+              "confidence": 90,
+              "reason": "The study uses a sample-specific RNA-Seq-derived protein sequence database to resolve protein degradation at the level of mRNA alternative splicing isoforms."
             }
           ],
           "trigger_keywords": [
-            "DIA-MS",
             "pSILAC",
-            "pulse stable isotope-labeled amino acids",
-            "data-independent acquisition",
-            "k loss"
+            "DIA-MS",
+            "k loss",
+            "alternative splicing isoforms",
+            "Inverted Spike-In workflow",
+            "pulse-chase SILAC"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -301,42 +262,43 @@
         "search_parameter_hints": {
           "variable_modification_hints": [
             {
-              "name": "Oxidation",
+              "name": "oxidation",
               "residue_or_site": "M",
               "mass_shift_da": null,
               "required_for_modifier": null
             },
             {
-              "name": "Protein N-terminal acetylation",
+              "name": "protein N-terminal acetylation",
               "residue_or_site": null,
               "mass_shift_da": null,
               "required_for_modifier": null
             }
           ],
           "special_reagent_hints": [
-            "carbamidomethylation (fixed on cysteines)",
-            "Arg10 (13C6 15N4)",
-            "Lys8 (13C6 15N2)"
+            "heavy l-lysine (13C6 15N2)",
+            "heavy l-arginine (13C6 15N4)"
           ]
         },
         "evidence": {
           "workflow": [
             "combining pulse stable isotope-labeled amino acids in cells (pSILAC), data-independent acquisition mass spectrometry (DIA-MS)",
-            "The pSILAC experiment (Liu et al, 2019) was performed as follows: SILAC DMEM... supplemented with light or heavy isotopically labeled lysine and arginine",
-            "For DIA-based proteomics, our DIA-MS method was configured to consist one MS1 survey scan and 40 MS2 scans of variable windows"
+            "Inverted Spike-In workflow was used",
+            "sample-specific RNA-Seq-derived protein sequence database",
+            "SILAC labels (\u201cArg10\u201d and \u201cLys8\u201d) were specified"
           ],
           "differential": [
             "Differential protein expression and degradation was determined using a two-sided t-test in Perseus",
-            "comparison between HeLa Kyoto and CCL2 strains",
-            "Benjamini\u2013Hochberg correction on the P-values to control the false discovery rate (FDR)"
+            "Benjamini\u2013Hochberg correction on the P-values to control the false discovery rate (FDR)",
+            "comparison between HeLa Kyoto and CCL2 strains"
           ],
           "search_parameters": [
-            "full tryptic digestion allowing two missed cleavages, carbamidomethylation as a fixed modification on all cysteines, oxidation of methionines, and protein N-terminal acetylation as dynamic modifications",
-            "SILAC labels (\u201cArg10\u201d and \u201cLys8\u201d) were specified in the second channel"
+            "carbamidomethylation as a fixed modification on all cysteines",
+            "oxidation of methionines, and protein N-terminal acetylation as dynamic modifications",
+            "full tryptic digestion allowing two missed cleavages"
           ],
           "file_name_triggers": []
         },
-        "notes": "The study focuses on isoform-resolved analysis using a sample-specific RNA-Seq-derived protein sequence database to identify alternative splicing (AS) proteoforms. The primary metric for turnover is 'k loss' derived from pSILAC-DIA data."
+        "notes": "The analysis is highly specialized, requiring the integration of RNA-Seq data to build custom FASTA databases for isoform-level protein identification and the use of a pSILAC-specific kinetic model (RIA/NLI methods) to calculate k loss (degradation rates)."
       },
       "MStype_prompt": {
         "acquisition_type": "DIA",
@@ -345,7 +307,8 @@
         ],
         "quantification_strategy": [
           "pSILAC",
-          "LFQ"
+          "DIA-MS",
+          "Inverted Spike-In workflow"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [],
@@ -356,58 +319,44 @@
           ],
           "labeling": [
             "pulse stable isotope-labeled amino acids in cells (pSILAC)",
-            "SILAC labels (\"Arg10\" and \"Lys8\") were specified in the second channel"
+            "SILAC labels (\u201cArg10\u201d and \u201cLys8\u201d) were specified in the second channel"
           ],
           "quantification": [
-            "pulse SILAC (or pSILAC) technique",
-            "label-free (i.e., \"light\") library generation"
+            "Inverted Spike-In workflow was used",
+            "monitoring the intensities of light and heavy peptides across several time points",
+            "relative isotopic abundance RIAt"
           ],
           "specialized": []
         },
-        "notes": "The study uses both DDA and DIA, but the primary analysis and the optimized workflow described for protein degradation are based on DIA. pSILAC is explicitly used for turnover/degradation rate estimation."
+        "notes": "The study uses both DDA (for library generation) and DIA (for main analysis). The primary quantification strategy is pSILAC (pulse-SILAC) implemented via a DIA-MS acquisition mode. The 'mod_psilac' modifier is selected based on the explicit use of pulse-SILAC to measure protein degradation rates."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "epithelial cell"
-        ],
-        "cell_type_categories": [
-          "cell type"
-        ],
-        "cell_lines": [
-          "HeLa"
-        ],
-        "cell_line_families": [
-          "HeLa"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)"
-          ],
-          "cell_types": [
-            "epithelial cell"
-          ],
-          "cell_lines": [
-            "different strains of HeLa cells",
-            "six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10)"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "Both total proteomic and pulse-chase SILAC proteomic samples were prepared to measure protein abundance and degradation rate",
             "The cell pellets were snap frozen in liquid nitrogen after removal of the PBS and stored at \u221280\u00b0C."
-          ]
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The study uses total proteomic and pSILAC samples derived from HeLa cell pellets. While the text mentions 'fractionated HeLa samples' were used specifically to build a spectral library, the primary analyzed samples for the results (total protein abundance and k loss) are described as total proteomic samples from cell pellets, supporting a whole cell lysate scope."
+        "notes": "The experiment used total proteomic and pSILAC samples derived from cell pellets of HeLa cell lines. While the text mentions that some raw files used for library generation were from 'fractionated HeLa samples', the primary analyzed material for the study's results (the single-shot DIA-MS measurements) is described as total proteomic samples from cell pellets."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "disease or clinical state",
           "example_entity_ids": null,
-          "reasoning": "analyzed the protein turnover of differential AS groups across multiple HeLa cell lines collected from different laboratories; The remaining twelve cell lines represented six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10), presenting a balanced comparison between HeLa Kyoto and CCL2 strains.",
+          "reasoning": "The remaining twelve cell lines represented six HeLa cells variants subtype CCL2 (2, 6, 7, 12, 13, and 14) and six HeLa cells variants subtype Kyoto (1, 3, 4, 8, 9, and 10), presenting a balanced comparison between HeLa Kyoto and CCL2 strains.",
           "confidence_score": 0.75
         }
       ]

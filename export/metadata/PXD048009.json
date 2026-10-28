@@ -1,22 +1,23 @@
 {
   "pxd": "PXD048009",
-  "timestamp": "2026-08-02T19:52:36.628112",
+  "timestamp": "2026-09-22T22:41:23.262174",
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT reporter ion intensities",
+    "quantification_method": "TMT reporter ion intensity",
     "labeling_strategy": [
       "TMT"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "K562",
-      "HCT116"
-    ],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
-      "chemical or drug treatment"
+      "chemical or drug treatment",
+      "temperature stress"
     ],
     "instrument": null
   },
@@ -58,7 +59,7 @@
           "TMT"
         ],
         "quantification_strategy": [
-          "TMT reporter ion intensities"
+          "TMT reporter ion intensity"
         ],
         "proteomics_mode": "PTM-enriched",
         "assay_targets_or_enrichments": [
@@ -81,12 +82,12 @@
             "variable_modification_hints": [
               {
                 "name": "oxidation",
-                "residue_or_site": "methionine",
+                "residue_or_site": "M",
                 "mass_shift_da": 15.9949
               },
               {
                 "name": "phosphorylation",
-                "residue_or_site": "serine, threonine, tyrosine",
+                "residue_or_site": "S, T, Y",
                 "mass_shift_da": 79.9663
               }
             ],
@@ -117,58 +118,24 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The study employs both total proteome and phosphoproteome analysis using a TMT-based PISA (Proteome Integral Solubility Alteration) workflow, which is a variant of Thermal Proteome Profiling (TPP). Both total and phospho-runs used DDA acquisition."
+        "notes": "The study employs both total proteome and phosphoproteome analysis using TMT-labeled DDA. The primary assay is a thermal shift assay (PISA/TPP), which is a specific workflow for target engagement. Phosphorylation site localization was explicitly mentioned as being determined using AScorePro, requiring site-level output."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "K562",
-            "family": "chronic myelogenous leukemia",
-            "ontology_curie": null
-          },
-          {
-            "label": "HCT116",
-            "family": null,
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Database searching included all human entries from Uniprot",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "K562 cells were cultured in RPMI-1640 medium",
-            "HCT116 cell were cultured in Dulbecco\u2019s Modified Eagle\u2019s Medium",
-            "K562 cells/lysates, a chronic myelogenous leukemia cell line"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates)",
-            "The resulting crude extract was diluted to 2 mg/mL in lysis buffer",
-            "Extracted samples were spun at 21,000x g for 90 min to separate insoluble aggregates from soluble protein. An equal volume from each soluble fraction was collected and prepared for LC-MS/MS analysis."
-          ]
+            "The resulting crude extract was diluted to 2 mg/mL in lysis buffer.",
+            "For lysate-based experiments, cells were grown to approximately 1x106 cells/mL, washed with phosphate-buffered saline, and flash frozen in liquid nitrogen."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The experiment utilized both live cells and crude lysates. While the PISA method involves a centrifugation step to isolate the 'soluble fraction' after thermal denaturation, this is a standard part of the thermal shift assay processing of a whole-cell/lysate proteome rather than a targeted subproteome or affinity purification of a specific complex. Therefore, it is classified as whole cell lysate."
+        "notes": "The study utilizes both cell-based and lysate-based PISA assays. The material analyzed by MS consists of the soluble fraction of whole cell lysates (crude extracts) after thermal denaturation and centrifugation."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -186,41 +153,48 @@
             "confidence": "high",
             "evidence": [
               "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates).",
-              "We selected 96 compounds with known mechanisms of action for PISA screening in live K562 cells and further assayed 70 of the compounds in native lysates."
+              "we curated a custom chemical library comprised of 96 commonly used cancer drugs and tool compounds.",
+              "70 targeted protein kinases, while the remaining 26 compounds targeted other classes of proteins including histone deacetylases (HDACs), lysine demethylases, poly (ADP-ribose) polymerases (PARPs), and others"
+            ]
+          },
+          {
+            "ontology_label": "temperature stress",
+            "ontology_curie": "PPA:0000022",
+            "category": "temperature",
+            "matched_parent_class_key": "temperature",
+            "matched_class_key": "thermal_shift_or_gradient_exposure",
+            "matched_class_path": [
+              "temperature",
+              "thermal_shift_or_gradient_exposure"
+            ],
+            "matched_definition": "Temperature series, gradient, ramp, or shift used as a perturbation rather than only analytical TPP.",
+            "confidence": "high",
+            "evidence": [
+              "The PCR tubes were heated across a thermal gradient ranging from 48\u00b0C to 58\u00b0C (or 37\u201362\u00b0C) for 3 min to induce thermal denaturation.",
+              "PISA pools the soluble fractions of multiple samples heated across a thermal gradient"
             ]
           }
         ],
         "treatment_attributes": [
           {
             "relation_key": "has_treatment_agent",
-            "agent": "therapeutic and tool compounds",
-            "dose_or_concentration": null,
-            "duration": null,
-            "route_or_context": "living cells and lysates",
+            "agent": "96 therapeutic and tool compounds",
+            "dose_or_concentration": "10 \u00b5M",
+            "duration": "30 min",
+            "route_or_context": "living K562 cells",
             "evidence": [
+              "K562 cells were treated with 10 \u00b5M of each compound for 30 min",
               "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates)."
             ]
           },
           {
-            "relation_key": "has_treatment_dose",
-            "agent": "therapeutic and tool compounds",
-            "dose_or_concentration": "10 \u03bcM",
-            "duration": null,
-            "route_or_context": null,
-            "evidence": [
-              "To initiate the screen, K562 cells were treated with 10 \u03bcM of each compound for 30 min",
-              "The crude extracts were treated with each of the 70 compounds in biological duplicate at 10 \u03bcM for 30 min"
-            ]
-          },
-          {
-            "relation_key": "has_treatment_duration",
-            "agent": "therapeutic and tool compounds",
-            "dose_or_concentration": null,
+            "relation_key": "has_treatment_agent",
+            "agent": "70 therapeutic and tool compounds",
+            "dose_or_concentration": "10 \u00b5M",
             "duration": "30 min",
-            "route_or_context": null,
+            "route_or_context": "native K562 lysates",
             "evidence": [
-              "To initiate the screen, K562 cells were treated with 10 \u03bcM of each compound for 30 min",
-              "The crude extracts were treated with each of the 70 compounds in biological duplicate at 10 \u03bcM for 30 min"
+              "The crude extracts were treated with each of the 70 compounds in biological duplicate at 10 \u00b5M for 30 min"
             ]
           }
         ],
@@ -242,13 +216,13 @@
             "four biological replicates"
           ],
           "multiplex_channel_hints": [
-            "TMTPro 16plex",
-            "TMT reporter represents an entire integrated melting curve"
+            "TMTPro 16plex reagents",
+            "single TMT reporter represents an entire integrated melting curve"
           ],
           "evidence": [
             "a change in protein thermal stability (or a thermal shift) can be defined as a fold change in the abundance of soluble protein in a compound-treated sample vs. a vehicle-treated control",
-            "K562 cells were treated with each of the clinically available CDK4/6 inhibitors\u2014ribociclib, abemaciclib, and palbociclib\u2014or DMSO (10 \u03bcM, 30 min; Figure 1\u2014source data 1). Notably, all three compounds and a DMSO control were able to be assayed with four biological replicates in a single TMTPro 16plex experiment",
-            "To initiate the screen, K562 cells were treated with 10 \u03bcM of each compound for 30 min in biological duplicate"
+            "TMTPro 16plex reagents",
+            "treated with 10 \u00b5M of each compound for 30 min in biological duplicate"
           ]
         },
         "contrast_hints": [
@@ -257,36 +231,37 @@
             "case_label": "compound-treated",
             "contrast_type": "pairwise",
             "evidence": [
-              "a change in protein thermal stability (or a thermal shift) can be defined as a fold change in the abundance of soluble protein in a compound-treated sample vs. a vehicle-treated control"
+              "log2 fold change comparing the soluble protein abundance of a compound-treated sample to a vehicle-treated control"
             ]
           },
           {
-            "control_label": "DMSO",
-            "case_label": "increasing concentrations of BI 2536, NVP-TAE-226, and palbociclib",
+            "control_label": "10 \u00b5M",
+            "case_label": "100 nM to 10 \u00b5M",
             "contrast_type": "dose_response",
             "evidence": [
-              "we treated K562 cells with increasing concentrations of BI 2536, NVP-TAE-226, and palbociclib, ranging from 100 nM to 10 \u03bcM"
+              "treated K562 cells with increasing concentrations of BI 2536, NVP-TAE-226, and palbociclib, ranging from 100 nM to 10 \u00b5M"
             ]
           }
         ],
         "evidence": {
           "biological_variables": [
-            "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates)."
+            "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates).",
+            "The PCR tubes were heated across a thermal gradient ranging from 48\u00b0C to 58\u00b0C (or 37\u201362\u00b0C) for 3 min to induce thermal denaturation."
           ],
           "treatment_attributes": [
-            "To initiate the screen, K562 cells were treated with 10 \u03bcM of each compound for 30 min in biological duplicate",
-            "The crude extracts were treated with each of the 70 compounds in biological duplicate at 10 \u03bcM for 30 min"
+            "K562 cells were treated with 10 \u00b5M of each compound for 30 min",
+            "The crude extracts were treated with each of the 70 compounds in biological duplicate at 10 \u00b5M for 30 min"
           ],
           "design": [
-            "a change in protein thermal stability (or a thermal shift) can be defined as a fold change in the abundance of soluble protein in a compound-treated sample vs. a vehicle-treated control",
-            "TMTPro 16plex"
+            "TMTPro 16plex reagents",
+            "treated with 10 \u00b5M of each compound for 30 min in biological duplicate"
           ],
           "contrasts": [
-            "a change in protein thermal stability (or a thermal shift) can be defined as a fold change in the abundance of soluble protein in a compound-treated sample vs. a vehicle-treated control",
-            "we treated K562 cells with increasing concentrations of BI 2536, NVP-TAE-226, and palbociclib, ranging from 100 nM to 10 \u03bcM"
+            "log2 fold change comparing the soluble protein abundance of a compound-treated sample to a vehicle-treated control",
+            "treated K562 cells with increasing concentrations of BI 2536, NVP-TAE-226, and palbociclib, ranging from 100 nM to 10 \u00b5M"
           ]
         },
-        "notes": "The study uses PISA (Proteome Integral Solubility Alteration) to measure thermal stability shifts as a proxy for drug-target engagement. The primary comparison is compound-treated vs. DMSO/vehicle control."
+        "notes": "The study uses PISA (Proteome Integral Solubility Alteration), which combines a chemical perturbation (drug treatment) with a physical perturbation (thermal gradient) to measure protein stability. The primary biological variable is the drug treatment, while the thermal gradient is the mechanism of the assay."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -301,16 +276,15 @@
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "phosphoproteomics",
-              "confidence": 0.95,
-              "reason": "The methods describe a specific phosphopeptide enrichment using High Select Phosphopeptide Enrichment Kit and separate LC-MS/MS analysis for phosphorylation data."
+              "confidence": 0.9,
+              "reason": "The study includes a specific phosphopeptide enrichment workflow using the High Select Phosphopeptide Enrichment Kit."
             }
           ],
           "trigger_keywords": [
             "TMTPro 16plex",
-            "PISA",
-            "thermal shift assay",
+            "data dependent mode",
             "phosphopeptide enrichment",
-            "DDA"
+            "PISA"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -347,8 +321,7 @@
           ],
           "differential": [
             "a change in protein thermal stability (or a thermal shift) can be defined as a fold change in the abundance of soluble protein in a compound-treated sample vs. a vehicle-treated control",
-            "log2 fold change comparing the soluble protein abundance of a compound-treated sample to a vehicle-treated control",
-            "Proteins were quantified by summing reporter ion counts across all matching PSMs"
+            "log2 fold change comparing the soluble protein abundance of a compound-treated sample to a vehicle-treated control"
           ],
           "search_parameters": [
             "TMT on lysine residues and peptide N termini (+304.207 Da) and carbamidomethylation of cysteine residues (+57.0215 Da) were set as static modifications",
@@ -357,7 +330,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment uses the PISA (Proteome Integral Solubility Alteration) method, which simplifies thermal proteome profiling by pooling soluble fractions into a single TMT channel to represent an integrated melting curve. This results in a protein-level abundance comparison between treated and control samples."
+        "notes": "The experiment uses the PISA (Proteome Integral Solubility Alteration) method, which simplifies thermal proteome profiling by integrating the melting curve into a single TMT channel. The differential analysis is focused on the log2 fold change of soluble protein abundance relative to DMSO controls."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -365,7 +338,7 @@
           "TMT"
         ],
         "quantification_strategy": [
-          "TMT reporter ion intensities"
+          "TMT reporter ion intensity"
         ],
         "proteomics_mode": "PTM-enriched",
         "specialized_workflows": [
@@ -389,48 +362,42 @@
             "For analysis of phosphopeptides, samples (100 \u00b5g protein) were prepared and digested as described above."
           ]
         },
-        "notes": "The study employs both total proteome and phosphoproteome analysis using a TMT-based PISA (Proteome Integral Solubility Alteration) workflow, which is a variant of Thermal Proteome Profiling (TPP). Both total and phospho-runs used DDA acquisition."
+        "notes": "The study employs both total proteome and phosphoproteome analysis using TMT-labeled DDA. The primary assay is a thermal shift assay (PISA/TPP), which is a specific workflow for target engagement. Phosphorylation site localization was explicitly mentioned as being determined using AScorePro, requiring site-level output."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "K562",
-          "HCT116"
-        ],
-        "cell_line_families": [
-          "chronic myelogenous leukemia"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Database searching included all human entries from Uniprot",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "K562 cells were cultured in RPMI-1640 medium",
-            "HCT116 cell were cultured in Dulbecco\u2019s Modified Eagle\u2019s Medium",
-            "K562 cells/lysates, a chronic myelogenous leukemia cell line"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates)",
-            "The resulting crude extract was diluted to 2 mg/mL in lysis buffer",
-            "Extracted samples were spun at 21,000x g for 90 min to separate insoluble aggregates from soluble protein. An equal volume from each soluble fraction was collected and prepared for LC-MS/MS analysis."
-          ]
+            "The resulting crude extract was diluted to 2 mg/mL in lysis buffer.",
+            "For lysate-based experiments, cells were grown to approximately 1x106 cells/mL, washed with phosphate-buffered saline, and flash frozen in liquid nitrogen."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The experiment utilized both live cells and crude lysates. While the PISA method involves a centrifugation step to isolate the 'soluble fraction' after thermal denaturation, this is a standard part of the thermal shift assay processing of a whole-cell/lysate proteome rather than a targeted subproteome or affinity purification of a specific complex. Therefore, it is classified as whole cell lysate."
+        "notes": "The study utilizes both cell-based and lysate-based PISA assays. The material analyzed by MS consists of the soluble fraction of whole cell lysates (crude extracts) after thermal denaturation and centrifugation."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "chemical or drug treatment",
           "example_entity_ids": null,
-          "reasoning": "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates).",
+          "reasoning": "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates).; The PCR tubes were heated across a thermal gradient ranging from 48\u00b0C to 58\u00b0C (or 37\u201362\u00b0C) for 3 min to induce thermal denaturation.",
+          "confidence_score": 0.95
+        },
+        {
+          "treatment_category": "temperature stress",
+          "example_entity_ids": null,
+          "reasoning": "we quantified more than one million thermal stability measurements in response to multiple classes of therapeutic and tool compounds (96 compounds in living cells and 70 compounds in lysates).; The PCR tubes were heated across a thermal gradient ranging from 48\u00b0C to 58\u00b0C (or 37\u201362\u00b0C) for 3 min to induce thermal denaturation.",
           "confidence_score": 0.95
         }
       ]
@@ -444,7 +411,7 @@
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
     "acquisition_method": "DDA",
-    "quantification_method": "TMT reporter ion intensities",
+    "quantification_method": "TMT reporter ion intensity",
     "fixed_mods": [
       "Carbamidomethyl (C)",
       "TMT6plex (K)",

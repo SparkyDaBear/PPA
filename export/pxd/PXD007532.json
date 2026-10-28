@@ -10,16 +10,15 @@
     "treatment_categories": [
       "case-control disease status"
     ],
-    "cell_types": [
-      "papillary thyroid carcinoma cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "CGTH W3",
-      "BHP 7-13"
+      "BHP 7-13",
+      "CGTH W3"
     ],
-    "sample_scope": "secretome scope",
-    "sample_scope_label": "secretome scope",
-    "sample_scope_curie": "PPA:0000198",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -38,7 +37,8 @@
         "confidence": "high",
         "evidence": [
           "analyze the proteome profiles of serum-abundant-protein-depleted FNA cystic fluid from benign and PTC patients",
-          "we collected 12 FNA cystic fluid samples from Chang Gung Memorial Hospital (Linkou, Taiwan): seven from patients with benign lesions... and five from PTC patients"
+          "differential protein profiles between benign and malignant cystic fluids",
+          "12 FNA cystic fluid samples from Chang Gung Memorial Hospital (Linkou, Taiwan): seven from patients with benign lesions... and five from PTC patients"
         ]
       }
     ],
@@ -52,6 +52,17 @@
         "evidence": [
           "analyze the proteome profiles of serum-abundant-protein-depleted FNA cystic fluid from benign and PTC patients"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PTC cell lines",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "secretomes from the PTC cell lines, BHP 7-13 and CGTH W3",
+        "evidence": [
+          "as well as two PTC cell line secretomes",
+          "secretomes from the PTC cell lines, BHP 7-13 and CGTH W3"
+        ]
       }
     ],
     "source_sections": [
@@ -61,10 +72,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "benign"
+      "benign cystic fluid"
     ],
     "case_arms": [
-      "PTC"
+      "PTC cystic fluid",
+      "PTC cell line secretomes"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -89,53 +101,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "papillary thyroid carcinoma cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "CGTH W3",
-        "family": "papillary thyroid carcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "BHP 7-13",
-        "family": "papillary thyroid carcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "FNA cystic fluid",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "secretome scope",
-      "label": "secretome scope",
-      "curie": "PPA:0000198"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -145,18 +110,51 @@
       "label-free spectral counting"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "abundant protein depletion",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "serum-abundant-protein-depleted FNA cystic fluid"
+      },
+      {
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "cancer cell secretome (conditioned media)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "BHP 7-13",
+          "ontology_curie": null
+        },
+        {
+          "label": "CGTH W3",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "FNA cystic fluid",
+          "source_kind": "biofluid"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -166,15 +164,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a GeLC-MS/MS strategy with label-free spectral counting (LFQ) on an LTQ-Orbitrap in data-dependent acquisition (DDA) mode."
+          "reason": "The study explicitly uses 'label-free spectral counts' and 'label-free spectral quantification' with a data-dependent acquisition (DDA) mode on an LTQ-Orbitrap."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "gel_fractionation",
+          "confidence": 1.0,
+          "reason": "The experiment uses a GeLC-MS/MS strategy where proteins were separated by SDS-PAGE and the gel lanes were cut into 40-60 pieces for digestion."
+        }
+      ],
       "trigger_keywords": [
         "GeLC-MS/MS",
-        "label-free spectral counting",
+        "label-free spectral counts",
+        "spectral counting",
         "data-dependent analytical mode",
-        "spectral counts"
+        "SDS-PAGE"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -183,15 +188,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The study explicitly uses a GeLC-MS/MS strategy with label-free spectral counting (LFQ) on an LTQ-Orbitrap in data-dependent acquisition (DDA) mode."
+          "reason": "The study explicitly uses 'label-free spectral counts' and 'label-free spectral quantification' with a data-dependent acquisition (DDA) mode on an LTQ-Orbitrap."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "gel_fractionation",
+          "confidence": 1.0,
+          "reason": "The experiment uses a GeLC-MS/MS strategy where proteins were separated by SDS-PAGE and the gel lanes were cut into 40-60 pieces for digestion."
+        }
+      ],
       "trigger_keywords": [
         "GeLC-MS/MS",
-        "label-free spectral counting",
+        "label-free spectral counts",
+        "spectral counting",
         "data-dependent analytical mode",
-        "spectral counts"
+        "SDS-PAGE"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,7 +231,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:45:18Z"
   }
 }

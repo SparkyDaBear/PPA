@@ -8,33 +8,33 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "anatomical or spatial comparison"
+      "disease or clinical state"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "organelle-enriched scope",
-    "sample_scope_curie": "PPA:0000201",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "anatomical or spatial comparison",
-        "ontology_curie": "PPA:0000019",
-        "category": "anatomical_spatial",
-        "matched_parent_class_key": "anatomical_spatial",
-        "matched_class_key": "organ_region_comparison",
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "anatomical_spatial",
-          "organ_region_comparison"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison among regions, zones, lobes, layers, or anatomical substructures within an organ.",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "Proteomic analysis of the matrisome fraction between FT, fimbria, and ovaries showed significant differences",
-          "We analyzed the mechanical properties and ECM of fresh, healthy tissues from human FT, FB... and OV tissue.",
-          "identify differentially expressed matrix proteins between FB and FT or OV"
+          "identify differentially expressed matrix proteins between FB and FT or OV, which may be promote the neoplastic transformation of serous tubal intraepithelial lesions (STICs) into high-grade serous ovarian cancer, HGSOC, and metastasis from the FB to the OV.",
+          "Differential expression analysis revealed increased POSTN and TGFBI abundance in the FB in comparison with the OV, but also in comparison with the proximal FT"
         ]
       }
     ],
@@ -46,68 +46,37 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "FT",
-      "FB"
+      "proximal FT",
+      "healthy FB"
     ],
     "case_arms": [
-      "OV"
+      "OV",
+      "STIC lesions"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
-    "multiplex_channel_hints": [
-      "label-free"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "FT/FB",
-        "case_label": "OV",
+        "control_label": "proximal FT",
+        "case_label": "FB",
         "contrast_type": "pairwise",
         "evidence": [
-          "identify differentially expressed matrix proteins between FB and FT or OV"
+          "Differential expression analysis revealed increased POSTN and TGFBI abundance in the FB... in comparison with the proximal FT"
+        ]
+      },
+      {
+        "control_label": "OV",
+        "case_label": "FB",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Differential expression analysis revealed increased POSTN and TGFBI abundance in the FB in comparison with the OV"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "fallopian tube",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "fimbria",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "ovary",
-        "source_kind": "organ"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "organelle-enriched scope",
-      "curie": "PPA:0000201"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -116,21 +85,49 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free peptide quantification"
+      "label-free peptide quantification",
+      "extracted ion chromatograms (XIC)"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "matrisome enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "matrisome fraction"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "fallopian tube",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "fimbria",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "ovaries",
+          "source_kind": "organ"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -140,15 +137,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q-Exactive mass spectrometer in data dependent mode (DDA) and employed label-free quantification (LFQ) via Pescal XIC area measurement."
+          "reason": "The experiment used a Q-Exactive mass spectrometer in data-dependent mode (DDA) and employed label-free quantification (LFQ) via extracted ion chromatograms (XIC) using the Pescal software."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "matrisome_enrichment",
+          "confidence": 0.9,
+          "reason": "The study specifically used a CNMCS Compartmental Protein Extraction kit to enrich for the matrisome (ECM) fraction, removing cytosolic, nuclear, membrane, and cytoskeletal proteins."
+        }
+      ],
       "trigger_keywords": [
-        "data dependent mode",
         "label-free",
-        "XIC",
-        "Q-Exactive"
+        "data dependent mode",
+        "matrisome fraction",
+        "ECM protein enrichment",
+        "extracted ion chromatograms"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -157,15 +161,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a Q-Exactive mass spectrometer in data dependent mode (DDA) and employed label-free quantification (LFQ) via Pescal XIC area measurement."
+          "reason": "The experiment used a Q-Exactive mass spectrometer in data-dependent mode (DDA) and employed label-free quantification (LFQ) via extracted ion chromatograms (XIC) using the Pescal software."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "matrisome_enrichment",
+          "confidence": 0.9,
+          "reason": "The study specifically used a CNMCS Compartmental Protein Extraction kit to enrich for the matrisome (ECM) fraction, removing cytosolic, nuclear, membrane, and cytoskeletal proteins."
+        }
+      ],
       "trigger_keywords": [
-        "data dependent mode",
         "label-free",
-        "XIC",
-        "Q-Exactive"
+        "data dependent mode",
+        "matrisome fraction",
+        "ECM protein enrichment",
+        "extracted ion chromatograms"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -193,7 +204,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:13:53Z"
   }
 }

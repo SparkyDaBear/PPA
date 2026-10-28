@@ -10,15 +10,15 @@
     "treatment_categories": [
       "cell cycle state comparison"
     ],
-    "cell_types": [
-      "cerebral cortex glial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "T98G"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "chromatome",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -26,11 +26,11 @@
       {
         "ontology_label": "cell cycle state comparison",
         "ontology_curie": "PPA:0000106",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
+        "category": "unclassified",
+        "matched_parent_class_key": "cell_state_or_interaction_comparison",
         "matched_class_key": "cell_cycle_state_comparison",
         "matched_class_path": [
-          "cell_state_interaction",
+          "cell_state_or_interaction_comparison",
           "cell_cycle_state_comparison"
         ],
         "matched_definition": "Comparison among cell cycle phases, synchronized states, proliferating, or arrested cells.",
@@ -78,7 +78,11 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "G1-phase",
+      "S-phase",
+      "M-phase"
+    ],
     "control_arms": [
       "G1-phase"
     ],
@@ -89,8 +93,8 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "Synchronized cells were subjected to chromatome and whole proteome analysis in triplicate",
-      "signal in all three replicates of at least one cell cycle stage"
+      "Samples were prepared in triplicate",
+      "three replicates of at least one cell cycle stage"
     ],
     "multiplex_channel_hints": [
       "labeled with TMT 10-plex reagents",
@@ -103,7 +107,7 @@
         "contrast_type": "pairwise",
         "evidence": [
           "contrasting bulk changes of chromatin proteins between M- and G1-phase",
-          "significant 1.5-fold difference (p < 0.001...) in enrichment between any pair of cell cycle phases"
+          "significant 1.5-fold difference (p < 0.001) in enrichment between any pair of cell cycle phases"
         ]
       },
       {
@@ -111,49 +115,12 @@
         "case_label": "S-phase",
         "contrast_type": "pairwise",
         "evidence": [
-          "significant 1.5-fold difference (p < 0.001...) in enrichment between any pair of cell cycle phases"
+          "significant 1.5-fold difference (p < 0.001) in enrichment between any pair of cell cycle phases"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "cerebral cortex glial cell",
-        "rollup_category": "glial cell",
-        "ontology_curie": "CL:1001579"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "T98G",
-        "family": "glioblastoma multiforme",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "chromatome",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -165,19 +132,48 @@
       "TMT reporter ion quantification",
       "SPS-MS3"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "chromatin enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "chromatin-bound proteome (chromatome) enrichment via CsCl buoyant density gradient"
+      },
+      {
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "nucleome (nuclear proteome)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "T98G",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -187,19 +183,19 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT 10-plex reagents and synchronous precursor selection (SPS)-based MS3 technology in data-dependent mode."
+          "reason": "Explicit use of TMT 10-plex reagents and Orbitrap Fusion Tribrid in data-dependent mode with MS3 quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ptm_phosphorylation",
+          "modifier_workflow_id": "modifier_ptm_phospho",
           "confidence": 0.8,
-          "reason": "The study explicitly quantifies and analyzes phosphopeptides (1531 identified) and phosphorylation of S, T, and Y residues."
+          "reason": "Significant quantification of phosphopeptides (1531) and specific analysis of phosphorylation sites (STY)."
         },
         {
-          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "modifier_workflow_id": "modifier_ptm_acetyl",
           "confidence": 0.7,
-          "reason": "The study explicitly quantifies acetylated peptides (646 identified) and analyzes histone acetylation."
+          "reason": "Explicit quantification of 646 acetylated peptides and analysis of histone acetylation."
         }
       ],
       "trigger_keywords": [
@@ -207,7 +203,7 @@
         "SPS-based MS3",
         "isobarically labeled",
         "phosphopeptides",
-        "acetylated peptides"
+        "acetylated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -216,19 +212,19 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "Explicit use of TMT 10-plex reagents and synchronous precursor selection (SPS)-based MS3 technology in data-dependent mode."
+          "reason": "Explicit use of TMT 10-plex reagents and Orbitrap Fusion Tribrid in data-dependent mode with MS3 quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ptm_phosphorylation",
+          "modifier_workflow_id": "modifier_ptm_phospho",
           "confidence": 0.8,
-          "reason": "The study explicitly quantifies and analyzes phosphopeptides (1531 identified) and phosphorylation of S, T, and Y residues."
+          "reason": "Significant quantification of phosphopeptides (1531) and specific analysis of phosphorylation sites (STY)."
         },
         {
-          "modifier_workflow_id": "modifier_ptm_acetylation",
+          "modifier_workflow_id": "modifier_ptm_acetyl",
           "confidence": 0.7,
-          "reason": "The study explicitly quantifies acetylated peptides (646 identified) and analyzes histone acetylation."
+          "reason": "Explicit quantification of 646 acetylated peptides and analysis of histone acetylation."
         }
       ],
       "trigger_keywords": [
@@ -236,7 +232,7 @@
         "SPS-based MS3",
         "isobarically labeled",
         "phosphopeptides",
-        "acetylated peptides"
+        "acetylated"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -264,7 +260,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:16Z"
   }
 }

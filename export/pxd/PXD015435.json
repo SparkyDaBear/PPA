@@ -10,15 +10,16 @@
     "treatment_categories": [
       "chemical or drug treatment"
     ],
-    "cell_types": [
-      "lung cancer cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "PC9"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -66,7 +67,7 @@
         "agent": "formaldehyde",
         "dose_or_concentration": null,
         "duration": "20 min",
-        "route_or_context": "cross-linking of the three-protein mixture",
+        "route_or_context": "three-protein mixture",
         "evidence": [
           "The cross-linking incubation time was 20 min."
         ]
@@ -76,7 +77,7 @@
         "agent": "formaldehyde",
         "dose_or_concentration": "2%",
         "duration": "20 min, 2 h, or 24 h",
-        "route_or_context": "cross-linking of digest from the three-protein mixture",
+        "route_or_context": "digest from the three-protein mixture",
         "evidence": [
           "FA was added to a concentration of 2% and the incubation time was either 20 min, 2 h, or 24 h."
         ]
@@ -133,54 +134,12 @@
         "case_label": "high FA concentration",
         "contrast_type": "dose_response",
         "evidence": [
-          "We added to each plate 2 ml of PBS with FA at different concentrations: 1, 2, 3, 4.5, or 6%."
+          "The application successfully identified cross-links in the three-protein mixture in a concentration-dependent manner"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Bovine",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "lung cancer cell",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "PC9",
-        "family": "adenocarcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -189,27 +148,55 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free"
+      "Label-free"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Chemical cross-linking coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000430",
-        "workflow_modifier_hint": "mod_complexome",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "mixture of three purified proteins (bovine serum albumin (BSA), Ovotransferrin, and \u03b1-Amylase)"
       },
       {
-        "ontology_label": "strong cation exchange (SCX) chromatography",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "enrichment for cross-linked peptides using SCX"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "bovine",
+          "taxonomy_hint": null,
+          "confidence": "medium"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "PC9",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -218,23 +205,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive Plus; no labeling (SILAC/Isobaric) mentioned."
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive Plus; while not explicitly using a label-free quantification pipeline for differential abundance, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xlms_formaldehyde",
-          "confidence": 1.0,
-          "reason": "The entire study is dedicated to identifying formaldehyde cross-links with a specific 24 Da mass shift and a unique symmetric cleavage pattern (12 Da on each peptide)."
+          "modifier_workflow_id": "xlms_cleavable",
+          "confidence": 100,
+          "reason": "The experiment is explicitly a cross-linking mass spectrometry (XL-MS) study using formaldehyde, which the authors demonstrate behaves as a cleavable cross-linker under HCD fragmentation."
         }
       ],
       "trigger_keywords": [
         "cross-linking",
-        "formaldehyde",
         "XL-MS",
-        "24 Da",
-        "methylene bridge"
+        "formaldehyde",
+        "cleavable",
+        "cross-linked peptide pair"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -242,23 +229,23 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive Plus; no labeling (SILAC/Isobaric) mentioned."
+          "confidence": 80,
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive Plus; while not explicitly using a label-free quantification pipeline for differential abundance, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xlms_formaldehyde",
-          "confidence": 1.0,
-          "reason": "The entire study is dedicated to identifying formaldehyde cross-links with a specific 24 Da mass shift and a unique symmetric cleavage pattern (12 Da on each peptide)."
+          "modifier_workflow_id": "xlms_cleavable",
+          "confidence": 100,
+          "reason": "The experiment is explicitly a cross-linking mass spectrometry (XL-MS) study using formaldehyde, which the authors demonstrate behaves as a cleavable cross-linker under HCD fragmentation."
         }
       ],
       "trigger_keywords": [
         "cross-linking",
-        "formaldehyde",
         "XL-MS",
-        "24 Da",
-        "methylene bridge"
+        "formaldehyde",
+        "cleavable",
+        "cross-linked peptide pair"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -286,7 +273,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:06Z"
   }
 }

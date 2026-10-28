@@ -8,22 +8,40 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "disease stage or grade comparison"
     ],
-    "cell_types": [
-      "gastric cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "modification enriched",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "A series of healthy tissues recovered from autopsies... were also screened for these antigens to assess cancer specificity.",
+          "both healthy gastric mucosa obtained from healthy donors and gastric tumors displayed reactivity to GNL lectin"
+        ]
+      },
+      {
+        "ontology_label": "disease stage or grade comparison",
+        "ontology_curie": "PPA:0000094",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "disease_stage_or_grade_comparison",
@@ -35,7 +53,8 @@
         "confidence": "high",
         "evidence": [
           "reflecting two distinct clinical stages [early-stage (I/II) versus advanced-stage (III/IV) GC]",
-          "unique glycoproteomics signatures in the different analysis groups (early-stage versus advanced-stage tumours) were identified"
+          "unique glycoproteomics signatures in the different analysis groups (early-stage versus advanced-stage tumours) were identified",
+          "significant differences between the proteomes of early- and advanced-stage tumors"
         ]
       }
     ],
@@ -47,9 +66,11 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "early-stage (I/II) GC"
+      "healthy tissues",
+      "healthy gastric mucosa"
     ],
     "case_arms": [
+      "early-stage (I/II) GC",
       "advanced-stage (III/IV) GC"
     ],
     "paired_design": false,
@@ -60,56 +81,24 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "early-stage",
-        "case_label": "advanced-stage",
+        "control_label": "early-stage GC",
+        "case_label": "advanced-stage GC",
         "contrast_type": "pairwise",
         "evidence": [
           "unique glycoproteomics signatures in the different analysis groups (early-stage versus advanced-stage tumours) were identified"
+        ]
+      },
+      {
+        "control_label": "healthy mucosa",
+        "case_label": "gastric cancer",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "both healthy gastric mucosa obtained from healthy donors and gastric tumors displayed reactivity to GNL lectin"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "gastric cancer cells",
-        "rollup_category": "tumor cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "gastric tumors",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "serum",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -121,18 +110,42 @@
       "relative abundance based on extracted ion chromatogram areas"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "glycoproteome enrichment",
-        "ontology_curie": "PPA:0000293",
-        "workflow_modifier_hint": "mod_glyco",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "lectin-based enrichment for paucimannosidic N-glycans using agarose-bound GNL"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-MMP9 immunoprecipitation"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "gastric tumors",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -142,22 +155,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a QExactive Plus, and relative abundance was calculated via extracted ion chromatogram areas (LFQ-like approach)."
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive Plus. While no specific labeling is mentioned, relative abundance was calculated via extracted ion chromatogram areas, suggesting a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "glycoproteomics_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of Galanthus Nivalis Lectin (GNL) agarose-bound enrichment to isolate paucimannosidic N-glycoproteins."
+          "reason": "Samples underwent lectin-based enrichment using agarose-bound Galanthus Nivalis Lectin (GNL) to isolate paucimannosidic N-glycoproteins."
         }
       ],
       "trigger_keywords": [
-        "GNL-enrichment",
+        "lectin-based enrichment",
+        "GNL",
         "paucimannosidic N-glycans",
         "glycoproteomics",
-        "nanoLC-ESI-MS/MS",
-        "data-dependent method"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -166,22 +179,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data-dependent acquisition (DDA) was used on a QExactive Plus, and relative abundance was calculated via extracted ion chromatogram areas (LFQ-like approach)."
+          "reason": "Data-dependent acquisition (DDA) was used on a QExactive Plus. While no specific labeling is mentioned, relative abundance was calculated via extracted ion chromatogram areas, suggesting a label-free approach."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "glycoproteomics_enrichment",
           "confidence": 1.0,
-          "reason": "Explicit use of Galanthus Nivalis Lectin (GNL) agarose-bound enrichment to isolate paucimannosidic N-glycoproteins."
+          "reason": "Samples underwent lectin-based enrichment using agarose-bound Galanthus Nivalis Lectin (GNL) to isolate paucimannosidic N-glycoproteins."
         }
       ],
       "trigger_keywords": [
-        "GNL-enrichment",
+        "lectin-based enrichment",
+        "GNL",
         "paucimannosidic N-glycans",
         "glycoproteomics",
-        "nanoLC-ESI-MS/MS",
-        "data-dependent method"
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -209,7 +222,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:52:13Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "pxd": "PXD033865",
-  "timestamp": "2026-07-28T01:52:33.286546",
+  "timestamp": "2026-09-22T22:06:17.942541",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "Isobaric labeling",
@@ -12,6 +12,9 @@
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "un-classified"
     ],
@@ -84,8 +87,7 @@
             "TMT 11 pool and TMT 18 pool were then mixed in a 1:1 ratio"
           ],
           "quantification": [
-            "The identical precursor ions are fragmented to liberate the disparate reporter ions in MS2/MS3 for quantification",
-            "TMT reporter ion intensities for each peptide-to-spectrum match (PSMs) were determined"
+            "TMT reporter ion intensities for each peptide-to-spectrum match (PSMs) were determined by the strongest signal within \u00b16 ppm mass window"
           ],
           "enrichment": [],
           "workflow_hints": [
@@ -95,54 +97,22 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The study describes a novel 29-plex TMT method combining TMT11 and TMT18 reagents. It is a standard bottom-up DDA proteomics experiment focused on improving quantification accuracy via noise correction."
+        "notes": "The experiment uses a custom 29-plex TMT approach by merging TMT11 and TMT18 reagents. Acquisition is explicitly described as data-dependent (DDA). No specific PTM enrichment was performed; the study focuses on quantification accuracy and interference correction."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "E. coli",
-            "taxonomy_hint": "bacteria",
-            "confidence": "high"
-          },
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "human",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [],
-        "noncellular_sources": [
-          {
-            "label": "human brain",
-            "source_kind": "tissue"
-          }
-        ],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": true,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "pooled sample composed of 1x, 3x and 10x E. coli peptides with 100x human background peptides",
-            "E. coli and human brain protein samples were extracted"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "human brain protein samples were extracted",
-            "cross-species sample comprised of peptides from E. coli and human brain"
-          ],
           "scope": [
-            "the samples were lysed in lysis buffer (50 mM HEPES, pH 8.5, 8M urea, 0.5% sodium deoxycholate) and proteolyzed with Lys-C"
-          ]
+            "E. coli and human brain protein samples were extracted as previously described . Briefly, the samples were lysed in lysis buffer (50 mM HEPES, pH 8.5, 8M urea, 0.5% sodium deoxycholate) and proteolyzed with Lys-C"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The experiment uses a mixed-species peptide pool (E. coli and human brain) to validate a TMT 29-plex method. The material was prepared via lysis and digestion of protein samples, consistent with whole cell lysate scope."
+        "notes": "The material analyzed by MS consisted of total protein extracts from E. coli and human brain, prepared via lysis and digestion without further subcellular fractionation or affinity purification."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -174,10 +144,10 @@
           },
           {
             "relation_key": "has_treatment_agent",
-            "agent": "human brain peptides",
+            "agent": "human background peptides",
             "dose_or_concentration": "100x",
             "duration": null,
-            "route_or_context": "served as a background",
+            "route_or_context": "used as a background to mimic real biological samples",
             "evidence": [
               "The TMT-labeled E. coli peptides were added in ratios of 1\u00d7, 3\u00d7, and 10\u00d7 to 100x more of the labeled human peptides which served as a background"
             ]
@@ -189,7 +159,10 @@
             "first 3 channels (without human peptide background)"
           ],
           "case_arms": [
-            "channels with human peptide background"
+            "1x E. coli",
+            "3x E. coli",
+            "10x E. coli",
+            "5x E. coli"
           ],
           "paired_design": false,
           "factorial_design": false,
@@ -202,24 +175,25 @@
           ],
           "evidence": [
             "the first 3 channels of the TMT11 and TMT18 series did not include the human peptide background to serve as controls without interference",
-            "TMT-labeled E. coli peptides were added in ratios of 1\u00d7, 3\u00d7, and 10\u00d7 to 100x more of the labeled human peptides which served as a background"
+            "combine the 11-plex and 18-plex labeling strategies",
+            "TMT-labeled E. coli peptides were added in ratios of 1\u00d7, 3\u00d7, and 10\u00d7"
           ]
         },
         "contrast_hints": [
           {
-            "control_label": "without human background",
-            "case_label": "with human background",
-            "contrast_type": "pairwise",
+            "control_label": "1x E. coli",
+            "case_label": "3x E. coli",
+            "contrast_type": "dose_response",
             "evidence": [
-              "the first 3 channels of the TMT11 and TMT18 series did not include the human peptide background to serve as controls without interference"
+              "expected 1:3:10 ratios"
             ]
           },
           {
             "control_label": "1x E. coli",
-            "case_label": "3x/10x E. coli",
+            "case_label": "10x E. coli",
             "contrast_type": "dose_response",
             "evidence": [
-              "pooled sample composed of 1x, 3x and 10x E. coli peptides"
+              "expected 1:3:10 ratios"
             ]
           }
         ],
@@ -232,13 +206,13 @@
           ],
           "design": [
             "the first 3 channels of the TMT11 and TMT18 series did not include the human peptide background to serve as controls without interference",
-            "TMT 11 pool and TMT 18 pool were then mixed in a 1:1 ratio"
+            "combine the 11-plex and 18-plex labeling strategies"
           ],
           "contrasts": [
-            "the first 3 channels of the TMT11 and TMT18 series did not include the human peptide background to serve as controls without interference"
+            "expected 1:3:10 ratios"
           ]
         },
-        "notes": "This is a technical method development study focusing on TMT multiplexing and noise correction. The 'perturbations' (E. coli peptide ratios and human background) are synthetic mixtures used to validate the quantitative accuracy of the MS method, not biological treatments of a living system. Therefore, it is mapped as un-classified."
+        "notes": "This is a technical method validation study focusing on TMT multiplexing and noise correction. The 'treatments' are synthetic peptide mixtures (E. coli vs Human) used to test quantitative accuracy (ratio compression). Since there is no biological perturbation (drug, genetic, etc.), the variable is mapped as un-classified."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -247,15 +221,15 @@
             {
               "base_workflow_id": "base_dda_isobaric",
               "confidence": 1.0,
-              "reason": "The experiment explicitly uses Tandem Mass Tag (TMT) isobaric labeling with DDA (data-dependent MS2 scans) on a Q Exactive HF."
+              "reason": "The experiment explicitly uses Tandem Mass Tag (TMT) isobaric labeling with data-dependent MS2 scans on a Q Exactive HF."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "TMT",
-            "isobaric chemical labeling",
-            "29-plex",
-            "reporter ion"
+            "isobaric labeling",
+            "reporter ion",
+            "29-plex"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -286,7 +260,7 @@
             "Q Exactive HF Orbitrap MS"
           ],
           "differential": [
-            "E. coli peptides were added in ratios of 1x, 3x, and 10x to 100x more of the labeled human peptides which served as a background",
+            "E. coli peptides were mixed at known ratios (1x:3x:10x)",
             "the first 3 channels of the TMT11 and TMT18 series did not include the human peptide background to serve as controls"
           ],
           "search_parameters": [
@@ -296,7 +270,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment uses a specialized '29-plex' approach by merging TMT11 and TMT18 sets. Reanalysis requires handling two distinct static TMT mass shifts depending on the dataset (TMT11 vs TMT18)."
+        "notes": "The study describes a custom 29-plex method merging TMT11 and TMT18. Reanalysis requires handling two distinct static TMT mass shifts depending on the dataset (TMT11 vs TMT18)."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -319,41 +293,32 @@
             "TMT 11 pool and TMT 18 pool were then mixed in a 1:1 ratio"
           ],
           "quantification": [
-            "The identical precursor ions are fragmented to liberate the disparate reporter ions in MS2/MS3 for quantification",
-            "TMT reporter ion intensities for each peptide-to-spectrum match (PSMs) were determined"
+            "TMT reporter ion intensities for each peptide-to-spectrum match (PSMs) were determined by the strongest signal within \u00b16 ppm mass window"
           ],
           "specialized": []
         },
-        "notes": "The study describes a novel 29-plex TMT method combining TMT11 and TMT18 reagents. It is a standard bottom-up DDA proteomics experiment focused on improving quantification accuracy via noise correction."
+        "notes": "The experiment uses a custom 29-plex TMT approach by merging TMT11 and TMT18 reagents. Acquisition is explicitly described as data-dependent (DDA). No specific PTM enrichment was performed; the study focuses on quantification accuracy and interference correction."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
         "cell_lines": [],
         "cell_line_families": [],
-        "noncellular_source_terms": [
-          "human brain"
-        ],
+        "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "pooled sample composed of 1x, 3x and 10x E. coli peptides with 100x human background peptides",
-            "E. coli and human brain protein samples were extracted"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "human brain protein samples were extracted",
-            "cross-species sample comprised of peptides from E. coli and human brain"
-          ],
           "scope": [
-            "the samples were lysed in lysis buffer (50 mM HEPES, pH 8.5, 8M urea, 0.5% sodium deoxycholate) and proteolyzed with Lys-C"
-          ]
+            "E. coli and human brain protein samples were extracted as previously described . Briefly, the samples were lysed in lysis buffer (50 mM HEPES, pH 8.5, 8M urea, 0.5% sodium deoxycholate) and proteolyzed with Lys-C"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The experiment uses a mixed-species peptide pool (E. coli and human brain) to validate a TMT 29-plex method. The material was prepared via lysis and digestion of protein samples, consistent with whole cell lysate scope."
+        "notes": "The material analyzed by MS consisted of total protein extracts from E. coli and human brain, prepared via lysis and digestion without further subcellular fractionation or affinity purification."
       },
       "Treatment_prompt": [
         {

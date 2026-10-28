@@ -9,25 +9,26 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "genetic perturbation"
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
-      "astrocyte"
+      "immortalised normal human astrocyte"
     ],
     "cell_lines": [
       "HEK293A",
       "NHA"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "knockout_or_deletion_perturbation",
@@ -40,7 +41,7 @@
         "evidence": [
           "CRISPR-Cas9 sgRNA sequences were designed to target exon 2 of the CIC gene, and CICKO lines were established",
           "compare CIC wild type (WT) and KO human cell lines",
-          "differential splicing analysis in which we compare CIC wild type (WT) and KO human cell lines"
+          "CICKO cells appeared to display a higher frequency of defective mitosis (e.g., improper metaphase alignment, lagging chromosomes) compared to CICWT cells"
         ]
       }
     ],
@@ -65,7 +66,8 @@
     "control_arms": [
       "CIC wild type (WT)",
       "NHA-CICWT",
-      "HEK-CICWT"
+      "HEK-CICWT",
+      "matched IgG controls"
     ],
     "case_arms": [
       "CICKO",
@@ -78,7 +80,7 @@
     "factorial_design": false,
     "replicate_hints": [
       "Three replicates were performed against endogenous CIC",
-      "The IP-MS validation experiments performed in nuclear fractions of the NHA cell line were performed in triplicate, as were the matched IgG controls."
+      "IP-MS validation experiments performed in nuclear fractions of the NHA cell line were performed in triplicate"
     ],
     "multiplex_channel_hints": [
       "TMT labeling",
@@ -98,48 +100,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "astrocyte",
-        "rollup_category": "glial cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK293A",
-        "family": "human embryonic kidney",
-        "ontology_curie": null
-      },
-      {
-        "label": "NHA",
-        "family": "normal human astrocyte",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -151,18 +111,51 @@
       "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-endogenous CIC or anti-Myc immunoprecipitation from nuclear fractions"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "immortalised normal human astrocyte",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HEK293A",
+          "ontology_curie": null
+        },
+        {
+          "label": "NHA",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "nuclear fractions",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -171,27 +164,27 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 100,
+          "confidence": 1.0,
           "reason": "PRIDE metadata explicitly states 'TMT labeling' and 'TMT 6-plex' used for samples analyzed on the Orbitrap Fusion."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 60,
-          "reason": "IP-MS experiments were performed using a 4000 QTrap and Mascot, which typically implies label-free identification/quantification for those specific replicates."
+          "confidence": 0.7,
+          "reason": "IP-MS experiments were performed using 4000 QTrap and Orbitrap Fusion; some replicates may be label-free depending on the specific subset of data."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
-          "confidence": 100,
-          "reason": "The experiment is explicitly described as IP-MS (Immunoprecipitation-Mass Spectrometry) and 'Affinity purification coupled with mass spectrometry proteomics'."
+          "modifier_workflow_id": "modifier_tmt",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT 6-plex labeling in the data processing protocol."
         }
       ],
       "trigger_keywords": [
+        "TMT",
         "TMT 6-plex",
         "IP-MS",
-        "immunopurification",
-        "TMT labeling"
+        "isobaric"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -199,27 +192,27 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
-          "confidence": 100,
+          "confidence": 1.0,
           "reason": "PRIDE metadata explicitly states 'TMT labeling' and 'TMT 6-plex' used for samples analyzed on the Orbitrap Fusion."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 60,
-          "reason": "IP-MS experiments were performed using a 4000 QTrap and Mascot, which typically implies label-free identification/quantification for those specific replicates."
+          "confidence": 0.7,
+          "reason": "IP-MS experiments were performed using 4000 QTrap and Orbitrap Fusion; some replicates may be label-free depending on the specific subset of data."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
-          "confidence": 100,
-          "reason": "The experiment is explicitly described as IP-MS (Immunoprecipitation-Mass Spectrometry) and 'Affinity purification coupled with mass spectrometry proteomics'."
+          "modifier_workflow_id": "modifier_tmt",
+          "confidence": 1.0,
+          "reason": "Explicit mention of TMT 6-plex labeling in the data processing protocol."
         }
       ],
       "trigger_keywords": [
+        "TMT",
         "TMT 6-plex",
         "IP-MS",
-        "immunopurification",
-        "TMT labeling"
+        "isobaric"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -247,7 +240,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:57Z"
   }
 }

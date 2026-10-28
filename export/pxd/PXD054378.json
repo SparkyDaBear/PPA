@@ -10,15 +10,14 @@
     "treatment_categories": [
       "knockdown or interference perturbation"
     ],
-    "cell_types": [
-      "breast cancer"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HCC1806"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,7 +36,7 @@
         "confidence": "high",
         "evidence": [
           "The proteome characterization of HDAC6-silenced and scrambled (treated with a non-targeting pool of siRNA) HCC1806 cells was performed using a standard shot-gun proteomics protocol.",
-          "The proteomic analysis here introduced was set up and performed to figure out global perturbations of the proteome of a breast cancer human cell line in the presence/absence of HDAC6 silencing."
+          "proteomic analyses were performed on HCC1806 scramble and HDAC6-silenced cells."
         ]
       }
     ],
@@ -47,7 +46,7 @@
         "agent": "siRNA",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "HDAC6-silenced",
+        "route_or_context": "HDAC6-silencing",
         "evidence": [
           "The proteome characterization of HDAC6-silenced and scrambled (treated with a non-targeting pool of siRNA) HCC1806 cells was performed using a standard shot-gun proteomics protocol."
         ]
@@ -65,9 +64,11 @@
     "case_arms": [
       "HDAC6-silenced"
     ],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "identification in at least 50% of samples belonging to the same experimental group"
+    ],
     "multiplex_channel_hints": [
       "Label-Free Quantification mode"
     ],
@@ -77,49 +78,12 @@
         "case_label": "HDAC6-silenced",
         "contrast_type": "pairwise",
         "evidence": [
-          "The proteome characterization of HDAC6-silenced and scrambled (treated with a non-targeting pool of siRNA) HCC1806 cells was performed using a standard shot-gun proteomics protocol."
+          "the gene ontology analysis of upregulated or downregulated proteins between HDAC6-silenced and scrambled cells revealed a significant modulation"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "breast cancer",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HCC1806",
-        "family": "breast cancer",
-        "ontology_curie": "BTO:0006395"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -131,11 +95,37 @@
       "Label-Free Quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HCC1806",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -145,14 +135,32 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Text explicitly states 'Analysis was done in Label-Free Quantification mode and Data Dependent Acquisition (DDA)' and PRIDE metadata confirms 'Label free' and 'Data-dependent acquisition'."
+          "reason": "Explicitly stated use of Label-Free Quantification (LFQ) and Data Dependent Acquisition (DDA) on an Orbitrap Exploris 240."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "Variable modification for ubiquitination was explicitly set at lysine residues, and PRIDE metadata confirms 'ubiquitination signature dipeptidyl lysine' (diGly)."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 0.9,
+          "reason": "Acetylation was set as a variable modification at lysine residues, which is central to the study's focus on HDAC6 and P300."
+        },
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 0.8,
+          "reason": "Phosphorylation was set as a variable modification at serine or threonine residues."
+        }
+      ],
       "trigger_keywords": [
         "Label-Free Quantification",
         "DDA",
-        "shot-gun proteomics"
+        "ubiquitination",
+        "acetylation",
+        "phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -161,14 +169,32 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "Text explicitly states 'Analysis was done in Label-Free Quantification mode and Data Dependent Acquisition (DDA)' and PRIDE metadata confirms 'Label free' and 'Data-dependent acquisition'."
+          "reason": "Explicitly stated use of Label-Free Quantification (LFQ) and Data Dependent Acquisition (DDA) on an Orbitrap Exploris 240."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.9,
+          "reason": "Variable modification for ubiquitination was explicitly set at lysine residues, and PRIDE metadata confirms 'ubiquitination signature dipeptidyl lysine' (diGly)."
+        },
+        {
+          "modifier_workflow_id": "modifier_acetylation",
+          "confidence": 0.9,
+          "reason": "Acetylation was set as a variable modification at lysine residues, which is central to the study's focus on HDAC6 and P300."
+        },
+        {
+          "modifier_workflow_id": "modifier_phosphorylation",
+          "confidence": 0.8,
+          "reason": "Phosphorylation was set as a variable modification at serine or threonine residues."
+        }
+      ],
       "trigger_keywords": [
         "Label-Free Quantification",
         "DDA",
-        "shot-gun proteomics"
+        "ubiquitination",
+        "acetylation",
+        "phosphorylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -196,7 +222,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:35Z"
   }
 }

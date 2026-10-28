@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Spectral counting",
+    "quantification_method": "adjusted total ion current (TIC)",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -13,9 +13,10 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "extracellular matrix",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -50,8 +51,7 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "NSV (n = 5) were digested with recombinant human chymase (1 \u00b5g/mL, R&D Systems) or tryptase \u03b21 (250 ng/mL, R&D Systems)",
-          "Controls were incubated in enzyme buffer without enzyme (n = 5)"
+          "NSV (n = 5) were digested with recombinant human chymase (1 \u00b5g/mL, R&D Systems) or tryptase \u03b21 (250 ng/mL, R&D Systems)"
         ]
       }
     ],
@@ -82,9 +82,7 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "overnight"
-    ],
+    "timepoints": [],
     "control_arms": [
       "normal saphenous veins (NSV)",
       "enzyme buffer without enzyme"
@@ -98,9 +96,7 @@
     "factorial_design": false,
     "replicate_hints": [
       "varicose great saphenous vein specimens (n = 6)",
-      "Normal saphenous vein specimens (n = 6)",
-      "NSV (n = 5) were digested",
-      "Controls were incubated in enzyme buffer without enzyme (n = 5)"
+      "Normal saphenous vein specimens (n = 6)"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
@@ -117,7 +113,7 @@
         "case_label": "tryptase \u03b21",
         "contrast_type": "pairwise",
         "evidence": [
-          "compare the release of ECM proteins from the same NSV (n = 5) with and without enzymatic digestion"
+          "Controls were incubated in enzyme buffer without enzyme (n = 5). After a buffer exchange, the digests were analysed by proteomics"
         ]
       },
       {
@@ -125,42 +121,12 @@
         "case_label": "chymase",
         "contrast_type": "pairwise",
         "evidence": [
-          "compare the release of ECM proteins from the same NSV (n = 5) with and without enzymatic digestion"
+          "Controls were incubated in enzyme buffer without enzyme (n = 5). After a buffer exchange, the digests were analysed by proteomics"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "great saphenous vein",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "extracellular matrix",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -169,22 +135,49 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Spectral counting",
-      "Adjusted total ion current (TIC)"
+      "adjusted total ion current (TIC)",
+      "spectral counts"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Extracellular matrix enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "extracellular matrix proteins enriched via sequential extraction (NaCl and GuHCl)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "great saphenous vein",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "varicose saphenous veins",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "normal saphenous veins",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -194,23 +187,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) used on Q Exactive Plus; quantification performed via adjusted Total Ion Current (TIC) and spectral counting, which are label-free methods."
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive Plus instrument with label-free quantification (LFQ) via adjusted total ion current (TIC) and spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_enrichment_ecm",
+          "modifier_workflow_id": "enrichment_ecm",
           "confidence": 0.95,
           "reason": "Specific sequential extraction procedure used to enrich extracellular matrix (ECM) proteins using NaCl, SDS, and GuHCl."
         }
       ],
       "trigger_keywords": [
+        "data-dependent acquisition",
         "extracellular matrix",
         "decellularization",
-        "sequential extraction",
-        "data-dependent acquisition",
-        "TIC",
-        "spectral counts"
+        "spectral counts",
+        "total ion current"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -219,23 +211,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) used on Q Exactive Plus; quantification performed via adjusted Total Ion Current (TIC) and spectral counting, which are label-free methods."
+          "reason": "Data-dependent acquisition (DDA) was used on a Q Exactive Plus instrument with label-free quantification (LFQ) via adjusted total ion current (TIC) and spectral counting."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_enrichment_ecm",
+          "modifier_workflow_id": "enrichment_ecm",
           "confidence": 0.95,
           "reason": "Specific sequential extraction procedure used to enrich extracellular matrix (ECM) proteins using NaCl, SDS, and GuHCl."
         }
       ],
       "trigger_keywords": [
+        "data-dependent acquisition",
         "extracellular matrix",
         "decellularization",
-        "sequential extraction",
-        "data-dependent acquisition",
-        "TIC",
-        "spectral counts"
+        "spectral counts",
+        "total ion current"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -263,7 +254,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:43:42Z"
   }
 }

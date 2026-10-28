@@ -16,13 +16,13 @@
     "cell_lines": [
       "MCF7",
       "MDA-MB-231",
-      "HEK293T",
-      "LM2",
-      "MEF"
+      "HEK293T"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -67,7 +67,7 @@
       "parental cells"
     ],
     "case_arms": [
-      "PKM2 KO"
+      "PKM2 KO cells"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -79,77 +79,15 @@
     "contrast_hints": [
       {
         "control_label": "parental cells",
-        "case_label": "PKM2 KO",
+        "case_label": "PKM2 KO cells",
         "contrast_type": "pairwise",
         "evidence": [
-          "158 proteins significantly increased (fold >=1.5, p<0.05), and 261 proteins decreased (fold<=0.7, p<0.05) in PKM2 KO vs. parental cells"
+          "Whole proteome analysis showed that... 158 proteins significantly increased... and 261 proteins decreased... in PKM2 KO vs. parental cells"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "MCF7",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "MDA-MB-231",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "HEK293T",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "LM2",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "MEF",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -161,48 +99,85 @@
       "DiLeu labeling"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "arginine methylation",
-        "ontology_curie": "Unknown",
-        "workflow_modifier_hint": "Unknown",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "Flag-PKM2 co-immunoprecipitated proteins"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "MCF7",
+          "ontology_curie": null
+        },
+        {
+          "label": "MDA-MB-231",
+          "ontology_curie": null
+        },
+        {
+          "label": "HEK293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Requires specialized pipeline",
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses DiLeu labeling, which is an isobaric-like chemical tagging method for quantification, combined with DDA acquisition on an Orbitrap Fusion Lumos."
+          "reason": "The 'Quantitative proteomics analysis' section explicitly describes DiLeu labeling, which is an isobaric labeling strategy, and the use of reporter ion abundances for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The 'In gel digestions' part of the MS analysis used DDA without labeling for site identification."
+          "reason": "The 'Mass Spectrometry Analysis of Arginine Methylation' section describes a DDA experiment on in-gel digestions without explicit labeling, which is typical for LFQ or identification-only runs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_dimethylation",
+          "modifier_workflow_id": "dimethylation_arginine",
           "confidence": 0.9,
-          "reason": "The study specifically investigates arginine dimethylation by CARM1, with variable modifications set to dimethylation (28.0313 Da) of arginine residues."
+          "reason": "The study specifically focuses on CARM1-mediated asymmetric dimethylation of PKM2 at R445/447/455, and the search parameters explicitly include dimethylation (28.0313 Da) of arginine residues."
         }
       ],
       "trigger_keywords": [
         "DiLeu labeling",
-        "dimethylation",
-        "DDA",
         "isobaric",
-        "arginine methyltransferase"
+        "dimethylation",
+        "arginine",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -211,27 +186,27 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The study explicitly uses DiLeu labeling, which is an isobaric-like chemical tagging method for quantification, combined with DDA acquisition on an Orbitrap Fusion Lumos."
+          "reason": "The 'Quantitative proteomics analysis' section explicitly describes DiLeu labeling, which is an isobaric labeling strategy, and the use of reporter ion abundances for quantification."
         },
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The 'In gel digestions' part of the MS analysis used DDA without labeling for site identification."
+          "reason": "The 'Mass Spectrometry Analysis of Arginine Methylation' section describes a DDA experiment on in-gel digestions without explicit labeling, which is typical for LFQ or identification-only runs."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_dimethylation",
+          "modifier_workflow_id": "dimethylation_arginine",
           "confidence": 0.9,
-          "reason": "The study specifically investigates arginine dimethylation by CARM1, with variable modifications set to dimethylation (28.0313 Da) of arginine residues."
+          "reason": "The study specifically focuses on CARM1-mediated asymmetric dimethylation of PKM2 at R445/447/455, and the search parameters explicitly include dimethylation (28.0313 Da) of arginine residues."
         }
       ],
       "trigger_keywords": [
         "DiLeu labeling",
-        "dimethylation",
-        "DDA",
         "isobaric",
-        "arginine methyltransferase"
+        "dimethylation",
+        "arginine",
+        "DDA"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -259,7 +234,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:26:53Z"
   }
 }

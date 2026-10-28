@@ -3,17 +3,16 @@
   "title": null,
   "summary": {
     "acquisition_type": "Targeted",
-    "quantification_method": "Parallel Reaction Monitoring (PRM)",
+    "quantification_method": "PRM",
     "labeling_strategy": [
       "LFQ",
       "Other"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "cancer subtype comparison"
     ],
-    "cell_types": [
-      "epithelial cell"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "SK-MEL-5",
       "MALME-3 M",
@@ -23,16 +22,34 @@
       "BT-474",
       "WHIM12"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
+        "matched_class_path": [
+          "disease",
+          "case_control_disease_status"
+        ],
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "high",
+        "evidence": [
+          "Optimized assays were initially evaluated in 16 patient derived xenograft models (PDX) where KiP identified multiple differentially expressed and biologically relevant kinases.",
+          "The PRM KiP approach was then reapplied to low quantities of proteins typical of yields from core needle biopsies of human cancers."
+        ]
+      },
+      {
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "cancer_subtype_comparison",
@@ -43,9 +60,9 @@
         "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
         "confidence": "high",
         "evidence": [
-          "differential expression of druggable kinases between basal and luminal breast tumors",
-          "subtyping breast cancer patient-derived xenograft models and two breast cancer patient sample cohorts",
-          "separates tumors into groups corresponding primarily to basal and luminal PAM50 subtypes"
+          "Hierarchical clustering using kinases measured by PRM separates tumors into groups corresponding primarily to basal and luminal PAM50 subtypes",
+          "two-sample t-tests between the basal and luminal subtypes (grouping luminal A and B together)",
+          "Luminal and HER2 enriched OCT-frozen patient biopsies subsequently analyzed through KiP-PRM also clustered by subtype."
         ]
       }
     ],
@@ -57,26 +74,30 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "luminal"
+      "luminal subtype"
     ],
     "case_arms": [
-      "basal",
-      "HER2 enriched"
+      "basal subtype",
+      "HER2 enriched subtype"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "technical triplicates",
-      "technical duplicates"
+      "technical duplicates",
+      "ran a mixture of Luminal PDX samples in 18 replicates"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "single-shot parallel reaction monitoring (PRM)",
+      "hybrid (both DDA and PRM) methods"
+    ],
     "contrast_hints": [
       {
         "control_label": "luminal",
         "case_label": "basal",
         "contrast_type": "pairwise",
         "evidence": [
-          "differential expression of druggable kinases between basal and luminal breast tumors"
+          "two-sample t-tests between the basal and luminal subtypes"
         ]
       },
       {
@@ -84,97 +105,12 @@
         "case_label": "HER2",
         "contrast_type": "pairwise",
         "evidence": [
-          "HER2 is significantly elevated in the HER2 cohort (p-value = 8E-10 Welch's t-test) with a 53.89-fold change as compared to the luminal cohort"
+          "HER2 is significantly elevated in the HER2 cohort (p-value = 8E-10 Welch's t-test) with a 53.89-fold change as compared to the luminal cohort."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "mouse",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "epithelial",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "SK-MEL-5",
-        "family": "melanoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "MALME-3 M",
-        "family": "melanoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "HL-60",
-        "family": "leukemia",
-        "ontology_curie": null
-      },
-      {
-        "label": "PC-3",
-        "family": "prostate cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "T-47D",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "BT-474",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "WHIM12",
-        "family": "breast cancer",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "patient derived xenograft models (PDX)",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "core needle biopsies",
-        "source_kind": "tissue"
-      },
-      {
-        "label": "OCT-frozen patient biopsies",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": true
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -184,23 +120,80 @@
       "Other"
     ],
     "quantification_strategy": [
-      "Parallel Reaction Monitoring (PRM)",
-      "Label-free quantification",
-      "AQUA (stable isotope labeled peptide standards)"
+      "PRM",
+      "Label-free",
+      "AQUA",
+      "Internal Standard Triggered-Parallel Reaction Monitoring (IS-PRM)"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Kinome enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "kinase inhibitor pulldown (KiP) using kinobeads"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "SK-MEL-5",
+          "ontology_curie": null
+        },
+        {
+          "label": "MALME-3 M",
+          "ontology_curie": null
+        },
+        {
+          "label": "HL-60",
+          "ontology_curie": null
+        },
+        {
+          "label": "PC-3",
+          "ontology_curie": null
+        },
+        {
+          "label": "T-47D",
+          "ontology_curie": null
+        },
+        {
+          "label": "BT-474",
+          "ontology_curie": null
+        },
+        {
+          "label": "WHIM12",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "patient derived xenograft models (PDX)",
+          "source_kind": "cohort_descriptor"
+        },
+        {
+          "label": "core needle biopsies of human cancers",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "OCT-frozen patient biopsies",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -209,24 +202,35 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "The study uses a hybrid DDA/PRM approach; DDA data was processed using Mascot and Proteome Discoverer for peak area detection and relative quantification."
+          "confidence": 0.9,
+          "reason": "The study uses a hybrid DDA/PRM approach; DDA data was processed for peak area detection and relative quantification using Mascot and Proteome Discoverer."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.4,
+          "reason": "While PRM is used (which is targeted), the overall goal is label-free quantification of the kinome."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm",
-          "confidence": 10,
+          "confidence": 1.0,
           "reason": "Extensive use of Parallel Reaction Monitoring (PRM) and IS-PRM for high-fidelity quantification of a 100-kinase panel."
+        },
+        {
+          "modifier_workflow_id": "affinity_enrichment",
+          "confidence": 1.0,
+          "reason": "The core of the assay is the Kinase Inhibitor Pulldown (KiP) using kinobeads for enrichment."
         }
       ],
       "trigger_keywords": [
         "PRM",
         "Parallel Reaction Monitoring",
-        "DDA",
+        "kinobeads",
+        "KiP",
         "label-free",
         "IS-PRM",
-        "kinobeads"
+        "DDA/PRM hybrid"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -234,24 +238,35 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 8,
-          "reason": "The study uses a hybrid DDA/PRM approach; DDA data was processed using Mascot and Proteome Discoverer for peak area detection and relative quantification."
+          "confidence": 0.9,
+          "reason": "The study uses a hybrid DDA/PRM approach; DDA data was processed for peak area detection and relative quantification using Mascot and Proteome Discoverer."
+        },
+        {
+          "base_workflow_id": "base_dia_lfq",
+          "confidence": 0.4,
+          "reason": "While PRM is used (which is targeted), the overall goal is label-free quantification of the kinome."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "targeted_prm",
-          "confidence": 10,
+          "confidence": 1.0,
           "reason": "Extensive use of Parallel Reaction Monitoring (PRM) and IS-PRM for high-fidelity quantification of a 100-kinase panel."
+        },
+        {
+          "modifier_workflow_id": "affinity_enrichment",
+          "confidence": 1.0,
+          "reason": "The core of the assay is the Kinase Inhibitor Pulldown (KiP) using kinobeads for enrichment."
         }
       ],
       "trigger_keywords": [
         "PRM",
         "Parallel Reaction Monitoring",
-        "DDA",
+        "kinobeads",
+        "KiP",
         "label-free",
         "IS-PRM",
-        "kinobeads"
+        "DDA/PRM hybrid"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -279,7 +294,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:48:56Z"
   }
 }

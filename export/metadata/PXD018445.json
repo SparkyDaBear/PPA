@@ -1,20 +1,21 @@
 {
   "pxd": "PXD018445",
-  "timestamp": "2026-07-28T02:29:10.595653",
+  "timestamp": "2026-09-22T23:08:56.819085",
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Reporter ion quantification",
+    "quantification_method": "TMT reporter ion quantification",
     "labeling_strategy": [
       "SILAC",
       "TMT"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "HeLa"
-    ],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "un-classified"
     ],
@@ -57,8 +58,9 @@
           "TMT"
         ],
         "quantification_strategy": [
-          "Reporter ion quantification",
-          "Injection time normalization"
+          "TMT reporter ion quantification",
+          "SILAC isotope pair quantification",
+          "injection time normalization"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [],
@@ -98,19 +100,19 @@
         },
         "evidence": {
           "acquisition": [
-            "standard data dependent acquisition with or without TMD",
-            "not for data dependent acquisition (DDA) measurements",
-            "During DDA, the top N most intense ions are selected"
+            "standard data dependent acquisition",
+            "targeted mass differences (TMD) for overcoming this limitation",
+            "DDA measurements"
           ],
           "labeling": [
             "Pulsed Stable Isotope Labeling in Cell culture (SILAC)",
-            "combining these labeling approaches with tandem mass tagging (TMT)",
-            "TMT-SILAC samples prepared as previously described",
-            "TMT-multiplexed pSILAC samples"
+            "tandem mass tagging (TMT)",
+            "TMT-SILAC samples"
           ],
           "quantification": [
-            "Consensus Workflow for reporter ion quantification was performed",
-            "summed TMT intensities per PSM were divided by the injection time for that PSM"
+            "Consensus Workflow for reporter ion quantification",
+            "measured abundances were corrected for the injection time",
+            "heavy/total ratios"
           ],
           "enrichment": [],
           "workflow_hints": [
@@ -119,51 +121,24 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment uses a hybrid labeling strategy combining pSILAC and TMT. While the acquisition is DDA, it utilizes a specific 'Targeted Mass Difference' (TMD) instrument logic to improve the identification of low-stoichiometry SILAC pairs. The search parameters explicitly list TMT and SILAC-related mass shifts."
+        "notes": "The experiment uses a hybrid labeling strategy combining pSILAC and TMT (mePROD). While the acquisition is DDA, it utilizes a specific 'instrument logic' (TMD) to target SILAC isotope pairs. The search parameters include specific TMT and SILAC-related mass shifts."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "HeLa",
-            "family": "HeLa",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens SwissProt database [TaxID:9606, 2017-06-07/2018-11-21]",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa cells were cultured as described previously.",
-            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "label identification increased to approximately 2.5-fold in an unfractionated sample",
-            "Lysates for MS sample preparation were obtained"
-          ]
+            "Lysates for MS sample preparation were obtained",
+            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts",
+            "label identification increased to approximately 2.5-fold in an unfractionated sample"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The PRIDE metadata mentions 'uterine cervix', but the INPUT_TEXT explicitly describes the analyzed material as lysates/extracts from HeLa cells in an unfractionated sample. Following the priority rules, the experimental text describing the MS material (HeLa lysates) overrides the general metadata attribute."
+        "notes": "The text explicitly describes the use of 'lysates' and 'unfractionated sample' for the mass spectrometry analysis."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -185,15 +160,15 @@
         "experimental_design": {
           "timepoints": [],
           "control_arms": [
-            "standard data dependent acquisition"
+            "standard data dependent acquisition (DDA)"
           ],
           "case_arms": [
             "targeted mass differences (TMD)"
           ],
-          "paired_design": null,
-          "factorial_design": null,
+          "paired_design": false,
+          "factorial_design": false,
           "replicate_hints": [
-            "in triplicate"
+            "heavy/total ratios between 1 and 10% in triplicate"
           ],
           "multiplex_channel_hints": [
             "TMT-labeled booster channel",
@@ -202,8 +177,8 @@
           ],
           "evidence": [
             "Comparing peptides artificially mixed at low heavy-to-light stoichiometry measured using standard data dependent acquisition with or without TMD",
-            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts at heavy/total ratios between 1 and 10% in triplicate.",
-            "In addition, we included a TMT-labeled booster channel and a nonlabeled noise channel"
+            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts at heavy/total ratios between 1 and 10% in triplicate",
+            "we included a TMT-labeled booster channel and a nonlabeled noise channel"
           ]
         },
         "contrast_hints": [
@@ -212,7 +187,7 @@
             "case_label": "TMD",
             "contrast_type": "pairwise",
             "evidence": [
-              "We observed a 2.5-fold increase in identified heavy peptides from the same sample when comparing TMD to standard DDA measurements"
+              "Comparing peptides artificially mixed at low heavy-to-light stoichiometry measured using standard data dependent acquisition with or without TMD"
             ]
           }
         ],
@@ -223,14 +198,14 @@
           "treatment_attributes": [],
           "design": [
             "Comparing peptides artificially mixed at low heavy-to-light stoichiometry measured using standard data dependent acquisition with or without TMD",
-            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts at heavy/total ratios between 1 and 10% in triplicate.",
-            "In addition, we included a TMT-labeled booster channel and a nonlabeled noise channel"
+            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts at heavy/total ratios between 1 and 10% in triplicate",
+            "we included a TMT-labeled booster channel and a nonlabeled noise channel"
           ],
           "contrasts": [
-            "We observed a 2.5-fold increase in identified heavy peptides from the same sample when comparing TMD to standard DDA measurements"
+            "Comparing peptides artificially mixed at low heavy-to-light stoichiometry measured using standard data dependent acquisition with or without TMD"
           ]
         },
-        "notes": "This is a technical benchmarking study comparing mass spectrometry acquisition methods (TMD vs standard DDA) using artificially mixed peptide standards. There is no biological perturbation (drug, genetic, etc.) being tested; therefore, it is mapped as un-classified."
+        "notes": "This is a method-benchmarking study rather than a biological perturbation study. The 'comparison' is between two different mass spectrometry acquisition modes (Standard DDA vs. TMD) using artificially mixed samples to simulate low-stoichiometry pSILAC conditions. Therefore, it is mapped as un-classified."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -243,18 +218,18 @@
             },
             {
               "base_workflow_id": "base_dda_silac",
-              "confidence": 0.9,
+              "confidence": 0.8,
               "reason": "The experiment uses pulsed SILAC (pSILAC) in combination with TMT."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "TMT",
-            "SILAC",
             "pSILAC",
             "DDA",
-            "TMD",
-            "targeted mass differences"
+            "TMT-multiplexed",
+            "targeted mass differences",
+            "TMD"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -284,27 +259,27 @@
               "required_for_modifier": null
             },
             {
-              "name": "methionine oxidation",
+              "name": "oxidation",
               "residue_or_site": "M",
               "mass_shift_da": null,
               "required_for_modifier": null
             }
           ],
           "special_reagent_hints": [
-            "TMT6",
-            "carbamidomethyl"
+            "TMT6 at N-terminus",
+            "carbamidomethyl at cysteine"
           ]
         },
         "evidence": {
           "workflow": [
-            "Comparing peptides artificially mixed at low heavy-to-light stoichiometry measured using standard data dependent acquisition with or without TMD",
             "TMT-multiplexed pSILAC samples",
-            "Fixed modifications were set as TMT6 at the N-terminus and carbamidomethyl at cysteine residues."
+            "data dependent acquisition (DDA)",
+            "Orbitrap Fusion Lumos mass spectrometer",
+            "targeted mass differences (TMD)"
           ],
           "differential": [
-            "Comparing the signal of all channels after data analysis to the booster channel",
-            "heavy to total ratios",
-            "relative quantification"
+            "comparing the signal of all channels after data analysis to the booster channel",
+            "relative fold changes instead of absolute values (i.e., heavy/total ratios)"
           ],
           "search_parameters": [
             "Fixed modifications were set as TMT6 at the N-terminus and carbamidomethyl at cysteine residues.",
@@ -312,7 +287,7 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The study focuses on a specialized acquisition method called Targeted Mass Difference (TMD) to improve the identification of low-stoichiometry pSILAC peptides within a TMT multiplex. While TMD is an instrument-level logic, the resulting data is processed as standard TMT-DDA."
+        "notes": "The study focuses on a specialized acquisition method (TMD) to improve the identification of low-stoichiometry pSILAC peptides within a TMT multiplex, but the underlying data structure remains a standard TMT-DDA bottom-up proteomics dataset."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -321,62 +296,54 @@
           "TMT"
         ],
         "quantification_strategy": [
-          "Reporter ion quantification",
-          "Injection time normalization"
+          "TMT reporter ion quantification",
+          "SILAC isotope pair quantification",
+          "injection time normalization"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [],
         "evidence": {
           "acquisition": [
-            "standard data dependent acquisition with or without TMD",
-            "not for data dependent acquisition (DDA) measurements",
-            "During DDA, the top N most intense ions are selected"
+            "standard data dependent acquisition",
+            "targeted mass differences (TMD) for overcoming this limitation",
+            "DDA measurements"
           ],
           "labeling": [
             "Pulsed Stable Isotope Labeling in Cell culture (SILAC)",
-            "combining these labeling approaches with tandem mass tagging (TMT)",
-            "TMT-SILAC samples prepared as previously described",
-            "TMT-multiplexed pSILAC samples"
+            "tandem mass tagging (TMT)",
+            "TMT-SILAC samples"
           ],
           "quantification": [
-            "Consensus Workflow for reporter ion quantification was performed",
-            "summed TMT intensities per PSM were divided by the injection time for that PSM"
+            "Consensus Workflow for reporter ion quantification",
+            "measured abundances were corrected for the injection time",
+            "heavy/total ratios"
           ],
           "specialized": []
         },
-        "notes": "The experiment uses a hybrid labeling strategy combining pSILAC and TMT. While the acquisition is DDA, it utilizes a specific 'Targeted Mass Difference' (TMD) instrument logic to improve the identification of low-stoichiometry SILAC pairs. The search parameters explicitly list TMT and SILAC-related mass shifts."
+        "notes": "The experiment uses a hybrid labeling strategy combining pSILAC and TMT (mePROD). While the acquisition is DDA, it utilizes a specific 'instrument logic' (TMD) to target SILAC isotope pairs. The search parameters include specific TMT and SILAC-related mass shifts."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "HeLa"
-        ],
-        "cell_line_families": [
-          "HeLa"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens SwissProt database [TaxID:9606, 2017-06-07/2018-11-21]",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa cells were cultured as described previously.",
-            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "label identification increased to approximately 2.5-fold in an unfractionated sample",
-            "Lysates for MS sample preparation were obtained"
-          ]
+            "Lysates for MS sample preparation were obtained",
+            "The sample contained a mix of peptides derived from lysates of nonlabeled or heavy (SILAC) labeled HeLa extracts",
+            "label identification increased to approximately 2.5-fold in an unfractionated sample"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The PRIDE metadata mentions 'uterine cervix', but the INPUT_TEXT explicitly describes the analyzed material as lysates/extracts from HeLa cells in an unfractionated sample. Following the priority rules, the experimental text describing the MS material (HeLa lysates) overrides the general metadata attribute."
+        "notes": "The text explicitly describes the use of 'lysates' and 'unfractionated sample' for the mass spectrometry analysis."
       },
       "Treatment_prompt": [
         {
@@ -396,7 +363,7 @@
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
     "acquisition_method": "DDA",
-    "quantification_method": "Reporter ion quantification",
+    "quantification_method": "TMT reporter ion quantification",
     "fixed_mods": [
       "Carbamidomethyl (C)",
       "TMT6plex (K)",

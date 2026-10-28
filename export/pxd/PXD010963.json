@@ -16,9 +16,10 @@
     "cell_lines": [
       "H9"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -28,27 +29,29 @@
         "ontology_curie": "PPA:0000011",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
-        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_key": "genome_editing_perturbation",
         "matched_class_path": [
           "genetic",
-          "overexpression_or_transgene_perturbation"
+          "genome_editing_perturbation"
         ],
-        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "matched_definition": "Genome editing event or engineered genotype that defines the biological comparison.",
         "confidence": "high",
         "evidence": [
-          "1011 OCT4 targeting TALE and control GFP targeting TALE transduced hESC cells",
-          "TALE proteins were designed to bind genomic sequences of OCT4 proximal enhancer"
+          "we developed an optimized locus-specific proteomics approach in hESCs",
+          "we designed TALEN constructs to target the sequences that are near the OCT4 PE",
+          "we then made modifications to the original TALEN protein to transform it into a catalytically-dead TALE (dTALE) protein"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "OCT4 targeting TALE",
+        "agent": "dTALE",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "transduced hESC cells",
+        "route_or_context": "targeting OCT4 proximal enhancer",
         "evidence": [
+          "dTALE protein binds to the targeted locus",
           "1011 OCT4 targeting TALE and control GFP targeting TALE transduced hESC cells"
         ]
       },
@@ -57,8 +60,9 @@
         "agent": "GFP targeting TALE",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "transduced hESC cells",
+        "route_or_context": "control",
         "evidence": [
+          "A control TALE protein targeting green fluorescence protein (GFP) was also designed and assembled.",
           "1011 OCT4 targeting TALE and control GFP targeting TALE transduced hESC cells"
         ]
       }
@@ -87,49 +91,12 @@
         "case_label": "OCT4 targeting TALE",
         "contrast_type": "pairwise",
         "evidence": [
-          "1011 OCT4 targeting TALE and control GFP targeting TALE transduced hESC cells"
+          "Proteins complexes co-enriching with the TALE-FLAG or proteins non-specifically binding to the anti-FLAG Dynabeads"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "embryonic stem cell",
-        "rollup_category": "stem cell",
-        "ontology_curie": "CL:0002322"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "H9",
-        "family": "WiCell",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -140,19 +107,43 @@
     "quantification_strategy": [
       "Peptide counting"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity Purification (AP-MS)",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-FLAG immunoprecipitation of dTALE-associated proteins from OCT4 proximal enhancer"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "embryonic stem cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "H9",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -162,22 +153,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses a label-free approach (peptide counting mentioned in PRIDE) with DDA acquisition on an LTQ-Orbitrap/Q-Exactive."
+          "reason": "The experiment uses shotgun proteomics (DDA) on an LTQ-Orbitrap/Q-Exactive. While PRIDE mentions 'Peptide counting', the design is a comparative pull-down (dTALE vs control GFP TALE), which is typically processed via LFQ or spectral counting in a DDA context."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_enrichment",
+          "modifier_workflow_id": "modifier_crosslinking",
           "confidence": 0.9,
-          "reason": "The method explicitly describes chemical crosslinking with 1% formaldehyde followed by TALE-mediated locus-specific pull-down."
+          "reason": "The protocol explicitly states cells were crosslinked by 1% formaldehyde to capture proteins bound to the OCT4 locus."
         }
       ],
       "trigger_keywords": [
-        "locus-specific proteomics",
         "crosslinked",
-        "dTALE",
-        "anti-FLAG",
-        "peptide counting"
+        "formaldehyde",
+        "shotgun proteomics",
+        "anti-FLAG pull-down"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,22 +176,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment uses a label-free approach (peptide counting mentioned in PRIDE) with DDA acquisition on an LTQ-Orbitrap/Q-Exactive."
+          "reason": "The experiment uses shotgun proteomics (DDA) on an LTQ-Orbitrap/Q-Exactive. While PRIDE mentions 'Peptide counting', the design is a comparative pull-down (dTALE vs control GFP TALE), which is typically processed via LFQ or spectral counting in a DDA context."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "crosslinking_enrichment",
+          "modifier_workflow_id": "modifier_crosslinking",
           "confidence": 0.9,
-          "reason": "The method explicitly describes chemical crosslinking with 1% formaldehyde followed by TALE-mediated locus-specific pull-down."
+          "reason": "The protocol explicitly states cells were crosslinked by 1% formaldehyde to capture proteins bound to the OCT4 locus."
         }
       ],
       "trigger_keywords": [
-        "locus-specific proteomics",
         "crosslinked",
-        "dTALE",
-        "anti-FLAG",
-        "peptide counting"
+        "formaldehyde",
+        "shotgun proteomics",
+        "anti-FLAG pull-down"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,7 +218,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:50:43Z"
   }
 }

@@ -8,13 +8,15 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "disease or clinical state",
+      "mechanical or physical stimulus"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -33,12 +35,50 @@
         "confidence": "high",
         "evidence": [
           "identify transcription factors that differentially respond to exercise in insulin resistance",
-          "performed a high-density global protein abundance analysis in muscle from lean, healthy participants and obese, insulin resistant individuals",
-          "Proteins involved in mitochondrial function, protein targeting and translation, and metabolism were among those significantly different between lean and obese groups."
+          "lean, healthy participants and obese, insulin resistant individuals",
+          "eight lean control and twelve obese non-diabetic participants"
+        ]
+      },
+      {
+        "ontology_label": "mechanical or physical stimulus",
+        "ontology_curie": "PPA:0000015",
+        "category": "mechanical",
+        "matched_parent_class_key": "mechanical",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "mechanical"
+        ],
+        "matched_definition": "Application of force, geometry, substrate, adhesion, stiffness, deformation, or other non-radiation physical stimulus that defines the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "performed a single 48 min bout of exercise",
+          "Muscle biopsies were obtained at resting conditions, 30 min and 24 h after exercise."
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "acute exercise",
+        "dose_or_concentration": null,
+        "duration": "48 min",
+        "route_or_context": "recumbent cycle",
+        "evidence": [
+          "performed a single 48 min bout of exercise",
+          "exercise on a recumbent cycle (Schwinn 205P, Vancouver, WA, United States) for 48 min"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "post-exercise",
+        "evidence": [
+          "Muscle biopsies were obtained at resting conditions, 30 min and 24 h after exercise."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -46,63 +86,41 @@
   "experimental_design": {
     "timepoints": [
       "resting",
-      "30 min after exercise",
-      "24 h after exercise"
+      "30 min post-exercise",
+      "24 h post-exercise"
     ],
     "control_arms": [
       "lean control"
     ],
     "case_arms": [
-      "obese non-diabetic participants"
+      "obese insulin resistant"
     ],
     "paired_design": true,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
-      "eight lean control and twelve obese non-diabetic participants"
+      "Twenty participants took part in this study"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "lean",
-        "case_label": "obese",
+        "case_label": "obese insulin resistant",
         "contrast_type": "pairwise",
         "evidence": [
           "Proteins involved in mitochondrial function, protein targeting and translation, and metabolism were among those significantly different between lean and obese groups."
+        ]
+      },
+      {
+        "control_label": "resting",
+        "case_label": "post-exercise",
+        "contrast_type": "timecourse",
+        "evidence": [
+          "Muscle biopsies were obtained at resting conditions, 30 min and 24 h after exercise."
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "skeletal muscle",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -114,18 +132,41 @@
       "spectral abundance factor (NSAF)"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "low"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "skeletal muscle",
+          "source_kind": "tissue"
+        },
+        {
+          "label": "vastus lateralis muscle",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -135,22 +176,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used ('top 15' DDA), and quantification was performed using the spectral abundance factor (NSAF) method, which is a label-free quantification (LFQ) approach based on spectral counts."
+          "reason": "The experiment used a 'top 15' data-dependent MS/MS analysis (DDA) and quantified results using the spectral abundance factor (NSAF) method, which is a label-free quantification approach based on spectral counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.7,
-          "reason": "Variable modifications for phosphorylation of serine, threonine, and tyrosine were explicitly included in the search parameters."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.4,
+          "reason": "Phosphorylation of serine, threonine, and tyrosine was listed as a variable modification, though no explicit enrichment step (like TiO2) was described; it may have been a global search."
         }
       ],
       "trigger_keywords": [
-        "top 15",
         "data-dependent MS/MS",
-        "NSAF",
         "spectral abundance factor",
-        "phosphorylation"
+        "NSAF",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -159,22 +199,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used ('top 15' DDA), and quantification was performed using the spectral abundance factor (NSAF) method, which is a label-free quantification (LFQ) approach based on spectral counts."
+          "reason": "The experiment used a 'top 15' data-dependent MS/MS analysis (DDA) and quantified results using the spectral abundance factor (NSAF) method, which is a label-free quantification approach based on spectral counts."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_phospho",
-          "confidence": 0.7,
-          "reason": "Variable modifications for phosphorylation of serine, threonine, and tyrosine were explicitly included in the search parameters."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.4,
+          "reason": "Phosphorylation of serine, threonine, and tyrosine was listed as a variable modification, though no explicit enrichment step (like TiO2) was described; it may have been a global search."
         }
       ],
       "trigger_keywords": [
-        "top 15",
         "data-dependent MS/MS",
-        "NSAF",
         "spectral abundance factor",
-        "phosphorylation"
+        "NSAF",
+        "label-free"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -202,7 +241,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:51:18Z"
   }
 }

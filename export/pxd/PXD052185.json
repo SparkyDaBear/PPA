@@ -8,22 +8,24 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state"
+      "case-control disease status",
+      "cancer subtype comparison"
     ],
     "cell_types": [
-      "B cell"
+      "B cell lymphocytes"
     ],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "female",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease_status",
@@ -38,18 +40,50 @@
           "Control samples comprised 20 patients without the presence of cancer",
           "Carcinoma groups consist of 8 samples from benign patients... 8 patients with confirmed luminal A carcinoma... 8 samples from patients with confirmed luminal B breast cancer... and 3 samples were taken from patients with TNBC"
         ]
+      },
+      {
+        "ontology_label": "cancer subtype comparison",
+        "ontology_curie": "PPA:0000093",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "cancer_subtype_comparison",
+        "matched_class_path": [
+          "disease",
+          "cancer_subtype_comparison"
+        ],
+        "matched_definition": "Comparison among cancer types, subtypes, molecular subtypes, or histologies.",
+        "confidence": "high",
+        "evidence": [
+          "These patients were IHC characterized into four basic BC categories: luminal A, luminal B, TNBC, and benign.",
+          "comparing the control group versus luminal A, luminal B, benign, and TNBC separately"
+        ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "breast cancer",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "peripheral blood B-cell lymphocytes",
+        "evidence": [
+          "measuring the expression of proteins isolated from B-cell lymphocytes in peripheral blood samples",
+          "peripheral blood samples from newly diagnosed breast cancer (BC) patients before any therapy were used"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "before any therapy"
+    ],
     "control_arms": [
       "control group",
-      "healthy control"
+      "healthy control",
+      "volunteers without the presence of cancer"
     ],
     "case_arms": [
       "benign",
@@ -70,6 +104,14 @@
       "label-free shotgun proteomic method"
     ],
     "contrast_hints": [
+      {
+        "control_label": "control group",
+        "case_label": "breast cancer (benign, luminal A, luminal B, TNBC)",
+        "contrast_type": "multi_group",
+        "evidence": [
+          "The protein profile analysis of CD19+ B-lymphocytes in benign, Luminal A, Luminal B, and triple-negative breast cancer patients in comparison to healthy control"
+        ]
+      },
       {
         "control_label": "control group",
         "case_label": "luminal A",
@@ -107,42 +149,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "B cell",
-        "rollup_category": "immune cell",
-        "ontology_curie": "CL:0000236"
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "peripheral blood",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -153,18 +159,42 @@
       "integration of the identified peptide intensities"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "B cell isolation",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "B cell lymphocytes",
+          "ontology_curie": "CL:0000236"
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "peripheral blood",
+          "source_kind": "biofluid"
+        }
+      ],
+      "sex": "female"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -174,7 +204,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'positive data-dependent acquisition mode' and 'Label-Free Quantification (LFQ)' based on peptide intensities."
+          "reason": "The study explicitly uses 'positive data-dependent acquisition mode' and 'Label-Free Quantification (LFQ)' based on ion intensity."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -191,7 +221,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of 'positive data-dependent acquisition mode' and 'Label-Free Quantification (LFQ)' based on peptide intensities."
+          "reason": "The study explicitly uses 'positive data-dependent acquisition mode' and 'Label-Free Quantification (LFQ)' based on ion intensity."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -227,7 +257,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:22Z"
   }
 }

@@ -14,9 +14,11 @@
     "cell_lines": [
       "HEK293"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -35,7 +37,7 @@
         "confidence": "high",
         "evidence": [
           "we co-expressed myc-Rhes or myc (control) with His-tagged mSUMO3 in HEK293 cells",
-          "Identification and quantification of the SUMOylation site by MS analysis identified several SUMOylated proteins showing a > fourfold change increase in SUMOylation, including 13 targets in myc-Rhes\u2013expressing cells, compared to the myc control"
+          "myc-Rhes expression significantly enhanced the overall SUMOylation of proteins"
         ]
       }
     ],
@@ -44,20 +46,11 @@
         "relation_key": "has_treatment_agent",
         "agent": "myc-Rhes",
         "dose_or_concentration": null,
-        "duration": null,
+        "duration": "48 h",
         "route_or_context": "transfected in HEK293 cells",
         "evidence": [
-          "we co-expressed myc-Rhes or myc (control) with His-tagged mSUMO3 in HEK293 cells"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "MG132",
-        "dose_or_concentration": "25 \u00b5M",
-        "duration": "4 h",
-        "route_or_context": "pretreated to stabilize SUMOylated proteins",
-        "evidence": [
-          "HEK293 cells (expressing transfected His-SUMO mutant and indicated constructs) were pretreated with proteosome inhibitor, MG132 (25 \u00b5M, 4 h)"
+          "HEK293 cells were transfected with myc + mSUMO3 or myc-Rhes + mSUMO3",
+          "GST + mSUMO3, and GST-Rhes + mSUMO3 (5 \u03bcg each) were transfected in 10 cm dish HEK293 cells, and after 48 h, cells were lysed"
         ]
       }
     ],
@@ -70,10 +63,12 @@
       "48 h"
     ],
     "control_arms": [
-      "myc"
+      "myc",
+      "GST"
     ],
     "case_arms": [
-      "myc-Rhes"
+      "myc-Rhes",
+      "GST-Rhes"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -95,73 +90,62 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": "mouse",
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "human embryonic kidney",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free quantification"
+      "label-free quantification",
+      "fold change in abundance"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "SUMOylome or QQTGG enrichment",
-        "ontology_curie": "PPA:0000437",
-        "workflow_modifier_hint": "mod_sumo_qqtgg",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "GST-affinity purification of Rhes interactome"
+      },
+      {
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "SUMO peptide enrichment via Ni-NTA and anti-NQTGG antibody"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "reanalysis_compatibility": "Requires specialized pipeline",
     "workflow_hints": {
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive HF with MaxQuant processing for quantification of SUMOylation sites."
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive HF with MaxQuant for identification and quantification (LFQ implied by fold-change reporting)."
         }
       ],
       "modifier_candidates_ranked": [
@@ -172,9 +156,9 @@
         }
       ],
       "trigger_keywords": [
-        "mSUMO3",
-        "anti-NQTGG antibody",
         "SUMO proteomics",
+        "anti-NQTGG antibody",
+        "mSUMO3",
         "tryptic remnant",
         "Ni-NTA denaturing pull down"
       ],
@@ -185,7 +169,7 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive HF with MaxQuant processing for quantification of SUMOylation sites."
+          "reason": "Data-dependent acquisition (DDA) was used on a Q-Exactive HF with MaxQuant for identification and quantification (LFQ implied by fold-change reporting)."
         }
       ],
       "modifier_candidates_ranked": [
@@ -196,9 +180,9 @@
         }
       ],
       "trigger_keywords": [
-        "mSUMO3",
-        "anti-NQTGG antibody",
         "SUMO proteomics",
+        "anti-NQTGG antibody",
+        "mSUMO3",
         "tryptic remnant",
         "Ni-NTA denaturing pull down"
       ],
@@ -228,7 +212,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:23Z"
   }
 }

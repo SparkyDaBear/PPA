@@ -3,25 +3,27 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "Label free",
+    "quantification_method": "LFQ",
     "labeling_strategy": [
       "LFQ",
       "TMT"
     ],
     "treatment_categories": [
-      "targeted protein degrader treatment"
+      "targeted protein degrader treatment",
+      "knockout or deletion perturbation"
     ],
     "cell_types": [
       "epithelial cell"
     ],
     "cell_lines": [
       "MOLT4",
-      "293T",
-      "K562"
+      "293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -40,39 +42,58 @@
         "confidence": "high",
         "evidence": [
           "we identified piperlongumine (PL), a natural product, as a covalent E3 ligase recruiter, which induces CDK9 degradation when it is conjugated with SNS-032, a CDK9 inhibitor.",
-          "The lead conjugate 955 can potently degrade CDK9 in a ubiquitin-proteasome-dependent manner"
+          "The lead conjugate 955 can potently degrade CDK9 in a ubiquitin-proteasome-dependent manner",
+          "PL-Ceritinib conjugate can degrade EML4-ALK fusion oncoprotein"
+        ]
+      },
+      {
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "knockout_or_deletion_perturbation"
+        ],
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
+        "confidence": "high",
+        "evidence": [
+          "which was further confirmed by KEAP1 knockout",
+          "using both siRNA and CRISPR-Cas9 to knock down/out of KEAP1"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "compound 955",
-        "dose_or_concentration": "10 \u03bcM",
+        "agent": "955",
+        "dose_or_concentration": "0.1 \u03bcM",
         "duration": "6 h",
-        "route_or_context": "co-treatment with 50 \u03bcM D-Biotin in 293T cells transfected with V5-TurboID-CDK9",
+        "route_or_context": "293T cells",
         "evidence": [
-          "co-treatment of DMSO or compound 955 and 50 \u03bcM D-Biotin at 37 \u00b0C for 6 h"
+          "co-treatment of DMSO or compound 955 and 50 \u03bcM D-Biotin at 37 \u00b0C for 6 h",
+          "cells exhibited a significant reduction of CDK9 after treatment with 0.1 \u03bcM 955 for 1 h and 6 h"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "DMSO",
+        "agent": "SNS-032",
+        "dose_or_concentration": "1 \u03bcM",
+        "duration": "6 h",
+        "route_or_context": "MOLT4 cells",
+        "evidence": [
+          "treatment with 1 \u03bcM SNS-032 for 6 h had no significant effect on CDK9"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "819",
         "dose_or_concentration": null,
-        "duration": "6 h",
-        "route_or_context": "control for compound 955 in TurboID-bait assay",
+        "duration": null,
+        "route_or_context": "NCI-H2228 NSCLC cells",
         "evidence": [
-          "co-treatment of DMSO or compound 955 and 50 \u03bcM D-Biotin at 37 \u00b0C for 6 h"
-        ]
-      },
-      {
-        "relation_key": "has_treatment_agent",
-        "agent": "MG132",
-        "dose_or_concentration": "10 \u03bcM",
-        "duration": "1 h",
-        "route_or_context": "pre-treatment prior to compound 955",
-        "evidence": [
-          "the transfected cells were pretreated with 10 \u03bcM MG132 for 1 h and followed up with co-treatment of DMSO or compound 955"
+          "one of those conjugated compounds, 819, can degrade EML4-ALK in a concentration-dependent manner in NCI-H2228 NSCLC cells"
         ]
       }
     ],
@@ -82,77 +103,60 @@
   },
   "experimental_design": {
     "timepoints": [
-      "6 h"
+      "1 h",
+      "6 h",
+      "8 h",
+      "16 h",
+      "18 h"
     ],
     "control_arms": [
-      "DMSO"
+      "DMSO",
+      "SNS-032",
+      "PL",
+      "control siRNA"
     ],
     "case_arms": [
-      "compound 955"
+      "955",
+      "819",
+      "KEAP1 knockout"
     ],
     "paired_design": false,
     "factorial_design": false,
-    "replicate_hints": [],
-    "multiplex_channel_hints": [],
+    "replicate_hints": [
+      "three replicates"
+    ],
+    "multiplex_channel_hints": [
+      "TMT isobaric labeling reagents",
+      "combined into one 11-plex sample group"
+    ],
     "contrast_hints": [
       {
         "control_label": "DMSO",
-        "case_label": "compound 955",
+        "case_label": "955",
         "contrast_type": "pairwise",
         "evidence": [
           "comparing the biotinylated proteins with or without 955 treatment"
+        ]
+      },
+      {
+        "control_label": "SNS-032",
+        "case_label": "955",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "compared the global proteome changes induced by 955 and SNS-032 in MOLT4 cells"
+        ]
+      },
+      {
+        "control_label": "control siRNA",
+        "case_label": "KEAP1 siRNA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "measuring the cell-killing effects in KEAP1 siRNA- and control siRNA-treated cells"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell",
-        "rollup_category": "cell",
-        "ontology_curie": "CL:0000066"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "MOLT4",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "293T",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "K562",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -162,28 +166,55 @@
       "TMT"
     ],
     "quantification_strategy": [
-      "Label free",
+      "Label-free",
       "TMT MS3 reporter ion quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "biotinylated proteins enriched using streptavidin agarose beads"
       },
       {
-        "ontology_label": "biotinylated protein enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "MOLT4",
+          "ontology_curie": null
+        },
+        {
+          "label": "293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -191,46 +222,60 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.9,
-          "reason": "The TurboID-bait assay (PXD039401) uses label-free quantification (LFQ) as indicated in PRIDE metadata and standard DDA acquisition on an Orbitrap Eclipse."
+          "reason": "Explicit mention of TMT-based proteomics using 11-plex isobaric labeling reagents and MS3 reporter ion quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Competitive ABPP and TurboID-bait assays are described as using LC-MS/MS with label-free quantification (PRIDE metadata confirms 'Label free' for PXD039401)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "biotin_enrichment",
+          "modifier_workflow_id": "modifier_biotin_enrichment",
           "confidence": 0.95,
-          "reason": "The experiment uses TurboID proximity labeling and streptavidin agarose beads for biotinylated protein enrichment."
+          "reason": "Multiple assays (Competitive ABPP and TurboID-bait) utilize streptavidin agarose beads to enrich biotinylated proteins."
         }
       ],
       "trigger_keywords": [
+        "TMT",
+        "isobaric labeling",
         "TurboID",
         "biotinylated proteins",
         "streptavidin agarose beads",
-        "Label free"
+        "multi-notch MS3"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 0.9,
-          "reason": "The TurboID-bait assay (PXD039401) uses label-free quantification (LFQ) as indicated in PRIDE metadata and standard DDA acquisition on an Orbitrap Eclipse."
+          "reason": "Explicit mention of TMT-based proteomics using 11-plex isobaric labeling reagents and MS3 reporter ion quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.8,
+          "reason": "Competitive ABPP and TurboID-bait assays are described as using LC-MS/MS with label-free quantification (PRIDE metadata confirms 'Label free' for PXD039401)."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "biotin_enrichment",
+          "modifier_workflow_id": "modifier_biotin_enrichment",
           "confidence": 0.95,
-          "reason": "The experiment uses TurboID proximity labeling and streptavidin agarose beads for biotinylated protein enrichment."
+          "reason": "Multiple assays (Competitive ABPP and TurboID-bait) utilize streptavidin agarose beads to enrich biotinylated proteins."
         }
       ],
       "trigger_keywords": [
+        "TMT",
+        "isobaric labeling",
         "TurboID",
         "biotinylated proteins",
         "streptavidin agarose beads",
-        "Label free"
+        "multi-notch MS3"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -258,7 +303,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:46Z"
   }
 }

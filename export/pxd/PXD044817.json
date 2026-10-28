@@ -3,52 +3,91 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "LFQ",
+    "quantification_method": "Label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "protein complex assembly state"
+      "knockout or deletion perturbation",
+      "small-molecule inhibitor treatment"
     ],
-    "cell_types": [
-      "hepatocyte"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "Huh7"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "protein complex assembly state",
-        "ontology_curie": "PPA:0000115",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "protein_complex_assembly_state",
+        "ontology_label": "knockout or deletion perturbation",
+        "ontology_curie": "PPA:0000048",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockout_or_deletion_perturbation",
         "matched_class_path": [
-          "molecular_state",
-          "protein_complex_assembly_state"
+          "genetic",
+          "knockout_or_deletion_perturbation"
         ],
-        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "matched_definition": "Genetic perturbation involving complete or partial loss of a gene or locus.",
         "confidence": "high",
         "evidence": [
-          "To identify the potential E3-liagese of G6PD, we performed co-IP in G6PD-flag exogenous expression Huh7 cells with anti-flag magnetic beads. The enriched protein sample was subjected for MS identification."
+          "silencing the m6A writer METTL3 significantly enhanced the sensitivity to oxaliplatin",
+          "we generated the stable METTL3-depleted cells in Huh7 and HepG2",
+          "knockdown of METTL3 resulted in enhanced sensitivity to oxaliplatin treatment"
+        ]
+      },
+      {
+        "ontology_label": "small-molecule inhibitor treatment",
+        "ontology_curie": "PPA:0000023",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
+        "matched_class_path": [
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
+        ],
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
+        "confidence": "high",
+        "evidence": [
+          "treatment with the specific METTL3 inhibitor, STM2457, significantly improved the efficacy of oxaliplatin",
+          "we utilized STM2457, a targeted inhibitor that specifically blocks the S-adenosylmethionine (SAM) binding site of METTL3"
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "G6PD-Flag",
+        "agent": "siRNA",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "exogenous expression in Huh7 cells",
+        "route_or_context": "targeting METTL3",
         "evidence": [
-          "we performed co-IP in G6PD-flag exogenous expression Huh7 cells with anti-flag magnetic beads"
+          "employing siRNA library screening, we identified that silencing the m6A writer METTL3"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "STM2457",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "METTL3 inhibitor",
+        "evidence": [
+          "treatment with the specific METTL3 inhibitor, STM2457"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "oxaliplatin",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "chemotherapy",
+        "evidence": [
+          "enhanced the sensitivity to oxaliplatin in both in vivo and in vitro HCC models"
         ]
       }
     ],
@@ -58,54 +97,41 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
+    "control_arms": [
+      "control cells",
+      "Huh7-shNC"
+    ],
     "case_arms": [
-      "G6PD-Flag immunoprecipitated samples"
+      "METTL3-depleted cells",
+      "Huh7-shMETTL3",
+      "STM2457 treated"
     ],
     "paired_design": false,
-    "factorial_design": false,
-    "replicate_hints": [],
+    "factorial_design": true,
+    "replicate_hints": [
+      "Each group included five independent repeats"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "shNC",
+        "case_label": "shMETTL3",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "we performed a non-targeted metabolomic analysis on Huh7-shNC and Huh7-shMETTL3 groups"
+        ]
+      },
+      {
+        "control_label": "OXA alone",
+        "case_label": "STM2457 + OXA",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "Compared to HCC cells treated with OXA alone, HCC cells treated with the combination of STM2457 and OXA exhibited significantly lower cell viability"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "hepatocyte",
-        "rollup_category": "cell",
-        "ontology_curie": "CL:0000182"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "Huh7",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -114,21 +140,40 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "Label-free quantification"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity Purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "co-immunoprecipitation of G6PD-Flag complex via anti-flag beads"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "Huh7",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -137,15 +182,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the experiment is described as 'Shotgun proteomics' for protein identification of co-IP partners."
+          "confidence": 0.8,
+          "reason": "The experiment used DDA (data-dependent acquisition) on a Q Exactive mass spectrometer. While no specific labeling is mentioned, the goal was protein identification of interactors from co-IP, which typically follows a label-free or simple identification workflow."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "DDA",
-        "Shotgun proteomics",
-        "co-IP"
+        "co-IP",
+        "protein identification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -153,15 +198,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.9,
-          "reason": "The PRIDE metadata explicitly states 'DDA (data-dependent acquisition) mass spectrum techniques were used' and the experiment is described as 'Shotgun proteomics' for protein identification of co-IP partners."
+          "confidence": 0.8,
+          "reason": "The experiment used DDA (data-dependent acquisition) on a Q Exactive mass spectrometer. While no specific labeling is mentioned, the goal was protein identification of interactors from co-IP, which typically follows a label-free or simple identification workflow."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "DDA",
-        "Shotgun proteomics",
-        "co-IP"
+        "co-IP",
+        "protein identification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -189,7 +234,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:59:24Z"
   }
 }

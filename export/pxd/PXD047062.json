@@ -3,43 +3,57 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "iTRAQ-labeling quantitative proteomics",
+    "quantification_method": "iTRAQ-based quantitative proteomics",
     "labeling_strategy": [
       "iTRAQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "chemical or drug treatment",
+      "radiation or photostress"
     ],
-    "cell_types": [
-      "colorectal cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
-      "HCT116",
-      "RKO",
-      "293T"
+      "HCT116"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "extracellular vesicle scope",
-    "sample_scope_curie": "PPA:0000199",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_state_comparison",
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
+        "matched_class_key": "small_molecule_inhibitor_treatment",
         "matched_class_path": [
-          "cell_state_interaction",
-          "activation_state_comparison"
+          "chemical_or_drug",
+          "small_molecule_inhibitor_treatment"
         ],
-        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
+        "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "We compared the proteins detected in our proteomic analysis with the protein cargo in Vesiclepedia and ExoCarta databases.",
-          "119 proteins were increased, and 169 proteins were decreased in EVs secreted from senescent HCT116 cells compared to EVs from non-senescent cells"
+          "For chemotherapy-induced senescence, 1.5 \u00b5M irinotecan (CPT-11) in HCT116 cells and 2.5 \u00b5M CPT-11 in RKO cells were used."
+        ]
+      },
+      {
+        "ontology_label": "radiation or photostress",
+        "ontology_curie": "PPA:0000016",
+        "category": "radiation_photostress",
+        "matched_parent_class_key": "radiation_photostress",
+        "matched_class_key": "ionizing_radiation_exposure",
+        "matched_class_path": [
+          "radiation_photostress",
+          "ionizing_radiation_exposure"
+        ],
+        "matched_definition": "Exposure to gamma rays, X-rays, particles, or other ionizing radiation.",
+        "confidence": "high",
+        "evidence": [
+          "For ionizing radiation (IR)-induced senescence, HCT116 cells were irradiated at different doses using the X-Ray Biological Irradiator"
         ]
       }
     ],
@@ -47,9 +61,9 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "irinotecan (CPT-11)",
-        "dose_or_concentration": "1.5 \u00b5M (HCT116), 2.5 \u00b5M (RKO)",
+        "dose_or_concentration": "1.5 \u00b5M (HCT116) or 2.5 \u00b5M (RKO)",
         "duration": "96 h",
-        "route_or_context": "chemotherapy-induced senescence",
+        "route_or_context": "in vitro chemotherapy-induced senescence",
         "evidence": [
           "For chemotherapy-induced senescence, 1.5 \u00b5M irinotecan (CPT-11) in HCT116 cells and 2.5 \u00b5M CPT-11 in RKO cells were used.",
           "Cells were cultured for 96 h to allow the development of the senescent phenotype."
@@ -60,10 +74,20 @@
         "agent": "ionizing radiation (IR)",
         "dose_or_concentration": "10 Gy",
         "duration": "96 h",
-        "route_or_context": "IR-induced senescence",
+        "route_or_context": "in vitro IR-induced senescence",
         "evidence": [
           "For IR-induced senescence, HCT116 cells were plated in 100 mm dishes and exposed to 10 Gy irradiation.",
           "Cells were cultured for 96 h to allow the development of the senescent phenotype."
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "tiplaxtinin (TPX)",
+        "dose_or_concentration": "20 \u00b5M",
+        "duration": "96 h",
+        "route_or_context": "SERPINE1 inhibition during senescence induction",
+        "evidence": [
+          "To inhibit the expression of SERPINE1 in EVs from STCs, CRC cells were simultaneously treated with CPT-11 and TPX (20 \u00b5M) for 96 h."
         ]
       }
     ],
@@ -76,11 +100,14 @@
       "96 h"
     ],
     "control_arms": [
-      "non-senescent HCT116 cells",
-      "untreated CRC cells"
+      "non-STCs",
+      "untreated CRC cells",
+      "Ctrl-EVs"
     ],
     "case_arms": [
-      "senescent HCT116 cells"
+      "STCs",
+      "Sen-EVs",
+      "TPX-Sen-EVs"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -88,12 +115,20 @@
       "at least three independent experiments"
     ],
     "multiplex_channel_hints": [
-      "iTRAQ-labeling quantitative proteomics analysis"
+      "iTRAQ-labeling quantitative proteomics"
     ],
     "contrast_hints": [
       {
-        "control_label": "non-senescent cells",
-        "case_label": "senescent cells",
+        "control_label": "non-senescent HCT116 cells",
+        "case_label": "senescent HCT116 cells",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "EVs samples were isolated from senescent HCT116 cells and non-senescent HCT116 cells."
+        ]
+      },
+      {
+        "control_label": "Ctrl-EVs",
+        "case_label": "Sen-EVs",
         "contrast_type": "pairwise",
         "evidence": [
           "119 proteins were increased, and 169 proteins were decreased in EVs secreted from senescent HCT116 cells compared to EVs from non-senescent cells"
@@ -104,85 +139,51 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "colorectal cancer cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HCT116",
-        "family": "colorectal cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "RKO",
-        "family": "colorectal cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "293T",
-        "family": "human embryonic kidney",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "extracellular vesicles",
-        "source_kind": "other"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "extracellular vesicle scope",
-      "curie": "PPA:0000199"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "iTRAQ"
     ],
     "quantification_strategy": [
-      "iTRAQ-labeling quantitative proteomics"
+      "iTRAQ-based quantitative proteomics"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "Extracellular vesicles",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "extracellular vesicles isolated by differential ultracentrifugation"
       },
       {
-        "ontology_label": "Immunoprecipitation",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoprecipitation of SERPINE1 binding partners"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HCT116",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -192,7 +193,7 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of iTRAQ-labeling quantitative proteomics and DDA (Data Dependent Acquisition) mode detection."
+          "reason": "The text explicitly states the use of iTRAQ-labeling quantitative proteomics and DDA mode detection on a Q Exactive HF-X."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -208,7 +209,7 @@
         {
           "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The text explicitly states the use of iTRAQ-labeling quantitative proteomics and DDA (Data Dependent Acquisition) mode detection."
+          "reason": "The text explicitly states the use of iTRAQ-labeling quantitative proteomics and DDA mode detection on a Q Exactive HF-X."
         }
       ],
       "modifier_candidates_ranked": [],
@@ -243,7 +244,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:47Z"
   }
 }

@@ -2,7 +2,7 @@
   "pxd": "PXD039305",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "Label-free quantification",
     "labeling_strategy": [
       "LFQ"
@@ -10,16 +10,16 @@
     "treatment_categories": [
       "chemical or drug treatment"
     ],
-    "cell_types": [
-      "triple-negative breast cancer cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "MDA-MB-231",
       "MDA-MB-453"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,8 +37,8 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "eugenol could inhibit TNBC cell proliferation and metastasis via the NOD1-NF-\u03baB signaling pathway",
-          "eugenol, as a natural compound, has significant anti-tumor effects on TNBC proliferation and metastasis"
+          "MDA-MB-231 cells were treated with eugenol for 24h, while cells in the control group were treated with DMSO",
+          "eugenol could inhibit TNBC cell proliferation and metastasis via the NOD1-NF-\u03baB signaling pathway"
         ]
       }
     ],
@@ -56,12 +56,11 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "DMSO",
-        "dose_or_concentration": "0.05%",
-        "duration": null,
-        "route_or_context": "vehicle control",
+        "dose_or_concentration": null,
+        "duration": "24h",
+        "route_or_context": "control group",
         "evidence": [
-          "cells in the control group were treated with DMSO",
-          "MDA-MB-231 cells treated respectively with vehicle (0.05% of DMSO as the control)"
+          "cells in the control group were treated with DMSO"
         ]
       }
     ],
@@ -84,17 +83,14 @@
     "replicate_hints": [
       "three biological replicates in each group"
     ],
-    "multiplex_channel_hints": [
-      "Label-free quantitative proteomics"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "DMSO",
         "case_label": "eugenol",
         "contrast_type": "pairwise",
         "evidence": [
-          "Foldchange mean eugenol treatment/DMSO treatment",
-          "the two tested samples shared 3080 proteins in total"
+          "Foldchange mean eugenol treatment/DMSO treatment."
         ]
       }
     ],
@@ -102,50 +98,8 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "triple-negative breast cancer cells",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "MDA-MB-231",
-        "family": "breast cancer",
-        "ontology_curie": null
-      },
-      {
-        "label": "MDA-MB-453",
-        "family": "breast cancer",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -153,11 +107,46 @@
       "Label-free quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "DARTS (drug affinity responsive target stability) for eugenol target identification"
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "MDA-MB-231",
+          "ontology_curie": null
+        },
+        {
+          "label": "MDA-MB-453",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -167,22 +156,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'label-free proteomics' and 'LFQ values' were analyzed using MaxQuant."
+          "reason": "The text explicitly states 'label-free proteomics' and 'LFQ values of these two groups were analyzed' using MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "darts_target_id",
+          "modifier_workflow_id": "modifier_darts",
           "confidence": 0.9,
-          "reason": "The study specifically employs Drug Affinity Responsive Target Stability (DARTS) coupled with LC-MS/MS to identify binding proteins."
+          "reason": "The study utilizes Drug Affinity Responsive Target Stability (DARTS) coupled with LC-MS/MS to identify binding proteins."
         }
       ],
       "trigger_keywords": [
         "label-free proteomics",
-        "LFQ values",
+        "LFQ",
         "DARTS",
-        "MaxQuant",
-        "drug affinity responsive target stability"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -191,22 +179,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The text explicitly states 'label-free proteomics' and 'LFQ values' were analyzed using MaxQuant."
+          "reason": "The text explicitly states 'label-free proteomics' and 'LFQ values of these two groups were analyzed' using MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "darts_target_id",
+          "modifier_workflow_id": "modifier_darts",
           "confidence": 0.9,
-          "reason": "The study specifically employs Drug Affinity Responsive Target Stability (DARTS) coupled with LC-MS/MS to identify binding proteins."
+          "reason": "The study utilizes Drug Affinity Responsive Target Stability (DARTS) coupled with LC-MS/MS to identify binding proteins."
         }
       ],
       "trigger_keywords": [
         "label-free proteomics",
-        "LFQ values",
+        "LFQ",
         "DARTS",
-        "MaxQuant",
-        "drug affinity responsive target stability"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -234,7 +221,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:42:53Z"
   }
 }

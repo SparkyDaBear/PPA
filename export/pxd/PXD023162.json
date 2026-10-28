@@ -16,9 +16,11 @@
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,8 +38,8 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "the inhibition of RNA synthesis provides the first large-scale distribution profile of RBPs bound to RNAs with different decay rates",
-          "For the actinomycin D (ActD) treatment experiment, HeLa cells were treated with 5 \u03bcM ActD"
+          "For the actinomycin D (ActD) treatment experiment, HeLa cells were treated with 5 \u03bcM ActD",
+          "ActD blocks RNA transcription and leads to decreasing levels of RNAs and disassociation of the RNPs in the cell."
         ]
       }
     ],
@@ -59,7 +61,7 @@
         "duration": null,
         "route_or_context": null,
         "evidence": [
-          "for 0, 2, 5 and 9 h before collecting the cells"
+          "for 0, 2, 5 and 9 h before collecting the cells."
         ]
       }
     ],
@@ -76,10 +78,12 @@
     ],
     "control_arms": [
       "untreated cells",
-      "Control 4"
+      "0 h ActD treatment"
     ],
     "case_arms": [
-      "ActD treatment"
+      "2 h ActD treatment",
+      "5 h ActD treatment",
+      "9 h ActD treatment"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -87,7 +91,7 @@
       "three technical replicates"
     ],
     "multiplex_channel_hints": [
-      "Stable isotopic dimethyl labelling was conducted"
+      "Stable isotopic dimethyl labelling was conducted as previously described for quantitative comparison"
     ],
     "contrast_hints": [
       {
@@ -97,56 +101,10 @@
         "evidence": [
           "The dynamics of RBPs in the RNPs were determined by quantitative comparison of the PP-enriched RBPs in the ActD-treated cells with the corresponding RBPs in the untreated cells."
         ]
-      },
-      {
-        "control_label": "Control 4",
-        "case_label": "experiment group",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "quantitative proteomics analysis was carried out using the Experiment and the Control design illustrated in Supplementary Table S1",
-          "Control 4 was chosen for further investigation of the PP-assay"
-        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "epithelial cell of cervix",
-        "rollup_category": "epithelial cell",
-        "ontology_curie": "CL:0002535"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": "cervical cancer",
-        "ontology_curie": "BTO:0000567"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -159,18 +117,47 @@
       "label-free intensity"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "RNA-binding protein enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "ribonucleic-protein complex (RNP) enrichment via psoralen probe (PP) tagging"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "epithelial cell of cervix",
+          "ontology_curie": "CL:0002535"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": "BTO:0000567"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -180,19 +167,26 @@
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'Stable isotopic dimethyl labelling' for quantitative comparison and PRIDE metadata confirms 'Dimethyl Labeling'."
+          "reason": "Explicit mention of 'Stable isotopic dimethyl labelling' for quantitative comparison and 'dimethyl Labeling' in PRIDE metadata."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
+          "confidence": 0.8,
           "reason": "The dynamics study using ActD treatment used 'label-free intensity provided by MaxQuant'."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "enrichment_rnp",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized psoralen probe (PP) for RNA tagging and RNP enrichment via streptavidin beads."
+        }
+      ],
       "trigger_keywords": [
         "dimethyl labelling",
-        "label-free intensity",
-        "data-dependent mode"
+        "psoralen probe",
+        "RNP enrichment",
+        "label-free intensity"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -201,19 +195,26 @@
         {
           "base_workflow_id": "base_dda_dimethyl",
           "confidence": 1.0,
-          "reason": "Explicitly mentions 'Stable isotopic dimethyl labelling' for quantitative comparison and PRIDE metadata confirms 'Dimethyl Labeling'."
+          "reason": "Explicit mention of 'Stable isotopic dimethyl labelling' for quantitative comparison and 'dimethyl Labeling' in PRIDE metadata."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.7,
+          "confidence": 0.8,
           "reason": "The dynamics study using ActD treatment used 'label-free intensity provided by MaxQuant'."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "enrichment_rnp",
+          "confidence": 1.0,
+          "reason": "The experiment uses a specialized psoralen probe (PP) for RNA tagging and RNP enrichment via streptavidin beads."
+        }
+      ],
       "trigger_keywords": [
         "dimethyl labelling",
-        "label-free intensity",
-        "data-dependent mode"
+        "psoralen probe",
+        "RNP enrichment",
+        "label-free intensity"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -241,7 +242,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:34Z"
   }
 }

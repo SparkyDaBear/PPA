@@ -14,9 +14,10 @@
     "cell_lines": [
       "293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -34,9 +35,7 @@
         "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "transfected these constructs separately into 293T cells",
-          "transfected with the indicated NS4A constructs or an empty vector as control",
-          "391 proteins were significantly more abundant in both the NS4A-TurboID and TurboID-NS4A transfected cells compared to the negative control"
+          "We fused a biotin ligase, TurboID, to either the N-terminus or C-terminus of NS4A (creating NS4A-TurboID and TurboID-NS4A respectively), and transfected these constructs separately into 293T cells."
         ]
       }
     ],
@@ -45,19 +44,10 @@
         "relation_key": "has_treatment_agent",
         "agent": "USUV NS4A",
         "dose_or_concentration": null,
-        "duration": null,
-        "route_or_context": "TurboID proximity labeling in 293T cells",
-        "evidence": [
-          "We fused a biotin ligase, TurboID, to either the N-terminus or C-terminus of NS4A (creating NS4A-TurboID and TurboID-NS4A respectively), and transfected these constructs separately into 293T cells."
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
         "duration": "24 h",
-        "route_or_context": "post transfection",
+        "route_or_context": "transfected into 293T cells",
         "evidence": [
+          "transfected these constructs separately into 293T cells",
           "At 24 h post transfection (hpt) cells were treated with biotin"
         ]
       }
@@ -80,7 +70,7 @@
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "both the NS4A-TurboID and TurboID-NS4A transfected cells"
+      "both the NS4A samples"
     ],
     "multiplex_channel_hints": [
       "TMTpro on N-terminus and Lys were set as a fixed modification"
@@ -88,7 +78,7 @@
     "contrast_hints": [
       {
         "control_label": "empty vector",
-        "case_label": "USUV NS4A (TurboID)",
+        "case_label": "USUV NS4A overexpression",
         "contrast_type": "pairwise",
         "evidence": [
           "391 proteins were significantly more abundant in both the NS4A-TurboID and TurboID-NS4A transfected cells compared to the negative control"
@@ -99,58 +89,47 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT"
+      "TMT",
+      "abundance ratio"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "proximity labeling",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_proximity_labeling",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "proximity labeling (TurboID) of USUV NS4A interactome via NeutrAvidin immunoprecipitation"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "293T",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -165,15 +144,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.3,
-          "reason": "DDA acquisition is confirmed, but TMT labeling is explicitly stated."
+          "reason": "DDA mode was used, but TMT is explicitly specified."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The experiment uses TurboID proximity labeling to map the NS4A interactome, involving biotinylation and NeutrAvidin pulldown."
+        }
+      ],
       "trigger_keywords": [
         "TMTpro",
-        "proximity labeling",
         "TurboID",
-        "data-dependent MS/MS"
+        "proximity labeling",
+        "biotinylation",
+        "NeutrAvidin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -187,15 +173,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.3,
-          "reason": "DDA acquisition is confirmed, but TMT labeling is explicitly stated."
+          "reason": "DDA mode was used, but TMT is explicitly specified."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "proximity_labeling",
+          "confidence": 1.0,
+          "reason": "The experiment uses TurboID proximity labeling to map the NS4A interactome, involving biotinylation and NeutrAvidin pulldown."
+        }
+      ],
       "trigger_keywords": [
         "TMTpro",
-        "proximity labeling",
         "TurboID",
-        "data-dependent MS/MS"
+        "proximity labeling",
+        "biotinylation",
+        "NeutrAvidin"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -223,7 +216,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:07:50Z"
   }
 }

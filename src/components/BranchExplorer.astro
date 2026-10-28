@@ -1,0 +1,66 @@
+---
+interface Props {
+  branch: 'treatment' | 'assay';
+  title: string;
+  lede: string;
+  l1Title: string;
+  l2Noun: string;
+}
+
+const { branch, title, lede, l1Title, l2Noun } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="explorer-header">
+  <div>
+    <p class="hero-kicker">Proteomics Perturbation Atlas</p>
+    <h2>{title}</h2>
+    <p class="lede">{lede}</p>
+  </div>
+  <p id="browser-total" class="explorer-total" aria-live="polite">Loading annotations...</p>
+</section>
+
+<section
+  id="branch-browser"
+  class="treatment-explorer"
+  aria-label={`${title} ontology explorer`}
+  data-url={`${base}export/${branch}_browser.json`}
+  data-base={base}
+  data-l2-noun={l2Noun}
+>
+  <div class="treatment-column">
+    <div class="explorer-section-heading"><p class="detail-kicker">Level 1</p><h3>{l1Title}</h3></div>
+    <div id="browser-l1" class="treatment-l1-list" aria-live="polite"></div>
+  </div>
+  <div class="treatment-column treatment-l2-column">
+    <div class="explorer-section-heading"><p class="detail-kicker">Level 2</p><h3 id="browser-l2-title">Choose a category</h3></div>
+    <div id="browser-l2" class="treatment-l2-list" aria-live="polite"></div>
+  </div>
+  <div class="treatment-column treatment-l3-column">
+    <div class="explorer-section-heading"><p class="detail-kicker">Level 3</p><h3 id="browser-l3-title">Choose a {l2Noun}</h3></div>
+    <input id="browser-l3-filter" class="l3-filter" type="search" placeholder="Filter Level 3 classes" hidden />
+    <div id="browser-l3" class="treatment-l3-list" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="treatment-results" aria-label="Annotated project results">
+  <header class="results-header">
+    <div><p class="detail-kicker">Studies</p><h3 id="results-title">Select a {l2Noun}</h3><p id="results-definition" class="row-meta">Select a Level 2 class to see all studies, then optionally refine them with Level 3.</p></div>
+    <p id="results-count" class="explorer-total"></p>
+  </header>
+  <label class="search-field results-filter"><span>Filter studies</span><input id="browser-project-filter" type="search" placeholder="PXD, treatment agent, cell system, organism, or assay" disabled /></label>
+  <div class="treatment-results-layout">
+    <div id="browser-projects" class="treatment-project-list" aria-live="polite"></div>
+    <aside id="browser-project-detail" class="treatment-project-detail" aria-live="polite"><p class="detail-kicker">Project metadata</p><h3>Select a study</h3><p class="row-meta">Choose a project to inspect its metadata and source links.</p></aside>
+  </div>
+</section>
+
+<script>
+  import { initBranchBrowser } from '../scripts/branch-browser';
+  const browser = document.getElementById('branch-browser');
+  initBranchBrowser({
+    dataUrl: browser?.dataset.url || '/export/treatment_browser.json',
+    baseUrl: browser?.dataset.base || '/',
+    l2Noun: browser?.dataset.l2Noun || 'class',
+  });
+</script>

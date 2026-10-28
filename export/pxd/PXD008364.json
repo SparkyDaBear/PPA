@@ -17,9 +17,10 @@
     "cell_lines": [
       "HEK293"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -60,10 +61,10 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "recombinant type I IFN",
+        "agent": "type I IFN",
         "dose_or_concentration": "200 U/ml",
         "duration": null,
-        "route_or_context": "mimic a state of viral infection",
+        "route_or_context": "recombinant",
         "evidence": [
           "treated these with recombinant type I IFN",
           "Universal type I IFN alpha (PBL Assay Science) was used at 200 U/ml."
@@ -85,7 +86,7 @@
         "agent": "FLAG-tagged human LGP2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "transient expression via plasmid",
+        "route_or_context": "transient plasmid expression",
         "evidence": [
           "We transiently expressed a plasmid encoding FLAG-tagged human LGP2"
         ]
@@ -97,65 +98,46 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "control plasmid"
+    ],
+    "case_arms": [
+      "FLAG-tagged human LGP2",
+      "type I IFN treatment",
+      "poly(I:C) treatment"
+    ],
     "paired_design": false,
     "factorial_design": true,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "contrast_type": "multigroup contrast",
-        "control_group": "control plasmid",
-        "perturbed_group": "FLAG-tagged human LGP2",
-        "evidence": "We transiently expressed a plasmid encoding FLAG-tagged human LGP2 or a control plasmid"
+        "control_label": "control plasmid",
+        "case_label": "FLAG-LGP2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "We transiently expressed a plasmid encoding FLAG-tagged human LGP2 or a control plasmid"
+        ]
       },
       {
-        "contrast_type": "multigroup contrast",
-        "control_group": "untreated",
-        "perturbed_group": "type I IFN or poly(I:C)",
-        "evidence": "treated these with recombinant type I IFN or lipofectamine-complexed poly(I:C)"
+        "control_label": "untreated",
+        "case_label": "type I IFN",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated these with recombinant type I IFN"
+        ]
+      },
+      {
+        "control_label": "untreated",
+        "case_label": "poly(I:C)",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "treated these with... lipofectamine-complexed poly(I:C)"
+        ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "embryonic kidney fibroblasts",
-        "rollup_category": "fibroblast",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "Human Embryonic Kidney",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -164,22 +146,45 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "iBAQ",
-      "TIC"
+      "iBAQ"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Affinity purification coupled with mass spectrometry proteomics",
-        "ontology_curie": "PRIDE:0000433",
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "FLAG immunoprecipitation of LGP2 complexes"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "embryonic kidney fibroblasts",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -189,21 +194,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and iBAQ for protein quantification, which is a label-free quantification method."
+          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and iBAQ for quantification, which is a label-free quantification method implemented in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment is explicitly described as an affinity purification (FLAG immunoprecipitation) coupled with mass spectrometry."
+          "reason": "The study explicitly describes FLAG immunoprecipitation (IP) to identify binding partners of LGP2."
         }
       ],
       "trigger_keywords": [
         "FLAG immunoprecipitation",
         "iBAQ",
+        "MaxQuant",
         "LTQ-Orbitrap XL",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "binding partners"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -212,21 +218,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and iBAQ for protein quantification, which is a label-free quantification method."
+          "reason": "The experiment used an LTQ-Orbitrap XL (DDA) and iBAQ for quantification, which is a label-free quantification method implemented in MaxQuant."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_ap_ms",
+          "modifier_workflow_id": "affinity_purification",
           "confidence": 0.95,
-          "reason": "The experiment is explicitly described as an affinity purification (FLAG immunoprecipitation) coupled with mass spectrometry."
+          "reason": "The study explicitly describes FLAG immunoprecipitation (IP) to identify binding partners of LGP2."
         }
       ],
       "trigger_keywords": [
         "FLAG immunoprecipitation",
         "iBAQ",
+        "MaxQuant",
         "LTQ-Orbitrap XL",
-        "Affinity purification coupled with mass spectrometry proteomics"
+        "binding partners"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -254,7 +261,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:47:47Z"
   }
 }

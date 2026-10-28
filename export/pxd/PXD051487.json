@@ -16,9 +16,10 @@
     "cell_lines": [
       "HEK-293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "purified protein or complex",
-    "sample_scope_curie": "PPA:0000196",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -36,8 +37,8 @@
         "matched_definition": "Chemical treatment using a compound that inhibits enzyme, receptor, channel, transporter, pathway, or complex function.",
         "confidence": "high",
         "evidence": [
-          "HEK-293T cells treated with the allosteric protein kinase b (also known as Akt) inhibitor MK-2206",
-          "the effect of protein kinase B (PKB, also known as Akt) inhibition on the metabolic flux to acetyl-CoA and H3(18\u201326)K23ac dynamics"
+          "We apply this workflow on HEK-293T cells treated with the allosteric protein kinase b (also known as Akt) inhibitor MK-2206",
+          "the allosteric pan-Akt inhibitor MK-2206, a highly selective inhibitor for the Akt isoforms Akt1, Akt2 and Akt3"
         ]
       }
     ],
@@ -49,7 +50,6 @@
         "duration": "16 h",
         "route_or_context": "supplemented with 1 \u03bcM MK 2206, dissolved in 0.1% DMSO and 0.1 \u03bcM insulin",
         "evidence": [
-          "the allosteric protein kinase b (also known as Akt) inhibitor MK-2206",
           "the medium was exchanged to DMEM supplemented with 1 \u03bcM MK 2206, dissolved in 0.1% DMSO and 0.1 \u03bcM insulin",
           "After 16 h, the cells were washed once with phosphate buffered saline (PBS)"
         ]
@@ -80,54 +80,17 @@
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "carrier",
+        "control_label": "DMSO/Insulin",
         "case_label": "MK-2206",
         "contrast_type": "pairwise",
         "evidence": [
-          "k1(carrier) = 0.435/h; k1(MK-2206) = 0.240/h",
-          "k0(carrier) = 0.163/h; k0(MK-2206) = 0.124/h"
+          "A comparison of total acetyl-CoA levels with and without AKT inhibition revealed no differences",
+          "Comparing the label incorporation and label loss of H3(18\u201326)K23 acetylation without and with Akt inhibition"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "kidney cell",
-        "rollup_category": "kidney cell",
-        "ontology_curie": "CL:1000497"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK-293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "purified protein or complex",
-      "curie": "PPA:0000196"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -141,18 +104,42 @@
       "Isotopologue quantification"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "acetylome enrichment",
-        "ontology_curie": "PPA:0000295",
-        "workflow_modifier_hint": "mod_acetyl",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "histone acetylation sites"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "kidney cell",
+          "ontology_curie": "CL:1000497"
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "HEK-293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -162,22 +149,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The experiment uses PRM for targeted quantification of specific histone peptides and acetyl-CoA, but the overall approach is a relative quantification of isotopologues over time."
+          "reason": "The experiment uses PRM (Parallel Reaction Monitoring) for targeted quantification of specific histone peptides and acetyl-CoA, which is a targeted variant of DDA/LFQ logic, though the data processing is highly specialized."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_site_enrichment",
-          "confidence": 0.9,
-          "reason": "The study specifically targets and quantifies site-specific histone acetylation (e.g., H3K23) using a CoMetChem approach."
+          "modifier_workflow_id": "metabolic_flux_analysis",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'proteo-metabo-flux approach' combining [U-13C]-glucose metabolic tracing with chemical labeling (CoMetChem) and ODE modeling to determine reaction rate constants."
         }
       ],
       "trigger_keywords": [
         "CoMetChem",
-        "site-specific histone acetylation",
-        "isotopologue",
+        "metabolic flux analysis",
+        "13C-labeled glucose",
+        "ordinary differential equations",
         "PRM",
-        "metabolic flux analysis"
+        "site-specific histone acetylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -186,22 +174,23 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.6,
-          "reason": "The experiment uses PRM for targeted quantification of specific histone peptides and acetyl-CoA, but the overall approach is a relative quantification of isotopologues over time."
+          "reason": "The experiment uses PRM (Parallel Reaction Monitoring) for targeted quantification of specific histone peptides and acetyl-CoA, which is a targeted variant of DDA/LFQ logic, though the data processing is highly specialized."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "modifier_site_enrichment",
-          "confidence": 0.9,
-          "reason": "The study specifically targets and quantifies site-specific histone acetylation (e.g., H3K23) using a CoMetChem approach."
+          "modifier_workflow_id": "metabolic_flux_analysis",
+          "confidence": 1.0,
+          "reason": "The study explicitly uses a 'proteo-metabo-flux approach' combining [U-13C]-glucose metabolic tracing with chemical labeling (CoMetChem) and ODE modeling to determine reaction rate constants."
         }
       ],
       "trigger_keywords": [
         "CoMetChem",
-        "site-specific histone acetylation",
-        "isotopologue",
+        "metabolic flux analysis",
+        "13C-labeled glucose",
+        "ordinary differential equations",
         "PRM",
-        "metabolic flux analysis"
+        "site-specific histone acetylation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -229,7 +218,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:48:03Z"
   }
 }

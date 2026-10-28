@@ -8,21 +8,22 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "disease or clinical state",
-      "genetic perturbation"
+      "case-control disease status",
+      "mutation or variant perturbation"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "disease or clinical state",
-        "ontology_curie": "PPA:0000018",
+        "ontology_label": "case-control disease status",
+        "ontology_curie": "PPA:0000091",
         "category": "disease",
         "matched_parent_class_key": "disease",
         "matched_class_key": "case_control_disease_status",
@@ -38,8 +39,8 @@
         ]
       },
       {
-        "ontology_label": "genetic perturbation",
-        "ontology_curie": "PPA:0000011",
+        "ontology_label": "mutation or variant perturbation",
+        "ontology_curie": "PPA:0000052",
         "category": "genetic",
         "matched_parent_class_key": "genetic",
         "matched_class_key": "mutation_or_variant_perturbation",
@@ -61,17 +62,17 @@
         "agent": "PRNP F198S mutation",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "Gerstmann\u2013Str\u00e4ussler\u2013Scheinker disease",
+        "route_or_context": "inherited mutation",
         "evidence": [
           "The c.593t > c mutation in the prion protein gene (PRNP) results in a phenylalanine to serine amino acid substitution at PrP residue 198 (F198S)"
         ]
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "codon 129 polymorphism (VV vs MV)",
+        "agent": "codon 129 polymorphism",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "modifier of the clinical and pathologic presentation of prion diseases",
+        "route_or_context": "VV vs MV genotype",
         "evidence": [
           "Patient 1 is homozygous... (VV). Patient 2 is heterozygous... (MV)."
         ]
@@ -98,46 +99,12 @@
         "case_label": "Patient 1 (VV)",
         "contrast_type": "pairwise",
         "evidence": [
-          "In the MV patient, we observe only a doublet form of the APrP filament... In the VV patient... we observe three forms of APrP filaments"
+          "The absence of the triplet and quadruplet forms of the APrP filaments in patient 2 may be due to variations in the extraction process... It is also possible that other intrinsic biochemical conditions in the brains of the patients could play a role"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "brain",
-        "source_kind": "organ"
-      },
-      {
-        "label": "cerebellar gray matter",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -149,11 +116,41 @@
       "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "isolated APrP (prion protein amyloid) via modified water extraction"
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "brain",
+          "source_kind": "organ"
+        },
+        {
+          "label": "cerebellar gray matter",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -163,14 +160,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Orbitrap Eclipse with DDA-like parameters (full scan, HCD MS2, dynamic exclusion) and no evidence of isobaric or SILAC labeling."
+          "reason": "Shotgun proteomics using Orbitrap Eclipse with DDA-like parameters (full scan, dynamic exclusion, HCD MS2) and no evidence of isobaric or SILAC labeling."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_discovery",
+          "confidence": 0.9,
+          "reason": "Extensive search for multiple PTMs including acetylation, phosphorylation, oxidation, and ubiquitination using PEAKS PTM and SPIDER."
+        }
+      ],
       "trigger_keywords": [
         "Shotgun proteomics",
         "Orbitrap Eclipse",
-        "trypsin digestion"
+        "PEAKS PTM",
+        "SPIDER searches"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -179,19 +183,26 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Shotgun proteomics using Orbitrap Eclipse with DDA-like parameters (full scan, HCD MS2, dynamic exclusion) and no evidence of isobaric or SILAC labeling."
+          "reason": "Shotgun proteomics using Orbitrap Eclipse with DDA-like parameters (full scan, dynamic exclusion, HCD MS2) and no evidence of isobaric or SILAC labeling."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ptm_discovery",
+          "confidence": 0.9,
+          "reason": "Extensive search for multiple PTMs including acetylation, phosphorylation, oxidation, and ubiquitination using PEAKS PTM and SPIDER."
+        }
+      ],
       "trigger_keywords": [
         "Shotgun proteomics",
         "Orbitrap Eclipse",
-        "trypsin digestion"
+        "PEAKS PTM",
+        "SPIDER searches"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "log2fc_protein",
+      "preferred_engine": "unknown",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "protein"
     },
@@ -214,7 +225,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:26Z"
   }
 }

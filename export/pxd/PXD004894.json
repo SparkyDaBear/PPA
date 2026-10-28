@@ -13,14 +13,11 @@
     "cell_types": [
       "melanoma cell"
     ],
-    "cell_lines": [
-      "T2",
-      "LCL1",
-      "LCL2"
+    "cell_lines": [],
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
     "instrument": null
   },
   "treatment": {
@@ -38,8 +35,8 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "high",
         "evidence": [
-          "Informed consent of all healthy and diseased participants was obtained",
-          "All patients included in the analysis were diagnosed for metastatic malignant melanoma"
+          "Tumour tissue samples from 25 melanoma patients",
+          "PBMC from patients and healthy donors were isolated from whole blood"
         ]
       }
     ],
@@ -54,78 +51,26 @@
       "healthy donors"
     ],
     "case_arms": [
-      "metastatic malignant melanoma patients"
+      "melanoma patients"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [
       "four tumour-derived tissue sections have been processed in parallel for the elution of peptides that afterwards were measured sequentially"
     ],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
-        "control_label": "healthy",
-        "case_label": "melanoma",
+        "control_label": "healthy donors",
+        "case_label": "melanoma patients",
         "contrast_type": "pairwise",
         "evidence": [
-          "Informed consent of all healthy and diseased participants was obtained"
+          "PBMC from patients and healthy donors were isolated from whole blood"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "melanoma cell",
-        "rollup_category": "tumor cell",
-        "ontology_curie": "BTO:0000848"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "T2",
-        "family": null,
-        "ontology_curie": null
-      },
-      {
-        "label": "LCL1",
-        "family": "lymphoblastoid cell line",
-        "ontology_curie": null
-      },
-      {
-        "label": "LCL2",
-        "family": "lymphoblastoid cell line",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [
-      {
-        "label": "native human melanoma tissue",
-        "source_kind": "tissue"
-      }
-    ],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -137,24 +82,42 @@
       "Label-free"
     ],
     "proteomics_mode": "Immunopeptidomics",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "immunopeptidome enrichment",
-        "ontology_curie": "PPA:0000298",
-        "workflow_modifier_hint": "mod_immunopeptidomics",
-        "confidence": "high"
-      },
-      {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "immunoaffinity purified HLA class I and II binding peptides"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "melanoma cell",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [
+        {
+          "label": "native human melanoma tissue",
+          "source_kind": "tissue"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -164,23 +127,28 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data acquired using a data-dependent 'top 10' method on Q Exactive instruments; while not explicitly using a label, the use of 'match between runs' and intensity ranks suggests a label-free quantification approach."
+          "reason": "Data-dependent acquisition (top 10 method) was used on purified HLA peptides. While not explicitly using a label, the use of 'intensity ranks' and 'match between runs' suggests a label-free quantification approach for relative abundance."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The experiment specifically purifies HLA class I and II binding peptides using immunoaffinity purification (W6/32 and HB-145 antibodies) and employs unspecific enzyme digestion for search."
+          "reason": "The experiment specifically purifies HLA class I and II binding peptides using immunoaffinity purification (W6/32 and HB-145 antibodies) and employs unspecific enzyme digestion (no trypsin) for search."
+        },
+        {
+          "modifier_workflow_id": "variant_search",
+          "confidence": 0.9,
+          "reason": "The study uses a specialized MaxQuant module to search for peptides based on genomic variations (SNVs) from exome sequencing data."
         }
       ],
       "trigger_keywords": [
         "immunopeptidome",
-        "HLA peptides",
+        "HLA class I",
+        "HLA class II",
         "unspecific digestion",
         "neoepitopes",
-        "HLA-I",
-        "HLA-II"
+        "mutated peptide ligands"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -189,28 +157,33 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data acquired using a data-dependent 'top 10' method on Q Exactive instruments; while not explicitly using a label, the use of 'match between runs' and intensity ranks suggests a label-free quantification approach."
+          "reason": "Data-dependent acquisition (top 10 method) was used on purified HLA peptides. While not explicitly using a label, the use of 'intensity ranks' and 'match between runs' suggests a label-free quantification approach for relative abundance."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "immunopeptidomics",
           "confidence": 1.0,
-          "reason": "The experiment specifically purifies HLA class I and II binding peptides using immunoaffinity purification (W6/32 and HB-145 antibodies) and employs unspecific enzyme digestion for search."
+          "reason": "The experiment specifically purifies HLA class I and II binding peptides using immunoaffinity purification (W6/32 and HB-145 antibodies) and employs unspecific enzyme digestion (no trypsin) for search."
+        },
+        {
+          "modifier_workflow_id": "variant_search",
+          "confidence": 0.9,
+          "reason": "The study uses a specialized MaxQuant module to search for peptides based on genomic variations (SNVs) from exome sequencing data."
         }
       ],
       "trigger_keywords": [
         "immunopeptidome",
-        "HLA peptides",
+        "HLA class I",
+        "HLA class II",
         "unspecific digestion",
         "neoepitopes",
-        "HLA-I",
-        "HLA-II"
+        "mutated peptide ligands"
       ],
       "raw_or_file_name_triggers": []
     },
     "differential_hints": {
-      "preferred_engine": "unknown",
+      "preferred_engine": "log2fc_peptide",
       "pairwise_strategy": "control_vs_case",
       "analyte_level": "peptide"
     },
@@ -233,7 +206,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:49:34Z"
   }
 }

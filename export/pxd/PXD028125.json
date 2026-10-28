@@ -8,7 +8,8 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "small-molecule inhibitor treatment"
+      "small-molecule inhibitor treatment",
+      "temperature stress"
     ],
     "cell_types": [
       "mesenchymal glioma stem cells"
@@ -16,9 +17,10 @@
     "cell_lines": [
       "GSC-326"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,7 +39,22 @@
         "confidence": "high",
         "evidence": [
           "The lead compound, MCI-INI-3, is a selective competitive inhibitor of human ALDH1A3",
-          "Mass spectrometry-based cellular thermal shift analysis revealed that MCI-INI-3 binds selectively to the 1A3 isoform of ALDHs in cell lysates"
+          "MCI-INI-3 was added to the lysate to a final concentration of 10\u03bcM"
+        ]
+      },
+      {
+        "ontology_label": "temperature stress",
+        "ontology_curie": "PPA:0000022",
+        "category": "temperature",
+        "matched_parent_class_key": "temperature",
+        "matched_class_key": null,
+        "matched_class_path": [
+          "temperature"
+        ],
+        "matched_definition": "Non-baseline temperature exposure defining the comparison.",
+        "confidence": "high",
+        "evidence": [
+          "Thermal stability experiments were carried out at three independent temperatures (45\u00b0C, 50\u00b0C and 55\u00b0C)."
         ]
       }
     ],
@@ -45,12 +62,22 @@
       {
         "relation_key": "has_treatment_agent",
         "agent": "MCI-INI-3",
-        "dose_or_concentration": "10\u00b5M",
+        "dose_or_concentration": "10\u03bcM",
         "duration": "1 h",
         "route_or_context": "GSC-326 cell lysates",
         "evidence": [
-          "Cell lysates from GSC-326 cells were incubated with MCI-INI-3 at 18x the Ki value (10\u00b5M, Ki = 0.55\u00b5M)",
+          "MCI-INI-3 was added to the lysate to a final concentration of 10\u03bcM",
           "The extracts were incubated with compound at room temperature for 1 h"
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "heating temperatures",
+        "evidence": [
+          "Thermal stability experiments were carried out at three independent temperatures (45\u00b0C, 50\u00b0C and 55\u00b0C)."
         ]
       }
     ],
@@ -61,13 +88,14 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "vehicle"
+      "vehicle",
+      "DMSO"
     ],
     "case_arms": [
       "MCI-INI-3"
     ],
     "paired_design": false,
-    "factorial_design": false,
+    "factorial_design": true,
     "replicate_hints": [
       "n = 8"
     ],
@@ -86,43 +114,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "mesenchymal glioma stem cells",
-        "rollup_category": "stem cell",
-        "ontology_curie": "CL:0000034"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "GSC-326",
-        "family": "glioma stem cells",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -133,11 +124,42 @@
       "TIC"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "mesenchymal glioma stem cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "GSC-326",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -147,14 +169,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a data-dependent top 5 method (DDA) and label-free differential mass spectrometry (LFQ) as explicitly stated in the methods and PRIDE metadata."
+          "reason": "The experiment used a data-dependent top 5 method (DDA) and label-free differential mass spectrometry for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "cetsa",
+          "modifier_workflow_id": "thermal_shift_analysis",
           "confidence": 1.0,
-          "reason": "The study explicitly describes 'cellular thermal shift analysis' (CETSA) involving heating lysates at 45, 50, and 55\u00b0C to identify protein-ligand binding."
+          "reason": "The study explicitly uses Cellular Thermal Shift Analysis (CETSA) to identify binding proteins by measuring relative abundance across temperatures (45, 50, and 55\u00b0C)."
         }
       ],
       "trigger_keywords": [
@@ -170,14 +192,14 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 1.0,
-          "reason": "The experiment used a data-dependent top 5 method (DDA) and label-free differential mass spectrometry (LFQ) as explicitly stated in the methods and PRIDE metadata."
+          "reason": "The experiment used a data-dependent top 5 method (DDA) and label-free differential mass spectrometry for quantification."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "cetsa",
+          "modifier_workflow_id": "thermal_shift_analysis",
           "confidence": 1.0,
-          "reason": "The study explicitly describes 'cellular thermal shift analysis' (CETSA) involving heating lysates at 45, 50, and 55\u00b0C to identify protein-ligand binding."
+          "reason": "The study explicitly uses Cellular Thermal Shift Analysis (CETSA) to identify binding proteins by measuring relative abundance across temperatures (45, 50, and 55\u00b0C)."
         }
       ],
       "trigger_keywords": [
@@ -212,7 +234,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:25Z"
   }
 }

@@ -2,41 +2,43 @@
   "pxd": "PXD020677",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "label-free quantitation",
     "labeling_strategy": [
       "LFQ"
     ],
     "treatment_categories": [
-      "cell state or interaction comparison"
+      "disease or clinical state"
     ],
     "cell_types": [
       "endothelial colony-forming cells",
       "human umbilical vein endothelial cells"
     ],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "mixed",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "cell state or interaction comparison",
-        "ontology_curie": "PPA:0000020",
-        "category": "cell_state_interaction",
-        "matched_parent_class_key": "cell_state_interaction",
-        "matched_class_key": "activation_state_comparison",
+        "ontology_label": "disease or clinical state",
+        "ontology_curie": "PPA:0000018",
+        "category": "disease",
+        "matched_parent_class_key": "disease",
+        "matched_class_key": "case_control_disease_status",
         "matched_class_path": [
-          "cell_state_interaction",
-          "activation_state_comparison"
+          "disease",
+          "case_control_disease_status"
         ],
-        "matched_definition": "Comparison between activated, stimulated, resting, quiescent, or unstimulated cell states when not captured by a specific ligand branch.",
-        "confidence": "high",
+        "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
+        "confidence": "medium",
         "evidence": [
           "provide a detailed proteomic comparison between functional and dysfunctional ECFCs",
-          "ECFCs were deemed dysfunctional if <1 closed tube formed during the in vitro tube formation assay and proliferation rate was <20%"
+          "ECFCs were deemed dysfunctional if <1 closed tube formed during the in vitro tube formation assay and proliferation rate was <20%",
+          "The cluster with compromised functionality was also associated with elevated blood pressure and impaired lipid profile."
         ]
       }
     ],
@@ -48,7 +50,8 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "functional ECFCs"
+      "functional ECFCs",
+      "HUVECs"
     ],
     "case_arms": [
       "dysfunctional ECFCs"
@@ -58,16 +61,23 @@
     "replicate_hints": [
       "Assays were performed in triplicate"
     ],
-    "multiplex_channel_hints": [
-      "label-free quantitation"
-    ],
+    "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "functional ECFCs",
         "case_label": "dysfunctional ECFCs",
         "contrast_type": "pairwise",
         "evidence": [
-          "detailed proteomic comparison between functional and dysfunctional ECFCs"
+          "detailed proteomic comparison between functional and dysfunctional ECFCs",
+          "Student t tests were used to make comparisons between the groups"
+        ]
+      },
+      {
+        "control_label": "HUVECs",
+        "case_label": "ECFCs",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "A comparative proteomic analysis between overall ECFCs with HUVECs"
         ]
       }
     ],
@@ -75,49 +85,8 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "endothelial colony-forming cells",
-        "rollup_category": "endothelial cell",
-        "ontology_curie": null
-      },
-      {
-        "label": "human umbilical vein endothelial cells",
-        "rollup_category": "endothelial cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [],
-    "noncellular_sources": [
-      {
-        "label": "peripheral blood",
-        "source_kind": "biofluid"
-      }
-    ],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -125,11 +94,41 @@
       "label-free quantitation"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "endothelial colony-forming cells",
+          "ontology_curie": null
+        },
+        {
+          "label": "human umbilical vein endothelial cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [],
+      "noncellular_sources": [],
+      "sex": "mixed"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -138,16 +137,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Explicitly stated use of label-free quantitation (LFQ) and Orbitrap Fusion Lumos DDA acquisition."
+          "confidence": 100,
+          "reason": "The study explicitly states 'label-free quantitation' and uses an Orbitrap Fusion Lumos for shotgun proteomics."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free quantitation",
         "LFQ",
-        "Orbitrap Fusion Lumos",
-        "Progenesis QI"
+        "shotgun proteomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -155,16 +153,15 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 1.0,
-          "reason": "Explicitly stated use of label-free quantitation (LFQ) and Orbitrap Fusion Lumos DDA acquisition."
+          "confidence": 100,
+          "reason": "The study explicitly states 'label-free quantitation' and uses an Orbitrap Fusion Lumos for shotgun proteomics."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "label-free quantitation",
         "LFQ",
-        "Orbitrap Fusion Lumos",
-        "Progenesis QI"
+        "shotgun proteomics"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -192,7 +189,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:54:47Z"
   }
 }

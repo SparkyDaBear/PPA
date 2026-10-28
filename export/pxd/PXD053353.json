@@ -3,9 +3,9 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "LFQ",
+    "quantification_method": "Unknown",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "treatment_categories": [
       "overexpression or transgene perturbation"
@@ -14,9 +14,10 @@
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -34,8 +35,7 @@
         "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
         "confidence": "high",
         "evidence": [
-          "HEK293T cells were co-transfected with the expression plasmids for Flag-STING and Myc-US2 or control.",
-          "The present study reveals a novel strategy by which PRV US2 controls STING stability by enlisting TRIM21"
+          "HEK293T cells were co-transfected with the expression plasmids for Flag-STING and Myc-US2 or control."
         ]
       }
     ],
@@ -44,10 +44,20 @@
         "relation_key": "has_treatment_agent",
         "agent": "Myc-US2",
         "dose_or_concentration": null,
-        "duration": "24 h",
+        "duration": null,
         "route_or_context": "co-transfected with Flag-STING in HEK293T cells",
         "evidence": [
-          "HEK293T cells were co-transfected with the expression plasmids for Flag-STING and Myc-US2 or control. After 24 h of transfection, the cells were collected"
+          "HEK293T cells were co-transfected with the expression plasmids for Flag-STING and Myc-US2 or control."
+        ]
+      },
+      {
+        "relation_key": "has_timepoint",
+        "agent": null,
+        "dose_or_concentration": null,
+        "duration": "24 h",
+        "route_or_context": "after transfection",
+        "evidence": [
+          "After 24 h of transfection, the cells were collected"
         ]
       }
     ],
@@ -83,58 +93,46 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DIA",
     "labeling_strategy": [
-      "LFQ"
+      "Unknown"
     ],
     "quantification_strategy": [
-      "Label-free"
+      "Unknown"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "ubiquitylome or diGly enrichment",
-        "ontology_curie": "PPA:0000294",
-        "workflow_modifier_hint": "mod_ubiquitin",
-        "confidence": "medium"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-Flag M2 Affinity Gel immunoprecipitation of Flag-STING"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293T",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -149,23 +147,26 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.3,
-          "reason": "Standard fallback for label-free proteomics if DIA is not applicable, though DIA is explicitly stated."
+          "reason": "Standard fallback for IP-MS, though DIA is explicitly stated."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_digly",
+          "modifier_workflow_id": "modifier_ubiquitin",
           "confidence": 0.8,
-          "reason": "The experiment specifically aims to identify ubiquitin enzymes and K48-linked ubiquitination of STING using LC-MS/MS."
+          "reason": "The experiment specifically aims to identify ubiquitin enzymes (E3 ligases) and validates K48-linked ubiquitination of STING."
         }
       ],
       "trigger_keywords": [
         "Data-independent acquisition",
         "ubiquitination",
-        "K48-linked",
-        "LC-MS/MS"
+        "E3 ligase",
+        "K48-linked"
       ],
-      "raw_or_file_name_triggers": []
+      "raw_or_file_name_triggers": [
+        "Vec-STING",
+        "US2 STING"
+      ]
     },
     "selection_hints": {
       "base_candidates_ranked": [
@@ -177,23 +178,26 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.3,
-          "reason": "Standard fallback for label-free proteomics if DIA is not applicable, though DIA is explicitly stated."
+          "reason": "Standard fallback for IP-MS, though DIA is explicitly stated."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_digly",
+          "modifier_workflow_id": "modifier_ubiquitin",
           "confidence": 0.8,
-          "reason": "The experiment specifically aims to identify ubiquitin enzymes and K48-linked ubiquitination of STING using LC-MS/MS."
+          "reason": "The experiment specifically aims to identify ubiquitin enzymes (E3 ligases) and validates K48-linked ubiquitination of STING."
         }
       ],
       "trigger_keywords": [
         "Data-independent acquisition",
         "ubiquitination",
-        "K48-linked",
-        "LC-MS/MS"
+        "E3 ligase",
+        "K48-linked"
       ],
-      "raw_or_file_name_triggers": []
+      "raw_or_file_name_triggers": [
+        "Vec-STING",
+        "US2 STING"
+      ]
     },
     "differential_hints": {
       "preferred_engine": "log2fc_protein",
@@ -219,7 +223,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:57Z"
   }
 }

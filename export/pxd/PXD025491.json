@@ -5,6 +5,7 @@
     "acquisition_type": "DDA",
     "quantification_method": "Isobaric labeling",
     "labeling_strategy": [
+      "TMT",
       "iTRAQ"
     ],
     "treatment_categories": [
@@ -16,9 +17,11 @@
       "A549",
       "H1975"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -37,7 +40,7 @@
         "confidence": "high",
         "evidence": [
           "Circ101093 was knocked down in A549 LUAD cell lines",
-          "we inhibited cir93 in A549 cells"
+          "inhibiting cir93 via anti-cir93 in A549 cells"
         ]
       },
       {
@@ -54,7 +57,7 @@
         "confidence": "high",
         "evidence": [
           "overexpressed in H1975 LUAD cell lines",
-          "overexpressed cir93 in H1975 cells"
+          "overexpressing cir93 in H1975 cells"
         ]
       }
     ],
@@ -77,33 +80,34 @@
   "experimental_design": {
     "timepoints": [],
     "control_arms": [
-      "blank control (without RNA)"
+      "A549 control",
+      "H1975 control"
     ],
     "case_arms": [
-      "cir93 knockdown (A549)",
-      "cir93 overexpression (H1975)"
+      "A549 circRNA_101093 knockdown",
+      "H1975 circRNA_101093 overexpression"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [
-      "tandem mass tag (TMT)"
+      "iTRAQ labelling"
     ],
     "contrast_hints": [
       {
-        "control_label": "Control",
-        "case_label": "cir93 knockdown",
+        "control_label": "A549 WT",
+        "case_label": "A549 cir93 knockdown",
         "contrast_type": "pairwise",
         "evidence": [
-          "downregulated proteins in A549 cell lines... were analyzed"
+          "Circ101093 was knocked down in A549 LUAD cell lines"
         ]
       },
       {
-        "control_label": "Control",
-        "case_label": "cir93 overexpression",
+        "control_label": "H1975 WT",
+        "case_label": "H1975 cir93 overexpression",
         "contrast_type": "pairwise",
         "evidence": [
-          "upregulated proteins in H1975 cell lines were analyzed"
+          "overexpressed in H1975 LUAD cell lines"
         ]
       }
     ],
@@ -111,70 +115,111 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "A549",
-        "family": "lung adenocarcinoma",
-        "ontology_curie": null
-      },
-      {
-        "label": "H1975",
-        "family": "lung adenocarcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
+      "TMT",
       "iTRAQ"
     ],
     "quantification_strategy": [
       "Isobaric labeling"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "RNA pull-down",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "RNA pull-down of proteins interacting with cir93"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens (Human)",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "A549",
+          "ontology_curie": null
+        },
+        {
+          "label": "H1975",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
-    "reanalysis_compatibility": null,
-    "workflow_hints": {},
-    "selection_hints": {},
-    "differential_hints": {},
+    "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+    "workflow_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 100,
+          "reason": "PRIDE metadata explicitly mentions 'iTRAQ labelling' and 'TMT' (Tandem Mass Tag) in the text, both of which are isobaric labeling strategies. The data acquisition is described as DDA (Full MS scans followed by fragmentation of the ten most intense peaks)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_tmt",
+          "confidence": 100,
+          "reason": "Explicit mention of 'TMT' and 'iTRAQ' labeling in the sample processing and proteomic analysis sections."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "iTRAQ",
+        "isobaric",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "selection_hints": {
+      "base_candidates_ranked": [
+        {
+          "base_workflow_id": "base_dda_isobaric",
+          "confidence": 100,
+          "reason": "PRIDE metadata explicitly mentions 'iTRAQ labelling' and 'TMT' (Tandem Mass Tag) in the text, both of which are isobaric labeling strategies. The data acquisition is described as DDA (Full MS scans followed by fragmentation of the ten most intense peaks)."
+        }
+      ],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_tmt",
+          "confidence": 100,
+          "reason": "Explicit mention of 'TMT' and 'iTRAQ' labeling in the sample processing and proteomic analysis sections."
+        }
+      ],
+      "trigger_keywords": [
+        "TMT",
+        "iTRAQ",
+        "isobaric",
+        "Q-Exactive"
+      ],
+      "raw_or_file_name_triggers": []
+    },
+    "differential_hints": {
+      "preferred_engine": "log2fc_protein",
+      "pairwise_strategy": "control_vs_case",
+      "analyte_level": "protein"
+    },
     "source_sections": [
       "Ontology_ProcessingAndDifferential_prompt"
     ]
@@ -194,7 +239,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:46:41Z"
   }
 }

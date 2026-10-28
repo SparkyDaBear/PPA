@@ -2,7 +2,7 @@
   "pxd": "PXD004515",
   "title": null,
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "Unknown",
     "labeling_strategy": [
       "Unknown"
@@ -13,9 +13,10 @@
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "purified protein or complex",
-    "sample_scope_curie": "PPA:0000196",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "modification enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -77,12 +78,12 @@
       },
       {
         "relation_key": "has_treatment_agent",
-        "agent": "TTR fused to Ubc9",
+        "agent": "TTR-Ubc9 fusion protein",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "fusion protein",
+        "route_or_context": "fusion of the SUMOylation substrate of interest with Ubc9",
         "evidence": [
-          "Ubc9 fused to TTR was SUMOylated at a unique set of lysine residues."
+          "fusion proteins composed of TTR and Ubc9 specifically affected the global SUMOylation of cellular proteins."
         ]
       }
     ],
@@ -96,19 +97,28 @@
     "case_arms": [
       "Ubc9",
       "TTR",
-      "TTR fused to Ubc9"
+      "TTR-Ubc9 fusion",
+      "catalytic mutant Ubc9-TTR"
     ],
-    "paired_design": null,
-    "factorial_design": null,
+    "paired_design": false,
+    "factorial_design": false,
     "replicate_hints": [],
     "multiplex_channel_hints": [],
     "contrast_hints": [
       {
         "control_label": "Ubc9 alone",
         "case_label": "TTR and Ubc9 together",
-        "contrast_type": "pairwise",
+        "contrast_type": "multi_group",
         "evidence": [
           "TTR or Ubc9 alone increased global SUMOylation, whereas TTR and Ubc9 together decreased the amount of high-molecular weight (HMW) SUMO conjugates."
+        ]
+      },
+      {
+        "control_label": "wild-type Ubc9-TTR",
+        "case_label": "catalytic mutant Ubc9-TTR",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "mutating the catalytic residue of Ubc9 fused to TTR did not result in complete loss of the SUMOylation signal"
         ]
       }
     ],
@@ -116,33 +126,8 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "purified protein or complex",
-      "curie": "PPA:0000196"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "labeling_strategy": [
       "Unknown"
     ],
@@ -150,18 +135,32 @@
       "Unknown"
     ],
     "proteomics_mode": "PTM-enriched",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "SUMOylome or QQTGG enrichment",
-        "ontology_curie": "PPA:0000437",
-        "workflow_modifier_hint": "mod_sumo_qqtgg",
-        "confidence": "high"
+        "category": "modification enriched",
+        "curie": "PPA:0000448",
+        "detail": "SUMOylation (GlyGly-tagged lysine)"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "NEWT:9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -170,21 +169,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The Q-Exactive was operated in data dependent mode (DDA) for the first run, and no labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.9,
+          "reason": "Data was acquired in data dependent mode (DDA) and targeted mode (tMS2) using a Q-Exactive instrument; no labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diglycine",
-          "confidence": 0.9,
-          "reason": "The search parameters explicitly include 'GlyGly-tagged (K)' as a variable modification, and the precursor list was generated for 'GlyGly-tagged lysine', which is the signature for ubiquitin/SUMO remnants after trypsin digestion."
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.8,
+          "reason": "The search parameters explicitly specify 'GlyGly-tagged (K)' as a variable modification, which is the signature remnant for ubiquitin or SUMOylation after trypsin digestion."
         }
       ],
       "trigger_keywords": [
         "GlyGly-tagged (K)",
+        "SUMOylation",
         "data dependent mode",
-        "SUMOylation"
+        "targeted mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -192,21 +192,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "The Q-Exactive was operated in data dependent mode (DDA) for the first run, and no labeling (SILAC/Isobaric) is mentioned."
+          "confidence": 0.9,
+          "reason": "Data was acquired in data dependent mode (DDA) and targeted mode (tMS2) using a Q-Exactive instrument; no labeling (SILAC/Isobaric) is mentioned."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "ubiquitin_diglycine",
-          "confidence": 0.9,
-          "reason": "The search parameters explicitly include 'GlyGly-tagged (K)' as a variable modification, and the precursor list was generated for 'GlyGly-tagged lysine', which is the signature for ubiquitin/SUMO remnants after trypsin digestion."
+          "modifier_workflow_id": "modifier_ubiquitin",
+          "confidence": 0.8,
+          "reason": "The search parameters explicitly specify 'GlyGly-tagged (K)' as a variable modification, which is the signature remnant for ubiquitin or SUMOylation after trypsin digestion."
         }
       ],
       "trigger_keywords": [
         "GlyGly-tagged (K)",
+        "SUMOylation",
         "data dependent mode",
-        "SUMOylation"
+        "targeted mode"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -234,7 +235,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:43:55Z"
   }
 }

@@ -10,15 +10,15 @@
     "treatment_categories": [
       "un-classified"
     ],
-    "cell_types": [
-      "osteosarcoma"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "U2OS"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "subproteome",
-    "sample_scope_curie": "PPA:0000195",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -27,15 +27,14 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
-        "matched_class_path": [
-          "unclassified"
-        ],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_class_path": [],
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
-          "In this study, we combined native size-exclusion chromatography (SEC) with high-throughput proteomic analysis to characterize soluble protein complexes isolated from human osteosarcoma (U2OS) cells."
+          "characterize soluble protein complexes isolated from human osteosarcoma (U2OS) cells",
+          "combined native SEC with high-throughput mass-spectrometry-based proteomic analysis to characterize soluble protein complexes isolated from human osteosarcoma cells"
         ]
       }
     ],
@@ -46,54 +45,30 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [],
+    "control_arms": [
+      "denaturing lysate"
+    ],
+    "case_arms": [
+      "native lysate"
+    ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
       "Three biological replicates were performed"
     ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "denaturing lysate",
+        "case_label": "native lysate",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "As a control, we also analyzed lysates from U2OS cells prepared using a highly denaturing (4% SDS-containing) PBS buffer... relative to the previous analysis of lysates under native conditions."
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "osteosarcoma",
-        "rollup_category": "cancer cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "U2OS",
-        "family": "osteosarcoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "subproteome",
-      "curie": "PPA:0000195"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -104,19 +79,43 @@
     "quantification_strategy": [
       "spectral counts"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "phosphoproteome enrichment",
-        "ontology_curie": "PPA:0000292",
-        "workflow_modifier_hint": "mod_phospho",
-        "confidence": "medium"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "soluble protein complexes isolated by native size-exclusion chromatography (SEC)"
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "GFP-trap immunoprecipitation of LAP1-MRFAP1 complex"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "U2OS",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -126,22 +125,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and quantified proteins using spectral counting (a form of label-free quantification) across SEC fractions."
+          "reason": "The experiment uses data-dependent acquisition (DDA) and quantifies proteins using spectral counting (a label-free approach) across SEC fractions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 0.8,
-          "reason": "The study explicitly identified 1,600 phosphosites and analyzed the association of phosphorylated proteins with specific complexes."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.7,
+          "reason": "The study explicitly identifies and analyzes 1,600 phosphosites and correlates phosphorylation (e.g., NUDT5 Ser3) with elution profiles."
         }
       ],
       "trigger_keywords": [
         "spectral counts",
         "data-dependent acquisition",
+        "SEC fractions",
         "phosphosites",
-        "phosphorylation (STY)",
-        "size-exclusion chromatography"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -150,22 +149,22 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.9,
-          "reason": "The experiment used data-dependent acquisition (DDA) and quantified proteins using spectral counting (a form of label-free quantification) across SEC fractions."
+          "reason": "The experiment uses data-dependent acquisition (DDA) and quantifies proteins using spectral counting (a label-free approach) across SEC fractions."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "phosphoproteomics",
-          "confidence": 0.8,
-          "reason": "The study explicitly identified 1,600 phosphosites and analyzed the association of phosphorylated proteins with specific complexes."
+          "modifier_workflow_id": "phospho_enrichment",
+          "confidence": 0.7,
+          "reason": "The study explicitly identifies and analyzes 1,600 phosphosites and correlates phosphorylation (e.g., NUDT5 Ser3) with elution profiles."
         }
       ],
       "trigger_keywords": [
         "spectral counts",
         "data-dependent acquisition",
+        "SEC fractions",
         "phosphosites",
-        "phosphorylation (STY)",
-        "size-exclusion chromatography"
+        "MaxQuant"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -193,7 +192,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:23:37Z"
   }
 }

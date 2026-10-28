@@ -1,6 +1,6 @@
 {
   "pxd": "PXD053372",
-  "timestamp": "2026-07-28T00:03:55.311195",
+  "timestamp": "2026-09-22T23:20:41.891601",
   "summary": {
     "acquisition_type": "DIA",
     "quantification_method": "peptide abundances",
@@ -8,15 +8,15 @@
       "LFQ"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "ExpiHEK",
-      "THP-1"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "purified protein or complex",
     "sample_scope_curie": "PPA:0000196",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
-      "molecular state comparison"
+      "ligand-mediated stimulation"
     ],
     "instrument": null
   },
@@ -58,7 +58,8 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "peptide abundances"
+          "peptide abundances",
+          "median normalization"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [],
@@ -70,9 +71,14 @@
           "search_parameter_hints": {
             "variable_modification_hints": [
               {
-                "name": "iodoacetamide",
+                "name": "iodoacetamide derivatized residue",
+                "residue_or_site": "C",
+                "mass_shift_da": 57.02146
+              },
+              {
+                "name": "acetylated residue",
                 "residue_or_site": null,
-                "mass_shift_da": null
+                "mass_shift_da": 42.01056
               }
             ],
             "requires_ptm_site_level_output": false
@@ -80,14 +86,15 @@
         },
         "evidence": {
           "acquisition": [
-            "Samples were analyzed on an Orbitrap Fusion Lumos Tribrid mass spectrometer (ThermoFisher) equipped with a nanoelectrospray ion source and an UPLC system (Waters) in data-independent acquisition mode.",
+            "Samples were analyzed on an Orbitrap Fusion Lumos Tribrid mass spectrometer... in data-independent acquisition mode.",
             "The data were acquired in a data-independent mode."
           ],
           "labeling": [
             "Two-tailed t test was applied to assess statistical significance between peptide abundances."
           ],
           "quantification": [
-            "Two-tailed t test was applied to assess statistical significance between peptide abundances."
+            "Two-tailed t test was applied to assess statistical significance between peptide abundances.",
+            "Median normalization has been applied."
           ],
           "enrichment": [],
           "workflow_hints": [
@@ -96,92 +103,46 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment uses LiP-MS (Limited Proteolysis-coupled Mass Spectrometry) to map protein-protein interaction sites. While this is a specialized structural proteomics technique, it follows a bottom-up DIA-LFQ workflow. Iodoacetamide is mentioned as an alkylating agent during sample preparation."
+        "notes": "The experiment uses LiP-MS (Limited Proteolysis-coupled Mass Spectrometry) to map protein-protein interaction sites. While LiP-MS is a specialized structural proteomics technique, it follows a bottom-up DIA-LFQ workflow for peptide quantification. No specific PTM enrichment (like phospho or ubiquitin) was performed; the identified PTMs in PRIDE metadata (acetyl, iodoacetamide) are likely standard search parameters or common modifications."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          },
-          {
-            "label": "Mus musculus",
-            "taxonomy_hint": null,
-            "confidence": "high"
-          },
-          {
-            "label": "Escherichia coli",
-            "taxonomy_hint": null,
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "ExpiHEK",
-            "family": "HEK293",
-            "ontology_curie": null
-          },
-          {
-            "label": "THP-1",
-            "family": "human monocytic leukemia cell line",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "purified protein or complex",
         "sample_scope_curie": "PPA:0000196",
-        "mixed_species_flag": true,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": false
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)",
-            "murine model of inflammatory AA amyloidosis",
-            "expressed in E. coli"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "ExpiHEK cell native lysates",
-            "wild-type THP-1 (human monocytic leukemia cell line)"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins",
-            "purified recombinants ASC protein"
-          ]
+            "Four technical replicates per condition were done for purified proteins and three for ExpiHEK lysate."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics experiment (LiP-MS) utilized both purified recombinant proteins and native lysates from ExpiHEK cells. Because the primary focus of the MS analysis was the interaction between specific recombinant proteins (ASC and SAA1) and the isolated ASC specks, 'purified protein or complex' is the most accurate scope for the analyzed material."
+        "notes": "The LiP-MS experiment analyzed both purified recombinant proteins and native lysates. Following the precedence rules, since a significant portion of the analyzed material was purified recombinant protein and the lysate was specifically used to study the 'ASC specks' (purified/isolated complexes), 'purified protein or complex' is the most accurate scope."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
           {
-            "ontology_label": "molecular state comparison",
-            "ontology_curie": "PPA:0000021",
-            "category": "molecular_state",
-            "matched_parent_class_key": "molecular_state",
-            "matched_class_key": "protein_complex_assembly_state",
+            "ontology_label": "ligand-mediated stimulation",
+            "ontology_curie": "PPA:0000010",
+            "category": "ligand_stimulation",
+            "matched_parent_class_key": "ligand_stimulation",
+            "matched_class_key": null,
             "matched_class_path": [
-              "molecular_state",
-              "protein_complex_assembly_state"
+              "ligand_stimulation"
             ],
-            "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+            "matched_definition": "Addition of an extracellular signaling molecule such as a cytokine, growth factor, hormone, or receptor ligand to activate a biological state.",
             "confidence": "high",
             "evidence": [
-              "To confirm direct interaction and to map the protein domains of interaction between ASC and SAA, we employed the limited proteolysis-coupled mass spectrometry (LiP-MS) technology",
-              "we compared the log2 fold change of peptide representation of PK and trypsin-digested recombinant full-length ASC in the presence or absence of recombinant human SAA1"
+              "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins"
             ]
           }
         ],
         "treatment_attributes": [
           {
             "relation_key": "has_treatment_agent",
-            "agent": "recombinant human SAA1",
+            "agent": "human recombinant SAA1",
             "dose_or_concentration": null,
             "duration": "15 min",
             "route_or_context": "incubated with purified recombinants ASC protein or ExpiHEK cell native lysates",
@@ -213,8 +174,8 @@
         },
         "contrast_hints": [
           {
-            "control_label": "ASC alone",
-            "case_label": "ASC + SAA1",
+            "control_label": "ASC without SAA1",
+            "case_label": "ASC with SAA1",
             "contrast_type": "pairwise",
             "evidence": [
               "we compared the log2 fold change of peptide representation of PK and trypsin-digested recombinant full-length ASC in the presence or absence of recombinant human SAA1"
@@ -223,19 +184,20 @@
         ],
         "evidence": {
           "biological_variables": [
-            "To confirm direct interaction and to map the protein domains of interaction between ASC and SAA, we employed the limited proteolysis-coupled mass spectrometry (LiP-MS) technology"
+            "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins"
           ],
           "treatment_attributes": [
             "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins for 15 min at 37 \u00b0C"
           ],
           "design": [
-            "Four technical replicates per condition were done for purified proteins and three for ExpiHEK lysate."
+            "Four technical replicates per condition were done for purified proteins and three for ExpiHEK lysate.",
+            "we compared the log2 fold change of peptide representation of PK and trypsin-digested recombinant full-length ASC in the presence or absence of recombinant human SAA1"
           ],
           "contrasts": [
             "we compared the log2 fold change of peptide representation of PK and trypsin-digested recombinant full-length ASC in the presence or absence of recombinant human SAA1"
           ]
         },
-        "notes": "The proteomics experiment (LiP-MS) specifically focuses on the physical interaction between ASC and SAA1. While the broader study includes in vivo genetic knockouts and antibody treatments, the mass spectrometry data described in the PRIDE metadata and the LiP-MS section of the text are derived from in vitro incubations of proteins/lysates with SAA1 to map interaction domains."
+        "notes": "The proteomics experiment (LiP-MS) specifically analyzes the interaction between ASC and SAA1. While the broader study includes genetic knockouts (Pycard-/-) and antibody treatments in mice, the mass spectrometry data described in the PRIDE metadata and Methods section is focused on the in vitro interaction of recombinant proteins and cell lysates with SAA1. Mapping to 'ligand_stimulation' is used as SAA1 acts as the stimulating/interacting ligand for the ASC protein/specks."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Requires specialized pipeline",
@@ -244,14 +206,14 @@
             {
               "base_workflow_id": "base_dia_lfq",
               "confidence": 1.0,
-              "reason": "The PRIDE metadata and methods explicitly state the use of data-independent acquisition (DIA) mode on an Orbitrap Fusion Lumos and analysis with Spectronaut."
+              "reason": "PRIDE metadata explicitly states 'Data-independent acquisition' and 'The data were acquired in a data-independent mode'. Spectronaut was used for search, and median normalization was applied."
             }
           ],
           "modifier_candidates_ranked": [
             {
               "modifier_workflow_id": "lip_ms",
               "confidence": 1.0,
-              "reason": "The experiment is explicitly described as Limited Proteolysis-coupled Mass Spectrometry (LiP-MS), which involves a specific pre-digestion step with Proteinase K to probe protein conformation/interactions."
+              "reason": "The experiment is explicitly described as 'Limited proteolysis-coupled mass spectrometry (LiP-MS)' using Proteinase K (PK) to detect structural changes/interactions."
             }
           ],
           "trigger_keywords": [
@@ -264,7 +226,7 @@
           "raw_or_file_name_triggers": []
         },
         "differential_output_hints": {
-          "preferred_engine": "log2fc_peptide",
+          "preferred_engine": "log2fc_site",
           "pairwise_strategy": "control_vs_case",
           "analyte_level": "peptide"
         },
@@ -279,29 +241,31 @@
           ],
           "special_reagent_hints": [
             "iodoacetamide",
+            "tris (2-carboxyethyl)phosphine hydrochloride",
             "lysyl endopeptidase",
             "trypsin"
           ]
         },
         "evidence": {
           "workflow": [
-            "LiP-MS was conducted as shown earlier",
-            "analyzed on an Orbitrap Fusion Lumos Tribrid mass spectrometer... in data-independent acquisition mode",
-            "Spectronaut (Biognosys AG) software was used to search the raw MS data",
-            "PK was added to each independent technical replicate simultaneously at 1:100 (w/w) enzyme to substrate ratio for 5 min"
+            "The data were acquired in a data-independent mode.",
+            "Limited proteolysis-coupled mass spectrometry (LiP-MS) was conducted",
+            "Spectronaut (Biognosys AG) software was used to search the raw MS data.",
+            "Median normalization has been applied."
           ],
           "differential": [
-            "Two-tailed t test was applied to assess statistical significance between peptide abundances",
-            "Significance cutoffs of |log2 (fold change)|>1 and -log10 (FDR-adjusted P value) <0.05"
+            "Two-tailed t test was applied to assess statistical significance between peptide abundances.",
+            "Significance cutoffs of |log2 (fold change)|>1 and \u2212log10 (FDR-adjusted P value) <0.05",
+            "compared the log2 fold change of peptide representation of PK and trypsin-digested recombinant full-length ASC in the presence or absence of recombinant human SAA1"
           ],
           "search_parameters": [
             "alkylated in 40 mM iodoacetamide",
             "digested with lysyl endopeptidase and trypsin",
-            "digestion type was selected to be semi-specific"
+            "reduced with 5 mM tris (2-carboxyethyl)phosphine hydrochloride"
           ],
           "file_name_triggers": []
         },
-        "notes": "The analysis is peptide-centric because LiP-MS relies on detecting changes in the cleavage patterns of specific peptides (fingerprints) to identify structural changes or interaction sites, rather than overall protein abundance."
+        "notes": "The experiment uses LiP-MS, which requires a specialized pipeline to analyze peptide-level abundance changes (fingerprints) resulting from limited proteolysis rather than standard protein-level quantification. The analysis focuses on the pyrin domain (PYD) of ASC."
       },
       "MStype_prompt": {
         "acquisition_type": "DIA",
@@ -309,65 +273,54 @@
           "LFQ"
         ],
         "quantification_strategy": [
-          "peptide abundances"
+          "peptide abundances",
+          "median normalization"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [],
         "evidence": {
           "acquisition": [
-            "Samples were analyzed on an Orbitrap Fusion Lumos Tribrid mass spectrometer (ThermoFisher) equipped with a nanoelectrospray ion source and an UPLC system (Waters) in data-independent acquisition mode.",
+            "Samples were analyzed on an Orbitrap Fusion Lumos Tribrid mass spectrometer... in data-independent acquisition mode.",
             "The data were acquired in a data-independent mode."
           ],
           "labeling": [
             "Two-tailed t test was applied to assess statistical significance between peptide abundances."
           ],
           "quantification": [
-            "Two-tailed t test was applied to assess statistical significance between peptide abundances."
+            "Two-tailed t test was applied to assess statistical significance between peptide abundances.",
+            "Median normalization has been applied."
           ],
           "specialized": []
         },
-        "notes": "The experiment uses LiP-MS (Limited Proteolysis-coupled Mass Spectrometry) to map protein-protein interaction sites. While this is a specialized structural proteomics technique, it follows a bottom-up DIA-LFQ workflow. Iodoacetamide is mentioned as an alkylating agent during sample preparation."
+        "notes": "The experiment uses LiP-MS (Limited Proteolysis-coupled Mass Spectrometry) to map protein-protein interaction sites. While LiP-MS is a specialized structural proteomics technique, it follows a bottom-up DIA-LFQ workflow for peptide quantification. No specific PTM enrichment (like phospho or ubiquitin) was performed; the identified PTMs in PRIDE metadata (acetyl, iodoacetamide) are likely standard search parameters or common modifications."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "ExpiHEK",
-          "THP-1"
-        ],
-        "cell_line_families": [
-          "HEK293",
-          "human monocytic leukemia cell line"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "purified protein or complex",
         "sample_scope_curie": "PPA:0000196",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)",
-            "murine model of inflammatory AA amyloidosis",
-            "expressed in E. coli"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "ExpiHEK cell native lysates",
-            "wild-type THP-1 (human monocytic leukemia cell line)"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins",
-            "purified recombinants ASC protein"
-          ]
+            "Four technical replicates per condition were done for purified proteins and three for ExpiHEK lysate."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics experiment (LiP-MS) utilized both purified recombinant proteins and native lysates from ExpiHEK cells. Because the primary focus of the MS analysis was the interaction between specific recombinant proteins (ASC and SAA1) and the isolated ASC specks, 'purified protein or complex' is the most accurate scope for the analyzed material."
+        "notes": "The LiP-MS experiment analyzed both purified recombinant proteins and native lysates. Following the precedence rules, since a significant portion of the analyzed material was purified recombinant protein and the lysate was specifically used to study the 'ASC specks' (purified/isolated complexes), 'purified protein or complex' is the most accurate scope."
       },
       "Treatment_prompt": [
         {
-          "treatment_category": "molecular state comparison",
+          "treatment_category": "ligand-mediated stimulation",
           "example_entity_ids": null,
-          "reasoning": "To confirm direct interaction and to map the protein domains of interaction between ASC and SAA, we employed the limited proteolysis-coupled mass spectrometry (LiP-MS) technology",
+          "reasoning": "we incubated purified recombinants ASC protein or ExpiHEK cell native lysates containing ASC specks with human recombinant SAA1 proteins",
           "confidence_score": 0.95
         }
       ]

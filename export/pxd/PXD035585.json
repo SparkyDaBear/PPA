@@ -8,17 +8,18 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "nutrient or metabolic perturbation"
+      "nutrient or metabolic perturbation",
+      "genetic perturbation"
     ],
-    "cell_types": [
-      "vascular endothelial cells"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HeLa"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -38,6 +39,23 @@
         "evidence": [
           "The cell lysate was then incubated with control or different concentrations of serine for 1 h on ice"
         ]
+      },
+      {
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "overexpression_or_transgene_perturbation",
+        "matched_class_path": [
+          "genetic",
+          "overexpression_or_transgene_perturbation"
+        ],
+        "matched_definition": "Increased expression of a gene, protein, mutant, construct, or transgene that defines the comparison.",
+        "confidence": "medium",
+        "evidence": [
+          "PHGDH was immunoprecipitated and liquid chromatography-mass spectrometry (LC-MS) analysis revealed that PKM2 was a PHGDH-interacting protein",
+          "LC-MS analysis of immunoprecipitated PKM2 also showed the presence of peptides corresponding to PHGDH"
+        ]
       }
     ],
     "attributes": [
@@ -49,6 +67,16 @@
         "route_or_context": "incubated with cell lysate",
         "evidence": [
           "The cell lysate was then incubated with control or different concentrations of serine for 1 h on ice"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PHGDH",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "overexpression",
+        "evidence": [
+          "PHGDH was immunoprecipitated and liquid chromatography-mass spectrometry (LC-MS) analysis revealed that PKM2 was a PHGDH-interacting protein"
         ]
       }
     ],
@@ -62,7 +90,7 @@
       "control"
     ],
     "case_arms": [
-      "different concentrations of serine"
+      "serine"
     ],
     "paired_design": false,
     "factorial_design": false,
@@ -74,54 +102,12 @@
         "case_label": "serine",
         "contrast_type": "dose_response",
         "evidence": [
-          "The cell lysate was then incubated with control or different concentrations of serine for 1 h on ice"
+          "The cell lysate was then incubated with control or different concentrations of serine"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Mus musculus",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "vascular endothelial cells",
-        "rollup_category": "endothelial cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HeLa",
-        "family": null,
-        "ontology_curie": "BTO:0000567"
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -133,18 +119,42 @@
       "Label-free"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-PHGDH and anti-PKM2 immunoprecipitation"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HeLa",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -153,16 +163,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 85,
-          "reason": "The experiment uses a Q Exactive HF (DDA) for IP-MS and DARTS. While no specific labeling (SILAC/TMT) is mentioned in the methods or PRIDE metadata, the use of LC-MS for identifying interacting proteins and protease protection typically follows a label-free quantification (LFQ) or intensity-based approach."
+          "confidence": 0.8,
+          "reason": "The experiment uses a Q Exactive HF mass spectrometer with MS1 and MS2 scans (DDA) and describes a standard trypsin digestion bottom-up approach. While no specific labeling is mentioned, the use of IP-MS for interaction detection typically follows an LFQ or spectral counting approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_ms",
+          "confidence": 0.95,
+          "reason": "The PRIDE metadata and methods explicitly state 'IP-MS detected the interaction protein with PKM2' and describe immunoprecipitation with antibody conjugated Sepharose beads."
+        }
+      ],
       "trigger_keywords": [
-        "Co-immunoprecipitation",
-        "DARTS",
-        "LC-MS",
-        "Q Exactive HF"
+        "Immunoprecipitation",
+        "IP-MS",
+        "interaction protein",
+        "Co-immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -170,16 +186,22 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 85,
-          "reason": "The experiment uses a Q Exactive HF (DDA) for IP-MS and DARTS. While no specific labeling (SILAC/TMT) is mentioned in the methods or PRIDE metadata, the use of LC-MS for identifying interacting proteins and protease protection typically follows a label-free quantification (LFQ) or intensity-based approach."
+          "confidence": 0.8,
+          "reason": "The experiment uses a Q Exactive HF mass spectrometer with MS1 and MS2 scans (DDA) and describes a standard trypsin digestion bottom-up approach. While no specific labeling is mentioned, the use of IP-MS for interaction detection typically follows an LFQ or spectral counting approach."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "modifier_ip_ms",
+          "confidence": 0.95,
+          "reason": "The PRIDE metadata and methods explicitly state 'IP-MS detected the interaction protein with PKM2' and describe immunoprecipitation with antibody conjugated Sepharose beads."
+        }
+      ],
       "trigger_keywords": [
-        "Co-immunoprecipitation",
-        "DARTS",
-        "LC-MS",
-        "Q Exactive HF"
+        "Immunoprecipitation",
+        "IP-MS",
+        "interaction protein",
+        "Co-immunoprecipitation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -207,7 +229,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:59Z"
   }
 }

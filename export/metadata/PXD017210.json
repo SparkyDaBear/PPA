@@ -1,20 +1,22 @@
 {
   "pxd": "PXD017210",
-  "timestamp": "2026-08-02T00:08:30.295924",
+  "timestamp": "2026-09-22T23:00:52.342490",
   "summary": {
-    "acquisition_type": "DIA",
+    "acquisition_type": "Unknown",
     "quantification_method": "label free protein quantification",
     "labeling_strategy": [
       "LFQ"
     ],
     "cell_types": [],
     "cell_lines": [],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sample_scope": "Unknown",
+    "sample_scope_label": null,
+    "sample_scope_curie": null,
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
-      "case-control disease status",
-      "disease stage or grade comparison"
+      "case-control disease status"
     ],
     "instrument": null
   },
@@ -51,7 +53,7 @@
     },
     "prompt_outputs": {
       "Ontology_AssayAndWorkflow_prompt": {
-        "acquisition_type": "DIA",
+        "acquisition_type": "Unknown",
         "labeling_strategy": [
           "LFQ"
         ],
@@ -62,6 +64,7 @@
         "assay_targets_or_enrichments": [],
         "stage4_workflow_hints": {
           "base_workflow_candidates": [
+            "base_dda_lfq",
             "base_dia_lfq"
           ],
           "modifier_candidates": [],
@@ -72,7 +75,8 @@
         },
         "evidence": {
           "acquisition": [
-            "MS data was acquired with data independent acquisition using a full scan at a resolution of 120,000 at m/z 200, followed by 22 MS/MS scans at a resolution of 30,000."
+            "MS data were acquired with a shotgun proteomics method... follow by up-to ten data-dependent MS/MS scans on the most abundant not yet sequenced isotopes (top10 method)",
+            "MS data were acquired with data independent acquisition using a full scan at a resolution of 120,000 at m/z 200, followed by 22 MS/MS scans at a resolution of 30,000"
           ],
           "labeling": [
             "enabled label free protein quantification"
@@ -82,58 +86,29 @@
           ],
           "enrichment": [],
           "workflow_hints": [
-            "MS raw files of the plasma samples were analyzed by Spectronaut software"
+            "overnight digestion into peptides using Trypsin and LysC proteases",
+            "Plasma samples were prepared with the Plasma Proteome Profiling Pipeline"
           ],
           "file_name_cues": []
         },
-        "notes": "The input text describes two separate proteomics experiments: one for BAL fluid (DDA, LFQ) and one for plasma (DIA, LFQ). Given the PRIDE metadata specifically targets the Plasma dataset (PXD017210), the DIA/LFQ routing is prioritized. No PTM enrichments were used; the study focused on total proteome profiling of body fluids."
+        "notes": "The study contains two distinct proteomics workflows: BAL fluid was analyzed using DDA (top10 method) and plasma was analyzed using DIA. Both used label-free quantification. Because both are present, acquisition_type is set to Unknown to avoid bias, but both base_dda_lfq and base_dia_lfq are listed as candidates."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [],
-        "noncellular_sources": [
-          {
-            "label": "blood plasma",
-            "source_kind": "biofluid"
-          },
-          {
-            "label": "lung lavage fluid",
-            "source_kind": "biofluid"
-          }
-        ],
-        "sample_scope": "whole cell lysate",
-        "sample_scope_label": "whole cell lysate",
-        "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "sample_scope": "Unknown",
+        "sample_scope_label": null,
+        "sample_scope_curie": null,
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "searched against the human UniProt FASTA database",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes",
-            "BTO:0000131, name: blood plasma"
-          ],
           "scope": [
-            "Proteins were precipitated from 300 \u00b5l BAL fluid using 80% ice-cold acetone, followed by reduction and alkylation of proteins and overnight digestion into peptides",
-            "plasma samples were diluted 1:10 in ddH2O and 10 \u00b5l were mixed with 10 \u00b5l PreOmics lysis buffer... for reduction of disulfide bridges, cysteine alkylation, and protein denaturation"
-          ]
+            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures",
+            "The BAL fluid depleted from cells was subjected to mass spectrometry analysis.",
+            "Plasma samples were prepared with the Plasma Proteome Profiling Pipeline"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis was performed on biofluids (plasma and BALF). While the study discusses specific cell types (pericytes, AT2 cells) via scRNA-seq, the mass spectrometry material itself was the total protein content of the fluids (unfractionated/non-enriched), which maps to the 'whole cell lysate' equivalent for fluid proteomes in this ontology's coarse rollup (unfractionated extract)."
+        "notes": "The analyzed materials are body fluids (bronchoalveolar lavage fluid and blood plasma). These do not map to the provided sample_scope options (whole cell lysate, purified protein or complex) nor to the specific subcellular fraction terms."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -152,25 +127,7 @@
             "evidence": [
               "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis",
               "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD).",
-              "compared this group with healthy controls"
-            ]
-          },
-          {
-            "ontology_label": "disease stage or grade comparison",
-            "ontology_curie": "PPA:0000094",
-            "category": "disease",
-            "matched_parent_class_key": "disease",
-            "matched_class_key": "disease_stage_or_grade_comparison",
-            "matched_class_path": [
-              "disease",
-              "disease_stage_or_grade_comparison"
-            ],
-            "matched_definition": "Comparison among disease severity, stage, grade, or progression categories.",
-            "confidence": "high",
-            "evidence": [
-              "protein biomarker signatures associated with diagnosis, lung function, and injury status",
-              "SSTR2 levels were strongly associated with high Ashcroft scores, indicating that the SSTR2+/CFHR1+ pericyte state is correlated with the severity of fibrosis.",
-              "divided the patients into two groups representing mild and severe disease based on lung function (FVC %)"
+              "comparison between diseased and healthy or unaffected controls"
             ]
           }
         ],
@@ -182,7 +139,8 @@
             "duration": null,
             "route_or_context": "lung fibrosis",
             "evidence": [
-              "integrated single-cell transcriptomic and proteomic data from multiple large pulmonary fibrosis patient cohorts"
+              "interstitial lung diseases (ILDs) are a heterogeneous group of diseases ultimately leading to pulmonary fibrosis",
+              "95 ILD and 29 non-ILD"
             ]
           }
         ],
@@ -203,15 +161,13 @@
           ],
           "paired_design": false,
           "factorial_design": false,
-          "replicate_hints": [
-            "n = 124",
-            "n = 141"
-          ],
+          "replicate_hints": [],
           "multiplex_channel_hints": [
             "label free protein quantification"
           ],
           "evidence": [
             "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD).",
+            "Our ILD cohort included eight groups of patients (Fig. 4B), with a diagnosis of idiopathic pulmonary fibrosis (IPF, n = 16), hypersensitivity pneumonitis (HP/EAA, n = 8), cryptogenic organizing pneumonia (COP, n = 11), idiopathic non-specific interstitial pneumonia (NSIP, n = 10), smoking-associated respiratory bronchiolitis ILD (RB-ILD, n = 3), Sarcoidosis (n = 22), unclassifiable ILDs (other ILDs, n = 25), or non-ILD conditions such as lung cancer or COPD (non-ILD, n = 29)",
             "healthy age-matched controls, n = 30"
           ]
         },
@@ -223,34 +179,24 @@
             "evidence": [
               "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD)."
             ]
-          },
-          {
-            "control_label": "mild disease",
-            "case_label": "severe disease",
-            "contrast_type": "multi_group",
-            "evidence": [
-              "divided the patients into two groups representing mild and severe disease based on lung function (FVC %)"
-            ]
           }
         ],
         "evidence": {
           "biological_variables": [
-            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis",
-            "SSTR2 levels were strongly associated with high Ashcroft scores, indicating that the SSTR2+/CFHR1+ pericyte state is correlated with the severity of fibrosis."
+            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis"
           ],
           "treatment_attributes": [
-            "integrated single-cell transcriptomic and proteomic data from multiple large pulmonary fibrosis patient cohorts"
+            "interstitial lung diseases (ILDs) are a heterogeneous group of diseases ultimately leading to pulmonary fibrosis"
           ],
           "design": [
             "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD).",
-            "healthy age-matched controls, n = 30"
+            "Our ILD cohort included eight groups of patients (Fig. 4B), with a diagnosis of idiopathic pulmonary fibrosis (IPF, n = 16), hypersensitivity pneumonitis (HP/EAA, n = 8), cryptogenic organizing pneumonia (COP, n = 11), idiopathic non-specific interstitial pneumonia (NSIP, n = 10), smoking-associated respiratory bronchiolitis ILD (RB-ILD, n = 3), Sarcoidosis (n = 22), unclassifiable ILDs (other ILDs, n = 25), or non-ILD conditions such as lung cancer or COPD (non-ILD, n = 29)"
           ],
           "contrasts": [
-            "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD).",
-            "divided the patients into two groups representing mild and severe disease based on lung function (FVC %)"
+            "Of the 141 patients, only 124 passed quality control and were included in the analysis (95 ILD and 29 non-ILD)."
           ]
         },
-        "notes": "The study is a clinical case-control and disease-severity proteomics study. The primary biological variables are the disease status (ILD vs non-ILD) and the severity/stage of the fibrosis."
+        "notes": "The study is a clinical case-control proteomics study comparing patients with various types of Interstitial Lung Disease (ILD) against non-ILD controls using BALF and plasma samples."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -259,21 +205,22 @@
             {
               "base_workflow_id": "base_dia_lfq",
               "confidence": 1.0,
-              "reason": "Plasma samples were explicitly acquired using data independent acquisition (DIA) and analyzed with Spectronaut for label-free quantification."
+              "reason": "Plasma samples were acquired using data independent acquisition (DIA) and analyzed with Spectronaut, which is a standard DIA pipeline."
             },
             {
               "base_workflow_id": "base_dda_lfq",
               "confidence": 0.8,
-              "reason": "BAL fluid samples were acquired using a shotgun proteomics method (DDA, top10) and processed with MaxQuant for label-free protein quantification."
+              "reason": "BAL fluid samples were acquired using a shotgun proteomics method (DDA) with a top10 method and processed via MaxQuant for label-free quantification."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "data independent acquisition",
             "DIA",
-            "label free protein quantification",
             "shotgun proteomics",
-            "top10 method"
+            "label free protein quantification",
+            "Spectronaut",
+            "MaxQuant"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -291,15 +238,16 @@
         },
         "evidence": {
           "workflow": [
-            "Plasma peptides were measured using LC-MS instrumentation... MS data were acquired with data independent acquisition",
-            "BAL fluid... MS data were acquired with a shotgun proteomics method... top10 method",
-            "The resulting mass spectra were processed using the MaxQuant software... which enabled label free protein quantification",
-            "MS raw files of the plasma samples were analyzed by Spectronaut software"
+            "Plasma peptides were measured using LC-MS instrumentation consisting of an Evosep One... MS data were acquired with data independent acquisition",
+            "MS raw files of the plasma samples were analyzed by Spectronaut software",
+            "MS data were acquired with a shotgun proteomics method... follow by up-to ten data-dependent MS/MS scans on the most abundant not yet sequenced isotopes (top10 method)",
+            "The resulting mass spectra were processed using the MaxQuant software... which enabled label free protein quantification"
           ],
           "differential": [
             "identified distinct protein signatures correlated with diagnosis, lung function, and injury status",
             "compared to lung tissue of non CLD patients",
-            "comparing the two groups with healthy controls"
+            "compared this group with healthy controls",
+            "Pearson correlation analysis, t-test statistics, ANOVA tests, or Fisher\u2019s exact test were performed"
           ],
           "search_parameters": [
             "overnight digestion into peptides using Trypsin and LysC proteases (1:100)",
@@ -307,10 +255,10 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The study contains two distinct MS datasets: one for BAL fluid (DDA/MaxQuant) and one for Plasma (DIA/Spectronaut). Both are label-free protein-level quantifications."
+        "notes": "The study contains two distinct proteomics datasets: one for BAL fluid (DDA/MaxQuant) and one for Plasma (DIA/Spectronaut). Both are label-free protein-level quantifications."
       },
       "MStype_prompt": {
-        "acquisition_type": "DIA",
+        "acquisition_type": "Unknown",
         "labeling_strategy": [
           "LFQ"
         ],
@@ -321,7 +269,8 @@
         "specialized_workflows": [],
         "evidence": {
           "acquisition": [
-            "MS data was acquired with data independent acquisition using a full scan at a resolution of 120,000 at m/z 200, followed by 22 MS/MS scans at a resolution of 30,000."
+            "MS data were acquired with a shotgun proteomics method... follow by up-to ten data-dependent MS/MS scans on the most abundant not yet sequenced isotopes (top10 method)",
+            "MS data were acquired with data independent acquisition using a full scan at a resolution of 120,000 at m/z 200, followed by 22 MS/MS scans at a resolution of 30,000"
           ],
           "labeling": [
             "enabled label free protein quantification"
@@ -331,50 +280,36 @@
           ],
           "specialized": []
         },
-        "notes": "The input text describes two separate proteomics experiments: one for BAL fluid (DDA, LFQ) and one for plasma (DIA, LFQ). Given the PRIDE metadata specifically targets the Plasma dataset (PXD017210), the DIA/LFQ routing is prioritized. No PTM enrichments were used; the study focused on total proteome profiling of body fluids."
+        "notes": "The study contains two distinct proteomics workflows: BAL fluid was analyzed using DDA (top10 method) and plasma was analyzed using DIA. Both used label-free quantification. Because both are present, acquisition_type is set to Unknown to avoid bias, but both base_dda_lfq and base_dia_lfq are listed as candidates."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
         "cell_lines": [],
         "cell_line_families": [],
-        "noncellular_source_terms": [
-          "blood plasma",
-          "lung lavage fluid"
-        ],
-        "sample_scope": "whole cell lysate",
-        "sample_scope_label": "whole cell lysate",
-        "sample_scope_curie": "PPA:0000194",
+        "noncellular_source_terms": [],
+        "sample_scope": "Unknown",
+        "sample_scope_label": null,
+        "sample_scope_curie": null,
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "searched against the human UniProt FASTA database",
-            "Homo sapiens (human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [],
-          "noncellular_sources": [
-            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes",
-            "BTO:0000131, name: blood plasma"
-          ],
           "scope": [
-            "Proteins were precipitated from 300 \u00b5l BAL fluid using 80% ice-cold acetone, followed by reduction and alkylation of proteins and overnight digestion into peptides",
-            "plasma samples were diluted 1:10 in ddH2O and 10 \u00b5l were mixed with 10 \u00b5l PreOmics lysis buffer... for reduction of disulfide bridges, cysteine alkylation, and protein denaturation"
-          ]
+            "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures",
+            "The BAL fluid depleted from cells was subjected to mass spectrometry analysis.",
+            "Plasma samples were prepared with the Plasma Proteome Profiling Pipeline"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis was performed on biofluids (plasma and BALF). While the study discusses specific cell types (pericytes, AT2 cells) via scRNA-seq, the mass spectrometry material itself was the total protein content of the fluids (unfractionated/non-enriched), which maps to the 'whole cell lysate' equivalent for fluid proteomes in this ontology's coarse rollup (unfractionated extract)."
+        "notes": "The analyzed materials are body fluids (bronchoalveolar lavage fluid and blood plasma). These do not map to the provided sample_scope options (whole cell lysate, purified protein or complex) nor to the specific subcellular fraction terms."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "case-control disease status",
           "example_entity_ids": null,
-          "reasoning": "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis; SSTR2 levels were strongly associated with high Ashcroft scores, indicating that the SSTR2+/CFHR1+ pericyte state is correlated with the severity of fibrosis.",
-          "confidence_score": 0.95
-        },
-        {
-          "treatment_category": "disease stage or grade comparison",
-          "example_entity_ids": null,
-          "reasoning": "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis; SSTR2 levels were strongly associated with high Ashcroft scores, indicating that the SSTR2+/CFHR1+ pericyte state is correlated with the severity of fibrosis.",
+          "reasoning": "Mass spectrometry analysis of lung lavage fluid (n = 124) and plasma (n = 141) proteomes identified distinct protein signatures correlated with diagnosis",
           "confidence_score": 0.95
         }
       ]
@@ -387,7 +322,7 @@
     "missed_cleavages": 2,
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
-    "acquisition_method": "DIA",
+    "acquisition_method": "Unknown",
     "quantification_method": "label free protein quantification",
     "fixed_mods": [
       "Carbamidomethyl (C)"

@@ -1,21 +1,21 @@
 {
   "pxd": "PXD001810",
-  "timestamp": "2026-07-28T01:59:18.811052",
+  "timestamp": "2026-09-22T22:06:04.268894",
   "summary": {
-    "acquisition_type": "Unknown",
+    "acquisition_type": "DDA",
     "quantification_method": "SILAC",
     "labeling_strategy": [
       "SILAC",
       "LFQ"
     ],
     "cell_types": [],
-    "cell_lines": [
-      "HeLa",
-      "U2OS"
-    ],
+    "cell_lines": [],
     "sample_scope": "purified protein or complex",
     "sample_scope_label": "affinity-purified complex scope",
     "sample_scope_curie": "PPA:0000202",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "DNA damage chemical treatment"
     ],
@@ -54,14 +54,14 @@
     },
     "prompt_outputs": {
       "Ontology_AssayAndWorkflow_prompt": {
-        "acquisition_type": "Unknown",
+        "acquisition_type": "DDA",
         "labeling_strategy": [
           "SILAC",
           "LFQ"
         ],
         "quantification_strategy": [
           "SILAC",
-          "label-free"
+          "Label-free"
         ],
         "proteomics_mode": "PTM-enriched",
         "assay_targets_or_enrichments": [
@@ -97,19 +97,23 @@
           }
         },
         "evidence": {
-          "acquisition": [],
+          "acquisition": [
+            "LC-MS/MS",
+            "Analysis by Velos (Exp1) and Q-Exactive (Exp2)"
+          ],
           "labeling": [
-            "application of stable isotope labeling of amino acids in culture (SILAC)",
-            "applied a label-free site-specific method for identification of SUMO sites",
-            "light/heavy (Exp1) and light/medium/heavy (Exp2) SILAC labeling of the cells"
+            "SILAC labeling of the cells",
+            "label-free site-specific method for identification of SUMO sites"
           ],
           "quantification": [
             "quantitative proteomics approach to identify dynamically regulated SUMO-2 conjugates",
-            "quantificationMethods: [ { \"name\": \"Label free\" }, { \"name\": \"SILAC\" } ]"
+            "SILAC approach to apply differential metabolic labeling",
+            "label-free methodology utilizing a HeLa cell line"
           ],
           "enrichment": [
-            "purification of SILAC-labeled FLAG-SUMO-conjugated proteins",
-            "purification by His-pulldown, sample concentration and removal of free SUMO by kDa filtering, digestion with Lys-C, purification by His-pulldown",
+            "purification by FLAG-IP to enrich SUMOylated proteins",
+            "purification by His-pulldown",
+            "identification of SUMO-2 conjugation sites",
             "QQTGG and pyro-QQTGG were searched as variable modifications"
           ],
           "workflow_hints": [
@@ -117,58 +121,25 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The study uses two parallel approaches: a SILAC-based protein-level analysis and a label-free site-specific analysis. Both target the SUMOylome. Acquisition mode (DDA vs DIA) is not explicitly stated, though the use of MaxQuant and 'diagnostic peaks' for remnants strongly suggests DDA; however, per hard rules, it is marked Unknown."
+        "notes": "The study uses two parallel approaches: a SILAC-based protein-level quantification and a label-free site-specific analysis. Both target the SUMOylome using specific remnants (QQTGG) for site mapping. Acquisition is inferred as DDA based on the use of MaxQuant and the description of MS2/MS1 alignment for label-free quantification."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          }
-        ],
-        "cell_types": [],
-        "cell_lines": [
-          {
-            "label": "HeLa",
-            "family": "cervix carcinoma",
-            "ontology_curie": "BTO:0000567"
-          },
-          {
-            "label": "U2OS",
-            "family": null,
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa and U2OS cells were cultured",
-            "HeLa cells stably expressing FLAG-SUMO-2",
-            "U2OS cells stably expressing His10-SUMO-2"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "purification by FLAG-IP to enrich SUMOylated proteins",
             "purification by His-pulldown",
-            "immunoprecipitation of FLAG-SUMO-2",
-            "Affinity purification coupled with mass spectrometry proteomics"
-          ]
+            "We utilized a SUMO purification method combining harsh lysis with efficient and high-yield purification of SILAC-labeled FLAG-SUMO-conjugated proteins",
+            "subsequent immunoprecipitation of FLAG-SUMO-2"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis specifically targeted SUMO-2 conjugates using affinity purification (FLAG-IP and His-pulldown) from HeLa and U2OS cell lines."
+        "notes": "The proteomics analysis was performed on material specifically enriched for SUMO-2 conjugates using FLAG-immunoprecipitation and His-pulldown, rather than whole cell lysate. While the paper discusses chromatin-associated fractions in separate validation assays (immunoblotting/fractionation), the primary MS material was the affinity-purified SUMO-conjugate pool."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -194,30 +165,11 @@
           {
             "relation_key": "has_treatment_agent",
             "agent": "methyl methanesulfonate",
-            "dose_or_concentration": null,
-            "duration": null,
-            "route_or_context": "MMS",
-            "evidence": [
-              "study the role of SUMOylation in the cellular response to methyl methanesulfonate (MMS), a commonly utilized alkylating agent"
-            ]
-          },
-          {
-            "relation_key": "has_treatment_dose",
-            "agent": "methyl methanesulfonate",
             "dose_or_concentration": "0.02%",
-            "duration": null,
-            "route_or_context": null,
-            "evidence": [
-              "all MMS-treated cells were incubated with 0.02% MMS"
-            ]
-          },
-          {
-            "relation_key": "has_treatment_duration",
-            "agent": "methyl methanesulfonate",
-            "dose_or_concentration": null,
             "duration": "90 minutes",
-            "route_or_context": null,
+            "route_or_context": "HeLa and U2OS cells",
             "evidence": [
+              "study the role of SUMOylation in the cellular response to methyl methanesulfonate (MMS)",
               "all MMS-treated cells were incubated with 0.02% MMS for a duration of 90 minutes"
             ]
           }
@@ -241,16 +193,13 @@
             "label-free MMS experiment was carried out in biological quadruplicate"
           ],
           "multiplex_channel_hints": [
-            "SILAC labeling",
-            "light ([12C6 14N2]lysine/[12C6,14N4]arginine)",
-            "medium ([2H4,12C6,14N2]lysine/[13C6,14N4]arginine)",
-            "heavy ([13C6,15N2]lysine/[13C6,15N4]arginine)"
+            "SILAC labeling of the cells, light/heavy (Exp1) and light/medium/heavy (Exp2)",
+            "light label is referred to as K0/R0, medium label as K4/R6, and heavy label as K8/R10"
           ],
           "evidence": [
             "The SILAC MMS experiment was carried out in biological duplicate with a label-swap",
             "The label-free MMS experiment was carried out in biological quadruplicate",
-            "all MMS-treated cells were incubated with 0.02% MMS for a duration of 90 minutes",
-            "left another pool of FLAG-SUMO-2 cells and the parental HeLa cells untreated"
+            "MMS-treated FLAG-SUMO-2 cell line being heavy-labeled and light-labeled in separate biological replicates, and the mock treated FLAG-SUMO-2 cell line being light-labeled and medium-labeled"
           ]
         },
         "contrast_hints": [
@@ -259,56 +208,58 @@
             "case_label": "MMS-treated",
             "contrast_type": "pairwise",
             "evidence": [
-              "the MMS-treated FLAG-SUMO-2 cell line being heavy-labeled and light-labeled in separate biological replicates, and the mock treated FLAG-SUMO-2 cell line being light-labeled and medium-labeled"
+              "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS",
+              "MMS-treated FLAG-SUMO-2 cell line... and the mock treated FLAG-SUMO-2 cell line"
             ]
           }
         ],
         "evidence": {
           "biological_variables": [
-            "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS"
+            "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS",
+            "study the role of SUMOylation in the cellular response to methyl methanesulfonate (MMS), a commonly utilized alkylating agent"
           ],
           "treatment_attributes": [
             "all MMS-treated cells were incubated with 0.02% MMS for a duration of 90 minutes"
           ],
           "design": [
             "The SILAC MMS experiment was carried out in biological duplicate with a label-swap",
-            "The label-free MMS experiment was carried out in biological quadruplicate"
+            "The label-free MMS experiment was carried out in biological quadruplicate",
+            "light label is referred to as K0/R0, medium label as K4/R6, and heavy label as K8/R10"
           ],
           "contrasts": [
-            "the MMS-treated FLAG-SUMO-2 cell line being heavy-labeled and light-labeled in separate biological replicates, and the mock treated FLAG-SUMO-2 cell line being light-labeled and medium-labeled"
+            "MMS-treated FLAG-SUMO-2 cell line being heavy-labeled and light-labeled in separate biological replicates, and the mock treated FLAG-SUMO-2 cell line being light-labeled and medium-labeled"
           ]
         },
-        "notes": "The study uses both SILAC and label-free quantitative proteomics to compare SUMOylation dynamics in response to MMS treatment. MG132 and RNF4 depletion are mentioned in validation experiments (immunoblotting/microscopy) but the primary MS dataset focuses on the MMS vs control comparison."
+        "notes": "The study uses a combination of SILAC and label-free proteomics to compare SUMOylation dynamics in response to the DNA damaging agent MMS. The primary comparison is between MMS-treated cells and mock/untreated controls."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
-        "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
+        "reanalysis_compatibility": "Requires specialized pipeline",
         "workflow_selection_hints": {
           "base_candidates_ranked": [
             {
               "base_workflow_id": "base_dda_silac",
               "confidence": 1.0,
-              "reason": "Explicit use of SILAC labeling (light, medium, heavy) for quantitative proteomics of FLAG-SUMO-2 conjugates."
+              "reason": "Explicit mention of SILAC labeling (light, medium, heavy) for protein-level quantification of SUMO-2 conjugates."
             },
             {
-              "base_workflow_id": "base_dda_lfq",
-              "confidence": 0.9,
-              "reason": "Explicit use of a label-free site-specific method for identification of SUMO sites utilizing His10-tagged SUMO."
+              "base_workflow_id": "base_dia_lfq",
+              "confidence": 0.4,
+              "reason": "Mention of a label-free site-specific method, though likely DDA given the era and MaxQuant usage."
             }
           ],
           "modifier_candidates_ranked": [
             {
-              "modifier_workflow_id": "sumo_remnant_search",
+              "modifier_workflow_id": "sumo_remnant_site_mapping",
               "confidence": 1.0,
-              "reason": "PRIDE metadata explicitly states QQTGG and pyro-QQTGG were searched as variable modifications to identify SUMO sites."
+              "reason": "Explicit search for QQTGG and pyro-QQTGG as variable modifications to identify SUMO-2 conjugation sites."
             }
           ],
           "trigger_keywords": [
             "SILAC",
-            "label-free",
             "QQTGG",
             "pyro-QQTGG",
             "SUMO-2 conjugates",
-            "SUMO sites"
+            "label-free site-specific"
           ],
           "raw_or_file_name_triggers": []
         },
@@ -323,13 +274,13 @@
               "name": "QQTGG",
               "residue_or_site": "K",
               "mass_shift_da": null,
-              "required_for_modifier": "sumo_remnant_search"
+              "required_for_modifier": "sumo_remnant_site_mapping"
             },
             {
               "name": "pyro-QQTGG",
               "residue_or_site": "K",
               "mass_shift_da": null,
-              "required_for_modifier": "sumo_remnant_search"
+              "required_for_modifier": "sumo_remnant_site_mapping"
             }
           ],
           "special_reagent_hints": [
@@ -340,8 +291,8 @@
         "evidence": {
           "workflow": [
             "SILAC labeling of the cells, light/heavy (Exp1) and light/medium/heavy (Exp2)",
-            "label-free site-specific method for identification of SUMO sites utilizing His10-tagged SUMO",
-            "QQTGG and pyro-QQTGG were searched as variable modifications"
+            "QQTGG and pyro-QQTGG were searched as variable modifications",
+            "label-free methodology utilizing a HeLa cell line stably expressing lysine-deficient His10-tagged Q87R SUMO-2"
           ],
           "differential": [
             "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS",
@@ -352,81 +303,74 @@
           ],
           "file_name_triggers": []
         },
-        "notes": "The experiment uses two distinct quantitative strategies: SILAC for protein-level conjugates and label-free for site-specific analysis. The site-specific analysis specifically targets the SUMO remnant (QQTGG) on lysine residues."
+        "notes": "The experiment uses a dual approach: SILAC for protein-level abundance of conjugates and a label-free approach specifically for site mapping using a mutant SUMO-2 (K0-Q87R) to avoid internal SUMO-SUMO linkages."
       },
       "MStype_prompt": {
-        "acquisition_type": "Unknown",
+        "acquisition_type": "DDA",
         "labeling_strategy": [
           "SILAC",
           "LFQ"
         ],
         "quantification_strategy": [
           "SILAC",
-          "label-free"
+          "Label-free"
         ],
         "proteomics_mode": "PTM-enriched",
         "specialized_workflows": [
           "SUMOylome or QQTGG enrichment"
         ],
         "evidence": {
-          "acquisition": [],
+          "acquisition": [
+            "LC-MS/MS",
+            "Analysis by Velos (Exp1) and Q-Exactive (Exp2)"
+          ],
           "labeling": [
-            "application of stable isotope labeling of amino acids in culture (SILAC)",
-            "applied a label-free site-specific method for identification of SUMO sites",
-            "light/heavy (Exp1) and light/medium/heavy (Exp2) SILAC labeling of the cells"
+            "SILAC labeling of the cells",
+            "label-free site-specific method for identification of SUMO sites"
           ],
           "quantification": [
             "quantitative proteomics approach to identify dynamically regulated SUMO-2 conjugates",
-            "quantificationMethods: [ { \"name\": \"Label free\" }, { \"name\": \"SILAC\" } ]"
+            "SILAC approach to apply differential metabolic labeling",
+            "label-free methodology utilizing a HeLa cell line"
           ],
           "specialized": [
-            "purification of SILAC-labeled FLAG-SUMO-conjugated proteins",
-            "purification by His-pulldown, sample concentration and removal of free SUMO by kDa filtering, digestion with Lys-C, purification by His-pulldown",
+            "purification by FLAG-IP to enrich SUMOylated proteins",
+            "purification by His-pulldown",
+            "identification of SUMO-2 conjugation sites",
             "QQTGG and pyro-QQTGG were searched as variable modifications"
           ]
         },
-        "notes": "The study uses two parallel approaches: a SILAC-based protein-level analysis and a label-free site-specific analysis. Both target the SUMOylome. Acquisition mode (DDA vs DIA) is not explicitly stated, though the use of MaxQuant and 'diagnostic peaks' for remnants strongly suggests DDA; however, per hard rules, it is marked Unknown."
+        "notes": "The study uses two parallel approaches: a SILAC-based protein-level quantification and a label-free site-specific analysis. Both target the SUMOylome using specific remnants (QQTGG) for site mapping. Acquisition is inferred as DDA based on the use of MaxQuant and the description of MS2/MS1 alignment for label-free quantification."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
+        "human_system_present": "Unclear",
         "cell_types": [],
         "cell_type_categories": [],
-        "cell_lines": [
-          "HeLa",
-          "U2OS"
-        ],
-        "cell_line_families": [
-          "cervix carcinoma"
-        ],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "purified protein or complex",
         "sample_scope_label": "affinity-purified complex scope",
         "sample_scope_curie": "PPA:0000202",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (Human)"
-          ],
-          "cell_types": [],
-          "cell_lines": [
-            "HeLa and U2OS cells were cultured",
-            "HeLa cells stably expressing FLAG-SUMO-2",
-            "U2OS cells stably expressing His10-SUMO-2"
-          ],
-          "noncellular_sources": [],
           "scope": [
             "purification by FLAG-IP to enrich SUMOylated proteins",
             "purification by His-pulldown",
-            "immunoprecipitation of FLAG-SUMO-2",
-            "Affinity purification coupled with mass spectrometry proteomics"
-          ]
+            "We utilized a SUMO purification method combining harsh lysis with efficient and high-yield purification of SILAC-labeled FLAG-SUMO-conjugated proteins",
+            "subsequent immunoprecipitation of FLAG-SUMO-2"
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis specifically targeted SUMO-2 conjugates using affinity purification (FLAG-IP and His-pulldown) from HeLa and U2OS cell lines."
+        "notes": "The proteomics analysis was performed on material specifically enriched for SUMO-2 conjugates using FLAG-immunoprecipitation and His-pulldown, rather than whole cell lysate. While the paper discusses chromatin-associated fractions in separate validation assays (immunoblotting/fractionation), the primary MS material was the affinity-purified SUMO-conjugate pool."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "DNA damage chemical treatment",
           "example_entity_ids": null,
-          "reasoning": "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS",
+          "reasoning": "identify dynamically regulated SUMO-2 conjugates and modification sites upon treatment with the DNA damaging agent MMS; study the role of SUMOylation in the cellular response to methyl methanesulfonate (MMS), a commonly utilized alkylating agent",
           "confidence_score": 0.95
         }
       ]
@@ -439,7 +383,7 @@
     "missed_cleavages": 2,
     "precursor_mass_tolerance": "10 ppm",
     "fragment_mass_tolerance": "0.02 Da",
-    "acquisition_method": "Unknown",
+    "acquisition_method": "DDA",
     "quantification_method": "SILAC",
     "fixed_mods": [
       "Carbamidomethyl (C)"

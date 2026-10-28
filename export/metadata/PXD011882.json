@@ -1,22 +1,20 @@
 {
   "pxd": "PXD011882",
-  "timestamp": "2026-07-28T01:52:49.227430",
+  "timestamp": "2026-09-22T23:24:26.224901",
   "summary": {
     "acquisition_type": "DDA",
     "quantification_method": "label-free quantification",
     "labeling_strategy": [
       "LFQ"
     ],
-    "cell_types": [
-      "endothelial cells"
-    ],
-    "cell_lines": [
-      "HUVEC",
-      "HUAEC"
-    ],
+    "cell_types": [],
+    "cell_lines": [],
     "sample_scope": "whole cell lysate",
     "sample_scope_label": "whole cell lysate",
     "sample_scope_curie": "PPA:0000194",
+    "subcellular_fraction": null,
+    "subcellular_fraction_label": null,
+    "subcellular_fraction_curie": null,
     "treatment_categories": [
       "substrate stiffness comparison",
       "knockout or deletion perturbation"
@@ -62,7 +60,8 @@
         ],
         "quantification_strategy": [
           "label-free quantification",
-          "raw ion intensities"
+          "median logged intensity normalization",
+          "mixed-effects linear regression model"
         ],
         "proteomics_mode": "Bottom-up",
         "assay_targets_or_enrichments": [],
@@ -94,7 +93,7 @@
                 "mass_shift_da": 79.966
               }
             ],
-            "requires_ptm_site_level_output": true
+            "requires_ptm_site_level_output": false
           }
         },
         "evidence": {
@@ -102,10 +101,11 @@
             "Peptides were selected for fragmentation automatically by data dependent analysis."
           ],
           "labeling": [
-            "Peptide intensities were exported as Excel (Microsoft) spread sheets for processing with Matlab"
+            "Intensities were logged and normalized by the median logged intensity."
           ],
           "quantification": [
-            "Raw ion intensities from peptides belonging to proteins with fewer than 2 unique (by sequence) peptides per protein in the dataset were excluded from quantification."
+            "Intensities were logged and normalized by the median logged intensity.",
+            "Fold-change differences in protein quantities were calculated by fitting a mixed-effects linear regression model for each protein"
           ],
           "enrichment": [],
           "workflow_hints": [
@@ -113,69 +113,23 @@
           ],
           "file_name_cues": []
         },
-        "notes": "The experiment is a standard bottom-up DDA LFQ proteomics run. While phosphorylation was included as a variable modification in the search parameters, there is no evidence of a specific phospho-enrichment step (e.g., TiO2 or IMAC) that would trigger the mod_phospho workflow; it was a global proteome analysis."
+        "notes": "The experiment is a standard bottom-up DDA LFQ proteomics run. While phosphorylation and hydroxylation were included as variable modifications in the search parameters, there is no evidence of targeted PTM enrichment (e.g., TiO2 or IMAC) that would trigger a specific Stage 4 modifier workflow."
       },
       "Ontology_SampleSourceAndScope_prompt": {
-        "human_system_present": "Yes",
-        "organism_mentions": [
-          {
-            "label": "Homo sapiens",
-            "taxonomy_hint": "NEWT:9606",
-            "confidence": "high"
-          },
-          {
-            "label": "Mus musculus",
-            "taxonomy_hint": null,
-            "confidence": "medium"
-          }
-        ],
-        "cell_types": [
-          {
-            "label": "endothelial cells",
-            "rollup_category": "vascular cell",
-            "ontology_curie": null
-          }
-        ],
-        "cell_lines": [
-          {
-            "label": "HUVEC",
-            "family": "Human umbilical vein endothelial cells",
-            "ontology_curie": "BTO:0001949"
-          },
-          {
-            "label": "HUAEC",
-            "family": "human umbilical artery endothelial cells",
-            "ontology_curie": null
-          }
-        ],
-        "noncellular_sources": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
-        "mixed_species_flag": false,
-        "biosample_or_sdrf_hints": {
-          "biosample_accessions": [],
-          "sample_to_file_mapping_present": null
-        },
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "searching against the SwissProt and TREMBL mouse databases"
-          ],
-          "cell_types": [
-            "AGO2-bound miRNAs/mRNAs were isolated from two unrelated human endothelial cells (EC) types"
-          ],
-          "cell_lines": [
-            "Human umbilical vein endothelial cells (HUVECs) and human umbilical artery endothelial cells (HUAECs)",
-            "BTO:0001949, name: Huvec cell"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "Cell pellets were lysed in 50 \u03bcL of 25 mM ammonium bicarbonate (AB, Fluka) buffer containing 1.1 % sodium dodecyl sulfate (SDS, Sigma), 0.3 % sodium deoxycholate (Sigma)",
-            "Homogenates were subjected to centrifugation (12 \u00b0C, 10000 rpm, 5 min). Lysates were added to 150 \u03bcL of digest buffer"
-          ]
+            "Cell pellets were lysed in 50 \u03bcL of 25 mM ammonium bicarbonate (AB, Fluka) buffer containing 1.1 % sodium dodecyl sulfate (SDS, Sigma), 0.3 % sodium deoxycholate (Sigma), protease inhibitor cocktail (Sigma) and phosphatase inhibitor cocktail (Merck).",
+            "Homogenates were subjected to centrifugation (12 \u00b0C, 10000 rpm, 5 min). Lysates were added to 150 \u03bcL of digest buffer (1.33 mM CaCl2, Sigma, in 25 mM AB) containing immobilized trypsin beads (Perfinity Biosciences) and shaken at 1400 rpm overnight at 37 \u00b0C."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis described in the 'Mass spectrometry (MS) sample preparation and analysis' section uses cell pellets lysed with SDS/deoxycholate followed by direct trypsin digestion, which corresponds to whole cell lysate. While the paper also performs HITS-CLIP (which involves immunoprecipitation of AGO2), the specific MS section for protein quantification describes a standard lysate-to-peptide workflow. The MS database search mentions mouse databases, but the PRIDE metadata and primary cell descriptions focus on human HUVECs/HUAECs."
+        "notes": "The mass spectrometry analysis was performed on total cell lysates derived from cell pellets. While the paper also describes AGO2-HITS-CLIP (which involves immunoprecipitation), that specific procedure was used for RNA sequencing/library preparation, not the proteomics analysis described in the 'Mass spectrometry (MS) sample preparation and analysis' section."
       },
       "Ontology_TreatmentAndDesign_prompt": {
         "primary_biological_variables": [
@@ -193,8 +147,7 @@
             "confidence": "high",
             "evidence": [
               "ECs infected with this CAM-sensor library at low levels (to avoid multiply infected cells) were seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa, which approximate \u201csoft\u201d and \u201crigid\u201d tissues, respectively",
-              "proteomics, RNA and miRNA sequencing were assessed in parallel",
-              "increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates"
+              "proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins, reminiscent of the increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates"
             ]
           },
           {
@@ -218,10 +171,10 @@
         "treatment_attributes": [
           {
             "relation_key": "has_treatment_agent",
-            "agent": "PDMS substrates",
-            "dose_or_concentration": "3 kPa, 30 kPa",
+            "agent": "substrate stiffness",
+            "dose_or_concentration": "3 kPa vs 30 kPa",
             "duration": "48 hours",
-            "route_or_context": "cell plating",
+            "route_or_context": "PDMS substrates",
             "evidence": [
               "seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa"
             ]
@@ -231,9 +184,9 @@
             "agent": "AGO2",
             "dose_or_concentration": null,
             "duration": null,
-            "route_or_context": "CRISPR/Cas9 knockout",
+            "route_or_context": "CRISPR/Cas9-mediated disruption",
             "evidence": [
-              "To mutate AGO2 in HUVECs and HDFs, a pLentiCRISPR vector containing an AGO2 or a non-targeting guide RNA (control, which doesn\u2019t target know mouse or human genome sequences) was used"
+              "CRISPR/Cas9-mediated disruption of AGO2 diminished the miRNA levels in ECs"
             ]
           }
         ],
@@ -250,13 +203,14 @@
             "AGO2 knockout"
           ],
           "paired_design": false,
-          "factorial_design": false,
+          "factorial_design": true,
           "replicate_hints": [
             "three replicates of cultured HUVEC or HDF cells seeded on 3kpa or 30kpa PDMS"
           ],
           "multiplex_channel_hints": [],
           "evidence": [
-            "Total RNA was extracted from three replicates of cultured HUVEC or HDF cells seeded on 3kpa or 30kpa PDMS"
+            "three replicates of cultured HUVEC or HDF cells seeded on 3kpa or 30kpa PDMS",
+            "a pLentiCRISPR vector containing an AGO2 or a non-targeting guide RNA (control...)"
           ]
         },
         "contrast_hints": [
@@ -270,7 +224,7 @@
           },
           {
             "control_label": "non-targeting gRNA",
-            "case_label": "AGO2 knockout",
+            "case_label": "AGO2 gRNA",
             "contrast_type": "pairwise",
             "evidence": [
               "proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins"
@@ -279,22 +233,23 @@
         ],
         "evidence": {
           "biological_variables": [
-            "ECs infected with this CAM-sensor library at low levels (to avoid multiply infected cells) were seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa",
-            "proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins"
+            "seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa",
+            "proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins, reminiscent of the increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates"
           ],
           "treatment_attributes": [
             "seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa",
-            "To mutate AGO2 in HUVECs and HDFs, a pLentiCRISPR vector containing an AGO2 or a non-targeting guide RNA (control, which doesn\u2019t target know mouse or human genome sequences) was used"
+            "CRISPR/Cas9-mediated disruption of AGO2 diminished the miRNA levels in ECs"
           ],
           "design": [
-            "Total RNA was extracted from three replicates of cultured HUVEC or HDF cells seeded on 3kpa or 30kpa PDMS"
+            "three replicates of cultured HUVEC or HDF cells seeded on 3kpa or 30kpa PDMS",
+            "a pLentiCRISPR vector containing an AGO2 or a non-targeting guide RNA (control...)"
           ],
           "contrasts": [
             "increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates",
             "proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins"
           ]
         },
-        "notes": "The study employs both a mechanical perturbation (substrate stiffness) and a genetic perturbation (AGO2 knockout) as primary axes for the proteomics analysis."
+        "notes": "The proteomics experiment specifically compared protein abundance in endothelial cells (ECs) across two primary axes: substrate stiffness (3 kPa vs 30 kPa) and genetic perturbation (AGO2 knockout vs control)."
       },
       "Ontology_ProcessingAndDifferential_prompt": {
         "reanalysis_compatibility": "Standard bottom-up reanalysis feasible",
@@ -302,15 +257,15 @@
           "base_candidates_ranked": [
             {
               "base_workflow_id": "base_dda_lfq",
-              "confidence": 1.0,
-              "reason": "The experiment used data-dependent analysis (DDA) on a Q Exactive HF and performed label-free quantification (LFQ) using Progenesis QI and median normalization of intensities."
+              "confidence": 100,
+              "reason": "The experiment used data-dependent analysis (DDA) on a Q Exactive HF and performed label-free quantification (LFQ) using raw ion intensities, normalized by median logged intensity."
             }
           ],
           "modifier_candidates_ranked": [],
           "trigger_keywords": [
             "data dependent analysis",
             "label-free",
-            "Progenesis QI",
+            "raw ion intensities",
             "median logged intensity"
           ],
           "raw_or_file_name_triggers": []
@@ -323,8 +278,20 @@
         "search_parameter_hints": {
           "variable_modification_hints": [
             {
-              "name": "Oxidation",
+              "name": "Cysteine alkylation",
+              "residue_or_site": "C",
+              "mass_shift_da": 57.021,
+              "required_for_modifier": null
+            },
+            {
+              "name": "Oxidized methionine",
               "residue_or_site": "M",
+              "mass_shift_da": 15.995,
+              "required_for_modifier": null
+            },
+            {
+              "name": "Hydroxylation",
+              "residue_or_site": "N, D, P, K",
               "mass_shift_da": 15.995,
               "required_for_modifier": null
             },
@@ -333,35 +300,28 @@
               "residue_or_site": "S, T, Y",
               "mass_shift_da": 79.966,
               "required_for_modifier": null
-            },
-            {
-              "name": "Hydroxylation",
-              "residue_or_site": "N, D, P, K",
-              "mass_shift_da": 15.995,
-              "required_for_modifier": null
             }
           ],
           "special_reagent_hints": [
-            "iodoacetamide (cysteine alkylation, 57.021 Da)"
+            "iodoacetamide"
           ]
         },
         "evidence": {
           "workflow": [
             "Peptides were selected for fragmentation automatically by data dependent analysis.",
-            "All sample spectra were aligned using Progenesis QI",
-            "Intensities were logged and normalized by the median logged intensity."
+            "Intensities were logged and normalized by the median logged intensity.",
+            "LC-MS/MS was performed using... a Q Exactive HF mass spectrometer"
           ],
           "differential": [
             "Fold-change differences in protein quantities were calculated by fitting a mixed-effects linear regression model",
-            "Conditions were compared with two-sided Empirical Bayes\u2013adjusted t-tests",
-            "analyzed CAM protein levels via immunofluorescence and Western blot"
+            "Conditions were compared with two-sided Empirical Bayes\u2013adjusted t-tests with Benjamini-Hochberg correction"
           ],
           "search_parameters": [
             "The database was modified to search for cysteine alkylation (monoisotopic mass change, 57.021 Da), oxidized methionine (15.995 Da), hydroxylation of asparagine, aspartic acid, proline or lysine (15.995 Da) and phosphorylation of serine, tyrosine or threonine (79.966 Da)."
           ],
           "file_name_triggers": []
         },
-        "notes": "The proteomics part of the study focuses on the quantification of CAM proteins across different stiffness conditions and AGO2/DROSHA knockdown states using a standard DDA-LFQ approach."
+        "notes": "The proteomics analysis focused on CAM proteins using a mixed-effects linear regression model for quantification, treating peptide effects as random and treatment as fixed."
       },
       "MStype_prompt": {
         "acquisition_type": "DDA",
@@ -370,7 +330,8 @@
         ],
         "quantification_strategy": [
           "label-free quantification",
-          "raw ion intensities"
+          "median logged intensity normalization",
+          "mixed-effects linear regression model"
         ],
         "proteomics_mode": "Bottom-up",
         "specialized_workflows": [],
@@ -379,66 +340,49 @@
             "Peptides were selected for fragmentation automatically by data dependent analysis."
           ],
           "labeling": [
-            "Peptide intensities were exported as Excel (Microsoft) spread sheets for processing with Matlab"
+            "Intensities were logged and normalized by the median logged intensity."
           ],
           "quantification": [
-            "Raw ion intensities from peptides belonging to proteins with fewer than 2 unique (by sequence) peptides per protein in the dataset were excluded from quantification."
+            "Intensities were logged and normalized by the median logged intensity.",
+            "Fold-change differences in protein quantities were calculated by fitting a mixed-effects linear regression model for each protein"
           ],
           "specialized": []
         },
-        "notes": "The experiment is a standard bottom-up DDA LFQ proteomics run. While phosphorylation was included as a variable modification in the search parameters, there is no evidence of a specific phospho-enrichment step (e.g., TiO2 or IMAC) that would trigger the mod_phospho workflow; it was a global proteome analysis."
+        "notes": "The experiment is a standard bottom-up DDA LFQ proteomics run. While phosphorylation and hydroxylation were included as variable modifications in the search parameters, there is no evidence of targeted PTM enrichment (e.g., TiO2 or IMAC) that would trigger a specific Stage 4 modifier workflow."
       },
       "ScopeCellTypeLine_prompt": {
-        "human_system_present": "Yes",
-        "cell_types": [
-          "endothelial cells"
-        ],
-        "cell_type_categories": [
-          "vascular cell"
-        ],
-        "cell_lines": [
-          "HUVEC",
-          "HUAEC"
-        ],
-        "cell_line_families": [
-          "Human umbilical vein endothelial cells",
-          "human umbilical artery endothelial cells"
-        ],
+        "human_system_present": "Unclear",
+        "cell_types": [],
+        "cell_type_categories": [],
+        "cell_lines": [],
+        "cell_line_families": [],
         "noncellular_source_terms": [],
         "sample_scope": "whole cell lysate",
         "sample_scope_label": "whole cell lysate",
         "sample_scope_curie": "PPA:0000194",
+        "subcellular_fraction": null,
+        "subcellular_fraction_label": null,
+        "subcellular_fraction_curie": null,
         "evidence": {
-          "organism": [
-            "Homo sapiens (human)",
-            "searching against the SwissProt and TREMBL mouse databases"
-          ],
-          "cell_types": [
-            "AGO2-bound miRNAs/mRNAs were isolated from two unrelated human endothelial cells (EC) types"
-          ],
-          "cell_lines": [
-            "Human umbilical vein endothelial cells (HUVECs) and human umbilical artery endothelial cells (HUAECs)",
-            "BTO:0001949, name: Huvec cell"
-          ],
-          "noncellular_sources": [],
           "scope": [
-            "Cell pellets were lysed in 50 \u03bcL of 25 mM ammonium bicarbonate (AB, Fluka) buffer containing 1.1 % sodium dodecyl sulfate (SDS, Sigma), 0.3 % sodium deoxycholate (Sigma)",
-            "Homogenates were subjected to centrifugation (12 \u00b0C, 10000 rpm, 5 min). Lysates were added to 150 \u03bcL of digest buffer"
-          ]
+            "Cell pellets were lysed in 50 \u03bcL of 25 mM ammonium bicarbonate (AB, Fluka) buffer containing 1.1 % sodium dodecyl sulfate (SDS, Sigma), 0.3 % sodium deoxycholate (Sigma), protease inhibitor cocktail (Sigma) and phosphatase inhibitor cocktail (Merck).",
+            "Homogenates were subjected to centrifugation (12 \u00b0C, 10000 rpm, 5 min). Lysates were added to 150 \u03bcL of digest buffer (1.33 mM CaCl2, Sigma, in 25 mM AB) containing immobilized trypsin beads (Perfinity Biosciences) and shaken at 1400 rpm overnight at 37 \u00b0C."
+          ],
+          "subcellular_fraction": []
         },
-        "notes": "The proteomics analysis described in the 'Mass spectrometry (MS) sample preparation and analysis' section uses cell pellets lysed with SDS/deoxycholate followed by direct trypsin digestion, which corresponds to whole cell lysate. While the paper also performs HITS-CLIP (which involves immunoprecipitation of AGO2), the specific MS section for protein quantification describes a standard lysate-to-peptide workflow. The MS database search mentions mouse databases, but the PRIDE metadata and primary cell descriptions focus on human HUVECs/HUAECs."
+        "notes": "The mass spectrometry analysis was performed on total cell lysates derived from cell pellets. While the paper also describes AGO2-HITS-CLIP (which involves immunoprecipitation), that specific procedure was used for RNA sequencing/library preparation, not the proteomics analysis described in the 'Mass spectrometry (MS) sample preparation and analysis' section."
       },
       "Treatment_prompt": [
         {
           "treatment_category": "substrate stiffness comparison",
           "example_entity_ids": null,
-          "reasoning": "ECs infected with this CAM-sensor library at low levels (to avoid multiply infected cells) were seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa; proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins",
+          "reasoning": "seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa; proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins, reminiscent of the increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates",
           "confidence_score": 0.95
         },
         {
           "treatment_category": "knockout or deletion perturbation",
           "example_entity_ids": null,
-          "reasoning": "ECs infected with this CAM-sensor library at low levels (to avoid multiply infected cells) were seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa; proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins",
+          "reasoning": "seeded for 48 hours on substrates with rigidity of 3 kPa (kilopascal) or 30 kPa; proteomic analysis of ECs lacking miRNAs showed increased levels of several CAM proteins, reminiscent of the increased CAM levels in ECs plated on 30 kPa versus 3 kPa substrates",
           "confidence_score": 0.95
         }
       ]

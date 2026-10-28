@@ -8,38 +8,51 @@
       "LFQ"
     ],
     "treatment_categories": [
-      "un-classified"
+      "chemical or drug treatment"
     ],
-    "cell_types": [
-      "chromatin"
-    ],
+    "cell_types": [],
     "cell_lines": [
       "HEK293T"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "organelle-enriched scope",
-    "sample_scope_curie": "PPA:0000201",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex",
+      "sub-proteome enriched",
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "un-classified",
-        "ontology_curie": null,
-        "category": "unclassified",
-        "matched_parent_class_key": null,
+        "ontology_label": "chemical or drug treatment",
+        "ontology_curie": "PPA:0000009",
+        "category": "chemical_or_drug",
+        "matched_parent_class_key": "chemical_or_drug",
         "matched_class_key": null,
-        "matched_class_path": [],
-        "matched_definition": null,
+        "matched_class_path": [
+          "chemical_or_drug"
+        ],
+        "matched_definition": "Exposure to an exogenous small molecule, inhibitor, activator, toxicant, therapeutic compound, degrader, or vehicle that differentiates experimental groups.",
         "confidence": "high",
         "evidence": [
-          "Optimized Cross-Linking Mass Spectrometry for in Situ Interaction Proteomics",
-          "we sought to define the optimal methods for the isolation of cross-linked peptides from protein complexes labeled in situ",
-          "we present optimized parameters for the use of the CID-cleavable cross-linker disuccinimidyl sulfoxide (DSSO) in situ"
+          "optimized the use of cleavable disuccinimidyl sulfoxide (DSSO) cross-linker for labeling native protein complexes in live human cells",
+          "cross-linked by adding 1 \u00b5L of 50 mM DSSO dissolved in DMSO"
         ]
       }
     ],
-    "attributes": [],
+    "attributes": [
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "disuccinimidyl sulfoxide (DSSO)",
+        "dose_or_concentration": "50 mM",
+        "duration": "1 h",
+        "route_or_context": "live human cells in situ",
+        "evidence": [
+          "50 \u00b5L of 50 mM DSSO dissolved in DMSO was added and cells were incubated for 1 h at 4 \u00b0C"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
     ]
@@ -72,48 +85,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      },
-      {
-        "label": "Bovine",
-        "taxonomy_hint": null,
-        "confidence": "medium"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "chromatin",
-        "rollup_category": "subcellular fraction",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "HEK293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "organelle-enriched scope",
-      "curie": "PPA:0000201"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -122,19 +93,62 @@
     "quantification_strategy": [
       "Label-free"
     ],
-    "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "proteomics_mode": "PTM-enriched",
+    "sample_scopes": [
       {
-        "ontology_label": "Chemical cross-linking",
-        "ontology_curie": "PRIDE:0000430",
-        "workflow_modifier_hint": "mod_complexome",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "cross-linked Bovine Serum Albumin (BSA)"
+      },
+      {
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "purified chromatin"
+      },
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        },
+        {
+          "label": "Bovine",
+          "taxonomy_hint": "Bovine serum albumin",
+          "confidence": "medium"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293T",
+          "ontology_curie": "PPA:0000140"
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "chromatin",
+          "source_kind": "other"
+        },
+        {
+          "label": "Bovine serum albumin",
+          "source_kind": "other"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -144,21 +158,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data was acquired using DDA-like precursor selection (400-1800 m/z) on an Orbitrap Fusion with various fragmentation modes (HCD, ETD, EThcD), though the primary goal was identification of cross-links rather than LFQ."
+          "reason": "Data was acquired using DDA-like precursor selection (400-1800 m/z) with multiple fragmentation modes (HCD, ETD, EThcD) and analyzed via XlinkX in Proteome Discoverer. While it is a cross-linking experiment, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xl_ms_dsso",
+          "modifier_workflow_id": "modifier_xlms_dsso",
           "confidence": 1.0,
-          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide), a MS-cleavable cross-linker, for mapping protein-protein interactions."
+          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide), a MS-cleavable cross-linker, with specific search parameters for DSSO-related modifications."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
         "XL-MS",
         "DSSO",
-        "cross-linked peptides",
+        "cleavable cross-linkers",
         "XlinkX"
       ],
       "raw_or_file_name_triggers": []
@@ -168,21 +182,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "Data was acquired using DDA-like precursor selection (400-1800 m/z) on an Orbitrap Fusion with various fragmentation modes (HCD, ETD, EThcD), though the primary goal was identification of cross-links rather than LFQ."
+          "reason": "Data was acquired using DDA-like precursor selection (400-1800 m/z) with multiple fragmentation modes (HCD, ETD, EThcD) and analyzed via XlinkX in Proteome Discoverer. While it is a cross-linking experiment, the base acquisition is DDA."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "xl_ms_dsso",
+          "modifier_workflow_id": "modifier_xlms_dsso",
           "confidence": 1.0,
-          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide), a MS-cleavable cross-linker, for mapping protein-protein interactions."
+          "reason": "Explicit use of DSSO (disuccinimidyl sulfoxide), a MS-cleavable cross-linker, with specific search parameters for DSSO-related modifications."
         }
       ],
       "trigger_keywords": [
         "cross-linking mass spectrometry",
         "XL-MS",
         "DSSO",
-        "cross-linked peptides",
+        "cleavable cross-linkers",
         "XlinkX"
       ],
       "raw_or_file_name_triggers": []
@@ -211,7 +225,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T01:01:14Z"
   }
 }

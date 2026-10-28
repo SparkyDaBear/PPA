@@ -8,7 +8,7 @@
       "Unknown"
     ],
     "treatment_categories": [
-      "protein complex assembly state"
+      "genetic perturbation"
     ],
     "cell_types": [
       "glioblastoma stem cells"
@@ -16,40 +16,61 @@
     "cell_lines": [
       "2907"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "purified protein or complex"
+    ],
     "instrument": null
   },
   "treatment": {
     "primary_variables": [
       {
-        "ontology_label": "protein complex assembly state",
-        "ontology_curie": "PPA:0000115",
-        "category": "molecular_state",
-        "matched_parent_class_key": "molecular_state",
-        "matched_class_key": "protein_complex_assembly_state",
+        "ontology_label": "genetic perturbation",
+        "ontology_curie": "PPA:0000011",
+        "category": "genetic",
+        "matched_parent_class_key": "genetic",
+        "matched_class_key": "knockdown_or_interference_perturbation",
         "matched_class_path": [
-          "molecular_state",
-          "protein_complex_assembly_state"
+          "genetic",
+          "knockdown_or_interference_perturbation"
         ],
-        "matched_definition": "Comparison based on complex assembly, disassembly, binding, stoichiometry, or interaction state.",
+        "matched_definition": "Reduction of gene expression by RNA interference, antisense, shRNA, siRNA, CRISPRi, or related approaches.",
         "confidence": "high",
         "evidence": [
-          "we next analyzed the potential binding partners for SRGN using immunoprecipitation (IP) followed by mass spectrometry",
-          "Captured proteins were washed with IP buffer three times before immunoblotting and mass spectrometry analysis."
+          "we depleted the expression of either MEOX2 or SRGN using two non-overlapping specific shRNAs",
+          "Inducible shMEOX2/shSRGN constructs (pTRIPZ) were purchased from Thermo Fisher Scientific."
         ]
       }
     ],
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "SRGN",
+        "agent": "shMEOX2",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "immunoprecipitation",
+        "route_or_context": "lentiviral infection",
         "evidence": [
-          "we next analyzed the potential binding partners for SRGN using immunoprecipitation (IP) followed by mass spectrometry"
+          "GSCs stably expressing firefly luciferase were infected with lentivirus carrying inducible pTRIPZ-shMEOX2"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "shSRGN",
+        "dose_or_concentration": null,
+        "duration": null,
+        "route_or_context": "lentiviral infection",
+        "evidence": [
+          "GSCs stably expressing firefly luciferase were infected with lentivirus carrying inducible pTRIPZ-shSRGN"
+        ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "doxycycline",
+        "dose_or_concentration": "2 mg/ml",
+        "duration": null,
+        "route_or_context": "drinking water",
+        "evidence": [
+          "mice were treated with the vehicle control or doxycycline (2 mg/ml in drinking water) to induce the expression of shMEOX2/shSRGN in xenografts."
         ]
       }
     ],
@@ -59,54 +80,40 @@
   },
   "experimental_design": {
     "timepoints": [],
-    "control_arms": [],
-    "case_arms": [
-      "SRGN immunoprecipitation"
+    "control_arms": [
+      "shCONT",
+      "vehicle control"
     ],
-    "paired_design": null,
-    "factorial_design": null,
-    "replicate_hints": [],
+    "case_arms": [
+      "shMEOX2",
+      "shSRGN"
+    ],
+    "paired_design": false,
+    "factorial_design": false,
+    "replicate_hints": [
+      "at least six replicates"
+    ],
     "multiplex_channel_hints": [],
-    "contrast_hints": [],
+    "contrast_hints": [
+      {
+        "control_label": "shCONT",
+        "case_label": "shMEOX2",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "MEOX2 depletion potently decreased the cell viability of CL GSCs"
+        ]
+      },
+      {
+        "control_label": "shCONT",
+        "case_label": "shSRGN",
+        "contrast_type": "pairwise",
+        "evidence": [
+          "SRGN knockdown significantly reduced cell growth and proliferation of MES GSCs"
+        ]
+      }
+    ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "glioblastoma stem cells",
-        "rollup_category": "stem cell",
-        "ontology_curie": "CL:0000034"
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "2907",
-        "family": "GSC",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -118,18 +125,42 @@
       "Relative quantification"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "affinity purification",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "purified protein or complex",
+        "curie": "PPA:0000196",
+        "detail": "anti-SRGN immunoprecipitation"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "glioblastoma stem cells",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "2907",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -139,21 +170,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used DDA mode on a Q-Exactive HF X and reported 'Relative quantification' in PRIDE metadata, though specific LFQ or labeling chemistry is not detailed, it follows a standard DDA protein identification/quantification path."
+          "reason": "The experiment used DDA mode on a Q-Exactive HF X and reported 'Relative quantification' in PRIDE metadata, though the primary goal was protein identification from IP eluates."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ip",
           "confidence": 0.95,
-          "reason": "The dataset is explicitly described as an immunoprecipitation (IP) experiment targeting SRGN."
+          "reason": "The sample preparation explicitly describes immunoprecipitation (IP) using anti-SRGN and anti-NFKB1 antibodies to identify binding partners."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "DDA",
-        "Q-Exactive HF X",
-        "Relative quantification"
+        "IP buffer",
+        "Protein A/G Plus Agarose"
       ],
       "raw_or_file_name_triggers": [
         "GSC 2907 SRGN IP mass spectrometry"
@@ -164,21 +195,21 @@
         {
           "base_workflow_id": "base_dda_lfq",
           "confidence": 0.8,
-          "reason": "The experiment used DDA mode on a Q-Exactive HF X and reported 'Relative quantification' in PRIDE metadata, though specific LFQ or labeling chemistry is not detailed, it follows a standard DDA protein identification/quantification path."
+          "reason": "The experiment used DDA mode on a Q-Exactive HF X and reported 'Relative quantification' in PRIDE metadata, though the primary goal was protein identification from IP eluates."
         }
       ],
       "modifier_candidates_ranked": [
         {
           "modifier_workflow_id": "modifier_ip",
           "confidence": 0.95,
-          "reason": "The dataset is explicitly described as an immunoprecipitation (IP) experiment targeting SRGN."
+          "reason": "The sample preparation explicitly describes immunoprecipitation (IP) using anti-SRGN and anti-NFKB1 antibodies to identify binding partners."
         }
       ],
       "trigger_keywords": [
         "immunoprecipitation",
         "DDA",
-        "Q-Exactive HF X",
-        "Relative quantification"
+        "IP buffer",
+        "Protein A/G Plus Agarose"
       ],
       "raw_or_file_name_triggers": [
         "GSC 2907 SRGN IP mass spectrometry"
@@ -208,7 +239,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:59:15Z"
   }
 }

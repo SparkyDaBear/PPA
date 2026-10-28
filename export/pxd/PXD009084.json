@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DIA",
-    "quantification_method": "label-free quantification",
+    "quantification_method": "precursor level pairwise t-test",
     "labeling_strategy": [
       "LFQ"
     ],
@@ -15,9 +15,10 @@
     "cell_lines": [
       "HEK-293T"
     ],
-    "sample_scope": "purified protein or complex",
-    "sample_scope_label": "affinity-purified complex scope",
-    "sample_scope_curie": "PPA:0000202",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -35,7 +36,8 @@
         "matched_definition": "Reduced or removed nutrient, serum, amino acid, glucose, lipid, or growth support condition.",
         "confidence": "high",
         "evidence": [
-          "analyze lysosomes isolated from HEK-293T cells cultured in nutrient-replete media (full media), starved of nutrients (amino acids and glucose)"
+          "starved of nutrients (amino acids and glucose)",
+          "Nutrient starvation and Torin1 both inhibit mTORC1 signaling"
         ]
       },
       {
@@ -58,10 +60,10 @@
     "attributes": [
       {
         "relation_key": "has_treatment_agent",
-        "agent": "amino acids and glucose",
+        "agent": "nutrient starvation",
         "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "starved of nutrients",
+        "route_or_context": "amino acids and glucose",
         "evidence": [
           "starved of nutrients (amino acids and glucose)"
         ]
@@ -86,23 +88,24 @@
       "one hour"
     ],
     "control_arms": [
-      "nutrient-replete media",
       "full media"
     ],
     "case_arms": [
-      "starved of nutrients",
-      "Torin1"
+      "nutrient starvation",
+      "Torin1 treatment"
     ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [
-      "each pool was injected in triplicate (12 runs in total)"
+      "each pool was injected in triplicate"
     ],
-    "multiplex_channel_hints": [],
+    "multiplex_channel_hints": [
+      "Data Independent Acquisition (DIA)"
+    ],
     "contrast_hints": [
       {
         "control_label": "full media",
-        "case_label": "starved of nutrients",
+        "case_label": "nutrient starvation",
         "contrast_type": "pairwise",
         "evidence": [
           "analyze lysosomes isolated from HEK-293T cells cultured in nutrient-replete media (full media), starved of nutrients (amino acids and glucose)"
@@ -110,46 +113,15 @@
       },
       {
         "control_label": "full media",
-        "case_label": "Torin1",
+        "case_label": "Torin1 treatment",
         "contrast_type": "pairwise",
         "evidence": [
-          "analyze lysosomes isolated from HEK-293T cells cultured in nutrient-replete media (full media), ... or treated with the mTOR inhibitor Torin1"
+          "analyze lysosomes isolated from HEK-293T cells cultured in nutrient-replete media (full media), ... or treated with the mTOR inhibitor Torin1 for one hour"
         ]
       }
     ],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "NEWT:9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK-293T",
-        "family": "HEK293",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "purified protein or complex",
-      "label": "affinity-purified complex scope",
-      "curie": "PPA:0000202"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -158,21 +130,45 @@
       "LFQ"
     ],
     "quantification_strategy": [
-      "label-free quantification"
+      "precursor level pairwise t-test"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "lysosome isolation",
-        "ontology_curie": null,
-        "workflow_modifier_hint": "mod_ap_ms",
-        "confidence": "high"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "lysosomes rapidly isolated using the LysoIP method"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK-293T",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "lysosomes",
+          "source_kind": "organ"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -182,20 +178,21 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'Data Independent Acquisition (DIA) data' and 'SWATH MS', and the data processing was performed using Spectronaut."
+          "reason": "The PRIDE metadata explicitly states 'For the Data Independent Acquisition (DIA) data' and describes the use of 34 mass window segments, which is characteristic of DIA."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "DDA was used specifically for spectral library generation (12 runs in total)."
+          "confidence": 0.8,
+          "reason": "DDA was used specifically for spectral library generation (4 pooled samples in triplicate)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Data Independent Acquisition",
         "DIA",
-        "SWATH MS",
-        "Spectronaut"
+        "DDA",
+        "spectral library",
+        "mass window segments"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -204,20 +201,21 @@
         {
           "base_workflow_id": "base_dia_lfq",
           "confidence": 1.0,
-          "reason": "The PRIDE metadata explicitly states 'Data Independent Acquisition (DIA) data' and 'SWATH MS', and the data processing was performed using Spectronaut."
+          "reason": "The PRIDE metadata explicitly states 'For the Data Independent Acquisition (DIA) data' and describes the use of 34 mass window segments, which is characteristic of DIA."
         },
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.6,
-          "reason": "DDA was used specifically for spectral library generation (12 runs in total)."
+          "confidence": 0.8,
+          "reason": "DDA was used specifically for spectral library generation (4 pooled samples in triplicate)."
         }
       ],
       "modifier_candidates_ranked": [],
       "trigger_keywords": [
         "Data Independent Acquisition",
         "DIA",
-        "SWATH MS",
-        "Spectronaut"
+        "DDA",
+        "spectral library",
+        "mass window segments"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -245,7 +243,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:55:25Z"
   }
 }

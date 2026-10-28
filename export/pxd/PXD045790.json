@@ -3,7 +3,7 @@
   "title": null,
   "summary": {
     "acquisition_type": "DDA",
-    "quantification_method": "TMT 10plex",
+    "quantification_method": "TMT",
     "labeling_strategy": [
       "TMT"
     ],
@@ -11,13 +11,16 @@
       "infection exposure",
       "genetic perturbation"
     ],
-    "cell_types": [],
+    "cell_types": [
+      "monocyte"
+    ],
     "cell_lines": [
       "THP1-Dual"
     ],
-    "sample_scope": "whole cell lysate",
-    "sample_scope_label": "whole cell lysate",
-    "sample_scope_curie": "PPA:0000194",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -53,7 +56,7 @@
         "confidence": "high",
         "evidence": [
           "isolated actively translating polysomes from wild-type, SRP54-depleted or SR-depleted cells",
-          "depleted components of the major mechanisms using siRNA transfection"
+          "depletion of SR\u03b1, SR\u03b2 or SRP54 by siRNA transfection"
         ]
       }
     ],
@@ -72,21 +75,10 @@
         "relation_key": "has_treatment_agent",
         "agent": "siRNA",
         "dose_or_concentration": null,
-        "duration": "72 hours",
-        "route_or_context": "depletion of SRP54, SR\u03b1, or SR\u03b2",
-        "evidence": [
-          "depleted components of the major mechanisms using siRNA transfection",
-          "Cells were incubated at 37\u00b0C with 5% CO2 for 72 hours before further experiments were performed."
-        ]
-      },
-      {
-        "relation_key": "has_timepoint",
-        "agent": null,
-        "dose_or_concentration": null,
         "duration": null,
-        "route_or_context": "post-infection",
+        "route_or_context": "targeting SRP54, SR\u03b1, or SR\u03b2",
         "evidence": [
-          "MOI 1, 12, 24 and 48 hours post-infection"
+          "depletion of SR\u03b1, SR\u03b2 or SRP54 by siRNA transfection"
         ]
       }
     ],
@@ -121,20 +113,12 @@
         "case_label": "ZIKV-infected",
         "contrast_type": "timecourse",
         "evidence": [
-          "isolated actively translating polysomes from wild-type, SRP54-depleted or SR-depleted cells at different timepoints post infection"
+          "mock- or ZIKV-infected HeLa cells (MOI 1, 12, 24 and 48 hours post-infection)"
         ]
       },
       {
         "control_label": "wild-type",
         "case_label": "SRP54-depleted",
-        "contrast_type": "pairwise",
-        "evidence": [
-          "isolated actively translating polysomes from wild-type, SRP54-depleted or SR-depleted cells"
-        ]
-      },
-      {
-        "control_label": "wild-type",
-        "case_label": "SR-depleted",
         "contrast_type": "pairwise",
         "evidence": [
           "isolated actively translating polysomes from wild-type, SRP54-depleted or SR-depleted cells"
@@ -145,52 +129,57 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "THP1-Dual",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "whole cell lysate",
-      "label": "whole cell lysate",
-      "curie": "PPA:0000194"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": null
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
       "TMT"
     ],
     "quantification_strategy": [
-      "TMT 10plex",
+      "TMT",
       "MaxLFQ"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [],
+    "sample_scopes": [
+      {
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      }
+    ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "monocyte",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "THP1-Dual",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [
+        {
+          "label": "blood",
+          "source_kind": "biofluid"
+        }
+      ],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -198,32 +187,58 @@
     "workflow_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The publication text explicitly states: 'Label-free quantification was performed using the MaxLFQ algorithm' and 'analysed on a Q Exactive HF mass spectrometer'."
+          "reason": "PRIDE metadata explicitly states 'TMT 10 plex' and 'TMT labelling' were used for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The publication text describes a separate polysome profiling experiment using 'Label-free quantification' and 'MaxLFQ algorithm'."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "thermal_profiling",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata describes 'Thermal profiling using intact cells' and 'thermal profiles were evaluated by using NPARC R package'."
+        }
+      ],
       "trigger_keywords": [
-        "Label-free quantification",
+        "TMT 10 plex",
+        "TMT labelling",
+        "Thermal profiling",
         "MaxLFQ",
-        "Q Exactive HF"
+        "Label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
     "selection_hints": {
       "base_candidates_ranked": [
         {
-          "base_workflow_id": "base_dda_lfq",
+          "base_workflow_id": "base_dda_isobaric",
           "confidence": 1.0,
-          "reason": "The publication text explicitly states: 'Label-free quantification was performed using the MaxLFQ algorithm' and 'analysed on a Q Exactive HF mass spectrometer'."
+          "reason": "PRIDE metadata explicitly states 'TMT 10 plex' and 'TMT labelling' were used for quantification."
+        },
+        {
+          "base_workflow_id": "base_dda_lfq",
+          "confidence": 0.6,
+          "reason": "The publication text describes a separate polysome profiling experiment using 'Label-free quantification' and 'MaxLFQ algorithm'."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "thermal_profiling",
+          "confidence": 0.9,
+          "reason": "PRIDE metadata describes 'Thermal profiling using intact cells' and 'thermal profiles were evaluated by using NPARC R package'."
+        }
+      ],
       "trigger_keywords": [
-        "Label-free quantification",
+        "TMT 10 plex",
+        "TMT labelling",
+        "Thermal profiling",
         "MaxLFQ",
-        "Q Exactive HF"
+        "Label-free quantification"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -251,7 +266,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:48:21Z"
   }
 }

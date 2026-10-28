@@ -15,15 +15,16 @@
       "disease or clinical state"
     ],
     "cell_types": [
-      "lymphoblastoid cell lines"
+      "fibroblasts"
     ],
     "cell_lines": [
-      "COS-7",
-      "PEX5 deficient fibroblasts"
+      "COS-7"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "organelle-enriched scope",
-    "sample_scope_curie": "PPA:0000201",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "whole cell lysate",
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -58,7 +59,7 @@
         "matched_definition": "Stimulation using cytokines or immune signaling proteins.",
         "confidence": "high",
         "evidence": [
-          "measured the effect of growth factors",
+          "measured the effect of growth factors, radiation and other perturbations",
           "growth factors (TNFalpha)"
         ]
       },
@@ -76,6 +77,7 @@
         "confidence": "high",
         "evidence": [
           "genetic perturbations",
+          "PEX11\u03b2 siRNA (AUU AGG GUG AGA AUA GAC AGG AUGG)",
           "silencing of PEX11\u03b2 inhibits membrane elongation"
         ]
       },
@@ -109,7 +111,8 @@
         "matched_definition": "Comparison between diseased and healthy or unaffected controls.",
         "confidence": "medium",
         "evidence": [
-          "comparisons of cancer cell lines"
+          "comparisons of cancer cell lines",
+          "TMT-based proteomics to monitor protein abundance changes across 41 cancer cell lines"
         ]
       }
     ],
@@ -163,6 +166,18 @@
         "evidence": [
           "other treatments (ionizing radiation)"
         ]
+      },
+      {
+        "relation_key": "has_treatment_agent",
+        "agent": "PEX11\u03b2 siRNA",
+        "dose_or_concentration": "100 nM",
+        "duration": "24h",
+        "route_or_context": "transfected",
+        "evidence": [
+          "PEX11\u03b2 siRNA (AUU AGG GUG AGA AUA GAC AGG AUGG)",
+          "mixed with the DNA construct (5 \u03bcg) or with 100 nM siRNA",
+          "processed for immunofluorescence 24h after transfection"
+        ]
       }
     ],
     "source_sections": [
@@ -170,19 +185,23 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [],
+    "timepoints": [
+      "24h"
+    ],
     "control_arms": [
-      "mock control"
+      "mock control",
+      "Control siRNA (si-GENOME nontargeting siRNA pool #2)"
     ],
     "case_arms": [
       "inhibitor",
       "growth factors",
-      "radiation"
+      "radiation",
+      "PEX11\u03b2 siRNA"
     ],
     "paired_design": false,
-    "factorial_design": null,
+    "factorial_design": false,
     "replicate_hints": [
-      "synthetic datasets were generated in triplicate"
+      "generated in triplicate"
     ],
     "multiplex_channel_hints": [
       "SILAC",
@@ -203,48 +222,6 @@
       "Ontology_TreatmentAndDesign_prompt"
     ]
   },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [
-      {
-        "label": "lymphoblastoid cell lines",
-        "rollup_category": "immune cell",
-        "ontology_curie": null
-      }
-    ],
-    "cell_lines": [
-      {
-        "label": "COS-7",
-        "family": "African green monkey kidney cells",
-        "ontology_curie": "ATCC:CRL-1651"
-      },
-      {
-        "label": "PEX5 deficient fibroblasts",
-        "family": null,
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "organelle-enriched scope",
-      "curie": "PPA:0000201"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": true
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
-    ]
-  },
   "assay": {
     "acquisition_type": "DDA",
     "labeling_strategy": [
@@ -254,18 +231,47 @@
       "SILAC ratios"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "chromatin enrichment",
-        "ontology_curie": null,
-        "workflow_modifier_hint": null,
-        "confidence": "high"
+        "category": "whole cell lysate",
+        "curie": "PPA:0000194",
+        "detail": null
+      },
+      {
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "chromatin-enriched samples"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [
+        {
+          "label": "fibroblasts",
+          "ontology_curie": null
+        }
+      ],
+      "cell_lines": [
+        {
+          "label": "COS-7",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -275,15 +281,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicitly states quantitation by 'stable isotope labeling by amino acids in cell culture' (SILAC) and use of Orbitrap mass spectrometers with MaxQuant processing."
+          "reason": "Explicitly stated use of SILAC (stable isotope labeling by amino acids in cell culture) for all experiments in ProteomeHD and PRIDE metadata."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "chromatin_enrichment",
+          "confidence": 0.9,
+          "reason": "80 in-house experiments used Chromatin Enrichment for Proteomics (ChEP) and Nascent Chromatin Capture (NCC)."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "isotope-labelling",
-        "MaxQuant",
-        "Orbitrap"
+        "ChEP",
+        "NCC",
+        "chromatin-enriched"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -292,15 +304,21 @@
         {
           "base_workflow_id": "base_dda_silac",
           "confidence": 1.0,
-          "reason": "Explicitly states quantitation by 'stable isotope labeling by amino acids in cell culture' (SILAC) and use of Orbitrap mass spectrometers with MaxQuant processing."
+          "reason": "Explicitly stated use of SILAC (stable isotope labeling by amino acids in cell culture) for all experiments in ProteomeHD and PRIDE metadata."
         }
       ],
-      "modifier_candidates_ranked": [],
+      "modifier_candidates_ranked": [
+        {
+          "modifier_workflow_id": "chromatin_enrichment",
+          "confidence": 0.9,
+          "reason": "80 in-house experiments used Chromatin Enrichment for Proteomics (ChEP) and Nascent Chromatin Capture (NCC)."
+        }
+      ],
       "trigger_keywords": [
         "SILAC",
-        "isotope-labelling",
-        "MaxQuant",
-        "Orbitrap"
+        "ChEP",
+        "NCC",
+        "chromatin-enriched"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -328,7 +346,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:24:28Z"
   }
 }

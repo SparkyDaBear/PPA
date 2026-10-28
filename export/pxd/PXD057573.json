@@ -15,9 +15,10 @@
       "HEK293",
       "H1299"
     ],
-    "sample_scope": "subproteome",
-    "sample_scope_label": "organelle-enriched scope",
-    "sample_scope_curie": "PPA:0000201",
+    "sex": "not reported",
+    "sample_scope_categories": [
+      "sub-proteome enriched"
+    ],
     "instrument": null
   },
   "treatment": {
@@ -26,10 +27,10 @@
         "ontology_label": "un-classified",
         "ontology_curie": null,
         "category": "unclassified",
-        "matched_parent_class_key": "unclassified",
+        "matched_parent_class_key": null,
         "matched_class_key": null,
         "matched_class_path": [],
-        "matched_definition": "Fallback category for studies where no clear perturbation or differential treatment axis is present in the proteomics comparison. This is not a mapping error when supported by evidence.",
+        "matched_definition": null,
         "confidence": "high",
         "evidence": [
           "In order to better understand the origin of endogenous antigenic peptide substrates for the MHC-I pathway we set out to analyze Nascent Pioneer Translation Products (Na-PTPs) derived from various RNA regions."
@@ -42,9 +43,10 @@
         "agent": "cycloheximide",
         "dose_or_concentration": "100 \u03bcg/ml",
         "duration": "5 min",
-        "route_or_context": "to freeze the nascent peptides on the ribosomes",
+        "route_or_context": "treated with cycloheximide to freeze the nascent peptides on the ribosomes",
         "evidence": [
-          "cells (80% confluency) were treated with cycloheximide 100 \u03bcg/ml for 5 min at 37\u00b0C"
+          "cells (80% confluency) were treated with cycloheximide 100 \u03bcg/ml for 5 min at 37\u00b0C",
+          "polysome fractions were isolated from lysates of Hek293 or H1299 cells treated with cycloheximide to freeze the nascent peptides on the ribosomes"
         ]
       }
     ],
@@ -53,11 +55,12 @@
     ]
   },
   "experimental_design": {
-    "timepoints": [
-      "22 hours post-treatment"
-    ],
+    "timepoints": [],
     "control_arms": [],
-    "case_arms": [],
+    "case_arms": [
+      "Hek293",
+      "H1299"
+    ],
     "paired_design": false,
     "factorial_design": false,
     "replicate_hints": [],
@@ -65,42 +68,6 @@
     "contrast_hints": [],
     "source_sections": [
       "Ontology_TreatmentAndDesign_prompt"
-    ]
-  },
-  "sample_source": {
-    "human_system_present": "Yes",
-    "organisms": [
-      {
-        "label": "Homo sapiens",
-        "taxonomy_hint": "9606",
-        "confidence": "high"
-      }
-    ],
-    "cell_types": [],
-    "cell_lines": [
-      {
-        "label": "HEK293",
-        "family": "Human embryonic kidney",
-        "ontology_curie": null
-      },
-      {
-        "label": "H1299",
-        "family": "human carcinoma",
-        "ontology_curie": null
-      }
-    ],
-    "noncellular_sources": [],
-    "sample_scope": {
-      "category": "subproteome",
-      "label": "organelle-enriched scope",
-      "curie": "PPA:0000201"
-    },
-    "linkage_hints": {
-      "biosample_accessions": [],
-      "sample_to_file_mapping_present": false
-    },
-    "source_sections": [
-      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "assay": {
@@ -112,18 +79,41 @@
       "Peptide counting"
     ],
     "proteomics_mode": "Bottom-up",
-    "targets_and_enrichments": [
+    "sample_scopes": [
       {
-        "ontology_label": "immunopeptidome enrichment",
-        "ontology_curie": "PPA:0000298",
-        "workflow_modifier_hint": "mod_immunopeptidomics",
-        "confidence": "medium"
+        "category": "sub-proteome enriched",
+        "curie": "PPA:0000447",
+        "detail": "polysome fractions"
       }
     ],
+    "biological_source": {
+      "human_system_present": "Yes",
+      "organisms": [
+        {
+          "label": "Homo sapiens",
+          "taxonomy_hint": "9606",
+          "confidence": "high"
+        }
+      ],
+      "cell_types": [],
+      "cell_lines": [
+        {
+          "label": "HEK293",
+          "ontology_curie": null
+        },
+        {
+          "label": "H1299",
+          "ontology_curie": null
+        }
+      ],
+      "noncellular_sources": [],
+      "sex": "not reported"
+    },
     "assessor_support": null,
     "instrument_support": null,
     "source_sections": [
-      "Ontology_AssayAndWorkflow_prompt"
+      "Ontology_AssayAndWorkflow_prompt",
+      "Ontology_SampleSourceAndScope_prompt"
     ]
   },
   "processing": {
@@ -132,23 +122,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired using Orbitrap Fusion and timsTOF SCP in DDA mode (precursors selected based on intensity). No labeling (SILAC/TMT) mentioned; quantification described as peptide counting."
+          "confidence": 8,
+          "reason": "Data acquired using Orbitrap Fusion and timsTOF in DDA-like modes (CID fragmentation, intensity-based precursor selection) without evidence of isobaric or SILAC labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "semi_tryptic",
-          "confidence": 0.9,
-          "reason": "The search for non-exon derived peptides (SFDB) was explicitly performed for semi-tryptic peptides."
+          "modifier_workflow_id": "six_frame_translation",
+          "confidence": 10,
+          "reason": "The core of the experiment is the use of a custom 'six frame proteomics database (SFDB)' derived from RNAseq of introns and antisense strands to identify non-canonical translation products."
         }
       ],
       "trigger_keywords": [
-        "six-frame proteomics database",
+        "six-frame database",
         "SFDB",
-        "semi-tryptic",
+        "antisense transcripts",
         "non-exon derived",
-        "polysome fractions"
+        "Na-PTPs",
+        "polysome fractionation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -156,23 +147,24 @@
       "base_candidates_ranked": [
         {
           "base_workflow_id": "base_dda_lfq",
-          "confidence": 0.8,
-          "reason": "Data acquired using Orbitrap Fusion and timsTOF SCP in DDA mode (precursors selected based on intensity). No labeling (SILAC/TMT) mentioned; quantification described as peptide counting."
+          "confidence": 8,
+          "reason": "Data acquired using Orbitrap Fusion and timsTOF in DDA-like modes (CID fragmentation, intensity-based precursor selection) without evidence of isobaric or SILAC labeling."
         }
       ],
       "modifier_candidates_ranked": [
         {
-          "modifier_workflow_id": "semi_tryptic",
-          "confidence": 0.9,
-          "reason": "The search for non-exon derived peptides (SFDB) was explicitly performed for semi-tryptic peptides."
+          "modifier_workflow_id": "six_frame_translation",
+          "confidence": 10,
+          "reason": "The core of the experiment is the use of a custom 'six frame proteomics database (SFDB)' derived from RNAseq of introns and antisense strands to identify non-canonical translation products."
         }
       ],
       "trigger_keywords": [
-        "six-frame proteomics database",
+        "six-frame database",
         "SFDB",
-        "semi-tryptic",
+        "antisense transcripts",
         "non-exon derived",
-        "polysome fractions"
+        "Na-PTPs",
+        "polysome fractionation"
       ],
       "raw_or_file_name_triggers": []
     },
@@ -200,7 +192,8 @@
   "provenance": {
     "stage3_metadata_available": true,
     "stage4_summary_available": false,
-    "export_version": "2026-08-05",
-    "public_evidence_policy": "links_only"
+    "export_version": "2026-09-23",
+    "public_evidence_policy": "links_only",
+    "stage3_refreshed_at": "2026-10-28T00:26:59Z"
   }
 }
